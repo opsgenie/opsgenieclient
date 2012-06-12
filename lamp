@@ -16,6 +16,7 @@ done
 OC_HOME=`dirname "$SCRIPT"`
 OC_HOME=`cd "$OC_HOME"; pwd`
 
+
 if [ "$JAVA_HOME" == "" ]; then
 	echo "JAVA_HOME is not defined."
 	exit 1
