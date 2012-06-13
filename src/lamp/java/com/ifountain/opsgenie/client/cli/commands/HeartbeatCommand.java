@@ -35,7 +35,7 @@ public class HeartbeatCommand extends BaseCommand{
     }
 
     @Override
-    protected boolean isHelp() {
-        return commonOptions.isHelp();
+    protected CommonCommandOptions getCommonCommandOptions() {
+        return commonOptions;
     }
 }

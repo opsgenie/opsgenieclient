@@ -13,4 +13,8 @@ public interface Command {
     public void printUsage();
 
     public void execute(IOpsGenieClient opsGenieClient) throws Exception;
+
+    public void setCustomerKey(String customerKey);
+
+    public void setUser(String user);
 }

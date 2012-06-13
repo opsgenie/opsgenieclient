@@ -174,7 +174,7 @@ public class OpsGenieClient implements IOpsGenieClient {
             }
         }
     }
-
+    @Override
     public void setRootUri(String rootUri) {
         this.rootUri = rootUri;
     }

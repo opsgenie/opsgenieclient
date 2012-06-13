@@ -40,7 +40,10 @@ public class OpsGenieCommandLine {
 
     public boolean run(String... args) {
         Logger.getLogger("org.apache.http").setLevel(Level.OFF);
-        args = loadConfiguration(args);
+        Properties config = loadConfiguration();
+        if (config.containsKey("opsgenie.api.uri")) {
+            opsGenieClient.setRootUri(config.getProperty("opsgenie.api.uri"));
+        }
         JCommander commander = new JCommander();
         commander.setProgramName(TOOL_NAME);
         addCommands(commander);
@@ -62,6 +65,12 @@ public class OpsGenieCommandLine {
             helpCommand.printUsage();
             return false;
         }
+        if (config.containsKey("customerKey")) {
+            command.setCustomerKey((String) config.get("customerKey"));
+        }
+        if (config.containsKey("user")) {
+            command.setUser((String) config.get("user"));
+        }
         try {
             command.execute(opsGenieClient);
         } catch (Exception e) {
@@ -71,13 +80,13 @@ public class OpsGenieCommandLine {
         return true;
     }
 
-    private String[] loadConfiguration(String... args) {
-        Properties options = new Properties();
+    private Properties loadConfiguration() {
+        Properties config = new Properties();
         File confDir = new File(getBaseDirectory(), "conf");
         FileInputStream in = null;
         try {
             in = new FileInputStream(new File(confDir, "lamp.conf"));
-            options.load(in);
+            config.load(in);
         } catch (Exception ignored) {
         } finally {
             try {
@@ -85,29 +94,7 @@ public class OpsGenieCommandLine {
             } catch (IOException ignored) {
             }
         }
-        Properties updatedOptions = new Properties();
-        Enumeration keys = options.keys();
-        while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
-            updatedOptions.put("--" + key, options.get(key));
-        }
-
-        for (String arg : args) {
-            updatedOptions.remove(arg);
-        }
-        String[] newArgs = new String[args.length + updatedOptions.size() * 2];
-        System.arraycopy(args, 0, newArgs, 0, args.length);
-        int lastIndex = args.length;
-        keys = updatedOptions.keys();
-        while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
-            String value = updatedOptions.getProperty(key);
-            newArgs[lastIndex] = key;
-            lastIndex++;
-            newArgs[lastIndex] = value;
-            lastIndex++;
-        }
-        return newArgs;
+        return config;
     }
 
     private void addCommands(JCommander commander) {

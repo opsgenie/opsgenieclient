@@ -22,4 +22,6 @@ public interface IOpsGenieClient {
     public AttachResponse attach(AttachRequest request) throws OpsGenieClientException, IOException;
 
     public GetAlertResponse getAlert(GetAlertRequest request) throws OpsGenieClientException, IOException;
+
+    public void setRootUri(String rootUri);
 }

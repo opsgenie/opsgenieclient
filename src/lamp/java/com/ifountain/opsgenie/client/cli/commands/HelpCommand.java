@@ -53,4 +53,12 @@ public class HelpCommand implements Command {
     public void execute(IOpsGenieClient opsGenieClient) throws Exception {
         printUsage();
     }
+
+    @Override
+    public void setCustomerKey(String customerKey) {
+    }
+
+    @Override
+    public void setUser(String user) {
+    }
 }

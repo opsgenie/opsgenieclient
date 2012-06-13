@@ -31,4 +31,12 @@ public class CommonCommandOptions {
     public List<String> getUser() {
         return user;
     }
+
+    public void setCustomerKey(String customerKey) {
+        this.customerKey = customerKey;
+    }
+
+    public void setUser(List<String> user) {
+        this.user = user;
+    }
 }

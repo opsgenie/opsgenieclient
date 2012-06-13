@@ -3,6 +3,8 @@ package com.ifountain.opsgenie.client.cli.commands;
 import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 
+import java.util.Arrays;
+
 /**
  * Created by Sezgin Kucukkaraaslan
  * Date: 6/5/12
@@ -22,14 +24,30 @@ public abstract class BaseCommand implements Command {
 
     @Override
     public void execute(IOpsGenieClient opsGenieClient) throws Exception {
-        if (isHelp()) {
+        if (getCommonCommandOptions().isHelp()) {
             printUsage();
         } else {
             doExecute(opsGenieClient);
         }
     }
 
-    protected abstract boolean isHelp();
+    @Override
+    public void setCustomerKey(String customerKey) {
+        if (getCommonCommandOptions().getCustomerKey() == null) {
+            getCommonCommandOptions().setCustomerKey(customerKey);
+        }
+    }
+
+    @Override
+    public void setUser(String user) {
+        CommonCommandOptions commonCommandOptions = getCommonCommandOptions();
+        if (commonCommandOptions.getUser() == null || commonCommandOptions.getUser().size() == 0) {
+            commonCommandOptions.setUser(Arrays.asList(user));
+        }
+    }
 
     protected abstract void doExecute(IOpsGenieClient opsGenieClient) throws Exception;
+
+    protected abstract CommonCommandOptions getCommonCommandOptions();
+
 }
