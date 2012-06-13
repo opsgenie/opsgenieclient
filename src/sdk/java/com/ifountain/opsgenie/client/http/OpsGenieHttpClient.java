@@ -117,7 +117,7 @@ public class OpsGenieHttpClient {
     private List<NameValuePair> getNameValuePairsFromMap(Map<String, Object> params) {
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
         for (Map.Entry<String, Object> o : params.entrySet()) {
-            if(o.getValue() != null){
+            if (o.getValue() != null) {
                 if (o.getValue() instanceof Collection) {
                     Collection col = (Collection) o.getValue();
                     for (Object content : col) {
@@ -168,10 +168,10 @@ public class OpsGenieHttpClient {
         if (httpRequest instanceof HttpEntityEnclosingRequestBase) {
             HttpEntityEnclosingRequestBase entityEnclosingRequest = (HttpEntityEnclosingRequestBase) httpRequest;
             if (entityEnclosingRequest.getEntity().getContentType() == null && (httpRequest.getHeaders(HttpHeaders.CONTENT_TYPE) == null || httpRequest.getHeaders(HttpHeaders.CONTENT_TYPE).length == 0)) {
-                httpRequest.addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8" .toLowerCase());
+                httpRequest.addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8".toLowerCase());
             }
         } else if (httpRequest.getHeaders(HttpHeaders.CONTENT_TYPE) == null || httpRequest.getHeaders(HttpHeaders.CONTENT_TYPE).length == 0) {
-            httpRequest.addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8" .toLowerCase());
+            httpRequest.addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8".toLowerCase());
         }
     }
 
@@ -196,6 +196,7 @@ public class OpsGenieHttpClient {
         httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
         Scheme sch = new Scheme("https", 443, new TrustingSocketFactory());
         httpClient.getConnectionManager().getSchemeRegistry().register(sch);
+        ((DefaultHttpClient) httpClient).setHttpRequestRetryHandler(config.getRetryHandler());
     }
 
 

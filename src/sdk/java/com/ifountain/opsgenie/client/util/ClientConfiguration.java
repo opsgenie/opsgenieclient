@@ -1,5 +1,8 @@
 package com.ifountain.opsgenie.client.util;
 
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+
 /**
  * Created by Sezgin Kucukkaraaslan
  * Date: 5/30/12
@@ -13,6 +16,7 @@ public class ClientConfiguration {
     private int socketSendBufferSizeHint = 0;
     private int socketReceiveBufferSizeHint = 0;
     private String userAgent = initializeUserAgent();
+    private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
 
     public String getUserAgent() {
         return userAgent;
@@ -56,6 +60,14 @@ public class ClientConfiguration {
 
     public void setSocketReceiveBufferSizeHint(int socketReceiveBufferSizeHint) {
         this.socketReceiveBufferSizeHint = socketReceiveBufferSizeHint;
+    }
+
+    public HttpRequestRetryHandler getRetryHandler() {
+        return retryHandler;
+    }
+
+    public void setRetryHandler(HttpRequestRetryHandler retryHandler) {
+        this.retryHandler = retryHandler;
     }
 
     private static String initializeUserAgent() {
