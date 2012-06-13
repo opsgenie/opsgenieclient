@@ -2,7 +2,8 @@ package com.ifountain.opsgenie.client.http;
 
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import org.apache.http.*;
-import org.apache.http.client.HttpClient;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
@@ -10,6 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.LayeredSchemeSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeSocketFactory;
@@ -44,7 +46,7 @@ import java.util.*;
  * Time: 9:30 AM
  */
 public class OpsGenieHttpClient {
-    private HttpClient httpClient;
+    private DefaultHttpClient httpClient;
     private ClientConfiguration config;
 
     public OpsGenieHttpClient() {
@@ -196,7 +198,21 @@ public class OpsGenieHttpClient {
         httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
         Scheme sch = new Scheme("https", 443, new TrustingSocketFactory());
         httpClient.getConnectionManager().getSchemeRegistry().register(sch);
-        ((DefaultHttpClient) httpClient).setHttpRequestRetryHandler(config.getRetryHandler());
+        httpClient.setHttpRequestRetryHandler(config.getRetryHandler());
+
+        String proxyHost = config.getProxyHost();
+        int proxyPort = config.getProxyPort();
+        if ((proxyHost != null) && (proxyPort > 0)) {
+            HttpHost proxyHttpHost = new HttpHost(proxyHost, proxyPort);
+            httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHttpHost);
+            String proxyUsername = config.getProxyUsername();
+            String proxyPassword = config.getProxyPassword();
+            String proxyDomain = config.getProxyDomain();
+            String proxyWorkstation = config.getProxyWorkstation();
+            if ((proxyUsername != null) && (proxyPassword != null)) {
+                httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new NTCredentials(proxyUsername, proxyPassword, proxyWorkstation, proxyDomain));
+            }
+        }
     }
 
 

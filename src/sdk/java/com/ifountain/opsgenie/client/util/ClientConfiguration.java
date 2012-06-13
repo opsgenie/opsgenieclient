@@ -15,6 +15,13 @@ public class ClientConfiguration {
     private int connectionTimeout = 50000;
     private int socketSendBufferSizeHint = 0;
     private int socketReceiveBufferSizeHint = 0;
+    private String proxyHost = null;
+    private int proxyPort = -1;
+    private String proxyUsername = null;
+    private String proxyPassword = null;
+    private String proxyDomain = null;
+    private String proxyWorkstation = null;
+
     private String userAgent = initializeUserAgent();
     private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
 
@@ -68,6 +75,54 @@ public class ClientConfiguration {
 
     public void setRetryHandler(HttpRequestRetryHandler retryHandler) {
         this.retryHandler = retryHandler;
+    }
+
+    public String getProxyHost() {
+        return proxyHost;
+    }
+
+    public void setProxyHost(String proxyHost) {
+        this.proxyHost = proxyHost;
+    }
+
+    public int getProxyPort() {
+        return proxyPort;
+    }
+
+    public void setProxyPort(int proxyPort) {
+        this.proxyPort = proxyPort;
+    }
+
+    public String getProxyUsername() {
+        return proxyUsername;
+    }
+
+    public void setProxyUsername(String proxyUsername) {
+        this.proxyUsername = proxyUsername;
+    }
+
+    public String getProxyPassword() {
+        return proxyPassword;
+    }
+
+    public void setProxyPassword(String proxyPassword) {
+        this.proxyPassword = proxyPassword;
+    }
+
+    public String getProxyDomain() {
+        return proxyDomain;
+    }
+
+    public void setProxyDomain(String proxyDomain) {
+        this.proxyDomain = proxyDomain;
+    }
+
+    public String getProxyWorkstation() {
+        return proxyWorkstation;
+    }
+
+    public void setProxyWorkstation(String proxyWorkstation) {
+        this.proxyWorkstation = proxyWorkstation;
     }
 
     private static String initializeUserAgent() {
