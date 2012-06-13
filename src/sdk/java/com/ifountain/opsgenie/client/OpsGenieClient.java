@@ -42,7 +42,8 @@ public class OpsGenieClient implements IOpsGenieClient {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, request.getCustomerKey());
         json.put(OpsGenieClientConstants.API.MESSAGE, request.getMessage());
-        if (request.getRecipients() != null) json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(request.getRecipients(), ","));
+        if (request.getRecipients() != null)
+            json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(request.getRecipients(), ","));
         if (request.getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, request.getAlias());
         if (request.getSource() != null) json.put(OpsGenieClientConstants.API.SOURCE, request.getSource());
         if (request.getEntity() != null) json.put(OpsGenieClientConstants.API.ENTITY, request.getEntity());
@@ -112,8 +113,10 @@ public class OpsGenieClient implements IOpsGenieClient {
     @Override
     public AttachResponse attach(AttachRequest request) throws OpsGenieClientException, IOException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new FileBody(request.getFile()));
-        entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(request.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
+        if (request.getFile() != null)
+            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new FileBody(request.getFile()));
+        if (request.getCustomerKey() != null)
+            entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(request.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
         if (request.getAlertId() != null)
             entity.addPart(OpsGenieClientConstants.API.ALERT_ID, new StringBody(request.getAlertId(), "text/plain", Charset.forName("utf-8")));
         if (request.getAlias() != null)

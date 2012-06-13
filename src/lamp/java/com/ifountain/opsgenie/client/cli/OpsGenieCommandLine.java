@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -37,6 +39,7 @@ public class OpsGenieCommandLine {
     }
 
     public boolean run(String... args) {
+        Logger.getLogger("org.apache.http").setLevel(Level.OFF);
         args = loadConfiguration(args);
         JCommander commander = new JCommander();
         commander.setProgramName(TOOL_NAME);
