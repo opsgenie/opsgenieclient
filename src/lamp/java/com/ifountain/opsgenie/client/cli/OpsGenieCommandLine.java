@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.cli.commands.*;
+import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,17 +21,8 @@ import java.util.logging.Logger;
  */
 public class OpsGenieCommandLine {
     public static final String TOOL_NAME = "lamp";
-    private IOpsGenieClient opsGenieClient;
     private Map<String, Command> commands = new HashMap<String, Command>();
     private HelpCommand helpCommand;
-
-    public OpsGenieCommandLine() {
-        this(new OpsGenieClient());
-    }
-
-    public OpsGenieCommandLine(IOpsGenieClient opsGenieClient) {
-        this.opsGenieClient = opsGenieClient;
-    }
 
     public static void main(String[] args) {
         OpsGenieCommandLine commandLine = new OpsGenieCommandLine();
@@ -41,9 +33,7 @@ public class OpsGenieCommandLine {
     public boolean run(String... args) {
         Logger.getLogger("org.apache.http").setLevel(Level.OFF);
         Properties config = loadConfiguration();
-        if (config.containsKey("opsgenie.api.uri")) {
-            opsGenieClient.setRootUri(config.getProperty("opsgenie.api.uri"));
-        }
+        IOpsGenieClient opsGenieClient = configureClient(config);
         JCommander commander = new JCommander();
         commander.setProgramName(TOOL_NAME);
         addCommands(commander);
@@ -82,6 +72,33 @@ public class OpsGenieCommandLine {
             return false;
         }
         return true;
+    }
+
+    private IOpsGenieClient configureClient(Properties config) {
+        ClientConfiguration clientConfig = new ClientConfiguration();
+        if (config.containsKey("proxyHost")) {
+            clientConfig.setProxyHost(config.getProperty("proxyHost"));
+        }
+        if (config.containsKey("proxyPort")) {
+            clientConfig.setProxyPort(Integer.parseInt(config.getProperty("proxyPort")));
+        }
+        if (config.containsKey("proxyUsername")) {
+            clientConfig.setProxyUsername(config.getProperty("proxyUsername"));
+        }
+        if (config.containsKey("proxyPassword")) {
+            clientConfig.setProxyPassword(config.getProperty("proxyPassword"));
+        }
+        if (config.containsKey("proxyDomain")) {
+            clientConfig.setProxyDomain(config.getProperty("proxyDomain"));
+        }
+        if (config.containsKey("proxyWorkstation")) {
+            clientConfig.setProxyWorkstation(config.getProperty("proxyWorkstation"));
+        }
+        IOpsGenieClient opsGenieClient = createOpsGenieClient(clientConfig);
+        if (config.containsKey("opsgenie.api.uri")) {
+            opsGenieClient.setRootUri(config.getProperty("opsgenie.api.uri"));
+        }
+        return opsGenieClient;
     }
 
     private Properties loadConfiguration() {
@@ -133,5 +150,9 @@ public class OpsGenieCommandLine {
 
     public String getBaseDirectory() {
         return System.getProperty("ochome");
+    }
+
+    protected IOpsGenieClient createOpsGenieClient(ClientConfiguration clientConfiguration) {
+        return new OpsGenieClient(clientConfiguration);
     }
 }
