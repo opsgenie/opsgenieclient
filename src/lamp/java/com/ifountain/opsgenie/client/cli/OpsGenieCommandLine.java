@@ -74,7 +74,11 @@ public class OpsGenieCommandLine {
         try {
             command.execute(opsGenieClient);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            if (e instanceof IOException) {
+                System.out.println(e.getClass().getSimpleName() + "[" + e.getMessage() + "]");
+            } else {
+                System.out.println(e.getMessage());
+            }
             return false;
         }
         return true;
