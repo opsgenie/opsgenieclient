@@ -21,9 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/30/12
- * Time: 9:40 AM
+ * Provides the client for accessing the OpsGenie web service.
+ *
+ * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations like creating, closing and getting alerts,
+ * adding comments, attaching files, etc.</p>
+ *
+ * @author  Sezgin Kucukkaraaslan
+ * @version 5/30/12 9:40 AM
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient
  */
 public class OpsGenieClient implements IOpsGenieClient {
     private OpsGenieHttpClient httpClient;
