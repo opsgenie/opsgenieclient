@@ -22,128 +22,168 @@ import java.util.Map;
 
 /**
  * Provides the client for accessing the OpsGenie web service.
- *
+ * <p/>
  * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations like creating, closing and getting alerts,
- * adding comments, attaching files, etc.</p>
+ * adding comments, attaching files, etc. All service calls made using this client are blocking, and will not return until the service call completes.</p>
+ * <p/>
+ * <h4>Creating an Alerts</h4>
+ * <p>Construct a <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code> method on client.</p>
+ * <p><blockquote><pre>
+ * OpsGenieClient client = new OpsGenieClient();
+ * CreateAlertRequest request = new CreateAlertRequest();
+ * request.setCustomerKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
+ * request.setMessage("appserver1 down");
+ * request.setDescription("cpu usage is over 60%");
+ * request.setSource("nagios");
+ * request.setEntity("appserver1");
+ * request.setActions(Arrays.asList("acknowledge", "restart"));
+ * request.setTags(Arrays.asList("network", "operations"));
+ * request.setRecipients(Arrays.asList("john.smith@acme.com"));
+ * CreateAlertResponse response = client.createAlert(request);
+ * String alertId = response.getAlertId();
+ * </pre></blockquote></p>
+ * <h4>Adding Notes</h4>
+ * <p>Construct a <code>AddNoteRequest</code> object with preferred options and call <code>addNote</code> method on client.</p>
+ * <p><blockquote><pre>
+ * OpsGenieClient client = new OpsGenieClient();
+ * AddNoteRequest request = new AddNoteRequest();
+ * request.setAlertId("29c4d6f6-0919-40ec-8d37-4ab2ed2042c8");
+ * request.setCustomerKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
+ * request.setUser("john.smith@acme.com");
+ * request.setNote("We should find another solution.");
+ * AddNoteResponse response = client.addNote(request);
+ * assert response.isSuccess();
+ * </pre></blockquote></p>
+ * <h4>Attaching Files</h4>
+ * <p>Construct a <code>AttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
+ * <p><blockquote><pre>
+ * OpsGenieClient client = new OpsGenieClient();
+ * AttachRequest request = new AttachRequest();
+ * request.setAlertId("29c4d6f6-0919-40ec-8d37-4ab2ed2042c8");
+ * request.setCustomerKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
+ * request.setUser("john.smith@acme.com");
+ * request.setFile(new File("/home/john/performanceGraphs.zip"));
+ * AttachResponse response = client.attach(request);
+ * assert response.isSuccess();
+ * </pre></blockquote></p>
  *
- * @author  Sezgin Kucukkaraaslan
+ * @author Sezgin Kucukkaraaslan
  * @version 5/30/12 9:40 AM
  * @see com.ifountain.opsgenie.client.IOpsGenieClient
  */
 public class OpsGenieClient implements IOpsGenieClient {
+    /**
+     * Http client object *
+     */
     private OpsGenieHttpClient httpClient;
+
+    /**
+     * OpsGenie services endpoint uri. Default is https://api.opsgenie.com *
+     */
     private String rootUri = OpsGenieClientConstants.OPSGENIE_API_URI;
 
+    /**
+     * Constructs a new client to invoke service methods on OpsGenie using the specified client configuration options.
+     */
     public OpsGenieClient(ClientConfiguration config) {
         httpClient = new OpsGenieHttpClient(config);
     }
 
+    /**
+     * Constructs a new client to invoke service methods on OpsGenie.
+     */
     public OpsGenieClient() {
         httpClient = new OpsGenieHttpClient();
     }
 
+    /**
+     * Creates alerts at OpsGenie.
+     *
+     * @param createAlertRequest - Object to construct request parameters.
+     * @return <code>CreateAlertResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.CreateAlertRequest
+     * @see com.ifountain.opsgenie.client.model.CreateAlertResponse
+     */
     @Override
-    public CreateAlertResponse createAlert(CreateAlertRequest request) throws IOException, OpsGenieClientException {
+    public CreateAlertResponse createAlert(CreateAlertRequest createAlertRequest) throws IOException, OpsGenieClientException {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, request.getCustomerKey());
-        json.put(OpsGenieClientConstants.API.MESSAGE, request.getMessage());
-        if (request.getRecipients() != null)
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(request.getRecipients(), ","));
-        if (request.getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, request.getAlias());
-        if (request.getSource() != null) json.put(OpsGenieClientConstants.API.SOURCE, request.getSource());
-        if (request.getEntity() != null) json.put(OpsGenieClientConstants.API.ENTITY, request.getEntity());
-        if (request.getNote() != null) json.put(OpsGenieClientConstants.API.NOTE, request.getNote());
-        if (request.getUser() != null) json.put(OpsGenieClientConstants.API.USER, request.getUser());
-        if (request.getDescription() != null)
-            json.put(OpsGenieClientConstants.API.DESCRIPTION, request.getDescription());
-        if (request.getTags() != null && request.getTags().size() > 0)
-            json.put(OpsGenieClientConstants.API.TAGS, Strings.join(request.getTags(), ","));
-        if (request.getActions() != null && request.getActions().size() > 0)
-            json.put(OpsGenieClientConstants.API.ACTIONS, Strings.join(request.getActions(), ","));
-        if (request.getDetails() != null && request.getDetails().size() > 0)
-            json.put(OpsGenieClientConstants.API.DETAILS, request.getDetails());
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, createAlertRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.MESSAGE, createAlertRequest.getMessage());
+        if (createAlertRequest.getRecipients() != null)
+            json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(createAlertRequest.getRecipients(), ","));
+        if (createAlertRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, createAlertRequest.getAlias());
+        if (createAlertRequest.getSource() != null)
+            json.put(OpsGenieClientConstants.API.SOURCE, createAlertRequest.getSource());
+        if (createAlertRequest.getEntity() != null)
+            json.put(OpsGenieClientConstants.API.ENTITY, createAlertRequest.getEntity());
+        if (createAlertRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, createAlertRequest.getNote());
+        if (createAlertRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, createAlertRequest.getUser());
+        if (createAlertRequest.getDescription() != null)
+            json.put(OpsGenieClientConstants.API.DESCRIPTION, createAlertRequest.getDescription());
+        if (createAlertRequest.getTags() != null && createAlertRequest.getTags().size() > 0)
+            json.put(OpsGenieClientConstants.API.TAGS, Strings.join(createAlertRequest.getTags(), ","));
+        if (createAlertRequest.getActions() != null && createAlertRequest.getActions().size() > 0)
+            json.put(OpsGenieClientConstants.API.ACTIONS, Strings.join(createAlertRequest.getActions(), ","));
+        if (createAlertRequest.getDetails() != null && createAlertRequest.getDetails().size() > 0)
+            json.put(OpsGenieClientConstants.API.DETAILS, createAlertRequest.getDetails());
 
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
 
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + createAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         Map resp = handleResponse(httpResponse);
         CreateAlertResponse response = new CreateAlertResponse();
         response.setAlertId((String) resp.get("alertId"));
         return response;
     }
 
+    /**
+     * Closes alerts at OpsGenie.
+     *
+     * @param closeAlertRequest - Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.CloseAlertRequest
+     * @see com.ifountain.opsgenie.client.model.CloseAlertResponse
+     */
     @Override
-    public CloseAlertResponse closeAlert(CloseAlertRequest request) throws OpsGenieClientException, IOException {
+    public CloseAlertResponse closeAlert(CloseAlertRequest closeAlertRequest) throws OpsGenieClientException, IOException {
         Map<String, String> json = new HashMap<String, String>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, request.getCustomerKey());
-        if (request.getAlertId() != null) json.put(OpsGenieClientConstants.API.ALERT_ID, request.getAlertId());
-        if (request.getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, request.getAlias());
-        if (request.getUser() != null) json.put(OpsGenieClientConstants.API.USER, request.getUser());
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, closeAlertRequest.getCustomerKey());
+        if (closeAlertRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, closeAlertRequest.getAlertId());
+        if (closeAlertRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, closeAlertRequest.getAlias());
+        if (closeAlertRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, closeAlertRequest.getUser());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + closeAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         handleResponse(httpResponse);
         return new CloseAlertResponse();
     }
 
+    /**
+     * Retrieves specified alert details from OpsGenie.
+     *
+     * @param getAlertRequest - Object to construct request parameters.
+     * @return Object containing retreived alert information.
+     * @see com.ifountain.opsgenie.client.model.GetAlertRequest
+     * @see com.ifountain.opsgenie.client.model.GetAlertResponse
+     */
     @Override
-    public AddNoteResponse addNote(AddNoteRequest request) throws OpsGenieClientException, IOException {
-        Map<String, String> json = new HashMap<String, String>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, request.getCustomerKey());
-        json.put(OpsGenieClientConstants.API.NOTE, request.getNote());
-        if (request.getAlertId() != null) json.put(OpsGenieClientConstants.API.ALERT_ID, request.getAlertId());
-        if (request.getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, request.getAlias());
-        if (request.getUser() != null) json.put(OpsGenieClientConstants.API.USER, request.getUser());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        handleResponse(httpResponse);
-        return new AddNoteResponse();
-    }
-
-    @Override
-    public HeartbeatResponse heartbeat(HeartbeatRequest request) throws OpsGenieClientException, IOException {
-        Map<String, String> json = new HashMap<String, String>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, request.getCustomerKey());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
-        HeartbeatResponse response = new HeartbeatResponse();
-        response.setHeartbeat(((Number) resp.get("heartbeat")).longValue());
-        return response;
-    }
-
-    @Override
-    public AttachResponse attach(AttachRequest request) throws OpsGenieClientException, IOException {
-        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        if (request.getFile() != null)
-            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new FileBody(request.getFile()));
-        if (request.getCustomerKey() != null)
-            entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(request.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
-        if (request.getAlertId() != null)
-            entity.addPart(OpsGenieClientConstants.API.ALERT_ID, new StringBody(request.getAlertId(), "text/plain", Charset.forName("utf-8")));
-        if (request.getAlias() != null)
-            entity.addPart(OpsGenieClientConstants.API.ALIAS, new StringBody(request.getAlias(), "text/plain", Charset.forName("utf-8")));
-        if (request.getIndexFile() != null)
-            entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(request.getIndexFile(), "text/plain", Charset.forName("utf-8")));
-        if (request.getUser() != null)
-            entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(request.getUser(), "text/plain", Charset.forName("utf-8")));
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), entity);
-        handleResponse(httpResponse);
-        return new AttachResponse();
-    }
-
-    @Override
-    public GetAlertResponse getAlert(GetAlertRequest request) throws OpsGenieClientException, IOException {
+    public GetAlertResponse getAlert(GetAlertRequest getAlertRequest) throws OpsGenieClientException, IOException {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(OpsGenieClientConstants.API.CUSTOMER_KEY, request.getCustomerKey());
-        if (request.getAlertId() != null) parameters.put(OpsGenieClientConstants.API.ALERT_ID, request.getAlertId());
-        if (request.getAlias() != null) parameters.put(OpsGenieClientConstants.API.ALIAS, request.getAlias());
+        parameters.put(OpsGenieClientConstants.API.CUSTOMER_KEY, getAlertRequest.getCustomerKey());
+        if (getAlertRequest.getAlertId() != null)
+            parameters.put(OpsGenieClientConstants.API.ALERT_ID, getAlertRequest.getAlertId());
+        if (getAlertRequest.getAlias() != null)
+            parameters.put(OpsGenieClientConstants.API.ALIAS, getAlertRequest.getAlias());
         OpsGenieHttpResponse httpResponse;
         try {
-            httpResponse = httpClient.get(rootUri + request.getEndPoint(), parameters);
+            httpResponse = httpClient.get(rootUri + getAlertRequest.getEndPoint(), parameters);
         } catch (URISyntaxException e) {
             throw new IOException(e);
         }
@@ -165,6 +205,80 @@ public class OpsGenieClient implements IOpsGenieClient {
         return response;
     }
 
+    /**
+     * Add notes to alerts in OpsGenie.
+     *
+     * @param addNoteRequest - Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AddNoteRequest
+     * @see com.ifountain.opsgenie.client.model.AddNoteResponse
+     */
+    @Override
+    public AddNoteResponse addNote(AddNoteRequest addNoteRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, addNoteRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.NOTE, addNoteRequest.getNote());
+        if (addNoteRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, addNoteRequest.getAlertId());
+        if (addNoteRequest.getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, addNoteRequest.getAlias());
+        if (addNoteRequest.getUser() != null) json.put(OpsGenieClientConstants.API.USER, addNoteRequest.getUser());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + addNoteRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        handleResponse(httpResponse);
+        return new AddNoteResponse();
+    }
+
+    /**
+     * Attaches files to the alerts in OpsGenie.
+     *
+     * @param attachRequest - Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AttachRequest
+     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     */
+    @Override
+    public AttachResponse attach(AttachRequest attachRequest) throws OpsGenieClientException, IOException {
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        if (attachRequest.getFile() != null)
+            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new FileBody(attachRequest.getFile()));
+        if (attachRequest.getCustomerKey() != null)
+            entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(attachRequest.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getAlertId() != null)
+            entity.addPart(OpsGenieClientConstants.API.ALERT_ID, new StringBody(attachRequest.getAlertId(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getAlias() != null)
+            entity.addPart(OpsGenieClientConstants.API.ALIAS, new StringBody(attachRequest.getAlias(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getIndexFile() != null)
+            entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(attachRequest.getIndexFile(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getUser() != null)
+            entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(attachRequest.getUser(), "text/plain", Charset.forName("utf-8")));
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + attachRequest.getEndPoint(), entity);
+        handleResponse(httpResponse);
+        return new AttachResponse();
+    }
+
+    /**
+     * Sends heartbeat messages to OpsGenie. If heartbeat monitoring is enabled and OpsGenie does not get a heartbeat message within 10 minutes,
+     * OpsGenie creates an alert to notify the specified people.
+     *
+     * @param heartbeatRequest - Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.HeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.HeartbeatResponse
+     */
+    @Override
+    public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, heartbeatRequest.getCustomerKey());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + heartbeatRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        Map resp = handleResponse(httpResponse);
+        HeartbeatResponse response = new HeartbeatResponse();
+        response.setHeartbeat(((Number) resp.get("heartbeat")).longValue());
+        return response;
+    }
+
 
     private Map handleResponse(OpsGenieHttpResponse response) throws IOException, OpsGenieClientException {
         if (response.getStatusCode() == HttpStatus.SC_OK) {
@@ -179,6 +293,12 @@ public class OpsGenieClient implements IOpsGenieClient {
             }
         }
     }
+
+    /**
+     * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
+     *
+     * @param rootUri - Uri to set.
+     */
     @Override
     public void setRootUri(String rootUri) {
         this.rootUri = rootUri;
