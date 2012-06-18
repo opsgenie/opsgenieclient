@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/30/12
- * Time: 2:35 PM
+ * @author Sezgin Kucukkaraaslan
+ * @version 5/30/12 2:35 PM
  */
 public class OpsGenieHttpResponse {
     private byte[] content;

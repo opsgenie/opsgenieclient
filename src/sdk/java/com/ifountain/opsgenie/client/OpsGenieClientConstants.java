@@ -1,9 +1,8 @@
 package com.ifountain.opsgenie.client;
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/28/12
- * Time: 3:01 PM
+ * @author Sezgin Kucukkaraaslan
+ * @version 5/28/12 3:01 PM
  */
 public interface OpsGenieClientConstants {
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";

@@ -41,9 +41,8 @@ import java.security.cert.X509Certificate;
 import java.util.*;
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/30/12
- * Time: 9:30 AM
+ * @author Sezgin Kucukkaraaslan
+ * @version  5/30/12 9:30 AM
  */
 public class OpsGenieHttpClient {
     private DefaultHttpClient httpClient;
