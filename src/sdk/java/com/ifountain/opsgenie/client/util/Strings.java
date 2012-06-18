@@ -3,9 +3,8 @@ package com.ifountain.opsgenie.client.util;
 import java.util.List;
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 6/1/12
- * Time: 4:08 PM
+ * @author Sezgin Kucukkaraaslan
+ * @version 6/1/12 4:08 PM
  */
 public class Strings {
 

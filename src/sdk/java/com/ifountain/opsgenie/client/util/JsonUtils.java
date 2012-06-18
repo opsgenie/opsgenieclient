@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/31/12
- * Time: 11:35 AM
+ * @author Sezgin Kucukkaraaslan
+ * @version  5/31/12 11:35 AM
  */
 public class JsonUtils {
     public static Map parse(String json) throws IOException {

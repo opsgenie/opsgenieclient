@@ -16,7 +16,7 @@ public interface IOpsGenieClient {
     /**
      * Creates alerts at OpsGenie.
      *
-     * @param createAlertRequest - Object to construct request parameters.
+     * @param createAlertRequest Object to construct request parameters.
      * @return <code>CreateAlertResponse</code> object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.CreateAlertRequest
      * @see com.ifountain.opsgenie.client.model.CreateAlertResponse
@@ -26,7 +26,7 @@ public interface IOpsGenieClient {
     /**
      * Closes alerts at OpsGenie.
      *
-     * @param closeAlertRequest - Object to construct request parameters.
+     * @param closeAlertRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.CloseAlertRequest
      * @see com.ifountain.opsgenie.client.model.CloseAlertResponse
@@ -36,7 +36,7 @@ public interface IOpsGenieClient {
     /**
      * Retrieves specified alert details from OpsGenie.
      *
-     * @param getAlertRequest - Object to construct request parameters.
+     * @param getAlertRequest Object to construct request parameters.
      * @return Object containing retreived alert information.
      * @see com.ifountain.opsgenie.client.model.GetAlertRequest
      * @see com.ifountain.opsgenie.client.model.GetAlertResponse
@@ -46,7 +46,7 @@ public interface IOpsGenieClient {
     /**
      * Add notes to alerts in OpsGenie.
      *
-     * @param addNoteRequest - Object to construct request parameters.
+     * @param addNoteRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.AddNoteRequest
      * @see com.ifountain.opsgenie.client.model.AddNoteResponse
@@ -56,7 +56,7 @@ public interface IOpsGenieClient {
     /**
      * Attaches files to the alerts in OpsGenie.
      *
-     * @param attachRequest - Object to construct request parameters.
+     * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.AttachRequest
      * @see com.ifountain.opsgenie.client.model.AttachResponse
@@ -67,7 +67,7 @@ public interface IOpsGenieClient {
      * Sends heartbeat messages to OpsGenie. If heartbeat monitoring is enabled and OpsGenie does not get a heartbeat message within 10 minutes,
      * OpsGenie creates an alert to notify the specified people.
      *
-     * @param heartbeatRequest - Object to construct request parameters.
+     * @param heartbeatRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.HeartbeatRequest
      * @see com.ifountain.opsgenie.client.model.HeartbeatResponse
@@ -77,7 +77,7 @@ public interface IOpsGenieClient {
     /**
      * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
      *
-     * @param rootUri - Uri to set.
+     * @param rootUri Uri to set.
      */
     public void setRootUri(String rootUri);
 }
