@@ -4,7 +4,9 @@ import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.cli.commands.*;
+import com.ifountain.opsgenie.client.cli.utils.ScriptManager;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,8 +33,14 @@ public class OpsGenieCommandLine {
     }
 
     public boolean run(String... args) {
-        Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+        loadLogConfiguration();
         Properties config = loadConfiguration();
+        try {
+            configureScriptingManager(config);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         IOpsGenieClient opsGenieClient = configureClient(config);
         JCommander commander = new JCommander();
         commander.setProgramName(TOOL_NAME);
@@ -74,6 +82,29 @@ public class OpsGenieCommandLine {
         return true;
     }
 
+    private void configureScriptingManager(Properties configProps) throws Exception {
+        ScriptManager.getInstance().initialize(getBaseDirectory()+"/scripts");
+        String engineNamesStr = configProps.getProperty("script.engines", "").trim();
+        if(engineNamesStr.length() != 0){
+            String[] engineNames = engineNamesStr.split(",");
+            for(String engineName:engineNames){
+                String classPropName = "script.engine." + engineName + ".class";
+                String className = configProps.getProperty(classPropName);
+                if(className == null){
+                    throw new Exception("Script engine should be configured properly. Missing ["+classPropName+"]");
+                }
+                String extensionsPropName = "script.engine." + engineName + ".extensions";
+                String extensionsStr = configProps.getProperty(extensionsPropName);
+                if(extensionsStr == null){
+                    throw new Exception("Script engine should be configured properly. Missing ["+extensionsPropName+"]");
+                }
+                String[]extensions = extensionsStr.split(",");
+                ScriptManager.getInstance().registerScriptingLanguage(engineName, className, extensions);
+                
+            }
+        }
+    }
+
     private IOpsGenieClient configureClient(Properties config) {
         ClientConfiguration clientConfig = new ClientConfiguration();
         if (config.containsKey("proxyHost")) {
@@ -101,6 +132,19 @@ public class OpsGenieCommandLine {
         return opsGenieClient;
     }
 
+    private void loadLogConfiguration() {
+        File logConfFile = new File(getBaseDirectory(), "conf/log.properties");
+        if(logConfFile.exists()){
+            PropertyConfigurator.configure(logConfFile.getPath());
+        }
+        else{
+            org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
+            org.apache.log4j.Logger.getLogger("org.apache.http").setLevel(org.apache.log4j.Level.OFF);
+            org.apache.log4j.Logger.getLogger("script").setLevel(org.apache.log4j.Level.OFF);
+            Logger.getLogger("org.apache.http").setLevel(Level.OFF);
+        }
+    }
+
     private Properties loadConfiguration() {
         Properties config = new Properties();
         File confDir = new File(getBaseDirectory(), "conf");
@@ -126,6 +170,10 @@ public class OpsGenieCommandLine {
         CreateAlertCommand createAlertCommand = new CreateAlertCommand(commander);
         commands.put(createAlertCommand.getName(), createAlertCommand);
         commander.addCommand(createAlertCommand.getName(), createAlertCommand);
+
+        ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand(commander);
+        commands.put(executeScriptCommand.getName(), executeScriptCommand);
+        commander.addCommand(executeScriptCommand.getName(), executeScriptCommand);
 
         CloseAlertCommand closeAlertCommand = new CloseAlertCommand(commander);
         commands.put(closeAlertCommand.getName(), closeAlertCommand);

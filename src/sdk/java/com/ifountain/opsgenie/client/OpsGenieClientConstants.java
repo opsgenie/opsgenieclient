@@ -8,12 +8,18 @@ package com.ifountain.opsgenie.client;
 public interface OpsGenieClientConstants {
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
 
+    public interface ScriptBindings {
+        String CONF = "conf";
+        String PARAMS = "params";
+        String LOGGER = "logger";
+    }
     public interface API {
         public static final String ID = "id";
         public static final String CUSTOMER_KEY = "customerKey";
         public static final String MESSAGE = "message";
         public static final String DESCRIPTION = "description";
         public static final String SOURCE = "source";
+        public static final String NAME = "name";
         public static final String ENTITY = "entity";
         public static final String ALIAS = "alias";
         public static final String TAGS = "tags";
