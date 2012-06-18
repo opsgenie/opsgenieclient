@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.Parameter;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.util.Strings;
 
 import java.util.List;
 
@@ -28,7 +29,15 @@ public class CommonCommandOptions {
         return isHelp;
     }
 
-    public List<String> getUser() {
+    public String getUser() {
+        if(user == null){
+            return null;
+        }
+        else{
+            return Strings.join(user, " ");
+        }
+    }
+    public List<String> getUserList() {
         return user;
     }
 

@@ -47,7 +47,7 @@ public class CloseAlertCommand extends BaseCommand {
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
-        if (commonOptions.getUser() != null) request.setUser(Strings.join(commonOptions.getUser(), " "));
+        if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.closeAlert(request);
     }
 }

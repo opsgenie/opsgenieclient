@@ -50,7 +50,7 @@ public class AttachCommand extends BaseCommand{
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (indexFile != null) request.setIndexFile(Strings.join(indexFile, " "));
-        if (commonOptions.getUser() != null) request.setUser(Strings.join(commonOptions.getUser(), " "));
+        if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         if (attachment != null) request.setFile(new File(Strings.join(attachment, " ")));
         opsGenieClient.attach(request);
     }

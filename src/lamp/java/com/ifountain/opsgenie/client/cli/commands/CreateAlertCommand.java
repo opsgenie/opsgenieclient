@@ -76,7 +76,7 @@ public class CreateAlertCommand extends BaseCommand{
         if (source != null) request.setSource(Strings.join(source, " "));
         if (entity != null) request.setEntity(Strings.join(entity, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
-        if (commonOptions.getUser() != null) request.setUser(Strings.join(commonOptions.getUser(), " "));
+        if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         if (tags != null) request.setTags(Arrays.asList(Strings.join(tags, " ").split(",")));
         if (actions != null) request.setActions(Arrays.asList(Strings.join(actions, " ").split(",")));
         if (recipients != null) request.setRecipients(Arrays.asList(Strings.join(recipients, " ").split(",")));

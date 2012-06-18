@@ -1,12 +1,15 @@
 package com.ifountain.opsgenie.client.cli.utils;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.IOUtils;
 import org.apache.log4j.Logger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.Map;
 
 public class ScriptManager {
@@ -28,28 +31,34 @@ public class ScriptManager {
         BSFManager.registerScriptingEngine(name, engineClass, extensions);
     }
     
-    public void execute(String scriptFilePath, Map<String, Object> parameters) throws Exception {
+    public void execute(String scriptFilePath, Map<String, Object> parameters) throws Exception{
         File scriptFile = new File(scriptsDir, scriptFilePath);
         if(!scriptFile.exists()){
             throw new Exception("Script ["+scriptFilePath+"] does not exist");
         }
         String lang = BSFManager.getLangFromFilename(scriptFile.getName());
+        Logger logger = Logger.getLogger("script." + scriptFilePath);
+        FileReader fin = new FileReader(scriptFile);
+        String scriptText = IOUtils.getStringFromReader(fin);
+        fin.close();
         try{
             BSFManager manager = new BSFManager();
-            Logger logger = Logger.getLogger("script." + scriptFilePath);
             manager.declareBean(OpsGenieClientConstants.ScriptBindings.LOGGER, logger, logger.getClass());
             for(Map.Entry<String, Object> paramEntry:parameters.entrySet()){
                 if(paramEntry.getValue() != null){
                     manager.declareBean(paramEntry.getKey(), paramEntry.getValue(), paramEntry.getValue().getClass());
                 }
             }
-            FileReader fin = new FileReader(scriptFile);
-            String scriptText = IOUtils.getStringFromReader(fin);
-            fin.close();
             manager.exec(lang, scriptFilePath, 0, 0, scriptText);
         }
-        catch (Throwable e){
-            throw new Exception("Exception occurred while executing script ["+scriptFilePath+"]. Reason:"+e.toString(), e);
+        catch (org.apache.bsf.BSFException e){
+            Throwable cause = e;
+            if(e.getTargetException() != null){
+                cause = e.getTargetException();
+            }
+            Exception exception = new Exception("Exception occurred while executing script ["+scriptFilePath+"]. Reason:"+cause.toString(), cause);
+            logger.warn(exception.getMessage(), cause);
+            throw exception;
         }
 
     }

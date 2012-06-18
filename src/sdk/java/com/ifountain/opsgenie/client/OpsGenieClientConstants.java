@@ -10,6 +10,7 @@ public interface OpsGenieClientConstants {
     public interface ScriptBindings {
         String CONF = "conf";
         String PARAMS = "params";
+        String OPSGENIE_CLIENT = "opsgenie";
         String LOGGER = "logger";
     }
     public interface API {

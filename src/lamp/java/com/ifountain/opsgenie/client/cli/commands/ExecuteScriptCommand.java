@@ -6,8 +6,8 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.cli.utils.OpsGenieClientScriptingProxy;
 import com.ifountain.opsgenie.client.cli.utils.ScriptManager;
-import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,13 +26,7 @@ public class ExecuteScriptCommand extends BaseCommand{
 
     @Override
     protected void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
-        Map<String, Object> bindings = new HashMap<String, Object>();
-        Map<String, Object> confBindings = new HashMap<String, Object>();
-        confBindings.put(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
-        confBindings.put(OpsGenieClientConstants.API.USER, commonOptions.getUser());
-        bindings.put(OpsGenieClientConstants.ScriptBindings.CONF,confBindings);
-        bindings.put(OpsGenieClientConstants.ScriptBindings.PARAMS,details);
-        ScriptManager.getInstance().execute(script, bindings);
+        executeScript(script, opsGenieClient, commonOptions, details);
     }
 
     @Override
@@ -43,5 +37,16 @@ public class ExecuteScriptCommand extends BaseCommand{
     @Override
     public String getName() {
         return "executeScript";
+    }
+
+    public static void executeScript(String script, IOpsGenieClient opsgenieClient, CommonCommandOptions commonOptions, Map params) throws Exception {
+        Map<String, Object> bindings = new HashMap<String, Object>();
+        Map<String, Object> confBindings = new HashMap<String, Object>();
+        confBindings.put(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
+        confBindings.put(OpsGenieClientConstants.API.USER, commonOptions.getUser());
+        bindings.put(OpsGenieClientConstants.ScriptBindings.CONF, confBindings);
+        bindings.put(OpsGenieClientConstants.ScriptBindings.OPSGENIE_CLIENT, new OpsGenieClientScriptingProxy(opsgenieClient, commonOptions));
+        bindings.put(OpsGenieClientConstants.ScriptBindings.PARAMS, params);
+        ScriptManager.getInstance().execute(script, bindings);
     }
 }

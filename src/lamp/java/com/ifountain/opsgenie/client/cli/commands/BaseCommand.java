@@ -41,7 +41,7 @@ public abstract class BaseCommand implements Command {
     @Override
     public void setUser(String user) {
         CommonCommandOptions commonCommandOptions = getCommonCommandOptions();
-        if (commonCommandOptions.getUser() == null || commonCommandOptions.getUser().size() == 0) {
+        if (commonCommandOptions.getUser() == null || commonCommandOptions.getUserList().size() == 0) {
             commonCommandOptions.setUser(Arrays.asList(user));
         }
     }
