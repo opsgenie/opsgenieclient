@@ -1,1 +1,4 @@
-logger.warn("Hello World from Groovy");
+logger.warn("Parameter list:");
+params.each{paramName, paramValue->
+    logger.warn("${paramName}:${paramValue}");
+}
