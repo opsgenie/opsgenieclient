@@ -12,9 +12,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.conn.scheme.LayeredSchemeSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeSocketFactory;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -27,13 +26,10 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.cert.CertificateException;
@@ -42,7 +38,7 @@ import java.util.*;
 
 /**
  * @author Sezgin Kucukkaraaslan
- * @version  5/30/12 9:30 AM
+ * @version 5/30/12 9:30 AM
  */
 public class OpsGenieHttpClient {
     private DefaultHttpClient httpClient;
@@ -195,8 +191,12 @@ public class OpsGenieHttpClient {
         connectionManager.setDefaultMaxPerRoute(config.getMaxConnections());
         connectionManager.setMaxTotal(config.getMaxConnections());
         httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
-        Scheme sch = new Scheme("https", 443, new TrustingSocketFactory());
-        httpClient.getConnectionManager().getSchemeRegistry().register(sch);
+        try {
+            SSLSocketFactory sf = createSocketFactory();
+            httpClient.getConnectionManager().getSchemeRegistry().register(new Scheme("https", 443, sf));
+        } catch (Exception ignored) {
+        }
+
         httpClient.setHttpRequestRetryHandler(config.getRetryHandler());
 
         String proxyHost = config.getProxyHost();
@@ -214,68 +214,24 @@ public class OpsGenieHttpClient {
         }
     }
 
-
-    private static class TrustingSocketFactory implements SchemeSocketFactory, LayeredSchemeSocketFactory {
-        private SSLContext sslcontext;
-
-        private TrustingSocketFactory() {
-            this.sslcontext = null;
-        }
-
-        private static SSLContext createSSLContext() throws IOException {
-            try {
-                SSLContext context = SSLContext.getInstance("TLS");
-                context.init(null, new TrustManager[]{new TrustingX509TrustManager()}, null);
-                return context;
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
+    private SSLSocketFactory createSocketFactory() throws Exception{
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        TrustManager tm = new X509TrustManager() {
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
-        }
 
-        private SSLContext getSSLContext() throws IOException {
-            if (this.sslcontext == null) this.sslcontext = createSSLContext();
-            return this.sslcontext;
-        }
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            }
 
-        public Socket createSocket(HttpParams params) throws IOException {
-            return getSSLContext().getSocketFactory().createSocket();
-        }
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+        };
 
-        public Socket connectSocket(Socket sock, InetSocketAddress remoteAddress, InetSocketAddress localAddress, HttpParams params)
-                throws IOException {
-            int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
-            int soTimeout = HttpConnectionParams.getSoTimeout(params);
-
-            SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock : createSocket(params));
-            if (localAddress != null) sslsock.bind(localAddress);
-
-            sslsock.connect(remoteAddress, connTimeout);
-            sslsock.setSoTimeout(soTimeout);
-            return sslsock;
-        }
-
-        public boolean isSecure(Socket sock) throws IllegalArgumentException {
-            return true;
-        }
-
-        public Socket createLayeredSocket(Socket arg0, String arg1, int arg2, boolean arg3) throws IOException {
-            return getSSLContext().getSocketFactory().createSocket();
-        }
+        sslContext.init(null, new TrustManager[]{tm}, null);
+        return new SSLSocketFactory(sslContext, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
     }
 
-    private static class TrustingX509TrustManager implements X509TrustManager {
-        private static final X509Certificate[] X509_CERTIFICATES = new X509Certificate[0];
 
-        public X509Certificate[] getAcceptedIssuers() {
-            return X509_CERTIFICATES;
-        }
 
-        public void checkServerTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
-        }
-
-        public void checkClientTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
-        }
-    }
 }
