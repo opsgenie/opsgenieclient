@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.cli.utils;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import groovy.lang.GroovyClassLoader;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.IOUtils;
 import org.apache.log4j.Logger;
@@ -39,7 +40,7 @@ public class ScriptManager {
         String scriptText = IOUtils.getStringFromReader(fin);
         fin.close();
         try{
-            BSFManager manager = new BSFManager();
+            BSFManager manager = createBsfManager();
             manager.declareBean(OpsGenieClientConstants.ScriptProxy.BINDING_LOGGER, logger, logger.getClass());
             for(Map.Entry<String, Object> paramEntry:parameters.entrySet()){
                 if(paramEntry.getValue() != null){
@@ -58,5 +59,13 @@ public class ScriptManager {
             throw exception;
         }
 
+    }
+
+    private BSFManager createBsfManager() {
+        BSFManager manager = new BSFManager();
+        GroovyClassLoader classLoader = new GroovyClassLoader();
+        classLoader.addClasspath(scriptsDir.getPath());
+        manager.setClassLoader(classLoader);
+        return manager;
     }
 }
