@@ -44,9 +44,9 @@ public class ExecuteScriptCommand extends BaseCommand{
         Map<String, Object> confBindings = new HashMap<String, Object>();
         confBindings.put(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
         confBindings.put(OpsGenieClientConstants.API.USER, commonOptions.getUser());
-        bindings.put(OpsGenieClientConstants.ScriptBindings.CONF, confBindings);
-        bindings.put(OpsGenieClientConstants.ScriptBindings.OPSGENIE_CLIENT, new OpsGenieClientScriptingProxy(opsgenieClient, commonOptions));
-        bindings.put(OpsGenieClientConstants.ScriptBindings.PARAMS, params);
+        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_CONF, confBindings);
+        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new OpsGenieClientScriptingProxy(opsgenieClient, commonOptions));
+        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
         ScriptManager.getInstance().execute(script, bindings);
     }
 }

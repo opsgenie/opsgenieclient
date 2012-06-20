@@ -7,6 +7,7 @@ import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.AttachRequest;
+import com.ifountain.opsgenie.client.model.FileAttachRequest;
 import com.ifountain.opsgenie.client.util.Strings;
 
 import java.io.File;
@@ -45,7 +46,7 @@ public class AttachCommand extends BaseCommand{
 
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
-        AttachRequest request = new AttachRequest();
+        FileAttachRequest request = new FileAttachRequest();
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));

@@ -7,12 +7,16 @@ package com.ifountain.opsgenie.client;
 public interface OpsGenieClientConstants {
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
 
-    public interface ScriptBindings {
-        String CONF = "conf";
-        String PARAMS = "params";
-        String OPSGENIE_CLIENT = "opsgenie";
-        String LOGGER = "logger";
+    public interface ScriptProxy {
+        String BINDING_CONF = "conf";
+        String BINDING_PARAMS = "params";
+        String BINDING_OPSGENIE_CLIENT = "opsgenie";
+        String BINDING_LOGGER = "logger";
+        String INPUT_STREAM = "stream";
+        String FILE_NAME = "fileName";
+        String SUCCESS = "success";
     }
+
     public interface API {
         public static final String ID = "id";
         public static final String CUSTOMER_KEY = "customerKey";

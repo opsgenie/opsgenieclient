@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.*;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.IOException;
 
@@ -58,10 +57,20 @@ public interface IOpsGenieClient {
      *
      * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AttachRequest
+     * @see com.ifountain.opsgenie.client.model.FileAttachRequest
      * @see com.ifountain.opsgenie.client.model.AttachResponse
      */
-    public AttachResponse attach(AttachRequest attachRequest) throws OpsGenieClientException, IOException;
+    public AttachResponse attach(FileAttachRequest attachRequest) throws OpsGenieClientException, IOException;
+
+    /**
+     * Attaches ${@link java.io.InputStream} content to the alerts in OpsGenie.
+     *
+     * @param attachRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.InputStreamAttachRequest
+     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     */
+    public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException;
 
     /**
      * Sends heartbeat messages to OpsGenie. If heartbeat monitoring is enabled and OpsGenie does not get a heartbeat message within 10 minutes,

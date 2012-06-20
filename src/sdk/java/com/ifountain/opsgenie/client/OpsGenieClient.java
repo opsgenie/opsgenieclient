@@ -11,9 +11,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -55,10 +56,10 @@ import java.util.Map;
  * assert response.isSuccess();
  * </pre></blockquote></p>
  * <h4>Attaching Files</h4>
- * <p>Construct a <code>AttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
+ * <p>Construct a <code>FileAttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
  * <p><blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
- * AttachRequest request = new AttachRequest();
+ * FileAttachRequest request = new FileAttachRequest();
  * request.setAlertId("29c4d6f6-0919-40ec-8d37-4ab2ed2042c8");
  * request.setCustomerKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
  * request.setUser("john.smith@acme.com");
@@ -234,27 +235,27 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AttachRequest
+     * @see com.ifountain.opsgenie.client.model.FileAttachRequest
      * @see com.ifountain.opsgenie.client.model.AttachResponse
      */
     @Override
-    public AttachResponse attach(AttachRequest attachRequest) throws OpsGenieClientException, IOException {
-        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        if (attachRequest.getFile() != null)
-            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new FileBody(attachRequest.getFile()));
-        if (attachRequest.getCustomerKey() != null)
-            entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(attachRequest.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
-        if (attachRequest.getAlertId() != null)
-            entity.addPart(OpsGenieClientConstants.API.ALERT_ID, new StringBody(attachRequest.getAlertId(), "text/plain", Charset.forName("utf-8")));
-        if (attachRequest.getAlias() != null)
-            entity.addPart(OpsGenieClientConstants.API.ALIAS, new StringBody(attachRequest.getAlias(), "text/plain", Charset.forName("utf-8")));
-        if (attachRequest.getIndexFile() != null)
-            entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(attachRequest.getIndexFile(), "text/plain", Charset.forName("utf-8")));
-        if (attachRequest.getUser() != null)
-            entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(attachRequest.getUser(), "text/plain", Charset.forName("utf-8")));
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + attachRequest.getEndPoint(), entity);
-        handleResponse(httpResponse);
-        return new AttachResponse();
+    public AttachResponse attach(FileAttachRequest attachRequest) throws OpsGenieClientException, IOException {
+        FileInputStream in = attachRequest.getFile() != null?new FileInputStream(attachRequest.getFile()):null;
+        String fileName = attachRequest.getFile() != null?attachRequest.getFile().getName():null;
+        return _attach(attachRequest, in, fileName);
+    }
+
+    /**
+     * Attaches ${@link java.io.InputStream} content to the alerts in OpsGenie.
+     *
+     * @param attachRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.InputStreamAttachRequest
+     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     */
+    @Override
+    public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException {
+        return _attach(attachRequest, attachRequest.getInputStream(), attachRequest.getFileName());
     }
 
     /**
@@ -279,6 +280,25 @@ public class OpsGenieClient implements IOpsGenieClient {
         return response;
     }
 
+
+    private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException {
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        if (inputStream != null && fileName != null)
+            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new InputStreamBody(inputStream, new File(fileName).getName()));
+        if (attachRequest.getCustomerKey() != null)
+            entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(attachRequest.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getAlertId() != null)
+            entity.addPart(OpsGenieClientConstants.API.ALERT_ID, new StringBody(attachRequest.getAlertId(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getAlias() != null)
+            entity.addPart(OpsGenieClientConstants.API.ALIAS, new StringBody(attachRequest.getAlias(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getIndexFile() != null)
+            entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(attachRequest.getIndexFile(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getUser() != null)
+            entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(attachRequest.getUser(), "text/plain", Charset.forName("utf-8")));
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + attachRequest.getEndPoint(), entity);
+        handleResponse(httpResponse);
+        return new AttachResponse();
+    }
 
     private Map handleResponse(OpsGenieHttpResponse response) throws IOException, OpsGenieClientException {
         if (response.getStatusCode() == HttpStatus.SC_OK) {

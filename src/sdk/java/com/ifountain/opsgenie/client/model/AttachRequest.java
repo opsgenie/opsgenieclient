@@ -1,19 +1,17 @@
 package com.ifountain.opsgenie.client.model;
 
-import java.io.File;
-
 /**
  * Container for the parameters to make an attach api call.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 3:38 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(AttachRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(FileAttachRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(InputStreamAttachRequest)
  */
-public class AttachRequest extends BaseRequest {
+public abstract class AttachRequest extends BaseRequest {
     private String alertId;
     private String alias;
     private String indexFile;
-    private File file;
     private String user;
 
     /**
@@ -58,20 +56,6 @@ public class AttachRequest extends BaseRequest {
 
     public void setIndexFile(String indexFile) {
         this.indexFile = indexFile;
-    }
-
-    /**
-     * The file that will be attached to the specified alert.
-     */
-    public File getFile() {
-        return file;
-    }
-
-    /**
-     * Sets the file that will be attached to the specified alert.
-     */
-    public void setFile(File file) {
-        this.file = file;
     }
 
     /**

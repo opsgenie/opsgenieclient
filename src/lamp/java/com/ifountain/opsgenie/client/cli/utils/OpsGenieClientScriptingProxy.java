@@ -2,14 +2,13 @@ package com.ifountain.opsgenie.client.cli.utils;
 
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.cli.commands.Command;
 import com.ifountain.opsgenie.client.cli.commands.CommonCommandOptions;
 import com.ifountain.opsgenie.client.cli.commands.ExecuteScriptCommand;
 import com.ifountain.opsgenie.client.model.*;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,24 +56,39 @@ public class OpsGenieClientScriptingProxy {
         request.setCustomerKey(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         CloseAlertResponse resp = this.opsGenieClient.closeAlert(request);
         Map mapResponse = new HashMap();
-        mapResponse.put("success", resp.isSuccess());
+        mapResponse.put(OpsGenieClientConstants.ScriptProxy.SUCCESS, resp.isSuccess());
         return mapResponse;
     }
 
     public Map attach(Map params) throws Exception{
         populateCommonProps(params);
-        AttachRequest request = new AttachRequest();
+        AttachResponse resp;
+        if(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT) != null){
+            FileAttachRequest fileAttachRequest = new FileAttachRequest();
+            String attachmentFilePath = OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT);
+            fileAttachRequest.setFile(new File(attachmentFilePath));
+            populateAttachmentRequestCommonProps(fileAttachRequest, params);
+            resp = this.opsGenieClient.attach(fileAttachRequest);
+        }
+        else{
+            InputStreamAttachRequest inputStreamAttachRequest = new InputStreamAttachRequest();
+            InputStream inputStream = (InputStream) params.get(OpsGenieClientConstants.ScriptProxy.INPUT_STREAM);
+            String fileName = OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.ScriptProxy.FILE_NAME);
+            inputStreamAttachRequest.setInputStream(inputStream);
+            inputStreamAttachRequest.setFileName(fileName);
+            populateAttachmentRequestCommonProps(inputStreamAttachRequest, params);
+            resp = this.opsGenieClient.attach(inputStreamAttachRequest);
+        }
+        Map mapResponse = new HashMap();
+        mapResponse.put(OpsGenieClientConstants.ScriptProxy.SUCCESS, resp.isSuccess());
+        return mapResponse;
+    }
+    private void populateAttachmentRequestCommonProps(AttachRequest request, Map params){
         request.setAlertId(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID));
         request.setAlias(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
         request.setUser(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setIndexFile(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INDEX_FILE));
-        String attachmentFilePath = OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT);
-        request.setFile(new File(attachmentFilePath));
         request.setCustomerKey(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
-        AttachResponse resp = this.opsGenieClient.attach(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put("success", resp.isSuccess());
-        return mapResponse;
     }
 
     
@@ -88,7 +102,7 @@ public class OpsGenieClientScriptingProxy {
         request.setCustomerKey(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         AddNoteResponse resp = this.opsGenieClient.addNote(request);
         Map mapResponse = new HashMap();
-        mapResponse.put("success", resp.isSuccess());
+        mapResponse.put(OpsGenieClientConstants.ScriptProxy.SUCCESS, resp.isSuccess());
         return mapResponse;
     }
 
