@@ -5,7 +5,8 @@ package com.ifountain.opsgenie.client.model;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 3:38 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(AttachRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(FileAttachRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(InputStreamAttachRequest)
  */
 public class AttachResponse implements Response {
     private boolean success = true;
