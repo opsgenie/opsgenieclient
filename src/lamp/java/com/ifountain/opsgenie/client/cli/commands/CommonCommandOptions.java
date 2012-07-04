@@ -15,7 +15,7 @@ public class CommonCommandOptions {
     @Parameter(names = "--" + OpsGenieClientConstants.API.CUSTOMER_KEY, description = "Customer key used for authenticating API requests.", splitter = NullSplitter.class)
     private String customerKey;
 
-    @Parameter(names = "--" + OpsGenieClientConstants.API.USER, description = "Owner of the execution.", splitter = NullSplitter.class)
+    @Parameter(names = "--" + OpsGenieClientConstants.API.USER, description = "Owner of the execution.", splitter = NullSplitter.class, variableArity = true)
     private List<String> user;
 
     @Parameter(names = "--" + OpsGenieClientConstants.API.HELP, description = "Displays usage for this command.")
