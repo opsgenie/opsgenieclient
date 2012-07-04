@@ -8,6 +8,7 @@ import com.ifountain.opsgenie.client.model.*;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 public class OpsGenieClientScriptingProxy {
     IOpsGenieClient opsGenieClient;
-    CommonCommandOptions options;
+    final CommonCommandOptions options;
     public OpsGenieClientScriptingProxy(IOpsGenieClient opsGenieClient, CommonCommandOptions options){
         this.opsGenieClient = opsGenieClient;
         this.options = options;
@@ -108,11 +109,24 @@ public class OpsGenieClientScriptingProxy {
 
     
     public void executeScript(String script, Map params) throws Exception {
-        ExecuteScriptCommand.executeScript(script, opsGenieClient, options, params);
+        executeScript(script, params, null);
+    }
+    public void executeScript(String script, Map params, Map config) throws Exception {
+        CommonCommandOptions defaultOptions = options;
+        if(config != null){
+            ArrayList<String> user = new ArrayList<String>();
+            user.add((String) config.get("user"));
+            defaultOptions = new CommonCommandOptions();
+            defaultOptions.setCustomerKey((String) config.get("customerKey"));
+            defaultOptions.setUser(user);
+        }
+        ExecuteScriptCommand.executeScript(script, opsGenieClient, defaultOptions, params);
+
     }
 
     
     public Map getAlert(Map params) throws Exception{
+        populateCommonProps(params);
         GetAlertRequest request = new GetAlertRequest();
         request.setAlertId(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID));
         request.setAlias(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
@@ -136,6 +150,7 @@ public class OpsGenieClientScriptingProxy {
 
     
     public Map heartbeat(Map params) throws Exception{
+        populateCommonProps(params);
         HeartbeatRequest request = new HeartbeatRequest();
         request.setCustomerKey(OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         HeartbeatResponse resp = this.opsGenieClient.heartbeat(request);
@@ -145,6 +160,9 @@ public class OpsGenieClientScriptingProxy {
     }
 
     private void populateCommonProps(Map params){
+        populateCommonProps(options, params);
+    }
+    private void populateCommonProps(CommonCommandOptions options, Map params){
         String customerKey = OpsGenieClientScriptingBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY);
         if(customerKey == null){
             params.put(OpsGenieClientConstants.API.CUSTOMER_KEY, options.getCustomerKey());
