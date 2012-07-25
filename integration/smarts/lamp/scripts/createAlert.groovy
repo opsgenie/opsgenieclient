@@ -135,7 +135,7 @@ def createHtml(String className, String instanceName){
                 }
                 .well .heading h2{
                     color: white;
-                    font-size: 1em;
+                    font-size: 0.7em;
                     font-weight: normal;
                     margin: 0;
                     position: relative;
