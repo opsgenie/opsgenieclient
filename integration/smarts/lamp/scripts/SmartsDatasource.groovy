@@ -3,8 +3,11 @@ import com.smarts.remote.SmRemoteDomainManager
 import com.smarts.remote.SmRemoteServerInfo
 import com.smarts.repos.MR_PropertyNameValue
 import com.smarts.repos.MR_Ref
+import com.smarts.repos.MR_Choice
+import org.apache.commons.codec.binary.Hex;
 
 public class SmartsDatasource {
+    final static String NOTIFICATION_CLASS_NAME = "ICS_Notification";
     public static final String NON_SECURE_BROKER_USERNAME = "BrokerNonsecure";
     public static final String NON_SECURE_BROKER_PASSWORD = "Nonsecure"
     protected SmRemoteDomainManager domainManager = new SmRemoteDomainManager();
@@ -36,6 +39,7 @@ public class SmartsDatasource {
     }
 
     public Map getAttributes(String className, String instanceName){
+        domainManager.gete
         return convertToMap(domainManager.getAllProperties(className, instanceName, MR_PropertyNameValue.MR_ATTRS_ONLY));
     }
     public Map getRelations(String className, String instanceName){
@@ -43,6 +47,16 @@ public class SmartsDatasource {
     }
     public Map getAllProperties(String className, String instanceName){
         return convertToMap(domainManager.getAllProperties(className, instanceName, MR_PropertyNameValue.MR_BOTH))
+    }
+
+    public List<Map> getNotifications(String className, String instanceName, String eventName){
+        def notifications = [];
+        String notificationName = constructNotificationName(className, instanceName, eventName);
+        MR_Ref[] refs = domainManager.findInstances(NOTIFICATION_CLASS_NAME, notificationName, MR_Choice.NONE);
+        refs.each {ref->
+            notifications << getAllProperties(ref.getClassName(), ref.getInstanceName());
+        }
+        return notifications;
     }
 
     private Map convertToMap(MR_PropertyNameValue[] nameValuePairs){
@@ -74,5 +88,41 @@ public class SmartsDatasource {
         finally {
             ds.disconnect();
         }
+    }
+
+    public static String constructNotificationName(String className, String instanceName, String eventName) {
+        StringBuffer sBuffer = new StringBuffer("NOTIFICATION-");
+        sBuffer.append(replaceSpacesAndUnderscores(className));
+        sBuffer.append("_");
+        sBuffer.append(replaceSpacesAndUnderscores(instanceName));
+        sBuffer.append("_");
+        sBuffer.append(replaceSpacesAndUnderscores(eventName));
+        return sBuffer.toString();
+    }
+
+    private static String replaceSpacesAndUnderscores(String stringToBeReplaced) {
+        StringBuffer buf = new StringBuffer();
+        for(int x=0;x<stringToBeReplaced.length();x++)
+        {
+            char c=stringToBeReplaced.charAt(x);
+            if(c>0 && c<32)
+            {
+                byte [] b = {(byte)c};
+                buf.append('_'+Hex.encodeHexString(b).toUpperCase());
+            }
+            else if(c == 32 ) //space
+            {
+                buf.append("_20");
+            }
+            else if(c == 58 || c== 95) //: or _
+            {
+                buf.append("_"+c);
+            }
+            else
+            {
+                buf.append(c);
+            }
+        }
+        return buf.toString();
     }
 }

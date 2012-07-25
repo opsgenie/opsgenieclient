@@ -52,7 +52,7 @@ CSVFormat format = CSVFormat.DEFAULT.withHeader();
 CSVParser parser = new CSVParser(new InputStreamReader(input), format)
 ByteArrayOutputStream bout = createZip(parser);
 response = opsgenie.attach([alertId:alertId, stream:new ByteArrayInputStream(bout.toByteArray()), fileName:"results.zip"])
-if(response.sucess){
+if(response.success){
     logger.warn("Successfully attached search results");
 }
 
