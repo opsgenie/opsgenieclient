@@ -197,7 +197,7 @@ public class OpsGenieCommandLine {
     }
 
     public String getBaseDirectory() {
-        return System.getProperty("ochome");
+        return System.getProperty("lamphome");
     }
 
     protected IOpsGenieClient createOpsGenieClient(ClientConfiguration clientConfiguration) {

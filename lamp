@@ -13,8 +13,8 @@ while [ -h "$SCRIPT" ] ; do
   fi
 done
 
-OC_HOME=`dirname "$SCRIPT"`
-OC_HOME=`cd "$OC_HOME"; pwd`
+LAMP_HOME=`dirname "$SCRIPT"`
+LAMP_HOME=`cd "$LAMP_HOME"; pwd`
 
 
 if [ "$JAVA_HOME" == "" ]; then
@@ -27,9 +27,9 @@ if [ ! -f "$JAVA_HOME/bin/java" ]; then
 	exit 1
 fi
 
-JAVA_OPTS=" -Dochome=$OC_HOME $JAVA_OPTS"
+JAVA_OPTS=" -Dlamphome=$LAMP_HOME $JAVA_OPTS"
 JAVA_OPTS=" -Xmx128m $JAVA_OPTS"
 
-CLASSPATH=$CLASSPATH:$OC_HOME/lib/*
+LAMP_CLASSPATH=$LAMP_CLASSPATH:$OC_HOME/lib/*
 
-$JAVA_HOME/bin/java $JAVA_OPTS -cp $CLASSPATH "com.ifountain.opsgenie.client.cli.OpsGenieCommandLine" "$@"
+$JAVA_HOME/bin/java $JAVA_OPTS -cp $LAMP_CLASSPATH "com.ifountain.opsgenie.client.cli.OpsGenieCommandLine" "$@"
