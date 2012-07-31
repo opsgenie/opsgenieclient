@@ -30,6 +30,6 @@ fi
 JAVA_OPTS=" -Dlamphome=$LAMP_HOME $JAVA_OPTS"
 JAVA_OPTS=" -Xmx128m $JAVA_OPTS"
 
-LAMP_CLASSPATH=$LAMP_CLASSPATH:$OC_HOME/lib/*
+LAMP_CLASSPATH=$LAMP_CLASSPATH:$LAMP_HOME/lib/*
 
 $JAVA_HOME/bin/java $JAVA_OPTS -cp $LAMP_CLASSPATH "com.ifountain.opsgenie.client.cli.OpsGenieCommandLine" "$@"
