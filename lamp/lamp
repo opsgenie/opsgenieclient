@@ -1,0 +1,35 @@
+#!/bin/sh
+
+SCRIPT="$0"
+
+while [ -h "$SCRIPT" ] ; do
+  ls=`ls -ld "$SCRIPT"`
+  # Drop everything prior to ->
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    SCRIPT="$link"
+  else
+    SCRIPT=`dirname "$SCRIPT"`/"$link"
+  fi
+done
+
+LAMP_HOME=`dirname "$SCRIPT"`
+LAMP_HOME=`cd "$LAMP_HOME"; pwd`
+
+
+if [ "$JAVA_HOME" == "" ]; then
+	echo "JAVA_HOME is not defined."
+	exit 1
+fi
+
+if [ ! -f "$JAVA_HOME/bin/java" ]; then
+	echo "java executable doesn't exists."
+	exit 1
+fi
+
+JAVA_OPTS=" -Dlamphome=$LAMP_HOME $JAVA_OPTS"
+JAVA_OPTS=" -Xmx128m $JAVA_OPTS"
+
+LAMP_CLASSPATH=$LAMP_CLASSPATH:$LAMP_HOME/lib/*
+
+$JAVA_HOME/bin/java $JAVA_OPTS -cp $LAMP_CLASSPATH "com.ifountain.opsgenie.client.cli.OpsGenieCommandLine" "$@"
