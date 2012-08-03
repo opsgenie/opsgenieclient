@@ -1,3 +1,4 @@
 *.txt           text=auto
 *.sh            eol=lf
 lamp            eol=lf
+marid            eol=lf

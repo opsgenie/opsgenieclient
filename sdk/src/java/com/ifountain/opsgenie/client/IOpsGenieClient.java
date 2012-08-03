@@ -9,7 +9,7 @@ import java.io.IOException;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 6/1/12 10:09 AM
- * @see com.ifountain.opsgenie.client.OpsGenieClient
+ * @see OpsGenieClient
  */
 public interface IOpsGenieClient {
     /**

@@ -3,14 +3,13 @@ package com.ifountain.opsgenie.client;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.model.*;
+import com.ifountain.opsgenie.client.util.Strings;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
-import com.ifountain.opsgenie.client.util.Strings;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 
@@ -70,7 +69,7 @@ import java.util.Map;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/30/12 9:40 AM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient
+ * @see IOpsGenieClient
  */
 public class OpsGenieClient implements IOpsGenieClient {
     /**
