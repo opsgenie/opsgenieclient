@@ -30,6 +30,7 @@ public class ScriptManager {
     private File scriptsDir;
     private GroovyClassLoader classLoader;
     private Map<String, CompiledScriptEngine> compiledScriptEngines;
+    private boolean initialized = false;
 
     private ScriptManager() {
     }
@@ -43,6 +44,7 @@ public class ScriptManager {
         GroovyCompiledScriptEngine groovyScriptEngine = new GroovyCompiledScriptEngine();
         groovyScriptEngine.initialize(classLoader, scriptsDir);
         compiledScriptEngines.put("groovy", groovyScriptEngine);
+        initialized = true;
     }
 
     public void runScript(String scriptPath, Map<String, Object> bindings) throws Exception {
@@ -90,5 +92,13 @@ public class ScriptManager {
 
     public void registerScriptingLanguage(String lang, String className, String[] extensions) {
         BSFManager.registerScriptingEngine(lang, className, extensions);
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public File getScriptsDirectory() {
+        return scriptsDir;
     }
 }

@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.marid;
 
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
+import com.ifountain.opsgenie.client.script.ScriptManager;
 import org.apache.log4j.*;
 
 import java.io.File;
@@ -52,10 +53,33 @@ public class Bootstrap {
         stopHttpProxy();
     }
 
-    protected void initialize() throws IOException {
+    protected void initialize() throws Exception {
         configureLogger();
         loadConfiguration();
+        initializeScripting();
         startHttpProxy();
+    }
+
+    private void initializeScripting() throws Exception {
+        ScriptManager.getInstance().initialize(getBaseDir() + "/scripts");
+        String engineNamesStr = configuration.getProperty("script.engines", "").trim();
+        if (engineNamesStr.length() != 0) {
+            String[] engineNames = engineNamesStr.split(",");
+            for (String engineName : engineNames) {
+                String classPropName = "script.engine." + engineName + ".class";
+                String className = configuration.getProperty(classPropName);
+                if (className == null) {
+                    throw new Exception("Script engine should be configured properly. Missing [" + classPropName + "]");
+                }
+                String extensionsPropName = "script.engine." + engineName + ".extensions";
+                String extensionsStr = configuration.getProperty(extensionsPropName);
+                if (extensionsStr == null) {
+                    throw new Exception("Script engine should be configured properly. Missing [" + extensionsPropName + "]");
+                }
+                String[] extensions = extensionsStr.split(",");
+                ScriptManager.getInstance().registerScriptingLanguage(engineName, className, extensions);
+            }
+        }
     }
 
     private void loadConfiguration() throws IOException {
