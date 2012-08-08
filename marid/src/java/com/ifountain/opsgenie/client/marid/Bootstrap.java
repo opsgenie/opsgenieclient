@@ -1,13 +1,20 @@
 package com.ifountain.opsgenie.client.marid;
 
+import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
+import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
+import com.ifountain.opsgenie.client.marid.alert.AlertActionExecutor;
+import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
 import com.ifountain.opsgenie.client.script.ScriptManager;
+import com.ifountain.opsgenie.client.util.JsonUtils;
+import org.apache.http.HttpStatus;
 import org.apache.log4j.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -51,13 +58,40 @@ public class Bootstrap {
 
     public void close() {
         stopHttpProxy();
+        destroyAlertActionExecutor();
+        destroyScripting();
     }
 
     protected void initialize() throws Exception {
         configureLogger();
         loadConfiguration();
+        getMaridSettings();
         initializeScripting();
+        initializeAlertActionExecutor();
         startHttpProxy();
+    }
+
+    private void getMaridSettings() throws Exception {
+        logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
+        String opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
+        OpsGenieHttpClient httpClient = new OpsGenieHttpClient();
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("customerKey", configuration.get("customerKey"));
+        try {
+            OpsGenieHttpResponse response = httpClient.get(opsGenieUrl + "/customer/getMaridSettings", parameters);
+            if (response.getStatusCode() == HttpStatus.SC_OK) {
+                Map maridSettings = JsonUtils.parse(response.getContent());
+                configuration.putAll(maridSettings);
+                logger.info(getLogPrefix() + "Marid settings are successfully loaded from server.");
+            } else {
+                String responseContent = new String(response.getContent());
+                logger.error(getLogPrefix() + "Could not get Marid settings from OpsGenie server. Response: " + responseContent);
+                throw new Exception("Could not get Marid settings from OpsGenie server. Response: " + responseContent);
+            }
+        } catch (IOException e) {
+            logger.error(getLogPrefix() + "Could not get Marid settings from OpsGenie server.", e);
+            throw e;
+        }
     }
 
     private void initializeScripting() throws Exception {
@@ -79,6 +113,20 @@ public class Bootstrap {
                 String[] extensions = extensionsStr.split(",");
                 ScriptManager.getInstance().registerScriptingLanguage(engineName, className, extensions);
             }
+        }
+    }
+
+    private void initializeAlertActionExecutor() {
+        boolean executeAlertActions = Boolean.parseBoolean(configuration.getProperty("execute.alert.actions", "false"));
+        if (executeAlertActions) {
+            PubnubChannelParameters params = new PubnubChannelParameters();
+            params.setChannel(configuration.getProperty("pubnub.channel", ""));
+            params.setPublishKey(configuration.getProperty("pubnub.publishkey", ""));
+            params.setSubscribeKey(configuration.getProperty("pubnub.subscribekey", ""));
+            params.setSecretKey(configuration.getProperty("pubnub.secretkey", ""));
+            params.setCipherKey(configuration.getProperty("pubnub.cipherkey", ""));
+            params.setSslOn(Boolean.parseBoolean(configuration.getProperty("pubnub.ssl.enabled", "true")));
+            AlertActionExecutor.getInstance().initialize(params);
         }
     }
 
@@ -113,6 +161,14 @@ public class Bootstrap {
 
     private void stopHttpProxy() {
         if (proxy != null) proxy.stop();
+    }
+
+    private void destroyAlertActionExecutor() {
+        AlertActionExecutor.destroyInstance();
+    }
+
+    private void destroyScripting() {
+        ScriptManager.destroyInstance();
     }
 
     private void configureLogger() {
