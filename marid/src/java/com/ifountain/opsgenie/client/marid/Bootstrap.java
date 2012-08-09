@@ -26,7 +26,6 @@ public class Bootstrap {
     protected Logger logger = Logger.getLogger(Bootstrap.class);
     private HttpProxy proxy;
     private Properties configuration = new Properties();
-    private String opsGenieUrl;
 
     public static void main(String[] args) throws Exception {
         Bootstrap marid = new Bootstrap();
@@ -74,12 +73,11 @@ public class Bootstrap {
 
     private void getMaridSettings() throws Exception {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
-        opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient();
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("customerKey", configuration.get("customerKey"));
+        parameters.put("customerKey", OpsGenie.getCustomerKey());
         try {
-            OpsGenieHttpResponse response = httpClient.get(opsGenieUrl + "/customer/getMaridSettings", parameters);
+            OpsGenieHttpResponse response = httpClient.get(OpsGenie.getUrl() + "/customer/getMaridSettings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
                 Map maridSettings = JsonUtils.parse(response.getContent());
                 configuration.putAll(maridSettings);
@@ -127,7 +125,7 @@ public class Bootstrap {
             params.setSecretKey(configuration.getProperty("pubnub.secretkey", ""));
             params.setCipherKey(configuration.getProperty("pubnub.cipherkey", ""));
             params.setSslOn(Boolean.parseBoolean(configuration.getProperty("pubnub.ssl.enabled", "true")));
-            AlertActionExecutor.getInstance().initialize(params, opsGenieUrl);
+            AlertActionExecutor.getInstance().initialize(params);
         }
     }
 
@@ -145,6 +143,10 @@ public class Bootstrap {
         } else {
             throw new FileNotFoundException("Configuration file " + configurationPath + " does not exist");
         }
+        String opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
+        String customerKey = configuration.getProperty("customerKey");
+        OpsGenie.setUrl(opsGenieUrl);
+        OpsGenie.setCustomerKey(customerKey);
         logger.info(getLogPrefix() + "Configuration loaded.");
     }
 

@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.marid.alert;
 
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
+import com.ifountain.opsgenie.client.marid.OpsGenie;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +37,6 @@ public class AlertActionExecutor {
     private Thread pubnubSubscribeThread;
     private boolean isSubscribed = false;
     private OpsGenieHttpClient httpClient;
-    private String opsGenieUrl;
 
     public static AlertActionExecutor getInstance() {
         if (alertActionExecutor == null) {
@@ -52,8 +52,7 @@ public class AlertActionExecutor {
         alertActionExecutor = null;
     }
 
-    public void initialize(PubnubChannelParameters params, String opsGenieUrl) {
-        this.opsGenieUrl = opsGenieUrl;
+    public void initialize(PubnubChannelParameters params) {
         httpClient = new OpsGenieHttpClient();
         subscribeToOpsGenie(params);
     }
@@ -147,6 +146,7 @@ public class AlertActionExecutor {
     private void sendResultToOpsGenie(String action, String alertId, String username, boolean success, String failureMessage) {
         logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
         List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+        parameters.add(new BasicNameValuePair("customerKey", OpsGenie.getCustomerKey()));
         parameters.add(new BasicNameValuePair("action", action));
         parameters.add(new BasicNameValuePair("success", String.valueOf(success)));
         if (alertId != null) parameters.add(new BasicNameValuePair("alertId", alertId));
@@ -154,7 +154,7 @@ public class AlertActionExecutor {
         if (failureMessage != null) parameters.add(new BasicNameValuePair("failureMessage", failureMessage));
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
-            OpsGenieHttpResponse response = httpClient.post(opsGenieUrl + "/alert/maridActionExecutionResult", entity);
+            OpsGenieHttpResponse response = httpClient.post(OpsGenie.getUrl() + "/alert/maridActionExecutionResult", entity);
             if (response.getStatusCode() != HttpStatus.SC_OK) {
                 String logSuffix = "";
                 if (response.getContent() != null && response.getContent().length > 0) {
