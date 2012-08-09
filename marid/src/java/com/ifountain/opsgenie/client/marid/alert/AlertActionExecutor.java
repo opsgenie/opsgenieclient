@@ -1,15 +1,23 @@
 package com.ifountain.opsgenie.client.marid.alert;
 
+import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
+import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import pubnub.Callback;
 import pubnub.Pubnub;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +35,8 @@ public class AlertActionExecutor {
     private PubnubChannelParameters pubnubChannelParameters;
     private Thread pubnubSubscribeThread;
     private boolean isSubscribed = false;
+    private OpsGenieHttpClient httpClient;
+    private String opsGenieUrl;
 
     public static AlertActionExecutor getInstance() {
         if (alertActionExecutor == null) {
@@ -42,7 +52,9 @@ public class AlertActionExecutor {
         alertActionExecutor = null;
     }
 
-    public void initialize(PubnubChannelParameters params) {
+    public void initialize(PubnubChannelParameters params, String opsGenieUrl) {
+        this.opsGenieUrl = opsGenieUrl;
+        httpClient = new OpsGenieHttpClient();
         subscribeToOpsGenie(params);
     }
 
@@ -90,35 +102,71 @@ public class AlertActionExecutor {
     protected void processMessage(Object message) {
         if (message instanceof JSONObject) {
             JSONObject jsonMessage = ((JSONObject) message);
-            if(logger.isDebugEnabled()){
+            if (logger.isDebugEnabled()) {
                 logger.debug(getLogPrefix() + "Processing message: " + jsonMessage.toString());
             }
+            boolean success = false;
+            String alertId = null;
+            String username = null;
+            String action = null;
             try {
                 if (!jsonMessage.isNull("action")) {
-                    String action = (String) jsonMessage.get("action");
+                    action = (String) jsonMessage.get("action");
                     File scriptFile = getScriptFile(action);
-                    if (scriptFile != null) {
-                        if (!jsonMessage.isNull("alert")) {
-                            String alertJson = (String) jsonMessage.get("alert");
-                            Map alert = JsonUtils.parse(alertJson);
+                    if (!jsonMessage.isNull("alert")) {
+                        String alertJson = (String) jsonMessage.get("alert");
+                        Map alert = JsonUtils.parse(alertJson);
+                        alertId = (String) alert.get("alertId");
+                        username = (String) alert.get("username");
+                        if (scriptFile != null) {
                             Map<String, Object> bindings = new HashMap<String, Object>();
                             bindings.put("alert", alert);
                             ScriptManager.getInstance().runScript(scriptFile.getName(), bindings);
+                            success = true;
+                            sendResultToOpsGenie(action, alertId, username, success, null);
                         } else {
-                            logger.warn(getLogPrefix() + "No alert specified. Ignoring message: " + jsonMessage.toString());
+                            String failureMessage = "No script file found for action [" + action + "]";
+                            logger.warn(getLogPrefix() + "No script file found for action: " + action);
+                            sendResultToOpsGenie(action, alertId, username, success, failureMessage);
                         }
                     } else {
-                        logger.warn(getLogPrefix() + "No script file found for action: " + action);
+                        logger.warn(getLogPrefix() + "No alert specified. Ignoring message: " + jsonMessage.toString());
                     }
-
                 } else {
                     logger.warn(getLogPrefix() + "No action specified. Ignoring message: " + jsonMessage.toString());
                 }
             } catch (Exception e) {
                 logger.warn(getLogPrefix() + "Could not process message " + jsonMessage + ". Reason: " + e.getMessage());
+                sendResultToOpsGenie(action, alertId, username, success, e.getMessage());
             }
         } else {
             logger.warn(getLogPrefix() + "Unexpected message content: " + message);
+        }
+    }
+
+    private void sendResultToOpsGenie(String action, String alertId, String username, boolean success, String failureMessage) {
+        logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
+        List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+        parameters.add(new BasicNameValuePair("action", action));
+        parameters.add(new BasicNameValuePair("success", String.valueOf(success)));
+        if (alertId != null) parameters.add(new BasicNameValuePair("alertId", alertId));
+        if (username != null) parameters.add(new BasicNameValuePair("username", username));
+        if (failureMessage != null) parameters.add(new BasicNameValuePair("failureMessage", failureMessage));
+        try {
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
+            OpsGenieHttpResponse response = httpClient.post(opsGenieUrl + "/alert/maridActionExecutionResult", entity);
+            if (response.getStatusCode() != HttpStatus.SC_OK) {
+                String logSuffix = "";
+                if (response.getContent() != null && response.getContent().length > 0) {
+                    logSuffix = ", Content: " + new String(response.getContent());
+                }
+                logger.warn(getLogPrefix() + "Could not send action result to OpsGenie. HttpStatus: " + response.getStatusCode() + logSuffix);
+            }
+            else{
+                logger.info(getLogPrefix() + "Successfully sent result to OpsGenie.");
+            }
+        } catch (IOException e) {
+            logger.warn(getLogPrefix() + "Could not send action result to OpsGenie. Reason: " + e.getMessage());
         }
     }
 

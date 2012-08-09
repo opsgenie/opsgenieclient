@@ -25,7 +25,8 @@ public class Bootstrap {
     private final static Object waitLock = new Object();
     protected Logger logger = Logger.getLogger(Bootstrap.class);
     private HttpProxy proxy;
-    Properties configuration = new Properties();
+    private Properties configuration = new Properties();
+    private String opsGenieUrl;
 
     public static void main(String[] args) throws Exception {
         Bootstrap marid = new Bootstrap();
@@ -73,7 +74,7 @@ public class Bootstrap {
 
     private void getMaridSettings() throws Exception {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
-        String opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
+        opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient();
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("customerKey", configuration.get("customerKey"));
@@ -126,7 +127,7 @@ public class Bootstrap {
             params.setSecretKey(configuration.getProperty("pubnub.secretkey", ""));
             params.setCipherKey(configuration.getProperty("pubnub.cipherkey", ""));
             params.setSslOn(Boolean.parseBoolean(configuration.getProperty("pubnub.ssl.enabled", "true")));
-            AlertActionExecutor.getInstance().initialize(params);
+            AlertActionExecutor.getInstance().initialize(params, opsGenieUrl);
         }
     }
 
