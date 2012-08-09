@@ -15,7 +15,7 @@ set JAVA_OPTS=%JAVA_OPTS% -Dmaridhome="%MARID_HOME%/"
 
 set MARID_CLASSPATH=%MARID_CLASSPATH%;%MARID_HOME%/lib/*;
 
-"%JAVA_HOME%\bin\java" %JAVA_OPTS% -cp "%MARID_CLASSPATH%" "com.ifountain.opsgenie.marid.Bootstrap" %*
+"%JAVA_HOME%\bin\java" %JAVA_OPTS% -cp "%MARID_CLASSPATH%" "com.ifountain.opsgenie.client.marid.Bootstrap" %*
 goto finally
 
 :err

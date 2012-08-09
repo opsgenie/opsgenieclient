@@ -147,7 +147,7 @@ public class AlertActionExecutor {
         logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
         List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
         parameters.add(new BasicNameValuePair("customerKey", OpsGenie.getCustomerKey()));
-        parameters.add(new BasicNameValuePair("action", action));
+        parameters.add(new BasicNameValuePair("alertAction", action));
         parameters.add(new BasicNameValuePair("success", String.valueOf(success)));
         if (alertId != null) parameters.add(new BasicNameValuePair("alertId", alertId));
         if (username != null) parameters.add(new BasicNameValuePair("username", username));
