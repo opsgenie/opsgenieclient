@@ -12,7 +12,7 @@ while [ -h "$SCRIPT" ] ; do
   fi
 done
 
-MARID_HOME=`dirname "$SCRIPT"`/..
+MARID_HOME=`dirname "$SCRIPT"`
 MARID_HOME=`cd "$MARID_HOME"; pwd`
 
 if [ "$JAVA_HOME" == "" ]; then
@@ -32,7 +32,7 @@ KILL_TIMEOUT=120
 # JAVA_OPTS=" -Dcom.sun.management.jmxremote.ssl=false $JAVA_OPTS"
 # JAVA_OPTS=" -Duser.language=en $JAVA_OPTS"
 
-JAVA_OPTS=" -D$maridhome=$MARID_HOME $JAVA_OPTS"
+JAVA_OPTS=" -Dmaridhome=$MARID_HOME $JAVA_OPTS"
 # JAVA_OPTS=" -Xms256m $JAVA_OPTS"
 JAVA_OPTS=" -Xmx512m $JAVA_OPTS"
 JAVA_OPTS=" -XX:MaxPermSize=128m $JAVA_OPTS"
@@ -44,8 +44,8 @@ JAVA_OPTS=" -server $JAVA_OPTS"
 
 CLASSPATH=$CLASSPATH:$MARID_HOME/lib/*
 
-PIDDIR=$MARID_HOME/bin/pids  ##pid directory
-PIDFILE=$PIDDIR/rspid ##pid file
+PIDDIR=$MARID_HOME/pids  ##pid directory
+PIDFILE=$PIDDIR/maridpid ##pid file
 
 pid=""
 
