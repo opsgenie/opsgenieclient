@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.Socket;
-import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -77,8 +75,7 @@ public class Bootstrap {
         initializeScripting();
         initializeAlertActionExecutor();
         startHttpProxy();
-        httpServer = startHttpServer(false);
-        httpsServer = startHttpServer(true);
+        startHttpServers();
     }
 
     private void getMaridSettings() throws Exception {
@@ -195,7 +192,7 @@ public class Bootstrap {
             proxy.start();
         }
     }
-    private HttpServer startHttpServer(boolean isHttps) throws Exception {
+    private HttpServer createHttpServer(boolean isHttps) throws Exception {
         HttpServer httpServer = null;
         String prefix = isHttps?"https":"http";
         boolean httpServerEnabled = Boolean.parseBoolean(configuration.getProperty(prefix+".server.enabled", "false"));
@@ -206,7 +203,6 @@ public class Bootstrap {
             int maxContentLength = Integer.parseInt(configuration.getProperty(prefix+".server.maxContentLength", "2000000"));
             int threadPoolSize = Integer.parseInt(configuration.getProperty(prefix+".server.threadpool.size", "100"));
             int idleConnectionTimeout = Integer.parseInt(configuration.getProperty(prefix+".server.idle.connection.timeout", "60"));
-            HttpController.registerActions();
             if(isHttps){
                 String keystore = configuration.getProperty(prefix+".server.keystore");
                 String keyPassword = configuration.getProperty(prefix+".server.keyPassword");
@@ -218,7 +214,6 @@ public class Bootstrap {
             httpServer.setMaxContentLength(maxContentLength);
             httpServer.setThreadPoolSize(threadPoolSize);
             httpServer.setIdleConnectionTimeout(idleConnectionTimeout);
-            httpServer.open();
         }
         return httpServer;
     }
@@ -229,6 +224,19 @@ public class Bootstrap {
     private void stopHttpServers() {
         if (httpServer != null) httpServer.close();
         if (httpsServer != null) httpsServer.close();
+    }
+    private void startHttpServers() throws Exception {
+        httpServer = createHttpServer(false);
+        httpsServer = createHttpServer(true);
+        if(httpServer != null || httpsServer != null){
+            HttpController.registerActions();
+        }
+        if(httpServer != null){
+            httpServer.open();
+        }
+        if(httpsServer != null){
+            httpsServer.open();
+        }
     }
 
     private void destroyAlertActionExecutor() {

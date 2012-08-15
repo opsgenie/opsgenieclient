@@ -79,7 +79,7 @@ public class HttpController {
         return null;
     }
 
-    public void register(RequestAction RequestAction, String url, HttpMethod... supportedMethods) throws Exception {
+    public void register(RequestAction requestAction, String url, HttpMethod... supportedMethods) throws Exception {
         for (HttpMethod method : supportedMethods) {
             PathTrie<RequestAction> handlers;
             if (method.equals(HttpMethod.GET)) {
@@ -93,7 +93,7 @@ public class HttpController {
             } else {
                 throw new Exception("Invalid HTTP action");
             }
-            handlers.insert(url, RequestAction);
+            handlers.insert(url, requestAction);
         }
     }
 
