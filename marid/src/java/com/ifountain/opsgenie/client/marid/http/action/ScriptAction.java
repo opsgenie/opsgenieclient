@@ -1,17 +1,13 @@
 package com.ifountain.opsgenie.client.marid.http.action;
 
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.cli.script.LampScriptProxy;
-import com.ifountain.opsgenie.client.marid.OpsGenie;
+import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ifountain.opsgenie.client.marid.http.HTTPRequest;
 import com.ifountain.opsgenie.client.marid.http.HTTPResponse;
 import com.ifountain.opsgenie.client.marid.http.HttpController;
 import com.ifountain.opsgenie.client.marid.http.RequestAction;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.script.util.ScriptProxy;
-import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.jboss.netty.handler.codec.http.HttpMethod;
 import org.jboss.netty.handler.codec.http.HttpResponseStatus;
@@ -29,19 +25,21 @@ import java.util.Map;
  */
 public class ScriptAction implements RequestAction {
     public static final String SCRIPT_NAME_PARAMETER = "scriptName";
+    public static final String MARID_KEY_PARAMETER = "maridKey";
 
     @Override
     public HTTPResponse execute(HTTPRequest request) {
         HTTPResponse response = createDefaultHttpResponse();
-        String script = request.getParameter(SCRIPT_NAME_PARAMETER);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(request.getParameters());
-        Map<String, Object> bindings = new HashMap<String, Object>();
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(OpsGenie.getOpsGenieClient(), OpsGenie.getCustomerKey()));
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_RESPONSE, response);
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_REQUEST, request);
         try {
+            authenticate(request);
+            String script = request.getParameter(SCRIPT_NAME_PARAMETER);
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.putAll(request.getParameters());
+            Map<String, Object> bindings = new HashMap<String, Object>();
+            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getOpsGenieClient(), MaridConfig.getCustomerKey()));
+            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
+            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_RESPONSE, response);
+            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_REQUEST, request);
             ScriptManager.getInstance().runScript(script, bindings);
         } catch (Throwable t) {
             Map<String, Object> res = new HashMap<String, Object>();
@@ -50,6 +48,13 @@ public class ScriptAction implements RequestAction {
             response = createResponseAsJson(res, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
+    }
+
+    private void authenticate(HTTPRequest request) throws Exception {
+        String requestMaridKey = request.getParameters().remove(MARID_KEY_PARAMETER);
+        if(!(MaridConfig.getMaridKey() == null || MaridConfig.getMaridKey().length() == 0 || MaridConfig.getMaridKey().equals(requestMaridKey))){
+            throw new Exception("invalid "+MARID_KEY_PARAMETER);
+        }
     }
 
 

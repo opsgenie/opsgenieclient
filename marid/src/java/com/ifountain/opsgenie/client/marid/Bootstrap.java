@@ -82,9 +82,9 @@ public class Bootstrap {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient();
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("customerKey", OpsGenie.getCustomerKey());
+        parameters.put("customerKey", MaridConfig.getCustomerKey());
         try {
-            OpsGenieHttpResponse response = httpClient.get(OpsGenie.getUrl() + "/customer/getMaridSettings", parameters);
+            OpsGenieHttpResponse response = httpClient.get(MaridConfig.getOpsgenieUrl() + "/customer/getMaridSettings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
                 Map maridSettings = JsonUtils.parse(response.getContent());
                 configuration.putAll(maridSettings);
@@ -152,8 +152,10 @@ public class Bootstrap {
         }
         String opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
         String customerKey = configuration.getProperty("customerKey");
-        OpsGenie.setUrl(opsGenieUrl);
-        OpsGenie.setCustomerKey(customerKey);
+        String maridKey = configuration.getProperty("maridKey");
+        MaridConfig.setOpsgenieUrl(opsGenieUrl);
+        MaridConfig.setMaridKey(maridKey);
+        MaridConfig.setCustomerKey(customerKey);
         initOpsgenieClient();
         logger.info(getLogPrefix() + "Configuration loaded.");
     }
@@ -175,10 +177,10 @@ public class Bootstrap {
         clientConfiguration.setConnectionTimeout(connectionTimeout);
         clientConfiguration.setMaxConnections(maxConnectionCount);
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient(clientConfiguration);
-        OpsGenie.setHttpClient(httpClient);
+        MaridConfig.setOpsGenieHttpClient(httpClient);
         OpsGenieClient opsGenieClient = new OpsGenieClient(httpClient);
-        opsGenieClient.setRootUri(OpsGenie.getUrl());
-        OpsGenie.setOpsGenieClient(opsGenieClient);
+        opsGenieClient.setRootUri(MaridConfig.getOpsgenieUrl());
+        MaridConfig.setOpsGenieClient(opsGenieClient);
     }
 
 
