@@ -53,6 +53,10 @@ public class OpsGenieHttpClient {
         createHttpClient();
     }
 
+    protected ClientConfiguration getConfig() {
+        return config;
+    }
+
     public OpsGenieHttpResponse post(String uri, String content) throws IOException {
         return post(uri, content, new HashMap<String, String>());
     }

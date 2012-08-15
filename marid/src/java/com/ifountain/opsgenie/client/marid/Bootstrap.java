@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.marid;
 
+import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.marid.alert.AlertActionExecutor;
@@ -8,6 +9,7 @@ import com.ifountain.opsgenie.client.marid.http.HttpController;
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
 import com.ifountain.opsgenie.client.marid.http.HttpServer;
 import com.ifountain.opsgenie.client.script.ScriptManager;
+import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.*;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -154,7 +157,31 @@ public class Bootstrap {
         String customerKey = configuration.getProperty("customerKey");
         OpsGenie.setUrl(opsGenieUrl);
         OpsGenie.setCustomerKey(customerKey);
+        initOpsgenieClient();
         logger.info(getLogPrefix() + "Configuration loaded.");
+    }
+
+    private void initOpsgenieClient(){
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        int connectionTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.timeout", "30"))*1000;
+        int socketTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.sockettimeout", "30"))*1000;
+        int maxConnectionCount = Integer.parseInt(configuration.getProperty("opsgenie.connection.maxConnectionCount", "50"));
+        if(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null){
+            int socketReceiveBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint"));
+            clientConfiguration.setSocketReceiveBufferSizeHint(socketReceiveBufferSizeHint);
+        }
+        if(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null){
+            int socketSendBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint"));
+            clientConfiguration.setSocketSendBufferSizeHint(socketSendBufferSizeHint);
+        }
+        clientConfiguration.setSocketTimeout(socketTimeout);
+        clientConfiguration.setConnectionTimeout(connectionTimeout);
+        clientConfiguration.setMaxConnections(maxConnectionCount);
+        OpsGenieHttpClient httpClient = new OpsGenieHttpClient(clientConfiguration);
+        OpsGenie.setHttpClient(httpClient);
+        OpsGenieClient opsGenieClient = new OpsGenieClient(httpClient);
+        opsGenieClient.setRootUri(OpsGenie.getUrl());
+        OpsGenie.setOpsGenieClient(opsGenieClient);
     }
 
 

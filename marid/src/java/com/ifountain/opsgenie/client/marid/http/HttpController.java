@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.marid.http;
 
+import com.ifountain.opsgenie.client.marid.http.action.ScriptAction;
 import com.ifountain.opsgenie.client.marid.http.util.PathTrie;
 import org.jboss.netty.handler.codec.http.HttpMethod;
 import org.jboss.netty.handler.codec.http.HttpResponseStatus;
@@ -13,7 +14,6 @@ import java.util.Map;
  * Time: 11:42 AM
  */
 public class HttpController {
-    public static final int VERSION = 1;
     private PathTrie<RequestAction> getHandlers = new PathTrie<RequestAction>();
     private PathTrie<RequestAction> postHandlers = new PathTrie<RequestAction>();
     private PathTrie<RequestAction> putHandlers = new PathTrie<RequestAction>();
@@ -61,7 +61,6 @@ public class HttpController {
         response.setStatus(HttpResponseStatus.BAD_REQUEST);
         byte[] content = message.getBytes();
         response.setContent(content);
-        response.setContentLength(content.length);
         response.setContentType("text/plain; charset=UTF-8");
         return response;
     }
@@ -99,6 +98,7 @@ public class HttpController {
     }
 
     public static void registerActions() throws Exception {
+        new ScriptAction().register();
     }
 
     private static class CaseInsensitiveDecoder implements PathTrie.Decoder{

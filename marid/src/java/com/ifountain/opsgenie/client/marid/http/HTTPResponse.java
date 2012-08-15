@@ -8,9 +8,10 @@ import org.jboss.netty.handler.codec.http.HttpResponseStatus;
  * Time: 10:40 AM
  */
 public class HTTPResponse {
+    public static final byte[] EMPTY_CONTENT = new byte[0];
     private String contentType;
     private HttpResponseStatus status = HttpResponseStatus.OK;
-    private byte[] content;
+    private byte[] content = EMPTY_CONTENT;
     private int contentLength = 0;
 
     public String getContentType() {
@@ -35,13 +36,15 @@ public class HTTPResponse {
 
     public void setContent(byte[] content) {
         this.content = content;
+        if(content != null){
+            contentLength = content.length;
+        }
+        else{
+            contentLength = 0;
+        }
     }
 
     public int getContentLength() {
         return contentLength;
-    }
-
-    public void setContentLength(int contentLength) {
-        this.contentLength = contentLength;
     }
 }

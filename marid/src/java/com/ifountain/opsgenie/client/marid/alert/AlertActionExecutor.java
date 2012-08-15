@@ -36,7 +36,6 @@ public class AlertActionExecutor {
     private PubnubChannelParameters pubnubChannelParameters;
     private Thread pubnubSubscribeThread;
     private boolean isSubscribed = false;
-    private OpsGenieHttpClient httpClient;
 
     public static AlertActionExecutor getInstance() {
         if (alertActionExecutor == null) {
@@ -53,7 +52,6 @@ public class AlertActionExecutor {
     }
 
     public void initialize(PubnubChannelParameters params) {
-        httpClient = new OpsGenieHttpClient();
         subscribeToOpsGenie(params);
     }
 
@@ -154,7 +152,7 @@ public class AlertActionExecutor {
         if (failureMessage != null) parameters.add(new BasicNameValuePair("failureMessage", failureMessage));
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
-            OpsGenieHttpResponse response = httpClient.post(OpsGenie.getUrl() + "/alert/maridActionExecutionResult", entity);
+            OpsGenieHttpResponse response = OpsGenie.getHttpClient().post(OpsGenie.getUrl() + "/alert/maridActionExecutionResult", entity);
             if (response.getStatusCode() != HttpStatus.SC_OK) {
                 String logSuffix = "";
                 if (response.getContent() != null && response.getContent().length > 0) {

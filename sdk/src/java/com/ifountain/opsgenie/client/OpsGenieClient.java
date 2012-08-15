@@ -96,6 +96,14 @@ public class OpsGenieClient implements IOpsGenieClient {
         httpClient = new OpsGenieHttpClient();
     }
 
+
+    /**
+     * Constructs a new client to invoke service methods on OpsGenie using the specified client.
+     */
+    public OpsGenieClient(OpsGenieHttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
     /**
      * Creates alerts at OpsGenie.
      *

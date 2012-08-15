@@ -10,6 +10,8 @@ public interface OpsGenieClientConstants {
     public interface ScriptProxy {
         String BINDING_CONF = "conf";
         String BINDING_PARAMS = "params";
+        String BINDING_RESPONSE = "response";
+        String BINDING_REQUEST = "request";
         String BINDING_OPSGENIE_CLIENT = "opsgenie";
         String BINDING_LOGGER = "logger";
         String INPUT_STREAM = "stream";
