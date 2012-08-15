@@ -4,7 +4,9 @@ import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.marid.alert.AlertActionExecutor;
 import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
+import com.ifountain.opsgenie.client.marid.http.HttpController;
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
+import com.ifountain.opsgenie.client.marid.http.HttpServer;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpStatus;
@@ -25,6 +27,8 @@ public class Bootstrap {
     private final static Object waitLock = new Object();
     protected Logger logger = Logger.getLogger(Bootstrap.class);
     private HttpProxy proxy;
+    private HttpServer httpServer;
+    private HttpServer httpsServer;
     private Properties configuration = new Properties();
 
     public static void main(String[] args) throws Exception {
@@ -57,6 +61,7 @@ public class Bootstrap {
     }
 
     public void close() {
+        stopHttpServers();
         stopHttpProxy();
         destroyAlertActionExecutor();
         destroyScripting();
@@ -69,6 +74,8 @@ public class Bootstrap {
         initializeScripting();
         initializeAlertActionExecutor();
         startHttpProxy();
+        httpServer = startHttpServer(false);
+        httpsServer = startHttpServer(true);
     }
 
     private void getMaridSettings() throws Exception {
@@ -161,9 +168,40 @@ public class Bootstrap {
             proxy.start();
         }
     }
+    private HttpServer startHttpServer(boolean isHttps) throws Exception {
+        HttpServer httpServer = null;
+        String prefix = isHttps?"https":"http";
+        boolean httpServerEnabled = Boolean.parseBoolean(configuration.getProperty(prefix+".server.enabled", "false"));
+        if (httpServerEnabled) {
+            String host = configuration.getProperty(prefix+".server.host");
+            int port =  Integer.parseInt(configuration.getProperty(prefix+".server.port"));
+
+            int maxContentLength = Integer.parseInt(configuration.getProperty(prefix+".server.maxContentLength", "2000000"));
+            int threadPoolSize = Integer.parseInt(configuration.getProperty(prefix+".server.threadpool.size", "100"));
+            int idleConnectionTimeout = Integer.parseInt(configuration.getProperty(prefix+".server.idle.connection.timeout", "60"));
+            HttpController.registerActions();
+            if(isHttps){
+                String keystore = configuration.getProperty(prefix+".server.keystore");
+                String keyPassword = configuration.getProperty(prefix+".server.keyPassword");
+                httpServer = new HttpServer(host, port, keystore, keyPassword);
+            }
+            else{
+                httpServer = new HttpServer(host, port);
+            }
+            httpServer.setMaxContentLength(maxContentLength);
+            httpServer.setThreadPoolSize(threadPoolSize);
+            httpServer.setIdleConnectionTimeout(idleConnectionTimeout);
+            httpServer.open();
+        }
+        return httpServer;
+    }
 
     private void stopHttpProxy() {
         if (proxy != null) proxy.stop();
+    }
+    private void stopHttpServers() {
+        if (httpServer != null) httpServer.close();
+        if (httpsServer != null) httpsServer.close();
     }
 
     private void destroyAlertActionExecutor() {
