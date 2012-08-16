@@ -263,11 +263,11 @@ public class HttpServer {
             Set<Cookie> cookies = cookieDecoder.decode(cookieString);
             if (!cookies.isEmpty()) {
                 // Reset the cookies if necessary.
-                CookieEncoder cookieEncoder = new CookieEncoder(true);
                 for (Cookie cookie : cookies) {
+                    CookieEncoder cookieEncoder = new CookieEncoder(true);
                     cookieEncoder.addCookie(cookie);
+                    response.addHeader(HttpHeaders.Names.SET_COOKIE, cookieEncoder.encode());
                 }
-                response.addHeader(HttpHeaders.Names.SET_COOKIE, cookieEncoder.encode());
             }
         }
         ChannelFuture channelFuture = e.getChannel().write(response);
