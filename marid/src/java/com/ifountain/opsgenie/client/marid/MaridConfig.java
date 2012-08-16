@@ -9,16 +9,26 @@ import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
  */
 public class MaridConfig {
     private static String opsgenieUrl;
+    private static String opsgenieApiUrl;
     private static String customerKey;
     private static String maridKey;
     private static OpsGenieHttpClient opsGenieHttpClient;
     private static OpsGenieClient opsGenieClient;
     public static void reset(){
         opsgenieUrl = null;
+        opsgenieApiUrl = null;
         customerKey = null;
         maridKey = null;
         opsGenieHttpClient = null;
         opsGenieClient = null;
+    }
+
+    public static String getOpsgenieApiUrl() {
+        return opsgenieApiUrl;
+    }
+
+    public static void setOpsgenieApiUrl(String opsgenieApiUrl) {
+        MaridConfig.opsgenieApiUrl = opsgenieApiUrl;
     }
 
     public static String getMaridKey() {

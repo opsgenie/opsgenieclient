@@ -151,9 +151,11 @@ public class Bootstrap {
             throw new FileNotFoundException("Configuration file " + configurationPath + " does not exist");
         }
         String opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
+        String opsGenieApiUrl = configuration.getProperty("opsgenie.api.url", "https://api.opsgenie.com");
         String customerKey = configuration.getProperty("customerKey");
         String maridKey = configuration.getProperty("maridKey");
         MaridConfig.setOpsgenieUrl(opsGenieUrl);
+        MaridConfig.setOpsgenieApiUrl(opsGenieApiUrl);
         MaridConfig.setMaridKey(maridKey);
         MaridConfig.setCustomerKey(customerKey);
         initOpsgenieClient();
@@ -179,7 +181,7 @@ public class Bootstrap {
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient(clientConfiguration);
         MaridConfig.setOpsGenieHttpClient(httpClient);
         OpsGenieClient opsGenieClient = new OpsGenieClient(httpClient);
-        opsGenieClient.setRootUri(MaridConfig.getOpsgenieUrl());
+        opsGenieClient.setRootUri(MaridConfig.getOpsgenieApiUrl());
         MaridConfig.setOpsGenieClient(opsGenieClient);
     }
 

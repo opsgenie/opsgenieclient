@@ -35,6 +35,7 @@ public class ScriptAction implements RequestAction {
             String script = request.getParameter(SCRIPT_NAME_PARAMETER);
             Map<String, Object> params = new HashMap<String, Object>();
             params.putAll(request.getParameters());
+            params.remove(MARID_KEY_PARAMETER);
             Map<String, Object> bindings = new HashMap<String, Object>();
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getOpsGenieClient(), MaridConfig.getCustomerKey()));
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
@@ -51,7 +52,7 @@ public class ScriptAction implements RequestAction {
     }
 
     private void authenticate(HTTPRequest request) throws Exception {
-        String requestMaridKey = request.getParameters().remove(MARID_KEY_PARAMETER);
+        String requestMaridKey = request.getParameter(MARID_KEY_PARAMETER);
         if(!(MaridConfig.getMaridKey() == null || MaridConfig.getMaridKey().length() == 0 || MaridConfig.getMaridKey().equals(requestMaridKey))){
             throw new Exception("invalid "+MARID_KEY_PARAMETER);
         }
