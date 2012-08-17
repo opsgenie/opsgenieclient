@@ -46,8 +46,9 @@ public class Bootstrap {
                     synchronized (waitLock) {
                         waitLock.notifyAll();
                     }
-                    logger.warn(getLogPrefix() + "Shutdown hook received, started closing.");
+                    logger.warn(getLogPrefix() + "Shutdown hook received, stopping.");
                     Bootstrap.this.close();
+                    logger.warn(getLogPrefix() + "Stopped");
                 }
 
             });
@@ -101,6 +102,7 @@ public class Bootstrap {
     }
 
     private void initializeScripting() throws Exception {
+        logger.warn(getLogPrefix()+"Initializing Scripting");
         ScriptManager.getInstance().initialize(getBaseDir() + "/scripts");
         String engineNamesStr = configuration.getProperty("script.engines", "").trim();
         if (engineNamesStr.length() != 0) {
@@ -125,6 +127,7 @@ public class Bootstrap {
     private void initializeAlertActionExecutor() {
         boolean executeAlertActions = Boolean.parseBoolean(configuration.getProperty("execute.alert.actions", "false"));
         if (executeAlertActions) {
+            logger.warn(getLogPrefix()+"Initializing AlertActionExecutor");
             PubnubChannelParameters params = new PubnubChannelParameters();
             params.setChannel(configuration.getProperty("pubnub.channel", ""));
             params.setPublishKey(configuration.getProperty("pubnub.publishkey", ""));
@@ -189,10 +192,12 @@ public class Bootstrap {
     private void startHttpProxy() {
         boolean proxyEnabled = Boolean.parseBoolean(configuration.getProperty("http.proxy.enabled", "false"));
         if (proxyEnabled) {
+            logger.warn(getLogPrefix()+"Starting proxy server");
             int port = Integer.parseInt(configuration.getProperty("http.proxy.port", "11111"));
+            String host = configuration.getProperty("http.proxy.host", "127.0.0.1");
             String username = configuration.getProperty("http.proxy.username");
             String password = configuration.getProperty("http.proxy.password");
-            proxy = new HttpProxy(port, username, password);
+            proxy = new HttpProxy(host, port, username, password);
             proxy.start();
         }
     }
@@ -223,11 +228,20 @@ public class Bootstrap {
     }
 
     private void stopHttpProxy() {
-        if (proxy != null) proxy.stop();
+        if (proxy != null){
+            logger.warn(getLogPrefix()+"Stopping proxy server");
+            proxy.stop();
+        }
     }
     private void stopHttpServers() {
-        if (httpServer != null) httpServer.close();
-        if (httpsServer != null) httpsServer.close();
+        if (httpServer != null){
+            logger.warn(getLogPrefix()+"Stopping http server");
+            httpServer.close();
+        }
+        if (httpsServer != null){
+            logger.warn(getLogPrefix()+"Stopping https server");
+            httpsServer.close();
+        }
     }
     private void startHttpServers() throws Exception {
         httpServer = createHttpServer(false);
@@ -236,18 +250,22 @@ public class Bootstrap {
             HttpController.registerActions();
         }
         if(httpServer != null){
+            logger.warn(getLogPrefix()+"Starting http server");
             httpServer.open();
         }
         if(httpsServer != null){
+            logger.warn(getLogPrefix()+"Starting https server");
             httpsServer.open();
         }
     }
 
     private void destroyAlertActionExecutor() {
+        logger.warn(getLogPrefix()+"Destroying AlertActionExecutor");
         AlertActionExecutor.destroyInstance();
     }
 
     private void destroyScripting() {
+        logger.warn(getLogPrefix()+"Destroying Scripting");
         ScriptManager.destroyInstance();
     }
 

@@ -9,15 +9,18 @@ import org.littleshoot.proxy.ProxyAuthorizationHandler;
  */
 public class HttpProxy {
     private DefaultHttpProxyServer proxyServer;
+    private String host;
     private int port;
     private String username;
     private String password;
 
-    public HttpProxy(int port, String username, String password) {
+    public HttpProxy(String host, int port, String username, String password) {
+        this.host = host;
         this.port = port;
         this.username = username;
         this.password = password;
         proxyServer = new DefaultHttpProxyServer(port);
+        proxyServer.setHost(host);
         if (this.username != null && this.password != null) {
             proxyServer.addProxyAuthenticationHandler(new ProxyAuthorizationHandler() {
                 @Override
@@ -28,8 +31,8 @@ public class HttpProxy {
         }
     }
 
-    public HttpProxy(int port) {
-        this(port, null, null);
+    public HttpProxy(String host, int port) {
+        this(host, port, null, null);
     }
 
     public void start() {
