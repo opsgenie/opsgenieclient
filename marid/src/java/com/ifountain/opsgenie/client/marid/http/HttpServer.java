@@ -272,9 +272,15 @@ public class HttpServer {
         }
         ChannelFuture channelFuture = e.getChannel().write(response);
 
-//        if (!isKeepAlive) {
-        channelFuture.addListener(ChannelFutureListener.CLOSE);
-//        }
+        if (!isKeepAlive) {
+            channelFuture.addListener(new ChannelFutureListener() {
+                public void operationComplete(final ChannelFuture cf) throws Exception {
+                    if (cf.getChannel().isConnected()) {
+                        cf.getChannel().close();
+                    }
+                }
+            });
+        }
     }
 
     private class HttpListenerPipelineFactory implements ChannelPipelineFactory {

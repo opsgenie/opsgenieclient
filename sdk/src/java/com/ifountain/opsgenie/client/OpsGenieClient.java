@@ -10,6 +10,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 
@@ -291,7 +292,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)
-            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new InputStreamBody(inputStream, new File(fileName).getName()));
+            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new ByteArrayBody(convertInputStreamToByteArray(inputStream), new File(fileName).getName()));
         if (attachRequest.getCustomerKey() != null)
             entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(attachRequest.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getAlertId() != null)
@@ -305,6 +306,20 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + attachRequest.getEndPoint(), entity);
         handleResponse(httpResponse);
         return new AttachResponse();
+    }
+
+    /*this is required to fix proxy authentication retry failure
+    *caused by org.apache.http.client.NonRepeatableRequestException: Cannot retry request with a non-repeatable request entity
+    */
+    private byte[] convertInputStreamToByteArray(InputStream in) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        int c = -1;
+        while((c=in.read()) != -1){
+            outputStream.write(c);
+        }
+        outputStream.flush();
+        in.close();
+        return outputStream.toByteArray();
     }
 
     private Map handleResponse(OpsGenieHttpResponse response) throws IOException, OpsGenieClientException {
@@ -331,5 +346,11 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.rootUri = rootUri;
     }
 
-
+    /**
+     * Closes client
+     */
+    @Override
+    public void close() {
+        httpClient.close();
+    }
 }

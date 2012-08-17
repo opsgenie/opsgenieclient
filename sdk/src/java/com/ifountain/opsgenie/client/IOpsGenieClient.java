@@ -89,4 +89,9 @@ public interface IOpsGenieClient {
      * @param rootUri Uri to set.
      */
     public void setRootUri(String rootUri);
+
+    /**
+     * Closes client
+     */
+    public void close();
 }

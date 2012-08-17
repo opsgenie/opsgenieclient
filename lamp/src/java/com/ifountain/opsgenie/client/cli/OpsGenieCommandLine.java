@@ -24,6 +24,7 @@ public class OpsGenieCommandLine {
     public static final String TOOL_NAME = "lamp";
     private Map<String, Command> commands = new HashMap<String, Command>();
     private HelpCommand helpCommand;
+    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(OpsGenieCommandLine.class);
 
     public static void main(String[] args) {
         OpsGenieCommandLine commandLine = new OpsGenieCommandLine();
@@ -41,44 +42,49 @@ public class OpsGenieCommandLine {
             return false;
         }
         IOpsGenieClient opsGenieClient = configureClient(config);
-        JCommander commander = new JCommander();
-        commander.setProgramName(TOOL_NAME);
-        addCommands(commander);
-        try {
-            commander.parse(args);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            String parsedCommand = commander.getParsedCommand();
-            if (parsedCommand != null) {
-                commands.get(parsedCommand).printUsage();
-            } else {
-                helpCommand.printUsage();
-            }
-            return false;
-        }
-        Command command = commands.get(commander.getParsedCommand());
-        if (command == null) {
-            System.out.println("No command has been specified.");
-            helpCommand.printUsage();
-            return false;
-        }
-        if (config.containsKey("customerKey")) {
-            command.setCustomerKey((String) config.get("customerKey"));
-        }
-        if (config.containsKey("user")) {
-            command.setUser((String) config.get("user"));
-        }
-        try {
-            command.execute(opsGenieClient);
-        } catch (Exception e) {
-            if (e instanceof IOException) {
-                System.out.println(e.getClass().getSimpleName() + "[" + e.getMessage() + "]");
-            } else {
+        try{
+            JCommander commander = new JCommander();
+            commander.setProgramName(TOOL_NAME);
+            addCommands(commander);
+            try {
+                commander.parse(args);
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
+                String parsedCommand = commander.getParsedCommand();
+                if (parsedCommand != null) {
+                    commands.get(parsedCommand).printUsage();
+                } else {
+                    helpCommand.printUsage();
+                }
+                return false;
             }
-            return false;
+            Command command = commands.get(commander.getParsedCommand());
+            if (command == null) {
+                System.out.println("No command has been specified.");
+                helpCommand.printUsage();
+                return false;
+            }
+            if (config.containsKey("customerKey")) {
+                command.setCustomerKey((String) config.get("customerKey"));
+            }
+            if (config.containsKey("user")) {
+                command.setUser((String) config.get("user"));
+            }
+            try {
+                command.execute(opsGenieClient);
+            } catch (Exception e) {
+                logger.warn("Exception occurred while executing command ["+command.getClass().getSimpleName()+"]", e);
+                if (e instanceof IOException) {
+                    System.out.println(e.getClass().getSimpleName() + "[" + e.getMessage() + "]");
+                } else {
+                    System.out.println(e.getMessage());
+                }
+                return false;
+            }
+            return true;
+        }finally {
+            opsGenieClient.close();
         }
-        return true;
     }
 
     private void configureScriptingManager(Properties configProps) throws Exception {

@@ -67,6 +67,7 @@ public class Bootstrap {
         stopHttpProxy();
         destroyAlertActionExecutor();
         destroyScripting();
+        destroyClients();
     }
 
     protected void initialize() throws Exception {
@@ -231,6 +232,15 @@ public class Bootstrap {
         if (proxy != null){
             logger.warn(getLogPrefix()+"Stopping proxy server");
             proxy.stop();
+        }
+    }
+    private void destroyClients() {
+        logger.warn(getLogPrefix()+"Destroying opsgenie clients");
+        if(MaridConfig.getOpsGenieHttpClient() != null){
+            MaridConfig.getOpsGenieHttpClient().close();
+        }
+        if(MaridConfig.getOpsGenieClient() != null){
+            MaridConfig.getOpsGenieClient().close();
         }
     }
     private void stopHttpServers() {

@@ -53,6 +53,13 @@ public class OpsGenieHttpClient {
         createHttpClient();
     }
 
+    public void close(){
+        if(httpClient != null){
+            httpClient.getConnectionManager().shutdown();
+            httpClient = null;
+        }
+    }
+
     protected ClientConfiguration getConfig() {
         return config;
     }
