@@ -15,6 +15,7 @@ import org.jboss.netty.handler.codec.http.HttpResponseStatus;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,6 +40,11 @@ public class ScriptAction implements RequestAction {
             Map<String, Object> bindings = new HashMap<String, Object>();
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getOpsGenieClient(), MaridConfig.getCustomerKey()));
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
+            Properties maridConfProps = new Properties();
+            if(MaridConfig.getConfig() != null){
+                maridConfProps.putAll(MaridConfig.getConfig());
+            }
+            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_CONF, maridConfProps);
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_RESPONSE, response);
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_REQUEST, request);
             ScriptManager.getInstance().runScript(script, bindings);

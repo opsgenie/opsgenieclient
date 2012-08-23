@@ -162,6 +162,7 @@ public class Bootstrap {
         MaridConfig.setOpsgenieApiUrl(opsGenieApiUrl);
         MaridConfig.setMaridKey(maridKey);
         MaridConfig.setCustomerKey(customerKey);
+        MaridConfig.setConfig(new Properties(configuration));
         initOpsgenieClient();
         logger.info(getLogPrefix() + "Configuration loaded.");
     }
