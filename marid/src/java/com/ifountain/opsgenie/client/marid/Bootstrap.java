@@ -30,7 +30,6 @@ public class Bootstrap {
     private HttpProxy proxy;
     private HttpServer httpServer;
     private HttpServer httpsServer;
-    private Properties configuration = new Properties();
 
     public static void main(String[] args) throws Exception {
         Bootstrap marid = new Bootstrap();
@@ -67,7 +66,7 @@ public class Bootstrap {
         stopHttpProxy();
         destroyAlertActionExecutor();
         destroyScripting();
-        destroyClients();
+        MaridConfig.destroyInstance();
     }
 
     protected void initialize() throws Exception {
@@ -84,12 +83,12 @@ public class Bootstrap {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient();
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("customerKey", MaridConfig.getCustomerKey());
+        parameters.put("customerKey", MaridConfig.getInstance().getCustomerKey());
         try {
-            OpsGenieHttpResponse response = httpClient.get(MaridConfig.getOpsgenieUrl() + "/customer/getMaridSettings", parameters);
+            OpsGenieHttpResponse response = httpClient.get(MaridConfig.getInstance().getOpsgenieUrl() + "/customer/getMaridSettings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
                 Map maridSettings = JsonUtils.parse(response.getContent());
-                configuration.putAll(maridSettings);
+                MaridConfig.getInstance().putAll(maridSettings);
                 logger.info(getLogPrefix() + "Marid settings are successfully loaded from server.");
             } else {
                 String responseContent = new String(response.getContent());
@@ -105,20 +104,14 @@ public class Bootstrap {
     private void initializeScripting() throws Exception {
         logger.warn(getLogPrefix()+"Initializing Scripting");
         ScriptManager.getInstance().initialize(getBaseDir() + "/scripts");
-        String engineNamesStr = configuration.getProperty("script.engines", "").trim();
+        String engineNamesStr = MaridConfig.getInstance().getProperty("script.engines", "").trim();
         if (engineNamesStr.length() != 0) {
             String[] engineNames = engineNamesStr.split(",");
             for (String engineName : engineNames) {
                 String classPropName = "script.engine." + engineName + ".class";
-                String className = configuration.getProperty(classPropName);
-                if (className == null) {
-                    throw new Exception("Script engine should be configured properly. Missing [" + classPropName + "]");
-                }
+                String className = MaridConfig.getInstance().getMandatoryProperty(classPropName);
                 String extensionsPropName = "script.engine." + engineName + ".extensions";
-                String extensionsStr = configuration.getProperty(extensionsPropName);
-                if (extensionsStr == null) {
-                    throw new Exception("Script engine should be configured properly. Missing [" + extensionsPropName + "]");
-                }
+                String extensionsStr = MaridConfig.getInstance().getMandatoryProperty(extensionsPropName);
                 String[] extensions = extensionsStr.split(",");
                 ScriptManager.getInstance().registerScriptingLanguage(engineName, className, extensions);
             }
@@ -126,79 +119,33 @@ public class Bootstrap {
     }
 
     private void initializeAlertActionExecutor() {
-        boolean executeAlertActions = Boolean.parseBoolean(configuration.getProperty("execute.alert.actions", "false"));
+        boolean executeAlertActions = MaridConfig.getInstance().getBoolean("execute.alert.actions", false);
         if (executeAlertActions) {
             logger.warn(getLogPrefix()+"Initializing AlertActionExecutor");
             PubnubChannelParameters params = new PubnubChannelParameters();
-            params.setChannel(configuration.getProperty("pubnub.channel", ""));
-            params.setPublishKey(configuration.getProperty("pubnub.publishkey", ""));
-            params.setSubscribeKey(configuration.getProperty("pubnub.subscribekey", ""));
-            params.setSecretKey(configuration.getProperty("pubnub.secretkey", ""));
-            params.setCipherKey(configuration.getProperty("pubnub.cipherkey", ""));
-            params.setSslOn(Boolean.parseBoolean(configuration.getProperty("pubnub.ssl.enabled", "true")));
+            params.setChannel(MaridConfig.getInstance().getProperty("pubnub.channel", ""));
+            params.setSubscribeKey(MaridConfig.getInstance().getProperty("pubnub.subscribekey", ""));
+            params.setCipherKey(MaridConfig.getInstance().getCustomerKey());
+            params.setSslOn(MaridConfig.getInstance().getBoolean("pubnub.ssl.enabled", true));
             AlertActionExecutor.getInstance().initialize(params);
         }
     }
 
-    private void loadConfiguration() throws IOException {
+    private void loadConfiguration() throws Exception {
         logger.debug(getLogPrefix() + "Loading configuration.");
         String configurationPath = getConfigurationPath();
-        File configFile = new File(configurationPath);
-        if (configFile.exists()) {
-            FileInputStream in = new FileInputStream(configFile);
-            try {
-                configuration.load(in);
-            } finally {
-                in.close();
-            }
-        } else {
-            throw new FileNotFoundException("Configuration file " + configurationPath + " does not exist");
-        }
-        String opsGenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
-        String opsGenieApiUrl = configuration.getProperty("opsgenie.api.url", "https://api.opsgenie.com");
-        String customerKey = configuration.getProperty("customerKey");
-        String maridKey = configuration.getProperty("maridKey");
-        MaridConfig.setOpsgenieUrl(opsGenieUrl);
-        MaridConfig.setOpsgenieApiUrl(opsGenieApiUrl);
-        MaridConfig.setMaridKey(maridKey);
-        MaridConfig.setCustomerKey(customerKey);
-        MaridConfig.setConfig(new Properties(configuration));
-        initOpsgenieClient();
+        MaridConfig.getInstance().init(configurationPath);
         logger.info(getLogPrefix() + "Configuration loaded.");
     }
 
-    private void initOpsgenieClient(){
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
-        int connectionTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.timeout", "30"))*1000;
-        int socketTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.sockettimeout", "30"))*1000;
-        int maxConnectionCount = Integer.parseInt(configuration.getProperty("opsgenie.connection.maxConnectionCount", "50"));
-        if(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null){
-            int socketReceiveBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint"));
-            clientConfiguration.setSocketReceiveBufferSizeHint(socketReceiveBufferSizeHint);
-        }
-        if(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null){
-            int socketSendBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint"));
-            clientConfiguration.setSocketSendBufferSizeHint(socketSendBufferSizeHint);
-        }
-        clientConfiguration.setSocketTimeout(socketTimeout);
-        clientConfiguration.setConnectionTimeout(connectionTimeout);
-        clientConfiguration.setMaxConnections(maxConnectionCount);
-        OpsGenieHttpClient httpClient = new OpsGenieHttpClient(clientConfiguration);
-        MaridConfig.setOpsGenieHttpClient(httpClient);
-        OpsGenieClient opsGenieClient = new OpsGenieClient(httpClient);
-        opsGenieClient.setRootUri(MaridConfig.getOpsgenieApiUrl());
-        MaridConfig.setOpsGenieClient(opsGenieClient);
-    }
-
-
     private void startHttpProxy() {
-        boolean proxyEnabled = Boolean.parseBoolean(configuration.getProperty("http.proxy.enabled", "false"));
+        boolean proxyEnabled = MaridConfig.getInstance().getBoolean("http.proxy.enabled", false);
         if (proxyEnabled) {
             logger.warn(getLogPrefix()+"Starting proxy server");
-            int port = Integer.parseInt(configuration.getProperty("http.proxy.port", "11111"));
-            String host = configuration.getProperty("http.proxy.host", "127.0.0.1");
-            String username = configuration.getProperty("http.proxy.username");
-            String password = configuration.getProperty("http.proxy.password");
+            int port = MaridConfig.getInstance().getInt("http.proxy.port", 11111);
+            String host = MaridConfig.getInstance().getProperty("http.proxy.host", "127.0.0.1");
+            String username = MaridConfig.getInstance().getProperty("http.proxy.username");
+            String password = MaridConfig.getInstance().getProperty("http.proxy.password");
             proxy = new HttpProxy(host, port, username, password);
             proxy.start();
         }
@@ -206,17 +153,17 @@ public class Bootstrap {
     private HttpServer createHttpServer(boolean isHttps) throws Exception {
         HttpServer httpServer = null;
         String prefix = isHttps?"https":"http";
-        boolean httpServerEnabled = Boolean.parseBoolean(configuration.getProperty(prefix+".server.enabled", "false"));
+        boolean httpServerEnabled = MaridConfig.getInstance().getBoolean(prefix+".server.enabled", false);
         if (httpServerEnabled) {
-            String host = configuration.getProperty(prefix+".server.host");
-            int port =  Integer.parseInt(configuration.getProperty(prefix+".server.port"));
+            String host = MaridConfig.getInstance().getProperty(prefix+".server.host", "127.0.0.1");
+            int port =  MaridConfig.getInstance().getInt(prefix+".server.port", isHttps?8443:8080);
 
-            int maxContentLength = Integer.parseInt(configuration.getProperty(prefix+".server.maxContentLength", "2000000"));
-            int threadPoolSize = Integer.parseInt(configuration.getProperty(prefix+".server.threadpool.size", "100"));
-            int idleConnectionTimeout = Integer.parseInt(configuration.getProperty(prefix+".server.idle.connection.timeout", "60"));
+            int maxContentLength = MaridConfig.getInstance().getInt(prefix+".server.maxContentLength", 2000000);
+            int threadPoolSize = MaridConfig.getInstance().getInt(prefix+".server.threadpool.size", 100);
+            int idleConnectionTimeout = MaridConfig.getInstance().getInt(prefix+".server.idle.connection.timeout", 60);
             if(isHttps){
-                String keystore = configuration.getProperty(prefix+".server.keystore");
-                String keyPassword = configuration.getProperty(prefix+".server.keyPassword");
+                String keystore = MaridConfig.getInstance().getMandatoryProperty(prefix+".server.keystore");
+                String keyPassword = MaridConfig.getInstance().getMandatoryProperty(prefix+".server.keyPassword");
                 httpServer = new HttpServer(host, port, keystore, keyPassword);
             }
             else{
@@ -233,15 +180,6 @@ public class Bootstrap {
         if (proxy != null){
             logger.warn(getLogPrefix()+"Stopping proxy server");
             proxy.stop();
-        }
-    }
-    private void destroyClients() {
-        logger.warn(getLogPrefix()+"Destroying opsgenie clients");
-        if(MaridConfig.getOpsGenieHttpClient() != null){
-            MaridConfig.getOpsGenieHttpClient().close();
-        }
-        if(MaridConfig.getOpsGenieClient() != null){
-            MaridConfig.getOpsGenieClient().close();
         }
     }
     private void stopHttpServers() {

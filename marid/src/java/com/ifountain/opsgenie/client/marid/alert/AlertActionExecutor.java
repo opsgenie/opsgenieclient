@@ -143,7 +143,7 @@ public class AlertActionExecutor {
     private void sendResultToOpsGenie(String action, String alertId, String username, boolean success, String failureMessage) {
         logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
         List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-        parameters.add(new BasicNameValuePair("customerKey", MaridConfig.getCustomerKey()));
+        parameters.add(new BasicNameValuePair("customerKey", MaridConfig.getInstance().getCustomerKey()));
         parameters.add(new BasicNameValuePair("alertAction", action));
         parameters.add(new BasicNameValuePair("success", String.valueOf(success)));
         if (alertId != null) parameters.add(new BasicNameValuePair("alertId", alertId));
@@ -151,7 +151,7 @@ public class AlertActionExecutor {
         if (failureMessage != null) parameters.add(new BasicNameValuePair("failureMessage", failureMessage));
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
-            OpsGenieHttpResponse response = MaridConfig.getOpsGenieHttpClient().post(MaridConfig.getOpsgenieUrl() + "/alert/maridActionExecutionResult", entity);
+            OpsGenieHttpResponse response = MaridConfig.getInstance().getOpsGenieHttpClient().post(MaridConfig.getInstance().getOpsgenieUrl() + "/alert/maridActionExecutionResult", entity);
             if (response.getStatusCode() != HttpStatus.SC_OK) {
                 String logSuffix = "";
                 if (response.getContent() != null && response.getContent().length > 0) {

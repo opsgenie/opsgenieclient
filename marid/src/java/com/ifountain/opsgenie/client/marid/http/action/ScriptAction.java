@@ -38,11 +38,11 @@ public class ScriptAction implements RequestAction {
             params.putAll(request.getParameters());
             params.remove(MARID_KEY_PARAMETER);
             Map<String, Object> bindings = new HashMap<String, Object>();
-            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getOpsGenieClient(), MaridConfig.getCustomerKey()));
+            bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getOpsGenieClient(), MaridConfig.getInstance().getCustomerKey()));
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
             Properties maridConfProps = new Properties();
-            if(MaridConfig.getConfig() != null){
-                maridConfProps.putAll(MaridConfig.getConfig());
+            if(MaridConfig.getInstance().getConfiguration() != null){
+                maridConfProps.putAll(MaridConfig.getInstance().getConfiguration());
             }
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_CONF, maridConfProps);
             bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_RESPONSE, response);
@@ -59,7 +59,7 @@ public class ScriptAction implements RequestAction {
 
     private void authenticate(HTTPRequest request) throws Exception {
         String requestMaridKey = request.getParameter(MARID_KEY_PARAMETER);
-        if(!(MaridConfig.getMaridKey() == null || MaridConfig.getMaridKey().length() == 0 || MaridConfig.getMaridKey().equals(requestMaridKey))){
+        if(!(MaridConfig.getInstance().getMaridKey() == null || MaridConfig.getInstance().getMaridKey().length() == 0 || MaridConfig.getInstance().getMaridKey().equals(requestMaridKey))){
             throw new Exception("invalid "+MARID_KEY_PARAMETER);
         }
     }
