@@ -130,6 +130,16 @@ public class OpsGenieCommandLine {
         if (config.containsKey("proxyWorkstation")) {
             clientConfig.setProxyWorkstation(config.getProperty("proxyWorkstation"));
         }
+        clientConfig.setSocketTimeout(Integer.parseInt(config.getProperty("socketTimeout", "30"))*1000);
+        clientConfig.setConnectionTimeout(Integer.parseInt(config.getProperty("connectionTimeout", "30"))*1000);
+        clientConfig.setMaxConnections(Integer.parseInt(config.getProperty("maxConnectionCount", "50")));
+        if(config.getProperty("socketReceiveBufferSizeHint") != null){
+            clientConfig.setSocketReceiveBufferSizeHint(Integer.parseInt(config.getProperty("socketReceiveBufferSizeHint")));
+        }
+        if(config.getProperty("socketSendBufferSizeHint") != null){
+            clientConfig.setSocketSendBufferSizeHint(Integer.parseInt(config.getProperty("socketSendBufferSizeHint")));
+        }
+
         IOpsGenieClient opsGenieClient = createOpsGenieClient(clientConfig);
         if (config.containsKey("opsgenie.api.uri")) {
             opsGenieClient.setRootUri(config.getProperty("opsgenie.api.uri"));

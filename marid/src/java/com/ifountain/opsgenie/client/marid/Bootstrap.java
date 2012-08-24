@@ -169,20 +169,15 @@ public class Bootstrap {
 
     private void initOpsgenieClient(){
         ClientConfiguration clientConfiguration = new ClientConfiguration();
-        int connectionTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.timeout", "30"))*1000;
-        int socketTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.sockettimeout", "30"))*1000;
-        int maxConnectionCount = Integer.parseInt(configuration.getProperty("opsgenie.connection.maxConnectionCount", "50"));
+        clientConfiguration.setSocketTimeout(Integer.parseInt(configuration.getProperty("opsgenie.connection.sockettimeout", "30"))*1000);
+        clientConfiguration.setConnectionTimeout(Integer.parseInt(configuration.getProperty("opsgenie.connection.timeout", "30"))*1000);
+        clientConfiguration.setMaxConnections(Integer.parseInt(configuration.getProperty("opsgenie.connection.maxConnectionCount", "50")));
         if(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null){
-            int socketReceiveBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint"));
-            clientConfiguration.setSocketReceiveBufferSizeHint(socketReceiveBufferSizeHint);
+            clientConfiguration.setSocketReceiveBufferSizeHint(Integer.parseInt(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint")));
         }
         if(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null){
-            int socketSendBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint"));
-            clientConfiguration.setSocketSendBufferSizeHint(socketSendBufferSizeHint);
+            clientConfiguration.setSocketSendBufferSizeHint(Integer.parseInt(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint")));
         }
-        clientConfiguration.setSocketTimeout(socketTimeout);
-        clientConfiguration.setConnectionTimeout(connectionTimeout);
-        clientConfiguration.setMaxConnections(maxConnectionCount);
         OpsGenieHttpClient httpClient = new OpsGenieHttpClient(clientConfiguration);
         MaridConfig.setOpsGenieHttpClient(httpClient);
         OpsGenieClient opsGenieClient = new OpsGenieClient(httpClient);
