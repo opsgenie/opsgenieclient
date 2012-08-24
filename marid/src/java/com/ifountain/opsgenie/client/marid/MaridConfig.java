@@ -70,20 +70,15 @@ public class MaridConfig {
 
     private void initOpsgenieClient(){
         ClientConfiguration clientConfiguration = new ClientConfiguration();
-        int connectionTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.timeout", "30"))*1000;
-        int socketTimeout = Integer.parseInt(configuration.getProperty("opsgenie.connection.sockettimeout", "30"))*1000;
-        int maxConnectionCount = Integer.parseInt(configuration.getProperty("opsgenie.connection.maxConnectionCount", "50"));
+        clientConfiguration.setSocketTimeout(getInt("opsgenie.connection.sockettimeout", 30)*1000);
+        clientConfiguration.setConnectionTimeout(getInt("opsgenie.connection.timeout", 30)*1000);
+        clientConfiguration.setMaxConnections(getInt("opsgenie.connection.maxConnectionCount", 50));
         if(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null){
-            int socketReceiveBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint"));
-            clientConfiguration.setSocketReceiveBufferSizeHint(socketReceiveBufferSizeHint);
+            clientConfiguration.setSocketReceiveBufferSizeHint(getInt("opsgenie.connection.socketReceiveBufferSizeHint", -1));
         }
         if(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null){
-            int socketSendBufferSizeHint = Integer.parseInt(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint"));
-            clientConfiguration.setSocketSendBufferSizeHint(socketSendBufferSizeHint);
+            clientConfiguration.setSocketSendBufferSizeHint(getInt("opsgenie.connection.socketSendBufferSizeHint", -1));
         }
-        clientConfiguration.setSocketTimeout(socketTimeout);
-        clientConfiguration.setConnectionTimeout(connectionTimeout);
-        clientConfiguration.setMaxConnections(maxConnectionCount);
         opsGenieHttpClient = new OpsGenieHttpClient(clientConfiguration);
         opsGenieClient = new OpsGenieClient(opsGenieHttpClient);
         opsGenieClient.setRootUri(getOpsgenieApiUrl());
