@@ -30,7 +30,7 @@ public class ScriptBridgeUtils {
                 elements.add(String.valueOf(Array.get(result, i)));
             }
         }
-        if(result instanceof Collection){
+        else if(result instanceof Collection){
             for(Object collElement:(Collection)result){
                 if(collElement == null){
                     elements.add(null);
