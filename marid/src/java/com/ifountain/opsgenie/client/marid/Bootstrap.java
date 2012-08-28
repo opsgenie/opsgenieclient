@@ -1,22 +1,18 @@
 package com.ifountain.opsgenie.client.marid;
 
-import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
-import com.ifountain.opsgenie.client.marid.alert.AlertActionExecutor;
+import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener;
 import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
 import com.ifountain.opsgenie.client.marid.http.HttpController;
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
 import com.ifountain.opsgenie.client.marid.http.HttpServer;
 import com.ifountain.opsgenie.client.script.ScriptManager;
-import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -121,13 +117,13 @@ public class Bootstrap {
     private void initializeAlertActionExecutor() {
         boolean executeAlertActions = MaridConfig.getInstance().getBoolean("execute.alert.actions", false);
         if (executeAlertActions) {
-            logger.warn(getLogPrefix()+"Initializing AlertActionExecutor");
+            logger.warn(getLogPrefix()+"Initializing PubnubAlertActionListener");
             PubnubChannelParameters params = new PubnubChannelParameters();
             params.setChannel(MaridConfig.getInstance().getProperty("pubnub.channel", ""));
             params.setSubscribeKey(MaridConfig.getInstance().getProperty("pubnub.subscribekey", ""));
             params.setCipherKey(MaridConfig.getInstance().getCustomerKey());
             params.setSslOn(MaridConfig.getInstance().getBoolean("pubnub.ssl.enabled", true));
-            AlertActionExecutor.getInstance().initialize(params);
+            PubnubAlertActionListener.getInstance().initialize(params);
         }
     }
 
@@ -209,8 +205,8 @@ public class Bootstrap {
     }
 
     private void destroyAlertActionExecutor() {
-        logger.warn(getLogPrefix()+"Destroying AlertActionExecutor");
-        AlertActionExecutor.destroyInstance();
+        logger.warn(getLogPrefix()+"Destroying PubnubAlertActionListener");
+        PubnubAlertActionListener.destroyInstance();
     }
 
     private void destroyScripting() {

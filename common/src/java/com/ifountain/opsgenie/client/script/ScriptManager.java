@@ -53,7 +53,7 @@ public class ScriptManager {
             throw new Exception("Script [" + scriptPath + "] does not exist.");
         }
         Logger logger = Logger.getLogger("script." + scriptPath);
-        bindings.put("logger", logger);
+        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_LOGGER, logger);
         String lang = BSFManager.getLangFromFilename(scriptFile.getName());
         FileReader fin = null;
         try {

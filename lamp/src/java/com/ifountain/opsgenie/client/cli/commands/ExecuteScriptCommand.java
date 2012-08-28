@@ -4,6 +4,7 @@ import com.beust.jcommander.*;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.cli.script.LampScriptProxy;
+import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 
 import java.util.HashMap;
@@ -42,9 +43,9 @@ public class ExecuteScriptCommand extends BaseCommand{
         Map<String, Object> confBindings = new HashMap<String, Object>();
         confBindings.put(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
         confBindings.put(OpsGenieClientConstants.API.USER, commonOptions.getUser());
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_CONF, confBindings);
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getCustomerKey(), commonOptions.getUser()));
-        bindings.put(OpsGenieClientConstants.ScriptProxy.BINDING_PARAMS, params);
+        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, confBindings);
+        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getCustomerKey(), commonOptions.getUser()));
+        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, params);
         ScriptManager.getInstance().runScript(script, bindings);
     }
 }

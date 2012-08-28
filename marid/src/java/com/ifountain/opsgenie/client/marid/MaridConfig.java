@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.marid;
 
+import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
@@ -21,7 +22,7 @@ public class MaridConfig {
     private  String customerKey;
     private  String maridKey;
     private  OpsGenieHttpClient opsGenieHttpClient;
-    private  OpsGenieClient opsGenieClient;
+    private  IOpsGenieClient opsGenieClient;
     private Properties configuration;
 
     private static MaridConfig instance = new MaridConfig();
@@ -104,7 +105,7 @@ public class MaridConfig {
         return opsGenieHttpClient;
     }
 
-    public OpsGenieClient getOpsGenieClient() {
+    public IOpsGenieClient getOpsGenieClient() {
         return opsGenieClient;
     }
 
@@ -143,7 +144,7 @@ public class MaridConfig {
         this.opsGenieHttpClient = opsGenieHttpClient;
     }
 
-    public void setOpsGenieClient(OpsGenieClient opsGenieClient) {
+    public void setOpsGenieClient(IOpsGenieClient opsGenieClient) {
         this.opsGenieClient = opsGenieClient;
     }
 

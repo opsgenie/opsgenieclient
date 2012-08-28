@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.marid.http;
 
+import com.ifountain.opsgenie.client.marid.http.action.AlertAction;
 import com.ifountain.opsgenie.client.marid.http.action.ScriptAction;
 import com.ifountain.opsgenie.client.marid.http.util.PathTrie;
 import org.jboss.netty.handler.codec.http.HttpMethod;
@@ -99,6 +100,7 @@ public class HttpController {
 
     public static void registerActions() throws Exception {
         new ScriptAction().register();
+        new AlertAction().register();
     }
 
     private static class CaseInsensitiveDecoder implements PathTrie.Decoder{
