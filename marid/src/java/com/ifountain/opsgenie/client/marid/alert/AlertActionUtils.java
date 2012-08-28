@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.marid.alert;
 import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.script.ScriptManager;
+import com.ifountain.opsgenie.client.script.util.ScriptProxy;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ public class AlertActionUtils {
                 maridConfProps.putAll(MaridConfig.getInstance().getConfiguration());
             }
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, maridConfProps);
-            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, MaridConfig.getInstance().getOpsGenieClient());
+            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getOpsGenieClient(), MaridConfig.getInstance().getCustomerKey()));
             ScriptManager.getInstance().runScript(scriptFile.getName(), bindings);
         } else {
             throw new Exception("No script file found for action [" + actionBean.action + "]");

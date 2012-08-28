@@ -34,14 +34,14 @@ public class OpsGenieCommandLine {
 
     public boolean run(String... args) {
         loadLogConfiguration();
-        Properties config = loadConfiguration();
+        loadConfiguration();
         try {
-            configureScriptingManager(config);
+            configureScriptingManager();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        IOpsGenieClient opsGenieClient = configureClient(config);
+        IOpsGenieClient opsGenieClient = configureClient();
         try{
             JCommander commander = new JCommander();
             commander.setProgramName(TOOL_NAME);
@@ -64,11 +64,11 @@ public class OpsGenieCommandLine {
                 helpCommand.printUsage();
                 return false;
             }
-            if (config.containsKey("customerKey")) {
-                command.setCustomerKey((String) config.get("customerKey"));
+            if (LampConfig.getInstance().getConfiguration().containsKey("customerKey")) {
+                command.setCustomerKey((String) LampConfig.getInstance().getConfiguration().get("customerKey"));
             }
-            if (config.containsKey("user")) {
-                command.setUser((String) config.get("user"));
+            if (LampConfig.getInstance().getConfiguration().containsKey("user")) {
+                command.setUser((String) LampConfig.getInstance().getConfiguration().get("user"));
             }
             try {
                 command.execute(opsGenieClient);
@@ -84,22 +84,23 @@ public class OpsGenieCommandLine {
             return true;
         }finally {
             opsGenieClient.close();
+            LampConfig.destroyInstance();
         }
     }
 
-    private void configureScriptingManager(Properties configProps) throws Exception {
+    private void configureScriptingManager() throws Exception {
         ScriptManager.getInstance().initialize(getBaseDirectory()+"/scripts");
-        String engineNamesStr = configProps.getProperty("script.engines", "").trim();
+        String engineNamesStr = LampConfig.getInstance().getConfiguration().getProperty("script.engines", "").trim();
         if(engineNamesStr.length() != 0){
             String[] engineNames = engineNamesStr.split(",");
             for(String engineName:engineNames){
                 String classPropName = "script.engine." + engineName + ".class";
-                String className = configProps.getProperty(classPropName);
+                String className = LampConfig.getInstance().getConfiguration().getProperty(classPropName);
                 if(className == null){
                     throw new Exception("Script engine should be configured properly. Missing ["+classPropName+"]");
                 }
                 String extensionsPropName = "script.engine." + engineName + ".extensions";
-                String extensionsStr = configProps.getProperty(extensionsPropName);
+                String extensionsStr = LampConfig.getInstance().getConfiguration().getProperty(extensionsPropName);
                 if(extensionsStr == null){
                     throw new Exception("Script engine should be configured properly. Missing ["+extensionsPropName+"]");
                 }
@@ -110,39 +111,39 @@ public class OpsGenieCommandLine {
         }
     }
 
-    private IOpsGenieClient configureClient(Properties config) {
+    private IOpsGenieClient configureClient() {
         ClientConfiguration clientConfig = new ClientConfiguration();
-        if (config.containsKey("proxyHost")) {
-            clientConfig.setProxyHost(config.getProperty("proxyHost"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyHost")) {
+            clientConfig.setProxyHost(LampConfig.getInstance().getConfiguration().getProperty("proxyHost"));
         }
-        if (config.containsKey("proxyPort")) {
-            clientConfig.setProxyPort(Integer.parseInt(config.getProperty("proxyPort")));
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyPort")) {
+            clientConfig.setProxyPort(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("proxyPort")));
         }
-        if (config.containsKey("proxyUsername")) {
-            clientConfig.setProxyUsername(config.getProperty("proxyUsername"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyUsername")) {
+            clientConfig.setProxyUsername(LampConfig.getInstance().getConfiguration().getProperty("proxyUsername"));
         }
-        if (config.containsKey("proxyPassword")) {
-            clientConfig.setProxyPassword(config.getProperty("proxyPassword"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyPassword")) {
+            clientConfig.setProxyPassword(LampConfig.getInstance().getConfiguration().getProperty("proxyPassword"));
         }
-        if (config.containsKey("proxyDomain")) {
-            clientConfig.setProxyDomain(config.getProperty("proxyDomain"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyDomain")) {
+            clientConfig.setProxyDomain(LampConfig.getInstance().getConfiguration().getProperty("proxyDomain"));
         }
-        if (config.containsKey("proxyWorkstation")) {
-            clientConfig.setProxyWorkstation(config.getProperty("proxyWorkstation"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyWorkstation")) {
+            clientConfig.setProxyWorkstation(LampConfig.getInstance().getConfiguration().getProperty("proxyWorkstation"));
         }
-        clientConfig.setSocketTimeout(Integer.parseInt(config.getProperty("socketTimeout", "30"))*1000);
-        clientConfig.setConnectionTimeout(Integer.parseInt(config.getProperty("connectionTimeout", "30"))*1000);
-        clientConfig.setMaxConnections(Integer.parseInt(config.getProperty("maxConnectionCount", "50")));
-        if(config.getProperty("socketReceiveBufferSizeHint") != null){
-            clientConfig.setSocketReceiveBufferSizeHint(Integer.parseInt(config.getProperty("socketReceiveBufferSizeHint")));
+        clientConfig.setSocketTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketTimeout", "30"))*1000);
+        clientConfig.setConnectionTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("connectionTimeout", "30"))*1000);
+        clientConfig.setMaxConnections(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("maxConnectionCount", "50")));
+        if(LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint") != null){
+            clientConfig.setSocketReceiveBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint")));
         }
-        if(config.getProperty("socketSendBufferSizeHint") != null){
-            clientConfig.setSocketSendBufferSizeHint(Integer.parseInt(config.getProperty("socketSendBufferSizeHint")));
+        if(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint") != null){
+            clientConfig.setSocketSendBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint")));
         }
 
         IOpsGenieClient opsGenieClient = createOpsGenieClient(clientConfig);
-        if (config.containsKey("opsgenie.api.uri")) {
-            opsGenieClient.setRootUri(config.getProperty("opsgenie.api.uri"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("opsgenie.api.uri")) {
+            opsGenieClient.setRootUri(LampConfig.getInstance().getConfiguration().getProperty("opsgenie.api.uri"));
         }
         return opsGenieClient;
     }
@@ -160,21 +161,9 @@ public class OpsGenieCommandLine {
         }
     }
 
-    private Properties loadConfiguration() {
-        Properties config = new Properties();
+    private void loadConfiguration() {
         File confDir = new File(getBaseDirectory(), "conf");
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(new File(confDir, "lamp.conf"));
-            config.load(in);
-        } catch (Exception ignored) {
-        } finally {
-            try {
-                if (in != null) in.close();
-            } catch (IOException ignored) {
-            }
-        }
-        return config;
+        LampConfig.getInstance().init(new File(confDir, "lamp.conf").getPath());
     }
 
     private void addCommands(JCommander commander) {

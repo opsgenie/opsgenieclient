@@ -3,12 +3,14 @@ package com.ifountain.opsgenie.client.cli.commands;
 import com.beust.jcommander.*;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.cli.LampConfig;
 import com.ifountain.opsgenie.client.cli.script.LampScriptProxy;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Parameters(commandDescription = "Executes a script on lamp.")
 public class ExecuteScriptCommand extends BaseCommand{
@@ -40,9 +42,14 @@ public class ExecuteScriptCommand extends BaseCommand{
 
     public static void executeScript(String script, IOpsGenieClient opsgenieClient, CommonCommandOptions commonOptions, Map params) throws Exception {
         Map<String, Object> bindings = new HashMap<String, Object>();
-        Map<String, Object> confBindings = new HashMap<String, Object>();
-        confBindings.put(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
-        confBindings.put(OpsGenieClientConstants.API.USER, commonOptions.getUser());
+        Properties confBindings = new Properties();
+        confBindings.putAll(LampConfig.getInstance().getConfiguration());
+        if(commonOptions.getCustomerKey() != null){
+            confBindings.setProperty(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
+        }
+        if(commonOptions.getUser() != null){
+            confBindings.setProperty(OpsGenieClientConstants.API.USER, commonOptions.getUser());
+        }
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, confBindings);
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getCustomerKey(), commonOptions.getUser()));
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, params);
