@@ -142,8 +142,8 @@ public class OpsGenieCommandLine {
         }
 
         IOpsGenieClient opsGenieClient = createOpsGenieClient(clientConfig);
-        if (LampConfig.getInstance().getConfiguration().containsKey("opsgenie.api.uri")) {
-            opsGenieClient.setRootUri(LampConfig.getInstance().getConfiguration().getProperty("opsgenie.api.uri"));
+        if (LampConfig.getInstance().getConfiguration().containsKey("opsgenie.api.url")) {
+            opsGenieClient.setRootUri(LampConfig.getInstance().getConfiguration().getProperty("opsgenie.api.url"));
         }
         return opsGenieClient;
     }

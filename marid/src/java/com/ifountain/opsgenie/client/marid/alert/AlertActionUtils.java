@@ -41,10 +41,11 @@ public class AlertActionUtils {
     }
 
     public static File getScriptFile(String action) {
-        String fileName = MaridConfig.getInstance().getProperty("actions."+action+".script");
+        String safeFileName = action.replaceAll("\\W", "");
+        String fileName = MaridConfig.getInstance().getProperty("actions."+safeFileName+".script");
         File scriptsDirectory = ScriptManager.getInstance().getScriptsDirectory();
         if(fileName == null){
-            fileName = action.replaceAll("\\W", "");
+            fileName = safeFileName;
             File[] files = scriptsDirectory.listFiles();
             if (files != null) {
                 for (File file : files) {
