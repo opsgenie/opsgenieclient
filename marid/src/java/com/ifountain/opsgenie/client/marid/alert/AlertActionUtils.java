@@ -41,16 +41,26 @@ public class AlertActionUtils {
     }
 
     public static File getScriptFile(String action) {
-        String fileName = action.replaceAll("\\s", "");
+        String fileName = MaridConfig.getInstance().getProperty("actions."+action+".script");
         File scriptsDirectory = ScriptManager.getInstance().getScriptsDirectory();
-        File[] files = scriptsDirectory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (StringUtils.substringBeforeLast(file.getName(), ".").equalsIgnoreCase(fileName)) {
-                    return file;
+        if(fileName == null){
+            fileName = action.replaceAll("\\W", "");
+            File[] files = scriptsDirectory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (StringUtils.substringBeforeLast(file.getName(), ".").equalsIgnoreCase(fileName)) {
+                        return file;
+                    }
                 }
             }
         }
+        else{
+            File scriptFile = new File(scriptsDirectory, fileName);
+            if(scriptFile.exists()){
+                return scriptFile;
+            }
+        }
+
         return null;
     }
 

@@ -26,8 +26,8 @@ public abstract class AbstractMaridKeyAction  implements RequestAction {
         } catch (Throwable t) {
             Map<String, Object> res = new HashMap<String, Object>();
             res.put("success", false);
-            res.put("error", ActionUtils.detailedMessage(t));
-            return ActionUtils.createResponseAsJson(res, HttpResponseStatus.INTERNAL_SERVER_ERROR);
+            res.put("error", HttpActionUtils.detailedMessage(t));
+            return HttpActionUtils.createResponseAsJson(res, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

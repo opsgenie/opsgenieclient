@@ -16,7 +16,7 @@ import org.jboss.netty.handler.codec.http.HttpMethod;
 public class AlertAction extends AbstractMaridKeyAction{
     @Override
     public HTTPResponse doExecute(HTTPRequest request) throws Exception {
-        HTTPResponse response = ActionUtils.createDefaultHttpResponse();
+        HTTPResponse response = HttpActionUtils.createDefaultHttpResponse();
         String jsonContent = request.getContent();
         AlertActionUtils.AlertActionBean bean = AlertActionUtils.AlertActionBean.createAlertAction(jsonContent);
         AlertActionUtils.executeActionScript(bean);

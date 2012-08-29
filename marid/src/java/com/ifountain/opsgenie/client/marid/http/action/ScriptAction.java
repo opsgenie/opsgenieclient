@@ -4,15 +4,11 @@ import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ifountain.opsgenie.client.marid.http.HTTPRequest;
 import com.ifountain.opsgenie.client.marid.http.HTTPResponse;
 import com.ifountain.opsgenie.client.marid.http.HttpController;
-import com.ifountain.opsgenie.client.marid.http.RequestAction;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.script.util.ScriptProxy;
-import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.jboss.netty.handler.codec.http.HttpMethod;
-import org.jboss.netty.handler.codec.http.HttpResponseStatus;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -28,7 +24,7 @@ public class ScriptAction extends AbstractMaridKeyAction{
 
     @Override
     public HTTPResponse doExecute(HTTPRequest request) throws Exception {
-        HTTPResponse response = ActionUtils.createDefaultHttpResponse();
+        HTTPResponse response = HttpActionUtils.createDefaultHttpResponse();
         String script = request.getParameter(OpsgenieClientApplicationConstants.Marid.SCRIPT_NAME_PARAMETER);
         Map<String, Object> params = new HashMap<String, Object>();
         params.putAll(request.getParameters());

@@ -15,7 +15,7 @@ import java.util.Map;
  * Time: 9:13 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ActionUtils {
+public class HttpActionUtils {
     public static HTTPResponse createDefaultHttpResponse() {
         Map<String, Object> res = new HashMap<String, Object>();
         res.put("success", true);
