@@ -158,8 +158,8 @@ public class Bootstrap {
             int threadPoolSize = MaridConfig.getInstance().getInt(prefix+".server.threadpool.size", 100);
             int idleConnectionTimeout = MaridConfig.getInstance().getInt(prefix+".server.idle.connection.timeout", 60);
             if(isHttps){
-                String keystore = MaridConfig.getInstance().getMandatoryProperty(prefix+".server.keystore");
-                String keyPassword = MaridConfig.getInstance().getMandatoryProperty(prefix+".server.keyPassword");
+                String keystore = MaridConfig.getInstance().getProperty(prefix+".server.keystore", getConfigurationDirectoryPath()+"/.keystore");
+                String keyPassword = MaridConfig.getInstance().getProperty(prefix+".server.keyPassword", "123456");
                 httpServer = new HttpServer(host, port, keystore, keyPassword);
             }
             else{
