@@ -44,6 +44,10 @@ public class HTTPResponse {
         }
     }
 
+    public void setContent(String content) {
+        this.setContent(content.getBytes());
+    }
+
     public int getContentLength() {
         return contentLength;
     }
