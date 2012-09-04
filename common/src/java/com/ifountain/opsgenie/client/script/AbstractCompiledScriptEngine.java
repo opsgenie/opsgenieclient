@@ -23,7 +23,7 @@ public abstract class AbstractCompiledScriptEngine implements CompiledScriptEngi
     @Override
     public void runScript(File scriptFile, Map<String, Object> bindings) throws Exception {
         ScriptBean script = scripts.get(scriptFile.getName());
-        if (script == null || script.getLastModified() < scriptFile.lastModified()) {
+        if (script == null || script.getLastModified() != scriptFile.lastModified()) {
             script = compileScript(scriptFile);
             scripts.put(scriptFile.getName(), script);
         }
