@@ -48,7 +48,7 @@ public class ScriptAction extends AbstractMaridKeyAction{
                 httpResponse.setContentType(scriptResponseVariable.contentType);
             }
             else{
-                httpResponse.setContentType("application/json; charset=UTF-8");
+                httpResponse.setContentType("text/html; charset=UTF-8");
             }
         }
         if(scriptResponseVariable.status != -1){
