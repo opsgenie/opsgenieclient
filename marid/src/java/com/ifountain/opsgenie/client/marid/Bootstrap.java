@@ -81,7 +81,7 @@ public class Bootstrap {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("customerKey", MaridConfig.getInstance().getCustomerKey());
         try {
-            OpsGenieHttpResponse response = httpClient.get(MaridConfig.getInstance().getOpsgenieUrl() + "/customer/getMaridSettings", parameters);
+            OpsGenieHttpResponse response = httpClient.get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
                 Map maridSettings = JsonUtils.parse(response.getContent());
                 MaridConfig.getInstance().putAll(maridSettings);

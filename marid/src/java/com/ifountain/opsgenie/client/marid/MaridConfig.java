@@ -17,7 +17,6 @@ import java.util.Properties;
  * @version 8/9/12 2:44 PM
  */
 public class MaridConfig {
-    private  String opsgenieUrl;
     private  String opsgenieApiUrl;
     private  String customerKey;
     private  String maridKey;
@@ -62,7 +61,6 @@ public class MaridConfig {
         } else {
             throw new FileNotFoundException("Configuration file " + configurationPath + " does not exist");
         }
-        opsgenieUrl = configuration.getProperty("opsgenie.url", "https://opsgenie.com");
         opsgenieApiUrl = configuration.getProperty("opsgenie.api.url", "https://api.opsgenie.com");
         customerKey = configuration.getProperty("customerKey");
         maridKey = configuration.getProperty("maridKey");
@@ -83,10 +81,6 @@ public class MaridConfig {
         opsGenieHttpClient = new OpsGenieHttpClient(clientConfiguration);
         opsGenieClient = new OpsGenieClient(opsGenieHttpClient);
         opsGenieClient.setRootUri(getOpsgenieApiUrl());
-    }
-
-    public String getOpsgenieUrl() {
-        return opsgenieUrl;
     }
 
     public String getOpsgenieApiUrl() {
@@ -122,10 +116,6 @@ public class MaridConfig {
             return configuration.getProperty(key);
         }
         throw new RuntimeException("Not initialized");
-    }
-
-    public void setOpsgenieUrl(String opsgenieUrl) {
-        this.opsgenieUrl = opsgenieUrl;
     }
 
     public void setOpsgenieApiUrl(String opsgenieApiUrl) {
