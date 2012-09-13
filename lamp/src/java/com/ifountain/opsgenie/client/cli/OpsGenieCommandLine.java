@@ -6,12 +6,14 @@ import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.script.ScriptManager;
+import com.ifountain.opsgenie.client.util.ManifestUtils;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -140,7 +142,7 @@ public class OpsGenieCommandLine {
         if(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint") != null){
             clientConfig.setSocketSendBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint")));
         }
-
+        clientConfig.setUserAgent(ClientConfiguration.createUserAgentFromManifest(OpsGenieCommandLine.class));
         IOpsGenieClient opsGenieClient = createOpsGenieClient(clientConfig);
         if (LampConfig.getInstance().getConfiguration().containsKey("opsgenie.api.url")) {
             opsGenieClient.setRootUri(LampConfig.getInstance().getConfiguration().getProperty("opsgenie.api.url"));
@@ -194,6 +196,10 @@ public class OpsGenieCommandLine {
         HeartbeatCommand heartbeatCommand = new HeartbeatCommand(commander);
         commands.put(heartbeatCommand.getName(), heartbeatCommand);
         commander.addCommand(heartbeatCommand.getName(), heartbeatCommand);
+
+        VersionCommand versionCommand = new VersionCommand();
+        commands.put(versionCommand.getName(), versionCommand);
+        commander.addCommand(versionCommand.getName(), versionCommand);
 
         GetAlertCommand getAlertCommand = new GetAlertCommand(commander);
         commands.put(getAlertCommand.getName(), getAlertCommand);

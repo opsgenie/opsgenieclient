@@ -3,6 +3,10 @@ package com.ifountain.opsgenie.client.util;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.Manifest;
+
 /**
  * Client configuration options such as proxy settings, user agent string, max retry attempts, etc.
  *
@@ -32,6 +36,13 @@ public class ClientConfiguration {
      */
     public String getUserAgent() {
         return userAgent;
+    }
+
+    /**
+     * Sets the HTTP user agent header
+     */
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
     }
 
     /**
@@ -204,22 +215,34 @@ public class ClientConfiguration {
 
     private static String initializeUserAgent() {
         if (staticUserAgent == null) {
-            StringBuilder buffer = new StringBuilder(1024);
-            buffer.append("opsgenie-sdk-java/1.0");
-            buffer.append(" ");
-            buffer.append(System.getProperty("os.name").replace(' ', '_')).append("/").append(System.getProperty("os.version").replace(' ', '_'));
-            buffer.append(" ");
-            buffer.append(System.getProperty("java.vm.name").replace(' ', '_')).append("/").append(System.getProperty("java.vm.version").replace(' ', '_'));
-
-            String region = "";
-            try {
-                region = " " + System.getProperty("user.language").replace(' ', '_') + "_" + System.getProperty("user.region").replace(' ', '_');
-            } catch (Exception ignored) {
-            }
-            buffer.append(region);
-            staticUserAgent = buffer.toString();
+            staticUserAgent = createUserAgentFromManifest(ClientConfiguration.class);
         }
         return staticUserAgent;
+    }
+    
+    public static String createUserAgentFromManifest(Class manifestFileClass){
+        Manifest manifest = ManifestUtils.loadManifest(manifestFileClass);
+        Object sdkVersion = manifest.getMainAttributes().getValue("Implementation-Version");
+        Object sdkProductName = manifest.getMainAttributes().getValue("Implementation-Product");
+        if(sdkVersion == null) sdkVersion = "1.0";
+        if(sdkProductName == null) sdkProductName = "opsgenie-sdk-java";
+        return createUserAgent(String.valueOf(sdkProductName), String.valueOf(sdkVersion));
+    }
+    public static String createUserAgent(String agentName, String agentVersion){
+        StringBuilder buffer = new StringBuilder(1024);
+        buffer.append(agentName).append("/").append(agentVersion);
+        buffer.append(" (");
+        buffer.append(System.getProperty("os.name")).append(" ").append(System.getProperty("os.version"));
+        buffer.append("; ");
+        buffer.append(System.getProperty("java.vm.name")).append(" ").append(System.getProperty("java.vm.version"));
+        if(System.getProperty("user.language") != null){
+            buffer.append("; ").append(System.getProperty("user.language"));
+        }
+        if(System.getProperty("user.region") != null){
+            buffer.append("; ").append(System.getProperty("user.region"));
+        }
+        buffer.append(")");
+        return buffer.toString();
     }
 
 

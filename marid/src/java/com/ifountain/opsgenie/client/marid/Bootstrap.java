@@ -9,12 +9,14 @@ import com.ifountain.opsgenie.client.marid.http.HttpProxy;
 import com.ifountain.opsgenie.client.marid.http.HttpServer;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.opsgenie.client.util.ManifestUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.jar.Manifest;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -67,6 +69,7 @@ public class Bootstrap {
 
     protected void initialize() throws Exception {
         configureLogger();
+        printVersion();
         loadConfiguration();
         getMaridSettings();
         initializeScripting();
@@ -77,11 +80,10 @@ public class Bootstrap {
 
     private void getMaridSettings() throws Exception {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
-        OpsGenieHttpClient httpClient = new OpsGenieHttpClient();
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("customerKey", MaridConfig.getInstance().getCustomerKey());
         try {
-            OpsGenieHttpResponse response = httpClient.get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
+            OpsGenieHttpResponse response = MaridConfig.getInstance().getOpsGenieHttpClient().get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
                 Map maridSettings = JsonUtils.parse(response.getContent());
                 MaridConfig.getInstance().putAll(maridSettings);
@@ -127,6 +129,14 @@ public class Bootstrap {
         }
     }
 
+    private void printVersion(){
+        Manifest maridManifest = ManifestUtils.loadManifest(Bootstrap.class);
+        String version = maridManifest.getMainAttributes().getValue("Implementation-Version");
+        if(version == null){
+            version = "UNKNOWN";
+        }
+        logger.warn(getLogPrefix()+"Marid Version:"+ version);
+    }
     private void loadConfiguration() throws Exception {
         logger.debug(getLogPrefix() + "Loading configuration.");
         String configurationPath = getConfigurationPath();
