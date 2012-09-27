@@ -133,6 +133,9 @@ public class OpsGenieCommandLine {
         if (LampConfig.getInstance().getConfiguration().containsKey("proxyWorkstation")) {
             clientConfig.setProxyWorkstation(LampConfig.getInstance().getConfiguration().getProperty("proxyWorkstation"));
         }
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyProtocol")) {
+            clientConfig.setProxyProtocol(LampConfig.getInstance().getConfiguration().getProperty("proxyProtocol"));
+        }
         clientConfig.setSocketTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketTimeout", "30"))*1000);
         clientConfig.setConnectionTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("connectionTimeout", "30"))*1000);
         clientConfig.setMaxConnections(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("maxConnectionCount", "50")));

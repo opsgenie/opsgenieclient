@@ -2,13 +2,15 @@ package com.ifountain.opsgenie.client.marid.alert;
 
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.marid.MaridConfig;
+import com.ning.http.client.AsyncHttpClientConfig;
+import com.ning.http.client.ProxyServer;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import pubnub.Callback;
-import pubnub.Pubnub;
+import pubnub.api.Callback;
+import pubnub.api.Pubnub;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class PubnubAlertActionListener {
     private PubnubChannelParameters pubnubChannelParameters;
     private Thread pubnubSubscribeThread;
     private boolean isSubscribed = false;
+    private StringBuffer lastErrorMessage = new StringBuffer();
 
     public static PubnubAlertActionListener getInstance() {
         if (pubnubAlertActionListener == null) {
@@ -52,11 +55,32 @@ public class PubnubAlertActionListener {
     private void subscribeToOpsGenie(final PubnubChannelParameters params) {
         logger.debug(getLogPrefix() + "Subscribing to OpsGenie.");
         this.pubnubChannelParameters = params;
-        pubnub = new Pubnub(params.getPublishKey(), params.getSubscribeKey(), params.getSecretKey(), params.getCipherKey(), params.isSslOn());
+        pubnub = new Pubnub(params.getPublishKey(), params.getSubscribeKey(), params.getSecretKey(), params.getCipherKey(), params.isSslOn()){
+            @Override
+            protected AsyncHttpClientConfig.Builder createHttpClientBuilder() {
+                AsyncHttpClientConfig.Builder builder = super.createHttpClientBuilder();
+                if(params.isProxyEnabled()){
+                    ProxyServer proxyServer;
+                    if(params.getProxyProtocol() == null){
+                        proxyServer = new ProxyServer(params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
+                    }
+                    else{
+                        proxyServer = new ProxyServer(ProxyServer.Protocol.valueOf(params.getProxyProtocol()), params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
+                    }
+                    builder.setProxyServer(proxyServer);
+                }
+                return builder;
+            }
+        };
         pubnubSubscribeThread = new Thread() {
             @Override
             public void run() {
                 pubnub.subscribe(params.getChannel(), new Callback() {
+                    @Override
+                    public boolean presenceCallback(String s, Object o) {
+                        return false;
+                    }
+
                     @Override
                     public boolean subscribeCallback(String s, Object o) {
                         processMessage(o);
@@ -66,6 +90,8 @@ public class PubnubAlertActionListener {
                     @Override
                     public void errorCallback(String channel, Object message) {
                         logger.warn(getLogPrefix() + "Error occurred on channel [" + channel + "]: " + message.toString());
+                        lastErrorMessage.delete(0, lastErrorMessage.length());
+                        lastErrorMessage.append(message);
                     }
 
                     @Override
@@ -89,6 +115,11 @@ public class PubnubAlertActionListener {
         };
         pubnubSubscribeThread.start();
     }
+
+    public String getLastErrorMessage() {
+        return lastErrorMessage.toString();
+    }
+
 
     protected void processMessage(Object message) {
         if (message instanceof JSONObject) {

@@ -27,13 +27,24 @@ public class ClientConfiguration {
     private String proxyPassword = null;
     private String proxyDomain = null;
     private String proxyWorkstation = null;
+    private String proxyProtocol = null;
 
     private String userAgent = initializeUserAgent();
     private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
 
+    public String getProxyProtocol() {
+        return proxyProtocol;
+    }
+
+    public void setProxyProtocol(String proxyProtocol) {
+        this.proxyProtocol = proxyProtocol;
+    }
+
     /**
      * Returns the HTTP user agent header to send with all requests.
      */
+
+
     public String getUserAgent() {
         return userAgent;
     }

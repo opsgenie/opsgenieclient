@@ -125,6 +125,14 @@ public class Bootstrap {
             params.setSubscribeKey(MaridConfig.getInstance().getProperty("pubnub.subscribekey", ""));
             params.setCipherKey(MaridConfig.getInstance().getCustomerKey());
             params.setSslOn(MaridConfig.getInstance().getBoolean("pubnub.ssl.enabled", true));
+            boolean isProxyEnabled = MaridConfig.getInstance().getBoolean("http.proxy.enabled", false);
+            if(isProxyEnabled){
+                params.setProxyEnabled(isProxyEnabled);
+                params.setProxyHost(MaridConfig.getInstance().getProperty("http.proxy.host"));
+                params.setProxyPort(MaridConfig.getInstance().getInt("http.proxy.port", 12222));
+                params.setProxyUsername(MaridConfig.getInstance().getProperty("http.proxy.username"));
+                params.setProxyPassword(MaridConfig.getInstance().getProperty("http.proxy.password"));
+            }
             PubnubAlertActionListener.getInstance().initialize(params);
         }
     }
@@ -145,13 +153,13 @@ public class Bootstrap {
     }
 
     private void startHttpProxy() {
-        boolean proxyEnabled = MaridConfig.getInstance().getBoolean("http.proxy.enabled", false);
+        boolean proxyEnabled = MaridConfig.getInstance().getBoolean("http.proxy.server.enabled", false);
         if (proxyEnabled) {
             logger.warn(getLogPrefix()+"Starting proxy server");
-            int port = MaridConfig.getInstance().getInt("http.proxy.port", 11111);
-            String host = MaridConfig.getInstance().getProperty("http.proxy.host", "127.0.0.1");
-            String username = MaridConfig.getInstance().getProperty("http.proxy.username");
-            String password = MaridConfig.getInstance().getProperty("http.proxy.password");
+            int port = MaridConfig.getInstance().getInt("http.proxy.server.port", 11111);
+            String host = MaridConfig.getInstance().getProperty("http.proxy.server.host", "127.0.0.1");
+            String username = MaridConfig.getInstance().getProperty("http.proxy.server.username");
+            String password = MaridConfig.getInstance().getProperty("http.proxy.server.password");
             proxy = new HttpProxy(host, port, username, password);
             proxy.start();
         }

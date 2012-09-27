@@ -213,7 +213,13 @@ public class OpsGenieHttpClient {
         String proxyHost = config.getProxyHost();
         int proxyPort = config.getProxyPort();
         if ((proxyHost != null) && (proxyPort > 0)) {
-            HttpHost proxyHttpHost = new HttpHost(proxyHost, proxyPort);
+            HttpHost proxyHttpHost;
+            if(config.getProxyProtocol() == null){
+                proxyHttpHost = new HttpHost(proxyHost, proxyPort);
+            }
+            else{
+                proxyHttpHost = new HttpHost(proxyHost, proxyPort, config.getProxyProtocol());
+            }
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHttpHost);
             String proxyUsername = config.getProxyUsername();
             String proxyPassword = config.getProxyPassword();

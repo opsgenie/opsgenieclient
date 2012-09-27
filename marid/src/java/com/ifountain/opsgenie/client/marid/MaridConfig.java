@@ -72,6 +72,14 @@ public class MaridConfig {
         clientConfiguration.setSocketTimeout(getInt("opsgenie.connection.sockettimeout", 30)*1000);
         clientConfiguration.setConnectionTimeout(getInt("opsgenie.connection.timeout", 30)*1000);
         clientConfiguration.setMaxConnections(getInt("opsgenie.connection.maxConnectionCount", 50));
+        if(getBoolean("http.proxy.enabled", false)){
+            clientConfiguration.setProxyHost(getProperty("http.proxy.host"));
+            clientConfiguration.setProxyPort(getInt("http.proxy.port", 0));
+            clientConfiguration.setProxyUsername(getProperty("http.proxy.username"));
+            clientConfiguration.setProxyPassword(getProperty("http.proxy.password"));
+            clientConfiguration.setProxyProtocol(getProperty("http.proxy.protocol"));
+        }
+
         clientConfiguration.setUserAgent(ClientConfiguration.createUserAgentFromManifest(MaridConfig.class));
         if(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null){
             clientConfiguration.setSocketReceiveBufferSizeHint(getInt("opsgenie.connection.socketReceiveBufferSizeHint", -1));
