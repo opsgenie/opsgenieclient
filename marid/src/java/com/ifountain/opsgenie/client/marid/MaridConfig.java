@@ -59,7 +59,7 @@ public class MaridConfig {
                 in.close();
             }
         } else {
-            throw new FileNotFoundException("trial2 Configuration file " + configurationPath + " does not exist");
+            throw new FileNotFoundException("Configuration file " + configurationPath + " does not exist");
         }
         opsgenieApiUrl = configuration.getProperty("opsgenie.api.url", "https://api.opsgenie.com");
         customerKey = configuration.getProperty("customerKey");
