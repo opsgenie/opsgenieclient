@@ -92,7 +92,7 @@ public class AlertActionUtils {
 
         public static AlertActionBean createAlertAction(Map jsonMessageMap) throws Exception {
             String action = (String) jsonMessageMap.get(ACTION);
-            String alert = (String) jsonMessageMap.get(ALERT);
+            Object alert = jsonMessageMap.get(ALERT);
             try{
                 return createAlertAction(action, alert);
             }
@@ -116,7 +116,7 @@ public class AlertActionUtils {
             }
         }
 
-        public static AlertActionBean createAlertAction(String action, String alert) throws Exception {
+        public static AlertActionBean createAlertAction(String action, Object alert) throws Exception {
             if(action == null){
                 throw new IllegalArgumentException("No action specified.");
             }
@@ -124,8 +124,13 @@ public class AlertActionUtils {
                 throw new IllegalArgumentException("No alert specified.");
             }
             try {
-                Map alertMap = JsonUtils.parse(alert);
-                return new AlertActionBean(action, alertMap);
+                if(alert instanceof Map){
+                    return new AlertActionBean(action, (Map) alert);
+                }
+                else{
+                    return new AlertActionBean(action, JsonUtils.parse(String.valueOf(alert)));
+                }
+                
             } catch (IOException e) {
                 throw new IllegalArgumentException("Could not parse alert content.");
             }
