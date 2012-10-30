@@ -192,6 +192,10 @@ public class OpsGenieCommandLine {
         commands.put(addNoteCommand.getName(), addNoteCommand);
         commander.addCommand(addNoteCommand.getName(), addNoteCommand);
 
+        ExecuteAlertActionCommand executeAlertActionCommand = new ExecuteAlertActionCommand(commander);
+        commands.put(executeAlertActionCommand.getName(), executeAlertActionCommand);
+        commander.addCommand(executeAlertActionCommand.getName(), executeAlertActionCommand);
+
         AttachCommand attachCommand = new AttachCommand(commander);
         commands.put(attachCommand.getName(), attachCommand);
         commander.addCommand(attachCommand.getName(), attachCommand);
