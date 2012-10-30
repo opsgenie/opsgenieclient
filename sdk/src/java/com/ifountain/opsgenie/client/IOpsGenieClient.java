@@ -73,6 +73,16 @@ public interface IOpsGenieClient {
     public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException;
 
     /**
+     * Executes actions on alerts in OpsGenie.
+     *
+     * @param executeAlertActionRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionRequest
+     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionResponse
+     */
+    public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException;
+
+    /**
      * Sends heartbeat messages to OpsGenie. If heartbeat monitoring is enabled and OpsGenie does not get a heartbeat message within 10 minutes,
      * OpsGenie creates an alert to notify the specified people.
      *

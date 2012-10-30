@@ -19,6 +19,7 @@ public interface OpsGenieClientConstants {
         public static final String TAGS = "tags";
         public static final String DETAILS = "details";
         public static final String ACTIONS = "actions";
+        public static final String ACTION = "action";
         public static final String RECIPIENTS = "recipients";
         public static final String STATUS = "status";
         public static final String CREATED_AT = "createdAt";

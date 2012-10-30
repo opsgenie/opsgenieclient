@@ -248,8 +248,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     @Override
     public AttachResponse attach(FileAttachRequest attachRequest) throws OpsGenieClientException, IOException {
-        FileInputStream in = attachRequest.getFile() != null?new FileInputStream(attachRequest.getFile()):null;
-        String fileName = attachRequest.getFile() != null?attachRequest.getFile().getName():null;
+        FileInputStream in = attachRequest.getFile() != null ? new FileInputStream(attachRequest.getFile()) : null;
+        String fileName = attachRequest.getFile() != null ? attachRequest.getFile().getName() : null;
         return _attach(attachRequest, in, fileName);
     }
 
@@ -288,6 +288,33 @@ public class OpsGenieClient implements IOpsGenieClient {
         return response;
     }
 
+    /**
+     * Executes actions on alerts in OpsGenie.
+     *
+     * @param executeAlertActionRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionRequest
+     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionResponse
+     */
+    @Override
+    public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, executeAlertActionRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.ACTION, executeAlertActionRequest.getAction());
+        if (executeAlertActionRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, executeAlertActionRequest.getAlertId());
+        if (executeAlertActionRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, executeAlertActionRequest.getAlias());
+        if (executeAlertActionRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, executeAlertActionRequest.getUser());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + executeAlertActionRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        Map resp = handleResponse(httpResponse);
+        ExecuteAlertActionResponse response = new ExecuteAlertActionResponse();
+        response.setResult((String) resp.get("result"));
+        return response;
+    }
 
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -314,7 +341,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     private byte[] convertInputStreamToByteArray(InputStream in) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         int c = -1;
-        while((c=in.read()) != -1){
+        while ((c = in.read()) != -1) {
             outputStream.write(c);
         }
         outputStream.flush();
