@@ -239,6 +239,82 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * Acknowledges alerts in OpsGenie.
+     *
+     * @param acknowledgeRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AcknowledgeRequest
+     * @see com.ifountain.opsgenie.client.model.AcknowledgeResponse
+     */
+    @Override
+    public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, acknowledgeRequest.getCustomerKey());
+        if (acknowledgeRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, acknowledgeRequest.getAlertId());
+        if (acknowledgeRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, acknowledgeRequest.getAlias());
+        if (acknowledgeRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, acknowledgeRequest.getUser());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + acknowledgeRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        handleResponse(httpResponse);
+        return new AcknowledgeResponse();
+    }
+
+    /**
+     * Takes the ownership of an alert.
+     *
+     * @param takeOwnershipRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.TakeOwnershipRequest
+     * @see com.ifountain.opsgenie.client.model.TakeOwnershipResponse
+     */
+    @Override
+    public TakeOwnershipResponse takeOwnership(TakeOwnershipRequest takeOwnershipRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, takeOwnershipRequest.getCustomerKey());
+        if (takeOwnershipRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, takeOwnershipRequest.getAlertId());
+        if (takeOwnershipRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, takeOwnershipRequest.getAlias());
+        if (takeOwnershipRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, takeOwnershipRequest.getUser());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + takeOwnershipRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        handleResponse(httpResponse);
+        return new TakeOwnershipResponse();
+    }
+
+    /**
+     * Assigns the ownership of an alert to the specified user.
+     *
+     * @param assignRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AssignRequest
+     * @see com.ifountain.opsgenie.client.model.AssignResponse
+     */
+    @Override
+    public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, assignRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.OWNER, assignRequest.getOwner());
+        if (assignRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, assignRequest.getAlertId());
+        if (assignRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, assignRequest.getAlias());
+        if (assignRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, assignRequest.getUser());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + assignRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        handleResponse(httpResponse);
+        return new AssignResponse();
+    }
+
+    /**
      * Attaches files to the alerts in OpsGenie.
      *
      * @param attachRequest Object to construct request parameters.

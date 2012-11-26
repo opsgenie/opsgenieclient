@@ -29,5 +29,6 @@ public interface OpsGenieClientConstants {
         public static final String INDEX_FILE = "indexFile";
         public static final String HELP = "help";
         public static final String USER = "user";
+        public static final String OWNER = "owner";
     }
 }

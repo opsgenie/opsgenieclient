@@ -53,6 +53,36 @@ public interface IOpsGenieClient {
     public AddNoteResponse addNote(AddNoteRequest addNoteRequest) throws OpsGenieClientException, IOException;
 
     /**
+     * Acknowledges alerts in OpsGenie.
+     *
+     * @param acknowledgeRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AcknowledgeRequest
+     * @see com.ifountain.opsgenie.client.model.AcknowledgeResponse
+     */
+    public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException;
+
+    /**
+     * Takes the ownership of an alert.
+     *
+     * @param takeOwnershipRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.TakeOwnershipRequest
+     * @see com.ifountain.opsgenie.client.model.TakeOwnershipResponse
+     */
+    public TakeOwnershipResponse takeOwnership(TakeOwnershipRequest takeOwnershipRequest) throws OpsGenieClientException, IOException;
+
+    /**
+     * Assigns the ownership of an alert to the specified user.
+     *
+     * @param assignRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AssignRequest
+     * @see com.ifountain.opsgenie.client.model.AssignResponse
+     */
+    public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException;
+
+    /**
      * Attaches files to the alerts in OpsGenie.
      *
      * @param attachRequest Object to construct request parameters.
