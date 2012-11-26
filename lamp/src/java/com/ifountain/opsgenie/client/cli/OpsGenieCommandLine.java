@@ -44,7 +44,7 @@ public class OpsGenieCommandLine {
             return false;
         }
         IOpsGenieClient opsGenieClient = configureClient();
-        try{
+        try {
             JCommander commander = new JCommander();
             commander.setProgramName(TOOL_NAME);
             addCommands(commander);
@@ -75,7 +75,7 @@ public class OpsGenieCommandLine {
             try {
                 command.execute(opsGenieClient);
             } catch (Exception e) {
-                logger.warn("Exception occurred while executing command ["+command.getClass().getSimpleName()+"]", e);
+                logger.warn("Exception occurred while executing command [" + command.getClass().getSimpleName() + "]", e);
                 if (e instanceof IOException) {
                     System.out.println(e.getClass().getSimpleName() + "[" + e.getMessage() + "]");
                 } else {
@@ -84,31 +84,31 @@ public class OpsGenieCommandLine {
                 return false;
             }
             return true;
-        }finally {
+        } finally {
             opsGenieClient.close();
             LampConfig.destroyInstance();
         }
     }
 
     private void configureScriptingManager() throws Exception {
-        ScriptManager.getInstance().initialize(getBaseDirectory()+"/scripts");
+        ScriptManager.getInstance().initialize(getBaseDirectory() + "/scripts");
         String engineNamesStr = LampConfig.getInstance().getConfiguration().getProperty("script.engines", "").trim();
-        if(engineNamesStr.length() != 0){
+        if (engineNamesStr.length() != 0) {
             String[] engineNames = engineNamesStr.split(",");
-            for(String engineName:engineNames){
+            for (String engineName : engineNames) {
                 String classPropName = "script.engine." + engineName + ".class";
                 String className = LampConfig.getInstance().getConfiguration().getProperty(classPropName);
-                if(className == null){
-                    throw new Exception("Script engine should be configured properly. Missing ["+classPropName+"]");
+                if (className == null) {
+                    throw new Exception("Script engine should be configured properly. Missing [" + classPropName + "]");
                 }
                 String extensionsPropName = "script.engine." + engineName + ".extensions";
                 String extensionsStr = LampConfig.getInstance().getConfiguration().getProperty(extensionsPropName);
-                if(extensionsStr == null){
-                    throw new Exception("Script engine should be configured properly. Missing ["+extensionsPropName+"]");
+                if (extensionsStr == null) {
+                    throw new Exception("Script engine should be configured properly. Missing [" + extensionsPropName + "]");
                 }
-                String[]extensions = extensionsStr.split(",");
+                String[] extensions = extensionsStr.split(",");
                 ScriptManager.getInstance().registerScriptingLanguage(engineName, className, extensions);
-                
+
             }
         }
     }
@@ -136,13 +136,13 @@ public class OpsGenieCommandLine {
         if (LampConfig.getInstance().getConfiguration().containsKey("proxyProtocol")) {
             clientConfig.setProxyProtocol(LampConfig.getInstance().getConfiguration().getProperty("proxyProtocol"));
         }
-        clientConfig.setSocketTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketTimeout", "30"))*1000);
-        clientConfig.setConnectionTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("connectionTimeout", "30"))*1000);
+        clientConfig.setSocketTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketTimeout", "30")) * 1000);
+        clientConfig.setConnectionTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("connectionTimeout", "30")) * 1000);
         clientConfig.setMaxConnections(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("maxConnectionCount", "50")));
-        if(LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint") != null){
+        if (LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint") != null) {
             clientConfig.setSocketReceiveBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint")));
         }
-        if(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint") != null){
+        if (LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint") != null) {
             clientConfig.setSocketSendBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint")));
         }
         clientConfig.setUserAgent(ClientConfiguration.createUserAgentFromManifest(OpsGenieCommandLine.class));
@@ -155,10 +155,9 @@ public class OpsGenieCommandLine {
 
     private void loadLogConfiguration() {
         File logConfFile = new File(getBaseDirectory(), "conf/log.properties");
-        if(logConfFile.exists()){
+        if (logConfFile.exists()) {
             PropertyConfigurator.configure(logConfFile.getPath());
-        }
-        else{
+        } else {
             org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
             org.apache.log4j.Logger.getLogger("org.apache.http").setLevel(org.apache.log4j.Level.OFF);
             org.apache.log4j.Logger.getLogger("script").setLevel(org.apache.log4j.Level.OFF);
@@ -173,44 +172,24 @@ public class OpsGenieCommandLine {
 
     private void addCommands(JCommander commander) {
         helpCommand = new HelpCommand(commander);
-        commands.put(helpCommand.getName(), helpCommand);
-        commander.addCommand(helpCommand.getName(), helpCommand);
+        addCommand(commander, helpCommand);
+        addCommand(commander, new CreateAlertCommand(commander));
+        addCommand(commander, new ExecuteScriptCommand(commander));
+        addCommand(commander, new CloseAlertCommand(commander));
+        addCommand(commander, new AcknowledgeCommand(commander));
+        addCommand(commander, new TakeOwnershipCommand(commander));
+        addCommand(commander, new AssignCommand(commander));
+        addCommand(commander, new AddNoteCommand(commander));
+        addCommand(commander, new ExecuteAlertActionCommand(commander));
+        addCommand(commander, new AttachCommand(commander));
+        addCommand(commander, new HeartbeatCommand(commander));
+        addCommand(commander, new VersionCommand());
+        addCommand(commander, new GetAlertCommand(commander));
+    }
 
-        CreateAlertCommand createAlertCommand = new CreateAlertCommand(commander);
-        commands.put(createAlertCommand.getName(), createAlertCommand);
-        commander.addCommand(createAlertCommand.getName(), createAlertCommand);
-
-        ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand(commander);
-        commands.put(executeScriptCommand.getName(), executeScriptCommand);
-        commander.addCommand(executeScriptCommand.getName(), executeScriptCommand);
-
-        CloseAlertCommand closeAlertCommand = new CloseAlertCommand(commander);
-        commands.put(closeAlertCommand.getName(), closeAlertCommand);
-        commander.addCommand(closeAlertCommand.getName(), closeAlertCommand);
-
-        AddNoteCommand addNoteCommand = new AddNoteCommand(commander);
-        commands.put(addNoteCommand.getName(), addNoteCommand);
-        commander.addCommand(addNoteCommand.getName(), addNoteCommand);
-
-        ExecuteAlertActionCommand executeAlertActionCommand = new ExecuteAlertActionCommand(commander);
-        commands.put(executeAlertActionCommand.getName(), executeAlertActionCommand);
-        commander.addCommand(executeAlertActionCommand.getName(), executeAlertActionCommand);
-
-        AttachCommand attachCommand = new AttachCommand(commander);
-        commands.put(attachCommand.getName(), attachCommand);
-        commander.addCommand(attachCommand.getName(), attachCommand);
-
-        HeartbeatCommand heartbeatCommand = new HeartbeatCommand(commander);
-        commands.put(heartbeatCommand.getName(), heartbeatCommand);
-        commander.addCommand(heartbeatCommand.getName(), heartbeatCommand);
-
-        VersionCommand versionCommand = new VersionCommand();
-        commands.put(versionCommand.getName(), versionCommand);
-        commander.addCommand(versionCommand.getName(), versionCommand);
-
-        GetAlertCommand getAlertCommand = new GetAlertCommand(commander);
-        commands.put(getAlertCommand.getName(), getAlertCommand);
-        commander.addCommand(getAlertCommand.getName(), getAlertCommand);
+    private void addCommand(JCommander commander, Command command) {
+        commands.put(command.getName(), command);
+        commander.addCommand(command.getName(), command);
     }
 
     public String getBaseDirectory() {
