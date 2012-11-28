@@ -17,7 +17,8 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @version 11/26/12 4:57 PM
  */
-@Parameters(commandDescription = "Assigns the ownership of an alert to the specified user.")
+
+@Parameters(commandDescription = "Acknowledges an alert at OpsGenie.")
 public class AcknowledgeCommand extends BaseCommand{
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
@@ -37,7 +38,7 @@ public class AcknowledgeCommand extends BaseCommand{
 
     @Override
     public String getName() {
-        return "assign";
+        return "acknowledge";
     }
 
     @Override
@@ -47,12 +48,11 @@ public class AcknowledgeCommand extends BaseCommand{
 
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
-        AssignRequest request = new AssignRequest();
+        AcknowledgeRequest request = new AcknowledgeRequest();
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
-        if (owner != null) request.setOwner(Strings.join(owner, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        opsGenieClient.assign(request);
+        opsGenieClient.acknowledge(request);
     }
 }
