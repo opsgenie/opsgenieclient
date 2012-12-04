@@ -33,6 +33,16 @@ public interface IOpsGenieClient {
     public CloseAlertResponse closeAlert(CloseAlertRequest closeAlertRequest) throws OpsGenieClientException, IOException;
 
     /**
+     * Deletes alerts at OpsGenie.
+     *
+     * @param deleteAlertRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.DeleteAlertRequest
+     * @see com.ifountain.opsgenie.client.model.DeleteAlertResponse
+     */
+    public DeleteAlertResponse deleteAlert(DeleteAlertRequest deleteAlertRequest) throws OpsGenieClientException, IOException;
+
+    /**
      * Retrieves specified alert details from OpsGenie.
      *
      * @param getAlertRequest Object to construct request parameters.

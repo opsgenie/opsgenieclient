@@ -175,6 +175,32 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * Deletes alerts at OpsGenie.
+     *
+     * @param deleteAlertRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.DeleteAlertRequest
+     * @see com.ifountain.opsgenie.client.model.DeleteAlertResponse
+     */
+    @Override
+    public DeleteAlertResponse deleteAlert(DeleteAlertRequest deleteAlertRequest) throws OpsGenieClientException, IOException {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(OpsGenieClientConstants.API.CUSTOMER_KEY, deleteAlertRequest.getCustomerKey());
+        if (deleteAlertRequest.getAlertId() != null)
+            parameters.put(OpsGenieClientConstants.API.ALERT_ID, deleteAlertRequest.getAlertId());
+        if (deleteAlertRequest.getUser() != null)
+            parameters.put(OpsGenieClientConstants.API.USER, deleteAlertRequest.getUser());
+        OpsGenieHttpResponse httpResponse;
+        try {
+            httpResponse = httpClient.delete(rootUri + deleteAlertRequest.getEndPoint(), parameters);
+        } catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
+        handleResponse(httpResponse);
+        return new DeleteAlertResponse();
+    }
+
+    /**
      * Retrieves specified alert details from OpsGenie.
      *
      * @param getAlertRequest Object to construct request parameters.

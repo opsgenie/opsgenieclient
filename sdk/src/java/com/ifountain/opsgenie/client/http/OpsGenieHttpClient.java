@@ -5,10 +5,7 @@ import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.params.ConnRoutePNames;
@@ -120,6 +117,27 @@ public class OpsGenieHttpClient {
         HttpGet get = new HttpGet(newUri);
         configureHeaders(get, headers);
         return executeHttpMethod(get);
+    }
+
+    public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters) throws URISyntaxException, IOException {
+        return delete(uri, parameters, new HashMap<String, String>());
+    }
+
+    public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
+        URI uriObj = new URI(uri);
+        List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(uriObj, null);
+        List<NameValuePair> queryParams = getNameValuePairsFromMap(parameters);
+
+        for (NameValuePair nvp : optionsInQuery) {
+            if (!parameters.containsKey(nvp.getName())) {
+                queryParams.add(nvp);
+            }
+        }
+
+        URI newUri = URIUtils.createURI(uriObj.getScheme(), uriObj.getHost(), uriObj.getPort(), uriObj.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), uriObj.getFragment());
+        HttpDelete delete = new HttpDelete(newUri);
+        configureHeaders(delete, headers);
+        return executeHttpMethod(delete);
     }
 
     private List<NameValuePair> getNameValuePairsFromMap(Map<String, Object> params) {

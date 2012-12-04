@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model;
 
 /**
- * Container for the parameters to make an close alert api call.
+ * Container for the parameters to make a close alert api call.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:05 PM

@@ -176,6 +176,7 @@ public class OpsGenieCommandLine {
         addCommand(commander, new CreateAlertCommand(commander));
         addCommand(commander, new ExecuteScriptCommand(commander));
         addCommand(commander, new CloseAlertCommand(commander));
+        addCommand(commander, new DeleteAlertCommand(commander));
         addCommand(commander, new AcknowledgeCommand(commander));
         addCommand(commander, new TakeOwnershipCommand(commander));
         addCommand(commander, new AssignCommand(commander));
