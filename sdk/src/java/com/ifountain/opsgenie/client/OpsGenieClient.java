@@ -3,15 +3,14 @@ package com.ifountain.opsgenie.client;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.model.*;
-import com.ifountain.opsgenie.client.util.Strings;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.opsgenie.client.util.Strings;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.*;
@@ -232,6 +231,9 @@ public class OpsGenieClient implements IOpsGenieClient {
         response.setSource((String) resp.get(OpsGenieClientConstants.API.SOURCE));
         response.setEntity((String) resp.get(OpsGenieClientConstants.API.ENTITY));
         response.setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
+        response.setOwner((String) resp.get(OpsGenieClientConstants.API.OWNER));
+        response.setSeen((Boolean) resp.get(OpsGenieClientConstants.API.IS_SEEN));
+        response.setAcknowledged((Boolean) resp.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
         response.setTags((List<String>) resp.get(OpsGenieClientConstants.API.TAGS));
         response.setActions((List<String>) resp.get(OpsGenieClientConstants.API.ACTIONS));
         response.setRecipients((List<String>) resp.get(OpsGenieClientConstants.API.RECIPIENTS));

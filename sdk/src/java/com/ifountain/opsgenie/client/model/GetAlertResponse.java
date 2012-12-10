@@ -18,7 +18,10 @@ public class GetAlertResponse implements Response {
     private String source;
     private String entity;
     private String status;
+    private String owner;
     private long createdAt;
+    private boolean isSeen;
+    private boolean acknowledged;
     private List<String> recipients;
     private List<String> tags;
     private List<String> actions;
@@ -124,6 +127,20 @@ public class GetAlertResponse implements Response {
     }
 
     /**
+     * The owner of the alert.
+     */
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets the owner of the alert.
+     */
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    /**
      * The creation time of alert in milliseconds.
      */
     public long getCreatedAt() {
@@ -135,6 +152,34 @@ public class GetAlertResponse implements Response {
      */
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /**
+     * Indicates whether the alert is seen by any recipient.
+     */
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    /**
+     * Sets seen state of the alert.
+     */
+    public void setSeen(boolean seen) {
+        isSeen = seen;
+    }
+
+    /**
+     * The acknowledged state of the alert.
+     */
+    public boolean isAcknowledged() {
+        return acknowledged;
+    }
+
+    /**
+     * Sets the acknowledged state of the alert.
+     */
+    public void setAcknowledged(boolean acknowledged) {
+        this.acknowledged = acknowledged;
     }
 
     /**

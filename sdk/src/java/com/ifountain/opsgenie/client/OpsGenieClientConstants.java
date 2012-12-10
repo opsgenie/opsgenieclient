@@ -30,5 +30,7 @@ public interface OpsGenieClientConstants {
         public static final String HELP = "help";
         public static final String USER = "user";
         public static final String OWNER = "owner";
+        public static final String IS_SEEN = "isSeen";
+        public static final String ACKNOWLEDGED = "acknowledged";
     }
 }
