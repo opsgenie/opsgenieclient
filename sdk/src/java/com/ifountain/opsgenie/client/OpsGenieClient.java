@@ -187,6 +187,8 @@ public class OpsGenieClient implements IOpsGenieClient {
         parameters.put(OpsGenieClientConstants.API.CUSTOMER_KEY, deleteAlertRequest.getCustomerKey());
         if (deleteAlertRequest.getAlertId() != null)
             parameters.put(OpsGenieClientConstants.API.ALERT_ID, deleteAlertRequest.getAlertId());
+        if (deleteAlertRequest.getAlias() != null)
+            parameters.put(OpsGenieClientConstants.API.ALIAS, deleteAlertRequest.getAlias());
         if (deleteAlertRequest.getUser() != null)
             parameters.put(OpsGenieClientConstants.API.USER, deleteAlertRequest.getUser());
         OpsGenieHttpResponse httpResponse;

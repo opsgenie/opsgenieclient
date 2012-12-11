@@ -9,6 +9,7 @@ package com.ifountain.opsgenie.client.model;
  */
 public class DeleteAlertRequest extends BaseRequest{
     private String alertId;
+    private String alias;
     private String user;
 
     /**
@@ -23,6 +24,20 @@ public class DeleteAlertRequest extends BaseRequest{
      */
     public void setAlertId(String alertId) {
         this.alertId = alertId;
+    }
+
+    /**
+     * User defined identifier of the alert that will be deleted.
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Sets the user defined identifier of the alert that will be deleted. Either this or alertId should be set.
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     /**

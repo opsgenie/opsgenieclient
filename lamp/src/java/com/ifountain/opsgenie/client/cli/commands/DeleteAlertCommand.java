@@ -7,6 +7,9 @@ import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.DeleteAlertRequest;
+import com.ifountain.opsgenie.client.util.Strings;
+
+import java.util.List;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -19,6 +22,9 @@ public class DeleteAlertCommand extends BaseCommand{
 
     @Parameter(names = "--" + OpsGenieClientConstants.API.ALERT_ID, description = "Id of the alert that will be deleted.", splitter = NullSplitter.class)
     private String alertId;
+
+    @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that will be deleted. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> alias;
 
     public DeleteAlertCommand(JCommander commander) {
         super(commander);
@@ -39,6 +45,7 @@ public class DeleteAlertCommand extends BaseCommand{
         DeleteAlertRequest request = new DeleteAlertRequest();
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
+        if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.deleteAlert(request);
     }
