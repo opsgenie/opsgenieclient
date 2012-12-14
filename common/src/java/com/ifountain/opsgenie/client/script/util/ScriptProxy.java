@@ -125,6 +125,9 @@ public class ScriptProxy {
         mapResponse.put( OpsGenieClientConstants.API.SOURCE, resp.getSource());
         mapResponse.put( OpsGenieClientConstants.API.ENTITY, resp.getEntity());
         mapResponse.put( OpsGenieClientConstants.API.STATUS, resp.getStatus());
+        mapResponse.put( OpsGenieClientConstants.API.IS_SEEN, resp.isSeen());
+        mapResponse.put( OpsGenieClientConstants.API.ACKNOWLEDGED, resp.isAcknowledged());
+        mapResponse.put( OpsGenieClientConstants.API.OWNER, resp.getOwner());
         return mapResponse;
     }
 
