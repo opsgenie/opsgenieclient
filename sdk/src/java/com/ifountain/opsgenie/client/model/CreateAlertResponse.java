@@ -7,7 +7,7 @@ package com.ifountain.opsgenie.client.model;
  * @version 5/30/12 9:41 AM
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#createAlert(CreateAlertRequest)
  */
-public class CreateAlertResponse implements Response {
+public class CreateAlertResponse extends BaseResponse {
     private String alertId;
 
     /**

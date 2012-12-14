@@ -7,20 +7,5 @@ package com.ifountain.opsgenie.client.model;
  * @version 11/26/12 4:32 PM
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#takeOwnership(TakeOwnershipRequest)
  */
-public class TakeOwnershipResponse implements Response {
-    private boolean success = true;
-
-    /**
-     * True if the operation is successful.
-     */
-    public boolean isSuccess() {
-        return success;
-    }
-
-    /**
-     * Sets the operation success state.
-     */
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+public class TakeOwnershipResponse extends BaseResponse{
 }

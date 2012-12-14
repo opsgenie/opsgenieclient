@@ -10,7 +10,7 @@ import java.util.Map;
  * @version 5/31/12 4:30 PM
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getAlert(GetAlertRequest)
  */
-public class GetAlertResponse implements Response {
+public class GetAlertResponse extends BaseResponse {
     private String id;
     private String alias;
     private String message;

@@ -8,20 +8,5 @@ package com.ifountain.opsgenie.client.model;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(FileAttachRequest)
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(InputStreamAttachRequest)
  */
-public class AttachResponse implements Response {
-    private boolean success = true;
-
-    /**
-     * True if the operation is successful.
-     */
-    public boolean isSuccess() {
-        return success;
-    }
-
-    /**
-     * Sets the operation success state.
-     */
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+public class AttachResponse extends BaseResponse {
 }

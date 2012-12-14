@@ -7,7 +7,7 @@ package com.ifountain.opsgenie.client.model;
  * @version 5/31/12 3:07 PM
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
-public class HeartbeatResponse implements Response {
+public class HeartbeatResponse extends BaseResponse {
     private long heartbeat;
 
     /**
