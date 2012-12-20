@@ -145,7 +145,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         Map resp = handleResponse(httpResponse);
         CreateAlertResponse response = new CreateAlertResponse();
         response.setAlertId((String) resp.get("alertId"));
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -172,7 +172,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + closeAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         Map resp = handleResponse(httpResponse);
         CloseAlertResponse response = new CloseAlertResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -202,7 +202,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         }
         Map resp = handleResponse(httpResponse);
         DeleteAlertResponse response = new DeleteAlertResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -246,7 +246,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         response.setRecipients((List<String>) resp.get(OpsGenieClientConstants.API.RECIPIENTS));
         response.setDetails((Map<String, String>) resp.get(OpsGenieClientConstants.API.DETAILS));
         response.setCreatedAt(((Number) resp.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -272,7 +272,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + addNoteRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         Map resp = handleResponse(httpResponse);
         AddNoteResponse response = new AddNoteResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -299,7 +299,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + acknowledgeRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         Map resp = handleResponse(httpResponse);
         AcknowledgeResponse response = new AcknowledgeResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -326,7 +326,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + takeOwnershipRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         Map resp = handleResponse(httpResponse);
         TakeOwnershipResponse response = new TakeOwnershipResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -354,7 +354,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + assignRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
         Map resp = handleResponse(httpResponse);
         AssignResponse response = new AssignResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -405,7 +405,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         Map resp = handleResponse(httpResponse);
         HeartbeatResponse response = new HeartbeatResponse();
         response.setHeartbeat(((Number) resp.get("heartbeat")).longValue());
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -434,7 +434,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         Map resp = handleResponse(httpResponse);
         ExecuteAlertActionResponse response = new ExecuteAlertActionResponse();
         response.setResult((String) resp.get("result"));
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
@@ -455,7 +455,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + attachRequest.getEndPoint(), entity);
         Map resp = handleResponse(httpResponse);
         AttachResponse response = new AttachResponse();
-        response.setTook((Long) resp.get("took"));
+        response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
 
