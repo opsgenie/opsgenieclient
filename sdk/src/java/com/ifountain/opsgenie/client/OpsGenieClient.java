@@ -359,6 +359,34 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * Adds a new recipient to an alert.
+     *
+     * @param addRecipientRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AddRecipientRequest
+     * @see com.ifountain.opsgenie.client.model.AddRecipientResponse
+     */
+    @Override
+    public AddRecipientResponse addRecipient(AddRecipientRequest addRecipientRequest) throws OpsGenieClientException, IOException {
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, addRecipientRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.RECIPIENT, addRecipientRequest.getRecipient());
+        if (addRecipientRequest.getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, addRecipientRequest.getAlertId());
+        if (addRecipientRequest.getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, addRecipientRequest.getAlias());
+        if (addRecipientRequest.getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, addRecipientRequest.getUser());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + addRecipientRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        Map resp = handleResponse(httpResponse);
+        AddRecipientResponse response = new AddRecipientResponse();
+        response.setTook(((Number) resp.get("took")).longValue());
+        return response;
+    }
+
+    /**
      * Attaches files to the alerts in OpsGenie.
      *
      * @param attachRequest Object to construct request parameters.

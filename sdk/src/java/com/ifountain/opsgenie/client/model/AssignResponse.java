@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model;
 
 /**
- * Represents the OpsGenie service response for a assign ownership request.
+ * Represents the OpsGenie service response for an assign ownership request.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 11/26/12 4:37 PM

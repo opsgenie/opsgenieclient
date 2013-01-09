@@ -21,6 +21,7 @@ public interface OpsGenieClientConstants {
         public static final String ACTIONS = "actions";
         public static final String ACTION = "action";
         public static final String RECIPIENTS = "recipients";
+        public static final String RECIPIENT = "recipient";
         public static final String STATUS = "status";
         public static final String CREATED_AT = "createdAt";
         public static final String ALERT_ID = "alertId";

@@ -93,6 +93,16 @@ public interface IOpsGenieClient {
     public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException;
 
     /**
+     * Adds a new recipient to an alert.
+     *
+     * @param addRecipientRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.AddRecipientRequest
+     * @see com.ifountain.opsgenie.client.model.AddRecipientResponse
+     */
+    public AddRecipientResponse addRecipient(AddRecipientRequest addRecipientRequest) throws OpsGenieClientException, IOException;
+
+    /**
      * Attaches files to the alerts in OpsGenie.
      *
      * @param attachRequest Object to construct request parameters.
