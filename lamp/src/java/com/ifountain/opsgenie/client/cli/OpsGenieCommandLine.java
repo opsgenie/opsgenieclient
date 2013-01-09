@@ -180,6 +180,7 @@ public class OpsGenieCommandLine {
         addCommand(commander, new AcknowledgeCommand(commander));
         addCommand(commander, new TakeOwnershipCommand(commander));
         addCommand(commander, new AssignCommand(commander));
+        addCommand(commander, new AddRecipientCommand(commander));
         addCommand(commander, new AddNoteCommand(commander));
         addCommand(commander, new ExecuteAlertActionCommand(commander));
         addCommand(commander, new AttachCommand(commander));
