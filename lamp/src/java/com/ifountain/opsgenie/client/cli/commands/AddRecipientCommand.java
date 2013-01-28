@@ -20,10 +20,10 @@ public class AddRecipientCommand extends BaseCommand{
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
 
-    @Parameter(names = "--" + OpsGenieClientConstants.API.ALERT_ID, description = "Id of the alert that will be assigned. Either this or alias should be given.", splitter = NullSplitter.class)
+    @Parameter(names = "--" + OpsGenieClientConstants.API.ALERT_ID, description = "Id of the alert that the new recipient will be added. Either this or alias should be given.", splitter = NullSplitter.class)
     private String alertId;
 
-    @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that will be assigned. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
+    @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that the new recipient will be added. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
     private List<String> alias;
 
     @Parameter(names = "--" + OpsGenieClientConstants.API.RECIPIENT, description = "The recipient that will be added to the alert.", variableArity = true, splitter = NullSplitter.class)
