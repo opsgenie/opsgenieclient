@@ -13,6 +13,7 @@ public abstract class AttachRequest extends BaseRequest {
     private String alias;
     private String indexFile;
     private String user;
+    private String note;
 
     /**
      * Rest api uri of attach operation.
@@ -70,5 +71,19 @@ public abstract class AttachRequest extends BaseRequest {
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    /**
+     * Additional alert note.
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Sets additional alert note.
+     */
+    public void setNote(String note) {
+        this.note = note;
     }
 }

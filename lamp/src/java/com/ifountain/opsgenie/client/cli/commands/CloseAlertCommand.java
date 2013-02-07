@@ -27,6 +27,9 @@ public class CloseAlertCommand extends BaseCommand {
     @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that will be closed. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
     private List<String> alias;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> note;
+
     public CloseAlertCommand(JCommander commander) {
         super(commander);
     }
@@ -47,6 +50,7 @@ public class CloseAlertCommand extends BaseCommand {
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
+        if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.closeAlert(request);
     }

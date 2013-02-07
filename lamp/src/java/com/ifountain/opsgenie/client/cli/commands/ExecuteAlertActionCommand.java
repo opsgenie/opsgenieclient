@@ -31,6 +31,9 @@ public class ExecuteAlertActionCommand extends BaseCommand {
     @Parameter(names = "--" + OpsGenieClientConstants.API.ACTION, description = "Action to execute.", variableArity = true, splitter = NullSplitter.class)
     private List<String> action;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> note;
+
     public ExecuteAlertActionCommand(JCommander commander) {
         super(commander);
     }
@@ -42,6 +45,7 @@ public class ExecuteAlertActionCommand extends BaseCommand {
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (action != null) request.setAction(Strings.join(action, " "));
+        if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         ExecuteAlertActionResponse response = opsGenieClient.executeAlertAction(request);
         System.out.println("result=" + response.getResult());

@@ -12,6 +12,7 @@ public class AddRecipientRequest extends BaseRequest{
     private String alias;
     private String user;
     private String recipient;
+    private String note;
 
     /**
      * The id of the alert that the new recipient will be added.
@@ -75,5 +76,19 @@ public class AddRecipientRequest extends BaseRequest{
      */
     public void setRecipient(String recipient) {
         this.recipient = recipient;
+    }
+
+    /**
+     * Additional alert note.
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Sets additional alert note.
+     */
+    public void setNote(String note) {
+        this.note = note;
     }
 }

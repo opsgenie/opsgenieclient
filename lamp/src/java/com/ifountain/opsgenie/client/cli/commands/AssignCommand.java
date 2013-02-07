@@ -30,6 +30,9 @@ public class AssignCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.OWNER, description = "The user who will be the owner of the alert after the execution.", variableArity = true, splitter = NullSplitter.class)
     private List<String> owner;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> note;
+
     public AssignCommand(JCommander commander) {
         super(commander);
     }
@@ -51,6 +54,7 @@ public class AssignCommand extends BaseCommand{
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (owner != null) request.setOwner(Strings.join(owner, " "));
+        if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.assign(request);
     }

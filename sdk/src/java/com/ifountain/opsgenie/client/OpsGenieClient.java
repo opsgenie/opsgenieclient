@@ -167,6 +167,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.ALIAS, closeAlertRequest.getAlias());
         if (closeAlertRequest.getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, closeAlertRequest.getUser());
+        if (closeAlertRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, closeAlertRequest.getNote());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + closeAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
@@ -295,6 +297,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.ALIAS, acknowledgeRequest.getAlias());
         if (acknowledgeRequest.getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, acknowledgeRequest.getUser());
+        if (acknowledgeRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, acknowledgeRequest.getNote());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + acknowledgeRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
@@ -322,6 +326,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.ALIAS, takeOwnershipRequest.getAlias());
         if (takeOwnershipRequest.getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, takeOwnershipRequest.getUser());
+        if (takeOwnershipRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, takeOwnershipRequest.getNote());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + takeOwnershipRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
@@ -350,6 +356,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.ALIAS, assignRequest.getAlias());
         if (assignRequest.getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, assignRequest.getUser());
+        if (assignRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, assignRequest.getNote());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + assignRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
@@ -378,6 +386,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.ALIAS, addRecipientRequest.getAlias());
         if (addRecipientRequest.getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, addRecipientRequest.getUser());
+        if (addRecipientRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, addRecipientRequest.getNote());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + addRecipientRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
@@ -457,6 +467,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.ALIAS, executeAlertActionRequest.getAlias());
         if (executeAlertActionRequest.getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, executeAlertActionRequest.getUser());
+        if (executeAlertActionRequest.getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, executeAlertActionRequest.getNote());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + executeAlertActionRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
@@ -481,6 +493,8 @@ public class OpsGenieClient implements IOpsGenieClient {
             entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(attachRequest.getIndexFile(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getUser() != null)
             entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(attachRequest.getUser(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getNote() != null)
+            entity.addPart(OpsGenieClientConstants.API.NOTE, new StringBody(attachRequest.getNote(), "text/plain", Charset.forName("utf-8")));
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + attachRequest.getEndPoint(), entity);
         Map resp = handleResponse(httpResponse);
         AttachResponse response = new AttachResponse();

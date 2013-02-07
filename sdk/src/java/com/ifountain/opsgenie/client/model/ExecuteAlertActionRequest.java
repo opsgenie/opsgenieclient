@@ -12,6 +12,7 @@ public class ExecuteAlertActionRequest extends BaseRequest {
     private String alias;
     private String action;
     private String user;
+    private String note;
 
     /**
      * Rest api uri of execute alert action operation.
@@ -75,5 +76,19 @@ public class ExecuteAlertActionRequest extends BaseRequest {
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    /**
+     * Additional alert note.
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Sets additional alert note.
+     */
+    public void setNote(String note) {
+        this.note = note;
     }
 }

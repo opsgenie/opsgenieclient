@@ -12,6 +12,7 @@ public class AssignRequest extends BaseRequest{
     private String alias;
     private String user;
     private String owner;
+    private String note;
 
     /**
      * The id of the alert that will be owned.
@@ -75,5 +76,19 @@ public class AssignRequest extends BaseRequest{
      */
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    /**
+     * Additional alert note.
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Sets additional alert note.
+     */
+    public void setNote(String note) {
+        this.note = note;
     }
 }

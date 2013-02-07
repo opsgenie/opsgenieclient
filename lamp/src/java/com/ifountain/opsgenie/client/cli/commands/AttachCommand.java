@@ -34,6 +34,9 @@ public class AttachCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.INDEX_FILE, description = "", variableArity = true, splitter = NullSplitter.class, hidden = true)
     private List<String> indexFile;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> note;
+
     public AttachCommand(JCommander commander) {
         super(commander);
     }
@@ -52,6 +55,7 @@ public class AttachCommand extends BaseCommand{
         if (indexFile != null) request.setIndexFile(Strings.join(indexFile, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         if (attachment != null) request.setFile(new File(Strings.join(attachment, " ")));
+        if (note != null) request.setNote(Strings.join(note, " "));
         opsGenieClient.attach(request);
     }
 

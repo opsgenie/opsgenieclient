@@ -11,6 +11,7 @@ public class TakeOwnershipRequest extends BaseRequest{
     private String alertId;
     private String alias;
     private String user;
+    private String note;
 
     /**
      * The id of the alert that will be owned.
@@ -60,5 +61,19 @@ public class TakeOwnershipRequest extends BaseRequest{
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    /**
+     * Additional alert note.
+     */
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Sets additional alert note.
+     */
+    public void setNote(String note) {
+        this.note = note;
     }
 }

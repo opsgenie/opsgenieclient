@@ -32,6 +32,9 @@ public class AcknowledgeCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.OWNER, description = "The user who will be the owner of the alert after the execution.", variableArity = true, splitter = NullSplitter.class)
     private List<String> owner;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> note;
+
     public AcknowledgeCommand(JCommander commander) {
         super(commander);
     }
@@ -52,6 +55,7 @@ public class AcknowledgeCommand extends BaseCommand{
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
+        if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.acknowledge(request);
     }
