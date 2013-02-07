@@ -19,6 +19,7 @@ public class GetAlertResponse extends BaseResponse {
     private String entity;
     private String status;
     private String owner;
+    private int count;
     private long createdAt;
     private boolean isSeen;
     private boolean acknowledged;
@@ -152,6 +153,20 @@ public class GetAlertResponse extends BaseResponse {
      */
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /**
+     * Count of the alert.
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     * Sets the count of the alert.
+     */
+    public void setCount(int count) {
+        this.count = count;
     }
 
     /**

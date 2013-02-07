@@ -246,6 +246,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         response.setRecipients((List<String>) resp.get(OpsGenieClientConstants.API.RECIPIENTS));
         response.setDetails((Map<String, String>) resp.get(OpsGenieClientConstants.API.DETAILS));
         response.setCreatedAt(((Number) resp.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
+        response.setCount(((Number) resp.get(OpsGenieClientConstants.API.COUNT)).intValue());
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }

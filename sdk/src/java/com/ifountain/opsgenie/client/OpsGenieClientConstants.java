@@ -24,6 +24,7 @@ public interface OpsGenieClientConstants {
         public static final String RECIPIENT = "recipient";
         public static final String STATUS = "status";
         public static final String CREATED_AT = "createdAt";
+        public static final String COUNT = "count";
         public static final String ALERT_ID = "alertId";
         public static final String NOTE = "note";
         public static final String ATTACHMENT = "attachment";
