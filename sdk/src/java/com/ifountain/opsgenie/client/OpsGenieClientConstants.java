@@ -27,6 +27,7 @@ public interface OpsGenieClientConstants {
         public static final String COUNT = "count";
         public static final String ALERT_ID = "alertId";
         public static final String NOTE = "note";
+        public static final String NOTIFY = "notify";
         public static final String ATTACHMENT = "attachment";
         public static final String INDEX_FILE = "indexFile";
         public static final String HELP = "help";

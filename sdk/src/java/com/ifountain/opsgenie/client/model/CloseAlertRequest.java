@@ -12,6 +12,7 @@ public class CloseAlertRequest extends BaseRequest {
     private String alias;
     private String user;
     private String note;
+    private String notify;
 
     /**
      * The id of the alert that will be closed.
@@ -75,5 +76,18 @@ public class CloseAlertRequest extends BaseRequest {
      */
     public void setNote(String note) {
         this.note = note;
+    }
+
+    /**
+     * Comma separated list of user and groups which will be notified. Also special values "all", "recipients" and "owner" is accepted.
+     */
+    public String getNotify() {
+        return notify;
+    }
+    /**
+     * Sets notify.
+     */
+    public void setNotify(String notify) {
+        this.notify = notify;
     }
 }

@@ -30,6 +30,9 @@ public class CloseAlertCommand extends BaseCommand {
     @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
     private List<String> note;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NOTIFY, description = "Comma separated list of user and groups which will be notified. Also special values \"all\", \"recipients\" and \"owner\" is accepted.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> notify;
+
     public CloseAlertCommand(JCommander commander) {
         super(commander);
     }
@@ -51,6 +54,7 @@ public class CloseAlertCommand extends BaseCommand {
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
+        if (notify != null) request.setNotify(Strings.join(notify, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.closeAlert(request);
     }
