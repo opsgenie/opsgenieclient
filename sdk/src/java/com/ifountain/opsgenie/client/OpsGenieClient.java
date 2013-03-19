@@ -169,8 +169,6 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, closeAlertRequest.getUser());
         if (closeAlertRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, closeAlertRequest.getNote());
-        if (closeAlertRequest.getNotify() != null)
-            json.put(OpsGenieClientConstants.API.NOTIFY, closeAlertRequest.getNotify());
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + closeAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
