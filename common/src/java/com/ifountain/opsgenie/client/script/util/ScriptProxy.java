@@ -3,6 +3,9 @@ package com.ifountain.opsgenie.client.script.util;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.*;
+import com.ifountain.opsgenie.client.model.alert.*;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 
 import java.io.File;

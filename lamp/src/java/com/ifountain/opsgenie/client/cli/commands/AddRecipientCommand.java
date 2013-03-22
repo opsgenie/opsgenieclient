@@ -6,7 +6,7 @@ import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.AddRecipientRequest;
+import com.ifountain.opsgenie.client.model.alert.AddRecipientRequest;
 import com.ifountain.opsgenie.client.util.Strings;
 
 import java.util.List;

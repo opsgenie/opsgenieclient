@@ -3,6 +3,12 @@ package com.ifountain.opsgenie.client;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.model.*;
+import com.ifountain.opsgenie.client.model.alert.*;
+import com.ifountain.opsgenie.client.model.beans.Alert;
+import com.ifountain.opsgenie.client.model.beans.Forwarding;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.user.forward.*;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import com.ifountain.opsgenie.client.util.Strings;
@@ -16,9 +22,9 @@ import org.apache.http.entity.mime.content.StringBody;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Provides the client for accessing the OpsGenie web service.
@@ -109,8 +115,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param createAlertRequest Object to construct request parameters.
      * @return <code>CreateAlertResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.CreateAlertRequest
-     * @see com.ifountain.opsgenie.client.model.CreateAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.CreateAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.CreateAlertResponse
      */
     @Override
     public CreateAlertResponse createAlert(CreateAlertRequest createAlertRequest) throws IOException, OpsGenieClientException {
@@ -138,11 +144,8 @@ public class OpsGenieClient implements IOpsGenieClient {
         if (createAlertRequest.getDetails() != null && createAlertRequest.getDetails().size() > 0)
             json.put(OpsGenieClientConstants.API.DETAILS, createAlertRequest.getDetails());
 
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
 
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + createAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(createAlertRequest, json);
         CreateAlertResponse response = new CreateAlertResponse();
         response.setAlertId((String) resp.get("alertId"));
         response.setTook(((Number) resp.get("took")).longValue());
@@ -154,12 +157,12 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param closeAlertRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.CloseAlertRequest
-     * @see com.ifountain.opsgenie.client.model.CloseAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.CloseAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.CloseAlertResponse
      */
     @Override
     public CloseAlertResponse closeAlert(CloseAlertRequest closeAlertRequest) throws OpsGenieClientException, IOException {
-        Map<String, String> json = new HashMap<String, String>();
+        Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, closeAlertRequest.getCustomerKey());
         if (closeAlertRequest.getAlertId() != null)
             json.put(OpsGenieClientConstants.API.ALERT_ID, closeAlertRequest.getAlertId());
@@ -169,10 +172,7 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, closeAlertRequest.getUser());
         if (closeAlertRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, closeAlertRequest.getNote());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + closeAlertRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(closeAlertRequest, json);
         CloseAlertResponse response = new CloseAlertResponse();
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
@@ -183,8 +183,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param deleteAlertRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.DeleteAlertRequest
-     * @see com.ifountain.opsgenie.client.model.DeleteAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.DeleteAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.DeleteAlertResponse
      */
     @Override
     public DeleteAlertResponse deleteAlert(DeleteAlertRequest deleteAlertRequest) throws OpsGenieClientException, IOException {
@@ -213,8 +213,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param getAlertRequest Object to construct request parameters.
      * @return Object containing retreived alert information.
-     * @see com.ifountain.opsgenie.client.model.GetAlertRequest
-     * @see com.ifountain.opsgenie.client.model.GetAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.GetAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.GetAlertResponse
      */
     @Override
     public GetAlertResponse getAlert(GetAlertRequest getAlertRequest) throws OpsGenieClientException, IOException {
@@ -233,23 +233,25 @@ public class OpsGenieClient implements IOpsGenieClient {
         Map resp = handleResponse(httpResponse);
         GetAlertResponse response = new GetAlertResponse();
         response.setJson(new String(httpResponse.getContent(), "utf-8"));
-        response.setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        response.setMessage((String) resp.get(OpsGenieClientConstants.API.MESSAGE));
-        response.setAlias((String) resp.get(OpsGenieClientConstants.API.ALIAS));
-        response.setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
-        response.setSource((String) resp.get(OpsGenieClientConstants.API.SOURCE));
-        response.setEntity((String) resp.get(OpsGenieClientConstants.API.ENTITY));
-        response.setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
-        response.setOwner((String) resp.get(OpsGenieClientConstants.API.OWNER));
-        response.setSeen((Boolean) resp.get(OpsGenieClientConstants.API.IS_SEEN));
-        response.setAcknowledged((Boolean) resp.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
-        response.setTags((List<String>) resp.get(OpsGenieClientConstants.API.TAGS));
-        response.setActions((List<String>) resp.get(OpsGenieClientConstants.API.ACTIONS));
-        response.setRecipients((List<String>) resp.get(OpsGenieClientConstants.API.RECIPIENTS));
-        response.setDetails((Map<String, String>) resp.get(OpsGenieClientConstants.API.DETAILS));
-        response.setCreatedAt(((Number) resp.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
-        response.setCount(((Number) resp.get(OpsGenieClientConstants.API.COUNT)).intValue());
+        Alert alert = new Alert();
+        alert.setId((String) resp.get(OpsGenieClientConstants.API.ID));
+        alert.setMessage((String) resp.get(OpsGenieClientConstants.API.MESSAGE));
+        alert.setAlias((String) resp.get(OpsGenieClientConstants.API.ALIAS));
+        alert.setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
+        alert.setSource((String) resp.get(OpsGenieClientConstants.API.SOURCE));
+        alert.setEntity((String) resp.get(OpsGenieClientConstants.API.ENTITY));
+        alert.setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
+        alert.setOwner((String) resp.get(OpsGenieClientConstants.API.OWNER));
+        alert.setSeen((Boolean) resp.get(OpsGenieClientConstants.API.IS_SEEN));
+        alert.setAcknowledged((Boolean) resp.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
+        alert.setTags((List<String>) resp.get(OpsGenieClientConstants.API.TAGS));
+        alert.setActions((List<String>) resp.get(OpsGenieClientConstants.API.ACTIONS));
+        alert.setRecipients((List<String>) resp.get(OpsGenieClientConstants.API.RECIPIENTS));
+        alert.setDetails((Map<String, String>) resp.get(OpsGenieClientConstants.API.DETAILS));
+        alert.setCreatedAt(((Number) resp.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
+        alert.setCount(((Number) resp.get(OpsGenieClientConstants.API.COUNT)).intValue());
         response.setTook(((Number) resp.get("took")).longValue());
+        response.setAlert(alert);
         return response;
     }
 
@@ -258,22 +260,19 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param addNoteRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AddNoteRequest
-     * @see com.ifountain.opsgenie.client.model.AddNoteResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AddNoteRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddNoteResponse
      */
     @Override
     public AddNoteResponse addNote(AddNoteRequest addNoteRequest) throws OpsGenieClientException, IOException {
-        Map<String, String> json = new HashMap<String, String>();
+        Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, addNoteRequest.getCustomerKey());
         json.put(OpsGenieClientConstants.API.NOTE, addNoteRequest.getNote());
         if (addNoteRequest.getAlertId() != null)
             json.put(OpsGenieClientConstants.API.ALERT_ID, addNoteRequest.getAlertId());
         if (addNoteRequest.getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, addNoteRequest.getAlias());
         if (addNoteRequest.getUser() != null) json.put(OpsGenieClientConstants.API.USER, addNoteRequest.getUser());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + addNoteRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(addNoteRequest, json);
         AddNoteResponse response = new AddNoteResponse();
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
@@ -284,12 +283,12 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param acknowledgeRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AcknowledgeRequest
-     * @see com.ifountain.opsgenie.client.model.AcknowledgeResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse
      */
     @Override
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException {
-        Map<String, String> json = new HashMap<String, String>();
+        Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, acknowledgeRequest.getCustomerKey());
         if (acknowledgeRequest.getAlertId() != null)
             json.put(OpsGenieClientConstants.API.ALERT_ID, acknowledgeRequest.getAlertId());
@@ -299,10 +298,7 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, acknowledgeRequest.getUser());
         if (acknowledgeRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, acknowledgeRequest.getNote());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + acknowledgeRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(acknowledgeRequest, json);
         AcknowledgeResponse response = new AcknowledgeResponse();
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
@@ -313,8 +309,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param takeOwnershipRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.TakeOwnershipRequest
-     * @see com.ifountain.opsgenie.client.model.TakeOwnershipResponse
+     * @see com.ifountain.opsgenie.client.model.alert.TakeOwnershipRequest
+     * @see com.ifountain.opsgenie.client.model.alert.TakeOwnershipResponse
      */
     @Override
     public TakeOwnershipResponse takeOwnership(TakeOwnershipRequest takeOwnershipRequest) throws OpsGenieClientException, IOException {
@@ -328,10 +324,7 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, takeOwnershipRequest.getUser());
         if (takeOwnershipRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, takeOwnershipRequest.getNote());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + takeOwnershipRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(takeOwnershipRequest, json);
         TakeOwnershipResponse response = new TakeOwnershipResponse();
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
@@ -342,8 +335,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param assignRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AssignRequest
-     * @see com.ifountain.opsgenie.client.model.AssignResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AssignRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AssignResponse
      */
     @Override
     public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException {
@@ -358,10 +351,7 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, assignRequest.getUser());
         if (assignRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, assignRequest.getNote());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + assignRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(assignRequest, json);
         AssignResponse response = new AssignResponse();
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
@@ -372,8 +362,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param addRecipientRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AddRecipientRequest
-     * @see com.ifountain.opsgenie.client.model.AddRecipientResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AddRecipientRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddRecipientResponse
      */
     @Override
     public AddRecipientResponse addRecipient(AddRecipientRequest addRecipientRequest) throws OpsGenieClientException, IOException {
@@ -388,22 +378,21 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, addRecipientRequest.getUser());
         if (addRecipientRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, addRecipientRequest.getNote());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + addRecipientRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(addRecipientRequest, json);
         AddRecipientResponse response = new AddRecipientResponse();
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
     }
+
+
 
     /**
      * Attaches files to the alerts in OpsGenie.
      *
      * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.FileAttachRequest
-     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     * @see com.ifountain.opsgenie.client.model.alert.FileAttachRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AttachResponse
      */
     @Override
     public AttachResponse attach(FileAttachRequest attachRequest) throws OpsGenieClientException, IOException {
@@ -418,7 +407,7 @@ public class OpsGenieClient implements IOpsGenieClient {
      * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.InputStreamAttachRequest
-     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AttachResponse
      */
     @Override
     public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException {
@@ -431,21 +420,153 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param heartbeatRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.HeartbeatRequest
-     * @see com.ifountain.opsgenie.client.model.HeartbeatResponse
+     * @see com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
      */
     @Override
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException {
         Map<String, String> json = new HashMap<String, String>();
         json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, heartbeatRequest.getCustomerKey());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + heartbeatRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(heartbeatRequest, json);
         HeartbeatResponse response = new HeartbeatResponse();
         response.setHeartbeat(((Number) resp.get("heartbeat")).longValue());
         response.setTook(((Number) resp.get("took")).longValue());
         return response;
+    }
+
+
+    @Override
+    public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException {
+        Map<String, String> json = new HashMap<String, String>();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        if(addForwardingRequest.getTimeZone() != null){
+            sdf.setTimeZone(addForwardingRequest.getTimeZone());
+            json.put(OpsGenieClientConstants.API.TIMEZONE, addForwardingRequest.getTimeZone().getID());
+        }
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, addForwardingRequest.getCustomerKey());
+        if(addForwardingRequest.getEndDate() != null){
+            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(addForwardingRequest.getEndDate()));
+        }
+        if(addForwardingRequest.getStartDate() != null){
+            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(addForwardingRequest.getStartDate()));
+        }
+        json.put(OpsGenieClientConstants.API.FROM_USER, addForwardingRequest.getFromUser());
+        json.put(OpsGenieClientConstants.API.TO_USER, addForwardingRequest.getToUser());
+        json.put(OpsGenieClientConstants.API.ALIAS, addForwardingRequest.getAlias());
+        Map resp = doJsonPostRequest(addForwardingRequest, json);
+        AddForwardingResponse response = new AddForwardingResponse();
+        response.setId((String)resp.get("id"));
+        response.setTook(((Number) resp.get("took")).longValue());
+        return response;
+    }
+
+    @Override
+    public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException {
+        Map<String, String> json = new HashMap<String, String>();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        if(updateForwardingRequest.getTimeZone() != null){
+            sdf.setTimeZone(updateForwardingRequest.getTimeZone());
+            json.put(OpsGenieClientConstants.API.TIMEZONE, updateForwardingRequest.getTimeZone().getID());
+        }
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, updateForwardingRequest.getCustomerKey());
+        if(updateForwardingRequest.getEndDate() != null){
+            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(updateForwardingRequest.getEndDate()));
+        }
+        if(updateForwardingRequest.getStartDate() != null){
+            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(updateForwardingRequest.getStartDate()));
+        }
+        json.put(OpsGenieClientConstants.API.FROM_USER, updateForwardingRequest.getFromUser());
+        json.put(OpsGenieClientConstants.API.TO_USER, updateForwardingRequest.getToUser());
+        json.put(OpsGenieClientConstants.API.ALIAS, updateForwardingRequest.getAlias());
+        json.put(OpsGenieClientConstants.API.ID, updateForwardingRequest.getId());
+        Map resp = doJsonPostRequest(updateForwardingRequest, json);
+        UpdateForwardingResponse response = new UpdateForwardingResponse();
+        response.setId((String)resp.get("id"));
+        response.setTook(((Number) resp.get("took")).longValue());
+        return response;
+    }
+
+    @Override
+    public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put(OpsGenieClientConstants.API.ID, deleteForwardingRequest.getId());
+        try {
+            OpsGenieHttpResponse httpResponse = httpClient.delete(rootUri + deleteForwardingRequest.getEndPoint(), json);
+            Map resp = handleResponse(httpResponse);
+            DeleteForwardingResponse response = new DeleteForwardingResponse();
+            response.setTook(((Number) resp.get("took")).longValue());
+            return response;
+        } catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
+
+    }
+
+    @Override
+    public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(OpsGenieClientConstants.API.ID, getForwardingRequest.getId());
+        parameters.put(OpsGenieClientConstants.API.ALIAS, getForwardingRequest.getAlias());
+
+        try {
+            OpsGenieHttpResponse httpResponse = httpClient.get(rootUri + getForwardingRequest.getEndPoint(), parameters);
+            Map resp = handleResponse(httpResponse);
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            if(resp.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
+                sdf.setTimeZone(TimeZone.getTimeZone((String) resp.get(OpsGenieClientConstants.API.TIMEZONE)));
+            }
+
+            GetForwardingResponse response = new GetForwardingResponse();
+            response.setJson(new String(httpResponse.getContent(), "utf-8"));
+            Forwarding forwarding = createForwardingFromParameters(resp, sdf);
+            response.setTook(((Number) resp.get("took")).longValue());
+            response.setForwarding(forwarding);
+            return response;
+        } catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
+    }
+
+    private Forwarding createForwardingFromParameters(Map resp, SimpleDateFormat sdf) throws ParseException {
+        Forwarding forwarding = new Forwarding();
+        forwarding.setId((String) resp.get(OpsGenieClientConstants.API.ID));
+        forwarding.setAlias((String) resp.get(OpsGenieClientConstants.API.ALIAS));
+        forwarding.setFromUser((String) resp.get(OpsGenieClientConstants.API.FROM_USER));
+        forwarding.setToUser((String) resp.get(OpsGenieClientConstants.API.TO_USER));
+        forwarding.setTimeZone(sdf.getTimeZone());
+        forwarding.setStartDate(sdf.parse((String) resp.get(OpsGenieClientConstants.API.START_DATE)));
+        forwarding.setEndDate(sdf.parse((String) resp.get(OpsGenieClientConstants.API.END_DATE)));
+        return forwarding;
+    }
+
+    @Override
+    public ListForwardingsResponse listForwardings(ListForwardingsRequest listForwardingsRequest) throws IOException, OpsGenieClientException, ParseException {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(OpsGenieClientConstants.API.USER, listForwardingsRequest.getUser());
+
+        try {
+            OpsGenieHttpResponse httpResponse = httpClient.get(rootUri + listForwardingsRequest.getEndPoint(), parameters);
+            Map resp = handleResponse(httpResponse);
+            ListForwardingsResponse response = new ListForwardingsResponse();
+            List<Forwarding> forwardings = new ArrayList<Forwarding>();
+            if(resp.containsKey("forwardings")){
+                List<Map> forwardingMaps = (List<Map>) resp.get("forwardings");
+                for(Map forwardingMap:forwardingMaps){
+                    SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+                    if(forwardingMap.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
+                        sdf.setTimeZone(TimeZone.getTimeZone((String) forwardingMap.get(OpsGenieClientConstants.API.TIMEZONE)));
+                    }
+                    Forwarding forwarding = createForwardingFromParameters(forwardingMap, sdf);
+                    forwardings.add(forwarding);
+                }
+            }
+            response.setJson(new String(httpResponse.getContent(), "utf-8"));
+            response.setTook(((Number) resp.get("took")).longValue());
+            response.setForwardings(forwardings);
+            return response;
+        } catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
     }
 
     /**
@@ -453,8 +574,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      *
      * @param executeAlertActionRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionRequest
-     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionResponse
+     * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionRequest
+     * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionResponse
      */
     @Override
     public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException {
@@ -469,10 +590,7 @@ public class OpsGenieClient implements IOpsGenieClient {
             json.put(OpsGenieClientConstants.API.USER, executeAlertActionRequest.getUser());
         if (executeAlertActionRequest.getNote() != null)
             json.put(OpsGenieClientConstants.API.NOTE, executeAlertActionRequest.getNote());
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + executeAlertActionRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
-        Map resp = handleResponse(httpResponse);
+        Map resp = doJsonPostRequest(executeAlertActionRequest, json);
         ExecuteAlertActionResponse response = new ExecuteAlertActionResponse();
         response.setResult((String) resp.get("result"));
         response.setTook(((Number) resp.get("took")).longValue());
@@ -528,6 +646,13 @@ public class OpsGenieClient implements IOpsGenieClient {
                 throw new IOException(new String(response.getContent(), "UTF-8"));
             }
         }
+    }
+
+    private Map doJsonPostRequest(BaseRequest updateForwardingRequest, Map json) throws IOException, OpsGenieClientException {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + updateForwardingRequest.getEndPoint(), JsonUtils.toJsonAsBytes(json), headers);
+        return handleResponse(httpResponse);
     }
 
     /**

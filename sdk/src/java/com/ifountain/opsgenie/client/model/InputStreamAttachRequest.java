@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model;
 
+import com.ifountain.opsgenie.client.model.alert.AttachRequest;
+
 import java.io.InputStream;
 
 /**

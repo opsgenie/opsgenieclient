@@ -1,8 +1,13 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.*;
+import com.ifountain.opsgenie.client.model.alert.*;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.user.forward.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Interface for accessing OpsGenie
@@ -17,8 +22,8 @@ public interface IOpsGenieClient {
      *
      * @param createAlertRequest Object to construct request parameters.
      * @return <code>CreateAlertResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.CreateAlertRequest
-     * @see com.ifountain.opsgenie.client.model.CreateAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.CreateAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.CreateAlertResponse
      */
     public CreateAlertResponse createAlert(CreateAlertRequest createAlertRequest) throws IOException, OpsGenieClientException;
 
@@ -27,8 +32,8 @@ public interface IOpsGenieClient {
      *
      * @param closeAlertRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.CloseAlertRequest
-     * @see com.ifountain.opsgenie.client.model.CloseAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.CloseAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.CloseAlertResponse
      */
     public CloseAlertResponse closeAlert(CloseAlertRequest closeAlertRequest) throws OpsGenieClientException, IOException;
 
@@ -37,8 +42,8 @@ public interface IOpsGenieClient {
      *
      * @param deleteAlertRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.DeleteAlertRequest
-     * @see com.ifountain.opsgenie.client.model.DeleteAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.DeleteAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.DeleteAlertResponse
      */
     public DeleteAlertResponse deleteAlert(DeleteAlertRequest deleteAlertRequest) throws OpsGenieClientException, IOException;
 
@@ -47,8 +52,8 @@ public interface IOpsGenieClient {
      *
      * @param getAlertRequest Object to construct request parameters.
      * @return Object containing retreived alert information.
-     * @see com.ifountain.opsgenie.client.model.GetAlertRequest
-     * @see com.ifountain.opsgenie.client.model.GetAlertResponse
+     * @see com.ifountain.opsgenie.client.model.alert.GetAlertRequest
+     * @see com.ifountain.opsgenie.client.model.alert.GetAlertResponse
      */
     public GetAlertResponse getAlert(GetAlertRequest getAlertRequest) throws OpsGenieClientException, IOException;
 
@@ -57,8 +62,8 @@ public interface IOpsGenieClient {
      *
      * @param addNoteRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AddNoteRequest
-     * @see com.ifountain.opsgenie.client.model.AddNoteResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AddNoteRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddNoteResponse
      */
     public AddNoteResponse addNote(AddNoteRequest addNoteRequest) throws OpsGenieClientException, IOException;
 
@@ -67,8 +72,8 @@ public interface IOpsGenieClient {
      *
      * @param acknowledgeRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AcknowledgeRequest
-     * @see com.ifountain.opsgenie.client.model.AcknowledgeResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse
      */
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException;
 
@@ -77,8 +82,8 @@ public interface IOpsGenieClient {
      *
      * @param takeOwnershipRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.TakeOwnershipRequest
-     * @see com.ifountain.opsgenie.client.model.TakeOwnershipResponse
+     * @see com.ifountain.opsgenie.client.model.alert.TakeOwnershipRequest
+     * @see com.ifountain.opsgenie.client.model.alert.TakeOwnershipResponse
      */
     public TakeOwnershipResponse takeOwnership(TakeOwnershipRequest takeOwnershipRequest) throws OpsGenieClientException, IOException;
 
@@ -87,8 +92,8 @@ public interface IOpsGenieClient {
      *
      * @param assignRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AssignRequest
-     * @see com.ifountain.opsgenie.client.model.AssignResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AssignRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AssignResponse
      */
     public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException;
 
@@ -97,8 +102,8 @@ public interface IOpsGenieClient {
      *
      * @param addRecipientRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.AddRecipientRequest
-     * @see com.ifountain.opsgenie.client.model.AddRecipientResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AddRecipientRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddRecipientResponse
      */
     public AddRecipientResponse addRecipient(AddRecipientRequest addRecipientRequest) throws OpsGenieClientException, IOException;
 
@@ -107,8 +112,8 @@ public interface IOpsGenieClient {
      *
      * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.FileAttachRequest
-     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     * @see com.ifountain.opsgenie.client.model.alert.FileAttachRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AttachResponse
      */
     public AttachResponse attach(FileAttachRequest attachRequest) throws OpsGenieClientException, IOException;
 
@@ -118,7 +123,7 @@ public interface IOpsGenieClient {
      * @param attachRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.InputStreamAttachRequest
-     * @see com.ifountain.opsgenie.client.model.AttachResponse
+     * @see com.ifountain.opsgenie.client.model.alert.AttachResponse
      */
     public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException;
 
@@ -127,8 +132,8 @@ public interface IOpsGenieClient {
      *
      * @param executeAlertActionRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionRequest
-     * @see com.ifountain.opsgenie.client.model.ExecuteAlertActionResponse
+     * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionRequest
+     * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionResponse
      */
     public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException;
 
@@ -138,10 +143,58 @@ public interface IOpsGenieClient {
      *
      * @param heartbeatRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.HeartbeatRequest
-     * @see com.ifountain.opsgenie.client.model.HeartbeatResponse
+     * @see com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
      */
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException;
+
+    /**
+     * Adds user notification forwarding setting. All of notifications will be sent to forwarded user during configured
+     * time settings.
+     *
+     * @param addForwardingRequest  Object to construct request parameters
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.AddForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.AddForwardingResponse
+     */
+    public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException;
+
+
+    /**
+     * Updates user notification forwarding setting.
+     * time settings.
+     *
+     * @param updateForwardingRequest  Object to construct request parameters
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingResponse
+     */
+    public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException;
+
+    /**
+     * @param deleteForwardingRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingResponse
+     */
+    public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException;
+
+    /**
+     * @param getForwardingRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.GetForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.GetForwardingResponse
+     */
+    public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * @param listForwardingsRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.ListForwardingsResponse
+     */
+    public ListForwardingsResponse listForwardings(ListForwardingsRequest listForwardingsRequest) throws IOException, OpsGenieClientException, ParseException;
+
 
     /**
      * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.

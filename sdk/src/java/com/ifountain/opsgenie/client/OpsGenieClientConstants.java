@@ -7,6 +7,10 @@ package com.ifountain.opsgenie.client;
 public interface OpsGenieClientConstants {
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
 
+    public interface Common {
+        String API_DATE_FORMAT = "yyyy-MM-dd HH:mm";
+        String API_DATE_FORMAT_WITH_TIMEZONE = "yyyy-MM-dd HH:mm z";
+    }
     public interface API {
         public static final String ID = "id";
         public static final String CUSTOMER_KEY = "customerKey";
@@ -35,5 +39,10 @@ public interface OpsGenieClientConstants {
         public static final String OWNER = "owner";
         public static final String IS_SEEN = "isSeen";
         public static final String ACKNOWLEDGED = "acknowledged";
+        public static final String START_DATE = "startDate";
+        public static final String END_DATE = "endDate";
+        public static final String FROM_USER = "fromUser";
+        public static final String TO_USER = "toUser";
+        public static final String TIMEZONE = "timezone";
     }
 }

@@ -4,8 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.model.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
 
 /**
  * Created by Sezgin Kucukkaraaslan
