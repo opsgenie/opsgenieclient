@@ -434,7 +434,15 @@ public class OpsGenieClient implements IOpsGenieClient {
         return response;
     }
 
-
+    /**
+     * Adds user notification forwarding setting. All of notifications will be sent to forwarded user during configured
+     * time settings.
+     *
+     * @param addForwardingRequest  Object to construct request parameters
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.AddForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.AddForwardingResponse
+     */
     @Override
     public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException {
         Map<String, String> json = new HashMap<String, String>();
@@ -460,6 +468,15 @@ public class OpsGenieClient implements IOpsGenieClient {
         return response;
     }
 
+    /**
+     * Updates user notification forwarding setting.
+     * time settings.
+     *
+     * @param updateForwardingRequest  Object to construct request parameters
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingResponse
+     */
     @Override
     public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException {
         Map<String, String> json = new HashMap<String, String>();
@@ -486,10 +503,17 @@ public class OpsGenieClient implements IOpsGenieClient {
         return response;
     }
 
+    /**
+     * @param deleteForwardingRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingResponse
+     */
     @Override
     public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.ID, deleteForwardingRequest.getId());
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, deleteForwardingRequest.getCustomerKey());
         try {
             OpsGenieHttpResponse httpResponse = httpClient.delete(rootUri + deleteForwardingRequest.getEndPoint(), json);
             Map resp = handleResponse(httpResponse);
@@ -502,11 +526,18 @@ public class OpsGenieClient implements IOpsGenieClient {
 
     }
 
+    /**
+     * @param getForwardingRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.GetForwardingRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.GetForwardingResponse
+     */
     @Override
     public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(OpsGenieClientConstants.API.ID, getForwardingRequest.getId());
         parameters.put(OpsGenieClientConstants.API.ALIAS, getForwardingRequest.getAlias());
+        parameters.put(OpsGenieClientConstants.API.CUSTOMER_KEY, getForwardingRequest.getCustomerKey());
 
         try {
             OpsGenieHttpResponse httpResponse = httpClient.get(rootUri + getForwardingRequest.getEndPoint(), parameters);
@@ -539,10 +570,18 @@ public class OpsGenieClient implements IOpsGenieClient {
         return forwarding;
     }
 
+
+    /**
+     * @param listForwardingsRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest
+     * @see com.ifountain.opsgenie.client.model.user.forward.ListForwardingsResponse
+     */
     @Override
     public ListForwardingsResponse listForwardings(ListForwardingsRequest listForwardingsRequest) throws IOException, OpsGenieClientException, ParseException {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(OpsGenieClientConstants.API.USER, listForwardingsRequest.getUser());
+        parameters.put(OpsGenieClientConstants.API.CUSTOMER_KEY, listForwardingsRequest.getCustomerKey());
 
         try {
             OpsGenieHttpResponse httpResponse = httpClient.get(rootUri + listForwardingsRequest.getEndPoint(), parameters);
