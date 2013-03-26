@@ -13,6 +13,7 @@ public class Alert {
     private String description;
     private String source;
     private String entity;
+    private String tinyId;
     private String status;
     private String owner;
     private int count;
@@ -23,6 +24,20 @@ public class Alert {
     private List<String> tags;
     private List<String> actions;
     private Map<String, String> details;
+
+    /**
+     * The tiny id of the alert.
+     */
+    public String getTinyId() {
+        return tinyId;
+    }
+
+    /**
+     * Sets the tiny id of the alert.
+     */
+    public void setTinyId(String tinyId) {
+        this.tinyId = tinyId;
+    }
 
     /**
      * The id of the alert.

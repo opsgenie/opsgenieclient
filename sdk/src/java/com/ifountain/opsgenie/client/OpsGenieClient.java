@@ -242,6 +242,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         alert.setEntity((String) resp.get(OpsGenieClientConstants.API.ENTITY));
         alert.setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
         alert.setOwner((String) resp.get(OpsGenieClientConstants.API.OWNER));
+        alert.setTinyId((String) resp.get(OpsGenieClientConstants.API.TINY_ID));
         alert.setSeen((Boolean) resp.get(OpsGenieClientConstants.API.IS_SEEN));
         alert.setAcknowledged((Boolean) resp.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
         alert.setTags((List<String>) resp.get(OpsGenieClientConstants.API.TAGS));
