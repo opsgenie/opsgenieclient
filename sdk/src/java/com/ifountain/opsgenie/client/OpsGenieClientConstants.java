@@ -44,5 +44,6 @@ public interface OpsGenieClientConstants {
         public static final String FROM_USER = "fromUser";
         public static final String TO_USER = "toUser";
         public static final String TIMEZONE = "timezone";
+        public static final String TINY_ID = "tinyId";
     }
 }
