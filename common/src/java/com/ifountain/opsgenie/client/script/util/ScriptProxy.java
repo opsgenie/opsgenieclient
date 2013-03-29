@@ -116,21 +116,22 @@ public class ScriptProxy {
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         GetAlertResponse resp = this.opsGenieClient.getAlert(request);
         Map mapResponse = new HashMap();
-        mapResponse.put( OpsGenieClientConstants.API.ACTIONS, resp.getActions());
-        mapResponse.put( OpsGenieClientConstants.API.MESSAGE, resp.getMessage());
-        mapResponse.put( OpsGenieClientConstants.API.ALERT_ID, resp.getId());
-        mapResponse.put( OpsGenieClientConstants.API.ALIAS, resp.getAlias());
-        mapResponse.put( OpsGenieClientConstants.API.TAGS, resp.getTags());
-        mapResponse.put( OpsGenieClientConstants.API.CREATED_AT, resp.getCreatedAt());
-        mapResponse.put( OpsGenieClientConstants.API.DESCRIPTION, resp.getDescription());
-        mapResponse.put( OpsGenieClientConstants.API.DETAILS, resp.getDetails());
-        mapResponse.put( OpsGenieClientConstants.API.RECIPIENTS, resp.getRecipients());
-        mapResponse.put( OpsGenieClientConstants.API.SOURCE, resp.getSource());
-        mapResponse.put( OpsGenieClientConstants.API.ENTITY, resp.getEntity());
-        mapResponse.put( OpsGenieClientConstants.API.STATUS, resp.getStatus());
-        mapResponse.put( OpsGenieClientConstants.API.IS_SEEN, resp.isSeen());
-        mapResponse.put( OpsGenieClientConstants.API.ACKNOWLEDGED, resp.isAcknowledged());
-        mapResponse.put( OpsGenieClientConstants.API.OWNER, resp.getOwner());
+        mapResponse.put( OpsGenieClientConstants.API.ACTIONS, resp.getAlert().getActions());
+        mapResponse.put( OpsGenieClientConstants.API.MESSAGE, resp.getAlert().getMessage());
+        mapResponse.put( OpsGenieClientConstants.API.ALERT_ID, resp.getAlert().getId());
+        mapResponse.put( OpsGenieClientConstants.API.ALIAS, resp.getAlert().getAlias());
+        mapResponse.put( OpsGenieClientConstants.API.TAGS, resp.getAlert().getTags());
+        mapResponse.put( OpsGenieClientConstants.API.CREATED_AT, resp.getAlert().getCreatedAt());
+        mapResponse.put( OpsGenieClientConstants.API.DESCRIPTION, resp.getAlert().getDescription());
+        mapResponse.put( OpsGenieClientConstants.API.DETAILS, resp.getAlert().getDetails());
+        mapResponse.put( OpsGenieClientConstants.API.RECIPIENTS, resp.getAlert().getRecipients());
+        mapResponse.put( OpsGenieClientConstants.API.SOURCE, resp.getAlert().getSource());
+        mapResponse.put( OpsGenieClientConstants.API.ENTITY, resp.getAlert().getEntity());
+        mapResponse.put( OpsGenieClientConstants.API.STATUS, resp.getAlert().getStatus());
+        mapResponse.put( OpsGenieClientConstants.API.IS_SEEN, resp.getAlert().isSeen());
+        mapResponse.put( OpsGenieClientConstants.API.TINY_ID, resp.getAlert().getTinyId());
+        mapResponse.put( OpsGenieClientConstants.API.ACKNOWLEDGED, resp.getAlert().isAcknowledged());
+        mapResponse.put( OpsGenieClientConstants.API.OWNER, resp.getAlert().getOwner());
         return mapResponse;
     }
 
