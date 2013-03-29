@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -32,6 +35,9 @@ public class PubnubAlertActionListener {
     private PubnubChannelParameters pubnubChannelParameters;
     private Thread pubnubSubscribeThread;
     private boolean isSubscribed = false;
+    private int actionExecutorThreadCount = 20;
+    private long shutdownWaitTime = 90000;
+    private ExecutorService actionExecutionService;
     private StringBuffer lastErrorMessage = new StringBuffer();
 
     public static PubnubAlertActionListener getInstance() {
@@ -49,6 +55,8 @@ public class PubnubAlertActionListener {
     }
 
     public void initialize(PubnubChannelParameters params) {
+        logger.info("Starting action executor service with "+actionExecutorThreadCount +" number of threads.");
+        actionExecutionService = Executors.newFixedThreadPool(actionExecutorThreadCount);
         subscribeToOpsGenie(params);
     }
 
@@ -82,8 +90,13 @@ public class PubnubAlertActionListener {
                     }
 
                     @Override
-                    public boolean subscribeCallback(String s, Object o) {
-                        processMessage(o);
+                    public boolean subscribeCallback(final String s, final Object o) {
+                        actionExecutionService.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                processMessage(o);
+                            }
+                        });
                         return true;
                     }
 
@@ -120,6 +133,21 @@ public class PubnubAlertActionListener {
         return lastErrorMessage.toString();
     }
 
+    public long getShutdownWaitTime() {
+        return shutdownWaitTime;
+    }
+
+    public void setShutdownWaitTime(long shutdownWaitTime) {
+        this.shutdownWaitTime = shutdownWaitTime;
+    }
+
+    public int getActionExecutorThreadCount() {
+        return actionExecutorThreadCount;
+    }
+
+    public void setActionExecutorThreadCount(int actionExecutorThreadCount) {
+        this.actionExecutorThreadCount = actionExecutorThreadCount;
+    }
 
     protected void processMessage(Object message) {
         if (message instanceof JSONObject) {
@@ -174,6 +202,20 @@ public class PubnubAlertActionListener {
 
     private void destroy() {
         unsubscribe();
+        if(actionExecutionService != null){
+            actionExecutionService.shutdown();
+            try {
+                logger.info("Shuttingdown action execution service");
+                actionExecutionService.awaitTermination(shutdownWaitTime, TimeUnit.MILLISECONDS);
+                if(!actionExecutionService.isTerminated()){
+                    actionExecutionService.shutdownNow();
+                }
+                logger.info("Shutdown action execution service");
+            } catch (InterruptedException e) {
+                logger.info("Could not shutdown action execution service in "+shutdownWaitTime+" msecs.");
+                actionExecutionService.shutdownNow();
+            }
+        }
     }
 
     private void unsubscribe() {
