@@ -51,6 +51,6 @@ public class TakeOwnershipCommand extends BaseCommand {
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        opsGenieClient.takeOwnership(request);
+        opsGenieClient.alert().takeOwnership(request);
     }
 }

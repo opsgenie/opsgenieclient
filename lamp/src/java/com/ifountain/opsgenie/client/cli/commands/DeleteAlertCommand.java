@@ -47,6 +47,6 @@ public class DeleteAlertCommand extends BaseCommand{
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        opsGenieClient.deleteAlert(request);
+        opsGenieClient.alert().deleteAlert(request);
     }
 }

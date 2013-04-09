@@ -55,6 +55,6 @@ public class AddRecipientCommand extends BaseCommand{
         if (note != null) request.setNote(Strings.join(note, " "));
         if (recipient != null) request.setRecipient(Strings.join(recipient, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        opsGenieClient.addRecipient(request);
+        opsGenieClient.alert().addRecipient(request);
     }
 }

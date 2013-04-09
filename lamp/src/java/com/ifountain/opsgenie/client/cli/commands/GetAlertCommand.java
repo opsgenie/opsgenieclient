@@ -43,7 +43,7 @@ public class GetAlertCommand extends BaseCommand{
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
-        GetAlertResponse response = opsGenieClient.getAlert(request);
+        GetAlertResponse response = opsGenieClient.alert().getAlert(request);
         System.out.println(response.getJson());
     }
 

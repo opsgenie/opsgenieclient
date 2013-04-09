@@ -47,7 +47,7 @@ public class ExecuteAlertActionCommand extends BaseCommand {
         if (action != null) request.setAction(Strings.join(action, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        ExecuteAlertActionResponse response = opsGenieClient.executeAlertAction(request);
+        ExecuteAlertActionResponse response = opsGenieClient.alert().executeAlertAction(request);
         System.out.println("result=" + response.getResult());
     }
 

@@ -47,7 +47,7 @@ public class AddNoteCommand extends BaseCommand{
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        opsGenieClient.addNote(request);
+        opsGenieClient.alert().addNote(request);
     }
 
     @Override

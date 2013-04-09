@@ -56,7 +56,7 @@ public class AttachCommand extends BaseCommand{
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         if (attachment != null) request.setFile(new File(Strings.join(attachment, " ")));
         if (note != null) request.setNote(Strings.join(note, " "));
-        opsGenieClient.attach(request);
+        opsGenieClient.alert().attach(request);
     }
 
     @Override

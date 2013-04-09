@@ -21,7 +21,7 @@ public class AddForwardingRequest extends BaseRequest {
     private TimeZone timeZone;
 
     /**
-     * Rest api uri of alert create operation.
+     * Rest api uri of forwarding create operation.
      */
     @Override
     public String getEndPoint() {

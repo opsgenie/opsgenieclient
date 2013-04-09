@@ -14,7 +14,7 @@ public class ListForwardingsRequest extends BaseRequest {
     private String user;
 
     /**
-     * Rest api uri of alert create operation.
+     * Rest api uri of list forwarding operation.
      */
     @Override
     public String getEndPoint() {

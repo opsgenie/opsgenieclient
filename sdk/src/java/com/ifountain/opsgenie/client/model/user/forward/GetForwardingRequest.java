@@ -15,7 +15,7 @@ public class GetForwardingRequest extends BaseRequest {
     private String alias;
 
     /**
-     * Rest api uri of alert create operation.
+     * Rest api uri of get forwarding operation.
      */
     @Override
     public String getEndPoint() {

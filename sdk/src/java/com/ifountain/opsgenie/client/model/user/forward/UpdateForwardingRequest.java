@@ -20,7 +20,7 @@ public class UpdateForwardingRequest extends BaseRequest {
     private TimeZone timeZone;
 
     /**
-     * Rest api uri of alert update operation.
+     * Rest api uri of update forwarding operation.
      */
     @Override
     public String getEndPoint() {

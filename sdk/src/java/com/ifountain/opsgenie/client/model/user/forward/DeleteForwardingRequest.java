@@ -14,7 +14,7 @@ public class DeleteForwardingRequest extends BaseRequest {
     private String id;
 
     /**
-     * Rest api uri of alert create operation.
+     * Rest api uri of delete forwarding operation.
      */
     @Override
     public String getEndPoint() {

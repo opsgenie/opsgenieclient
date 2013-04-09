@@ -43,7 +43,7 @@ public class ScriptProxy {
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
-        CreateAlertResponse resp = this.opsGenieClient.createAlert(request);
+        CreateAlertResponse resp = this.opsGenieClient.alert().createAlert(request);
         Map mapResponse = new HashMap();
         mapResponse.put(OpsGenieClientConstants.API.ALERT_ID, resp.getAlertId());
         return mapResponse;
@@ -56,7 +56,7 @@ public class ScriptProxy {
         request.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
-        CloseAlertResponse resp = this.opsGenieClient.closeAlert(request);
+        CloseAlertResponse resp = this.opsGenieClient.alert().closeAlert(request);
         Map mapResponse = new HashMap();
         mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, resp.isSuccess());
         return mapResponse;
@@ -70,7 +70,7 @@ public class ScriptProxy {
             String attachmentFilePath = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT);
             fileAttachRequest.setFile(new File(attachmentFilePath));
             populateAttachmentRequestCommonProps(fileAttachRequest, params);
-            resp = this.opsGenieClient.attach(fileAttachRequest);
+            resp = this.opsGenieClient.alert().attach(fileAttachRequest);
         }
         else{
             InputStreamAttachRequest inputStreamAttachRequest = new InputStreamAttachRequest();
@@ -79,7 +79,7 @@ public class ScriptProxy {
             inputStreamAttachRequest.setInputStream(inputStream);
             inputStreamAttachRequest.setFileName(fileName);
             populateAttachmentRequestCommonProps(inputStreamAttachRequest, params);
-            resp = this.opsGenieClient.attach(inputStreamAttachRequest);
+            resp = this.opsGenieClient.alert().attach(inputStreamAttachRequest);
         }
         Map mapResponse = new HashMap();
         mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, resp.isSuccess());
@@ -102,7 +102,7 @@ public class ScriptProxy {
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
-        AddNoteResponse resp = this.opsGenieClient.addNote(request);
+        AddNoteResponse resp = this.opsGenieClient.alert().addNote(request);
         Map mapResponse = new HashMap();
         mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, resp.isSuccess());
         return mapResponse;
@@ -114,7 +114,7 @@ public class ScriptProxy {
         request.setAlertId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID));
         request.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
-        GetAlertResponse resp = this.opsGenieClient.getAlert(request);
+        GetAlertResponse resp = this.opsGenieClient.alert().getAlert(request);
         Map mapResponse = new HashMap();
         mapResponse.put( OpsGenieClientConstants.API.ACTIONS, resp.getAlert().getActions());
         mapResponse.put( OpsGenieClientConstants.API.MESSAGE, resp.getAlert().getMessage());

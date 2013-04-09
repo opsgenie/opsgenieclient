@@ -55,6 +55,6 @@ public class AssignCommand extends BaseCommand{
         if (owner != null) request.setOwner(Strings.join(owner, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
-        opsGenieClient.assign(request);
+        opsGenieClient.alert().assign(request);
     }
 }
