@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a delete user api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#deleteUser(DeleteUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteUser(DeleteUserRequest)
  */
 public class DeleteUserRequest extends BaseRequest {
     private String id;

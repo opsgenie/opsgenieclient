@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents OpsGenie service response for add user request.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#addUser(AddUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addUser(AddUserRequest)
  */
 public class AddUserResponse extends BaseResponse{
     private String id;

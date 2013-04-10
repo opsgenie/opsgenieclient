@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.model.user.AddUserRequest;
+
 import java.util.List;
 import java.util.TimeZone;
 
@@ -7,12 +9,16 @@ import java.util.TimeZone;
  * User bean
  */
 public class User {
+    public static enum Role{
+        Admin,
+        User
+    }
     private String id;
     private String username;
     private String state;
     private String fullname;
     private TimeZone timeZone;
-    private String role;
+    private Role role;
     private List<String> groups;
     private List<String> escalations;
     private List<String> schedules;
@@ -89,15 +95,17 @@ public class User {
 
     /**
      * Role of user
+     * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
-    public String getRole() {
+    public User.Role getRole() {
         return role;
     }
 
     /**
      * Sets role of user
+     * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
-    public void setRole(String role) {
+    public void setRole(User.Role role) {
         this.role = role;
     }
 

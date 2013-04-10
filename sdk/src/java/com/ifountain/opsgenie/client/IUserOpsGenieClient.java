@@ -52,7 +52,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.GetUserRequest
      * @see com.ifountain.opsgenie.client.model.user.GetUserResponse
      */
-    public GetUserResponse getUser(GetUserRequest getUserRequest) throws IOException, OpsGenieClientException;
+    public GetUserResponse getUser(GetUserRequest getUserRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * List users of customer
@@ -62,7 +62,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.ListUserRequest
      * @see com.ifountain.opsgenie.client.model.user.ListUserResponse
      */
-    public ListUserResponse listUsers(ListUserRequest listUserRequest) throws IOException, OpsGenieClientException;
+    public ListUserResponse listUsers(ListUserRequest listUserRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Adds user notification forwarding setting. All of notifications will be sent to forwarded user during configured

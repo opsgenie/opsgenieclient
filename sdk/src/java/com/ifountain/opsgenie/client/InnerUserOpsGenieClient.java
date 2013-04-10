@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
+import com.ifountain.opsgenie.client.model.beans.User;
 import com.ifountain.opsgenie.client.model.user.*;
 import com.ifountain.opsgenie.client.model.user.forward.*;
 
@@ -119,19 +120,6 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
         return response;
     }
 
-    private Forwarding createForwardingFromParameters(Map resp, SimpleDateFormat sdf) throws ParseException {
-        Forwarding forwarding = new Forwarding();
-        forwarding.setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        forwarding.setAlias((String) resp.get(OpsGenieClientConstants.API.ALIAS));
-        forwarding.setFromUser((String) resp.get(OpsGenieClientConstants.API.FROM_USER));
-        forwarding.setToUser((String) resp.get(OpsGenieClientConstants.API.TO_USER));
-        forwarding.setTimeZone(sdf.getTimeZone());
-        forwarding.setStartDate(sdf.parse((String) resp.get(OpsGenieClientConstants.API.START_DATE)));
-        forwarding.setEndDate(sdf.parse((String) resp.get(OpsGenieClientConstants.API.END_DATE)));
-        return forwarding;
-    }
-
-
     /**
      * @see IUserOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
      */
@@ -165,7 +153,21 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public AddUserResponse addUser(AddUserRequest addUserRequest) throws IOException, OpsGenieClientException {
-        return null;
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, addUserRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.USERNAME, addUserRequest.getUsername());
+        json.put(OpsGenieClientConstants.API.FULLNAME, addUserRequest.getFullname());
+        if(addUserRequest.getRole() != null){
+            json.put(OpsGenieClientConstants.API.ROLE, addUserRequest.getRole().name());
+        }
+        if(addUserRequest.getTimeZone() != null){
+            json.put(OpsGenieClientConstants.API.TIMEZONE, addUserRequest.getTimeZone().getID());
+        }
+        OpsGenieJsonResponse resp = httpClient.doPostRequest(addUserRequest, json);
+        AddUserResponse response = new AddUserResponse();
+        response.setId((String) resp.getJson().get("id"));
+        response.setTook(((Number) resp.getJson().get("took")).longValue());
+        return response;
     }
 
     /**
@@ -173,7 +175,26 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public UpdateUserResponse updateUser(UpdateUserRequest updateUserRequest) throws IOException, OpsGenieClientException {
-        return null;
+        Map<String, String> json = new HashMap<String, String>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, updateUserRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.ID, updateUserRequest.getId());
+        if(updateUserRequest.getUsername() != null){
+            json.put(OpsGenieClientConstants.API.USERNAME, updateUserRequest.getUsername());
+        }
+        if(updateUserRequest.getFullname() != null){
+            json.put(OpsGenieClientConstants.API.FULLNAME, updateUserRequest.getFullname());
+        }
+        if(updateUserRequest.getRole() != null){
+            json.put(OpsGenieClientConstants.API.ROLE, updateUserRequest.getRole().name());
+        }
+        if(updateUserRequest.getTimeZone() != null){
+            json.put(OpsGenieClientConstants.API.TIMEZONE, updateUserRequest.getTimeZone().getID());
+        }
+        OpsGenieJsonResponse resp = httpClient.doPostRequest(updateUserRequest, json);
+        UpdateUserResponse response = new UpdateUserResponse();
+        response.setId((String) resp.getJson().get("id"));
+        response.setTook(((Number) resp.getJson().get("took")).longValue());
+        return response;
     }
 
     /**
@@ -181,22 +202,78 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws IOException, OpsGenieClientException {
-        return null;
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, deleteUserRequest.getCustomerKey());
+        json.put(OpsGenieClientConstants.API.ID, deleteUserRequest.getId());
+        OpsGenieJsonResponse resp = httpClient.doDeleteRequest(deleteUserRequest, json);
+        DeleteUserResponse response = new DeleteUserResponse();
+        response.setTook(((Number) resp.getJson().get("took")).longValue());
+        return response;
     }
 
     /**
      * @see IUserOpsGenieClient#getUser(com.ifountain.opsgenie.client.model.user.GetUserRequest)
      */
     @Override
-    public GetUserResponse getUser(GetUserRequest getUserRequest) throws IOException, OpsGenieClientException {
-        return null;
+    public GetUserResponse getUser(GetUserRequest getUserRequest) throws IOException, OpsGenieClientException, ParseException {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, getUserRequest.getCustomerKey());
+        if(getUserRequest.getId() != null){
+            json.put(OpsGenieClientConstants.API.ID, getUserRequest.getId());
+        }
+        if(getUserRequest.getUsername() != null){
+            json.put(OpsGenieClientConstants.API.USERNAME, getUserRequest.getUsername());
+        }
+        OpsGenieJsonResponse resp = httpClient.doGetRequest(getUserRequest, json);
+        GetUserResponse response = new GetUserResponse();
+        response.setTook(((Number) resp.json().get("took")).longValue());
+        User user = createUserFromParameters(resp.getJson());
+        response.setUser(user);
+        return response;
     }
 
     /**
      * @see IUserOpsGenieClient#listUsers(com.ifountain.opsgenie.client.model.user.ListUserRequest)
      */
     @Override
-    public ListUserResponse listUsers(ListUserRequest listUserRequest) throws IOException, OpsGenieClientException {
-        return null;
+    public ListUserResponse listUsers(ListUserRequest listUserRequest) throws IOException, OpsGenieClientException, ParseException {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, listUserRequest.getCustomerKey());
+        OpsGenieJsonResponse resp = httpClient.doGetRequest(listUserRequest, json);
+        ListUserResponse response = new ListUserResponse();
+        List<Map> usersData = (List<Map>) resp.getJson().get(OpsGenieClientConstants.API.USERS);
+        List<User> users = new ArrayList<User>();
+        for(Map userData:usersData){
+            User user = createUserFromParameters(userData);
+            users.add(user);
+        }
+        response.setUsers(users);
+        return response;
+    }
+
+    private User createUserFromParameters(Map resp) throws ParseException {
+        User user = new User();
+        user.setId((String) resp.get(OpsGenieClientConstants.API.ID));
+        user.setUsername((String) resp.get(OpsGenieClientConstants.API.USERNAME));
+        user.setFullname((String) resp.get(OpsGenieClientConstants.API.FULLNAME));
+        user.setRole(User.Role.valueOf((String) resp.get(OpsGenieClientConstants.API.ROLE)));
+        user.setState((String) resp.get(OpsGenieClientConstants.API.STATE));
+        user.setGroups((List<String>) resp.get(OpsGenieClientConstants.API.GROUPS));
+        user.setEscalations((List<String>) resp.get(OpsGenieClientConstants.API.ESCALATIONS));
+        user.setSchedules((List<String>) resp.get(OpsGenieClientConstants.API.SCHEDULES));
+        user.setTimeZone(TimeZone.getTimeZone((String) resp.get(OpsGenieClientConstants.API.TIMEZONE)));
+        return user;
+    }
+
+    private Forwarding createForwardingFromParameters(Map resp, SimpleDateFormat sdf) throws ParseException {
+        Forwarding forwarding = new Forwarding();
+        forwarding.setId((String) resp.get(OpsGenieClientConstants.API.ID));
+        forwarding.setAlias((String) resp.get(OpsGenieClientConstants.API.ALIAS));
+        forwarding.setFromUser((String) resp.get(OpsGenieClientConstants.API.FROM_USER));
+        forwarding.setToUser((String) resp.get(OpsGenieClientConstants.API.TO_USER));
+        forwarding.setTimeZone(sdf.getTimeZone());
+        forwarding.setStartDate(sdf.parse((String) resp.get(OpsGenieClientConstants.API.START_DATE)));
+        forwarding.setEndDate(sdf.parse((String) resp.get(OpsGenieClientConstants.API.END_DATE)));
+        return forwarding;
     }
 }

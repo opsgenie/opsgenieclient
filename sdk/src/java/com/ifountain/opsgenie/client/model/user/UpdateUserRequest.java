@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make an update user api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#updateUser(UpdateUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateUser(UpdateUserRequest)
  */
 public class UpdateUserRequest extends AddUserRequest {
     private String id;

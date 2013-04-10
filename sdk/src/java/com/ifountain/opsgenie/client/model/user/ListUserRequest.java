@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list users api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#listUsers(ListUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUserRequest)
  */
 public class ListUserRequest extends BaseRequest {
     /**

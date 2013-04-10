@@ -1,23 +1,20 @@
 package com.ifountain.opsgenie.client.model.user;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.User;
 
 import java.util.TimeZone;
 
 /**
  * Container for the parameters to make an add user api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#addUser(AddUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addUser(AddUserRequest)
  */
 public class AddUserRequest extends BaseRequest {
-    static enum Role{
-        Admin,
-        User
-    }
     private String username;
     private String fullname;
     private TimeZone timeZone;
-    private Role role;
+    private User.Role role;
 
 
     /**
@@ -72,17 +69,17 @@ public class AddUserRequest extends BaseRequest {
 
     /**
      * Role of user
-     * @see Role
+     * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
-    public Role getRole() {
+    public User.Role getRole() {
         return role;
     }
 
     /**
      * Sets role of user
-     * @see Role
+     * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
-    public void setRole(Role role) {
+    public void setRole(User.Role role) {
         this.role = role;
     }
 }

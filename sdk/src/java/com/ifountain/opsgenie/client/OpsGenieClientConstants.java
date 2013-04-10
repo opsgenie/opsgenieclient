@@ -45,5 +45,13 @@ public interface OpsGenieClientConstants {
         public static final String TO_USER = "toUser";
         public static final String TIMEZONE = "timezone";
         public static final String TINY_ID = "tinyId";
+        public static final String USERNAME = "username";
+        public static final String FULLNAME = "fullname";
+        public static final String ROLE = "role";
+        public static final String STATE = "state";
+        public static final String GROUPS = "groups";
+        public static final String ESCALATIONS = "escalations";
+        public static final String SCHEDULES = "scheduless";
+        public static final String USERS = "users";
     }
 }

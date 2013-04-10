@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list user request.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#listUsers(ListUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUserRequest)
  */
 public class ListUserResponse {
     private List<User> users;

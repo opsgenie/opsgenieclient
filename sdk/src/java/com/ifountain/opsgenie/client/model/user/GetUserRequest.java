@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get user api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#getUser(GetUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
 public class GetUserRequest extends BaseRequest {
     private String id;
