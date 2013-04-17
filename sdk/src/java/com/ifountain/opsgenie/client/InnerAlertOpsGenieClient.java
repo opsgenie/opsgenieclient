@@ -30,12 +30,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Creates alerts at OpsGenie.
-     *
-     * @param createAlertRequest Object to construct request parameters.
-     * @return <code>CreateAlertResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.CreateAlertRequest
-     * @see com.ifountain.opsgenie.client.model.alert.CreateAlertResponse
+     * @see IAlertOpsGenieClient#createAlert(com.ifountain.opsgenie.client.model.alert.CreateAlertRequest)
      */
     @Override
     public CreateAlertResponse createAlert(CreateAlertRequest createAlertRequest) throws IOException, OpsGenieClientException {
@@ -72,12 +67,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Closes alerts at OpsGenie.
-     *
-     * @param closeAlertRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.CloseAlertRequest
-     * @see com.ifountain.opsgenie.client.model.alert.CloseAlertResponse
+     * @see IAlertOpsGenieClient#closeAlert(com.ifountain.opsgenie.client.model.alert.CloseAlertRequest)
      */
     @Override
     public CloseAlertResponse closeAlert(CloseAlertRequest closeAlertRequest) throws OpsGenieClientException, IOException {
@@ -98,12 +88,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Deletes alerts at OpsGenie.
-     *
-     * @param deleteAlertRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.DeleteAlertRequest
-     * @see com.ifountain.opsgenie.client.model.alert.DeleteAlertResponse
+     * @see IAlertOpsGenieClient#deleteAlert(com.ifountain.opsgenie.client.model.alert.DeleteAlertRequest)
      */
     @Override
     public DeleteAlertResponse deleteAlert(DeleteAlertRequest deleteAlertRequest) throws OpsGenieClientException, IOException {
@@ -122,12 +107,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Retrieves specified alert details from OpsGenie.
-     *
-     * @param getAlertRequest Object to construct request parameters.
-     * @return Object containing retreived alert information.
-     * @see com.ifountain.opsgenie.client.model.alert.GetAlertRequest
-     * @see com.ifountain.opsgenie.client.model.alert.GetAlertResponse
+     * @see IAlertOpsGenieClient#getAlert(com.ifountain.opsgenie.client.model.alert.GetAlertRequest)
      */
     @Override
     public GetAlertResponse getAlert(GetAlertRequest getAlertRequest) throws OpsGenieClientException, IOException {
@@ -164,12 +144,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Add notes to alerts in OpsGenie.
-     *
-     * @param addNoteRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.AddNoteRequest
-     * @see com.ifountain.opsgenie.client.model.alert.AddNoteResponse
+     * @see IAlertOpsGenieClient#addNote(com.ifountain.opsgenie.client.model.alert.AddNoteRequest)
      */
     @Override
     public AddNoteResponse addNote(AddNoteRequest addNoteRequest) throws OpsGenieClientException, IOException {
@@ -187,12 +162,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Acknowledges alerts in OpsGenie.
-     *
-     * @param acknowledgeRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeRequest
-     * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse
+     * @see IAlertOpsGenieClient#acknowledge(com.ifountain.opsgenie.client.model.alert.AcknowledgeRequest)
      */
     @Override
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException {
@@ -213,12 +183,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Takes the ownership of an alert.
-     *
-     * @param takeOwnershipRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.TakeOwnershipRequest
-     * @see com.ifountain.opsgenie.client.model.alert.TakeOwnershipResponse
+     * @see IAlertOpsGenieClient#takeOwnership(com.ifountain.opsgenie.client.model.alert.TakeOwnershipRequest)
      */
     @Override
     public TakeOwnershipResponse takeOwnership(TakeOwnershipRequest takeOwnershipRequest) throws OpsGenieClientException, IOException {
@@ -239,12 +204,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Assigns the ownership of an alert to the specified user.
-     *
-     * @param assignRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.AssignRequest
-     * @see com.ifountain.opsgenie.client.model.alert.AssignResponse
+     * @see IAlertOpsGenieClient#assign(com.ifountain.opsgenie.client.model.alert.AssignRequest)
      */
     @Override
     public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException {
@@ -266,12 +226,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Adds a new recipient to an alert.
-     *
-     * @param addRecipientRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.AddRecipientRequest
-     * @see com.ifountain.opsgenie.client.model.alert.AddRecipientResponse
+     * @see IAlertOpsGenieClient#addRecipient(com.ifountain.opsgenie.client.model.alert.AddRecipientRequest)
      */
     @Override
     public AddRecipientResponse addRecipient(AddRecipientRequest addRecipientRequest) throws OpsGenieClientException, IOException {
@@ -295,12 +250,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
 
 
     /**
-     * Attaches files to the alerts in OpsGenie.
-     *
-     * @param attachRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.FileAttachRequest
-     * @see com.ifountain.opsgenie.client.model.alert.AttachResponse
+     * @see IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.alert.FileAttachRequest)
      */
     @Override
     public AttachResponse attach(FileAttachRequest attachRequest) throws OpsGenieClientException, IOException {
@@ -310,12 +260,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
-     * Attaches ${@link java.io.InputStream} content to the alerts in OpsGenie.
-     *
-     * @param attachRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.InputStreamAttachRequest
-     * @see com.ifountain.opsgenie.client.model.alert.AttachResponse
+     * @see IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
      */
     @Override
     public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException {
@@ -324,12 +269,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
 
 
     /**
-     * Executes actions on alerts in OpsGenie.
-     *
-     * @param executeAlertActionRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionRequest
-     * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionResponse
+     * @see IAlertOpsGenieClient#executeAlertAction(com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionRequest)
      */
     @Override
     public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException {

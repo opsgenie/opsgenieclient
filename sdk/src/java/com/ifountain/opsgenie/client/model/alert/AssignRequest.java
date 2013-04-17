@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 11/26/12 4:36 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#assign(AssignRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#assign(AssignRequest)
  */
 public class AssignRequest extends BaseRequest {
     private String alertId;

@@ -7,7 +7,7 @@ import java.io.File;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 3:38 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(FileAttachRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  */
 public class FileAttachRequest extends AttachRequest {
     private File file;

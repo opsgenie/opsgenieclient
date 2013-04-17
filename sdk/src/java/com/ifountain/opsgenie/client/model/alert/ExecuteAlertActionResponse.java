@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 10/30/12 5:01 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
  */
 public class ExecuteAlertActionResponse extends BaseResponse {
     private String result;

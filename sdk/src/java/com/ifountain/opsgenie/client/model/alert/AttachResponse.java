@@ -7,8 +7,8 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 3:38 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(FileAttachRequest)
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
  */
 public class AttachResponse extends BaseResponse {
 }

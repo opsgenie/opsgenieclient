@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 1/9/13 4:03 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#addRecipient(AddRecipientRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
  */
 public class AddRecipientResponse extends BaseResponse {
 }

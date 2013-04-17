@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 12/4/12 3:38 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#deleteAlert(DeleteAlertRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#deleteAlert(DeleteAlertRequest)
  */
 public class DeleteAlertRequest extends BaseRequest {
     private String alertId;

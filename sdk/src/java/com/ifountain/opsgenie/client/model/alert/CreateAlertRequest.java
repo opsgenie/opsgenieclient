@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/30/12 9:41 AM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#createAlert(CreateAlertRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
 public class CreateAlertRequest extends BaseRequest {
     private String message;

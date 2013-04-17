@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 11/26/12 4:32 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#takeOwnership(TakeOwnershipRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#takeOwnership(TakeOwnershipRequest)
  */
 public class TakeOwnershipResponse extends BaseResponse {
 }
