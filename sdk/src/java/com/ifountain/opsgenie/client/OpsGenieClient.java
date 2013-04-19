@@ -62,6 +62,7 @@ import java.util.Map;
  */
 public class OpsGenieClient implements IOpsGenieClient {
     private InnerUserOpsGenieClient innerUserOpsGenieClient;
+    private InnerGroupOpsGenieClient innerGroupOpsGenieClient;
     private InnerAlertOpsGenieClient innerAlertOpsGenieClient;
     /**
      * Http client object *
@@ -89,6 +90,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     public OpsGenieClient(OpsGenieHttpClient httpClient) {
         this.jsonHttpClient = new JsonOpgenieHttpClient(httpClient);
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
+        innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerAlertOpsGenieClient = new InnerAlertOpsGenieClient(this.jsonHttpClient);
     }
 
@@ -97,6 +99,14 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     public IUserOpsGenieClient user() {
         return innerUserOpsGenieClient;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#group()
+     */
+    public IGroupOpsGenieClient group() {
+        return innerGroupOpsGenieClient;
     }
 
     /**

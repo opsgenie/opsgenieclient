@@ -11,14 +11,14 @@ public class UpdateUserResponse extends BaseResponse{
     private String id;
 
     /**
-     * Id of the created forwarding
+     * Id of the user
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Id of the created forwarding
+     * Sets id of the user
      */
     public void setId(String id) {
         this.id = id;

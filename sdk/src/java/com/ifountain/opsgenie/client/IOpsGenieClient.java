@@ -14,11 +14,18 @@ import java.io.IOException;
  */
 public interface IOpsGenieClient {
     /**
-     * Opsgenie Admin Client
+     * Opsgenie User Client
      * @see IUserOpsGenieClient
      * @return IUserOpsGenieClient
      */
     IUserOpsGenieClient user();
+
+    /**
+     * Opsgenie Group Client
+     * @see IGroupOpsGenieClient
+     * @return IGroupOpsGenieClient
+     */
+    IGroupOpsGenieClient group();
 
     /**
      * Opsgenie Alert Client

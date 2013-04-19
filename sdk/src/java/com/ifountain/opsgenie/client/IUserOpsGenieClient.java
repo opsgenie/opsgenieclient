@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * Interface for accessing OpsGenie
+ * Interface for accessing OpsGenie for user related operations
  *
  * @author Sezgin Kucukkaraaslan
  * @version 6/1/12 10:09 AM

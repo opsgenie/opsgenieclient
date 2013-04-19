@@ -204,7 +204,12 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
     public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws IOException, OpsGenieClientException {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, deleteUserRequest.getCustomerKey());
-        json.put(OpsGenieClientConstants.API.ID, deleteUserRequest.getId());
+        if(deleteUserRequest.getId() != null){
+            json.put(OpsGenieClientConstants.API.ID, deleteUserRequest.getId());
+        }
+        if(deleteUserRequest.getUsername() != null){
+            json.put(OpsGenieClientConstants.API.USERNAME, deleteUserRequest.getUsername());
+        }
         OpsGenieJsonResponse resp = httpClient.doDeleteRequest(deleteUserRequest, json);
         DeleteUserResponse response = new DeleteUserResponse();
         response.setTook(((Number) resp.getJson().get("took")).longValue());
