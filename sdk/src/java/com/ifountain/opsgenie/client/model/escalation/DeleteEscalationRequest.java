@@ -3,44 +3,44 @@ package com.ifountain.opsgenie.client.model.escalation;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
- * Container for the parameters to make a delete group api call.
+ * Container for the parameters to make a delete escalation api call.
  *
- * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroup(com.ifountain.opsgenie.client.model.escalation.DeleteGroupRequest)
+ * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#deleteEscalation(DeleteEscalationRequest)
  */
-public class DeleteGroupRequest extends BaseRequest {
+public class DeleteEscalationRequest extends BaseRequest {
     private String id;
     private String name;
     /**
-     * Rest api uri of deleting group operation.
+     * Rest api uri of deleting escalation operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/group";
+        return "/v1/json/escalation";
     }
 
     /**
-     * Id of group to be deleted.
+     * Id of escalation to be deleted.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets id of group to be deleted.
+     * Sets id of escalation to be deleted.
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * Name of group to be deleted.
+     * Name of escalation to be deleted.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets name of group to be deleted.
+     * Sets name of escalation to be deleted.
      */
     public void setName(String name) {
         this.name = name;

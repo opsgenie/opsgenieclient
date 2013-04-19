@@ -28,6 +28,13 @@ public interface IOpsGenieClient {
     IGroupOpsGenieClient group();
 
     /**
+     * Opsgenie Escalation Client
+     * @see IGroupOpsGenieClient
+     * @return IGroupOpsGenieClient
+     */
+    IEscalationOpsGenieClient escalation();
+
+    /**
      * Opsgenie Alert Client
      * @see IAlertOpsGenieClient
      * @return IAlertOpsGenieClient

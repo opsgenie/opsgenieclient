@@ -1,29 +1,29 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
 /**
- * Container for the parameters to make an update group api call.
+ * Container for the parameters to make an update escalation api call.
  *
- * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(UpdateEscalationRequest)
+ * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#updateEscalation(UpdateEscalationRequest)
  */
 public class UpdateEscalationRequest extends AddEscalationRequest {
     private String id;
     /**
-     * Rest api uri of updating group operation.
+     * Rest api uri of updating escalation operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/group";
+        return "/v1/json/escalation";
     }
 
     /**
-     * Id of group to be updated.
+     * Id of escalation to be updated.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets id of group to be updated.
+     * Sets id of escalation to be updated.
      */
     public void setId(String id) {
         this.id = id;

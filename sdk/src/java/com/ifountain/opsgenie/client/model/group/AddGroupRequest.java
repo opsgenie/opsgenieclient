@@ -17,7 +17,7 @@ public class AddGroupRequest extends BaseRequest {
 
 
     /**
-     * Rest api uri of addding user operation.
+     * Rest api uri of addding group operation.
      */
     @Override
     public String getEndPoint() {

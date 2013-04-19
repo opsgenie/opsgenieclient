@@ -53,5 +53,8 @@ public interface OpsGenieClientConstants {
         public static final String ESCALATIONS = "escalations";
         public static final String SCHEDULES = "scheduless";
         public static final String USERS = "users";
+        public static final String RULES = "rules";
+        public static final String TYPE = "type";
+        public static final String DELAY = "delay";
     }
 }
