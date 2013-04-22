@@ -1,16 +1,19 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Container for the parameters to make a list forwarding api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
  */
-public class ListForwardingsRequest extends BaseRequest {
+public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse> {
     private String user;
 
     /**
@@ -34,6 +37,27 @@ public class ListForwardingsRequest extends BaseRequest {
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        if(getUser() != null){
+            json.put(OpsGenieClientConstants.API.USER, getUser());
+        }
+        return json;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public ListForwardingsResponse createResponse() {
+        return new ListForwardingsResponse();
     }
 
 }

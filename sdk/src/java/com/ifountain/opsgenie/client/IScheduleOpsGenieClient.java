@@ -19,7 +19,7 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.AddScheduleRequest
      * @see com.ifountain.opsgenie.client.model.schedule.AddScheduleResponse
      */
-    public AddScheduleResponse addSchedule(AddScheduleRequest addScheduleRequest) throws IOException, OpsGenieClientException;
+    public AddScheduleResponse addSchedule(AddScheduleRequest addScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Updates schedule at OpsGenie.
@@ -29,7 +29,7 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.UpdateScheduleRequest
      * @see com.ifountain.opsgenie.client.model.schedule.UpdateScheduleResponse
      */
-    public UpdateScheduleResponse updateSchedule(UpdateScheduleRequest updateScheduleRequest) throws IOException, OpsGenieClientException;
+    public UpdateScheduleResponse updateSchedule(UpdateScheduleRequest updateScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Deletes a schedule at OpsGenie.
@@ -39,7 +39,7 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.DeleteScheduleRequest
      * @see com.ifountain.opsgenie.client.model.schedule.DeleteScheduleResponse
      */
-    public DeleteScheduleResponse deleteSchedule(DeleteScheduleRequest deleteScheduleRequest) throws IOException, OpsGenieClientException;
+    public DeleteScheduleResponse deleteSchedule(DeleteScheduleRequest deleteScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Get schedule details

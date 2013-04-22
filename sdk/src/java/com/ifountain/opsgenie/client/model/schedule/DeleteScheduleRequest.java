@@ -1,4 +1,4 @@
-package com.ifountain.opsgenie.client.model.group;
+package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
@@ -7,44 +7,44 @@ import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 import java.util.Map;
 
 /**
- * Container for the parameters to make a get group api call.
+ * Container for the parameters to make a delete schedule api call.
  *
- * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#getGroup(GetGroupRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteSchedule(com.ifountain.opsgenie.client.model.schedule.DeleteScheduleRequest)
  */
-public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
+public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
     private String id;
     private String name;
     /**
-     * Rest api uri of getting group operation.
+     * Rest api uri of deleting schedule operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/group";
+        return "/v1/json/schedule";
     }
 
     /**
-     * Id of group to be queried.
+     * Id of schedule to be deleted.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets id of group to be queried.
+     * Sets id of schedule to be deleted.
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * Name of group to be queried.
+     * Name of schedule to be deleted.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets name of group to be queried.
+     * Sets name of schedule to be deleted.
      */
     public void setName(String name) {
         this.name = name;
@@ -56,11 +56,11 @@ public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
      */
     public Map serialize() {
         Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
+        if(name != null){
+            json.put(OpsGenieClientConstants.API.NAME, name);
         }
-        if(getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
+        if(id != null){
+            json.put(OpsGenieClientConstants.API.ID, id);
         }
         return json;
     }
@@ -69,7 +69,7 @@ public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public GetGroupResponse createResponse() {
-        return new GetGroupResponse();
+    public DeleteScheduleResponse createResponse() {
+        return new DeleteScheduleResponse();
     }
 }

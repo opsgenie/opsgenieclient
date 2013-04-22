@@ -19,7 +19,7 @@ public interface IEscalationOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.escalation.AddEscalationRequest
      * @see com.ifountain.opsgenie.client.model.escalation.AddEscalationResponse
      */
-    public AddEscalationResponse addEscalation(AddEscalationRequest addEscalationRequest) throws IOException, OpsGenieClientException;
+    public AddEscalationResponse addEscalation(AddEscalationRequest addEscalationRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Updates escalation at OpsGenie.
@@ -29,7 +29,7 @@ public interface IEscalationOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.escalation.UpdateEscalationRequest
      * @see com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse
      */
-    public UpdateEscalationResponse updateEscalation(UpdateEscalationRequest updateEscalationRequest) throws IOException, OpsGenieClientException;
+    public UpdateEscalationResponse updateEscalation(UpdateEscalationRequest updateEscalationRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Deletes a escalation at OpsGenie.
@@ -39,7 +39,7 @@ public interface IEscalationOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.escalation.DeleteEscalationRequest
      * @see com.ifountain.opsgenie.client.model.escalation.DeleteEscalationResponse
      */
-    public DeleteEscalationResponse deleteEscalation(DeleteEscalationRequest deleteEscalationRequest) throws IOException, OpsGenieClientException;
+    public DeleteEscalationResponse deleteEscalation(DeleteEscalationRequest deleteEscalationRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Get escalation details

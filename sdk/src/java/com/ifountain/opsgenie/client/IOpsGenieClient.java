@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
 import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Interface for accessing OpsGenie
@@ -35,6 +36,13 @@ public interface IOpsGenieClient {
     IEscalationOpsGenieClient escalation();
 
     /**
+     * Opsgenie Schedule Client
+     * @see IScheduleOpsGenieClient
+     * @return IScheduleOpsGenieClient
+     */
+    IScheduleOpsGenieClient schedule();
+
+    /**
      * Opsgenie Alert Client
      * @see IAlertOpsGenieClient
      * @return IAlertOpsGenieClient
@@ -50,7 +58,7 @@ public interface IOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
      * @see com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
      */
-    public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException;
+    public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
      * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.

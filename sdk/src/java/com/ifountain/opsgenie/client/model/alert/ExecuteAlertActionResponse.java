@@ -1,6 +1,10 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+
+import java.text.ParseException;
+import java.util.Map;
 
 /**
  * Represents the OpsGenie service response for an execute alert action request.
@@ -24,5 +28,13 @@ public class ExecuteAlertActionResponse extends BaseResponse {
      */
     public void setResult(String result) {
         this.result = result;
+    }
+
+    /**
+     * @see BaseResponse#deserialize(java.util.Map)
+     */
+    public void deserialize(Map data) throws ParseException {
+        super.deserialize(data);
+        result = (String) data.get(OpsGenieClientConstants.API.RESULT);
     }
 }

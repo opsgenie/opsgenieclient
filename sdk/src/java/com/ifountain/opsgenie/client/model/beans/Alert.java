@@ -1,12 +1,16 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.util.Strings;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Alert bean
  */
-public class Alert {
+public class Alert implements IBean{
     private String id;
     private String alias;
     private String message;
@@ -18,6 +22,7 @@ public class Alert {
     private String owner;
     private int count;
     private long createdAt;
+    private long updatedAt;
     private boolean isSeen;
     private boolean acknowledged;
     private List<String> recipients;
@@ -26,42 +31,42 @@ public class Alert {
     private Map<String, String> details;
 
     /**
-     * The tiny id of the alert.
+     * The tiny id of the 
      */
     public String getTinyId() {
         return tinyId;
     }
 
     /**
-     * Sets the tiny id of the alert.
+     * Sets the tiny id of the 
      */
     public void setTinyId(String tinyId) {
         this.tinyId = tinyId;
     }
 
     /**
-     * The id of the alert.
+     * The id of the 
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets the id of the alert.
+     * Sets the id of the 
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * User defined identifier of the alert.
+     * User defined identifier of the 
      */
     public String getAlias() {
         return alias;
     }
 
     /**
-     * Sets the user defined identifier of the alert.
+     * Sets the user defined identifier of the 
      */
     public void setAlias(String alias) {
         this.alias = alias;
@@ -96,14 +101,14 @@ public class Alert {
     }
 
     /**
-     * Source of the alert.
+     * Source of the 
      */
     public String getSource() {
         return source;
     }
 
     /**
-     * Sets the source of the alert.
+     * Sets the source of the 
      */
     public void setSource(String source) {
         this.source = source;
@@ -124,56 +129,70 @@ public class Alert {
     }
 
     /**
-     * The status of the alert.
+     * The status of the 
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     * Sets the status of the alert.
+     * Sets the status of the 
      */
     public void setStatus(String status) {
         this.status = status;
     }
 
     /**
-     * The owner of the alert.
+     * The owner of the 
      */
     public String getOwner() {
         return owner;
     }
 
     /**
-     * Sets the owner of the alert.
+     * Sets the owner of the 
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
     /**
-     * The creation time of alert in milliseconds.
+     * The creation time of alert in nanoseconds.
      */
     public long getCreatedAt() {
         return createdAt;
     }
 
     /**
-     * Sets the creation time of the alert in milliseconds.
+     * Sets the creation time of the alert in nanoseconds.
      */
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
 
     /**
-     * Count of the alert.
+     * Last update time of alert in nanoseconds.
+     */
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * Sets last update time of the alert in nanoseconds.
+     */
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Count of the 
      */
     public int getCount() {
         return count;
     }
 
     /**
-     * Sets the count of the alert.
+     * Sets the count of the 
      */
     public void setCount(int count) {
         this.count = count;
@@ -187,35 +206,35 @@ public class Alert {
     }
 
     /**
-     * Sets seen state of the alert.
+     * Sets seen state of the 
      */
     public void setSeen(boolean seen) {
         isSeen = seen;
     }
 
     /**
-     * The acknowledged state of the alert.
+     * The acknowledged state of the 
      */
     public boolean isAcknowledged() {
         return acknowledged;
     }
 
     /**
-     * Sets the acknowledged state of the alert.
+     * Sets the acknowledged state of the 
      */
     public void setAcknowledged(boolean acknowledged) {
         this.acknowledged = acknowledged;
     }
 
     /**
-     * The user names of individuval users or group names that will receive the alert.
+     * The user names of individuval users or group names that will receive the 
      */
     public List<String> getRecipients() {
         return recipients;
     }
 
     /**
-     * Sets the user names of individuval users or group names that will receive the alert.
+     * Sets the user names of individuval users or group names that will receive the 
      */
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
@@ -261,5 +280,51 @@ public class Alert {
      */
     public void setDetails(Map<String, String> details) {
         this.details = details;
+    }
+
+    @Override
+    public Map toMap() {
+        Map json = new HashMap();
+        json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(getRecipients(), ","));
+        json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
+        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        json.put(OpsGenieClientConstants.API.SOURCE, getSource());
+        json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
+        json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
+        json.put(OpsGenieClientConstants.API.TAGS, Strings.join(getTags(), ","));
+        json.put(OpsGenieClientConstants.API.ACTIONS, Strings.join(getActions(), ","));
+        json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
+        json.put(OpsGenieClientConstants.API.CREATED_AT, getCreatedAt());
+        json.put(OpsGenieClientConstants.API.UPDATED_AT, getUpdatedAt());
+        json.put(OpsGenieClientConstants.API.COUNT, getCount());
+        json.put(OpsGenieClientConstants.API.IS_SEEN, isSeen());
+        json.put(OpsGenieClientConstants.API.TINY_ID, getTinyId());
+        json.put(OpsGenieClientConstants.API.STATUS, getStatus());
+        json.put(OpsGenieClientConstants.API.OWNER, getOwner());
+        json.put(OpsGenieClientConstants.API.ACKNOWLEDGED, isAcknowledged());
+        return json;
+    }
+
+    @Override
+    public void fromMap(Map map) {
+        setId((String) map.get(OpsGenieClientConstants.API.ID));
+        setMessage((String) map.get(OpsGenieClientConstants.API.MESSAGE));
+        setAlias((String) map.get(OpsGenieClientConstants.API.ALIAS));
+        setDescription((String) map.get(OpsGenieClientConstants.API.DESCRIPTION));
+        setSource((String) map.get(OpsGenieClientConstants.API.SOURCE));
+        setEntity((String) map.get(OpsGenieClientConstants.API.ENTITY));
+        setStatus((String) map.get(OpsGenieClientConstants.API.STATUS));
+        setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
+        setTinyId((String) map.get(OpsGenieClientConstants.API.TINY_ID));
+        setSeen((Boolean) map.get(OpsGenieClientConstants.API.IS_SEEN));
+        setAcknowledged((Boolean) map.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
+        setTags((List<String>) map.get(OpsGenieClientConstants.API.TAGS));
+        setActions((List<String>) map.get(OpsGenieClientConstants.API.ACTIONS));
+        setRecipients((List<String>) map.get(OpsGenieClientConstants.API.RECIPIENTS));
+        setDetails((Map<String, String>) map.get(OpsGenieClientConstants.API.DETAILS));
+        setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
+        setUpdatedAt(((Number) map.get(OpsGenieClientConstants.API.UPDATED_AT)).longValue());
+        setCount(((Number) map.get(OpsGenieClientConstants.API.COUNT)).intValue());
     }
 }

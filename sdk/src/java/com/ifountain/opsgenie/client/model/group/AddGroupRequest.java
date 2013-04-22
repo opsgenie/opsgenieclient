@@ -1,9 +1,12 @@
 package com.ifountain.opsgenie.client.model.group;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.User;
+import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -11,7 +14,7 @@ import java.util.TimeZone;
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroup(com.ifountain.opsgenie.client.model.group.AddGroupRequest)
  */
-public class AddGroupRequest extends BaseRequest {
+public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
     private String name;
     private List<String> users;
 
@@ -50,5 +53,29 @@ public class AddGroupRequest extends BaseRequest {
      */
     public void setUsers(List<String> users) {
         this.users = users;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        if(getName() != null)
+        {
+            json.put(OpsGenieClientConstants.API.NAME, getName());
+        }
+        if(getUsers() != null){
+            json.put(OpsGenieClientConstants.API.USERS, getUsers());
+        }
+        return json;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public AddGroupResponse createResponse() {
+        return new AddGroupResponse();
     }
 }

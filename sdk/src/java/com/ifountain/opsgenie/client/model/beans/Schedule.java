@@ -1,16 +1,18 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import java.util.List;
-import java.util.TimeZone;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * Schedule bean
  */
-public class Schedule {
+public class Schedule  implements IBean{
     private String id;
     private String name;
     private TimeZone timeZone;
-    private boolean enabled;
+    private Boolean enabled;
     private List<ScheduleRule> rules;
 
     /**
@@ -58,14 +60,14 @@ public class Schedule {
     /**
      * Returns enable/disable state of schedule
      */
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
     /**
      * Sets enable/disable state of schedule
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -83,5 +85,47 @@ public class Schedule {
      */
     public void setRules(List<ScheduleRule> rules) {
         this.rules = rules;
+    }
+
+    @Override
+    public Map toMap() {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put(OpsGenieClientConstants.API.ID, id);
+        json.put(OpsGenieClientConstants.API.NAME, name);
+        if(timeZone != null){
+            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+        }
+        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
+        if(rules != null){
+            List<Map> ruleMaps = new ArrayList<Map>();
+            for(ScheduleRule rule:rules) {
+                ruleMaps.add(rule.toMap());
+            }
+            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+        }
+        return null;
+    }
+
+    @Override
+    public void fromMap(Map map) throws ParseException {
+        id = (String) map.get(OpsGenieClientConstants.API.ID);
+        name = (String) map.get(OpsGenieClientConstants.API.NAME);
+        if(map.containsKey(OpsGenieClientConstants.API.ENABLED)){
+            enabled = (Boolean) map.get(OpsGenieClientConstants.API.ENABLED);
+        }
+        if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
+            String timezoneId = (String) map.get(OpsGenieClientConstants.API.TIMEZONE);
+            timeZone = TimeZone.getTimeZone(timezoneId);
+        }
+        List<Map> ruleMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
+        if(ruleMaps != null){
+            rules = new ArrayList<ScheduleRule>();
+            for(Map ruleMap:ruleMaps) {
+                ScheduleRule rule = new ScheduleRule();
+                rule.setScheduleTimeZone(timeZone);
+                rule.fromMap(ruleMap);
+                rules.add(rule);
+            }
+        }
     }
 }

@@ -1,16 +1,19 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Container for the parameters to make an delete forwarding api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#deleteForwarding(DeleteForwardingRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteForwarding(DeleteForwardingRequest)
  */
-public class DeleteForwardingRequest extends BaseRequest {
+public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingResponse> {
     private String id;
 
     /**
@@ -33,5 +36,23 @@ public class DeleteForwardingRequest extends BaseRequest {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        json.put(OpsGenieClientConstants.API.ID, getId());
+        return json;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public DeleteForwardingResponse createResponse() {
+        return new DeleteForwardingResponse();
     }
 }

@@ -2,6 +2,8 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
+import java.util.Map;
+
 /**
  * Container for the parameters to make an attach api call.
  *
@@ -10,7 +12,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
  */
-public abstract class AttachRequest extends BaseRequest {
+public abstract class AttachRequest extends BaseRequest<AttachResponse> {
     private String alertId;
     private String alias;
     private String indexFile;
@@ -87,5 +89,20 @@ public abstract class AttachRequest extends BaseRequest {
      */
     public void setNote(String note) {
         this.note = note;
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        throw new UnsupportedOperationException("unsupported method serialize");
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public AttachResponse createResponse() {
+        return new AttachResponse();
     }
 }

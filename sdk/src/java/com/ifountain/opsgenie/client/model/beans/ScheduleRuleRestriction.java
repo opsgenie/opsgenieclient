@@ -1,19 +1,36 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * ScheduleRuleRestriction bean
  */
-public class ScheduleRuleRestriction {
-    private String startDay;
-    private String startTime;
-    private String endDay;
-    private String endTime;
+public class ScheduleRuleRestriction  implements IBean{
+    public enum DAY{
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
+        sunday
+    }
+    private DAY startDay;
+    private int startHour;
+    private int startMin;
+    private DAY endDay;
+    private int endHour;
+    private int endMin;
 
     /**
      * Start day of restriction
      * One of monday, tuesday, wednesday, thursday, friday, saturday, sunday
      */
-    public String getStartDay() {
+    public DAY getStartDay() {
         return startDay;
     }
 
@@ -21,31 +38,71 @@ public class ScheduleRuleRestriction {
      * Sets start day of restriction
      * One of monday, tuesday, wednesday, thursday, friday, saturday, sunday
      */
-    public void setStartDay(String startDay) {
+    public void setStartDay(DAY startDay) {
         this.startDay = startDay;
     }
 
     /**
-     * Start time of restriction
-     * Format: HH:mm
+     * Start hour of restriction
      */
-    public String getStartTime() {
-        return startTime;
+    public int getStartHour() {
+        return startHour;
     }
 
     /**
-     * Sets start time of restriction
-     * Format: HH:mm
+     * Sets start hour of restriction
      */
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setStartHour(int startHour) {
+        this.startHour = startHour;
+    }
+
+    /**
+     * Start min of restriction
+     */
+    public int getStartMin() {
+        return startMin;
+    }
+
+    /**
+     * Sets start min of restriction
+     */
+    public void setStartMin(int startMin) {
+        this.startMin = startMin;
+    }
+
+    /**
+     * End hour of restriction
+     */
+    public int getEndHour() {
+        return endHour;
+    }
+
+    /**
+     * Sets end hour of restriction
+     */
+    public void setEndHour(int endHour) {
+        this.endHour = endHour;
+    }
+
+    /**
+     * End min of restriction
+     */
+    public int getEndMin() {
+        return endMin;
+    }
+
+    /**
+     * Sets end min of restriction
+     */
+    public void setEndMin(int endMin) {
+        this.endMin = endMin;
     }
 
     /**
      * End day of restriction
      * One of monday, tuesday, wednesday, thursday, friday, saturday, sunday
      */
-    public String getEndDay() {
+    public DAY getEndDay() {
         return endDay;
     }
 
@@ -53,23 +110,44 @@ public class ScheduleRuleRestriction {
      * Sets end day of restriction
      * One of monday, tuesday, wednesday, thursday, friday, saturday, sunday
      */
-    public void setEndDay(String endDay) {
+    public void setEndDay(DAY endDay) {
         this.endDay = endDay;
     }
 
-    /**
-     * End time of restriction
-     * Format: HH:mm
-     */
-    public String getEndTime() {
-        return endTime;
+    @Override
+    public Map toMap() {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put(OpsGenieClientConstants.API.START_DAY, startDay.name());
+        json.put(OpsGenieClientConstants.API.END_DAY, endDay.name());
+        json.put(OpsGenieClientConstants.API.START_TIME, createTimeStr(startHour, startMin));
+        json.put(OpsGenieClientConstants.API.END_TIME, createTimeStr(endHour, endMin));
+        return json;
     }
 
-    /**
-     * Sets end time of restriction
-     * Format: HH:mm
-     */
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    @Override
+    public void fromMap(Map map) throws ParseException {
+        startDay = DAY.valueOf(((String) map.get(OpsGenieClientConstants.API.START_DAY)).toLowerCase());
+        endDay = DAY.valueOf(((String) map.get(OpsGenieClientConstants.API.END_DAY)).toLowerCase());
+        String startTime =  (String) map.get(OpsGenieClientConstants.API.START_TIME);
+        String endTime =  (String) map.get(OpsGenieClientConstants.API.END_TIME);
+        String[] startTimeParts = startTime.split(":", -1);
+        String[] endTimeParts = endTime.split(":", -1);
+        startHour = Integer.parseInt(startTimeParts[0]);
+        startMin = Integer.parseInt(startTimeParts[1]);
+        endHour = Integer.parseInt(endTimeParts[0]);
+        endMin = Integer.parseInt(endTimeParts[1]);
+    }
+
+    private String createTimeStr(int hour, int min){
+        StringBuffer time = new StringBuffer();
+        if(hour < 10){
+            time.append("0");
+        }
+        time.append(hour).append(":");
+        if(min < 10){
+            time.append("0");
+        }
+        time.append(min);
+        return time.toString();
     }
 }

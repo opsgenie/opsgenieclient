@@ -7,20 +7,5 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#updateEscalation(UpdateEscalationRequest) 
  */
-public class UpdateEscalationResponse extends BaseResponse{
-    private String id;
-
-    /**
-     * Id of the escalation
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of the escalation
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+public class UpdateEscalationResponse extends AddEscalationResponse{
 }

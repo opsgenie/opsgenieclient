@@ -51,10 +51,24 @@ public interface OpsGenieClientConstants {
         public static final String STATE = "state";
         public static final String GROUPS = "groups";
         public static final String ESCALATIONS = "escalations";
-        public static final String SCHEDULES = "scheduless";
+        public static final String SCHEDULES = "schedules";
         public static final String USERS = "users";
         public static final String RULES = "rules";
         public static final String TYPE = "type";
         public static final String DELAY = "delay";
+        public static final String START_DAY = "startDay";
+        public static final String END_DAY = "endDay";
+        public static final String START_TIME = "startTime";
+        public static final String END_TIME = "endTime";
+        public static final String UPDATED_AT = "updatedAt";
+        public static final String ENABLED = "enabled";
+        public static final String ROTATION_TYPE = "rotationType";
+        public static final String ROTATION_LENGTH = "rotationLength";
+        public static final String PARTICIPANTS = "participants";
+        public static final String RESTRICTIONS = "restrictions";
+        public static final String TOOK = "took";
+        public static final String RESULTS = "results";
+        public static final String RESULT = "result";
+        public static final String FORWARDINGS = "forwardings";
     }
 }

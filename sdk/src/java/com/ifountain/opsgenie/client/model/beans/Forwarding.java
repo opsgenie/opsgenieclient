@@ -1,12 +1,18 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Forwarding bean
  */
-public class Forwarding {
+public class Forwarding  implements IBean{
     private String id;
     private String alias;
     private String fromUser;
@@ -30,7 +36,7 @@ public class Forwarding {
     }
 
     /**
-     * A user defined identifier for the forwarding.
+     * A user defined identifier for the 
      * Provides ability to assign a known id and later use this id to get forwarding details.
      */
     public String getAlias() {
@@ -38,7 +44,7 @@ public class Forwarding {
     }
 
     /**
-     * Sets a user defined identifier for the forwarding.
+     * Sets a user defined identifier for the 
      */
     public void setAlias(String alias) {
         this.alias = alias;
@@ -112,5 +118,41 @@ public class Forwarding {
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+    @Override
+    public Map toMap() {
+        Map<String, String> json = new HashMap<String, String>();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        if (timeZone != null) {
+            sdf.setTimeZone(timeZone);
+            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+        }
+        if (endDate != null) {
+            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(endDate));
+        }
+        if (startDate != null) {
+            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
+        }
+        json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
+        json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
+        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        return null;
+    }
+
+    @Override
+    public void fromMap(Map map) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
+            timeZone = TimeZone.getTimeZone((String) map.get(OpsGenieClientConstants.API.TIMEZONE));
+            sdf.setTimeZone(timeZone);
+        }
+        setId((String) map.get(OpsGenieClientConstants.API.ID));
+        setAlias((String) map.get(OpsGenieClientConstants.API.ALIAS));
+        setFromUser((String) map.get(OpsGenieClientConstants.API.FROM_USER));
+        setToUser((String) map.get(OpsGenieClientConstants.API.TO_USER));
+        setStartDate(sdf.parse((String) map.get(OpsGenieClientConstants.API.START_DATE)));
+        setEndDate(sdf.parse((String) map.get(OpsGenieClientConstants.API.END_DATE)));
     }
 }

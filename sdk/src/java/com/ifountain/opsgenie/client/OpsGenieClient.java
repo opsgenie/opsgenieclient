@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,6 +66,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     private InnerGroupOpsGenieClient innerGroupOpsGenieClient;
     private InnerEscalationOpsGenieClient innerEscalationOpsGenieClient;
     private InnerAlertOpsGenieClient innerAlertOpsGenieClient;
+    private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
     /**
      * Http client object *
      */
@@ -94,6 +96,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerEscalationOpsGenieClient = new InnerEscalationOpsGenieClient(this.jsonHttpClient);
         innerAlertOpsGenieClient = new InnerAlertOpsGenieClient(this.jsonHttpClient);
+        innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient);
     }
 
     /**
@@ -125,17 +128,18 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#schedule()
+     */
+    public IScheduleOpsGenieClient schedule() {
+        return innerScheduleOpsGenieClient;
+    }
+
+    /**
      * @see IOpsGenieClient#heartbeat(com.ifountain.opsgenie.client.model.customer.HeartbeatRequest)
      */
     @Override
-    public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException {
-        Map<String, String> json = new HashMap<String, String>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, heartbeatRequest.getCustomerKey());
-        JsonOpgenieHttpClient.OpsGenieJsonResponse resp = jsonHttpClient.doPostRequest(heartbeatRequest, json);
-        HeartbeatResponse response = new HeartbeatResponse();
-        response.setHeartbeat(((Number) resp.json().get("heartbeat")).longValue());
-        response.setTook(((Number) resp.json().get("took")).longValue());
-        return response;
+    public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (HeartbeatResponse) jsonHttpClient.doPostRequest(heartbeatRequest);
     }
 
     /**

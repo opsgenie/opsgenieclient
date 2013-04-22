@@ -1,6 +1,10 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Container for the parameters to make a delete alert api call.
@@ -9,7 +13,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @version 12/4/12 3:38 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#deleteAlert(DeleteAlertRequest)
  */
-public class DeleteAlertRequest extends BaseRequest {
+public class DeleteAlertRequest extends BaseRequest<DeleteAlertResponse> {
     private String alertId;
     private String alias;
     private String user;
@@ -62,5 +66,27 @@ public class DeleteAlertRequest extends BaseRequest {
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map parameters = super.serialize();
+        if (getAlertId() != null)
+            parameters.put(OpsGenieClientConstants.API.ALERT_ID, getAlertId());
+        if (getAlias() != null)
+            parameters.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        if (getUser() != null)
+            parameters.put(OpsGenieClientConstants.API.USER, getUser());
+        return parameters;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public DeleteAlertResponse createResponse() {
+        return new DeleteAlertResponse();
     }
 }

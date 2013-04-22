@@ -7,20 +7,5 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(com.ifountain.opsgenie.client.model.group.UpdateGroupRequest)
  */
-public class UpdateGroupResponse extends BaseResponse{
-    private String id;
-
-    /**
-     * Id of the group
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of the group
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+public class UpdateGroupResponse extends AddGroupResponse{
 }

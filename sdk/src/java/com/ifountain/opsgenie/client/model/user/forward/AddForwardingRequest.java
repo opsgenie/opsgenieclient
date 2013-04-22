@@ -1,7 +1,10 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +13,9 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add forwarding api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#addForwarding(AddForwardingRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
-public class AddForwardingRequest extends BaseRequest {
+public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     private String alias;
     private String fromUser;
     private String toUser;
@@ -112,5 +115,36 @@ public class AddForwardingRequest extends BaseRequest {
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        if (getTimeZone() != null) {
+            sdf.setTimeZone(getTimeZone());
+            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+        }
+        if (getEndDate() != null) {
+            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(getEndDate()));
+        }
+        if (getStartDate() != null) {
+            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(getStartDate()));
+        }
+        json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
+        json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
+        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        return json;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public AddForwardingResponse createResponse() {
+        return new AddForwardingResponse();
     }
 }

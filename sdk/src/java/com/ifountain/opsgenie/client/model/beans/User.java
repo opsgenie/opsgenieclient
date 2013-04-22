@@ -1,21 +1,29 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.model.user.AddUserRequest;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
+import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * User bean
  */
-public class User {
+public class User  implements IBean{
     public static enum Role{
-        Admin,
-        User
+        admin,
+        user
+    }
+    public static enum State{
+        active,
+        waitingverification,
+        inactive
     }
     private String id;
     private String username;
-    private String state;
+    private State state;
     private String fullname;
     private TimeZone timeZone;
     private Role role;
@@ -53,15 +61,17 @@ public class User {
 
     /**
      * State of user
+     * @see State
      */
-    public String getState() {
+    public State getState() {
         return state;
     }
 
     /**
      * Sets state of user
+     * @see State
      */
-    public void setState(String state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -149,5 +159,47 @@ public class User {
      */
     public void setSchedules(List<String> schedules) {
         this.schedules = schedules;
+    }
+
+    @Override
+    public Map toMap() {
+        Map json = new HashMap();
+        json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
+        json.put(OpsGenieClientConstants.API.FULLNAME, getFullname());
+        if(getState() != null){
+            json.put(OpsGenieClientConstants.API.STATE, getState().name());
+        }
+        if(getRole() != null){
+            json.put(OpsGenieClientConstants.API.ROLE, getRole().name());
+        }
+        if(getTimeZone() != null){
+            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+        }
+        if(getGroups() != null){
+            json.put(OpsGenieClientConstants.API.GROUPS, getGroups());
+        }
+        if(getEscalations() != null){
+            json.put(OpsGenieClientConstants.API.ESCALATIONS, getEscalations());
+        }
+        if(getSchedules() != null){
+            json.put(OpsGenieClientConstants.API.SCHEDULES, getSchedules());
+        }
+        return json;
+    }
+
+    @Override
+    public void fromMap(Map map) throws ParseException {
+        setId((String) map.get(OpsGenieClientConstants.API.ID));
+        setUsername((String) map.get(OpsGenieClientConstants.API.USERNAME));
+        setFullname((String) map.get(OpsGenieClientConstants.API.FULLNAME));
+        setRole(User.Role.valueOf(((String) map.get(OpsGenieClientConstants.API.ROLE)).toLowerCase()));
+        setState(State.valueOf(((String) map.get(OpsGenieClientConstants.API.STATE)).toLowerCase()));
+        setGroups((List<String>) map.get(OpsGenieClientConstants.API.GROUPS));
+        setEscalations((List<String>) map.get(OpsGenieClientConstants.API.ESCALATIONS));
+        setSchedules((List<String>) map.get(OpsGenieClientConstants.API.SCHEDULES));
+        if(map.get(OpsGenieClientConstants.API.TIMEZONE) != null){
+            setTimeZone(TimeZone.getTimeZone((String) map.get(OpsGenieClientConstants.API.TIMEZONE)));
+        }
     }
 }

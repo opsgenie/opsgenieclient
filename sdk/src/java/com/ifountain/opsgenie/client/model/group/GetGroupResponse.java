@@ -4,6 +4,9 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Group;
 import com.ifountain.opsgenie.client.model.beans.User;
 
+import java.text.ParseException;
+import java.util.Map;
+
 /**
  * Represents OpsGenie service response for get group request.
  *
@@ -26,5 +29,12 @@ public class GetGroupResponse extends BaseResponse{
      */
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    @Override
+    public void deserialize(Map data) throws ParseException {
+        super.deserialize(data);
+        group = new Group();
+        group.fromMap(data);
     }
 }

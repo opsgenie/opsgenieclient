@@ -1,6 +1,10 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+
+import java.text.ParseException;
+import java.util.Map;
 
 /**
  * Represents OpsGenie service response for add escalation request.
@@ -21,5 +25,11 @@ public class AddEscalationResponse extends BaseResponse{
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public void deserialize(Map data) throws ParseException {
+        super.deserialize(data);
+        id = (String) data.get(OpsGenieClientConstants.API.ID);
     }
 }

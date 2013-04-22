@@ -1,16 +1,19 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Container for the parameters to make a get forwarding api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#getForwarding(GetForwardingRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getForwarding(GetForwardingRequest)
  */
-public class GetForwardingRequest extends BaseRequest {
+public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
     private String id;
     private String alias;
 
@@ -49,5 +52,25 @@ public class GetForwardingRequest extends BaseRequest {
      */
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        return json;
+    }
+
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public GetForwardingResponse createResponse() {
+        return new GetForwardingResponse();
     }
 }

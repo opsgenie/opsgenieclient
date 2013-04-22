@@ -21,7 +21,7 @@ public interface IGroupOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.group.AddGroupRequest
      * @see com.ifountain.opsgenie.client.model.group.AddGroupResponse
      */
-    public AddGroupResponse addGroup(AddGroupRequest addGroupRequest) throws IOException, OpsGenieClientException;
+    public AddGroupResponse addGroup(AddGroupRequest addGroupRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Updates group at OpsGenie.
@@ -31,7 +31,7 @@ public interface IGroupOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.group.UpdateGroupRequest
      * @see com.ifountain.opsgenie.client.model.group.UpdateGroupResponse
      */
-    public UpdateGroupResponse updateGroup(UpdateGroupRequest updateGroupRequest) throws IOException, OpsGenieClientException;
+    public UpdateGroupResponse updateGroup(UpdateGroupRequest updateGroupRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Deletes a group at OpsGenie.
@@ -41,7 +41,7 @@ public interface IGroupOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.group.DeleteGroupRequest
      * @see com.ifountain.opsgenie.client.model.group.DeleteGroupResponse
      */
-    public DeleteGroupResponse deleteGroup(DeleteGroupRequest deleteGroupRequest) throws IOException, OpsGenieClientException;
+    public DeleteGroupResponse deleteGroup(DeleteGroupRequest deleteGroupRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Get group details

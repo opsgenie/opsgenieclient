@@ -1,11 +1,16 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Escalation bean
  */
-public class Escalation {
+public class Escalation  implements IBean{
     private String id;
     private String name;
     private List<EscalationRule> rules;
@@ -52,5 +57,35 @@ public class Escalation {
      */
     public void setRules(List<EscalationRule> rules) {
         this.rules = rules;
+    }
+
+    @Override
+    public Map toMap() {
+        Map json = new HashMap();
+        json.put(OpsGenieClientConstants.API.ID, id);
+        json.put(OpsGenieClientConstants.API.NAME, name);
+        if(rules != null){
+            List<Map> ruleMaps = new ArrayList<Map>();
+            for(EscalationRule escalationRule:rules){
+                ruleMaps.add(escalationRule.toMap());
+            }
+            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+        }
+        return json;
+    }
+
+    @Override
+    public void fromMap(Map resp) {
+        setId((String) resp.get(OpsGenieClientConstants.API.ID));
+        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
+        List<Map> ruleMaps = (List<Map>) resp.get(OpsGenieClientConstants.API.RULES);
+        if(ruleMaps != null){
+            rules = new ArrayList<EscalationRule>();
+            for(Map ruleMap:ruleMaps){
+                EscalationRule escalationRule = new EscalationRule();
+                escalationRule.fromMap(ruleMap);
+                rules.add(escalationRule);
+            }
+        }
     }
 }

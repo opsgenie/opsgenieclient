@@ -1,6 +1,9 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.ifountain.opsgenie.client.model.BaseResponse;
+
 import java.io.File;
+import java.util.Map;
 
 /**
  * Container for the parameters to make an file based attach api call.
@@ -27,5 +30,12 @@ public class FileAttachRequest extends AttachRequest {
      */
     public void setFile(File file) {
         this.file = file;
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        throw new UnsupportedOperationException("unsupported method serialize");
     }
 }

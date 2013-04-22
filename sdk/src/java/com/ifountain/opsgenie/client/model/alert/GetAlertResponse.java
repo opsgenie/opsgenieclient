@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Alert;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import java.util.Map;
  */
 public class GetAlertResponse extends BaseResponse {
     private Alert alert;
-    private String json;
 
     public Alert getAlert() {
         return alert;
@@ -345,17 +345,13 @@ public class GetAlertResponse extends BaseResponse {
         this.alert.setDetails(details);
     }
 
-    /**
-     * The low level json response that is returned from OpsGenie service for get alert api call.
-     */
-    public void setJson(String json) {
-        this.json = json;
-    }
 
     /**
-     * Sets the low level json response that is returned from OpsGenie service for get alert api call.
+     * @see BaseResponse#deserialize(java.util.Map)
      */
-    public String getJson() {
-        return json;
+    public void deserialize(Map data) throws ParseException {
+        super.deserialize(data);
+        alert = new Alert();
+        alert.fromMap(data);
     }
 }

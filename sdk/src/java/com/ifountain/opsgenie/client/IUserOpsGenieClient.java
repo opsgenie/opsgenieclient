@@ -22,7 +22,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.AddUserRequest
      * @see com.ifountain.opsgenie.client.model.user.AddUserResponse
      */
-    public AddUserResponse addUser(AddUserRequest addUserRequest) throws IOException, OpsGenieClientException;
+    public AddUserResponse addUser(AddUserRequest addUserRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Updates user at OpsGenie.
@@ -32,7 +32,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.UpdateUserRequest
      * @see com.ifountain.opsgenie.client.model.user.UpdateUserResponse
      */
-    public UpdateUserResponse updateUser(UpdateUserRequest updateUserRequest) throws IOException, OpsGenieClientException;
+    public UpdateUserResponse updateUser(UpdateUserRequest updateUserRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Deletes a user at OpsGenie.
@@ -42,7 +42,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.DeleteUserRequest
      * @see com.ifountain.opsgenie.client.model.user.DeleteUserResponse
      */
-    public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws IOException, OpsGenieClientException;
+    public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Get user details
@@ -73,7 +73,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.forward.AddForwardingRequest
      * @see com.ifountain.opsgenie.client.model.user.forward.AddForwardingResponse
      */
-    public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException;
+    public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
 
 
     /**
@@ -85,7 +85,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest
      * @see com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingResponse
      */
-    public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException;
+    public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * @param deleteForwardingRequest Object to construct request parameters
@@ -93,7 +93,7 @@ public interface IUserOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingRequest
      * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingResponse
      */
-    public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException;
+    public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * @param getForwardingRequest Object to construct request parameters

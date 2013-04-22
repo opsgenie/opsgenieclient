@@ -1,5 +1,10 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
+
+import java.util.Map;
+
 /**
  * Container for the parameters to make an update schedule api call.
  *
@@ -27,5 +32,25 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        if(id != null){
+            json.put(OpsGenieClientConstants.API.ID, id);
+        }
+        return json;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public UpdateScheduleResponse createResponse() {
+        return new UpdateScheduleResponse();
     }
 }

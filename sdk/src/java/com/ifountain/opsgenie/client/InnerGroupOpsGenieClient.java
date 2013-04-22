@@ -27,56 +27,24 @@ public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
      * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroup(com.ifountain.opsgenie.client.model.group.AddGroupRequest)
      */
     @Override
-    public AddGroupResponse addGroup(AddGroupRequest addGroupRequest) throws IOException, OpsGenieClientException {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, addGroupRequest.getCustomerKey());
-        json.put(OpsGenieClientConstants.API.NAME, addGroupRequest.getName());
-        json.put(OpsGenieClientConstants.API.USERS, addGroupRequest.getUsers());
-        OpsGenieJsonResponse resp = httpClient.doPostRequest(addGroupRequest, json);
-        AddGroupResponse response = new AddGroupResponse();
-        response.setId((String) resp.getJson().get("id"));
-        response.setTook(((Number) resp.getJson().get("took")).longValue());
-        return response;
+    public AddGroupResponse addGroup(AddGroupRequest addGroupRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (AddGroupResponse) httpClient.doPostRequest(addGroupRequest);
     }
 
     /**
      * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(com.ifountain.opsgenie.client.model.group.UpdateGroupRequest)
      */
     @Override
-    public UpdateGroupResponse updateGroup(UpdateGroupRequest updateGroupRequest) throws IOException, OpsGenieClientException {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, updateGroupRequest.getCustomerKey());
-        json.put(OpsGenieClientConstants.API.ID, updateGroupRequest.getId());
-        if(updateGroupRequest.getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, updateGroupRequest.getName());
-        }
-        if(updateGroupRequest.getUsers() != null){
-            json.put(OpsGenieClientConstants.API.USERS, updateGroupRequest.getUsers());
-        }
-        OpsGenieJsonResponse resp = httpClient.doPostRequest(updateGroupRequest, json);
-        UpdateGroupResponse response = new UpdateGroupResponse();
-        response.setId((String) resp.getJson().get("id"));
-        response.setTook(((Number) resp.getJson().get("took")).longValue());
-        return response;
+    public UpdateGroupResponse updateGroup(UpdateGroupRequest updateGroupRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (UpdateGroupResponse) httpClient.doPostRequest(updateGroupRequest);
     }
 
     /**
      * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroup(com.ifountain.opsgenie.client.model.group.DeleteGroupRequest)
      */
     @Override
-    public DeleteGroupResponse deleteGroup(DeleteGroupRequest deleteGroupRequest) throws IOException, OpsGenieClientException {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, deleteGroupRequest.getCustomerKey());
-        if(deleteGroupRequest.getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, deleteGroupRequest.getId());
-        }
-        if(deleteGroupRequest.getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, deleteGroupRequest.getName());
-        }
-        OpsGenieJsonResponse resp = httpClient.doDeleteRequest(deleteGroupRequest, json);
-        DeleteGroupResponse response = new DeleteGroupResponse();
-        response.setTook(((Number) resp.getJson().get("took")).longValue());
-        return response;
+    public DeleteGroupResponse deleteGroup(DeleteGroupRequest deleteGroupRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (DeleteGroupResponse) httpClient.doDeleteRequest(deleteGroupRequest);
     }
 
     /**
@@ -84,20 +52,7 @@ public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
      */
     @Override
     public GetGroupResponse getGroup(GetGroupRequest getGroupRequest) throws IOException, OpsGenieClientException, ParseException {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, getGroupRequest.getCustomerKey());
-        if(getGroupRequest.getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getGroupRequest.getId());
-        }
-        if(getGroupRequest.getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getGroupRequest.getName());
-        }
-        OpsGenieJsonResponse resp = httpClient.doGetRequest(getGroupRequest, json);
-        GetGroupResponse response = new GetGroupResponse();
-        response.setTook(((Number) resp.json().get("took")).longValue());
-        Group group = createGroupFromParameters(resp.getJson());
-        response.setGroup(group);
-        return response;
+        return (GetGroupResponse) httpClient.doGetRequest(getGroupRequest);
     }
 
     /**
@@ -105,25 +60,6 @@ public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
      */
     @Override
     public ListGroupResponse listGroups(ListGroupRequest listGroupRequest) throws IOException, OpsGenieClientException, ParseException {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.CUSTOMER_KEY, listGroupRequest.getCustomerKey());
-        OpsGenieJsonResponse resp = httpClient.doGetRequest(listGroupRequest, json);
-        ListGroupResponse response = new ListGroupResponse();
-        List<Map> groupsData = (List<Map>) resp.getJson().get(OpsGenieClientConstants.API.GROUPS);
-        List<Group> groups = new ArrayList<Group>();
-        for(Map groupData:groupsData){
-            Group group = createGroupFromParameters(groupData);
-            groups.add(group);
-        }
-        response.setGroups(groups);
-        return response;
-    }
-
-    private Group createGroupFromParameters(Map resp) throws ParseException {
-        Group group = new Group();
-        group.setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        group.setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        group.setUsers((List<String>) resp.get(OpsGenieClientConstants.API.USERS));
-        return group;
+        return (ListGroupResponse) httpClient.doGetRequest(listGroupRequest);
     }
 }

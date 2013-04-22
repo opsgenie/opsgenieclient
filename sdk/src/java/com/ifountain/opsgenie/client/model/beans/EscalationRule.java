@@ -1,5 +1,10 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ifountain-qj
@@ -7,9 +12,13 @@ package com.ifountain.opsgenie.client.model.beans;
  * Time: 4:23 AM
  * To change this template use File | Settings | File Templates.
  */
-public class EscalationRule {
+public class EscalationRule  implements IBean{
+    public static enum Type{
+        user,
+        group
+    }
     private String name;
-    private String type;
+    private Type type;
     private int delay;
 
     /**
@@ -29,16 +38,18 @@ public class EscalationRule {
     /**
      * Type of escalation rule member
      * One of user, group
+     * @see Type
      */
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
     /**
      * Sets the type of escalation rule member
      * One of user, group
+     * @see Type
      */
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -54,5 +65,21 @@ public class EscalationRule {
      */
     public void setDelay(int delay) {
         this.delay = delay;
+    }
+
+    @Override
+    public Map toMap() {
+        Map<String, Object> ruleMap = new HashMap<String, Object>();
+        ruleMap.put(OpsGenieClientConstants.API.NAME, name);
+        ruleMap.put(OpsGenieClientConstants.API.TYPE, type);
+        ruleMap.put(OpsGenieClientConstants.API.DELAY, delay);
+        return ruleMap;
+    }
+
+    @Override
+    public void fromMap(Map map) {
+        name = (String) map.get(OpsGenieClientConstants.API.NAME);
+        type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        delay = ((Number) map.get(OpsGenieClientConstants.API.DELAY)).intValue();
     }
 }

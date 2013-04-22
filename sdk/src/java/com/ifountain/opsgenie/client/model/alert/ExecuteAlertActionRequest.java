@@ -1,6 +1,10 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Container for the parameters to make an execute aler action api call.
@@ -9,7 +13,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @version 10/30/12 4:59 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
  */
-public class ExecuteAlertActionRequest extends BaseRequest {
+public class ExecuteAlertActionRequest extends BaseRequest<ExecuteAlertActionResponse> {
     private String alertId;
     private String alias;
     private String action;
@@ -92,5 +96,30 @@ public class ExecuteAlertActionRequest extends BaseRequest {
      */
     public void setNote(String note) {
         this.note = note;
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     */
+    public Map serialize() {
+        Map json = super.serialize();
+        json.put(OpsGenieClientConstants.API.ACTION, getAction());
+        if (getAlertId() != null)
+            json.put(OpsGenieClientConstants.API.ALERT_ID, getAlertId());
+        if (getAlias() != null)
+            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        if (getUser() != null)
+            json.put(OpsGenieClientConstants.API.USER, getUser());
+        if (getNote() != null)
+            json.put(OpsGenieClientConstants.API.NOTE, getNote());
+        return json;
+    }
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public ExecuteAlertActionResponse createResponse() {
+        return new ExecuteAlertActionResponse();
     }
 }

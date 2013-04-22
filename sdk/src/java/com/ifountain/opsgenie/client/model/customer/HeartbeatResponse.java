@@ -2,6 +2,9 @@ package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 
+import java.text.ParseException;
+import java.util.Map;
+
 /**
  * Represents the OpsGenie service response for an heartbeat request.
  *
@@ -24,5 +27,11 @@ public class HeartbeatResponse extends BaseResponse {
      */
     public void setHeartbeat(long heartbeat) {
         this.heartbeat = heartbeat;
+    }
+
+    @Override
+    public void deserialize(Map data) throws ParseException {
+        super.deserialize(data);
+        heartbeat = ((Number) data.get("heartbeat")).longValue();
     }
 }
