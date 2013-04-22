@@ -63,6 +63,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
+     * @see IAlertOpsGenieClient#listAlerts(com.ifountain.opsgenie.client.model.alert.ListAlertsRequest)
+     */
+    @Override
+    public ListAlertsResponse listAlerts(ListAlertsRequest listAlertsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (ListAlertsResponse) httpClient.doGetRequest(listAlertsRequest);
+    }
+
+    /**
      * @see IAlertOpsGenieClient#addNote(com.ifountain.opsgenie.client.model.alert.AddNoteRequest)
      */
     @Override

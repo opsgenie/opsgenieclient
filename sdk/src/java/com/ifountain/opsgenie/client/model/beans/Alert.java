@@ -325,6 +325,8 @@ public class Alert implements IBean{
         setDetails((Map<String, String>) map.get(OpsGenieClientConstants.API.DETAILS));
         setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
         setUpdatedAt(((Number) map.get(OpsGenieClientConstants.API.UPDATED_AT)).longValue());
-        setCount(((Number) map.get(OpsGenieClientConstants.API.COUNT)).intValue());
+        if(map.containsKey(OpsGenieClientConstants.API.COUNT)){
+            setCount(((Number) map.get(OpsGenieClientConstants.API.COUNT)).intValue());
+        }
     }
 }

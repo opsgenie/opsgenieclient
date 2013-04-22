@@ -67,10 +67,17 @@ public interface OpsGenieClientConstants {
         public static final String PARTICIPANTS = "participants";
         public static final String RESTRICTIONS = "restrictions";
         public static final String TOOK = "took";
-        public static final String RESULTS = "results";
+        public static final String ALERTS = "alerts";
         public static final String RESULT = "result";
         public static final String FORWARDINGS = "forwardings";
         public static final String ON_CALLS = "oncalls";
         public static final String FORWARDED = "forwarded";
+        public static final String CREATED_AFTER = "createdAfter";
+        public static final String CREATED_BEFORE = "createdBefore";
+        public static final String UPDATED_AFTER = "updatedAfter";
+        public static final String UPDATED_BEFORE = "updatedBefore";
+        public static final String SORT_BY = "sortBy";
+        public static final String SORT_ORDER = "sortOrder";
+        public static final String LIMIT = "limit";
     }
 }
