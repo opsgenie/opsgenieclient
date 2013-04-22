@@ -103,7 +103,7 @@ public class Schedule  implements IBean{
             }
             json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
         }
-        return null;
+        return json;
     }
 
     @Override

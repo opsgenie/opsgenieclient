@@ -51,6 +51,27 @@ public interface IScheduleOpsGenieClient {
      */
     public GetScheduleResponse getSchedule(GetScheduleRequest getScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
 
+
+    /**
+     * Return current on call participant list fo schedules
+     *
+     * @param whoIsOnCallRequest Object to construct request parameters.
+     * @return <code>WhoIsOnCallRequest</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallResponse
+     */
+    public WhoIsOnCallResponse whoIsOnCall(WhoIsOnCallRequest whoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Return current on call participant list of all schedules
+     *
+     * @param listWhoIsOnCallRequest Object to construct request parameters.
+     * @return <code>ListWhoIsOnCallResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.ListWhoIsOnCallRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.ListWhoIsOnCallResponse
+     */
+    public ListWhoIsOnCallResponse listWhoIsOnCall(ListWhoIsOnCallRequest listWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException;
+
     /**
      * List schedules of customer
      *

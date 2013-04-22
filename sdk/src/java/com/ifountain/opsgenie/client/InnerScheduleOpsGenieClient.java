@@ -59,6 +59,22 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
     }
 
     /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallRequest)
+     */
+    @Override
+    public WhoIsOnCallResponse whoIsOnCall(WhoIsOnCallRequest whoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (WhoIsOnCallResponse) httpClient.doGetRequest(whoIsOnCallRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listWhoIsOnCall(com.ifountain.opsgenie.client.model.schedule.ListWhoIsOnCallRequest)
+     */
+    @Override
+    public ListWhoIsOnCallResponse listWhoIsOnCall(ListWhoIsOnCallRequest listWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListWhoIsOnCallResponse) httpClient.doGetRequest(listWhoIsOnCallRequest);
+    }
+
+    /**
      * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(com.ifountain.opsgenie.client.model.schedule.ListScheduleRequest)
      */
     @Override

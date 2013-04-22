@@ -138,7 +138,7 @@ public class Forwarding  implements IBean{
         json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
         json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return null;
+        return json;
     }
 
     @Override

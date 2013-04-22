@@ -70,5 +70,7 @@ public interface OpsGenieClientConstants {
         public static final String RESULTS = "results";
         public static final String RESULT = "result";
         public static final String FORWARDINGS = "forwardings";
+        public static final String ON_CALLS = "oncalls";
+        public static final String FORWARDED = "forwarded";
     }
 }
