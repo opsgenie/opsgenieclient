@@ -76,10 +76,10 @@ public interface IGroupOpsGenieClient {
     /**
      * List groups of customer
      *
-     * @param listGroupRequest Object to construct request parameters.
-     * @return <code>ListGroupResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.group.ListGroupRequest
-     * @see com.ifountain.opsgenie.client.model.group.ListGroupResponse
+     * @param listGroupsRequest Object to construct request parameters.
+     * @return <code>ListGroupsResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.group.ListGroupsRequest
+     * @see com.ifountain.opsgenie.client.model.group.ListGroupsResponse
      */
-    public ListGroupResponse listGroups(ListGroupRequest listGroupRequest) throws IOException, OpsGenieClientException, ParseException;
+    public ListGroupsResponse listGroups(ListGroupsRequest listGroupsRequest) throws IOException, OpsGenieClientException, ParseException;
 }

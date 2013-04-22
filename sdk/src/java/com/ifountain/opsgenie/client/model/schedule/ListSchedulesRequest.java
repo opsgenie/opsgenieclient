@@ -1,16 +1,13 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list schedules api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(com.ifountain.opsgenie.client.model.schedule.ListScheduleRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
-public class ListScheduleRequest extends BaseRequest<ListScheduleResponse> {
+public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse> {
     /**
      * Rest api uri of listing schedules operation.
      */
@@ -23,7 +20,7 @@ public class ListScheduleRequest extends BaseRequest<ListScheduleResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public ListScheduleResponse createResponse() {
-        return new ListScheduleResponse();
+    public ListSchedulesResponse createResponse() {
+        return new ListSchedulesResponse();
     }
 }

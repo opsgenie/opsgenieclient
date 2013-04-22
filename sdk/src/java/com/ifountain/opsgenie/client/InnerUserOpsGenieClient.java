@@ -1,16 +1,10 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.beans.Forwarding;
-import com.ifountain.opsgenie.client.model.beans.User;
 import com.ifountain.opsgenie.client.model.user.*;
 import com.ifountain.opsgenie.client.model.user.forward.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static com.ifountain.opsgenie.client.JsonOpgenieHttpClient.*;
 
 /**
  * Inner User Client
@@ -98,10 +92,10 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
     }
 
     /**
-     * @see IUserOpsGenieClient#listUsers(com.ifountain.opsgenie.client.model.user.ListUserRequest)
+     * @see IUserOpsGenieClient#listUsers(com.ifountain.opsgenie.client.model.user.ListUsersRequest)
      */
     @Override
-    public ListUserResponse listUsers(ListUserRequest listUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListUserResponse) httpClient.doGetRequest(listUserRequest);
+    public ListUsersResponse listUsers(ListUsersRequest listUsersRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListUsersResponse) httpClient.doGetRequest(listUsersRequest);
     }
 }

@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.escalation;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Escalation;
-import com.ifountain.opsgenie.client.model.beans.Group;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list escalations request.
  *
- * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationRequest)
+ * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
-public class ListEscalationResponse extends BaseResponse{
+public class ListEscalationsResponse extends BaseResponse{
     private List<Escalation> escalations;
 
     /**

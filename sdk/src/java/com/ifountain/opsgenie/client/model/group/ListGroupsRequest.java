@@ -1,14 +1,13 @@
 package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 /**
  * Container for the parameters to make a list groups api call.
  *
- * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(com.ifountain.opsgenie.client.model.group.ListGroupRequest)
+ * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
-public class ListGroupRequest extends BaseRequest<ListGroupResponse> {
+public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {
     /**
      * Rest api uri of listing groups operation.
      */
@@ -21,7 +20,7 @@ public class ListGroupRequest extends BaseRequest<ListGroupResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public ListGroupResponse createResponse() {
-        return new ListGroupResponse();
+    public ListGroupsResponse createResponse() {
+        return new ListGroupsResponse();
     }
 }

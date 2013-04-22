@@ -12,9 +12,9 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list schedules request.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(com.ifountain.opsgenie.client.model.schedule.ListScheduleRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
-public class ListScheduleResponse extends BaseResponse{
+public class ListSchedulesResponse extends BaseResponse{
     private List<Schedule> schedules;
 
     /**

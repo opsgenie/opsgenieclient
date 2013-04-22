@@ -1,16 +1,13 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list escalations api call.
  *
- * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationRequest)
+ * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
-public class ListEscalationRequest extends BaseRequest<ListEscalationResponse> {
+public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse> {
     /**
      * Rest api uri of listing escalations operation.
      */
@@ -23,7 +20,7 @@ public class ListEscalationRequest extends BaseRequest<ListEscalationResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public ListEscalationResponse createResponse() {
-        return new ListEscalationResponse();
+    public ListEscalationsResponse createResponse() {
+        return new ListEscalationsResponse();
     }
 }

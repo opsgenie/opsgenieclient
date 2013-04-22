@@ -54,10 +54,10 @@ public interface IEscalationOpsGenieClient {
     /**
      * List escalations of customer
      *
-     * @param listEscalationRequest Object to construct request parameters.
-     * @return <code>ListEscalationResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.escalation.ListEscalationRequest
-     * @see com.ifountain.opsgenie.client.model.escalation.ListEscalationResponse
+     * @param listEscalationsRequest Object to construct request parameters.
+     * @return <code>ListEscalationsResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.escalation.ListEscalationsRequest
+     * @see com.ifountain.opsgenie.client.model.escalation.ListEscalationsResponse
      */
-    public ListEscalationResponse listEscalations(ListEscalationRequest listEscalationRequest) throws IOException, OpsGenieClientException, ParseException;
+    public ListEscalationsResponse listEscalations(ListEscalationsRequest listEscalationsRequest) throws IOException, OpsGenieClientException, ParseException;
 }

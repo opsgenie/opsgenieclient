@@ -12,9 +12,9 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list user request.
  *
- * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
-public class ListUserResponse extends BaseResponse {
+public class ListUsersResponse extends BaseResponse {
     private List<User> users;
 
     /**

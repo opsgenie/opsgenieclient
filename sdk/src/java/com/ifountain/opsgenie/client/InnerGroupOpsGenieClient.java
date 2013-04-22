@@ -50,11 +50,11 @@ public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
     }
 
     /**
-     * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(com.ifountain.opsgenie.client.model.group.ListGroupRequest)
+     * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(com.ifountain.opsgenie.client.model.group.ListGroupsRequest)
      */
     @Override
-    public ListGroupResponse listGroups(ListGroupRequest listGroupRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListGroupResponse) httpClient.doGetRequest(listGroupRequest);
+    public ListGroupsResponse listGroups(ListGroupsRequest listGroupsRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListGroupsResponse) httpClient.doGetRequest(listGroupsRequest);
     }
 
     /**

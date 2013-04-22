@@ -1,14 +1,13 @@
 package com.ifountain.opsgenie.client.model.user;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 /**
  * Container for the parameters to make a list users api call.
  *
- * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUserRequest)
+ * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
-public class ListUserRequest extends BaseRequest<ListUserResponse> {
+public class ListUsersRequest extends BaseRequest<ListUsersResponse> {
     /**
      * Rest api uri of listing user operation.
      */
@@ -21,7 +20,7 @@ public class ListUserRequest extends BaseRequest<ListUserResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public ListUserResponse createResponse() {
-        return new ListUserResponse();
+    public ListUsersResponse createResponse() {
+        return new ListUsersResponse();
     }
 }

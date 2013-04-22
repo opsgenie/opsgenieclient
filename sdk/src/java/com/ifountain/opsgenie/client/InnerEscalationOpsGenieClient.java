@@ -1,17 +1,9 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.beans.Escalation;
-import com.ifountain.opsgenie.client.model.beans.EscalationRule;
 import com.ifountain.opsgenie.client.model.escalation.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.ifountain.opsgenie.client.JsonOpgenieHttpClient.OpsGenieJsonResponse;
 
 /**
  * Inner Escalation Client
@@ -58,11 +50,11 @@ public class InnerEscalationOpsGenieClient implements IEscalationOpsGenieClient{
     }
 
     /**
-     * @see IEscalationOpsGenieClient#listEscalations(com.ifountain.opsgenie.client.model.escalation.ListEscalationRequest)
+     * @see IEscalationOpsGenieClient#listEscalations(com.ifountain.opsgenie.client.model.escalation.ListEscalationsRequest)
      */
     @Override
-    public ListEscalationResponse listEscalations(ListEscalationRequest listEscalationRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListEscalationResponse) httpClient.doGetRequest(listEscalationRequest);
+    public ListEscalationsResponse listEscalations(ListEscalationsRequest listEscalationsRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListEscalationsResponse) httpClient.doGetRequest(listEscalationsRequest);
     }
 
 }

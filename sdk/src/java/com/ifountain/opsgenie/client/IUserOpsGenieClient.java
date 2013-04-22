@@ -57,12 +57,12 @@ public interface IUserOpsGenieClient {
     /**
      * List users of customer
      *
-     * @param listUserRequest Object to construct request parameters.
-     * @return <code>ListUserResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.user.ListUserRequest
-     * @see com.ifountain.opsgenie.client.model.user.ListUserResponse
+     * @param listUsersRequest Object to construct request parameters.
+     * @return <code>ListUsersResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.user.ListUsersRequest
+     * @see com.ifountain.opsgenie.client.model.user.ListUsersResponse
      */
-    public ListUserResponse listUsers(ListUserRequest listUserRequest) throws IOException, OpsGenieClientException, ParseException;
+    public ListUsersResponse listUsers(ListUsersRequest listUsersRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Adds user notification forwarding setting. All of notifications will be sent to forwarded user during configured

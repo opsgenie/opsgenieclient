@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.group;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Group;
-import com.ifountain.opsgenie.client.model.beans.User;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list group request.
  *
- * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(com.ifountain.opsgenie.client.model.group.ListGroupRequest)
+ * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
-public class ListGroupResponse extends BaseResponse {
+public class ListGroupsResponse extends BaseResponse {
     private List<Group> groups;
 
     /**

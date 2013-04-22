@@ -1,18 +1,9 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.beans.Schedule;
-import com.ifountain.opsgenie.client.model.beans.ScheduleRule;
-import com.ifountain.opsgenie.client.model.beans.ScheduleRuleRestriction;
 import com.ifountain.opsgenie.client.model.schedule.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.ifountain.opsgenie.client.JsonOpgenieHttpClient.OpsGenieJsonResponse;
 
 /**
 * Inner Schedule Client
@@ -75,11 +66,11 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
     }
 
     /**
-     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(com.ifountain.opsgenie.client.model.schedule.ListScheduleRequest)
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(com.ifountain.opsgenie.client.model.schedule.ListSchedulesRequest)
      */
     @Override
-    public ListScheduleResponse listSchedules(ListScheduleRequest listScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListScheduleResponse) httpClient.doGetRequest(listScheduleRequest);
+    public ListSchedulesResponse listSchedules(ListSchedulesRequest listSchedulesRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListSchedulesResponse) httpClient.doGetRequest(listSchedulesRequest);
     }
 
 }

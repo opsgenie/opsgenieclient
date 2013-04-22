@@ -75,10 +75,10 @@ public interface IScheduleOpsGenieClient {
     /**
      * List schedules of customer
      *
-     * @param listScheduleRequest Object to construct request parameters.
-     * @return <code>ListScheduleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.schedule.ListScheduleRequest
-     * @see com.ifountain.opsgenie.client.model.schedule.ListScheduleResponse
+     * @param listSchedulesRequest Object to construct request parameters.
+     * @return <code>ListSchedulesResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.ListSchedulesRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.ListSchedulesResponse
      */
-    public ListScheduleResponse listSchedules(ListScheduleRequest listScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
+    public ListSchedulesResponse listSchedules(ListSchedulesRequest listSchedulesRequest) throws IOException, OpsGenieClientException, ParseException;
 }
