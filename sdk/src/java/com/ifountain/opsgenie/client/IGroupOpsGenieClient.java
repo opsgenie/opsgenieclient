@@ -24,6 +24,26 @@ public interface IGroupOpsGenieClient {
     public AddGroupResponse addGroup(AddGroupRequest addGroupRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
+     * Adds a group member at OpsGenie.
+     *
+     * @param addGroupMemberRequest Object to construct request parameters.
+     * @return <code>AddGroupResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.group.AddGroupMemberRequest
+     * @see com.ifountain.opsgenie.client.model.group.AddGroupMemberResponse
+     */
+    public AddGroupMemberResponse addGroupMember(AddGroupMemberRequest addGroupMemberRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Removes a group member at OpsGenie.
+     *
+     * @param deleteGroupMemberRequest Object to construct request parameters.
+     * @return <code>AddGroupResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.group.DeleteGroupMemberRequest
+     * @see com.ifountain.opsgenie.client.model.group.DeleteGroupMemberResponse
+     */
+    public DeleteGroupMemberResponse deleteGroupMember(DeleteGroupMemberRequest deleteGroupMemberRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
      * Updates group at OpsGenie.
      *
      * @param updateGroupRequest Object to construct request parameters.

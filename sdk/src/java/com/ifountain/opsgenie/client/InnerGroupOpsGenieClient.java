@@ -1,15 +1,9 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.beans.Forwarding;
-import com.ifountain.opsgenie.client.model.beans.Group;
 import com.ifountain.opsgenie.client.model.group.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static com.ifountain.opsgenie.client.JsonOpgenieHttpClient.OpsGenieJsonResponse;
 
 /**
  * Inner Group Client
@@ -61,5 +55,21 @@ public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
     @Override
     public ListGroupResponse listGroups(ListGroupRequest listGroupRequest) throws IOException, OpsGenieClientException, ParseException {
         return (ListGroupResponse) httpClient.doGetRequest(listGroupRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroupMember(com.ifountain.opsgenie.client.model.group.AddGroupMemberRequest)
+     */
+    @Override
+    public AddGroupMemberResponse addGroupMember(AddGroupMemberRequest addGroupMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (AddGroupMemberResponse) httpClient.doPostRequest(addGroupMemberRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroupMember(com.ifountain.opsgenie.client.model.group.DeleteGroupMemberRequest)
+     */
+    @Override
+    public DeleteGroupMemberResponse deleteGroupMember(DeleteGroupMemberRequest deleteGroupMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (DeleteGroupMemberResponse) httpClient.doDeleteRequest(deleteGroupMemberRequest);
     }
 }
