@@ -193,8 +193,12 @@ public class User  implements IBean{
         setId((String) map.get(OpsGenieClientConstants.API.ID));
         setUsername((String) map.get(OpsGenieClientConstants.API.USERNAME));
         setFullname((String) map.get(OpsGenieClientConstants.API.FULLNAME));
-        setRole(User.Role.valueOf(((String) map.get(OpsGenieClientConstants.API.ROLE)).toLowerCase()));
-        setState(State.valueOf(((String) map.get(OpsGenieClientConstants.API.STATE)).toLowerCase()));
+        if(map.containsKey(OpsGenieClientConstants.API.ROLE)){
+            setRole(User.Role.valueOf(((String) map.get(OpsGenieClientConstants.API.ROLE)).toLowerCase()));
+        }
+        if(map.containsKey(OpsGenieClientConstants.API.STATE)){
+            setState(State.valueOf(((String) map.get(OpsGenieClientConstants.API.STATE)).toLowerCase()));
+        }
         setGroups((List<String>) map.get(OpsGenieClientConstants.API.GROUPS));
         setEscalations((List<String>) map.get(OpsGenieClientConstants.API.ESCALATIONS));
         setSchedules((List<String>) map.get(OpsGenieClientConstants.API.SCHEDULES));

@@ -5,13 +5,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 4/9/13
- * Time: 4:23 AM
- * To change this template use File | Settings | File Templates.
- */
 public class EscalationRule  implements IBean{
     public static enum Type{
         user,

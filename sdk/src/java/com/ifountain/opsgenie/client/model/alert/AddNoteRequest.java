@@ -13,9 +13,7 @@ import java.util.Map;
  * @version 5/31/12 3:00 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addNote(AddNoteRequest)
  */
-public class AddNoteRequest extends BaseRequest<AddNoteResponse> {
-    private String alertId;
-    private String alias;
+public class AddNoteRequest extends BaseAlertRequestWithId<AddNoteResponse> {
     private String note;
     private String user;
 
@@ -25,34 +23,6 @@ public class AddNoteRequest extends BaseRequest<AddNoteResponse> {
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/note";
-    }
-
-    /**
-     * The id of the alert that the note will be added.
-     */
-    public String getAlertId() {
-        return alertId;
-    }
-
-    /**
-     * Sets the id of the alert that the note will be added. Either this or alias should be set.
-     */
-    public void setAlertId(String alertId) {
-        this.alertId = alertId;
-    }
-
-    /**
-     * The user defined identifier of the alert that the note will be added.
-     */
-    public String getAlias() {
-        return alias;
-    }
-
-    /**
-     * Sets the user defined identifier of the alert that the note will be added. Either this or alertId should be set.
-     */
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     /**
@@ -89,9 +59,6 @@ public class AddNoteRequest extends BaseRequest<AddNoteResponse> {
     public Map serialize() {
         Map<String, Object> json  = super.serialize();
         json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        if (getAlertId() != null)
-            json.put(OpsGenieClientConstants.API.ALERT_ID, getAlertId());
-        if (getAlias() != null) json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         if (getUser() != null) json.put(OpsGenieClientConstants.API.USER, getUser());
         return json;
     }

@@ -1,12 +1,5 @@
 package com.ifountain.opsgenie.client.script;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 8/27/12
- * Time: 4:36 PM
- * To change this template use File | Settings | File Templates.
- */
 public interface OpsgenieClientApplicationConstants {
     interface ScriptProxy {
         String BINDING_CONF = "conf";
@@ -20,6 +13,10 @@ public interface OpsgenieClientApplicationConstants {
         String INPUT_STREAM = "stream";
         String FILE_NAME = "fileName";
         String SUCCESS = "success";
+        String START_HOUR = "startHour";
+        String START_MINUTE = "startMinute";
+        String END_HOUR = "endHour";
+        String END_MINUTE = "endMinute";
     }
 
     interface Marid {

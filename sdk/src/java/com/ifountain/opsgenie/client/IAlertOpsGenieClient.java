@@ -88,7 +88,7 @@ public interface IAlertOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeRequest
      * @see com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse
      */
-    public BaseResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException, ParseException;
+    public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
      * Takes the ownership of an alert.

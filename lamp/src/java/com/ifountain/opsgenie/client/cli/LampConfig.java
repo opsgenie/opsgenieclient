@@ -5,13 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 8/28/12
- * Time: 2:53 PM
- * To change this template use File | Settings | File Templates.
- */
 public class LampConfig {
     private static LampConfig instance = new LampConfig();
     public static LampConfig getInstance(){

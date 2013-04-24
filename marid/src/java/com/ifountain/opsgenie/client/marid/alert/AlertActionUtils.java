@@ -14,13 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 8/27/12
- * Time: 3:11 PM
- * To change this template use File | Settings | File Templates.
- */
 public class AlertActionUtils {
     public static void executeActionScript(AlertActionBean actionBean) throws Exception {
         File scriptFile = getScriptFile(actionBean.action);

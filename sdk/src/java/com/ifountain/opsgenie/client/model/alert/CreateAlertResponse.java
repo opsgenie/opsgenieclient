@@ -14,20 +14,34 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
 public class CreateAlertResponse extends BaseResponse {
-    private String alertId;
+    private String id;
 
     /**
      * Id of the created alert
      */
     public String getAlertId() {
-        return alertId;
+        return id;
     }
 
     /**
      * Sets the id of the created alert.
      */
     public void setAlertId(String alertId) {
-        this.alertId = alertId;
+        this.id = alertId;
+    }
+
+    /**
+     * Id of the created alert
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id of the created alert.
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -36,6 +50,12 @@ public class CreateAlertResponse extends BaseResponse {
      */
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        setAlertId((String) data.get(OpsGenieClientConstants.API.ALERT_ID));
+        if(data.containsKey(OpsGenieClientConstants.API.ALERT_ID)){
+            setAlertId((String) data.get(OpsGenieClientConstants.API.ALERT_ID));
+        }
+        if(data.containsKey(OpsGenieClientConstants.API.ID)){
+            setId((String) data.get(OpsGenieClientConstants.API.ID));
+        }
+
     }
 }

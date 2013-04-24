@@ -17,13 +17,6 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 4/9/13
- * Time: 9:10 AM
- * To change this template use File | Settings | File Templates.
- */
 class JsonOpgenieHttpClient {
     /**
      * Http client object *

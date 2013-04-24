@@ -145,8 +145,8 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
             entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new ByteArrayBody(convertInputStreamToByteArray(inputStream), new File(fileName).getName()));
         if (attachRequest.getCustomerKey() != null)
             entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(attachRequest.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
-        if (attachRequest.getAlertId() != null)
-            entity.addPart(OpsGenieClientConstants.API.ALERT_ID, new StringBody(attachRequest.getAlertId(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getId() != null)
+            entity.addPart(OpsGenieClientConstants.API.ID, new StringBody(attachRequest.getId(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getAlias() != null)
             entity.addPart(OpsGenieClientConstants.API.ALIAS, new StringBody(attachRequest.getAlias(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getIndexFile() != null)

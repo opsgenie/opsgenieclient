@@ -8,13 +8,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 8/28/12
- * Time: 9:13 AM
- * To change this template use File | Settings | File Templates.
- */
 public class HttpActionUtils {
     public static HTTPResponse createDefaultHttpResponse() {
         Map<String, Object> res = new HashMap<String, Object>();

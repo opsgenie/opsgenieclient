@@ -5,13 +5,6 @@ import java.net.URL;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 9/12/12
- * Time: 4:11 PM
- * To change this template use File | Settings | File Templates.
- */
 public class ManifestUtils {
     
     public static Manifest loadManifest(Class manifestFileClass){

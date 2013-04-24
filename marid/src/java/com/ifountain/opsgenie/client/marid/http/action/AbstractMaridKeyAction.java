@@ -10,13 +10,6 @@ import org.jboss.netty.handler.codec.http.HttpResponseStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 8/28/12
- * Time: 9:09 AM
- * To change this template use File | Settings | File Templates.
- */
 public abstract class AbstractMaridKeyAction  implements RequestAction {
     @Override
     public HTTPResponse execute(HTTPRequest request) {

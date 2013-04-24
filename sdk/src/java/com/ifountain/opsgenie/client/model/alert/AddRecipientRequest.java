@@ -13,40 +13,10 @@ import java.util.Map;
  * @version 1/9/13 4:03 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
  */
-public class AddRecipientRequest extends BaseRequest<AddRecipientResponse> {
-    private String alertId;
-    private String alias;
+public class AddRecipientRequest extends BaseAlertRequestWithId<AddRecipientResponse> {
     private String user;
     private String recipient;
     private String note;
-
-    /**
-     * The id of the alert that the new recipient will be added.
-     */
-    public String getAlertId() {
-        return alertId;
-    }
-
-    /**
-     * Sets the id of the alert that the new recipient will be added. Either this or alias should be set.
-     */
-    public void setAlertId(String alertId) {
-        this.alertId = alertId;
-    }
-
-    /**
-     * User defined identifier of the alert that the new recipient will be added.
-     */
-    public String getAlias() {
-        return alias;
-    }
-
-    /**
-     * Sets the user defined identifier of the alert that the new recipient will be added. Either this or alertId should be set.
-     */
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
 
     /**
      * Rest api uri of assign ownership operation.
@@ -104,10 +74,6 @@ public class AddRecipientRequest extends BaseRequest<AddRecipientResponse> {
     public Map serialize() {
         Map json = super.serialize();
         json.put(OpsGenieClientConstants.API.RECIPIENT, getRecipient());
-        if (getAlertId() != null)
-            json.put(OpsGenieClientConstants.API.ALERT_ID, getAlertId());
-        if (getAlias() != null)
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         if (getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, getUser());
         if (getNote() != null)

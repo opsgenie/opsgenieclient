@@ -286,14 +286,14 @@ public class Alert implements IBean{
     public Map toMap() {
         Map json = new HashMap();
         json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(getRecipients(), ","));
+        json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
         json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         json.put(OpsGenieClientConstants.API.SOURCE, getSource());
         json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
         json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
-        json.put(OpsGenieClientConstants.API.TAGS, Strings.join(getTags(), ","));
-        json.put(OpsGenieClientConstants.API.ACTIONS, Strings.join(getActions(), ","));
+        json.put(OpsGenieClientConstants.API.TAGS, getTags());
+        json.put(OpsGenieClientConstants.API.ACTIONS, getActions());
         json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
         json.put(OpsGenieClientConstants.API.CREATED_AT, getCreatedAt());
         json.put(OpsGenieClientConstants.API.UPDATED_AT, getUpdatedAt());

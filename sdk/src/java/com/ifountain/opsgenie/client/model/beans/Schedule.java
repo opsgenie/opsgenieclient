@@ -114,8 +114,13 @@ public class Schedule  implements IBean{
             enabled = (Boolean) map.get(OpsGenieClientConstants.API.ENABLED);
         }
         if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
-            String timezoneId = (String) map.get(OpsGenieClientConstants.API.TIMEZONE);
-            timeZone = TimeZone.getTimeZone(timezoneId);
+            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
+            if(timezoneObj instanceof TimeZone){
+                timeZone = (TimeZone) timezoneObj;
+            }
+            else{
+                timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
+            }
         }
         List<Map> ruleMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
         if(ruleMaps != null){
