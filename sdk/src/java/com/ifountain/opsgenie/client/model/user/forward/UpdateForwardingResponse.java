@@ -1,7 +1,5 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.ifountain.opsgenie.client.model.BaseResponse;
-
 /**
  * Represents OpsGenie service response for update forwarding request.
  *

@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Group;
-import com.ifountain.opsgenie.client.model.beans.User;
 
 import java.text.ParseException;
 import java.util.Map;

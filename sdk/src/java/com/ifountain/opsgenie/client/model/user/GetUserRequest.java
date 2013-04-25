@@ -1,8 +1,7 @@
 package com.ifountain.opsgenie.client.model.user;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
+import com.ifountain.opsgenie.client.model.BaseGetRequest;
 
 import java.util.Map;
 
@@ -11,8 +10,7 @@ import java.util.Map;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
-public class GetUserRequest extends BaseRequest<GetUserResponse> {
-    private String id;
+public class GetUserRequest extends BaseGetRequest<GetUserResponse> {
     private String username;
     /**
      * Rest api uri of getting user operation.
@@ -20,20 +18,6 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
     @Override
     public String getEndPoint() {
         return "/v1/json/user";
-    }
-
-    /**
-     * Id of user to be queried.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of user to be queried.
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -54,15 +38,10 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
-        Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
+    public void _serialize(Map json) {
         if(getUsername() != null){
             json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
         }
-        return json;
     }
 
     @Override

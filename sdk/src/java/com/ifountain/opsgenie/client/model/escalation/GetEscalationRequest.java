@@ -1,8 +1,7 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse;
+import com.ifountain.opsgenie.client.model.BaseGetRequest;
 
 import java.util.Map;
 
@@ -11,8 +10,7 @@ import java.util.Map;
  *
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#getEscalation(GetEscalationRequest) 
  */
-public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
-    private String id;
+public class GetEscalationRequest extends BaseGetRequest<GetEscalationResponse> {
     private String name;
     /**
      * Rest api uri of getting escalation operation.
@@ -20,20 +18,6 @@ public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     @Override
     public String getEndPoint() {
         return "/v1/json/escalation";
-    }
-
-    /**
-     * Id of escalation to be queried.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of escalation to be queried.
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -54,15 +38,10 @@ public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
-        Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
+    public void _serialize(Map json) {
         if(getName() != null){
             json.put(OpsGenieClientConstants.API.NAME, getName());
         }
-        return json;
     }
 
     @Override

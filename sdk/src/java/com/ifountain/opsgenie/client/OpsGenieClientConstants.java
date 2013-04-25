@@ -77,7 +77,7 @@ public interface OpsGenieClientConstants {
         public static final String UPDATED_AFTER = "updatedAfter";
         public static final String UPDATED_BEFORE = "updatedBefore";
         public static final String SORT_BY = "sortBy";
-        public static final String SORT_ORDER = "sortOrder";
+        public static final String ORDER = "order";
         public static final String LIMIT = "limit";
     }
 }

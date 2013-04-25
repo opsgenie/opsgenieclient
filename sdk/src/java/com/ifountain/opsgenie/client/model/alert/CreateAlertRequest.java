@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.util.Strings;
 
@@ -197,7 +198,7 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
         if (getRecipients() != null)

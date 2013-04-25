@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 import java.util.Map;
 
@@ -64,7 +64,7 @@ public abstract class AttachRequest extends BaseAlertRequestWithId<AttachRespons
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         throw new UnsupportedOperationException("unsupported method serialize");
     }
 

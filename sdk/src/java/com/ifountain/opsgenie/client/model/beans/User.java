@@ -14,6 +14,7 @@ import java.util.TimeZone;
 public class User  implements IBean{
     public static enum Role{
         admin,
+        owner,
         user
     }
     public static enum State{

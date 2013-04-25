@@ -1,13 +1,10 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * Represents OpsGenie service response for get forwarding request.

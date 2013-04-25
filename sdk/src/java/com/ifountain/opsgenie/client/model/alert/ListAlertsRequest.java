@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.util.Map;
@@ -112,7 +113,7 @@ public class ListAlertsRequest extends BaseRequest<ListAlertsResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map parameters = super.serialize();
         if (createdAfter != null)
             parameters.put(OpsGenieClientConstants.API.CREATED_AFTER, createdAfter);
@@ -125,7 +126,7 @@ public class ListAlertsRequest extends BaseRequest<ListAlertsResponse> {
         if (sortBy != null)
             parameters.put(OpsGenieClientConstants.API.SORT_BY, sortBy.name());
         if (sortOrder != null)
-            parameters.put(OpsGenieClientConstants.API.SORT_ORDER, sortOrder.name());
+            parameters.put(OpsGenieClientConstants.API.ORDER, sortOrder.name());
         if (limit != null)
             parameters.put(OpsGenieClientConstants.API.LIMIT, limit);
         if (status != null)

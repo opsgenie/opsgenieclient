@@ -3,9 +3,7 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,26 +41,22 @@ public class ScheduleParticipant  implements IBean{
         return type;
     }
 
-    /**
-     * Sets type of participant
-     * Could be one of user, group, escalation
-     * @see Type
-     */
-    public void setType(Type type) {
-        this.type = type;
-    }
 
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.NAME, name);
-        json.put(OpsGenieClientConstants.API.TYPE, type.name());
+        if(type != null){
+            json.put(OpsGenieClientConstants.API.TYPE, type.name());
+        }
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
         name = (String) map.get(OpsGenieClientConstants.API.NAME);
-        type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
+            type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        }
     }
 }

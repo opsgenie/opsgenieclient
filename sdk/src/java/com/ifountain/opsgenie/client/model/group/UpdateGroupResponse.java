@@ -1,7 +1,5 @@
 package com.ifountain.opsgenie.client.model.group;
 
-import com.ifountain.opsgenie.client.model.BaseResponse;
-
 /**
  * Represents OpsGenie service response for update group request.
  *

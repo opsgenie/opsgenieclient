@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse;
 
 import java.util.Map;
 
@@ -54,7 +54,7 @@ public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationRespons
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if(getId() != null){
             json.put(OpsGenieClientConstants.API.ID, getId());

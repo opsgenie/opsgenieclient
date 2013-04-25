@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.util.Strings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,10 @@ import java.util.Map;
  * Alert bean
  */
 public class Alert implements IBean{
+    public enum Status{
+        open,
+        closed
+    }
     private String id;
     private String alias;
     private String message;
@@ -18,7 +21,7 @@ public class Alert implements IBean{
     private String source;
     private String entity;
     private String tinyId;
-    private String status;
+    private Status status;
     private String owner;
     private int count;
     private long createdAt;
@@ -131,14 +134,14 @@ public class Alert implements IBean{
     /**
      * The status of the 
      */
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
     /**
      * Sets the status of the 
      */
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -300,7 +303,7 @@ public class Alert implements IBean{
         json.put(OpsGenieClientConstants.API.COUNT, getCount());
         json.put(OpsGenieClientConstants.API.IS_SEEN, isSeen());
         json.put(OpsGenieClientConstants.API.TINY_ID, getTinyId());
-        json.put(OpsGenieClientConstants.API.STATUS, getStatus());
+        json.put(OpsGenieClientConstants.API.STATUS, getStatus().name());
         json.put(OpsGenieClientConstants.API.OWNER, getOwner());
         json.put(OpsGenieClientConstants.API.ACKNOWLEDGED, isAcknowledged());
         return json;
@@ -314,7 +317,7 @@ public class Alert implements IBean{
         setDescription((String) map.get(OpsGenieClientConstants.API.DESCRIPTION));
         setSource((String) map.get(OpsGenieClientConstants.API.SOURCE));
         setEntity((String) map.get(OpsGenieClientConstants.API.ENTITY));
-        setStatus((String) map.get(OpsGenieClientConstants.API.STATUS));
+        status = Status.valueOf(((String) map.get(OpsGenieClientConstants.API.STATUS)).toLowerCase());
         setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
         setTinyId((String) map.get(OpsGenieClientConstants.API.TINY_ID));
         setSeen((Boolean) map.get(OpsGenieClientConstants.API.IS_SEEN));

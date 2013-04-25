@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.user;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.User;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.Map;
 import java.util.TimeZone;
@@ -90,7 +90,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if(getUsername() != null){
             json.put(OpsGenieClientConstants.API.USERNAME, getUsername());

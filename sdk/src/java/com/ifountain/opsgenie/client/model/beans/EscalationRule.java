@@ -10,22 +10,22 @@ public class EscalationRule  implements IBean{
         user,
         group
     }
-    private String name;
+    private String notify;
     private Type type;
     private int delay;
 
     /**
      * Name of escalation rule member
      */
-    public String getName() {
-        return name;
+    public String getNotify() {
+        return notify;
     }
 
     /**
      * Sets the name of escalation rule member
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setNotify(String notify) {
+        this.notify = notify;
     }
 
     /**
@@ -37,14 +37,6 @@ public class EscalationRule  implements IBean{
         return type;
     }
 
-    /**
-     * Sets the type of escalation rule member
-     * One of user, group
-     * @see Type
-     */
-    public void setType(Type type) {
-        this.type = type;
-    }
 
     /**
      * Delay of escalation rule
@@ -63,16 +55,34 @@ public class EscalationRule  implements IBean{
     @Override
     public Map toMap() {
         Map<String, Object> ruleMap = new HashMap<String, Object>();
-        ruleMap.put(OpsGenieClientConstants.API.NAME, name);
-        ruleMap.put(OpsGenieClientConstants.API.TYPE, type);
+        ruleMap.put(OpsGenieClientConstants.API.NOTIFY, notify);
+        if(type != null){
+            ruleMap.put(OpsGenieClientConstants.API.TYPE, type.name());
+        }
         ruleMap.put(OpsGenieClientConstants.API.DELAY, delay);
         return ruleMap;
     }
 
     @Override
     public void fromMap(Map map) {
-        name = (String) map.get(OpsGenieClientConstants.API.NAME);
-        type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        notify = (String) map.get(OpsGenieClientConstants.API.NOTIFY);
+        if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
+            type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        }
         delay = ((Number) map.get(OpsGenieClientConstants.API.DELAY)).intValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EscalationRule that = (EscalationRule) o;
+
+        if (delay != that.delay) return false;
+        if (notify != null ? !notify.equals(that.notify) : that.notify != null) return false;
+        if (type != that.type) return false;
+
+        return true;
     }
 }

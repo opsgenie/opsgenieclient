@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.escalation;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Escalation;
-import com.ifountain.opsgenie.client.model.beans.Group;
 
 import java.text.ParseException;
 import java.util.Map;

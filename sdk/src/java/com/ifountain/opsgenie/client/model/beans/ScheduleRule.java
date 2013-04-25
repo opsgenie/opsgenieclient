@@ -111,7 +111,7 @@ public class ScheduleRule  implements IBean{
             sdf.setTimeZone(scheduleTimeZone);
         }
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
+        json.put(OpsGenieClientConstants.API.START_TIME, sdf.format(startDate));
         json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
         json.put(OpsGenieClientConstants.API.ROTATION_LENGTH, rotationLength);
         if(participants != null){
@@ -139,13 +139,13 @@ public class ScheduleRule  implements IBean{
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);
         }
-        Object startDateObj = map.get(OpsGenieClientConstants.API.START_DATE);
+        Object startDateObj = map.get(OpsGenieClientConstants.API.START_TIME);
         if(startDateObj != null){
             if(startDateObj instanceof Date){
                 startDate = (Date) startDateObj;
             }
             else{
-                String startDateStr = (String) map.get(OpsGenieClientConstants.API.START_DATE);
+                String startDateStr = (String) map.get(OpsGenieClientConstants.API.START_TIME);
                 startDate = sdf.parse(startDateStr);
             }
         }

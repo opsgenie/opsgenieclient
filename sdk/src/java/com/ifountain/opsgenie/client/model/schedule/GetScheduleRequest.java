@@ -1,8 +1,7 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
+import com.ifountain.opsgenie.client.model.BaseGetRequest;
 
 import java.util.Map;
 
@@ -11,8 +10,7 @@ import java.util.Map;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
  */
-public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
-    private String id;
+public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
     private String name;
     /**
      * Rest api uri of getting schedule operation.
@@ -22,19 +20,6 @@ public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
         return "/v1/json/schedule";
     }
 
-    /**
-     * Id of schedule to be queried.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of schedule to be queried.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Name of schedule to be queried.
@@ -54,15 +39,10 @@ public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
-        Map json = super.serialize();
+    public void _serialize(Map json) {
         if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);
         }
-        if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
-        }
-        return json;
     }
 
     @Override

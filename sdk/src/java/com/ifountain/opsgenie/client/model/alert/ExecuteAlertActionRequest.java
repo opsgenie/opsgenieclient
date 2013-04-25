@@ -1,9 +1,8 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -72,7 +71,7 @@ public class ExecuteAlertActionRequest extends BaseAlertRequestWithId<ExecuteAle
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         json.put(OpsGenieClientConstants.API.ACTION, getAction());
         if (getUser() != null)

@@ -1,13 +1,11 @@
 package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.User;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * Container for the parameters to make an add group api call.
@@ -59,7 +57,7 @@ public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if(getName() != null)
         {

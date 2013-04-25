@@ -1,12 +1,10 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
-import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * Container for the parameters to make a list forwarding api call.
@@ -44,7 +42,7 @@ public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse>
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if(getUser() != null){
             json.put(OpsGenieClientConstants.API.USER, getUser());

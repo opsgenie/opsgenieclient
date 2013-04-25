@@ -152,7 +152,7 @@ public class GetAlertResponse extends BaseResponse {
      * @see Alert
      */
     public String getStatus() {
-        return alert.getStatus();
+        return alert.getStatus().name();
     }
 
     /**
@@ -162,7 +162,7 @@ public class GetAlertResponse extends BaseResponse {
      * @see Alert
      */
     public void setStatus(String status) {
-        this.alert.setStatus(status);
+        this.alert.setStatus(Alert.Status.valueOf(status));
     }
 
     /**

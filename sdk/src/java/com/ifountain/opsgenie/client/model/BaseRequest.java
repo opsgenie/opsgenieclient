@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     /**
      * convertes request to map
      */
-    public Map serialize(){
+    public Map serialize() throws OpsGenieClientValidationException {
         Map map = new HashMap();
         map.put(OpsGenieClientConstants.API.CUSTOMER_KEY, customerKey);
         return map;

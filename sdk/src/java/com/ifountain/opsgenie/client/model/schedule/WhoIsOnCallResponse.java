@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.beans.Schedule;
 import com.ifountain.opsgenie.client.model.beans.WhoIsOnCall;
 
 import java.text.ParseException;

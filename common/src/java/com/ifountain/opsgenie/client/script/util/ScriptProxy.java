@@ -214,7 +214,7 @@ public class ScriptProxy {
         request.setUpdatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_BEFORE));
         request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
         request.setSortBy(ListAlertsRequest.SortBy.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_BY)));
-        request.setSortOrder(ListAlertsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_ORDER)));
+        request.setSortOrder(ListAlertsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
         request.setStatus(ListAlertsRequest.Status.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.STATUS)));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         return beansToMap(this.opsGenieClient.alert().listAlerts(request).getAlerts());

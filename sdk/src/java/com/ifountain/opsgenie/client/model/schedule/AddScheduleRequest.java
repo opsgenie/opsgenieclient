@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRule;
-import com.ifountain.opsgenie.client.model.escalation.UpdateEscalationResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);

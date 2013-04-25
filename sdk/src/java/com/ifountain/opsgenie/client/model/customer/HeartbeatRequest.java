@@ -1,9 +1,6 @@
 package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.alert.AcknowledgeResponse;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a heartbeat api call.

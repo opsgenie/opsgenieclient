@@ -3,7 +3,10 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Schedule bean

@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.util.Strings;
 
@@ -72,11 +73,11 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() {
+    public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if(getId() != null)
         {
-            json.put(OpsGenieClientConstants.API.ID, getName());
+            json.put(OpsGenieClientConstants.API.ID, getId());
         }
         if(getName() != null)
         {
