@@ -15,21 +15,21 @@ public class ScheduleParticipant  implements IBean{
         group,
         escalation
     }
-    private String name;
+    private String participant;
     private Type type;
 
     /**
      * Name of participant
      */
-    public String getName() {
-        return name;
+    public String getParticipant() {
+        return participant;
     }
 
     /**
      * Sets name of participant
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setParticipant(String participant) {
+        this.participant = participant;
     }
 
     /**
@@ -45,7 +45,7 @@ public class ScheduleParticipant  implements IBean{
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.NAME, name);
+        json.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
         if(type != null){
             json.put(OpsGenieClientConstants.API.TYPE, type.name());
         }
@@ -54,7 +54,7 @@ public class ScheduleParticipant  implements IBean{
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        name = (String) map.get(OpsGenieClientConstants.API.PARTICIPANT);
+        participant = (String) map.get(OpsGenieClientConstants.API.PARTICIPANT);
         if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
             type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
         }

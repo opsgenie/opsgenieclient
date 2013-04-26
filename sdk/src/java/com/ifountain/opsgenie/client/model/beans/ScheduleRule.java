@@ -117,7 +117,7 @@ public class ScheduleRule  implements IBean{
         if(participants != null){
             List participantNames = new ArrayList();
             for(ScheduleParticipant participant:participants){
-                participantNames.add(participant.getName());
+                participantNames.add(participant.getParticipant());
             }
             json.put(OpsGenieClientConstants.API.PARTICIPANTS, participantNames);
         }
