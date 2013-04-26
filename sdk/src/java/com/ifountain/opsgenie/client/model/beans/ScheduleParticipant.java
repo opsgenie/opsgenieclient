@@ -54,7 +54,7 @@ public class ScheduleParticipant  implements IBean{
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        name = (String) map.get(OpsGenieClientConstants.API.NAME);
+        name = (String) map.get(OpsGenieClientConstants.API.PARTICIPANT);
         if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
             type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
         }

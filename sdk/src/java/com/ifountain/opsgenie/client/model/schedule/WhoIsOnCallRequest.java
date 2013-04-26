@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.BaseGetRequest;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallRequest)
  */
-public class WhoIsOnCallRequest extends BaseRequest<WhoIsOnCallResponse> {
+public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
     private String id;
     private String name;
     /**
@@ -20,20 +21,6 @@ public class WhoIsOnCallRequest extends BaseRequest<WhoIsOnCallResponse> {
     @Override
     public String getEndPoint() {
         return "/v1/json/schedule/whoIsOnCall";
-    }
-
-    /**
-     * Id of schedule to be queried.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of schedule to be queried.
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -54,15 +41,10 @@ public class WhoIsOnCallRequest extends BaseRequest<WhoIsOnCallResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
+    public void _serialize(Map json){
         if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);
         }
-        if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
-        }
-        return json;
     }
 
     @Override

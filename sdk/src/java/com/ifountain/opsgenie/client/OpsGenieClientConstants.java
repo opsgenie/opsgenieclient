@@ -79,5 +79,6 @@ public interface OpsGenieClientConstants {
         public static final String SORT_BY = "sortBy";
         public static final String ORDER = "order";
         public static final String LIMIT = "limit";
+        public static final String PARTICIPANT = "participant";
     }
 }

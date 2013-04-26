@@ -506,7 +506,7 @@ public class ScriptProxy {
 
     public Map addSchedule(Map params) throws Exception {
         populateCommonProps(params);
-        correctRestrictionParams(params);
+        correctRestrictionAndParticipantParams(params);
         AddScheduleRequest request = new AddScheduleRequest();
         Schedule schedule = new Schedule();
         schedule.fromMap(params);
@@ -521,7 +521,7 @@ public class ScriptProxy {
         return mapResponse;
     }
 
-    private void correctRestrictionParams(Map params) {
+    private void correctRestrictionAndParticipantParams(Map params) {
         if(params.containsKey(OpsGenieClientConstants.API.RULES)){
             List<Map> rules = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
             for(Map ruleMap: rules){
@@ -535,6 +535,16 @@ public class ScriptProxy {
                         restriction.put(OpsGenieClientConstants.API.START_TIME, ""+startHour +":"+startMinute);
                         restriction.put(OpsGenieClientConstants.API.END_TIME, ""+endHour+":"+endMinute);
                     }
+                }
+                if(ruleMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
+                    List<String> participants = (List<String>) ruleMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
+                    List<Map> participantMaps = new ArrayList<Map>();
+                    for(String participant:participants){
+                        Map participantMap = new HashMap();
+                        participantMap.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
+                        participantMaps.add(participantMap);
+                    }
+                    ruleMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
                 }
             }
 
@@ -559,13 +569,19 @@ public class ScriptProxy {
         return this.opsGenieClient.schedule().getSchedule(request).getSchedule().toMap();
     }
 
-    public Map whoIsOncall(Map params) throws Exception {
+    public Map whoIsOnCall(Map params) throws Exception {
         populateCommonProps(params);
         WhoIsOnCallRequest request = new WhoIsOnCallRequest();
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         return this.opsGenieClient.schedule().whoIsOnCall(request).getWhoIsOnCall().toMap();
+    }
+    public List<Map> listWhoIsOnCall(Map params) throws Exception {
+        populateCommonProps(params);
+        ListWhoIsOnCallRequest request = new ListWhoIsOnCallRequest();
+        request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
+        return beansToMap(this.opsGenieClient.schedule().listWhoIsOnCall(request).getWhoIsOnCallList());
     }
 
     public List<Map> listSchedules(Map params) throws Exception {
@@ -577,7 +593,7 @@ public class ScriptProxy {
 
     public Map updateSchedule(Map params) throws Exception {
         populateCommonProps(params);
-        correctRestrictionParams(params);
+        correctRestrictionAndParticipantParams(params);
         UpdateScheduleRequest request = new UpdateScheduleRequest();
         Schedule schedule = new Schedule();
         schedule.fromMap(params);

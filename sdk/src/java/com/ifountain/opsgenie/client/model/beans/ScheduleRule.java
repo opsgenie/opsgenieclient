@@ -115,11 +115,11 @@ public class ScheduleRule  implements IBean{
         json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
         json.put(OpsGenieClientConstants.API.ROTATION_LENGTH, rotationLength);
         if(participants != null){
-            List<Map> participantMaps = new ArrayList<Map>();
+            List participantNames = new ArrayList();
             for(ScheduleParticipant participant:participants){
-                participantMaps.add(participant.toMap());
+                participantNames.add(participant.getName());
             }
-            json.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
+            json.put(OpsGenieClientConstants.API.PARTICIPANTS, participantNames);
         }
 
         if(restrictions != null){
