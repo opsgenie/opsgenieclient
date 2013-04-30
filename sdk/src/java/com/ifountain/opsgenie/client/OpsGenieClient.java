@@ -1,14 +1,11 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Provides the client for accessing the OpsGenie web service.
@@ -140,6 +137,45 @@ public class OpsGenieClient implements IOpsGenieClient {
     @Override
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
         return (HeartbeatResponse) jsonHttpClient.doPostRequest(heartbeatRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#deleteHeartbeat(com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest)
+     */
+    @Override
+    public DeleteHeartbeatResponse deleteHeartbeat(DeleteHeartbeatRequest deleteHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (DeleteHeartbeatResponse) jsonHttpClient.doDeleteRequest(deleteHeartbeatRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
+     */
+    @Override
+    public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (GetHeartbeatResponse) jsonHttpClient.doGetRequest(getHeartbeatRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#listHeartbeats(com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest)
+     */
+    @Override
+    public ListHeartbeatsResponse listHeartbeats(ListHeartbeatsRequest listHeartbeatsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (ListHeartbeatsResponse) jsonHttpClient.doGetRequest(listHeartbeatsRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#setHeartbeatConfig(com.ifountain.opsgenie.client.model.customer.SetHeartbeatConfigRequest)
+     */
+    @Override
+    public SetHeartbeatConfigResponse setHeartbeatConfig(SetHeartbeatConfigRequest setHeartbeatConfigRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (SetHeartbeatConfigResponse) jsonHttpClient.doPostRequest(setHeartbeatConfigRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#getHeartbeatConfig(com.ifountain.opsgenie.client.model.customer.GetHeartbeatConfigRequest)
+     */
+    public GetHeartbeatConfigResponse getHeartbeatConfig(GetHeartbeatConfigRequest getHeartbeatConfigRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (GetHeartbeatConfigResponse) jsonHttpClient.doGetRequest(getHeartbeatConfigRequest);
     }
 
     /**

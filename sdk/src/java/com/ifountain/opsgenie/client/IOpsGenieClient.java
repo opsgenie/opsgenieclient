@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -59,6 +58,58 @@ public interface IOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
      */
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Deletes heartbeat monitor on OpsGenie. If heartbeat monitor is deleted for specified source, OpsGenie will not create alert for expired heartbeat.
+     *
+     * @param deleteHeartbeatRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse
+     */
+    public DeleteHeartbeatResponse deleteHeartbeat(DeleteHeartbeatRequest deleteHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Get heartbeat monitor details on OpsGenie.
+     *
+     * @param getHeartbeatRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse
+     */
+    public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+    
+    /**
+     * List all heartbeat monitor details on OpsGenie.
+     *
+     * @param listHeartbeatsRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
+     * @see com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse
+     */
+    public ListHeartbeatsResponse listHeartbeats(ListHeartbeatsRequest listHeartbeatsRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Sets heartbeat configuration
+     *
+     * @param setHeartbeatConfigRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.SetHeartbeatConfigRequest
+     * @see com.ifountain.opsgenie.client.model.customer.SetHeartbeatConfigResponse
+     */
+    public SetHeartbeatConfigResponse setHeartbeatConfig(SetHeartbeatConfigRequest setHeartbeatConfigRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Gets heartbeat configuration details
+     *
+     * @param getHeartbeatConfigRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatConfigRequest
+     * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatConfigResponse
+     */
+    public GetHeartbeatConfigResponse getHeartbeatConfig(GetHeartbeatConfigRequest getHeartbeatConfigRequest) throws OpsGenieClientException, IOException, ParseException;
+    
+    
 
     /**
      * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
