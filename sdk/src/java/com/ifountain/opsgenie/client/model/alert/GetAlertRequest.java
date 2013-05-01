@@ -26,7 +26,8 @@ public class GetAlertRequest extends BaseAlertRequestWithId<GetAlertResponse> {
         Map resp = super.serialize();
         if(!(resp.containsKey(OpsGenieClientConstants.API.ID)
                 || resp.containsKey(OpsGenieClientConstants.API.ALERT_ID)
-                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)) )
+                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)
+        || resp.containsKey(OpsGenieClientConstants.API.TINY_ID)) )
         {
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
         }
