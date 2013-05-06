@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get heartbeat monitor api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(ListHeartbeatsRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#listHeartbeats(ListHeartbeatsRequest)
  */
 public class ListHeartbeatsRequest extends BaseRequest<ListHeartbeatsResponse> {
     /**
