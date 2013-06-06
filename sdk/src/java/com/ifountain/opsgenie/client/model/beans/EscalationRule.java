@@ -8,7 +8,8 @@ import java.util.Map;
 public class EscalationRule  implements IBean{
     public static enum Type{
         user,
-        group
+        group,
+        schedule
     }
     private String notify;
     private Type type;
