@@ -3,15 +3,25 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * User bean
  */
 public class User  implements IBean{
+    private static final Map<String, Locale> LOCALES = new HashMap<String, Locale>();
+    static {
+        for(Locale locale:Locale.getAvailableLocales()){
+            LOCALES.put(getLocaleId(locale), locale);
+        }
+    }
+
+    public static String getLocaleId(Locale locale){
+        return locale.toString();
+    }
+    public static Locale getLocale(String localeId){
+        return LOCALES.get(localeId);
+    }
     public static enum Role{
         admin,
         owner,
@@ -27,6 +37,7 @@ public class User  implements IBean{
     private State state;
     private String fullname;
     private TimeZone timeZone;
+    private Locale locale;
     private Role role;
     private List<String> groups;
     private List<String> escalations;
@@ -105,6 +116,20 @@ public class User  implements IBean{
     }
 
     /**
+     * Locale of user
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Sets locale of user
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    /**
      * Role of user
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
@@ -177,6 +202,9 @@ public class User  implements IBean{
         if(getTimeZone() != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
         }
+        if(getLocale() != null){
+            json.put(OpsGenieClientConstants.API.LOCALE, getLocaleId(locale));
+        }
         if(getGroups() != null){
             json.put(OpsGenieClientConstants.API.GROUPS, getGroups());
         }
@@ -204,7 +232,23 @@ public class User  implements IBean{
         setEscalations((List<String>) map.get(OpsGenieClientConstants.API.ESCALATIONS));
         setSchedules((List<String>) map.get(OpsGenieClientConstants.API.SCHEDULES));
         if(map.get(OpsGenieClientConstants.API.TIMEZONE) != null){
-            setTimeZone(TimeZone.getTimeZone((String) map.get(OpsGenieClientConstants.API.TIMEZONE)));
+            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
+            if(timezoneObj instanceof TimeZone){
+                setTimeZone((TimeZone) timezoneObj);
+            }
+            else{
+                setTimeZone(TimeZone.getTimeZone(String.valueOf(timezoneObj)));
+            }
+        }
+        if(map.get(OpsGenieClientConstants.API.LOCALE) != null){
+            Object localeObj = map.get(OpsGenieClientConstants.API.LOCALE);
+            if(localeObj instanceof Locale){
+                setLocale((Locale) localeObj);
+            }
+            else{
+                setLocale(User.getLocale(String.valueOf(localeObj)));
+            }
+
         }
     }
 }

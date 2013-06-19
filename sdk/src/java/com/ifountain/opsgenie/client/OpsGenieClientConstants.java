@@ -83,5 +83,6 @@ public interface OpsGenieClientConstants {
         public static final String LAST_HEARTBEAT = "lastHeartbeat";
         public static final String EXPIRED = "expired";
         public static final String SOURCES = "sources";
+        public static final String LOCALE = "locale";
     }
 }

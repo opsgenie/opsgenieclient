@@ -383,6 +383,7 @@ public class ScriptProxy {
         request.setFullname(user.getFullname());
         request.setRole(user.getRole());
         request.setTimeZone(user.getTimeZone());
+        request.setLocale(user.getLocale());
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         AddUserResponse resp = this.opsGenieClient.user().addUser(request);
         Map mapResponse = new HashMap();
@@ -425,6 +426,7 @@ public class ScriptProxy {
         request.setFullname(user.getFullname());
         request.setRole(user.getRole());
         request.setTimeZone(user.getTimeZone());
+        request.setLocale(user.getLocale());
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         UpdateUserResponse resp = this.opsGenieClient.user().updateUser(request);
         Map mapResponse = new HashMap();

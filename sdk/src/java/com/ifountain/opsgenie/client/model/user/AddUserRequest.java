@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.User;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -17,6 +18,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     private String username;
     private String fullname;
     private TimeZone timeZone;
+    private Locale locale;
     private User.Role role;
 
 
@@ -71,6 +73,20 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     }
 
     /**
+     * Locale of user
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Sets locale of user
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    /**
      * Role of user
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
@@ -103,6 +119,9 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
         }
         if(getTimeZone() != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+        }
+        if(getLocale() != null){
+            json.put(OpsGenieClientConstants.API.LOCALE, User.getLocaleId(getLocale()));
         }
         return json;
     }
