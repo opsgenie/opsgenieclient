@@ -135,7 +135,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
      */
     @Override
     public ListAlertLogsResponse listAlertLogs(ListAlertLogsRequest listAlertLogsRequest) throws ParseException, OpsGenieClientException, IOException {
-        return (ListAlertLogsResponse) httpClient.doPostRequest(listAlertLogsRequest);
+        return (ListAlertLogsResponse) httpClient.doGetRequest(listAlertLogsRequest);
     }
 
     /**
@@ -143,7 +143,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
      */
     @Override
     public ListAlertRecipientsResponse listAlertRecipients(ListAlertRecipientsRequest listAlertRecipientsRequest) throws ParseException, OpsGenieClientException, IOException {
-        return (ListAlertRecipientsResponse) httpClient.doPostRequest(listAlertRecipientsRequest);
+        return (ListAlertRecipientsResponse) httpClient.doGetRequest(listAlertRecipientsRequest);
     }
 
     /**
