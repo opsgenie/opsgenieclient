@@ -149,4 +149,24 @@ public interface IAlertOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionResponse
      */
     public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Lists alert logs
+     *
+     * @param listAlertLogsRequest  Object to construct request parameters.
+     * @return Object containing alert logs
+     * @see ListAlertLogsRequest
+     * @see ListAlertLogsResponse
+     */
+    public ListAlertLogsResponse listAlertLogs(ListAlertLogsRequest listAlertLogsRequest) throws ParseException, OpsGenieClientException, IOException;
+
+    /**
+     * Lists alert recipients
+     *
+     * @param listAlertRecipientsRequest  Object to construct request parameters.
+     * @return Object containing alert recipients
+     * @see ListAlertRecipientsRequest
+     * @see ListAlertRecipientsResponse
+     */
+    public ListAlertRecipientsResponse listAlertRecipients(ListAlertRecipientsRequest listAlertRecipientsRequest) throws ParseException, OpsGenieClientException, IOException;
 }

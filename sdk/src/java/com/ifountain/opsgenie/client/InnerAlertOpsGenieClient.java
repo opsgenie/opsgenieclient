@@ -130,6 +130,21 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
         return _attach(attachRequest, attachRequest.getInputStream(), attachRequest.getFileName());
     }
 
+    /**
+     * @see IAlertOpsGenieClient#listAlertLogs(com.ifountain.opsgenie.client.model.alert.ListAlertLogsRequest)
+     */
+    @Override
+    public ListAlertLogsResponse listAlertLogs(ListAlertLogsRequest listAlertLogsRequest) throws ParseException, OpsGenieClientException, IOException {
+        return (ListAlertLogsResponse) httpClient.doPostRequest(listAlertLogsRequest);
+    }
+
+    /**
+     * @see IAlertOpsGenieClient#listAlertRecipients(com.ifountain.opsgenie.client.model.alert.ListAlertRecipientsRequest)
+     */
+    @Override
+    public ListAlertRecipientsResponse listAlertRecipients(ListAlertRecipientsRequest listAlertRecipientsRequest) throws ParseException, OpsGenieClientException, IOException {
+        return (ListAlertRecipientsResponse) httpClient.doPostRequest(listAlertRecipientsRequest);
+    }
 
     /**
      * @see IAlertOpsGenieClient#executeAlertAction(com.ifountain.opsgenie.client.model.alert.ExecuteAlertActionRequest)
