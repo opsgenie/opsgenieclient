@@ -155,6 +155,29 @@ public class ScriptProxy {
         resp.put( OpsGenieClientConstants.API.ALERT_ID, resp.get(OpsGenieClientConstants.API.ID));
         return resp;
     }
+    public List<Map> listAlertLogs(Map params) throws Exception{
+        populateCommonProps(params);
+        ListAlertLogsRequest request = new ListAlertLogsRequest();
+        populateAlertRequestWithId(request, params);
+        request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
+        return beansToMap(this.opsGenieClient.alert().listAlertLogs(request).getAlertLogs());
+    }
+    public Map listAlertRecipients(Map params) throws Exception{
+        populateCommonProps(params);
+        ListAlertRecipientsRequest request = new ListAlertRecipientsRequest();
+        populateAlertRequestWithId(request, params);
+        request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
+        ListAlertRecipientsResponse resp = this.opsGenieClient.alert().listAlertRecipients(request);
+        Map res = new HashMap();
+        res.put(OpsGenieClientConstants.API.USERS, beansToMap(resp.getUsers()));
+        Map groups = new HashMap();
+        for(Map.Entry<String, List<AlertRecipient>> entry:resp.getGroups().entrySet()){
+            List<Map> groupRecipients = beansToMap(entry.getValue());
+            groups.put(entry.getKey(), groupRecipients);
+        }
+        res.put(OpsGenieClientConstants.API.GROUPS, groups);
+        return res;
+    }
 
     public List<Map> listAlerts(Map params) throws Exception{
         populateCommonProps(params);
