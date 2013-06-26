@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.marid;
 
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
-import com.ifountain.opsgenie.client.cli.LampConfig;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
