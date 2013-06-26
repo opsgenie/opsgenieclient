@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIUtils;
@@ -244,7 +245,12 @@ public class OpsGenieHttpClient {
             String proxyDomain = config.getProxyDomain();
             String proxyWorkstation = config.getProxyWorkstation();
             if ((proxyUsername != null) && (proxyPassword != null)) {
-                httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new NTCredentials(proxyUsername, proxyPassword, proxyWorkstation, proxyDomain));
+                if(config.getAuthType() == ClientConfiguration.AuthType.NT){
+                    httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new NTCredentials(proxyUsername, proxyPassword, proxyWorkstation, proxyDomain));
+                }
+                else if(config.getAuthType() == ClientConfiguration.AuthType.USERNAME_PASSWORD){
+                    httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new UsernamePasswordCredentials(proxyUsername, proxyPassword));
+                }
             }
         }
     }

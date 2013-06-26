@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.marid;
 
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
+import com.ifountain.opsgenie.client.cli.LampConfig;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
@@ -78,6 +79,14 @@ public class MaridConfig {
             clientConfiguration.setProxyUsername(getProperty("http.proxy.username"));
             clientConfiguration.setProxyPassword(getProperty("http.proxy.password"));
             clientConfiguration.setProxyProtocol(getProperty("http.proxy.protocol"));
+            String authType = getProperty("http.proxy.authType", ClientConfiguration.AuthType.NT.name());
+            ClientConfiguration.AuthType authTypeEnum;
+            try{
+                authTypeEnum = ClientConfiguration.AuthType.valueOf(authType);
+            }catch (Throwable t){
+                throw new RuntimeException("Invalid authType ["+authType+"]");
+            }
+            clientConfiguration.setAuthType(authTypeEnum);
         }
 
         clientConfiguration.setUserAgent(ClientConfiguration.createUserAgentFromManifest(MaridConfig.class));
