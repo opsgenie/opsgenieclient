@@ -15,6 +15,10 @@ import java.util.jar.Manifest;
  * @see com.ifountain.opsgenie.client.OpsGenieClient
  */
 public class ClientConfiguration {
+    public enum AuthType{
+        USERNAME_PASSWORD,
+        NT
+    }
     private static String staticUserAgent;
     private int maxConnections = 50;
     private int socketTimeout = 50000;
@@ -28,6 +32,7 @@ public class ClientConfiguration {
     private String proxyDomain = null;
     private String proxyWorkstation = null;
     private String proxyProtocol = null;
+    private AuthType authType = AuthType.NT;
 
     private String userAgent = initializeUserAgent();
     private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
@@ -222,6 +227,20 @@ public class ClientConfiguration {
      */
     public void setProxyWorkstation(String proxyWorkstation) {
         this.proxyWorkstation = proxyWorkstation;
+    }
+
+    /**
+     * Gets the authentication type
+     */
+    public AuthType getAuthType() {
+        return authType;
+    }
+
+    /**
+     * Sets authentication type
+     */
+    public void setAuthType(AuthType authType) {
+        this.authType = authType;
     }
 
     private static String initializeUserAgent() {

@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.cli.commands.*;
 import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
+import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.ManifestUtils;
@@ -129,6 +130,16 @@ public class OpsGenieCommandLine {
         }
         if (LampConfig.getInstance().getConfiguration().containsKey("proxyDomain")) {
             clientConfig.setProxyDomain(LampConfig.getInstance().getConfiguration().getProperty("proxyDomain"));
+        }
+        if (LampConfig.getInstance().getConfiguration().containsKey("authMethod")) {
+            String authType = LampConfig.getInstance().getConfiguration().getProperty("authMethod", ClientConfiguration.AuthType.NT.name());
+            ClientConfiguration.AuthType authTypeEnum;
+            try{
+                authTypeEnum = ClientConfiguration.AuthType.valueOf(authType);
+            }catch (Throwable t){
+                throw new RuntimeException("Invalid authType ["+authType+"]");
+            }
+            clientConfig.setAuthType(authTypeEnum);
         }
         if (LampConfig.getInstance().getConfiguration().containsKey("proxyWorkstation")) {
             clientConfig.setProxyWorkstation(LampConfig.getInstance().getConfiguration().getProperty("proxyWorkstation"));
