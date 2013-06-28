@@ -19,6 +19,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertLogs(ListAlertLogsRequest)
  */
 public class ListAlertLogsResponse extends BaseResponse {
+    private String lastKey;
     private List<AlertLog> alertLogs;
 
     /**
@@ -37,11 +38,20 @@ public class ListAlertLogsResponse extends BaseResponse {
         this.alertLogs = alertLogs;
     }
 
+    public String getLastKey() {
+        return lastKey;
+    }
+
+    public void setLastKey(String lastKey) {
+        this.lastKey = lastKey;
+    }
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseResponse#deserialize(java.util.Map)
      */
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
+        lastKey = (String) data.get(OpsGenieClientConstants.API.LAST_KEY);
         List<Map> logsData = (List<Map>) data.get(OpsGenieClientConstants.API.LOGS);
         alertLogs = new ArrayList<AlertLog>();
         for(Map logData:logsData){

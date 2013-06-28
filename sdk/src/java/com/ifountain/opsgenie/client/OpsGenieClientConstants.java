@@ -89,5 +89,6 @@ public interface OpsGenieClientConstants {
         public static final String LOGS = "logs";
         public static final String STATE_CHANGED_AT = "stateChangedAt";
         public static final String METHOD = "method";
+        public static final String LAST_KEY = "lastKey";
     }
 }

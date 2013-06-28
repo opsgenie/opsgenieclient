@@ -155,12 +155,25 @@ public class ScriptProxy {
         resp.put( OpsGenieClientConstants.API.ALERT_ID, resp.get(OpsGenieClientConstants.API.ID));
         return resp;
     }
-    public List<Map> listAlertLogs(Map params) throws Exception{
+    public Map listAlertLogs(Map params) throws Exception{
         populateCommonProps(params);
         ListAlertLogsRequest request = new ListAlertLogsRequest();
         populateAlertRequestWithId(request, params);
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
-        return beansToMap(this.opsGenieClient.alert().listAlertLogs(request).getAlertLogs());
+        if(params.containsKey(OpsGenieClientConstants.API.LAST_KEY)){
+            request.setLastKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.LAST_KEY));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.LIMIT)){
+            request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.ORDER)){
+            request.setSortOrder(ListAlertLogsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+        }
+        ListAlertLogsResponse listAlertLogsResponse = this.opsGenieClient.alert().listAlertLogs(request);
+        Map<String, Object> res = new HashMap<String, Object>();
+        res.put(OpsGenieClientConstants.API.LAST_KEY, listAlertLogsResponse.getLastKey());
+        res.put(OpsGenieClientConstants.API.LOGS, beansToMap(listAlertLogsResponse.getAlertLogs()));
+        return res;
     }
     public Map listAlertRecipients(Map params) throws Exception{
         populateCommonProps(params);
