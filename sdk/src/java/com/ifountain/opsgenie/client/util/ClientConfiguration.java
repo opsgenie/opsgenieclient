@@ -3,8 +3,6 @@ package com.ifountain.opsgenie.client.util;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.jar.Manifest;
 
 /**
@@ -15,35 +13,16 @@ import java.util.jar.Manifest;
  * @see com.ifountain.opsgenie.client.OpsGenieClient
  */
 public class ClientConfiguration {
-    public enum AuthType{
-        USERNAME_PASSWORD,
-        NT
-    }
+    private ClientProxyConfiguration clientProxyConfiguration;
     private static String staticUserAgent;
     private int maxConnections = 50;
     private int socketTimeout = 50000;
     private int connectionTimeout = 50000;
     private int socketSendBufferSizeHint = 0;
     private int socketReceiveBufferSizeHint = 0;
-    private String proxyHost = null;
-    private int proxyPort = -1;
-    private String proxyUsername = null;
-    private String proxyPassword = null;
-    private String proxyDomain = null;
-    private String proxyWorkstation = null;
-    private String proxyProtocol = null;
-    private AuthType authType = AuthType.NT;
 
     private String userAgent = initializeUserAgent();
     private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
-
-    public String getProxyProtocol() {
-        return proxyProtocol;
-    }
-
-    public void setProxyProtocol(String proxyProtocol) {
-        this.proxyProtocol = proxyProtocol;
-    }
 
     /**
      * Returns the HTTP user agent header to send with all requests.
@@ -146,101 +125,17 @@ public class ClientConfiguration {
     }
 
     /**
-     * Returns the optional proxy host the client will connect through.
+     * Returns proxy configuration
      */
-    public String getProxyHost() {
-        return proxyHost;
+    public ClientProxyConfiguration getClientProxyConfiguration() {
+        return clientProxyConfiguration;
     }
 
     /**
-     * Sets the optional proxy host the client will connect through.
+     * Sets proxy configuration
      */
-    public void setProxyHost(String proxyHost) {
-        this.proxyHost = proxyHost;
-    }
-
-    /**
-     * Returns the optional proxy port the client will connect through.
-     */
-    public int getProxyPort() {
-        return proxyPort;
-    }
-
-    /**
-     * Sets the optional proxy port the client will connect through.
-     */
-    public void setProxyPort(int proxyPort) {
-        this.proxyPort = proxyPort;
-    }
-
-    /**
-     * Returns the optional proxy user name to use if connecting through a proxy.
-     */
-    public String getProxyUsername() {
-        return proxyUsername;
-    }
-
-    /**
-     * Sets the optional proxy user name to use if connecting through a proxy.
-     */
-    public void setProxyUsername(String proxyUsername) {
-        this.proxyUsername = proxyUsername;
-    }
-
-    /**
-     * Returns the optional proxy password to use when connecting through a proxy.
-     */
-    public String getProxyPassword() {
-        return proxyPassword;
-    }
-
-    /**
-     * Sets the optional proxy password to use when connecting through a proxy.
-     */
-    public void setProxyPassword(String proxyPassword) {
-        this.proxyPassword = proxyPassword;
-    }
-
-    /**
-     * Returns the optional Windows domain name for configuring an NTLM proxy.
-     */
-    public String getProxyDomain() {
-        return proxyDomain;
-    }
-
-    /**
-     * Sets the optional Windows domain name for configuration an NTML proxy.
-     */
-    public void setProxyDomain(String proxyDomain) {
-        this.proxyDomain = proxyDomain;
-    }
-
-    /**
-     * Returns the optional Windows workstation name for configuring NTLM proxy support.
-     */
-    public String getProxyWorkstation() {
-        return proxyWorkstation;
-    }
-
-    /**
-     * Sets the optional Windows workstation name for configuring NTLM proxy support.
-     */
-    public void setProxyWorkstation(String proxyWorkstation) {
-        this.proxyWorkstation = proxyWorkstation;
-    }
-
-    /**
-     * Gets the authentication type
-     */
-    public AuthType getAuthType() {
-        return authType;
-    }
-
-    /**
-     * Sets authentication type
-     */
-    public void setAuthType(AuthType authType) {
-        this.authType = authType;
+    public void setClientProxyConfiguration(ClientProxyConfiguration clientProxyConfiguration) {
+        this.clientProxyConfiguration = clientProxyConfiguration;
     }
 
     private static String initializeUserAgent() {

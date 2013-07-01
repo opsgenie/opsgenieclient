@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.http;
 
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
+import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -228,27 +229,27 @@ public class OpsGenieHttpClient {
         }
 
         httpClient.setHttpRequestRetryHandler(config.getRetryHandler());
+        if (config.getClientProxyConfiguration() != null) {
+            String proxyHost = config.getClientProxyConfiguration().getProxyHost();
+            int proxyPort = config.getClientProxyConfiguration().getProxyPort();
 
-        String proxyHost = config.getProxyHost();
-        int proxyPort = config.getProxyPort();
-        if ((proxyHost != null) && (proxyPort > 0)) {
             HttpHost proxyHttpHost;
-            if(config.getProxyProtocol() == null){
+            if(config.getClientProxyConfiguration().getProxyProtocol() == null){
                 proxyHttpHost = new HttpHost(proxyHost, proxyPort);
             }
             else{
-                proxyHttpHost = new HttpHost(proxyHost, proxyPort, config.getProxyProtocol());
+                proxyHttpHost = new HttpHost(proxyHost, proxyPort, config.getClientProxyConfiguration().getProxyProtocol());
             }
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHttpHost);
-            String proxyUsername = config.getProxyUsername();
-            String proxyPassword = config.getProxyPassword();
-            String proxyDomain = config.getProxyDomain();
-            String proxyWorkstation = config.getProxyWorkstation();
+            String proxyUsername = config.getClientProxyConfiguration().getProxyUsername();
+            String proxyPassword = config.getClientProxyConfiguration().getProxyPassword();
+            String proxyDomain = config.getClientProxyConfiguration().getProxyDomain();
+            String proxyWorkstation = config.getClientProxyConfiguration().getProxyWorkstation();
             if ((proxyUsername != null) && (proxyPassword != null)) {
-                if(config.getAuthType() == ClientConfiguration.AuthType.NT){
+                if(config.getClientProxyConfiguration().getAuthType() == ClientProxyConfiguration.AuthType.NT){
                     httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new NTCredentials(proxyUsername, proxyPassword, proxyWorkstation, proxyDomain));
                 }
-                else if(config.getAuthType() == ClientConfiguration.AuthType.USERNAME_PASSWORD){
+                else if(config.getClientProxyConfiguration().getAuthType() == ClientProxyConfiguration.AuthType.BASIC){
                     httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new UsernamePasswordCredentials(proxyUsername, proxyPassword));
                 }
             }

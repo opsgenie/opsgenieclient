@@ -4,11 +4,11 @@ import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
+import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -23,6 +23,7 @@ public class MaridConfig {
     private  OpsGenieHttpClient opsGenieHttpClient;
     private  IOpsGenieClient opsGenieClient;
     private Properties configuration;
+    private ClientConfiguration clientConfiguration;
 
     private static MaridConfig instance = new MaridConfig();
     public static MaridConfig getInstance(){
@@ -68,24 +69,24 @@ public class MaridConfig {
     }
 
     private void initOpsgenieClient(){
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        clientConfiguration = new ClientConfiguration();
         clientConfiguration.setSocketTimeout(getInt("opsgenie.connection.sockettimeout", 30)*1000);
         clientConfiguration.setConnectionTimeout(getInt("opsgenie.connection.timeout", 30)*1000);
         clientConfiguration.setMaxConnections(getInt("opsgenie.connection.maxConnectionCount", 50));
         if(getBoolean("http.proxy.enabled", false)){
-            clientConfiguration.setProxyHost(getProperty("http.proxy.host"));
-            clientConfiguration.setProxyPort(getInt("http.proxy.port", 0));
-            clientConfiguration.setProxyUsername(getProperty("http.proxy.username"));
-            clientConfiguration.setProxyPassword(getProperty("http.proxy.password"));
-            clientConfiguration.setProxyProtocol(getProperty("http.proxy.protocol"));
-            String authType = getProperty("http.proxy.authType", ClientConfiguration.AuthType.NT.name());
-            ClientConfiguration.AuthType authTypeEnum;
+            ClientProxyConfiguration clientProxyConfiguration = new ClientProxyConfiguration(getProperty("http.proxy.host"), getInt("http.proxy.port", 0));
+            clientProxyConfiguration.setProxyUsername(getProperty("http.proxy.username"));
+            clientProxyConfiguration.setProxyPassword(getProperty("http.proxy.password"));
+            clientProxyConfiguration.setProxyProtocol(getProperty("http.proxy.protocol"));
+            String authMethod = getProperty("http.proxy.authMethod", ClientProxyConfiguration.AuthType.NT.name());
+            ClientProxyConfiguration.AuthType authTypeEnum;
             try{
-                authTypeEnum = ClientConfiguration.AuthType.valueOf(authType);
+                authTypeEnum = ClientProxyConfiguration.AuthType.valueOf(authMethod);
             }catch (Throwable t){
-                throw new RuntimeException("Invalid authType ["+authType+"]");
+                throw new RuntimeException("Invalid authMethod ["+authMethod+"]");
             }
-            clientConfiguration.setAuthType(authTypeEnum);
+            clientProxyConfiguration.setAuthType(authTypeEnum);
+            clientConfiguration.setClientProxyConfiguration(clientProxyConfiguration);
         }
 
         clientConfiguration.setUserAgent(ClientConfiguration.createUserAgentFromManifest(MaridConfig.class));
@@ -98,6 +99,10 @@ public class MaridConfig {
         opsGenieHttpClient = new OpsGenieHttpClient(clientConfiguration);
         opsGenieClient = new OpsGenieClient(opsGenieHttpClient);
         opsGenieClient.setRootUri(getOpsgenieApiUrl());
+    }
+
+    public ClientConfiguration getClientConfiguration() {
+        return clientConfiguration;
     }
 
     public String getOpsgenieApiUrl() {

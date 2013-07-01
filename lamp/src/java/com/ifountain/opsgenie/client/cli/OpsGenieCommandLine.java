@@ -4,17 +4,14 @@ import com.ifountain.opsgenie.client.cli.commands.*;
 import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
-import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.script.ScriptManager;
-import com.ifountain.opsgenie.client.util.ManifestUtils;
+import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
-import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -116,36 +113,37 @@ public class OpsGenieCommandLine {
 
     private IOpsGenieClient configureClient() {
         ClientConfiguration clientConfig = new ClientConfiguration();
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyHost")) {
-            clientConfig.setProxyHost(LampConfig.getInstance().getConfiguration().getProperty("proxyHost"));
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyPort")) {
-            clientConfig.setProxyPort(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("proxyPort")));
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyUsername")) {
-            clientConfig.setProxyUsername(LampConfig.getInstance().getConfiguration().getProperty("proxyUsername"));
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyPassword")) {
-            clientConfig.setProxyPassword(LampConfig.getInstance().getConfiguration().getProperty("proxyPassword"));
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyDomain")) {
-            clientConfig.setProxyDomain(LampConfig.getInstance().getConfiguration().getProperty("proxyDomain"));
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("authMethod")) {
-            String authType = LampConfig.getInstance().getConfiguration().getProperty("authMethod", ClientConfiguration.AuthType.NT.name());
-            ClientConfiguration.AuthType authTypeEnum;
-            try{
-                authTypeEnum = ClientConfiguration.AuthType.valueOf(authType);
-            }catch (Throwable t){
-                throw new RuntimeException("Invalid authType ["+authType+"]");
+
+        if (LampConfig.getInstance().getConfiguration().containsKey("proxyHost") && LampConfig.getInstance().getConfiguration().containsKey("proxyPort")) {
+            String host = LampConfig.getInstance().getConfiguration().getProperty("proxyHost");
+            int port = Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("proxyPort"));
+            ClientProxyConfiguration clientProxyConfiguration = new ClientProxyConfiguration(host, port);
+            if (LampConfig.getInstance().getConfiguration().containsKey("proxyUsername")) {
+                clientProxyConfiguration.setProxyUsername(LampConfig.getInstance().getConfiguration().getProperty("proxyUsername"));
             }
-            clientConfig.setAuthType(authTypeEnum);
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyWorkstation")) {
-            clientConfig.setProxyWorkstation(LampConfig.getInstance().getConfiguration().getProperty("proxyWorkstation"));
-        }
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyProtocol")) {
-            clientConfig.setProxyProtocol(LampConfig.getInstance().getConfiguration().getProperty("proxyProtocol"));
+            if (LampConfig.getInstance().getConfiguration().containsKey("proxyPassword")) {
+                clientProxyConfiguration.setProxyPassword(LampConfig.getInstance().getConfiguration().getProperty("proxyPassword"));
+            }
+            if (LampConfig.getInstance().getConfiguration().containsKey("proxyDomain")) {
+                clientProxyConfiguration.setProxyDomain(LampConfig.getInstance().getConfiguration().getProperty("proxyDomain"));
+            }
+            if (LampConfig.getInstance().getConfiguration().containsKey("authMethod")) {
+                String authMethod = LampConfig.getInstance().getConfiguration().getProperty("authMethod", ClientProxyConfiguration.AuthType.NT.name());
+                ClientProxyConfiguration.AuthType authTypeEnum;
+                try{
+                    authTypeEnum = ClientProxyConfiguration.AuthType.valueOf(authMethod);
+                }catch (Throwable t){
+                    throw new RuntimeException("Invalid authMethod ["+authMethod+"]");
+                }
+                clientProxyConfiguration.setAuthType(authTypeEnum);
+            }
+            if (LampConfig.getInstance().getConfiguration().containsKey("proxyWorkstation")) {
+                clientProxyConfiguration.setProxyWorkstation(LampConfig.getInstance().getConfiguration().getProperty("proxyWorkstation"));
+            }
+            if (LampConfig.getInstance().getConfiguration().containsKey("proxyProtocol")) {
+                clientProxyConfiguration.setProxyProtocol(LampConfig.getInstance().getConfiguration().getProperty("proxyProtocol"));
+            }
+            clientConfig.setClientProxyConfiguration(clientProxyConfiguration);
         }
         clientConfig.setSocketTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketTimeout", "30")) * 1000);
         clientConfig.setConnectionTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("connectionTimeout", "30")) * 1000);

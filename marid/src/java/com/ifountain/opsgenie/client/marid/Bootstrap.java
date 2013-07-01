@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener;
 import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
 import com.ifountain.opsgenie.client.marid.http.HttpController;
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
+import com.ifountain.opsgenie.client.marid.http.HttpProxyConfig;
 import com.ifountain.opsgenie.client.marid.http.HttpServer;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
@@ -160,7 +161,12 @@ public class Bootstrap {
             String host = MaridConfig.getInstance().getProperty("http.proxy.server.host", "127.0.0.1");
             String username = MaridConfig.getInstance().getProperty("http.proxy.server.username");
             String password = MaridConfig.getInstance().getProperty("http.proxy.server.password");
-            proxy = new HttpProxy(host, port, username, password);
+            HttpProxyConfig httpProxyConfig = new HttpProxyConfig(port);
+            httpProxyConfig.setHost(host);
+            httpProxyConfig.setUsername(username);
+            httpProxyConfig.setPassword(password);
+            httpProxyConfig.setClientProxyConfiguration(MaridConfig.getInstance().getClientConfiguration().getClientProxyConfiguration());
+            proxy = new HttpProxy(httpProxyConfig);
             proxy.start();
         }
     }
