@@ -46,7 +46,6 @@ public class HttpProxy {
                 }
             }, new ChainProxyManager() {
                 public void onCommunicationError(String hostAndPort) {
-                    // TODO Auto-generated method stub
                 }
                 public String getChainProxy(HttpRequest request) {
                     if (needAuthentication && request.getMethod().equals(HttpMethod.CONNECT)) {
