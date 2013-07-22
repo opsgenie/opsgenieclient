@@ -35,7 +35,8 @@ public class AlertActionUtils {
 
     public static File getScriptFile(String action) {
         String safeFileName = action.replaceAll("\\W", "");
-        String fileName = MaridConfig.getInstance().getProperty("actions."+safeFileName+".script");
+        String propertyKey = "actions."+safeFileName+".script".toLowerCase();
+        String fileName = MaridConfig.getInstance().getLowercasedConfiguration().get(propertyKey);
         File scriptsDirectory = ScriptManager.getInstance().getScriptsDirectory();
         if(fileName == null){
             fileName = safeFileName;

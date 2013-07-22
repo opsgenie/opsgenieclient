@@ -9,6 +9,7 @@ import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,6 +23,7 @@ public class MaridConfig {
     private  String maridKey;
     private  OpsGenieHttpClient opsGenieHttpClient;
     private  IOpsGenieClient opsGenieClient;
+    private Map<String, String> lowercasedConfiguration;
     private Properties configuration;
     private ClientConfiguration clientConfiguration;
 
@@ -50,12 +52,13 @@ public class MaridConfig {
 
     public void init(String configurationPath) throws Exception {
         if(configuration != null) throw new Exception("Already initialized");
-        configuration = new Properties();
+        Properties configuration = new Properties();
         File configFile = new File(configurationPath);
         if (configFile.exists()) {
             FileInputStream in = new FileInputStream(configFile);
             try {
                 configuration.load(in);
+                setConfiguration(configuration);
             } finally {
                 in.close();
             }
@@ -99,6 +102,13 @@ public class MaridConfig {
         opsGenieHttpClient = new OpsGenieHttpClient(clientConfiguration);
         opsGenieClient = new OpsGenieClient(opsGenieHttpClient);
         opsGenieClient.setRootUri(getOpsgenieApiUrl());
+    }
+
+    public Map<String, String> getLowercasedConfiguration() {
+        if(lowercasedConfiguration == null){
+            throw new RuntimeException("Not initialized");
+        }
+        return lowercasedConfiguration;
     }
 
     public ClientConfiguration getClientConfiguration() {
@@ -162,6 +172,10 @@ public class MaridConfig {
 
     public void setConfiguration(Properties configuration) {
         this.configuration = configuration;
+        lowercasedConfiguration = new HashMap<String, String>();
+        for(Map.Entry entry:configuration.entrySet()){
+            lowercasedConfiguration.put(String.valueOf(entry.getKey()).toLowerCase(), String.valueOf(entry.getValue()));
+        }
     }
 
     public String getProperty(String key, String defaultValue){
