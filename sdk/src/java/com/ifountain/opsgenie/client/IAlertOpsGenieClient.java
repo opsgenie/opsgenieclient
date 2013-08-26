@@ -91,6 +91,17 @@ public interface IAlertOpsGenieClient {
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
+     * Renotifies recipients in OpsGenie.
+     *
+     *
+     * @param renotifyRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.RenotifyRequest
+     * @see com.ifountain.opsgenie.client.model.alert.RenotifyResponse
+     */
+    public RenotifyResponse renotify(RenotifyRequest renotifyRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
      * Takes the ownership of an alert.
      *
      * @param takeOwnershipRequest Object to construct request parameters.

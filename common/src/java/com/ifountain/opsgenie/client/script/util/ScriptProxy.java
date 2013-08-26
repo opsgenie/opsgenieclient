@@ -37,7 +37,26 @@ public class ScriptProxy {
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         return successToMap(this.opsGenieClient.alert().acknowledge(request));
     }
-    
+    public Map renotify(Map params) throws Exception{
+        populateCommonProps(params);
+        RenotifyRequest request = new RenotifyRequest();
+        populateAlertRequestWithId(request, params);
+        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
+        List<String> recipientList = ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RECIPIENTS);
+        if(recipientList != null){
+            List<RenotifyRecipient> recipients = new ArrayList<RenotifyRecipient>();
+            for(String recipientName:recipientList){
+                RenotifyRecipient recipient = new RenotifyRecipient();
+                recipient.setRecipient(recipientName);
+                recipients.add(recipient);
+            }
+            request.setRecipients(recipients);
+        }
+        return successToMap(this.opsGenieClient.alert().renotify(request));
+    }
+
     public Map addNote(Map params) throws Exception{
         populateCommonProps(params);
         AddNoteRequest request = new AddNoteRequest();

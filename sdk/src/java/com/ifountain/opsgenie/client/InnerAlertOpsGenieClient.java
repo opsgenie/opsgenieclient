@@ -87,6 +87,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
+     * @see IAlertOpsGenieClient#renotify(com.ifountain.opsgenie.client.model.alert.RenotifyRequest)
+     */
+    @Override
+    public RenotifyResponse renotify(RenotifyRequest renotifyRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (RenotifyResponse) httpClient.doPostRequest(renotifyRequest);
+    }
+
+    /**
      * @see IAlertOpsGenieClient#takeOwnership(com.ifountain.opsgenie.client.model.alert.TakeOwnershipRequest)
      */
     @Override
