@@ -17,6 +17,7 @@ public interface OpsgenieClientApplicationConstants {
         String START_MINUTE = "startMinute";
         String END_HOUR = "endHour";
         String END_MINUTE = "endMinute";
+        String BINDING_SOURCE = "source";
     }
 
     interface Marid {
