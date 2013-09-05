@@ -1,2 +1,2 @@
-logger.warn("Alert [${alert.alertId}] is deleted");
+logger.warn("Alert [${alert.alertId}] is deleted  via ${source}");
 return;

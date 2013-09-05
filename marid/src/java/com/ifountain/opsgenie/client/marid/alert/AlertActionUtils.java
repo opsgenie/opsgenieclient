@@ -141,7 +141,7 @@ public class AlertActionUtils {
                         sourceList = (List) source;
                     }
                     else{
-                        sourceList = (List) JsonUtils.parse(String.valueOf(alert)).get(SOURCES);
+                        sourceList = (List) JsonUtils.parse(String.valueOf(source)).get(SOURCES);
                     }
                 }
 
