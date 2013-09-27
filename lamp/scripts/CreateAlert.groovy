@@ -1,5 +1,5 @@
 logger.warn("Creating alert with message ${params["message"]}");
-alertprops = {}
+alertprops = [:]
 alertprops["message"] = params["message"];
 alertprops["recipients"] = "all"
 def response = opsgenie.createAlert(alertprops);
