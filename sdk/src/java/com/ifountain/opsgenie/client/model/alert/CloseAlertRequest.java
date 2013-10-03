@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 5/31/12 2:05 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#closeAlert(CloseAlertRequest)
  */
-public class CloseAlertRequest extends BaseAlertRequestWithId<CloseAlertResponse> {
+public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResponse> {
     private String user;
     private String note;
 

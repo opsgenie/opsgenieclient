@@ -27,6 +27,9 @@ public class AcknowledgeCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that will be acknowledged. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
     private List<String> alias;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> source;
+
     @Parameter(names = "--" + OpsGenieClientConstants.API.OWNER, description = "The user who will be the owner of the alert after the execution.", variableArity = true, splitter = NullSplitter.class)
     private List<String> owner;
 
@@ -54,6 +57,7 @@ public class AcknowledgeCommand extends BaseCommand{
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
+        if (source != null) request.setSource(Strings.join(source, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.alert().acknowledge(request);
     }

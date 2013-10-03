@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 11/26/12 4:36 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#assign(AssignRequest)
  */
-public class AssignRequest extends BaseAlertRequestWithId<AssignResponse> {
+public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
     private String user;
     private String owner;
     private String note;

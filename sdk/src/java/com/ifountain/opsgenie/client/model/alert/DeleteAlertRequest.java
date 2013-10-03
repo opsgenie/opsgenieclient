@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 12/4/12 3:38 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#deleteAlert(DeleteAlertRequest)
  */
-public class DeleteAlertRequest extends BaseAlertRequestWithId<DeleteAlertResponse> {
+public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertResponse> {
     private String user;
 
     /**

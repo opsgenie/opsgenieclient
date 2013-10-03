@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 11/26/12 4:17 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#acknowledge(AcknowledgeRequest)
  */
-public class AcknowledgeRequest extends BaseAlertRequestWithId<AcknowledgeResponse> {
+public class AcknowledgeRequest extends BaseAlertRequestWithSource<AcknowledgeResponse> {
     private String user;
     private String note;
 

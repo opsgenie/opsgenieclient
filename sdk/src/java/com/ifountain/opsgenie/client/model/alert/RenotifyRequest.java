@@ -16,7 +16,7 @@ import java.util.Map;
  * @version 11/26/12 4:17 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(com.ifountain.opsgenie.client.model.alert.RenotifyRequest)
  */
-public class RenotifyRequest extends BaseAlertRequestWithId<RenotifyResponse> {
+public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse> {
     private String user;
     private String note;
     private List<RenotifyRecipient> recipients;

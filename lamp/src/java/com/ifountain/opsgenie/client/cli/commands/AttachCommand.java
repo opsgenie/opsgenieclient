@@ -37,6 +37,9 @@ public class AttachCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
     private List<String> note;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of acknowledge action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> source;
+
     public AttachCommand(JCommander commander) {
         super(commander);
     }
@@ -53,6 +56,7 @@ public class AttachCommand extends BaseCommand{
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (indexFile != null) request.setIndexFile(Strings.join(indexFile, " "));
+        if (source != null) request.setSource(Strings.join(source, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         if (attachment != null) request.setFile(new File(Strings.join(attachment, " ")));
         if (note != null) request.setNote(Strings.join(note, " "));

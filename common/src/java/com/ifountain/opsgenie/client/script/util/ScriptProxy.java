@@ -31,7 +31,7 @@ public class ScriptProxy {
     public Map acknowledge(Map params) throws Exception{
         populateCommonProps(params);
         AcknowledgeRequest request = new AcknowledgeRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
@@ -40,7 +40,7 @@ public class ScriptProxy {
     public Map renotify(Map params) throws Exception{
         populateCommonProps(params);
         RenotifyRequest request = new RenotifyRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
@@ -60,7 +60,7 @@ public class ScriptProxy {
     public Map addNote(Map params) throws Exception{
         populateCommonProps(params);
         AddNoteRequest request = new AddNoteRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
@@ -70,7 +70,7 @@ public class ScriptProxy {
     public Map addRecipient(Map params) throws Exception{
         populateCommonProps(params);
         AddRecipientRequest request = new AddRecipientRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setRecipient(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.RECIPIENT));
@@ -81,7 +81,7 @@ public class ScriptProxy {
     public Map assign(Map params) throws Exception{
         populateCommonProps(params);
         AssignRequest request = new AssignRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setOwner(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OWNER));
@@ -114,7 +114,7 @@ public class ScriptProxy {
     public Map closeAlert(Map params) throws Exception{
         populateCommonProps(params);
         CloseAlertRequest request = new CloseAlertRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         return successToMap(this.opsGenieClient.alert().closeAlert(request));
@@ -144,7 +144,7 @@ public class ScriptProxy {
     public Map deleteAlert(Map params) throws Exception {
         populateCommonProps(params);
         DeleteAlertRequest request = new DeleteAlertRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         return successToMap(this.opsGenieClient.alert().deleteAlert(request));
@@ -153,7 +153,7 @@ public class ScriptProxy {
     public Map executeAlertAction(Map params) throws Exception {
         populateCommonProps(params);
         ExecuteAlertActionRequest request = new ExecuteAlertActionRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setAction(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ACTION));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
@@ -235,7 +235,7 @@ public class ScriptProxy {
     public Map takeOwnership(Map params) throws Exception{
         populateCommonProps(params);
         TakeOwnershipRequest request = new TakeOwnershipRequest();
-        populateAlertRequestWithId(request, params);
+        populateAlertRequestWithSource(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
@@ -659,6 +659,8 @@ public class ScriptProxy {
     private void populateAttachmentRequestCommonProps(AttachRequest request, Map params){
         populateAlertRequestWithId(request, params);
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         request.setIndexFile(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INDEX_FILE));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
     }
@@ -684,6 +686,12 @@ public class ScriptProxy {
         return beanMaps;
     }
 
+    private void populateAlertRequestWithSource(BaseAlertRequestWithSource request, Map params){
+        populateAlertRequestWithId(request, params);
+        if(params.containsKey(OpsGenieClientConstants.API.SOURCE)){
+            request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        }
+    }
     private void populateAlertRequestWithId(BaseAlertRequestWithId request, Map params){
         if(params.containsKey(OpsGenieClientConstants.API.ALERT_ID)){
             request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID));

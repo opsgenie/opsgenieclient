@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 1/9/13 4:03 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
  */
-public class AddRecipientRequest extends BaseAlertRequestWithId<AddRecipientResponse> {
+public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipientResponse> {
     private String user;
     private String recipient;
     private String note;

@@ -37,6 +37,9 @@ public class RenotifyCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.RECIPIENTS, description = "The user names of individual users or names of groups that will be renotified for alert.", variableArity = true, splitter = NullSplitter.class)
     private List<String> recipients;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> source;
+
     public RenotifyCommand(JCommander commander) {
         super(commander);
     }
@@ -58,6 +61,7 @@ public class RenotifyCommand extends BaseCommand{
         request.setId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
+        if (source != null) request.setSource(Strings.join(source, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         if (recipients != null){
             List<String> recipientList = Arrays.asList(Strings.join(recipients, " ").split(","));

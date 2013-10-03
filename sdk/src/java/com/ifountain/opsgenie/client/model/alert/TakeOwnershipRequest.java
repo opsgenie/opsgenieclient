@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 11/26/12 4:32 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#takeOwnership(TakeOwnershipRequest)
  */
-public class TakeOwnershipRequest extends BaseAlertRequestWithId<TakeOwnershipResponse> {
+public class TakeOwnershipRequest extends BaseAlertRequestWithSource<TakeOwnershipResponse> {
     private String user;
     private String note;
 

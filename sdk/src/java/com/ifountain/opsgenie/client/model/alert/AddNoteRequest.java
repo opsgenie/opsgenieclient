@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 5/31/12 3:00 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addNote(AddNoteRequest)
  */
-public class AddNoteRequest extends BaseAlertRequestWithId<AddNoteResponse> {
+public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> {
     private String note;
     private String user;
 

@@ -12,7 +12,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
  */
-public abstract class AttachRequest extends BaseAlertRequestWithId<AttachResponse> {
+public abstract class AttachRequest extends BaseAlertRequestWithSource<AttachResponse> {
     private String indexFile;
     private String user;
     private String note;

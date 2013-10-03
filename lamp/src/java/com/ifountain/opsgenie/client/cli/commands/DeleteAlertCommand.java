@@ -26,6 +26,9 @@ public class DeleteAlertCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that will be deleted. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
     private List<String> alias;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> source;
+
     public DeleteAlertCommand(JCommander commander) {
         super(commander);
     }
@@ -46,6 +49,7 @@ public class DeleteAlertCommand extends BaseCommand{
         request.setCustomerKey(commonOptions.getCustomerKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
+        if (source != null) request.setSource(Strings.join(source, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.alert().deleteAlert(request);
     }

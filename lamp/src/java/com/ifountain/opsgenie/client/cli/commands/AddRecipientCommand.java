@@ -32,6 +32,9 @@ public class AddRecipientCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.NOTE, description = "User note.", variableArity = true, splitter = NullSplitter.class)
     private List<String> note;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> source;
+
     public AddRecipientCommand(JCommander commander) {
         super(commander);
     }
@@ -53,6 +56,7 @@ public class AddRecipientCommand extends BaseCommand{
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));
+        if (source != null) request.setSource(Strings.join(source, " "));
         if (recipient != null) request.setRecipient(Strings.join(recipient, " "));
         if (commonOptions.getUser() != null) request.setUser(commonOptions.getUser());
         opsGenieClient.alert().addRecipient(request);

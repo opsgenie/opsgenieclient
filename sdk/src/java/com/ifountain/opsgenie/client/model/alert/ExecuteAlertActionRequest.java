@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 10/30/12 4:59 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
  */
-public class ExecuteAlertActionRequest extends BaseAlertRequestWithId<ExecuteAlertActionResponse> {
+public class ExecuteAlertActionRequest extends BaseAlertRequestWithSource<ExecuteAlertActionResponse> {
     private String action;
     private String user;
     private String note;
