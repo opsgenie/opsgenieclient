@@ -17,7 +17,7 @@ LAMP_HOME=`dirname "$SCRIPT"`
 LAMP_HOME=`cd "$LAMP_HOME"; pwd`
 
 
-if [ "$JAVA_HOME" == "" ]; then
+if [ "$JAVA_HOME" = "" ]; then
 	echo "JAVA_HOME is not defined."
 	exit 1
 fi
