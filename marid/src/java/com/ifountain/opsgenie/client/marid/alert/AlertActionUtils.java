@@ -142,30 +142,8 @@ public class AlertActionUtils {
                     if(source instanceof Map){
                         sourceMap = (Map) source;
                     }
-                    else if(source instanceof List){
-                        sourceList = (List) source;
-                    }
                     else{
                         sourceMap =  JsonUtils.parse(String.valueOf(source));
-                        if(sourceMap.containsKey(SOURCES)){
-                            sourceList = (List) sourceMap.get(SOURCES);
-                        }
-                    }
-                    //for backward compat
-                    if(sourceList != null){
-                        sourceMap = new HashMap();
-                        for(Object sourceListItem:sourceList){
-                            if(sourceListItem instanceof Map){
-                                Map tmpSourceMap = (Map)sourceListItem;
-                                Object type = tmpSourceMap.get("type");
-                                if("custom".equals(type)){
-                                    sourceMap.put("name", tmpSourceMap.get("name"));
-                                }
-                                else if(!sourceMap.containsKey("type") || "automation".equals(type)){
-                                    sourceMap.put("type", type);
-                                }
-                            }
-                        }
                     }
                 }
 
