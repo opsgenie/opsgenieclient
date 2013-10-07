@@ -15,7 +15,7 @@ done
 MARID_HOME=`dirname "$SCRIPT"`
 MARID_HOME=`cd "$MARID_HOME"; pwd`
 
-if [ "$JAVA_HOME" == "" ]; then
+if [ "$JAVA_HOME" = "" ]; then
 	echo "JAVA_HOME is not defined."
 	exit 0
 fi
