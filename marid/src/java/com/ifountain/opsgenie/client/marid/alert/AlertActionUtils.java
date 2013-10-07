@@ -21,7 +21,7 @@ public class AlertActionUtils {
         if (scriptFile != null) {
             Map<String, Object> bindings = new HashMap<String, Object>();
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_ALERT, actionBean.alertProps);
-            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_SOURCE, actionBean.sources);
+            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_SOURCE, actionBean.source);
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_ACTION, actionBean.action);
             Properties  maridConfProps = new Properties();
             if(MaridConfig.getInstance().getConfiguration() != null){
@@ -67,14 +67,14 @@ public class AlertActionUtils {
         public static final String SOURCE = "source";
         public static final String SOURCES = "sources";
         public String action;
-        public List sources;
+        public Map source;
         public Map alertProps;
         public String alertId;
         public String username;
 
-        public AlertActionBean(String action, Map alertProps, List sources) {
+        public AlertActionBean(String action, Map alertProps, Map source) {
             this.action = action;
-            this.sources = sources;
+            this.source = source;
             this.alertProps = alertProps;
             alertId = (String) this.alertProps.get("alertId");
             username = (String) this.alertProps.get("username");
@@ -121,6 +121,7 @@ public class AlertActionUtils {
         }
 
         public static AlertActionBean createAlertAction(String action, Object alert, Object source) throws Exception {
+            Map sourceMap = null;
             if(action == null){
                 throw new IllegalArgumentException("No action specified.");
             }
@@ -137,18 +138,19 @@ public class AlertActionUtils {
                     alertMap = JsonUtils.parse(String.valueOf(alert));
                 }
                 if(source != null){
-                    if(source instanceof List){
-                        sourceList = (List) source;
+                    //List type source is because of backward compatability
+                    if(source instanceof Map){
+                        sourceMap = (Map) source;
                     }
                     else{
-                        sourceList = (List) JsonUtils.parse(String.valueOf(source)).get(SOURCES);
+                        sourceMap =  JsonUtils.parse(String.valueOf(source));
                     }
                 }
 
             } catch (IOException e) {
                 throw new IllegalArgumentException("Could not parse alert content.");
             }
-            return new AlertActionBean(action, alertMap, sourceList);
+            return new AlertActionBean(action, alertMap, sourceMap);
         }
     }
 }
