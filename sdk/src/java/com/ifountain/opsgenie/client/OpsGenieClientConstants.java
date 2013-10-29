@@ -79,7 +79,7 @@ public interface OpsGenieClientConstants {
         public static final String SORT_BY = "sortBy";
         public static final String ORDER = "order";
         public static final String LIMIT = "limit";
-        public static final String PARTICIPANT = "participant";
+        public static final String PARTICIPANT = "name";
         public static final String LAST_HEARTBEAT = "lastHeartbeat";
         public static final String EXPIRED = "expired";
         public static final String SOURCES = "sources";
