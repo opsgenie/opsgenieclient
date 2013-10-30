@@ -100,6 +100,10 @@ public class ScheduleRule  implements IBean{
         this.restrictions = restrictions;
     }
 
+    /**
+     * Will be set by schedule
+     * @param scheduleTimeZone
+     */
     public void setScheduleTimeZone(TimeZone scheduleTimeZone) {
         this.scheduleTimeZone = scheduleTimeZone;
     }
@@ -139,13 +143,20 @@ public class ScheduleRule  implements IBean{
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);
         }
-        Object startDateObj = map.get(OpsGenieClientConstants.API.START_TIME);
+        //TODO:we need to fix inconsistency in add schedule and get schedule collector actions
+        Object startDateObj = null;
+        if(map.containsKey(OpsGenieClientConstants.API.START_DATE)){
+            startDateObj = map.get(OpsGenieClientConstants.API.START_DATE);
+        }
+        else{
+            startDateObj = map.get(OpsGenieClientConstants.API.START_TIME);
+        }
         if(startDateObj != null){
             if(startDateObj instanceof Date){
                 startDate = (Date) startDateObj;
             }
             else{
-                String startDateStr = (String) map.get(OpsGenieClientConstants.API.START_TIME);
+                String startDateStr = (String) startDateObj;
                 startDate = sdf.parse(startDateStr);
             }
         }
