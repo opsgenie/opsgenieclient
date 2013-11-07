@@ -5,7 +5,10 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseGetRequest;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Container for the parameters to make a get schedule api call.
@@ -13,14 +16,43 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallRequest)
  */
 public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
-    private String id;
     private String name;
+    private Date time;
+    private TimeZone timeZone;
     /**
      * Rest api uri of getting schedule operation.
      */
     @Override
     public String getEndPoint() {
         return "/v1/json/schedule/whoIsOnCall";
+    }
+
+    /**
+     * Target date of WhoIsOnCall request
+     */
+    public Date getTime() {
+        return time;
+    }
+
+    /**
+     * Sets target date of WhoIsOnCall request
+     */
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    /**
+     * Timezone for request
+     */
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    /**
+     * Sets timezone for request
+     */
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 
     /**
@@ -45,6 +77,15 @@ public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
         if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);
         }
+        if(timeZone != null){
+            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+        }
+        if(time != null){
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            sdf.setTimeZone(timeZone != null?timeZone:TimeZone.getTimeZone("UTC"));
+            json.put(OpsGenieClientConstants.API.TIME, sdf.format(time));
+        }
+
     }
 
     @Override

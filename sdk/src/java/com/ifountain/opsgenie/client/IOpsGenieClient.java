@@ -42,6 +42,13 @@ public interface IOpsGenieClient {
     IScheduleOpsGenieClient schedule();
 
     /**
+     * Opsgenie Automation Client
+     * @see IAutomationOpsGenieClient
+     * @return IAutomationOpsGenieClient
+     */
+    IAutomationOpsGenieClient automation();
+
+    /**
      * Opsgenie Alert Client
      * @see IAlertOpsGenieClient
      * @return IAlertOpsGenieClient

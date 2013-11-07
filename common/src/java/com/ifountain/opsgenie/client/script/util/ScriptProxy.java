@@ -4,6 +4,8 @@ import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.*;
 import com.ifountain.opsgenie.client.model.alert.*;
+import com.ifountain.opsgenie.client.model.automation.EnableAutomationRequest;
+import com.ifountain.opsgenie.client.model.automation.EnableAutomationResponse;
 import com.ifountain.opsgenie.client.model.beans.*;
 import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.model.escalation.*;
@@ -290,6 +292,18 @@ public class ScriptProxy {
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
         return  beansToMap(this.opsGenieClient.listHeartbeats(request).getHeartbeats());
     }
+
+    public Map enableAutomation(Map params) throws Exception {
+        populateCommonProps(params);
+        EnableAutomationRequest request = new EnableAutomationRequest();
+        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
+        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        Boolean enabled = ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED);
+        request.setEnabled(enabled);
+        request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
+        return successToMap(this.opsGenieClient.automation().enableAutomation(request));
+    }
+
 
 
     public Map addEscalation(Map params) throws Exception {
@@ -622,6 +636,8 @@ public class ScriptProxy {
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
         request.setCustomerKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY));
+        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
+        request.setTime(ScriptBridgeUtils.getAsDate(params, OpsGenieClientConstants.API.TIME));
         return this.opsGenieClient.schedule().whoIsOnCall(request).getWhoIsOnCall().toMap();
     }
     public List<Map> listWhoIsOnCall(Map params) throws Exception {
