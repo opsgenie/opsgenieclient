@@ -1,10 +1,9 @@
 package com.ifountain.opsgenie.client.script.util;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ScriptBridgeUtils {
     public static String getAsString(Map params, String propName){
@@ -12,12 +11,42 @@ public class ScriptBridgeUtils {
         if(result == null) return null;
         return String.valueOf(result);
     }
+    public static TimeZone getAsTimeZone(Map params, String propName){
+        if(params.containsKey(propName)){
+            Object timezoneObj = params.get(propName);
+            if(timezoneObj instanceof TimeZone){
+                return (TimeZone) timezoneObj;
+            }
+            else{
+                return TimeZone.getTimeZone(String.valueOf(timezoneObj));
+            }
+        }
+        return null;
+    }
+    public static Date getAsDate(Map params, String propName){
+        if(params.containsKey(propName)){
+            Object dateObj = params.get(propName);
+            if(dateObj instanceof Date){
+                return (Date) dateObj;
+            }
+            else{
+                return new Date(getAsLong(params, propName));
+            }
+        }
+        return null;
+    }
 
     public static Long getAsLong(Map params, String propName){
         Object result = params.get(propName);
         if(result == null) return null;
         if(result instanceof Number) return ((Number)result).longValue();
         return Long.parseLong(String.valueOf(result));
+    }
+    public static Boolean getAsBoolean(Map params, String propName){
+        Object result = params.get(propName);
+        if(result == null) return null;
+        if(result instanceof Boolean) return ((Boolean)result);
+        return new Boolean(String.valueOf(result));
     }
     public static Integer getAsInt(Map params, String propName){
         Object result = params.get(propName);
