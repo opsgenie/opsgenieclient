@@ -6,6 +6,9 @@ Usage :
 Default:  closes open alerts older than 2 days
 lamp executeScript --name processOldAlerts.groovy
 
+Test Param : Lists open alerts older than 2 days but does not perform any actions
+lamp executeScript --name processOldAlerts.groovy -Dtest=true
+
 Day Param : closes open alerts older than 8 days
 lamp executeScript --name processOldAlerts.groovy -Dday=8
 
@@ -15,8 +18,6 @@ lamp executeScript --name processOldAlerts.groovy -Daction=ack -Dday=5
 Status Param : deletes closed alerts older than 2 days
 lamp executeScript --name processOldAlerts.groovy -Daction=delete -Dstatus=closed
 
-Test Param : Lists open alerts older than 2 days but does not perform any actions
-lamp executeScript --name processOldAlerts.groovy -Dtest=true
 */
 
 def today = System.currentTimeMillis()
