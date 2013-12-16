@@ -13,7 +13,7 @@ Action Param : acknowledges open alerts older than 5 days
 lamp executeScript --name processOldAlerts.groovy -Daction=ack -Dday=5
 
 Status Param : deletes closed alerts older than 2 days
-lamp executeScript --name processOldAlerts.groovy -Daction=ack -Dstatus=closed
+lamp executeScript --name processOldAlerts.groovy -Daction=delete -Dstatus=closed
 
 Test Param : Lists open alerts older than 2 days but does not perform any actions
 lamp executeScript --name processOldAlerts.groovy -Dtest=true
@@ -28,6 +28,10 @@ def status = params.status ? params.status : "open"
 
 def validActionList = ["ack","close","delete"];
 def validStatusList = ["open","closed"];
+def actionLabels = ["ack":"acking","close":"closing","delete":"deleting"];
+
+logPrefix =  ( test != "true" ? "[ProcessOldAlerts] " : "[ProcessOldAlerts-TestMode] ")
+consolePrefix = ( test != "true" ? "" : "[TestMode] ")
 
 //validations
 def dayLong = 2;
@@ -36,34 +40,33 @@ try{
 }
 catch(NumberFormatException ne){
     def message = "Can not parse day parameter, should be number, value is [$day]"
-    logger.warn(message)
+    logWarn(message);
     throw new Exception(message);
 }
 
 if (!validActionList.contains(action))
 {
     def message = "Invalid action parameter value:${action}, expected values:${validActionList}"
-    logger.warn(message)
+    logWarn(message);
     throw new Exception(message);
 }
 
 if (!validStatusList.contains(status))
 {
     def message = "Invalid status parameter value:${status}, expected values:${validStatusList}"
-    logger.warn(message)
+    logWarn(message);
     throw new Exception(message);
 }
 
 if (action != "delete" && status == "closed") {
-    def message = "You cannot close|ack closed alerts. Status changed to OPEN";
-    logger.warn(message)
+    def message = "You cannot close|ack closed alerts";
+    logWarn(message);
     throw new Exception(message);
 }
 
 //action starts
-def logPrefix =  ( test == true ? "[TEST MODE]" : "")
-logger.warn(logPrefix + "<<<******Processing ${status} Alerts (logLabel:${logLabel}) ******>>>");
-logger.warn(logPrefix+"[${action}] Action will be run on ${status} alerts older than ${dayLong} days");
+logWarn("<<<***************Processing ${status} Alerts (logLabel:${logLabel}) ******>>>");
+logWarn("[${action}] Action will be run on ${status} alerts older than ${dayLong} days");
 def twoday = TimeUnit.MILLISECONDS.convert(dayLong, TimeUnit.DAYS)
 def dayBefore = today - twoday
 
@@ -78,11 +81,13 @@ def alerts
 def count = 0
 
 for (alerts = opsgenie.listAlerts(listParams); alerts.size() > 0; alerts = opsgenie.listAlerts(listParams)) {
-    logger.warn(logPrefix+" Got ${alerts.size} alerts")
+    logWarn("***************Got ${alerts.size} alerts")
     lastCreatedAt = alerts[alerts.size() - 1].get("createdAt")
     listParams["createdBefore"] = lastCreatedAt
     alerts.each { alert ->
-        logger.warn(logPrefix+"running ${action} on alert ${alert.message}")
+        def actionLabel = actionLabels[action];
+        if(!actionLabel) actionLabel = action;
+        logWarn("${actionLabel} alert [${alert.message}] id:[${alert.id}]")
         if (test != "true"){
             switch (action) {
                 case "close":
@@ -100,4 +105,9 @@ for (alerts = opsgenie.listAlerts(listParams); alerts.size() > 0; alerts = opsge
     }
 }
 
-logger.warn("${count} Alerts processed!")
+logWarn("${count} Alerts processed!")
+
+def logWarn(message){
+    logger.warn(logPrefix+message);
+    println consolePrefix+message;
+}
