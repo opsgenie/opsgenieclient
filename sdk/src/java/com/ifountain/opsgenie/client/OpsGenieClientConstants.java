@@ -91,5 +91,6 @@ public interface OpsGenieClientConstants {
         public static final String METHOD = "method";
         public static final String LAST_KEY = "lastKey";
         public static final String TIME = "time";
+        public static final String INTEGRATION_TYPE = "integrationType";
     }
 }

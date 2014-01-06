@@ -20,6 +20,7 @@ public class Alert implements IBean{
     private String description;
     private String source;
     private String entity;
+    private String integrationType;
     private String tinyId;
     private Status status;
     private String owner;
@@ -32,6 +33,22 @@ public class Alert implements IBean{
     private List<String> tags;
     private List<String> actions;
     private Map<String, String> details;
+
+    /**
+     * Returns type of integration which created alert
+     * @return
+     */
+    public String getIntegrationType() {
+        return integrationType;
+    }
+
+    /**
+     * Sets alert integration type could be email, api, etc..
+     * @param integrationType
+     */
+    public void setIntegrationType(String integrationType) {
+        this.integrationType = integrationType;
+    }
 
     /**
      * The tiny id of the 
@@ -291,6 +308,7 @@ public class Alert implements IBean{
         json.put(OpsGenieClientConstants.API.ID, getId());
         json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
         json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
+        json.put(OpsGenieClientConstants.API.INTEGRATION_TYPE, getIntegrationType());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         json.put(OpsGenieClientConstants.API.SOURCE, getSource());
         json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
@@ -319,6 +337,7 @@ public class Alert implements IBean{
         setEntity((String) map.get(OpsGenieClientConstants.API.ENTITY));
         status = Status.valueOf(((String) map.get(OpsGenieClientConstants.API.STATUS)).toLowerCase());
         setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
+        setIntegrationType((String) map.get(OpsGenieClientConstants.API.INTEGRATION_TYPE));
         setTinyId((String) map.get(OpsGenieClientConstants.API.TINY_ID));
         setSeen((Boolean) map.get(OpsGenieClientConstants.API.IS_SEEN));
         setAcknowledged((Boolean) map.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
