@@ -20,7 +20,7 @@ public class Alert implements IBean{
     private String description;
     private String source;
     private String entity;
-    private String integrationType;
+    private Map<String, String> systemData;
     private String tinyId;
     private Status status;
     private String owner;
@@ -38,16 +38,16 @@ public class Alert implements IBean{
      * Returns type of integration which created alert
      * @return
      */
-    public String getIntegrationType() {
-        return integrationType;
+    public Map<String, String> getSystemData() {
+        return systemData;
     }
 
     /**
-     * Sets alert integration type could be email, api, etc..
-     * @param integrationType
+     * Sets alert system data. System data contains system parameters such as ackTime, closeTime, integrationType, etc...
+     * @param systemData
      */
-    public void setIntegrationType(String integrationType) {
-        this.integrationType = integrationType;
+    public void setSystemData(Map<String, String> systemData) {
+        this.systemData = systemData;
     }
 
     /**
@@ -308,7 +308,7 @@ public class Alert implements IBean{
         json.put(OpsGenieClientConstants.API.ID, getId());
         json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
         json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
-        json.put(OpsGenieClientConstants.API.INTEGRATION_TYPE, getIntegrationType());
+        json.put(OpsGenieClientConstants.API.SYSTEM_DATA, getSystemData());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         json.put(OpsGenieClientConstants.API.SOURCE, getSource());
         json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
@@ -337,7 +337,7 @@ public class Alert implements IBean{
         setEntity((String) map.get(OpsGenieClientConstants.API.ENTITY));
         status = Status.valueOf(((String) map.get(OpsGenieClientConstants.API.STATUS)).toLowerCase());
         setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
-        setIntegrationType((String) map.get(OpsGenieClientConstants.API.INTEGRATION_TYPE));
+        setSystemData((Map<String, String>) map.get(OpsGenieClientConstants.API.SYSTEM_DATA));
         setTinyId((String) map.get(OpsGenieClientConstants.API.TINY_ID));
         setSeen((Boolean) map.get(OpsGenieClientConstants.API.IS_SEEN));
         setAcknowledged((Boolean) map.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
