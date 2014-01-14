@@ -2,21 +2,14 @@ package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.InputStreamAttachRequest;
 import com.ifountain.opsgenie.client.model.alert.*;
-import com.ifountain.opsgenie.client.model.beans.Alert;
-import com.ifountain.opsgenie.client.util.Strings;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static com.ifountain.opsgenie.client.JsonOpgenieHttpClient.*;
 
 /**
  * Abstract Inner Client
@@ -166,8 +159,8 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)
             entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new ByteArrayBody(convertInputStreamToByteArray(inputStream), new File(fileName).getName()));
-        if (attachRequest.getCustomerKey() != null)
-            entity.addPart(OpsGenieClientConstants.API.CUSTOMER_KEY, new StringBody(attachRequest.getCustomerKey(), "text/plain", Charset.forName("utf-8")));
+        if (attachRequest.getApiKey() != null)
+            entity.addPart(OpsGenieClientConstants.API.API_KEY, new StringBody(attachRequest.getApiKey(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getId() != null)
             entity.addPart(OpsGenieClientConstants.API.ID, new StringBody(attachRequest.getId(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getAlias() != null)

@@ -32,9 +32,9 @@ public abstract class BaseCommand implements Command {
     }
 
     @Override
-    public void setCustomerKey(String customerKey) {
-        if (getCommonCommandOptions().getCustomerKey() == null) {
-            getCommonCommandOptions().setCustomerKey(customerKey);
+    public void setApiKey(String apiKey) {
+        if (getCommonCommandOptions().getApiKey() == null) {
+            getCommonCommandOptions().setApiKey(apiKey);
         }
     }
 

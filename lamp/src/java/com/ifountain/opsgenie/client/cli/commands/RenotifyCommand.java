@@ -6,7 +6,6 @@ import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.alert.AcknowledgeRequest;
 import com.ifountain.opsgenie.client.model.alert.RenotifyRequest;
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient;
 import com.ifountain.opsgenie.client.util.Strings;
@@ -57,7 +56,7 @@ public class RenotifyCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         RenotifyRequest request = new RenotifyRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         request.setId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));

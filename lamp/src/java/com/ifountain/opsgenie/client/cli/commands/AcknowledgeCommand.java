@@ -53,7 +53,7 @@ public class AcknowledgeCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         AcknowledgeRequest request = new AcknowledgeRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (note != null) request.setNote(Strings.join(note, " "));

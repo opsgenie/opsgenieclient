@@ -13,6 +13,7 @@ public interface OpsGenieClientConstants {
     }
     public interface API {
         public static final String ID = "id";
+        public static final String API_KEY = "apiKey";
         public static final String CUSTOMER_KEY = "customerKey";
         public static final String MESSAGE = "message";
         public static final String DESCRIPTION = "description";

@@ -64,8 +64,12 @@ public class OpsGenieCommandLine {
                 helpCommand.printUsage();
                 return false;
             }
-            if (LampConfig.getInstance().getConfiguration().containsKey("customerKey")) {
-                command.setCustomerKey((String) LampConfig.getInstance().getConfiguration().get("customerKey"));
+            if (LampConfig.getInstance().getConfiguration().containsKey("apiKey")) {
+                command.setApiKey((String) LampConfig.getInstance().getConfiguration().get("apiKey"));
+            }
+            //TODO:Will be removed
+            else if (LampConfig.getInstance().getConfiguration().containsKey("customerKey")) {
+                command.setApiKey((String) LampConfig.getInstance().getConfiguration().get("customerKey"));
             }
             if (LampConfig.getInstance().getConfiguration().containsKey("user")) {
                 command.setUser((String) LampConfig.getInstance().getConfiguration().get("user"));

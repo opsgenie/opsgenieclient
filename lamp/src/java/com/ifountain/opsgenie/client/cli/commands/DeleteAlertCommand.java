@@ -46,7 +46,7 @@ public class DeleteAlertCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         DeleteAlertRequest request = new DeleteAlertRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (source != null) request.setSource(Strings.join(source, " "));

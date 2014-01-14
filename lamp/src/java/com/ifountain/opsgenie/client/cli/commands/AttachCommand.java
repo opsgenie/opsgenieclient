@@ -52,7 +52,7 @@ public class AttachCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         FileAttachRequest request = new FileAttachRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (indexFile != null) request.setIndexFile(Strings.join(indexFile, " "));

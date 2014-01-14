@@ -12,7 +12,10 @@ import java.util.List;
  * Time: 9:17 AM
  */
 public class CommonCommandOptions {
-    @Parameter(names = "--" + OpsGenieClientConstants.API.CUSTOMER_KEY, description = "Customer key used for authenticating API requests.", splitter = NullSplitter.class)
+    @Parameter(names = "--" + OpsGenieClientConstants.API.API_KEY, description = "Api key used for authenticating API requests.", splitter = NullSplitter.class)
+    private String apiKey;
+
+    @Parameter(names = "--" + OpsGenieClientConstants.API.CUSTOMER_KEY, description = "Api key used for authenticating API requests.", splitter = NullSplitter.class, hidden = true, required = false)
     private String customerKey;
 
     @Parameter(names = "--" + OpsGenieClientConstants.API.USER, description = "Owner of the execution.", splitter = NullSplitter.class, variableArity = true)
@@ -21,8 +24,11 @@ public class CommonCommandOptions {
     @Parameter(names = "--" + OpsGenieClientConstants.API.HELP, description = "Displays usage for this command.")
     private boolean isHelp = false;
 
-    public String getCustomerKey() {
-        return customerKey;
+    public String getApiKey() {
+        if(customerKey != null){
+            return customerKey;
+        }
+        return apiKey;
     }
 
     public boolean isHelp() {
@@ -41,8 +47,8 @@ public class CommonCommandOptions {
         return user;
     }
 
-    public void setCustomerKey(String customerKey) {
-        this.customerKey = customerKey;
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     public void setUser(List<String> user) {

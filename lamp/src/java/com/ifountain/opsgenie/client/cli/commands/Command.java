@@ -14,7 +14,7 @@ public interface Command {
 
     public void execute(IOpsGenieClient opsGenieClient) throws Exception;
 
-    public void setCustomerKey(String customerKey);
+    public void setApiKey(String apiKey);
 
     public void setUser(String user);
 }

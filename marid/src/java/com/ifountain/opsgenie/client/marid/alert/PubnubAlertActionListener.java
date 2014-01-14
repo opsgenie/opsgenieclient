@@ -176,7 +176,7 @@ public class PubnubAlertActionListener {
     private void sendResultToOpsGenie(String action, String alertId, String username, String failureMessage) {
         logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
         List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-        parameters.add(new BasicNameValuePair("customerKey", MaridConfig.getInstance().getCustomerKey()));
+        parameters.add(new BasicNameValuePair("apiKey", MaridConfig.getInstance().getApiKey()));
         parameters.add(new BasicNameValuePair("alertAction", action));
         boolean success = failureMessage == null;
         parameters.add(new BasicNameValuePair("success", String.valueOf(success)));

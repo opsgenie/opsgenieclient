@@ -69,7 +69,7 @@ public class CreateAlertCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         CreateAlertRequest request = new CreateAlertRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         if (message != null) request.setMessage(Strings.join(message, " "));
         if (description != null) request.setDescription(Strings.join(description, " "));
         if (alias != null) request.setAlias(Strings.join(alias, " "));

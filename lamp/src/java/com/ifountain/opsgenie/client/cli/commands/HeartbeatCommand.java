@@ -29,7 +29,7 @@ public class HeartbeatCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         HeartbeatRequest request = new HeartbeatRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         HeartbeatResponse response = opsGenieClient.heartbeat(request);
         System.out.println("heartbeat=" + response.getHeartbeat());
     }

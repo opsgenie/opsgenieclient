@@ -44,14 +44,14 @@ public class ExecuteScriptCommand extends BaseCommand{
         Map<String, Object> bindings = new HashMap<String, Object>();
         Properties confBindings = new Properties();
         confBindings.putAll(LampConfig.getInstance().getConfiguration());
-        if(commonOptions.getCustomerKey() != null){
-            confBindings.setProperty(OpsGenieClientConstants.API.CUSTOMER_KEY, commonOptions.getCustomerKey());
+        if(commonOptions.getApiKey() != null){
+            confBindings.setProperty(OpsGenieClientConstants.API.API_KEY, commonOptions.getApiKey());
         }
         if(commonOptions.getUser() != null){
             confBindings.setProperty(OpsGenieClientConstants.API.USER, commonOptions.getUser());
         }
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, confBindings);
-        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getCustomerKey(), commonOptions.getUser()));
+        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getApiKey(), commonOptions.getUser()));
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, params);
         ScriptManager.getInstance().runScript(script, bindings);
     }

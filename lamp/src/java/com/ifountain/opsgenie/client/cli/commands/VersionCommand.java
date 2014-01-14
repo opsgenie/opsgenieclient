@@ -25,7 +25,7 @@ public class VersionCommand implements Command{
     }
 
     @Override
-    public void setCustomerKey(String customerKey) {
+    public void setApiKey(String apiKey) {
     }
 
     @Override

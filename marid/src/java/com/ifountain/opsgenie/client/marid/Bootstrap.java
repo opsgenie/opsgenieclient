@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.marid;
 
-import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener;
 import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
@@ -82,7 +82,7 @@ public class Bootstrap {
     private void getMaridSettings() throws Exception {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("customerKey", MaridConfig.getInstance().getCustomerKey());
+        parameters.put(OpsGenieClientConstants.API.API_KEY, MaridConfig.getInstance().getApiKey());
         try {
             OpsGenieHttpResponse response = MaridConfig.getInstance().getOpsGenieHttpClient().get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
@@ -124,7 +124,7 @@ public class Bootstrap {
             PubnubChannelParameters params = new PubnubChannelParameters();
             params.setChannel(MaridConfig.getInstance().getProperty("pubnub.channel", ""));
             params.setSubscribeKey(MaridConfig.getInstance().getProperty("pubnub.subscribekey", ""));
-            params.setCipherKey(MaridConfig.getInstance().getCustomerKey());
+            params.setCipherKey(MaridConfig.getInstance().getApiKey());
             params.setSslOn(MaridConfig.getInstance().getBoolean("pubnub.ssl.enabled", true));
             boolean isProxyEnabled = MaridConfig.getInstance().getBoolean("http.proxy.enabled", false);
             if(isProxyEnabled){
@@ -211,6 +211,7 @@ public class Bootstrap {
             logger.warn(getLogPrefix()+"Stopping https server");
             httpsServer.close();
         }
+        HttpController.destroyInstance();
     }
     private void startHttpServers() throws Exception {
         httpServer = createHttpServer(false);

@@ -40,7 +40,7 @@ public class GetAlertCommand extends BaseCommand{
     @Override
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         GetAlertRequest request = new GetAlertRequest();
-        request.setCustomerKey(commonOptions.getCustomerKey());
+        request.setApiKey(commonOptions.getApiKey());
         request.setAlertId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         GetAlertResponse response = opsGenieClient.alert().getAlert(request);
