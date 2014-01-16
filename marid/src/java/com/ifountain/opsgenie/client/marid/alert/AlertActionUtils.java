@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class AlertActionUtils {
+
     public static void executeActionScript(AlertActionBean actionBean) throws Exception {
         File scriptFile = getScriptFile(actionBean.action);
         if (scriptFile != null) {
