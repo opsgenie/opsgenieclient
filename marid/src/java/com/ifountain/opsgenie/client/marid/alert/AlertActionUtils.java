@@ -99,7 +99,7 @@ public class AlertActionUtils {
                 return createAlertAction(action, alert, source);
             }
             catch (IllegalArgumentException ex){
-                throw new IllegalArgumentException(ex.getMessage()+" Ignoring message :"+jsonMessageMap);
+                throw new IllegalArgumentException(ex.getMessage()+" Ignoring message :"+jsonMessageMap, ex);
             }
         }
 
@@ -117,14 +117,14 @@ public class AlertActionUtils {
                 return createAlertAction(action, alert, source);
             }
             catch (IllegalArgumentException ex){
-                throw new IllegalArgumentException(ex.getMessage()+" Ignoring message :"+jsonMessageMap);
+                throw new IllegalArgumentException(ex.getMessage()+" Ignoring message :"+jsonMessageMap, ex);
             }
         }
 
         public static AlertActionBean createAlertAction(String action, Object alert, Object source) throws Exception {
             Map sourceMap = null;
             if(action == null){
-                throw new IllegalArgumentException("No action specified.");
+                throw new NoActionSpecifiedException();
             }
             if(alert == null){
                 throw new IllegalArgumentException("No alert specified.");
