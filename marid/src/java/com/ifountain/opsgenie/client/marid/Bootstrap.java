@@ -95,8 +95,7 @@ public class Bootstrap {
                 throw new Exception("Could not get Marid settings from OpsGenie server. Response: " + responseContent);
             }
         } catch (IOException e) {
-            logger.error(getLogPrefix() + "Could not get Marid settings from OpsGenie server.", e);
-            throw e;
+            logger.warn(getLogPrefix() + "Will start in webhook mode. Reason:"+e.getMessage());
         }
     }
 
