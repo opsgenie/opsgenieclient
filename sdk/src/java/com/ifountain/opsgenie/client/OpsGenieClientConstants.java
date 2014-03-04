@@ -93,5 +93,7 @@ public interface OpsGenieClientConstants {
         public static final String LAST_KEY = "lastKey";
         public static final String TIME = "time";
         public static final String SYSTEM_DATA = "systemData";
+        public static final String ESCALATION_TIME = "escalationTime";
+        public static final String FORWARDED_FROM = "forwardedFrom";
     }
 }
