@@ -42,11 +42,11 @@ public interface IOpsGenieClient {
     IScheduleOpsGenieClient schedule();
 
     /**
-     * Opsgenie Automation Client
-     * @see IAutomationOpsGenieClient
-     * @return IAutomationOpsGenieClient
+     * Opsgenie Alert Policy Client
+     * @see IAlertPolicyOpsGenieClient
+     * @return IAlertPolicyOpsGenieClient
      */
-    IAutomationOpsGenieClient automation();
+    IAlertPolicyOpsGenieClient alertPolicy();
 
     /**
      * Opsgenie Alert Client
@@ -54,6 +54,13 @@ public interface IOpsGenieClient {
      * @return IAlertOpsGenieClient
      */
     IAlertOpsGenieClient alert();
+
+    /**
+     * Opsgenie Integration Client
+     * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient
+     * @return IIntegrationOpsGenieClient
+     */
+    IIntegrationOpsGenieClient integration();
 
     /**
      * Sends heartbeat messages to OpsGenie. If heartbeat monitoring is enabled and OpsGenie does not get a heartbeat message within 10 minutes,

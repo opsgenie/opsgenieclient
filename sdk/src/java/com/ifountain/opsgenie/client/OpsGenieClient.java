@@ -64,7 +64,8 @@ public class OpsGenieClient implements IOpsGenieClient {
     private InnerEscalationOpsGenieClient innerEscalationOpsGenieClient;
     private InnerAlertOpsGenieClient innerAlertOpsGenieClient;
     private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
-    private InnerAutomationOpsGenieClient innerAutomationOpsGenieClient;
+    private InnerAlertPolicyOpsGenieClient innerAlertPolicyOpsGenieClient;
+    private IIntegrationOpsGenieClient innerIntegrationOpsGenieClient;
     /**
      * Http client object *
      */
@@ -95,7 +96,8 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerEscalationOpsGenieClient = new InnerEscalationOpsGenieClient(this.jsonHttpClient);
         innerAlertOpsGenieClient = new InnerAlertOpsGenieClient(this.jsonHttpClient);
         innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient);
-        innerAutomationOpsGenieClient = new InnerAutomationOpsGenieClient(this.jsonHttpClient);
+        innerAlertPolicyOpsGenieClient = new InnerAlertPolicyOpsGenieClient(this.jsonHttpClient);
+        innerIntegrationOpsGenieClient = new InnerIntegrationOpsGenieClient(this.jsonHttpClient);
     }
 
     /**
@@ -134,10 +136,17 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
-     * @see IOpsGenieClient#automation() ()
+     * @see IOpsGenieClient#alertPolicy() ()
      */
-    public IAutomationOpsGenieClient automation() {
-        return innerAutomationOpsGenieClient;
+    public IAlertPolicyOpsGenieClient alertPolicy() {
+        return innerAlertPolicyOpsGenieClient;
+    }
+
+    /**
+     * @see IOpsGenieClient#integration() ()
+     */
+    public IIntegrationOpsGenieClient integration() {
+        return innerIntegrationOpsGenieClient;
     }
 
     /**
