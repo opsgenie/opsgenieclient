@@ -14,6 +14,7 @@ import java.util.Map;
 public class WhoIsOnCall implements IBean{
     private String name;
     private String id;
+    private String type;
     private List<WhoIsOnCallScheduleParticipant> participants;
 
     /**
@@ -35,6 +36,13 @@ public class WhoIsOnCall implements IBean{
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * Type of WhoIsOnCall
+     */
+    public String getType() {
+        return type;
     }
 
 
@@ -61,6 +69,9 @@ public class WhoIsOnCall implements IBean{
         if(id != null){
             json.put(OpsGenieClientConstants.API.ID, id);
         }
+        if(type != null){
+            json.put(OpsGenieClientConstants.API.TYPE, type);
+        }
         WhoIsOnCallScheduleParticipant.participantsToMap(json, participants);
         return json;
     }
@@ -69,6 +80,7 @@ public class WhoIsOnCall implements IBean{
     public void fromMap(Map map) throws ParseException {
         name = (String) map.get(OpsGenieClientConstants.API.NAME);
         id = (String) map.get(OpsGenieClientConstants.API.ID);
+        type = (String) map.get(OpsGenieClientConstants.API.TYPE);
         participants = WhoIsOnCallScheduleParticipant.participantsFromMap(map);
     }
 }
