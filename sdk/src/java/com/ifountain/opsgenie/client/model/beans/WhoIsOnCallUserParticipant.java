@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.marid.Bootstrap;
 
 import java.text.ParseException;
 import java.util.Map;
@@ -8,8 +9,9 @@ import java.util.Map;
 /**
  * Schedule bean
  */
-public class WhoIsOnCallUserParticipant extends ScheduleParticipant{
+public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     private Boolean forwarded;
+    private WhoIsOnCallUserParticipant forwardedFrom;
 
     public Boolean getForwarded() {
         return forwarded;
@@ -19,10 +21,19 @@ public class WhoIsOnCallUserParticipant extends ScheduleParticipant{
         this.forwarded = forwarded;
     }
 
+    public WhoIsOnCallUserParticipant getForwardedFrom(){
+        return forwardedFrom;
+    }
+
     @Override
     public Map toMap() {
         Map<String, Object> json = super.toMap();
-        json.put(OpsGenieClientConstants.API.FORWARDED, forwarded);
+        if(forwarded != null){
+            json.put(OpsGenieClientConstants.API.FORWARDED, forwarded);
+        }
+        if(forwardedFrom != null){
+            json.put(OpsGenieClientConstants.API.FORWARDED_FROM, forwarded);
+        }
         return json;
     }
 
@@ -31,6 +42,10 @@ public class WhoIsOnCallUserParticipant extends ScheduleParticipant{
         super.fromMap(map);
         if(map.containsKey(OpsGenieClientConstants.API.FORWARDED)){
             forwarded = (Boolean) map.get(OpsGenieClientConstants.API.FORWARDED);
+        }
+        if(map.containsKey(OpsGenieClientConstants.API.FORWARDED_FROM)){
+            forwardedFrom = new WhoIsOnCallUserParticipant();
+            forwardedFrom.fromMap((Map)map.get(OpsGenieClientConstants.API.FORWARDED_FROM));
         }
     }
 }
