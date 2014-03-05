@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.marid.Bootstrap;
 
 import java.text.ParseException;
 import java.util.Map;
