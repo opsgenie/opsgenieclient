@@ -42,6 +42,7 @@ public class User  implements IBean{
     private List<String> groups;
     private List<String> escalations;
     private List<String> schedules;
+    private List<Map<String,String>> contacts;
 
     /**
      * Id of user
@@ -187,6 +188,20 @@ public class User  implements IBean{
         this.schedules = schedules;
     }
 
+    /**
+     * Contacts of user
+     */
+    public List<Map<String, String>> getContacts() {
+        return contacts;
+    }
+
+    /**
+     * Sets contacts of user
+     */
+    public void setContacts(List<Map<String, String>> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public Map toMap() {
         Map json = new HashMap();
@@ -214,6 +229,9 @@ public class User  implements IBean{
         if(getSchedules() != null){
             json.put(OpsGenieClientConstants.API.SCHEDULES, getSchedules());
         }
+        if(getContacts() != null){
+            json.put(OpsGenieClientConstants.API.CONTACTS, getContacts());
+        }
         return json;
     }
 
@@ -231,6 +249,7 @@ public class User  implements IBean{
         setGroups((List<String>) map.get(OpsGenieClientConstants.API.GROUPS));
         setEscalations((List<String>) map.get(OpsGenieClientConstants.API.ESCALATIONS));
         setSchedules((List<String>) map.get(OpsGenieClientConstants.API.SCHEDULES));
+        setContacts((List<Map<String, String>>) map.get(OpsGenieClientConstants.API.CONTACTS));
         if(map.get(OpsGenieClientConstants.API.TIMEZONE) != null){
             Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
             if(timezoneObj instanceof TimeZone){
@@ -248,7 +267,6 @@ public class User  implements IBean{
             else{
                 setLocale(User.getLocale(String.valueOf(localeObj)));
             }
-
         }
     }
 }
