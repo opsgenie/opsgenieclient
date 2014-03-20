@@ -201,6 +201,8 @@ public class OpsGenieCommandLine {
         addCommand(commander, new HeartbeatCommand(commander));
         addCommand(commander, new VersionCommand());
         addCommand(commander, new GetAlertCommand(commander));
+        addCommand(commander, new EnableCommand(commander));
+        addCommand(commander, new DisableCommand(commander));
     }
 
     private void addCommand(JCommander commander, Command command) {

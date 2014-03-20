@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client;
 
+import java.util.List;
+
 /**
  * @author Sezgin Kucukkaraaslan
  * @version 5/28/12 3:01 PM
@@ -96,5 +98,7 @@ public interface OpsGenieClientConstants {
         public static final String ESCALATION_TIME = "escalationTime";
         public static final String FORWARDED_FROM = "forwardedFrom";
         public static final String CONTACTS = "contacts";
+        public static final String INTEGRATION = "integration";
+        public static final String POLICY = "policy";
     }
 }

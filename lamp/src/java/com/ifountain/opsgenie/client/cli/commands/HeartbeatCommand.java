@@ -1,11 +1,16 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
 import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.util.Strings;
+
+import java.util.List;
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -14,6 +19,9 @@ import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
  */
 @Parameters(commandDescription = "Sends heartbeat to Opsgenie.")
 public class HeartbeatCommand extends BaseCommand{
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> source;
+
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
 
@@ -30,6 +38,7 @@ public class HeartbeatCommand extends BaseCommand{
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         HeartbeatRequest request = new HeartbeatRequest();
         request.setApiKey(commonOptions.getApiKey());
+        if (source != null) request.setSource(Strings.join(source, " "));
         HeartbeatResponse response = opsGenieClient.heartbeat(request);
         System.out.println("heartbeat=" + response.getHeartbeat());
     }
