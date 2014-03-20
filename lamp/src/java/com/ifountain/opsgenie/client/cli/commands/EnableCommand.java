@@ -6,11 +6,7 @@ import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.marid.http.HTTPResponse;
 import com.ifountain.opsgenie.client.model.alertpolicy.EnableAlertPolicyRequest;
-import com.ifountain.opsgenie.client.model.alertpolicy.EnableAlertPolicyResponse;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
 import com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest;
 import com.ifountain.opsgenie.client.util.Strings;
 
