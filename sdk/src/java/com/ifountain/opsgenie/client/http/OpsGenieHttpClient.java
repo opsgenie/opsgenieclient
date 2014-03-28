@@ -7,15 +7,18 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
@@ -61,6 +64,15 @@ public class OpsGenieHttpClient {
 
     protected ClientConfiguration getConfig() {
         return config;
+    }
+
+    public OpsGenieHttpResponse post(String uri, Map<String, Object> parameters) throws IOException {
+        List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+        for(Map.Entry<String, Object> entry:parameters.entrySet()){
+            formParams.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
+        }
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
+        return post(uri, entity);
     }
 
     public OpsGenieHttpResponse post(String uri, String content) throws IOException {
@@ -218,13 +230,30 @@ public class OpsGenieHttpClient {
         if ((socketSendBufferSizeHint > 0) || (socketReceiveBufferSizeHint > 0)) {
             HttpConnectionParams.setSocketBufferSize(httpClientParams, Math.max(socketSendBufferSizeHint, socketReceiveBufferSizeHint));
         }
-        ThreadSafeClientConnManager connectionManager = new ThreadSafeClientConnManager();
-        connectionManager.setDefaultMaxPerRoute(config.getMaxConnections());
-        connectionManager.setMaxTotal(config.getMaxConnections());
+        ClientConnectionManager connectionManager;
+        if(config.getMaxConnections() > 1){
+            ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager();
+            threadSafeClientConnManager.setDefaultMaxPerRoute(config.getMaxConnections());
+            threadSafeClientConnManager.setMaxTotal(config.getMaxConnections());
+            connectionManager = threadSafeClientConnManager;
+        }
+        else{
+            connectionManager = new SingleClientConnManager();
+        }
         httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
+        if(config.getCredentials() != null){
+            httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY, config.getCredentials());
+        }
         try {
             SSLSocketFactory sf = createSocketFactory();
-            httpClient.getConnectionManager().getSchemeRegistry().register(new Scheme("https", 443, sf));
+            List<Integer> httpsPorts = config.getHttpsPorts();
+            if(httpsPorts == null){
+                httpsPorts = Arrays.asList(443);
+            }
+            for(int httpsPort:httpsPorts){
+                httpClient.getConnectionManager().getSchemeRegistry().register(new Scheme("https", httpsPort, sf));
+            }
+
         } catch (Exception ignored) {
         }
 

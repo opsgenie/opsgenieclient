@@ -1,8 +1,10 @@
 package com.ifountain.opsgenie.client.util;
 
+import org.apache.http.auth.Credentials;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
+import java.util.List;
 import java.util.jar.Manifest;
 
 /**
@@ -15,14 +17,46 @@ import java.util.jar.Manifest;
 public class ClientConfiguration {
     private ClientProxyConfiguration clientProxyConfiguration;
     private static String staticUserAgent;
+    private List<Integer> httpsPorts;
     private int maxConnections = 50;
     private int socketTimeout = 50000;
+    private Credentials credentials = null;
     private int connectionTimeout = 50000;
     private int socketSendBufferSizeHint = 0;
     private int socketReceiveBufferSizeHint = 0;
 
     private String userAgent = initializeUserAgent();
     private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
+
+    /**
+     * Returns https ports bypassing certification check
+     */
+    public List<Integer> getHttpsPorts() {
+        return httpsPorts;
+    }
+
+    /**
+     * sets https ports bypassing certification check
+     */
+    public ClientConfiguration setHttpsPorts(List<Integer> httpsPorts) {
+        this.httpsPorts = httpsPorts;
+        return this;
+    }
+
+    /**
+     * Returns the credentials for http client.
+     */
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * Sets http client credentials.
+     */
+    public ClientConfiguration setCredentials(Credentials credentials) {
+        this.credentials = credentials;
+        return this;
+    }
 
     /**
      * Returns the HTTP user agent header to send with all requests.
@@ -36,8 +70,9 @@ public class ClientConfiguration {
     /**
      * Sets the HTTP user agent header
      */
-    public void setUserAgent(String userAgent) {
+    public ClientConfiguration setUserAgent(String userAgent) {
         this.userAgent = userAgent;
+        return this;
     }
 
     /**
@@ -50,8 +85,9 @@ public class ClientConfiguration {
     /**
      * Sets the maximum number of allowed open HTTP connections.
      */
-    public void setMaxConnections(int maxConnections) {
+    public ClientConfiguration setMaxConnections(int maxConnections) {
         this.maxConnections = maxConnections;
+        return this;
     }
 
     /**
@@ -64,8 +100,9 @@ public class ClientConfiguration {
     /**
      * Sets the amount of time to wait (in milliseconds) for data to be transfered over an established, open connection before the connection times out and is closed.
      */
-    public void setSocketTimeout(int socketTimeout) {
+    public ClientConfiguration setSocketTimeout(int socketTimeout) {
         this.socketTimeout = socketTimeout;
+        return this;
     }
 
     /**
@@ -78,8 +115,9 @@ public class ClientConfiguration {
     /**
      * Sets the amount of time to wait (in milliseconds) when initially establishing a connection before giving up and timing out.
      */
-    public void setConnectionTimeout(int connectionTimeout) {
+    public ClientConfiguration setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+        return this;
     }
 
     /**
@@ -92,8 +130,9 @@ public class ClientConfiguration {
     /**
      * Sets the optional size hints (in bytes) for the low level TCP send buffer.
      */
-    public void setSocketSendBufferSizeHint(int socketSendBufferSizeHint) {
+    public ClientConfiguration setSocketSendBufferSizeHint(int socketSendBufferSizeHint) {
         this.socketSendBufferSizeHint = socketSendBufferSizeHint;
+        return this;
     }
 
     /**
@@ -106,8 +145,9 @@ public class ClientConfiguration {
     /**
      * Sets the optional size hints (in bytes) for the low level TCP receive buffer.
      */
-    public void setSocketReceiveBufferSizeHint(int socketReceiveBufferSizeHint) {
+    public ClientConfiguration setSocketReceiveBufferSizeHint(int socketReceiveBufferSizeHint) {
         this.socketReceiveBufferSizeHint = socketReceiveBufferSizeHint;
+        return this;
     }
 
     /**
@@ -120,8 +160,9 @@ public class ClientConfiguration {
     /**
      * Sets Apache Http Client retry handler. Default is org.apache.http.client.impl.DefaultHttpRequestRetryHandler with 3 retries.
      */
-    public void setRetryHandler(HttpRequestRetryHandler retryHandler) {
+    public ClientConfiguration setRetryHandler(HttpRequestRetryHandler retryHandler) {
         this.retryHandler = retryHandler;
+        return this;
     }
 
     /**
@@ -134,8 +175,9 @@ public class ClientConfiguration {
     /**
      * Sets proxy configuration
      */
-    public void setClientProxyConfiguration(ClientProxyConfiguration clientProxyConfiguration) {
+    public ClientConfiguration setClientProxyConfiguration(ClientProxyConfiguration clientProxyConfiguration) {
         this.clientProxyConfiguration = clientProxyConfiguration;
+        return this;
     }
 
     private static String initializeUserAgent() {
