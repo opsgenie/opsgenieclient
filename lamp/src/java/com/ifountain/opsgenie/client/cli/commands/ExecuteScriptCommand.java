@@ -54,5 +54,6 @@ public class ExecuteScriptCommand extends BaseCommand{
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getApiKey(), commonOptions.getUser()));
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, params);
         ScriptManager.getInstance().runScript(script, bindings);
+        System.out.println("Successfully executed " + script);
     }
 }

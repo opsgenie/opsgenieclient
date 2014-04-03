@@ -5,6 +5,8 @@ import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class JsonOpgenieHttpClient {
+    private Log log = LogFactory.getLog(JsonOpgenieHttpClient.class);
     /**
      * Http client object *
      */
@@ -52,19 +55,27 @@ class JsonOpgenieHttpClient {
     protected BaseResponse doPostRequest(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), JsonUtils.toJsonAsBytes(request.serialize()), headers);
+        String uri = rootUri + request.getEndPoint();
+        Map parameters = request.serialize();
+        log.info("Executing OpsGenie request to ["+uri+"] with Parameters:"+parameters);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJsonAsBytes(parameters), headers);
         OpsGenieJsonResponse jsonResponse = handleResponse(httpResponse);
         return populateResponse(request.createResponse(), jsonResponse);
     }
     protected BaseResponse doPostRequest(BaseRequest request, MultipartEntity entity) throws IOException, OpsGenieClientException, ParseException {
-        OpsGenieHttpResponse httpResponse = httpClient.post(rootUri + request.getEndPoint(), entity);
+        String uri = rootUri + request.getEndPoint();
+        log.info("Executing OpsGenie request to ["+uri+"] with multipart data");
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, entity);
         OpsGenieJsonResponse jsonResponse = handleResponse(httpResponse);
         return populateResponse(request.createResponse(), jsonResponse);
     }
 
     protected BaseResponse doDeleteRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
-            OpsGenieHttpResponse httpResponse = httpClient.delete(rootUri + request.getEndPoint(), request.serialize());
+            String uri = rootUri + request.getEndPoint();
+            Map parameters = request.serialize();
+            log.info("Executing OpsGenie request to ["+uri+"] with Parameters:"+parameters);
+            OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
             OpsGenieJsonResponse jsonResponse = handleResponse(httpResponse);
             return populateResponse(request.createResponse(), jsonResponse);
         } catch (URISyntaxException e) {
@@ -73,7 +84,10 @@ class JsonOpgenieHttpClient {
     }
     protected BaseResponse doGetRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
-            OpsGenieHttpResponse httpResponse = httpClient.get(rootUri + request.getEndPoint(), request.serialize());
+            String uri = rootUri + request.getEndPoint();
+            Map parameters = request.serialize();
+            log.info("Executing OpsGenie request to ["+uri+"] with Parameters:"+parameters);
+            OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
             OpsGenieJsonResponse jsonResponse = handleResponse(httpResponse);
             return populateResponse(request.createResponse(), jsonResponse);
 

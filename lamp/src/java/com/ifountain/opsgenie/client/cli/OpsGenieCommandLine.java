@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.cli;
 
+import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.cli.commands.*;
 import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
@@ -60,6 +61,7 @@ public class OpsGenieCommandLine {
             }
             Command command = commands.get(commander.getParsedCommand());
             if (command == null) {
+                logger.warn("No command has been specified.");
                 System.out.println("No command has been specified.");
                 helpCommand.printUsage();
                 return false;
@@ -77,7 +79,7 @@ public class OpsGenieCommandLine {
             try {
                 command.execute(opsGenieClient);
             } catch (Exception e) {
-                logger.warn("Exception occurred while executing command [" + command.getClass().getSimpleName() + "]", e);
+                logException(e);
                 if (e instanceof IOException) {
                     System.out.println(e.getClass().getSimpleName() + "[" + e.getMessage() + "]");
                 } else {
@@ -89,6 +91,20 @@ public class OpsGenieCommandLine {
         } finally {
             opsGenieClient.close();
             LampConfig.destroyInstance();
+        }
+    }
+
+    private void logException(Exception e){
+        String message = e.getMessage();
+        if(e instanceof OpsGenieClientException){
+            OpsGenieClientException opsGenieClientException = (OpsGenieClientException) e;
+            message = "Code:["+opsGenieClientException.getCode()+"] Error:["+opsGenieClientException.getMessage()+"]";
+        }
+        if(!message.contains("RestException")){
+            logger.warn(message, e);
+        }
+        else{
+            logger.warn(message);
         }
     }
 
