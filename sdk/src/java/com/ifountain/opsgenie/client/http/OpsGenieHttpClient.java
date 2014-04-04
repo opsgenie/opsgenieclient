@@ -2,6 +2,8 @@ package com.ifountain.opsgenie.client.http;
 
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -26,7 +28,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -44,6 +45,7 @@ import java.util.*;
  * @version 5/30/12 9:30 AM
  */
 public class OpsGenieHttpClient {
+    private Log log = LogFactory.getLog(OpsGenieHttpClient.class);
     private DefaultHttpClient httpClient;
     private ClientConfiguration config;
     private OpsgenieHttpClientRetryMechanism opsgenieHttpClientRetryMechanism;
@@ -205,6 +207,11 @@ public class OpsGenieHttpClient {
                     }
                 });
             }
+
+            @Override
+            public String getInfo() {
+                return method.getURI().toString();
+            }
         };
         return opsgenieHttpClientRetryMechanism.execute(action);
 
@@ -317,7 +324,6 @@ public class OpsGenieHttpClient {
     }
 
     private class OpsgenieHttpClientRetryMechanism {
-        protected Logger logger = Logger.getLogger(OpsgenieHttpClientRetryMechanism.class);
         private OpsgenieRequestRetryHandler opsgenieRequestRetryHandler;
         public OpsgenieHttpClientRetryMechanism(OpsgenieRequestRetryHandler opsgenieRequestRetryHandler) {
             this.opsgenieRequestRetryHandler = opsgenieRequestRetryHandler;
@@ -328,7 +334,7 @@ public class OpsGenieHttpClient {
             while (true) {
                 OpsGenieHttpResponse opsGenieHttpResponse = retryAction.execute();
                 if(opsgenieRequestRetryHandler != null && opsgenieRequestRetryHandler.retryRequest(opsGenieHttpResponse, retryCount)){
-                    logger.info("Retrying request for response code ["+opsGenieHttpResponse.getStatusCode()+"]. RetryCount " + retryCount);
+                    log.info("Retrying request ["+retryAction.getInfo()+"] ResponseCode:["+opsGenieHttpResponse.getStatusCode()+"]. RetryCount " + retryCount);
                     try {
                         Thread.sleep(pauseExp(retryCount));
                     } catch (InterruptedException e) {
@@ -349,6 +355,7 @@ public class OpsGenieHttpClient {
     }
     private interface RetryAction{
         public OpsGenieHttpResponse execute() throws IOException;
+        public String getInfo();
     }
 
 
