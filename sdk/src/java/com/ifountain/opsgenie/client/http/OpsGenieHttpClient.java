@@ -26,6 +26,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -45,6 +46,7 @@ import java.util.*;
 public class OpsGenieHttpClient {
     private DefaultHttpClient httpClient;
     private ClientConfiguration config;
+    private OpsgenieHttpClientRetryMechanism opsgenieHttpClientRetryMechanism;
 
     public OpsGenieHttpClient() {
         this(new ClientConfiguration());
@@ -52,6 +54,7 @@ public class OpsGenieHttpClient {
 
     public OpsGenieHttpClient(ClientConfiguration config) {
         this.config = config;
+        opsgenieHttpClientRetryMechanism = new OpsgenieHttpClientRetryMechanism(config.getRetryHandler());
         createHttpClient();
     }
 
@@ -179,24 +182,32 @@ public class OpsGenieHttpClient {
 
 
     private OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
-        return httpClient.execute(method, new ResponseHandler<OpsGenieHttpResponse>() {
+        RetryAction action = new RetryAction() {
             @Override
-            public OpsGenieHttpResponse handleResponse(HttpResponse httpResponse) throws IOException {
-                try {
-                    byte[] content = EntityUtils.toByteArray(httpResponse.getEntity());
-                    OpsGenieHttpResponse response = new OpsGenieHttpResponse();
-                    response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
-                    response.setContent(content);
-                    Header[] allHeaders = httpResponse.getAllHeaders();
-                    for (Header header : allHeaders) {
-                        response.addHeader(header.getName(), header.getValue());
+            public OpsGenieHttpResponse execute() throws IOException {
+                method.reset();
+                return httpClient.execute(method, new ResponseHandler<OpsGenieHttpResponse>() {
+                    @Override
+                    public OpsGenieHttpResponse handleResponse(HttpResponse httpResponse) throws IOException {
+                        try {
+                            byte[] content = EntityUtils.toByteArray(httpResponse.getEntity());
+                            OpsGenieHttpResponse response = new OpsGenieHttpResponse();
+                            response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+                            response.setContent(content);
+                            Header[] allHeaders = httpResponse.getAllHeaders();
+                            for (Header header : allHeaders) {
+                                response.addHeader(header.getName(), header.getValue());
+                            }
+                            return response;
+                        } finally {
+                            method.abort();
+                        }
                     }
-                    return response;
-                } finally {
-                    method.abort();
-                }
+                });
             }
-        });
+        };
+        return opsgenieHttpClientRetryMechanism.execute(action);
+
     }
 
     private void configureHeaders(HttpRequestBase httpRequest, Map<String, String> headers) {
@@ -257,7 +268,9 @@ public class OpsGenieHttpClient {
         } catch (Exception ignored) {
         }
 
-        httpClient.setHttpRequestRetryHandler(config.getRetryHandler());
+        if(config.getRetryHandler() != null){
+            httpClient.setHttpRequestRetryHandler(config.getRetryHandler());
+        }
         if (config.getClientProxyConfiguration() != null) {
             String proxyHost = config.getClientProxyConfiguration().getProxyHost();
             int proxyPort = config.getClientProxyConfiguration().getProxyPort();
@@ -301,6 +314,41 @@ public class OpsGenieHttpClient {
 
         sslContext.init(null, new TrustManager[]{tm}, null);
         return new SSLSocketFactory(sslContext, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+    }
+
+    private class OpsgenieHttpClientRetryMechanism {
+        protected Logger logger = Logger.getLogger(OpsgenieHttpClientRetryMechanism.class);
+        private OpsgenieRequestRetryHandler opsgenieRequestRetryHandler;
+        public OpsgenieHttpClientRetryMechanism(OpsgenieRequestRetryHandler opsgenieRequestRetryHandler) {
+            this.opsgenieRequestRetryHandler = opsgenieRequestRetryHandler;
+        }
+
+        public  OpsGenieHttpResponse execute(RetryAction retryAction) throws IOException {
+            int retryCount = 1;
+            while (true) {
+                OpsGenieHttpResponse opsGenieHttpResponse = retryAction.execute();
+                if(opsgenieRequestRetryHandler != null && opsgenieRequestRetryHandler.retryRequest(opsGenieHttpResponse, retryCount)){
+                    logger.info("Retrying response. RetryCount " + retryCount);
+                    try {
+                        Thread.sleep(pauseExp(retryCount));
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    retryCount++;
+                }
+                else {
+                    return opsGenieHttpResponse;
+                }
+            }
+        }
+
+
+        private long pauseExp(int retryCount){
+            return (long) (retryCount * 300);
+        }
+    }
+    private interface RetryAction{
+        public OpsGenieHttpResponse execute() throws IOException;
     }
 
 

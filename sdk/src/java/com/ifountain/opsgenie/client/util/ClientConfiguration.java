@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.util;
 
+import com.ifountain.opsgenie.client.http.DefaultOpsgenieRequestRetryHandler;
+import com.ifountain.opsgenie.client.http.OpsgenieRequestRetryHandler;
 import org.apache.http.auth.Credentials;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
@@ -26,7 +28,7 @@ public class ClientConfiguration {
     private int socketReceiveBufferSizeHint = 0;
 
     private String userAgent = initializeUserAgent();
-    private HttpRequestRetryHandler retryHandler = new DefaultHttpRequestRetryHandler();
+    private OpsgenieRequestRetryHandler retryHandler = new DefaultOpsgenieRequestRetryHandler();
 
     /**
      * Returns https ports bypassing certification check
@@ -153,14 +155,14 @@ public class ClientConfiguration {
     /**
      * Returns Apache Http Client retry handler implementation.
      */
-    public HttpRequestRetryHandler getRetryHandler() {
+    public OpsgenieRequestRetryHandler getRetryHandler() {
         return retryHandler;
     }
 
     /**
      * Sets Apache Http Client retry handler. Default is org.apache.http.client.impl.DefaultHttpRequestRetryHandler with 3 retries.
      */
-    public ClientConfiguration setRetryHandler(HttpRequestRetryHandler retryHandler) {
+    public ClientConfiguration setRetryHandler(OpsgenieRequestRetryHandler retryHandler) {
         this.retryHandler = retryHandler;
         return this;
     }
