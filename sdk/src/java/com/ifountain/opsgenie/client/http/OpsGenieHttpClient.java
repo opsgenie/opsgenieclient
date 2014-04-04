@@ -2,8 +2,6 @@ package com.ifountain.opsgenie.client.http;
 
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -28,6 +26,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
+import org.jboss.netty.handler.codec.http.HttpMethod;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -45,10 +44,8 @@ import java.util.*;
  * @version 5/30/12 9:30 AM
  */
 public class OpsGenieHttpClient {
-    private Log log = LogFactory.getLog(OpsGenieHttpClient.class);
     private DefaultHttpClient httpClient;
     private ClientConfiguration config;
-    private OpsgenieHttpClientRetryMechanism opsgenieHttpClientRetryMechanism;
 
     public OpsGenieHttpClient() {
         this(new ClientConfiguration());
@@ -56,7 +53,6 @@ public class OpsGenieHttpClient {
 
     public OpsGenieHttpClient(ClientConfiguration config) {
         this.config = config;
-        opsgenieHttpClientRetryMechanism = new OpsgenieHttpClientRetryMechanism(config.getRetryHandler());
         createHttpClient();
     }
 
@@ -182,38 +178,8 @@ public class OpsGenieHttpClient {
         return formparams;
     }
 
-
     private OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
-        RetryAction action = new RetryAction() {
-            @Override
-            public OpsGenieHttpResponse execute() throws IOException {
-                method.reset();
-                return httpClient.execute(method, new ResponseHandler<OpsGenieHttpResponse>() {
-                    @Override
-                    public OpsGenieHttpResponse handleResponse(HttpResponse httpResponse) throws IOException {
-                        try {
-                            byte[] content = EntityUtils.toByteArray(httpResponse.getEntity());
-                            OpsGenieHttpResponse response = new OpsGenieHttpResponse();
-                            response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
-                            response.setContent(content);
-                            Header[] allHeaders = httpResponse.getAllHeaders();
-                            for (Header header : allHeaders) {
-                                response.addHeader(header.getName(), header.getValue());
-                            }
-                            return response;
-                        } finally {
-                            method.abort();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public String getInfo() {
-                return method.getURI().toString();
-            }
-        };
-        return opsgenieHttpClientRetryMechanism.execute(action);
+        return new OpsgenieHttpClientRetryMechanism(method).execute();
 
     }
 
@@ -324,22 +290,34 @@ public class OpsGenieHttpClient {
     }
 
     private class OpsgenieHttpClientRetryMechanism {
-        private OpsgenieRequestRetryHandler opsgenieRequestRetryHandler;
-        public OpsgenieHttpClientRetryMechanism(OpsgenieRequestRetryHandler opsgenieRequestRetryHandler) {
-            this.opsgenieRequestRetryHandler = opsgenieRequestRetryHandler;
+        HttpRequestBase request;
+        public OpsgenieHttpClientRetryMechanism(HttpRequestBase request) {
+            this.request = request;
         }
 
-        public  OpsGenieHttpResponse execute(RetryAction retryAction) throws IOException {
+        public  OpsGenieHttpResponse execute() throws IOException {
             int retryCount = 1;
             while (true) {
-                OpsGenieHttpResponse opsGenieHttpResponse = retryAction.execute();
-                if(opsgenieRequestRetryHandler != null && opsgenieRequestRetryHandler.retryRequest(opsGenieHttpResponse, retryCount)){
-                    log.info("Retrying request ["+retryAction.getInfo()+"] ResponseCode:["+opsGenieHttpResponse.getStatusCode()+"]. RetryCount " + retryCount);
-                    try {
-                        Thread.sleep(pauseExp(retryCount));
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                request.reset();
+                OpsGenieHttpResponse opsGenieHttpResponse = httpClient.execute(request, new ResponseHandler<OpsGenieHttpResponse>() {
+                    @Override
+                    public OpsGenieHttpResponse handleResponse(HttpResponse httpResponse) throws IOException {
+                        try {
+                            byte[] content = EntityUtils.toByteArray(httpResponse.getEntity());
+                            OpsGenieHttpResponse response = new OpsGenieHttpResponse();
+                            response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+                            response.setContent(content);
+                            Header[] allHeaders = httpResponse.getAllHeaders();
+                            for (Header header : allHeaders) {
+                                response.addHeader(header.getName(), header.getValue());
+                            }
+                            return response;
+                        } finally {
+                            request.abort();
+                        }
                     }
+                });
+                if(config.getRetryHandler() != null && config.getRetryHandler().retryRequest(request, opsGenieHttpResponse, retryCount)){
                     retryCount++;
                 }
                 else {
@@ -348,14 +326,6 @@ public class OpsGenieHttpClient {
             }
         }
 
-
-        private long pauseExp(int retryCount){
-            return (long) (retryCount * 300);
-        }
-    }
-    private interface RetryAction{
-        public OpsGenieHttpResponse execute() throws IOException;
-        public String getInfo();
     }
 
 
