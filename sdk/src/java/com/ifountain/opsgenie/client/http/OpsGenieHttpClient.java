@@ -328,7 +328,7 @@ public class OpsGenieHttpClient {
             while (true) {
                 OpsGenieHttpResponse opsGenieHttpResponse = retryAction.execute();
                 if(opsgenieRequestRetryHandler != null && opsgenieRequestRetryHandler.retryRequest(opsGenieHttpResponse, retryCount)){
-                    logger.info("Retrying response. RetryCount " + retryCount);
+                    logger.info("Retrying request for response code ["+opsGenieHttpResponse.getStatusCode()+"]. RetryCount " + retryCount);
                     try {
                         Thread.sleep(pauseExp(retryCount));
                     } catch (InterruptedException e) {
