@@ -26,7 +26,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
-import org.jboss.netty.handler.codec.http.HttpMethod;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
