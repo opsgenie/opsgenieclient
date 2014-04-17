@@ -16,7 +16,7 @@
       <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
     </text>
   </splashScreen>
-  <java mainClass="com.ifountain.opsgenie.client.marid.Bootstrap" vmParameters="&quot;-Dmaridhome=${EXE4J_EXEDIR}&quot;" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.6" maxVersion="" allowBetaVM="false" jdkOnly="false">
+  <java mainClass="com.ifountain.opsgenie.client.marid.Bootstrap" vmParameters="&quot;-Dmarid.conf.dir=${EXE4J_EXEDIR}/conf&quot; &quot;-Dmarid.logs.dir=${EXE4J_EXEDIR}/logs&quot;  &quot;-Dmarid.scripts.dir=${EXE4J_EXEDIR}/scripts&quot;" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.6" maxVersion="" allowBetaVM="false" jdkOnly="false">
     <searchSequence>
       <registry />
       <envVar name="JAVA_HOME" />

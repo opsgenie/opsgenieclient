@@ -32,7 +32,9 @@ KILL_TIMEOUT=120
 # JAVA_OPTS=" -Dcom.sun.management.jmxremote.ssl=false $JAVA_OPTS"
 # JAVA_OPTS=" -Duser.language=en $JAVA_OPTS"
 
-JAVA_OPTS=" -Dmaridhome=$MARID_HOME $JAVA_OPTS"
+JAVA_OPTS=" -Dmarid.conf.dir=$MARID_HOME/conf $JAVA_OPTS"
+JAVA_OPTS=" -Dmarid.scripts.dir=$MARID_HOME/scripts $JAVA_OPTS"
+JAVA_OPTS=" -Dmarid.logs.dir=$MARID_HOME/logs $JAVA_OPTS"
 # JAVA_OPTS=" -Xms256m $JAVA_OPTS"
 JAVA_OPTS=" -Xmx512m $JAVA_OPTS"
 JAVA_OPTS=" -XX:MaxPermSize=128m $JAVA_OPTS"

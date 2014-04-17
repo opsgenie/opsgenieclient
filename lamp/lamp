@@ -27,7 +27,9 @@ if [ ! -f "$JAVA_HOME/bin/java" ]; then
 	exit 1
 fi
 
-JAVA_OPTS=" -Dlamphome=$LAMP_HOME $JAVA_OPTS"
+JAVA_OPTS=" -Dlamp.conf.dir=$LAMP_HOME/conf $JAVA_OPTS"
+JAVA_OPTS=" -Dlamp.scripts.dir=$LAMP_HOME/scripts $JAVA_OPTS"
+JAVA_OPTS=" -Dlamp.logs.dir=$LAMP_HOME/logs $JAVA_OPTS"
 JAVA_OPTS=" -Xmx128m $JAVA_OPTS"
 
 LAMP_CLASSPATH=$LAMP_CLASSPATH:$LAMP_HOME/lib/*

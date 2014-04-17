@@ -8,7 +8,9 @@ set SCRIPT_DIR=%~dp0
 for %%I in ("%SCRIPT_DIR%") do set LAMP_HOME=%%~dpfI
 
 set JAVA_OPTS=%JAVA_OPTS% -Xmx128m
-set JAVA_OPTS=%JAVA_OPTS% -Dlamphome="%LAMP_HOME%/"
+set JAVA_OPTS=%JAVA_OPTS% -Dlamp.conf.dir="%LAMP_HOME%/conf/"
+set JAVA_OPTS=%JAVA_OPTS% -Dlamp.scripts.dir="%LAMP_HOME%/scripts/"
+set JAVA_OPTS=%JAVA_OPTS% -Dlamp.logs.dir="%LAMP_HOME%/logs/"
 
 set LAMP_CLASSPATH=%LAMP_CLASSPATH%;%LAMP_HOME%/lib/*;
 

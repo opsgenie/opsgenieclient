@@ -23,6 +23,8 @@ import java.util.logging.Logger;
  */
 public class OpsGenieCommandLine {
     public static final String TOOL_NAME = "lamp";
+    public static final String LAMP_CONF_DIR_SYSTEM_PROPERTY = "lamp.conf.dir";
+    public static final String LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY = "lamp.scripts.dir";
     private Map<String, Command> commands = new HashMap<String, Command>();
     private HelpCommand helpCommand;
     private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(OpsGenieCommandLine.class);
@@ -109,7 +111,7 @@ public class OpsGenieCommandLine {
     }
 
     private void configureScriptingManager() throws Exception {
-        ScriptManager.getInstance().initialize(getBaseDirectory() + "/scripts");
+        ScriptManager.getInstance().initialize(getScriptsDirectory());
         String engineNamesStr = LampConfig.getInstance().getConfiguration().getProperty("script.engines", "").trim();
         if (engineNamesStr.length() != 0) {
             String[] engineNames = engineNamesStr.split(",");
@@ -183,7 +185,7 @@ public class OpsGenieCommandLine {
     }
 
     private void loadLogConfiguration() {
-        File logConfFile = new File(getBaseDirectory(), "conf/log.properties");
+        File logConfFile = new File(new File(getConfigDirectory()), "log.properties");
         if (logConfFile.exists()) {
             PropertyConfigurator.configure(logConfFile.getPath());
         } else {
@@ -195,7 +197,7 @@ public class OpsGenieCommandLine {
     }
 
     private void loadConfiguration() {
-        File confDir = new File(getBaseDirectory(), "conf");
+        File confDir = new File(getConfigDirectory());
         LampConfig.getInstance().init(new File(confDir, "lamp.conf").getPath());
     }
 
@@ -226,8 +228,12 @@ public class OpsGenieCommandLine {
         commander.addCommand(command.getName(), command);
     }
 
-    public String getBaseDirectory() {
-        return System.getProperty("lamphome");
+    public String getConfigDirectory() {
+        return System.getProperty(LAMP_CONF_DIR_SYSTEM_PROPERTY);
+    }
+
+    public String getScriptsDirectory() {
+        return System.getProperty(LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY);
     }
 
     protected IOpsGenieClient createOpsGenieClient(ClientConfiguration clientConfiguration) {

@@ -25,6 +25,8 @@ import java.util.jar.Manifest;
  */
 public class Bootstrap {
     private final static Object waitLock = new Object();
+    public static final String MARID_SCRIPTS_DIR_SYSTEM_PROPERTY = "marid.scripts.dir";
+    public static final String MARID_CONF_DIR_SYSTEM_PROPERTY = "marid.conf.dir";
     protected Logger logger = Logger.getLogger(Bootstrap.class);
     private HttpProxy proxy;
     private HttpServer httpServer;
@@ -101,7 +103,7 @@ public class Bootstrap {
 
     private void initializeScripting() throws Exception {
         logger.warn(getLogPrefix()+"Initializing Scripting");
-        ScriptManager.getInstance().initialize(getBaseDir() + "/scripts");
+        ScriptManager.getInstance().initialize(getScriptsConfigurationFilePath());
         String engineNamesStr = MaridConfig.getInstance().getProperty("script.engines", "").trim();
         if (engineNamesStr.length() != 0) {
             String[] engineNames = engineNamesStr.split(",");
@@ -270,18 +272,19 @@ public class Bootstrap {
     }
 
     private String getLogConfigurationFilePath() {
-        return getConfigurationDirectoryPath() + "/log.properties";
+        return getConfigurationDirectoryPath()+ "/log.properties";
+    }
+
+    private String getScriptsConfigurationFilePath() {
+        return System.getProperty(MARID_SCRIPTS_DIR_SYSTEM_PROPERTY);
     }
 
     private String getConfigurationPath() {
-        return getConfigurationDirectoryPath() + "/marid.conf";
+        return getConfigurationDirectoryPath()+ "/marid.conf";
     }
 
-    private String getBaseDir() {
-        return System.getProperty("maridhome");
-    }
 
     private String getConfigurationDirectoryPath() {
-        return getBaseDir() + "/conf";
+        return System.getProperty(MARID_CONF_DIR_SYSTEM_PROPERTY);
     }
 }

@@ -11,7 +11,9 @@ set JAVA_OPTS=%JAVA_OPTS% -Xmx512m
 set JAVA_OPTS=%JAVA_OPTS% -XX:MaxPermSize=128m
 set JAVA_OPTS=%JAVA_OPTS% -XX:+HeapDumpOnOutOfMemoryError
 set JAVA_OPTS=%JAVA_OPTS% -server
-set JAVA_OPTS=%JAVA_OPTS% -Dmaridhome="%MARID_HOME%/"
+set JAVA_OPTS=%JAVA_OPTS% -Dmarid.conf.dir="%MARID_HOME%/conf/"
+set JAVA_OPTS=%JAVA_OPTS% -Dmarid.logs.dir="%MARID_HOME%/logs/"
+set JAVA_OPTS=%JAVA_OPTS% -Dmarid.scripts.dir="%MARID_HOME%/scripts/"
 
 set MARID_CLASSPATH=%MARID_CLASSPATH%;%MARID_HOME%/lib/*;
 
