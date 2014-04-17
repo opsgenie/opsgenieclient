@@ -1,0 +1,3 @@
+#!/bin/sh
+. /etc/opsgenie/lamp/profile
+${JAVA_HOME:-/usr}/bin/java ${LAMP_JVM} -cp ${LAMP_CLASSPATH} com.ifountain.opsgenie.client.cli.OpsGenieCommandLine "$@"
