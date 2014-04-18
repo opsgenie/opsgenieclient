@@ -1,12 +1,14 @@
 #!/bin/bash
 
-if [ ! -d "/var/log/opsgenie" ]
+if [ ! -d "/var/log/opsgenie" ]; then
     mkdir /var/log/opsgenie
 fi
-if [ ! -d "/var/log/opsgenie/lamp" ]
+
+if [ ! -d "/var/log/opsgenie/lamp" ]; then
     mkdir /var/log/opsgenie/lamp
 fi
-if [ ! -d "/var/log/opsgenie/marid" ]
+
+if [ ! -d "/var/log/opsgenie/marid" ]; then
     mkdir /var/log/opsgenie/marid
 fi
 
