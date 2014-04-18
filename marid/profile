@@ -1,0 +1,35 @@
+JAVA_CMD=java
+MARID_TEMPDIR=/tmp/marid
+
+#
+# If JAVA_HOME is set, then add it to home and set JAVA_CMD to use the version specified in that
+# path.  JAVA_HOME can be set in the marid profile.  Or set in this file.
+#JAVA_HOME=<path/to/JDK or JRE/install>
+
+if [ ! -z $JAVA_HOME ]; then
+        PATH=$PATH:$JAVA_HOME/bin
+        export PATH
+        JAVA_CMD=$JAVA_HOME/bin/java
+fi
+
+
+MARID_CLASSPATH=MARID_CLASSPATH:/var/lib/opsgenie/marid/*
+
+export MARID_JVM="-Dmarid.config=/etc/opsgenie/marid \
+        -Dmarid.server.configDir=/etc/opsgenie/marid \
+        -Dmarid.server.serverDir=/var/lib/opsgenie/marid \
+        -Dmarid.scripts=/var/opsgenie/marid/scripts \
+        -Dmarid.logs=/var/log/opsgenie/marid \
+        -Djava.io.tmpdir=$MARID_TEMPDIR"
+#
+# Set min/max heap size
+#
+MARID_JVM="$MARID_JVM -Xmx512m -Xms256m -server"
+#
+
+if test -n "$JRE_HOME"
+then
+   unset JRE_HOME
+fi
+
+umask 002

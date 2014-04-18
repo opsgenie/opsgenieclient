@@ -1,0 +1,80 @@
+#!/bin/bash 
+#
+# marid    Startup script for the marid
+#
+# chkconfig: 2345 90 10
+# pidfile: /var/run/marid.pid
+
+# Source function library
+. /lib/lsb/init-functions
+. /etc/opsgenie/marid/profile
+
+prog="marid"
+DAEMON="${JAVA_HOME:-/usr}/bin/java"
+DAEMON_ARGS="${MARID_JVM} -cp ${MARID_CLASSPATH} com.ifountain.opsgenie.client.marid.Bootstrap"
+marid="$DAEMON $DAEMON_ARGS"
+RETVAL=0
+PID_FILE=/var/run/${prog}.pid
+servicelog=/var/log/opsgenie/marid/service.log
+
+start() {
+	echo -n $"Starting $prog: "
+        nohup su -s /bin/bash opsgenie -c "$marid"  >>$servicelog 2>&1 &
+ 	RETVAL=$?	
+	PID=$!
+	echo $PID > $PID_FILE
+	if [ $RETVAL -eq 0 ]; then 
+		touch /var/run/$prog
+		log_success_msg
+	else
+		log_failure_msg
+	fi
+	echo
+	return $RETVAL
+}
+
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc -p $PID_FILE "$marid"
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/run/$prog
+	return $RETVAL
+}
+
+### NOT USED
+reload() {
+	echo -n $"Reloading $prog: "
+	killproc -p $PID_FILE "$marid" -HUP
+	RETVAL=$?
+	echo
+	return $RETVAL
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	condrestart)
+		if [ -f /var/run/$prog ]; then
+			stop
+			start
+		fi
+		;;
+	status)
+		status_of_proc -p $PID_FILE $DAEMON $prog
+		RETVAL=$?
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|restart|condrestart|status}"
+		RETVAL=1
+esac
+
+exit $RETVAL
