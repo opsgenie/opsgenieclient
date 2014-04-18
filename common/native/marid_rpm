@@ -7,7 +7,7 @@
 
 # Source function library
 . /etc/rc.d/init.d/functions
-. /etc/opsgenie/marid/profile
+. /etc/opsgenie/profile
 
 prog="marid"
 marid="${JAVA_HOME:-/usr}/bin/java ${MARID_JVM} -cp ${MARID_CLASSPATH} com.ifountain.opsgenie.client.marid.Bootstrap"

@@ -7,7 +7,7 @@
 
 # Source function library
 . /lib/lsb/init-functions
-. /etc/opsgenie/marid/profile
+. /etc/opsgenie/profile
 
 prog="marid"
 DAEMON="${JAVA_HOME:-/usr}/bin/java"
