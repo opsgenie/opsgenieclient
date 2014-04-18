@@ -16,10 +16,9 @@ fi
 MARID_CLASSPATH=MARID_CLASSPATH:/var/lib/opsgenie/marid/*
 
 export MARID_JVM="-Dmarid.config=/etc/opsgenie/marid \
-        -Dmarid.server.configDir=/etc/opsgenie/marid \
-        -Dmarid.server.serverDir=/var/lib/opsgenie/marid \
-        -Dmarid.scripts=/var/opsgenie/marid/scripts \
-        -Dmarid.logs=/var/log/opsgenie/marid \
+        -Dmarid.conf.dir=/etc/opsgenie/marid \
+        -Dmarid.scripts.dir=/var/opsgenie/marid/scripts \
+        -Dmarid.logs.dir=/var/log/opsgenie/marid \
         -Djava.io.tmpdir=$MARID_TEMPDIR"
 #
 # Set min/max heap size
