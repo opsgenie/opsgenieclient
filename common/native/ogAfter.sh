@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir /var/log/opsgenie
+mkdir /var/log/opsgenie/lamp
+mkdir /var/log/opsgenie/opsgenie
 chmod -R 755 /var/log/opsgenie
 chmod -R g+s /var/log/opsgenie
 chmod -R 755 /var/lib/opsgenie
