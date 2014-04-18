@@ -1,8 +1,25 @@
 #!/bin/bash
 
-mkdir /var/log/opsgenie
-mkdir /var/log/opsgenie/lamp
-mkdir /var/log/opsgenie/opsgenie
+if [ ! -d "/var/log/opsgenie" ]
+    mkdir /var/log/opsgenie
+fi
+if [ ! -d "/var/log/opsgenie/lamp" ]
+    mkdir /var/log/opsgenie/lamp
+fi
+if [ ! -d "/var/log/opsgenie/marid" ]
+    mkdir /var/log/opsgenie/marid
+fi
+
+mv /etc/opsgenie/lamp/conf/* /etc/opsgenie/lamp/
+rm -r /etc/opsgenie/lamp/conf
+mv /var/lib/opsgenie/lamp/lib/* /var/lib/opsgenie/lamp/
+rm -r /var/lib/opsgenie/lamp/lib
+
+mv /etc/opsgenie/marid/conf/* /etc/opsgenie/marid/
+rm -r /etc/opsgenie/marid/conf
+mv /var/lib/opsgenie/marid/lib/* /var/lib/opsgenie/marid/
+rm -r /var/lib/opsgenie/marid/lib
+
 chmod -R 755 /var/log/opsgenie
 chmod -R g+s /var/log/opsgenie
 chmod -R 755 /var/lib/opsgenie
