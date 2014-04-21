@@ -22,7 +22,7 @@ rm -r /etc/opsgenie/marid/conf
 mv /var/lib/opsgenie/marid/lib/* /var/lib/opsgenie/marid/
 rm -r /var/lib/opsgenie/marid/lib
 
-chmod -R 755 /var/log/opsgenie
+chmod -R 776 /var/log/opsgenie
 chmod -R g+s /var/log/opsgenie
 chmod -R 755 /var/lib/opsgenie
 chmod -R 755 /etc/opsgenie
