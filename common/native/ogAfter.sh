@@ -22,11 +22,11 @@ rm -r /etc/opsgenie/marid/conf
 mv /var/lib/opsgenie/marid/lib/* /var/lib/opsgenie/marid/
 rm -r /var/lib/opsgenie/marid/lib
 
-chmod -R 776 /var/log/opsgenie
+chmod -R 775 /var/log/opsgenie
 chmod -R g+s /var/log/opsgenie
-chmod -R 755 /var/lib/opsgenie
-chmod -R 755 /etc/opsgenie
-chmod -R 755 /var/opsgenie
+chmod -R 775 /var/lib/opsgenie
+chmod -R 775 /etc/opsgenie
+chmod -R 775 /var/opsgenie
 chmod -R +x /usr/local/bin/lamp
 chmod -R +x /etc/init.d/marid
 
