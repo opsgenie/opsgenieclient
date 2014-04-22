@@ -2,3 +2,5 @@
 *.sh            eol=lf
 lamp            eol=lf
 marid            eol=lf
+*.properties    text=auto
+*.conf          text=auto
