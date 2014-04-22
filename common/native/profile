@@ -3,7 +3,7 @@ MARID_TEMPDIR=/tmp/marid
 
 #
 # If JAVA_HOME is set, then add it to home and set JAVA_CMD to use the version specified in that
-# path.  JAVA_HOME can be set in the marid profile.  Or set in this file.
+# path.
 #JAVA_HOME=<path/to/JDK or JRE/install>
 
 if [ ! -z $JAVA_HOME ]; then
