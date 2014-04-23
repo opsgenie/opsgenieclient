@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<exe4j version="4.4.6" transformSequenceNumber="1">
+<exe4j version="4.4.2" transformSequenceNumber="1">
   <directoryPresets config="" />
   <application name="OpsGenie Lamp" distributionSourceDir=".">
     <languages>
       <principalLanguage id="en" customLocalizationFile="" />
     </languages>
   </application>
-  <executable name="lamp_64" type="1" iconSet="false" iconFile="" executableDir="." redirectStderr="true" stderrFile="logs/Err.log" stderrMode="append" redirectStdout="true" stdoutFile="logs/Out.log" stdoutMode="append" failOnStderrOutput="true" executableMode="3" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" amd64="true">
+  <executable name="lamp_64" type="1" iconSet="false" iconFile="" executableDir="." redirectStderr="false" stderrFile="logs/Err.log" stderrMode="append" redirectStdout="false" stdoutFile="logs/Out.log" stdoutMode="append" failOnStderrOutput="true" executableMode="2" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" amd64="true">
     <messageSet />
     <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" companyName="" productVersion="" />
   </executable>
