@@ -1,0 +1,3 @@
+-Xmx128m
+-XX:MaxPermSize=128m
+-XX:+HeapDumpOnOutOfMemoryError
