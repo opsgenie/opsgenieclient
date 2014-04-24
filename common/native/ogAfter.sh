@@ -34,3 +34,10 @@ chown -R opsgenie:opsgenie /etc/opsgenie
 chown -R opsgenie:opsgenie /var/log/opsgenie
 chown -R opsgenie:opsgenie /var/lib/opsgenie
 chown -R opsgenie:opsgenie /var/opsgenie
+
+JAVA_CMD=java
+if [ ! -z $JAVA_HOME ]; then
+        JAVA_CMD=$JAVA_HOME/bin/java
+fi
+
+type -P $JAVA_CMD &>/dev/null && echo "" || echo "No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
