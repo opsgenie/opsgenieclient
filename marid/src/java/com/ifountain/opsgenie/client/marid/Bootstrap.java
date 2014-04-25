@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.marid;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
+import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.http.HttpResponse;
 import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener;
 import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
 import com.ifountain.opsgenie.client.marid.http.HttpController;
@@ -9,13 +9,12 @@ import com.ifountain.opsgenie.client.marid.http.HttpProxy;
 import com.ifountain.opsgenie.client.marid.http.HttpProxyConfig;
 import com.ifountain.opsgenie.client.marid.http.HttpServer;
 import com.ifountain.opsgenie.client.script.ScriptManager;
-import com.ifountain.opsgenie.client.util.JsonUtils;
-import com.ifountain.opsgenie.client.util.ManifestUtils;
+import com.ifountain.client.util.JsonUtils;
+import com.ifountain.client.util.ManifestUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.jar.Manifest;
 
@@ -86,7 +85,7 @@ public class Bootstrap {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(OpsGenieClientConstants.API.API_KEY, MaridConfig.getInstance().getApiKey());
         try {
-            OpsGenieHttpResponse response = MaridConfig.getInstance().getOpsGenieHttpClient().get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
+            HttpResponse response = MaridConfig.getInstance().getHttpClient().get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {
                 Map maridSettings = JsonUtils.parse(response.getContent());
                 MaridConfig.getInstance().putAll(maridSettings);

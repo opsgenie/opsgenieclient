@@ -1,13 +1,13 @@
 package com.ifountain.opsgenie.client.cli;
 
-import com.ifountain.opsgenie.client.OpsGenieClientException;
+import com.ifountain.client.ClientException;
 import com.ifountain.opsgenie.client.cli.commands.*;
 import com.beust.jcommander.JCommander;
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClient;
-import com.ifountain.opsgenie.client.util.ClientConfiguration;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
+import com.ifountain.client.opsgenie.OpsGenieClient;
+import com.ifountain.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.script.ScriptManager;
-import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
+import com.ifountain.client.util.ClientProxyConfiguration;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
@@ -98,9 +98,9 @@ public class OpsGenieCommandLine {
 
     private void logException(Exception e){
         String message = e.getMessage();
-        if(e instanceof OpsGenieClientException){
-            OpsGenieClientException opsGenieClientException = (OpsGenieClientException) e;
-            message = "Code:["+opsGenieClientException.getCode()+"] Error:["+opsGenieClientException.getMessage()+"]";
+        if(e instanceof ClientException){
+            ClientException clientException = (ClientException) e;
+            message = "Code:["+ clientException.getCode()+"] Error:["+ clientException.getMessage()+"]";
         }
         if(!message.contains("RestException")){
             logger.warn(message, e);

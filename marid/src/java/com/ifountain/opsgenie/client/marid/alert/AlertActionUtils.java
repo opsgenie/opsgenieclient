@@ -4,7 +4,7 @@ import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.script.util.ScriptProxy;
-import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.client.util.JsonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.marid.http;
 
-import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.client.util.JsonUtils;
 import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;

@@ -1,18 +1,21 @@
 package com.ifountain.opsgenie.client.script.util;
 
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.*;
-import com.ifountain.opsgenie.client.model.alert.*;
-import com.ifountain.opsgenie.client.model.alertpolicy.EnableAlertPolicyRequest;
-import com.ifountain.opsgenie.client.model.beans.*;
-import com.ifountain.opsgenie.client.model.customer.*;
-import com.ifountain.opsgenie.client.model.escalation.*;
-import com.ifountain.opsgenie.client.model.group.*;
-import com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest;
-import com.ifountain.opsgenie.client.model.schedule.*;
-import com.ifountain.opsgenie.client.model.user.*;
-import com.ifountain.opsgenie.client.model.user.forward.*;
+import com.ifountain.client.model.BaseRequest;
+import com.ifountain.client.model.BaseResponse;
+import com.ifountain.client.model.IBean;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
+import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.opsgenie.model.*;
+import com.ifountain.client.opsgenie.model.alert.*;
+import com.ifountain.client.opsgenie.model.alertpolicy.EnableAlertPolicyRequest;
+import com.ifountain.client.opsgenie.model.beans.*;
+import com.ifountain.client.opsgenie.model.customer.*;
+import com.ifountain.client.opsgenie.model.escalation.*;
+import com.ifountain.client.opsgenie.model.group.*;
+import com.ifountain.client.opsgenie.model.integration.EnableIntegrationRequest;
+import com.ifountain.client.opsgenie.model.schedule.*;
+import com.ifountain.client.opsgenie.model.user.*;
+import com.ifountain.client.opsgenie.model.user.forward.*;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 
 import java.io.File;

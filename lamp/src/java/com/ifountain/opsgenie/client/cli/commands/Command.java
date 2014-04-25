@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
-import com.ifountain.opsgenie.client.IOpsGenieClient;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
 
 /**
  * Created by Sezgin Kucukkaraaslan

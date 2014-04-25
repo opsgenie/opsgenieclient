@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.Parameter;
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.util.Strings;
+import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.util.Strings;
 
 import java.util.List;
 

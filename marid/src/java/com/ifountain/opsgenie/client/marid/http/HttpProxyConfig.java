@@ -1,8 +1,6 @@
 package com.ifountain.opsgenie.client.marid.http;
 
-import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
-import org.littleshoot.proxy.DefaultHttpProxyServer;
-import org.littleshoot.proxy.ProxyAuthorizationHandler;
+import com.ifountain.client.util.ClientProxyConfiguration;
 
 public class HttpProxyConfig {
     private String host = "127.0.0.1";

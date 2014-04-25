@@ -4,11 +4,11 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
-import com.ifountain.opsgenie.client.util.Strings;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
+import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.opsgenie.model.customer.HeartbeatRequest;
+import com.ifountain.client.opsgenie.model.customer.HeartbeatResponse;
+import com.ifountain.client.util.Strings;
 
 import java.util.List;
 

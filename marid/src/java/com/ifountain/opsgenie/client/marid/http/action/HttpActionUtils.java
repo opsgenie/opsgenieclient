@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.marid.http.action;
 
 import com.ifountain.opsgenie.client.marid.http.HTTPResponse;
-import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.client.util.JsonUtils;
 import org.jboss.netty.handler.codec.http.HttpResponseStatus;
 
 import java.io.IOException;

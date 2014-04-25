@@ -1,7 +1,5 @@
 package com.ifountain.opsgenie.client.script.util;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
 import java.lang.reflect.Array;
 import java.util.*;
 

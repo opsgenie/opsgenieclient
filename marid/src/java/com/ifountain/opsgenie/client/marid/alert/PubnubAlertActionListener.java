@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.marid.alert;
 
-import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
+import com.ifountain.client.http.HttpResponse;
 import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.ProxyServer;
@@ -185,7 +185,7 @@ public class PubnubAlertActionListener {
         if (!success) parameters.add(new BasicNameValuePair("failureMessage", failureMessage));
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
-            OpsGenieHttpResponse response = MaridConfig.getInstance().getOpsGenieHttpClient().post(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/actionExecutionResult", entity);
+            HttpResponse response = MaridConfig.getInstance().getHttpClient().post(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/actionExecutionResult", entity);
             if (response.getStatusCode() != HttpStatus.SC_OK) {
                 String logSuffix = "";
                 if (response.getContent() != null && response.getContent().length > 0) {

@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.JCommander;
-import com.ifountain.opsgenie.client.IOpsGenieClient;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
 
 import java.util.Arrays;
 

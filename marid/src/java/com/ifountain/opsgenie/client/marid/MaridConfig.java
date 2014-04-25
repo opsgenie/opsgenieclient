@@ -1,10 +1,10 @@
 package com.ifountain.opsgenie.client.marid;
 
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClient;
-import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
-import com.ifountain.opsgenie.client.util.ClientConfiguration;
-import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
+import com.ifountain.client.opsgenie.OpsGenieClient;
+import com.ifountain.client.http.HttpClient;
+import com.ifountain.client.util.ClientConfiguration;
+import com.ifountain.client.util.ClientProxyConfiguration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +21,7 @@ public class MaridConfig {
     private  String opsgenieApiUrl;
     private  String apiKey;
     private  String maridKey;
-    private  OpsGenieHttpClient opsGenieHttpClient;
+    private HttpClient httpClient;
     private  IOpsGenieClient opsGenieClient;
     private Map<String, String> lowercasedConfiguration;
     private Properties configuration;
@@ -44,9 +44,9 @@ public class MaridConfig {
             opsGenieClient.close();
             opsGenieClient = null;
         }
-        if(opsGenieHttpClient != null){
-            opsGenieHttpClient.close();
-            opsGenieHttpClient = null;
+        if(httpClient != null){
+            httpClient.close();
+            httpClient = null;
         }
     }
 
@@ -102,8 +102,8 @@ public class MaridConfig {
         if(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null){
             clientConfiguration.setSocketSendBufferSizeHint(getInt("opsgenie.connection.socketSendBufferSizeHint", -1));
         }
-        opsGenieHttpClient = new OpsGenieHttpClient(clientConfiguration);
-        opsGenieClient = new OpsGenieClient(opsGenieHttpClient);
+        httpClient = new HttpClient(clientConfiguration);
+        opsGenieClient = new OpsGenieClient(httpClient);
         opsGenieClient.setRootUri(getOpsgenieApiUrl());
     }
 
@@ -130,8 +130,8 @@ public class MaridConfig {
         return maridKey;
     }
 
-    public OpsGenieHttpClient getOpsGenieHttpClient() {
-        return opsGenieHttpClient;
+    public HttpClient getHttpClient() {
+        return httpClient;
     }
 
     public IOpsGenieClient getOpsGenieClient() {
@@ -165,8 +165,8 @@ public class MaridConfig {
         this.maridKey = maridKey;
     }
 
-    public void setOpsGenieHttpClient(OpsGenieHttpClient opsGenieHttpClient) {
-        this.opsGenieHttpClient = opsGenieHttpClient;
+    public void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     public void setOpsGenieClient(IOpsGenieClient opsGenieClient) {

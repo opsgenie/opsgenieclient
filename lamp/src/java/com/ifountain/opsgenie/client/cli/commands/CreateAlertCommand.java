@@ -1,11 +1,11 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.*;
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.alert.CreateAlertRequest;
-import com.ifountain.opsgenie.client.model.alert.CreateAlertResponse;
-import com.ifountain.opsgenie.client.util.Strings;
+import com.ifountain.client.opsgenie.IOpsGenieClient;
+import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.opsgenie.model.alert.CreateAlertRequest;
+import com.ifountain.client.opsgenie.model.alert.CreateAlertResponse;
+import com.ifountain.client.util.Strings;
 
 import java.util.Arrays;
 import java.util.HashMap;
