@@ -40,4 +40,4 @@ if [ ! -z $JAVA_HOME ]; then
         JAVA_CMD=$JAVA_HOME/bin/java
 fi
 
-type -P $JAVA_CMD &>/dev/null && echo "" || echo "-   No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
+type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
