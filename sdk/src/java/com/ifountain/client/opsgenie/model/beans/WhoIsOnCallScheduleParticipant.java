@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.beans;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,9 +50,9 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
     @Override
     public Map toMap() {
         Map<String, Object> json = super.toMap();
-        json.put(OpsGenieClientConstants.API.ID, id);
+        json.put(ClientConstants.API.ID, id);
         if(escalationTime != null){
-            json.put(OpsGenieClientConstants.API.ESCALATION_TIME, escalationTime);
+            json.put(ClientConstants.API.ESCALATION_TIME, escalationTime);
         }
         participantsToMap(json, participants);
         return json;
@@ -61,11 +61,11 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
     @Override
     public void fromMap(Map map) throws ParseException {
         super.fromMap(map);
-        if(map.containsKey(OpsGenieClientConstants.API.ID)){
-            id = (String) map.get(OpsGenieClientConstants.API.ID);
+        if(map.containsKey(ClientConstants.API.ID)){
+            id = (String) map.get(ClientConstants.API.ID);
         }
-        if(map.containsKey(OpsGenieClientConstants.API.ESCALATION_TIME)){
-            escalationTime = (Integer) map.get(OpsGenieClientConstants.API.ESCALATION_TIME);
+        if(map.containsKey(ClientConstants.API.ESCALATION_TIME)){
+            escalationTime = (Integer) map.get(ClientConstants.API.ESCALATION_TIME);
         }
         this.participants = participantsFromMap(map);
     }
@@ -76,18 +76,18 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
             for(ScheduleParticipant participant:participantList) {
                 participantMaps.add(participant.toMap());
             }
-            json.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
+            json.put(ClientConstants.API.PARTICIPANTS, participantMaps);
         }
     }
 
     public static List<WhoIsOnCallScheduleParticipant> participantsFromMap(Map map) throws ParseException{
         List<WhoIsOnCallScheduleParticipant> participantList = null;
-        List<Map> participantMaps = (List<Map>) map.get(OpsGenieClientConstants.API.PARTICIPANTS);
+        List<Map> participantMaps = (List<Map>) map.get(ClientConstants.API.PARTICIPANTS);
         if(participantMaps != null){
             participantList = new ArrayList<WhoIsOnCallScheduleParticipant>();
             for(Map participantMap:participantMaps) {
                 WhoIsOnCallScheduleParticipant participant;
-                if(Type.user.name().equals(participantMap.get(OpsGenieClientConstants.API.TYPE)))
+                if(Type.user.name().equals(participantMap.get(ClientConstants.API.TYPE)))
                 {
                     participant = new WhoIsOnCallUserParticipant();
                 }

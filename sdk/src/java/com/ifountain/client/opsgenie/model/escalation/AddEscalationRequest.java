@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.escalation;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.opsgenie.model.beans.EscalationRule;
 
@@ -62,14 +62,14 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
+            json.put(ClientConstants.API.NAME, getName());
         }
         if(getRules() != null){
             List<Map> ruleMaps = new ArrayList<Map>();
             for(EscalationRule rule:rules){
                 ruleMaps.add(rule.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+            json.put(ClientConstants.API.RULES, ruleMaps);
         }
         return json;
     }

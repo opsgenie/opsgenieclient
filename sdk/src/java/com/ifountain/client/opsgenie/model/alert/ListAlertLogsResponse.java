@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.alert;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.AlertLog;
 
@@ -49,8 +49,8 @@ public class ListAlertLogsResponse extends BaseResponse {
      */
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        lastKey = (String) data.get(OpsGenieClientConstants.API.LAST_KEY);
-        List<Map> logsData = (List<Map>) data.get(OpsGenieClientConstants.API.LOGS);
+        lastKey = (String) data.get(ClientConstants.API.LAST_KEY);
+        List<Map> logsData = (List<Map>) data.get(ClientConstants.API.LOGS);
         alertLogs = new ArrayList<AlertLog>();
         for(Map logData:logsData){
             AlertLog log = new AlertLog();

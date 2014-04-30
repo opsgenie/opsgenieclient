@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,21 +57,21 @@ public class EscalationRule  implements IBean {
     @Override
     public Map toMap() {
         Map<String, Object> ruleMap = new HashMap<String, Object>();
-        ruleMap.put(OpsGenieClientConstants.API.NOTIFY, notify);
+        ruleMap.put(ClientConstants.API.NOTIFY, notify);
         if(type != null){
-            ruleMap.put(OpsGenieClientConstants.API.TYPE, type.name());
+            ruleMap.put(ClientConstants.API.TYPE, type.name());
         }
-        ruleMap.put(OpsGenieClientConstants.API.DELAY, delay);
+        ruleMap.put(ClientConstants.API.DELAY, delay);
         return ruleMap;
     }
 
     @Override
     public void fromMap(Map map) {
-        notify = (String) map.get(OpsGenieClientConstants.API.NOTIFY);
-        if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
-            type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        notify = (String) map.get(ClientConstants.API.NOTIFY);
+        if(map.containsKey(ClientConstants.API.TYPE)){
+            type = Type.valueOf(((String) map.get(ClientConstants.API.TYPE)).toLowerCase());
         }
-        delay = ((Number) map.get(OpsGenieClientConstants.API.DELAY)).intValue();
+        delay = ((Number) map.get(ClientConstants.API.DELAY)).intValue();
     }
 
     @Override

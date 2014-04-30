@@ -6,8 +6,9 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @version 5/28/12 3:01 PM
  */
-public interface OpsGenieClientConstants {
+public interface ClientConstants {
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
+    public static final String STATUSSIRAN_API_URI = "https://api.statussiren.com";
 
     public interface Common {
         String API_DATE_FORMAT = "yyyy-MM-dd HH:mm";

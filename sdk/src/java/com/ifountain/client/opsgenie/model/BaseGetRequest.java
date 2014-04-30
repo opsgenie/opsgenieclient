@@ -1,9 +1,9 @@
 package com.ifountain.client.opsgenie.model;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.model.BaseResponse;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.Map;
 
@@ -36,11 +36,11 @@ public abstract class BaseGetRequest<T extends BaseResponse> extends BaseRequest
         Map data =  super.serialize();
         int numberOfParentSerializeParams = data.size();
         if(getId() != null){
-            data.put(OpsGenieClientConstants.API.ID, getId());
+            data.put(ClientConstants.API.ID, getId());
         }
         _serialize(data);
         if(numberOfParentSerializeParams == data.size()){
-            throw ClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+            throw ClientValidationException.missingMandatoryProperty(ClientConstants.API.ID);
         }
         return data;
     }

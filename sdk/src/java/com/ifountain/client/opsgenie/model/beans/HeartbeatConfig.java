@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,16 +63,16 @@ public class HeartbeatConfig implements IBean {
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        json.put(OpsGenieClientConstants.API.MESSAGE, message);
-        json.put(OpsGenieClientConstants.API.RECIPIENTS, recipients);
+        json.put(ClientConstants.API.ENABLED, enabled);
+        json.put(ClientConstants.API.MESSAGE, message);
+        json.put(ClientConstants.API.RECIPIENTS, recipients);
         return json;
     }
 
     @Override
     public void fromMap(Map resp) {
-        setEnabled((Boolean) resp.get(OpsGenieClientConstants.API.ENABLED));
-        setMessage((String) resp.get(OpsGenieClientConstants.API.MESSAGE));
-        setRecipients((List<String>) resp.get(OpsGenieClientConstants.API.RECIPIENTS));
+        setEnabled((Boolean) resp.get(ClientConstants.API.ENABLED));
+        setMessage((String) resp.get(ClientConstants.API.MESSAGE));
+        setRecipients((List<String>) resp.get(ClientConstants.API.RECIPIENTS));
     }
 }

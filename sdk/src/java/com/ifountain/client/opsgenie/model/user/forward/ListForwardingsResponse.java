@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.user.forward;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Forwarding;
 
@@ -36,8 +36,8 @@ public class ListForwardingsResponse extends BaseResponse {
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
         forwardings = new ArrayList<Forwarding>();
-        if (data.containsKey(OpsGenieClientConstants.API.FORWARDINGS)) {
-            List<Map> forwardingMaps = (List<Map>) data.get(OpsGenieClientConstants.API.FORWARDINGS);
+        if (data.containsKey(ClientConstants.API.FORWARDINGS)) {
+            List<Map> forwardingMaps = (List<Map>) data.get(ClientConstants.API.FORWARDINGS);
             for (Map forwardingMap : forwardingMaps) {
                 Forwarding forwarding = new Forwarding();
                 forwarding.fromMap(forwardingMap);

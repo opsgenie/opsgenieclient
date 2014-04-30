@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.Map;
 
@@ -57,8 +57,8 @@ public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> 
      */
     public Map serialize() throws ClientValidationException {
         Map<String, Object> json  = super.serialize();
-        json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        if (getUser() != null) json.put(OpsGenieClientConstants.API.USER, getUser());
+        json.put(ClientConstants.API.NOTE, getNote());
+        if (getUser() != null) json.put(ClientConstants.API.USER, getUser());
         return json;
     }
 

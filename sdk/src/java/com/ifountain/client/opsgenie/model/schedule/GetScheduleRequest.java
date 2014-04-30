@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
 import java.util.Map;
@@ -41,7 +41,7 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
      */
     public void _serialize(Map json) {
         if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
+            json.put(ClientConstants.API.NAME, name);
         }
     }
 

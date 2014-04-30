@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.group;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.List;
@@ -61,10 +61,10 @@ public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
         Map json = super.serialize();
         if(getName() != null)
         {
-            json.put(OpsGenieClientConstants.API.NAME, getName());
+            json.put(ClientConstants.API.NAME, getName());
         }
         if(getUsers() != null){
-            json.put(OpsGenieClientConstants.API.USERS, getUsers());
+            json.put(ClientConstants.API.USERS, getUsers());
         }
         return json;
     }

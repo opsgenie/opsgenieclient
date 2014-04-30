@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Schedule;
 
@@ -36,7 +36,7 @@ public class ListSchedulesResponse extends BaseResponse{
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> scheduleMaps = (List<Map>) data.get(OpsGenieClientConstants.API.SCHEDULES);
+        List<Map> scheduleMaps = (List<Map>) data.get(ClientConstants.API.SCHEDULES);
         if(scheduleMaps != null){
             schedules = new ArrayList<Schedule>();
             for(Map scheduleMap:scheduleMaps){

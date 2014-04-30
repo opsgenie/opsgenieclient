@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.*;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.cli.LampConfig;
 import com.ifountain.opsgenie.client.cli.script.LampScriptProxy;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
@@ -16,7 +16,7 @@ import java.util.Properties;
 public class ExecuteScriptCommand extends BaseCommand{
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
-    @Parameter(names = "--" + OpsGenieClientConstants.API.NAME, description = "Name of script to be executed", splitter = NullSplitter.class, required = true)
+    @Parameter(names = "--" + ClientConstants.API.NAME, description = "Name of script to be executed", splitter = NullSplitter.class, required = true)
     private String script;
     @DynamicParameter(names = "-D", description = "Script parameters.")
     private Map<String, String> details = new HashMap<String, String>();
@@ -45,10 +45,10 @@ public class ExecuteScriptCommand extends BaseCommand{
         Properties confBindings = new Properties();
         confBindings.putAll(LampConfig.getInstance().getConfiguration());
         if(commonOptions.getApiKey() != null){
-            confBindings.setProperty(OpsGenieClientConstants.API.API_KEY, commonOptions.getApiKey());
+            confBindings.setProperty(ClientConstants.API.API_KEY, commonOptions.getApiKey());
         }
         if(commonOptions.getUser() != null){
-            confBindings.setProperty(OpsGenieClientConstants.API.USER, commonOptions.getUser());
+            confBindings.setProperty(ClientConstants.API.USER, commonOptions.getUser());
         }
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, confBindings);
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new LampScriptProxy(opsgenieClient, commonOptions.getApiKey(), commonOptions.getUser()));

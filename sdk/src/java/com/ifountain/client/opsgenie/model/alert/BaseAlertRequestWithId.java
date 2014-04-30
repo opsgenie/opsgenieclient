@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.model.BaseResponse;
 
@@ -76,11 +76,11 @@ public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends Bas
     public Map serialize() throws ClientValidationException {
         Map parameters = super.serialize();
         if (getId() != null)
-            parameters.put(OpsGenieClientConstants.API.ID, getId());
+            parameters.put(ClientConstants.API.ID, getId());
         if (getAlias() != null)
-            parameters.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+            parameters.put(ClientConstants.API.ALIAS, getAlias());
         if (getTinyId() != null)
-            parameters.put(OpsGenieClientConstants.API.TINY_ID, getTinyId());
+            parameters.put(ClientConstants.API.TINY_ID, getTinyId());
         return parameters;
     }
 

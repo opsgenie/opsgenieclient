@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.Map;
 
@@ -59,9 +59,9 @@ public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResp
     public Map serialize() throws ClientValidationException {
         Map json  = super.serialize();
         if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
+            json.put(ClientConstants.API.USER, getUser());
         if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
+            json.put(ClientConstants.API.NOTE, getNote());
         return json;
     }
 

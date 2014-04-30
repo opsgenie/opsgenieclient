@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.user;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.User;
 
@@ -36,7 +36,7 @@ public class ListUsersResponse extends BaseResponse {
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> usersData = (List<Map>) data.get(OpsGenieClientConstants.API.USERS);
+        List<Map> usersData = (List<Map>) data.get(ClientConstants.API.USERS);
         users = new ArrayList<User>();
         if(usersData != null){
             for(Map userData:usersData){

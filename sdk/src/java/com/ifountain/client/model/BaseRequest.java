@@ -1,7 +1,7 @@
 package com.ifountain.client.model;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +29,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
         this.apiKey = apiKey;
     }
 
+    //TODO: delete customer key property
     /**
      * @deprecated
      * Use getApiKey
@@ -50,7 +51,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      */
     public Map serialize() throws ClientValidationException {
         Map map = new HashMap();
-        map.put(OpsGenieClientConstants.API.API_KEY, apiKey);
+        map.put(ClientConstants.API.API_KEY, apiKey);
         return map;
     }
 

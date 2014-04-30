@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.alert;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 
 import java.text.ParseException;
@@ -50,11 +50,11 @@ public class CreateAlertResponse extends BaseResponse {
      */
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        if(data.containsKey(OpsGenieClientConstants.API.ALERT_ID)){
-            setAlertId((String) data.get(OpsGenieClientConstants.API.ALERT_ID));
+        if(data.containsKey(ClientConstants.API.ALERT_ID)){
+            setAlertId((String) data.get(ClientConstants.API.ALERT_ID));
         }
-        if(data.containsKey(OpsGenieClientConstants.API.ID)){
-            setId((String) data.get(OpsGenieClientConstants.API.ID));
+        if(data.containsKey(ClientConstants.API.ID)){
+            setId((String) data.get(ClientConstants.API.ID));
         }
 
     }

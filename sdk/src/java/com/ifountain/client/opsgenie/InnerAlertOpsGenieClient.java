@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.opsgenie.model.InputStreamAttachRequest;
 import com.ifountain.client.opsgenie.model.alert.*;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -160,21 +160,21 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, ClientException, ParseException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)
-            entity.addPart(OpsGenieClientConstants.API.ATTACHMENT, new ByteArrayBody(convertInputStreamToByteArray(inputStream), new File(fileName).getName()));
+            entity.addPart(ClientConstants.API.ATTACHMENT, new ByteArrayBody(convertInputStreamToByteArray(inputStream), new File(fileName).getName()));
         if (attachRequest.getApiKey() != null)
-            entity.addPart(OpsGenieClientConstants.API.API_KEY, new StringBody(attachRequest.getApiKey(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.API_KEY, new StringBody(attachRequest.getApiKey(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getId() != null)
-            entity.addPart(OpsGenieClientConstants.API.ID, new StringBody(attachRequest.getId(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.ID, new StringBody(attachRequest.getId(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getAlias() != null)
-            entity.addPart(OpsGenieClientConstants.API.ALIAS, new StringBody(attachRequest.getAlias(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.ALIAS, new StringBody(attachRequest.getAlias(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getTinyId() != null)
-            entity.addPart(OpsGenieClientConstants.API.TINY_ID, new StringBody(attachRequest.getTinyId(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.TINY_ID, new StringBody(attachRequest.getTinyId(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getIndexFile() != null)
-            entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(attachRequest.getIndexFile(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.INDEX_FILE, new StringBody(attachRequest.getIndexFile(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getUser() != null)
-            entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(attachRequest.getUser(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.USER, new StringBody(attachRequest.getUser(), "text/plain", Charset.forName("utf-8")));
         if (attachRequest.getNote() != null)
-            entity.addPart(OpsGenieClientConstants.API.NOTE, new StringBody(attachRequest.getNote(), "text/plain", Charset.forName("utf-8")));
+            entity.addPart(ClientConstants.API.NOTE, new StringBody(attachRequest.getNote(), "text/plain", Charset.forName("utf-8")));
         return (AttachResponse) httpClient.doPostRequest(attachRequest, entity);
     }
 

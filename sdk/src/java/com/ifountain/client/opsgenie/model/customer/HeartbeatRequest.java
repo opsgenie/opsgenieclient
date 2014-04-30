@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.customer;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -33,7 +33,7 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     public Map serialize() throws ClientValidationException {
         Map res = super.serialize();
         if(source != null){
-            res.put(OpsGenieClientConstants.API.SOURCE, source);
+            res.put(ClientConstants.API.SOURCE, source);
         }
         return res;
     }

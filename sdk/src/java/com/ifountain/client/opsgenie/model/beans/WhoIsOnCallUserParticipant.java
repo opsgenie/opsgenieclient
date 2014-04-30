@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.beans;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 
 import java.text.ParseException;
 import java.util.Map;
@@ -28,10 +28,10 @@ public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     public Map toMap() {
         Map<String, Object> json = super.toMap();
         if(forwarded != null){
-            json.put(OpsGenieClientConstants.API.FORWARDED, forwarded);
+            json.put(ClientConstants.API.FORWARDED, forwarded);
         }
         if(forwardedFrom != null){
-            json.put(OpsGenieClientConstants.API.FORWARDED_FROM, forwarded);
+            json.put(ClientConstants.API.FORWARDED_FROM, forwarded);
         }
         return json;
     }
@@ -39,12 +39,12 @@ public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     @Override
     public void fromMap(Map map) throws ParseException {
         super.fromMap(map);
-        if(map.containsKey(OpsGenieClientConstants.API.FORWARDED)){
-            forwarded = (Boolean) map.get(OpsGenieClientConstants.API.FORWARDED);
+        if(map.containsKey(ClientConstants.API.FORWARDED)){
+            forwarded = (Boolean) map.get(ClientConstants.API.FORWARDED);
         }
-        if(map.containsKey(OpsGenieClientConstants.API.FORWARDED_FROM)){
+        if(map.containsKey(ClientConstants.API.FORWARDED_FROM)){
             forwardedFrom = new WhoIsOnCallUserParticipant();
-            forwardedFrom.fromMap((Map)map.get(OpsGenieClientConstants.API.FORWARDED_FROM));
+            forwardedFrom.fromMap((Map)map.get(ClientConstants.API.FORWARDED_FROM));
         }
     }
 }

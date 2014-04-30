@@ -4,8 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.opsgenie.model.alert.GetAlertRequest;
 import com.ifountain.client.opsgenie.model.alert.GetAlertResponse;
 import com.ifountain.client.util.Strings;
@@ -22,10 +22,10 @@ public class GetAlertCommand extends BaseCommand{
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
 
-    @Parameter(names = "--" + OpsGenieClientConstants.API.ALERT_ID, description = "Id of the alert that will be retrieved. Either this or alias should be given.", splitter = NullSplitter.class)
+    @Parameter(names = "--" + ClientConstants.API.ALERT_ID, description = "Id of the alert that will be retrieved. Either this or alias should be given.", splitter = NullSplitter.class)
     private String alertId;
 
-    @Parameter(names = "--" + OpsGenieClientConstants.API.ALIAS, description = "Alias of the alert that will be retrieved. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
+    @Parameter(names = "--" + ClientConstants.API.ALIAS, description = "Alias of the alert that will be retrieved. Either this or alertId should be given.", variableArity = true, splitter = NullSplitter.class)
     private List<String> alias;
 
     public GetAlertCommand(JCommander commander) {

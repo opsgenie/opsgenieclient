@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.util.*;
@@ -206,53 +206,53 @@ public class User  implements IBean {
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        json.put(OpsGenieClientConstants.API.FULLNAME, getFullname());
+        json.put(ClientConstants.API.ID, getId());
+        json.put(ClientConstants.API.USERNAME, getUsername());
+        json.put(ClientConstants.API.FULLNAME, getFullname());
         if(getState() != null){
-            json.put(OpsGenieClientConstants.API.STATE, getState().name());
+            json.put(ClientConstants.API.STATE, getState().name());
         }
         if(getRole() != null){
-            json.put(OpsGenieClientConstants.API.ROLE, getRole().name());
+            json.put(ClientConstants.API.ROLE, getRole().name());
         }
         if(getTimeZone() != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+            json.put(ClientConstants.API.TIMEZONE, getTimeZone().getID());
         }
         if(getLocale() != null){
-            json.put(OpsGenieClientConstants.API.LOCALE, getLocaleId(locale));
+            json.put(ClientConstants.API.LOCALE, getLocaleId(locale));
         }
         if(getGroups() != null){
-            json.put(OpsGenieClientConstants.API.GROUPS, getGroups());
+            json.put(ClientConstants.API.GROUPS, getGroups());
         }
         if(getEscalations() != null){
-            json.put(OpsGenieClientConstants.API.ESCALATIONS, getEscalations());
+            json.put(ClientConstants.API.ESCALATIONS, getEscalations());
         }
         if(getSchedules() != null){
-            json.put(OpsGenieClientConstants.API.SCHEDULES, getSchedules());
+            json.put(ClientConstants.API.SCHEDULES, getSchedules());
         }
         if(getContacts() != null){
-            json.put(OpsGenieClientConstants.API.CONTACTS, getContacts());
+            json.put(ClientConstants.API.CONTACTS, getContacts());
         }
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        setId((String) map.get(OpsGenieClientConstants.API.ID));
-        setUsername((String) map.get(OpsGenieClientConstants.API.USERNAME));
-        setFullname((String) map.get(OpsGenieClientConstants.API.FULLNAME));
-        if(map.containsKey(OpsGenieClientConstants.API.ROLE)){
-            setRole(User.Role.valueOf(((String) map.get(OpsGenieClientConstants.API.ROLE)).toLowerCase()));
+        setId((String) map.get(ClientConstants.API.ID));
+        setUsername((String) map.get(ClientConstants.API.USERNAME));
+        setFullname((String) map.get(ClientConstants.API.FULLNAME));
+        if(map.containsKey(ClientConstants.API.ROLE)){
+            setRole(User.Role.valueOf(((String) map.get(ClientConstants.API.ROLE)).toLowerCase()));
         }
-        if(map.containsKey(OpsGenieClientConstants.API.STATE)){
-            setState(State.valueOf(((String) map.get(OpsGenieClientConstants.API.STATE)).toLowerCase()));
+        if(map.containsKey(ClientConstants.API.STATE)){
+            setState(State.valueOf(((String) map.get(ClientConstants.API.STATE)).toLowerCase()));
         }
-        setGroups((List<String>) map.get(OpsGenieClientConstants.API.GROUPS));
-        setEscalations((List<String>) map.get(OpsGenieClientConstants.API.ESCALATIONS));
-        setSchedules((List<String>) map.get(OpsGenieClientConstants.API.SCHEDULES));
-        setContacts((List<Map<String, String>>) map.get(OpsGenieClientConstants.API.CONTACTS));
-        if(map.get(OpsGenieClientConstants.API.TIMEZONE) != null){
-            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
+        setGroups((List<String>) map.get(ClientConstants.API.GROUPS));
+        setEscalations((List<String>) map.get(ClientConstants.API.ESCALATIONS));
+        setSchedules((List<String>) map.get(ClientConstants.API.SCHEDULES));
+        setContacts((List<Map<String, String>>) map.get(ClientConstants.API.CONTACTS));
+        if(map.get(ClientConstants.API.TIMEZONE) != null){
+            Object timezoneObj = map.get(ClientConstants.API.TIMEZONE);
             if(timezoneObj instanceof TimeZone){
                 setTimeZone((TimeZone) timezoneObj);
             }
@@ -260,8 +260,8 @@ public class User  implements IBean {
                 setTimeZone(TimeZone.getTimeZone(String.valueOf(timezoneObj)));
             }
         }
-        if(map.get(OpsGenieClientConstants.API.LOCALE) != null){
-            Object localeObj = map.get(OpsGenieClientConstants.API.LOCALE);
+        if(map.get(ClientConstants.API.LOCALE) != null){
+            Object localeObj = map.get(ClientConstants.API.LOCALE);
             if(localeObj instanceof Locale){
                 setLocale((Locale) localeObj);
             }

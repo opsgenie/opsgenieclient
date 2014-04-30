@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.*;
 
@@ -58,16 +58,16 @@ public class Heartbeat implements IBean {
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.SOURCE, source);
-        json.put(OpsGenieClientConstants.API.LAST_HEARTBEAT, lastHeartbeat);
-        json.put(OpsGenieClientConstants.API.EXPIRED, expired);
+        json.put(ClientConstants.API.SOURCE, source);
+        json.put(ClientConstants.API.LAST_HEARTBEAT, lastHeartbeat);
+        json.put(ClientConstants.API.EXPIRED, expired);
         return json;
     }
 
     @Override
     public void fromMap(Map resp) {
-        setSource((String) resp.get(OpsGenieClientConstants.API.SOURCE));
-        setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
-        setExpired((Boolean) resp.get(OpsGenieClientConstants.API.EXPIRED));
+        setSource((String) resp.get(ClientConstants.API.SOURCE));
+        setLastHeartbeat(new Date(((Number) resp.get(ClientConstants.API.LAST_HEARTBEAT)).longValue()));
+        setExpired((Boolean) resp.get(ClientConstants.API.EXPIRED));
     }
 }

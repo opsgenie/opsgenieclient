@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -124,30 +124,30 @@ public class Forwarding  implements IBean {
     @Override
     public Map toMap() {
         Map<String, String> json = new HashMap<String, String>();
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if (timeZone != null) {
             sdf.setTimeZone(timeZone);
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+            json.put(ClientConstants.API.TIMEZONE, timeZone.getID());
         }
         if (endDate != null) {
-            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(endDate));
+            json.put(ClientConstants.API.END_DATE, sdf.format(endDate));
         }
         if (startDate != null) {
-            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
+            json.put(ClientConstants.API.START_DATE, sdf.format(startDate));
         }
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
-        json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        json.put(ClientConstants.API.ID, getId());
+        json.put(ClientConstants.API.FROM_USER, getFromUser());
+        json.put(ClientConstants.API.TO_USER, getToUser());
+        json.put(ClientConstants.API.ALIAS, getAlias());
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-        if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
+        SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
+        if(map.containsKey(ClientConstants.API.TIMEZONE)){
 
-            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
+            Object timezoneObj = map.get(ClientConstants.API.TIMEZONE);
             if(timezoneObj instanceof TimeZone){
                 timeZone = (TimeZone) timezoneObj;
             }
@@ -156,11 +156,11 @@ public class Forwarding  implements IBean {
             }
             sdf.setTimeZone(timeZone);
         }
-        setId((String) map.get(OpsGenieClientConstants.API.ID));
-        setAlias((String) map.get(OpsGenieClientConstants.API.ALIAS));
-        setFromUser((String) map.get(OpsGenieClientConstants.API.FROM_USER));
-        setToUser((String) map.get(OpsGenieClientConstants.API.TO_USER));
-        Object dateObj = map.get(OpsGenieClientConstants.API.START_DATE);
+        setId((String) map.get(ClientConstants.API.ID));
+        setAlias((String) map.get(ClientConstants.API.ALIAS));
+        setFromUser((String) map.get(ClientConstants.API.FROM_USER));
+        setToUser((String) map.get(ClientConstants.API.TO_USER));
+        Object dateObj = map.get(ClientConstants.API.START_DATE);
         if(dateObj != null){
             if(dateObj instanceof Date){
                 setStartDate((Date) dateObj);
@@ -170,7 +170,7 @@ public class Forwarding  implements IBean {
             }
         }
 
-        dateObj = map.get(OpsGenieClientConstants.API.END_DATE);
+        dateObj = map.get(ClientConstants.API.END_DATE);
         if(dateObj != null){
             if(dateObj instanceof Date){
                 setEndDate((Date) dateObj);

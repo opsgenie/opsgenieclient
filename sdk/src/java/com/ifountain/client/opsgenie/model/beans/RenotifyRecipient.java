@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -45,18 +45,18 @@ public class RenotifyRecipient implements IBean {
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.RECIPIENT, recipient);
+        json.put(ClientConstants.API.RECIPIENT, recipient);
         if(type != null){
-            json.put(OpsGenieClientConstants.API.TYPE, type.name());
+            json.put(ClientConstants.API.TYPE, type.name());
         }
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        recipient = (String) map.get(OpsGenieClientConstants.API.RECIPIENT);
-        if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
-            type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        recipient = (String) map.get(ClientConstants.API.RECIPIENT);
+        if(map.containsKey(ClientConstants.API.TYPE)){
+            type = Type.valueOf(((String) map.get(ClientConstants.API.TYPE)).toLowerCase());
         }
     }
 }

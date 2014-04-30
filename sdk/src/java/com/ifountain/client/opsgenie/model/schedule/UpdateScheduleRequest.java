@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.Map;
 
@@ -41,7 +41,7 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
+            json.put(ClientConstants.API.ID, id);
         }
         return json;
     }

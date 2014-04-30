@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.user;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -57,10 +57,10 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
+            json.put(ClientConstants.API.ID, getId());
         }
         if(getUsername() != null){
-            json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
+            json.put(ClientConstants.API.USERNAME, getUsername());
         }
         return json;
     }

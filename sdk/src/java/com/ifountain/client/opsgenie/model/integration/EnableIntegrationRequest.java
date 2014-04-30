@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.integration;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 import java.util.Map;
 
@@ -61,7 +61,7 @@ public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationRe
     @Override
     public void _serialize(Map data) {
         if(getName() != null){
-            data.put(OpsGenieClientConstants.API.NAME, getName());
+            data.put(ClientConstants.API.NAME, getName());
         }
     }
 }

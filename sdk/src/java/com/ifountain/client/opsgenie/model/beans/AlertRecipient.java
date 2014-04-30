@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,18 +75,18 @@ public class AlertRecipient implements IBean {
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.METHOD, getMethod());
-        json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        json.put(OpsGenieClientConstants.API.STATE, getState());
-        json.put(OpsGenieClientConstants.API.STATE_CHANGED_AT, getStateChangedAt());
+        json.put(ClientConstants.API.METHOD, getMethod());
+        json.put(ClientConstants.API.USERNAME, getUsername());
+        json.put(ClientConstants.API.STATE, getState());
+        json.put(ClientConstants.API.STATE_CHANGED_AT, getStateChangedAt());
         return json;
     }
 
     @Override
     public void fromMap(Map map) {
-        setMethod((String) map.get(OpsGenieClientConstants.API.METHOD));
-        setUsername((String) map.get(OpsGenieClientConstants.API.USERNAME));
-        setState((String) map.get(OpsGenieClientConstants.API.STATE));
-        setStateChangedAt(((Number) map.get(OpsGenieClientConstants.API.STATE_CHANGED_AT)).longValue());
+        setMethod((String) map.get(ClientConstants.API.METHOD));
+        setUsername((String) map.get(ClientConstants.API.USERNAME));
+        setState((String) map.get(ClientConstants.API.STATE));
+        setStateChangedAt(((Number) map.get(ClientConstants.API.STATE_CHANGED_AT)).longValue());
     }
 }

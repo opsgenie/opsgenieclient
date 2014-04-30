@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -65,12 +65,12 @@ public class WhoIsOnCall implements IBean {
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.NAME, name);
+        json.put(ClientConstants.API.NAME, name);
         if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
+            json.put(ClientConstants.API.ID, id);
         }
         if(type != null){
-            json.put(OpsGenieClientConstants.API.TYPE, type);
+            json.put(ClientConstants.API.TYPE, type);
         }
         WhoIsOnCallScheduleParticipant.participantsToMap(json, participants);
         return json;
@@ -78,9 +78,9 @@ public class WhoIsOnCall implements IBean {
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        name = (String) map.get(OpsGenieClientConstants.API.NAME);
-        id = (String) map.get(OpsGenieClientConstants.API.ID);
-        type = (String) map.get(OpsGenieClientConstants.API.TYPE);
+        name = (String) map.get(ClientConstants.API.NAME);
+        id = (String) map.get(ClientConstants.API.ID);
+        type = (String) map.get(ClientConstants.API.TYPE);
         participants = WhoIsOnCallScheduleParticipant.participantsFromMap(map);
     }
 }

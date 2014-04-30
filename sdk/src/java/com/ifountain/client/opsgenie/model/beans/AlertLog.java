@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,18 +75,18 @@ public class AlertLog implements IBean {
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.CREATED_AT, getCreatedAt());
-        json.put(OpsGenieClientConstants.API.OWNER, getOwner());
-        json.put(OpsGenieClientConstants.API.LOG, getLog());
-        json.put(OpsGenieClientConstants.API.LOG_TYPE, getLogType());
+        json.put(ClientConstants.API.CREATED_AT, getCreatedAt());
+        json.put(ClientConstants.API.OWNER, getOwner());
+        json.put(ClientConstants.API.LOG, getLog());
+        json.put(ClientConstants.API.LOG_TYPE, getLogType());
         return json;
     }
 
     @Override
     public void fromMap(Map map) {
-        setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
-        setLogType((String) map.get(OpsGenieClientConstants.API.LOG_TYPE));
-        setLog((String) map.get(OpsGenieClientConstants.API.LOG));
-        setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
+        setOwner((String) map.get(ClientConstants.API.OWNER));
+        setLogType((String) map.get(ClientConstants.API.LOG_TYPE));
+        setLog((String) map.get(ClientConstants.API.LOG));
+        setCreatedAt(((Number) map.get(ClientConstants.API.CREATED_AT)).longValue());
     }
 }

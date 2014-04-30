@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.user;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
 import java.util.Map;
@@ -40,7 +40,7 @@ public class GetUserRequest extends BaseGetRequest<GetUserResponse> {
      */
     public void _serialize(Map json) {
         if(getUsername() != null){
-            json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
+            json.put(ClientConstants.API.USERNAME, getUsername());
         }
     }
 

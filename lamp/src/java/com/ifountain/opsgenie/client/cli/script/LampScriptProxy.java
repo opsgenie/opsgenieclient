@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.cli.script;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.script.util.ScriptBridgeUtils;
 import com.ifountain.opsgenie.client.script.util.ScriptProxy;
@@ -23,9 +23,9 @@ public class LampScriptProxy extends ScriptProxy {
     @Override
     protected void populateCommonProps(BaseRequest request, Map params) {
         super.populateCommonProps(request, params);
-        String usr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER);
+        String usr = ScriptBridgeUtils.getAsString(params, ClientConstants.API.USER);
         if (usr == null) {
-            params.put(OpsGenieClientConstants.API.USER, user);
+            params.put(ClientConstants.API.USER, user);
         }
     }
 }

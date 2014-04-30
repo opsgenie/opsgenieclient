@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.group;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
 import java.util.Map;
@@ -40,7 +40,7 @@ public class GetGroupRequest extends BaseGetRequest<GetGroupResponse> {
      */
     public void _serialize(Map json) {
         if(getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
+            json.put(ClientConstants.API.NAME, getName());
         }
     }
 

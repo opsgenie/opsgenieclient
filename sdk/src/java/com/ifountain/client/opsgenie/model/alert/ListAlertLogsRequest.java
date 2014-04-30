@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.Map;
 
@@ -56,19 +56,19 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     @Override
     public Map serialize() throws ClientValidationException {
         Map resp = super.serialize();
-        if(!(resp.containsKey(OpsGenieClientConstants.API.ID)
-                || resp.containsKey(OpsGenieClientConstants.API.ALERT_ID)
-                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)
-        || resp.containsKey(OpsGenieClientConstants.API.TINY_ID)) )
+        if(!(resp.containsKey(ClientConstants.API.ID)
+                || resp.containsKey(ClientConstants.API.ALERT_ID)
+                ||resp.containsKey(ClientConstants.API.ALIAS)
+        || resp.containsKey(ClientConstants.API.TINY_ID)) )
         {
-            throw ClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+            throw ClientValidationException.missingMandatoryProperty(ClientConstants.API.ID);
         }
         if (getLastKey() != null)
-            resp.put(OpsGenieClientConstants.API.LAST_KEY, getLastKey());
+            resp.put(ClientConstants.API.LAST_KEY, getLastKey());
         if (getSortOrder() != null)
-            resp.put(OpsGenieClientConstants.API.ORDER, getSortOrder().name());
+            resp.put(ClientConstants.API.ORDER, getSortOrder().name());
         if (getLimit() != null)
-            resp.put(OpsGenieClientConstants.API.LIMIT, getLimit());
+            resp.put(ClientConstants.API.LIMIT, getLimit());
         return resp;
     }
 

@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.group;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 
 import java.text.ParseException;
@@ -30,6 +30,6 @@ public class AddGroupMemberResponse extends BaseResponse{
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        id = (String) data.get(OpsGenieClientConstants.API.ID);
+        id = (String) data.get(ClientConstants.API.ID);
     }
 }

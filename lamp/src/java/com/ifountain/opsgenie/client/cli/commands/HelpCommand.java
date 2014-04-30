@@ -2,8 +2,8 @@ package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameters;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.cli.OpsGenieCommandLine;
 
 import java.util.Map;
@@ -23,7 +23,7 @@ public class HelpCommand implements Command {
 
     @Override
     public String getName() {
-        return "--" + OpsGenieClientConstants.API.HELP;
+        return "--" + ClientConstants.API.HELP;
     }
 
     @Override

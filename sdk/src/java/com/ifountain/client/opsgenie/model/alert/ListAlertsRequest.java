@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -116,21 +116,21 @@ public class ListAlertsRequest extends BaseRequest<ListAlertsResponse> {
     public Map serialize() throws ClientValidationException {
         Map parameters = super.serialize();
         if (createdAfter != null)
-            parameters.put(OpsGenieClientConstants.API.CREATED_AFTER, createdAfter);
+            parameters.put(ClientConstants.API.CREATED_AFTER, createdAfter);
         if (createdBefore != null)
-            parameters.put(OpsGenieClientConstants.API.CREATED_BEFORE, createdBefore);
+            parameters.put(ClientConstants.API.CREATED_BEFORE, createdBefore);
         if (updatedAfter != null)
-            parameters.put(OpsGenieClientConstants.API.UPDATED_AFTER, updatedAfter);
+            parameters.put(ClientConstants.API.UPDATED_AFTER, updatedAfter);
         if (updatedBefore != null)
-            parameters.put(OpsGenieClientConstants.API.UPDATED_BEFORE, updatedBefore);
+            parameters.put(ClientConstants.API.UPDATED_BEFORE, updatedBefore);
         if (sortBy != null)
-            parameters.put(OpsGenieClientConstants.API.SORT_BY, sortBy.name());
+            parameters.put(ClientConstants.API.SORT_BY, sortBy.name());
         if (sortOrder != null)
-            parameters.put(OpsGenieClientConstants.API.ORDER, sortOrder.name());
+            parameters.put(ClientConstants.API.ORDER, sortOrder.name());
         if (limit != null)
-            parameters.put(OpsGenieClientConstants.API.LIMIT, limit);
+            parameters.put(ClientConstants.API.LIMIT, limit);
         if (status != null)
-            parameters.put(OpsGenieClientConstants.API.STATUS, status.name());
+            parameters.put(ClientConstants.API.STATUS, status.name());
         return parameters;
     }
 

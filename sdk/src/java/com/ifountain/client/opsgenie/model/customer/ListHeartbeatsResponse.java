@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.customer;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Heartbeat;
 
@@ -36,7 +36,7 @@ public class ListHeartbeatsResponse extends BaseResponse{
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> sourcesData = (List<Map>) data.get(OpsGenieClientConstants.API.SOURCES);
+        List<Map> sourcesData = (List<Map>) data.get(ClientConstants.API.SOURCES);
         heartbeats = new ArrayList<Heartbeat>();
         for(Map sourceData:sourcesData){
             Heartbeat heartbeat = new Heartbeat();

@@ -4,8 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.opsgenie.model.alertpolicy.EnableAlertPolicyRequest;
 import com.ifountain.client.opsgenie.model.integration.EnableIntegrationRequest;
 import com.ifountain.client.util.Strings;
@@ -19,11 +19,11 @@ import java.util.List;
  */
 @Parameters(commandDescription = "Enables Opsgenie Integration and Policy.")
 public class EnableCommand extends BaseCommand {
-    @Parameter(names = "--" + OpsGenieClientConstants.API.TYPE, description = "Should be one of [integration, policy]", splitter = NullSplitter.class)
+    @Parameter(names = "--" + ClientConstants.API.TYPE, description = "Should be one of [integration, policy]", splitter = NullSplitter.class)
     private List<String> type;
-    @Parameter(names = "--" + OpsGenieClientConstants.API.NAME, description = "Name of integration or policy", variableArity = true, splitter = NullSplitter.class)
+    @Parameter(names = "--" + ClientConstants.API.NAME, description = "Name of integration or policy", variableArity = true, splitter = NullSplitter.class)
     private List<String> name;
-    @Parameter(names = "--" + OpsGenieClientConstants.API.ID, description = "Id of integration or policy", variableArity = true, splitter = NullSplitter.class)
+    @Parameter(names = "--" + ClientConstants.API.ID, description = "Id of integration or policy", variableArity = true, splitter = NullSplitter.class)
     private List<String> id;
 
     @ParametersDelegate
@@ -47,7 +47,7 @@ public class EnableCommand extends BaseCommand {
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         String typeStr = null;
         if (type != null) typeStr = Strings.join(type, " ");
-        if (OpsGenieClientConstants.API.INTEGRATION.equals(typeStr)) {
+        if (ClientConstants.API.INTEGRATION.equals(typeStr)) {
             EnableIntegrationRequest request = new EnableIntegrationRequest();
             request.setEnabled(isEnabled());
             if (name != null) request.setName(Strings.join(name, " "));
@@ -58,7 +58,7 @@ public class EnableCommand extends BaseCommand {
                 System.out.println("Integration enabled");
             else
                 System.out.println("Integration disabled");
-        } else if (OpsGenieClientConstants.API.POLICY.equals(typeStr)) {
+        } else if (ClientConstants.API.POLICY.equals(typeStr)) {
             EnableAlertPolicyRequest request = new EnableAlertPolicyRequest();
             request.setEnabled(isEnabled());
             if (name != null) request.setName(Strings.join(name, " "));

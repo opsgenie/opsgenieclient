@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.util.*;
@@ -91,31 +91,31 @@ public class Schedule  implements IBean {
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.ID, id);
-        json.put(OpsGenieClientConstants.API.NAME, name);
+        json.put(ClientConstants.API.ID, id);
+        json.put(ClientConstants.API.NAME, name);
         if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+            json.put(ClientConstants.API.TIMEZONE, timeZone.getID());
         }
-        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
+        json.put(ClientConstants.API.ENABLED, enabled);
         if(rules != null){
             List<Map> ruleMaps = new ArrayList<Map>();
             for(ScheduleRule rule:rules) {
                 ruleMaps.add(rule.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+            json.put(ClientConstants.API.RULES, ruleMaps);
         }
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        id = (String) map.get(OpsGenieClientConstants.API.ID);
-        name = (String) map.get(OpsGenieClientConstants.API.NAME);
-        if(map.containsKey(OpsGenieClientConstants.API.ENABLED)){
-            enabled = (Boolean) map.get(OpsGenieClientConstants.API.ENABLED);
+        id = (String) map.get(ClientConstants.API.ID);
+        name = (String) map.get(ClientConstants.API.NAME);
+        if(map.containsKey(ClientConstants.API.ENABLED)){
+            enabled = (Boolean) map.get(ClientConstants.API.ENABLED);
         }
-        if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
-            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
+        if(map.containsKey(ClientConstants.API.TIMEZONE)){
+            Object timezoneObj = map.get(ClientConstants.API.TIMEZONE);
             if(timezoneObj instanceof TimeZone){
                 timeZone = (TimeZone) timezoneObj;
             }
@@ -123,7 +123,7 @@ public class Schedule  implements IBean {
                 timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
             }
         }
-        List<Map> ruleMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
+        List<Map> ruleMaps = (List<Map>) map.get(ClientConstants.API.RULES);
         if(ruleMaps != null){
             rules = new ArrayList<ScheduleRule>();
             for(Map ruleMap:ruleMaps) {

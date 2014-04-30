@@ -4,8 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.opsgenie.model.customer.HeartbeatRequest;
 import com.ifountain.client.opsgenie.model.customer.HeartbeatResponse;
 import com.ifountain.client.util.Strings;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Parameters(commandDescription = "Sends heartbeat to Opsgenie.")
 public class HeartbeatCommand extends BaseCommand{
-    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    @Parameter(names = "--" + ClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
     private List<String> source;
 
     @ParametersDelegate

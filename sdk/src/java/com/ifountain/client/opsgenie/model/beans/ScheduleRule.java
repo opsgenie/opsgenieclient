@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,20 +111,20 @@ public class ScheduleRule  implements IBean {
 
     @Override
     public Map toMap() {
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);
         }
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.START_TIME, sdf.format(startDate));
-        json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
-        json.put(OpsGenieClientConstants.API.ROTATION_LENGTH, rotationLength);
+        json.put(ClientConstants.API.START_TIME, sdf.format(startDate));
+        json.put(ClientConstants.API.ROTATION_TYPE, rotationType.name());
+        json.put(ClientConstants.API.ROTATION_LENGTH, rotationLength);
         if(participants != null){
             List participantNames = new ArrayList();
             for(ScheduleParticipant participant:participants){
                 participantNames.add(participant.getParticipant());
             }
-            json.put(OpsGenieClientConstants.API.PARTICIPANTS, participantNames);
+            json.put(ClientConstants.API.PARTICIPANTS, participantNames);
         }
 
         if(restrictions != null){
@@ -132,7 +132,7 @@ public class ScheduleRule  implements IBean {
             for(ScheduleRuleRestriction restriction:restrictions){
                 restrictionMaps.add(restriction.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RESTRICTIONS, restrictionMaps);
+            json.put(ClientConstants.API.RESTRICTIONS, restrictionMaps);
         }
 
         return json;
@@ -140,17 +140,17 @@ public class ScheduleRule  implements IBean {
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);
         }
         //TODO:we need to fix inconsistency in add schedule and get schedule collector actions
         Object startDateObj = null;
-        if(map.containsKey(OpsGenieClientConstants.API.START_DATE)){
-            startDateObj = map.get(OpsGenieClientConstants.API.START_DATE);
+        if(map.containsKey(ClientConstants.API.START_DATE)){
+            startDateObj = map.get(ClientConstants.API.START_DATE);
         }
         else{
-            startDateObj = map.get(OpsGenieClientConstants.API.START_TIME);
+            startDateObj = map.get(ClientConstants.API.START_TIME);
         }
         if(startDateObj != null){
             if(startDateObj instanceof Date){
@@ -161,12 +161,12 @@ public class ScheduleRule  implements IBean {
                 startDate = sdf.parse(startDateStr);
             }
         }
-        rotationType = RotationType.valueOf(((String) map.get(OpsGenieClientConstants.API.ROTATION_TYPE)).toLowerCase());
-        if(map.containsKey(OpsGenieClientConstants.API.ROTATION_LENGTH)){
-            rotationLength = ((Number) map.get(OpsGenieClientConstants.API.ROTATION_LENGTH)).intValue();
+        rotationType = RotationType.valueOf(((String) map.get(ClientConstants.API.ROTATION_TYPE)).toLowerCase());
+        if(map.containsKey(ClientConstants.API.ROTATION_LENGTH)){
+            rotationLength = ((Number) map.get(ClientConstants.API.ROTATION_LENGTH)).intValue();
         }
-        if(map.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
-            List<Map> participantMaps = (List<Map>) map.get(OpsGenieClientConstants.API.PARTICIPANTS);
+        if(map.containsKey(ClientConstants.API.PARTICIPANTS)){
+            List<Map> participantMaps = (List<Map>) map.get(ClientConstants.API.PARTICIPANTS);
             participants = new ArrayList<ScheduleParticipant>();
             for( Map participantMap:participantMaps){
                 ScheduleParticipant participant = new ScheduleParticipant();
@@ -174,8 +174,8 @@ public class ScheduleRule  implements IBean {
                 participants.add(participant);
             }
         }
-        if(map.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
-            List<Map> restrictionMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RESTRICTIONS);
+        if(map.containsKey(ClientConstants.API.RESTRICTIONS)){
+            List<Map> restrictionMaps = (List<Map>) map.get(ClientConstants.API.RESTRICTIONS);
             restrictions = new ArrayList<ScheduleRuleRestriction>();
             for( Map restrictionMap:restrictionMaps){
                 ScheduleRuleRestriction scheduleRuleRestriction = new ScheduleRuleRestriction();

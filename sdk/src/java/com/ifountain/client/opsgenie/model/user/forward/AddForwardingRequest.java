@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.user.forward;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.text.SimpleDateFormat;
@@ -122,25 +122,25 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
      */
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if (getTimeZone() != null) {
             sdf.setTimeZone(getTimeZone());
-            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+            json.put(ClientConstants.API.TIMEZONE, getTimeZone().getID());
         }
         if (getEndDate() != null) {
-            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(getEndDate()));
+            json.put(ClientConstants.API.END_DATE, sdf.format(getEndDate()));
         }
         if (getStartDate() != null) {
-            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(getStartDate()));
+            json.put(ClientConstants.API.START_DATE, sdf.format(getStartDate()));
         }
         if(fromUser != null){
-            json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
+            json.put(ClientConstants.API.FROM_USER, getFromUser());
         }
         if(toUser != null){
-            json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
+            json.put(ClientConstants.API.TO_USER, getToUser());
         }
         if(alias != null){
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+            json.put(ClientConstants.API.ALIAS, getAlias());
         }
         return json;
     }

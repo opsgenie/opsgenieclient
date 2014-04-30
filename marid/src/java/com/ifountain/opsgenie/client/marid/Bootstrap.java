@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.marid;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.http.HttpResponse;
 import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener;
 import com.ifountain.opsgenie.client.marid.alert.PubnubChannelParameters;
@@ -83,7 +83,7 @@ public class Bootstrap {
     private void getMaridSettings() throws Exception {
         logger.debug(getLogPrefix() + "Getting Marid settings from OpsGenie server.");
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put(OpsGenieClientConstants.API.API_KEY, MaridConfig.getInstance().getApiKey());
+        parameters.put(ClientConstants.API.API_KEY, MaridConfig.getInstance().getApiKey());
         try {
             HttpResponse response = MaridConfig.getInstance().getHttpClient().get(MaridConfig.getInstance().getOpsgenieApiUrl() + "/v1/json/marid/settings", parameters);
             if (response.getStatusCode() == HttpStatus.SC_OK) {

@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,23 +63,23 @@ public class Escalation  implements IBean {
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ID, id);
-        json.put(OpsGenieClientConstants.API.NAME, name);
+        json.put(ClientConstants.API.ID, id);
+        json.put(ClientConstants.API.NAME, name);
         if(rules != null){
             List<Map> ruleMaps = new ArrayList<Map>();
             for(EscalationRule escalationRule:rules){
                 ruleMaps.add(escalationRule.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+            json.put(ClientConstants.API.RULES, ruleMaps);
         }
         return json;
     }
 
     @Override
     public void fromMap(Map resp) {
-        setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        List<Map> ruleMaps = (List<Map>) resp.get(OpsGenieClientConstants.API.RULES);
+        setId((String) resp.get(ClientConstants.API.ID));
+        setName((String) resp.get(ClientConstants.API.NAME));
+        List<Map> ruleMaps = (List<Map>) resp.get(ClientConstants.API.RULES);
         if(ruleMaps != null){
             rules = new ArrayList<EscalationRule>();
             for(Map ruleMap:ruleMaps){

@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseResponse;
 
 import java.util.Map;
@@ -29,7 +29,7 @@ public abstract class BaseAlertRequestWithSource<T extends BaseResponse> extends
     public Map serialize() throws ClientValidationException {
         Map parameters = super.serialize();
         if (getSource() != null)
-            parameters.put(OpsGenieClientConstants.API.SOURCE, getSource());
+            parameters.put(ClientConstants.API.SOURCE, getSource());
         return parameters;
     }
 

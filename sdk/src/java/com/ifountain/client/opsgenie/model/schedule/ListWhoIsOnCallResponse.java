@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.WhoIsOnCall;
 
@@ -36,7 +36,7 @@ public class ListWhoIsOnCallResponse extends BaseResponse{
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> oncallMaps = (List<Map>) data.get(OpsGenieClientConstants.API.ON_CALLS);
+        List<Map> oncallMaps = (List<Map>) data.get(ClientConstants.API.ON_CALLS);
         if(oncallMaps != null){
             whoIsOnCallList = new ArrayList<WhoIsOnCall>();
             for(Map oncallMap:oncallMaps) {

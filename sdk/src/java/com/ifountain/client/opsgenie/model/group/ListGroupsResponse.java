@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.group;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Group;
 
@@ -36,7 +36,7 @@ public class ListGroupsResponse extends BaseResponse {
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> groupsData = (List<Map>) data.get(OpsGenieClientConstants.API.GROUPS);
+        List<Map> groupsData = (List<Map>) data.get(ClientConstants.API.GROUPS);
         groups = new ArrayList<Group>();
         for(Map groupData:groupsData){
             Group group = new Group();

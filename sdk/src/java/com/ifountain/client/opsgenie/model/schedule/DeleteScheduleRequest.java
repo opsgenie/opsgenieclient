@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -57,10 +57,10 @@ public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
+            json.put(ClientConstants.API.NAME, name);
         }
         if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
+            json.put(ClientConstants.API.ID, id);
         }
         return json;
     }

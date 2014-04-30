@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.opsgenie.model.beans.RenotifyRecipient;
 
 import java.util.ArrayList;
@@ -79,15 +79,15 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
+            json.put(ClientConstants.API.USER, getUser());
         if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
+            json.put(ClientConstants.API.NOTE, getNote());
         if (getRecipients() != null){
             List<String> recipientNames = new ArrayList<String>();
             for(RenotifyRecipient recipient:recipients){
                 recipientNames.add(recipient.getRecipient());
             }
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, recipientNames);
+            json.put(ClientConstants.API.RECIPIENTS, recipientNames);
         }
         return json;
     }

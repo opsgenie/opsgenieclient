@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.http.HttpClient;
 import com.ifountain.client.http.HttpResponse;
 import com.ifountain.client.model.BaseRequest;
@@ -29,7 +29,7 @@ class JsonOpgenieHttpClient {
     /**
      * OpsGenie services endpoint uri. Default is https://api.opsgenie.com *
      */
-    private String rootUri = OpsGenieClientConstants.OPSGENIE_API_URI;
+    private String rootUri = ClientConstants.OPSGENIE_API_URI;
 
     /**
      * Constructs a new inner client to invoke service methods on OpsGenie using the specified client configuration options.

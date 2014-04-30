@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -118,19 +118,19 @@ public class ScheduleRuleRestriction  implements IBean {
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.START_DAY, startDay.name());
-        json.put(OpsGenieClientConstants.API.END_DAY, endDay.name());
-        json.put(OpsGenieClientConstants.API.START_TIME, createTimeStr(startHour, startMin));
-        json.put(OpsGenieClientConstants.API.END_TIME, createTimeStr(endHour, endMin));
+        json.put(ClientConstants.API.START_DAY, startDay.name());
+        json.put(ClientConstants.API.END_DAY, endDay.name());
+        json.put(ClientConstants.API.START_TIME, createTimeStr(startHour, startMin));
+        json.put(ClientConstants.API.END_TIME, createTimeStr(endHour, endMin));
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        startDay = DAY.valueOf(((String) map.get(OpsGenieClientConstants.API.START_DAY)).toLowerCase());
-        endDay = DAY.valueOf(((String) map.get(OpsGenieClientConstants.API.END_DAY)).toLowerCase());
-        String startTime =  (String) map.get(OpsGenieClientConstants.API.START_TIME);
-        String endTime =  (String) map.get(OpsGenieClientConstants.API.END_TIME);
+        startDay = DAY.valueOf(((String) map.get(ClientConstants.API.START_DAY)).toLowerCase());
+        endDay = DAY.valueOf(((String) map.get(ClientConstants.API.END_DAY)).toLowerCase());
+        String startTime =  (String) map.get(ClientConstants.API.START_TIME);
+        String endTime =  (String) map.get(ClientConstants.API.END_TIME);
         String[] startTimeParts = startTime.split(":", -1);
         String[] endTimeParts = endTime.split(":", -1);
         startHour = Integer.parseInt(startTimeParts[0]);

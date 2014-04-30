@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.group;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class UpdateGroupRequest extends AddGroupRequest {
      */
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(ClientConstants.API.ID, getId());
         return json;
     }
 

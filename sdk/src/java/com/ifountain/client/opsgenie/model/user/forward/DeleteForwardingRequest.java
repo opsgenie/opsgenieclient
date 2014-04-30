@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.user.forward;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -42,7 +42,7 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
      */
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(ClientConstants.API.ID, getId());
         return json;
     }
 

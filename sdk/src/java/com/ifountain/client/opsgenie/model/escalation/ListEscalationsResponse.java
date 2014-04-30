@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.escalation;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Escalation;
 
@@ -36,7 +36,7 @@ public class ListEscalationsResponse extends BaseResponse{
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> escalationsData = (List<Map>) data.get(OpsGenieClientConstants.API.ESCALATIONS);
+        List<Map> escalationsData = (List<Map>) data.get(ClientConstants.API.ESCALATIONS);
         if(escalationsData != null){
         escalations = new ArrayList<Escalation>();
             for(Map escalationData:escalationsData){

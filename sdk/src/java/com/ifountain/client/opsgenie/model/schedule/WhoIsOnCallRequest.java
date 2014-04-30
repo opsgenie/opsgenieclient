@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
 import java.text.SimpleDateFormat;
@@ -73,15 +73,15 @@ public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
      */
     public void _serialize(Map json){
         if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
+            json.put(ClientConstants.API.NAME, name);
         }
         if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+            json.put(ClientConstants.API.TIMEZONE, timeZone.getID());
         }
         if(time != null){
-            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
             sdf.setTimeZone(timeZone != null?timeZone:TimeZone.getTimeZone("UTC"));
-            json.put(OpsGenieClientConstants.API.TIME, sdf.format(time));
+            json.put(ClientConstants.API.TIME, sdf.format(time));
         }
 
     }

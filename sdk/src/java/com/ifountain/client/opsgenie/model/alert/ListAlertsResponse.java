@@ -1,6 +1,6 @@
 package com.ifountain.client.opsgenie.model.alert;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Alert;
 
@@ -33,7 +33,7 @@ public class ListAlertsResponse extends BaseResponse {
      */
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> alertMaps = (List<Map>) data.get(OpsGenieClientConstants.API.ALERTS);
+        List<Map> alertMaps = (List<Map>) data.get(ClientConstants.API.ALERTS);
         if(alertMaps != null){
             alerts = new ArrayList<Alert>();
             for(Map alertmap:alertMaps){

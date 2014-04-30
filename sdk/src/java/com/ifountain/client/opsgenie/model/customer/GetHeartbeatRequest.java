@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.customer;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -43,10 +43,10 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(source != null){
-            json.put(OpsGenieClientConstants.API.SOURCE, source);
+            json.put(ClientConstants.API.SOURCE, source);
         }
         else {
-            throw ClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.SOURCE);
+            throw ClientValidationException.missingMandatoryProperty(ClientConstants.API.SOURCE);
         }
         return json;
     }

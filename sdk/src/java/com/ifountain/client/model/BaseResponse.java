@@ -1,6 +1,6 @@
 package com.ifountain.client.model;
 
-import com.ifountain.client.OpsGenieClientConstants;
+import com.ifountain.client.ClientConstants;
 
 import java.text.ParseException;
 import java.util.Map;
@@ -60,8 +60,8 @@ public abstract class BaseResponse implements Response{
      * Convert map data to response
      */
     public void deserialize(Map data) throws ParseException {
-        if(data.containsKey(OpsGenieClientConstants.API.TOOK)){
-            took = ((Number)data.get(OpsGenieClientConstants.API.TOOK)).longValue();
+        if(data.containsKey(ClientConstants.API.TOOK)){
+            took = ((Number)data.get(ClientConstants.API.TOOK)).longValue();
         }
     }
 }

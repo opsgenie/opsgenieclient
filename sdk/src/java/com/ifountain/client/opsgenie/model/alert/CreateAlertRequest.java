@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.alert;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.util.Strings;
 
@@ -200,27 +200,27 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
      */
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
+        json.put(ClientConstants.API.MESSAGE, getMessage());
         if (getRecipients() != null)
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(getRecipients(), ","));
+            json.put(ClientConstants.API.RECIPIENTS, Strings.join(getRecipients(), ","));
         if (getAlias() != null)
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+            json.put(ClientConstants.API.ALIAS, getAlias());
         if (getSource() != null)
-            json.put(OpsGenieClientConstants.API.SOURCE, getSource());
+            json.put(ClientConstants.API.SOURCE, getSource());
         if (getEntity() != null)
-            json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
+            json.put(ClientConstants.API.ENTITY, getEntity());
         if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
+            json.put(ClientConstants.API.NOTE, getNote());
         if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
+            json.put(ClientConstants.API.USER, getUser());
         if (getDescription() != null)
-            json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
+            json.put(ClientConstants.API.DESCRIPTION, getDescription());
         if (getTags() != null && getTags().size() > 0)
-            json.put(OpsGenieClientConstants.API.TAGS, Strings.join(getTags(), ","));
+            json.put(ClientConstants.API.TAGS, Strings.join(getTags(), ","));
         if (getActions() != null && getActions().size() > 0)
-            json.put(OpsGenieClientConstants.API.ACTIONS, Strings.join(getActions(), ","));
+            json.put(ClientConstants.API.ACTIONS, Strings.join(getActions(), ","));
         if (getDetails() != null && getDetails().size() > 0)
-            json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
+            json.put(ClientConstants.API.DETAILS, getDetails());
         return json;
     }
 

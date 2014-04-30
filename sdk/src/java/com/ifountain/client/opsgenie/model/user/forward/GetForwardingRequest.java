@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.user.forward;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 
 import java.util.Map;
@@ -58,8 +58,8 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
      */
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        json.put(ClientConstants.API.ID, getId());
+        json.put(ClientConstants.API.ALIAS, getAlias());
         return json;
     }
 

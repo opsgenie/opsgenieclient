@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.user;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.opsgenie.model.beans.User;
 
@@ -109,19 +109,19 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(getUsername() != null){
-            json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
+            json.put(ClientConstants.API.USERNAME, getUsername());
         }
         if(getFullname() != null){
-            json.put(OpsGenieClientConstants.API.FULLNAME, getFullname());
+            json.put(ClientConstants.API.FULLNAME, getFullname());
         }
         if(getRole() != null){
-            json.put(OpsGenieClientConstants.API.ROLE, getRole().name());
+            json.put(ClientConstants.API.ROLE, getRole().name());
         }
         if(getTimeZone() != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+            json.put(ClientConstants.API.TIMEZONE, getTimeZone().getID());
         }
         if(getLocale() != null){
-            json.put(OpsGenieClientConstants.API.LOCALE, User.getLocaleId(getLocale()));
+            json.put(ClientConstants.API.LOCALE, User.getLocaleId(getLocale()));
         }
         return json;
     }

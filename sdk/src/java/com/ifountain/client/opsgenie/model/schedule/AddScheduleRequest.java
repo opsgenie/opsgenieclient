@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.schedule;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.OpsGenieClientConstants;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.opsgenie.model.beans.ScheduleRule;
 
@@ -93,13 +93,13 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     public Map serialize() throws ClientValidationException {
         Map json = super.serialize();
         if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
+            json.put(ClientConstants.API.NAME, name);
         }
         if(enabled != null){
-            json.put(OpsGenieClientConstants.API.ENABLED, enabled);
+            json.put(ClientConstants.API.ENABLED, enabled);
         }
         if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+            json.put(ClientConstants.API.TIMEZONE, timeZone.getID());
         }
         if(rules != null){
             List<Map> ruleMaps = new ArrayList<Map>();
@@ -107,7 +107,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
                 rule.setScheduleTimeZone(getTimeZone());
                 ruleMaps.add(rule.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+            json.put(ClientConstants.API.RULES, ruleMaps);
         }
         return json;
     }

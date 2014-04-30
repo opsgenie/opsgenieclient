@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.beans;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
-import com.ifountain.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -46,24 +46,24 @@ public class ScheduleParticipant  implements IBean {
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
+        json.put(ClientConstants.API.PARTICIPANT, participant);
         if(type != null){
-            json.put(OpsGenieClientConstants.API.TYPE, type.name());
+            json.put(ClientConstants.API.TYPE, type.name());
         }
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        if(map.containsKey(OpsGenieClientConstants.API.PARTICIPANT)){
-            participant = (String) map.get(OpsGenieClientConstants.API.PARTICIPANT);
+        if(map.containsKey(ClientConstants.API.PARTICIPANT)){
+            participant = (String) map.get(ClientConstants.API.PARTICIPANT);
         }
         else{
             //FOR who is on call
-            participant = (String) map.get(OpsGenieClientConstants.API.NAME);
+            participant = (String) map.get(ClientConstants.API.NAME);
         }
-        if(map.containsKey(OpsGenieClientConstants.API.TYPE)){
-            type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
+        if(map.containsKey(ClientConstants.API.TYPE)){
+            type = Type.valueOf(((String) map.get(ClientConstants.API.TYPE)).toLowerCase());
         }
     }
 }
