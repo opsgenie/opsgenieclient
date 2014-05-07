@@ -33,12 +33,12 @@ public class ListForwardingsResponse extends BaseResponse {
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         forwardings = new ArrayList<Forwarding>();
         if (data.containsKey(ClientConstants.API.FORWARDINGS)) {
-            List<Map> forwardingMaps = (List<Map>) data.get(ClientConstants.API.FORWARDINGS);
-            for (Map forwardingMap : forwardingMaps) {
+            List<Map<String, Object>> forwardingMaps = (List<Map<String, Object>>) data.get(ClientConstants.API.FORWARDINGS);
+            for (Map<String, Object> forwardingMap : forwardingMaps) {
                 Forwarding forwarding = new Forwarding();
                 forwarding.fromMap(forwardingMap);
                 forwardings.add(forwarding);

@@ -34,11 +34,11 @@ public class GetEscalationRequest extends BaseGetRequest<GetEscalationResponse> 
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public void _serialize(Map json) {
+    @Override
+    public void _serialize(Map<String,Object> json) {
         if(getName() != null){
             json.put(ClientConstants.API.NAME, getName());
         }

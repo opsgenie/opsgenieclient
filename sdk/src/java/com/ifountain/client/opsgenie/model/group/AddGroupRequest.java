@@ -57,8 +57,8 @@ public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         if(getName() != null)
         {
             json.put(ClientConstants.API.NAME, getName());

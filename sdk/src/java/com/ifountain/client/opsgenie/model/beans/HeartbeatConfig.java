@@ -17,37 +17,35 @@ public class HeartbeatConfig implements IBean {
 
 
     /**
-     * Enable state
-     * @return
+     * Returns state of
      */
     public Boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Sets enable state
-     * @param enabled
+     * Sets the state of
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
     /*
-        * message of heartbeat alert
-         */
+     * message of heartbeat alert
+     */
     public String getMessage() {
         return message;
     }
 
     /*
-    * Sets message of heartbeat alert
+     * Sets message of heartbeat alert
      */
     public void setMessage(String message) {
         this.message = message;
     }
 
     /*
-    * Recipients  of heartbeat alert
+     * Recipients  of heartbeat alert
      */
     public List<String> getRecipients() {
         return recipients;
@@ -61,8 +59,8 @@ public class HeartbeatConfig implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map json = new HashMap();
+    public Map<String,Object> toMap() {
+        Map<String,Object> json = new HashMap<String,Object>();
         json.put(ClientConstants.API.ENABLED, enabled);
         json.put(ClientConstants.API.MESSAGE, message);
         json.put(ClientConstants.API.RECIPIENTS, recipients);
@@ -70,7 +68,7 @@ public class HeartbeatConfig implements IBean {
     }
 
     @Override
-    public void fromMap(Map resp) {
+    public void fromMap(Map<String,Object> resp) {
         setEnabled((Boolean) resp.get(ClientConstants.API.ENABLED));
         setMessage((String) resp.get(ClientConstants.API.MESSAGE));
         setRecipients((List<String>) resp.get(ClientConstants.API.RECIPIENTS));

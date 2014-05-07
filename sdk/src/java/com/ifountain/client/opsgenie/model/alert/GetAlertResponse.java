@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents the OpsGenie service response for an get alert request.
+ * Represents the OpsGenie service response for a get alert request.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 4:30 PM
@@ -17,10 +17,16 @@ import java.util.Map;
 public class GetAlertResponse extends BaseResponse {
     private Alert alert;
 
+    /*
+     * Returns the alert with specified id, alias or tiny id.
+     */
     public Alert getAlert() {
         return alert;
     }
 
+    /**
+     * Sets the alert with specified id, alias or tiny id.
+     */
     public void setAlert(Alert alert) {
         this.alert = alert;
     }
@@ -348,8 +354,9 @@ public class GetAlertResponse extends BaseResponse {
 
     /**
      * @see BaseResponse#deserialize(java.util.Map)
+     * @param data
      */
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         alert = new Alert();
         alert.fromMap(data);

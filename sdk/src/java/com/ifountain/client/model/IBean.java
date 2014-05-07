@@ -4,6 +4,6 @@ import java.text.ParseException;
 import java.util.Map;
 
 public interface IBean {
-    public Map toMap();
-    public void fromMap(Map map) throws ParseException;
+    public Map<String,Object> toMap();
+    public void fromMap(Map<String,Object> map) throws ParseException;
 }

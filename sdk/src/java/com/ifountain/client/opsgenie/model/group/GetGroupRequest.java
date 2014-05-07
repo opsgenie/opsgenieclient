@@ -38,7 +38,7 @@ public class GetGroupRequest extends BaseGetRequest<GetGroupResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public void _serialize(Map json) {
+    public void _serialize(Map<String,Object> json) {
         if(getName() != null){
             json.put(ClientConstants.API.NAME, getName());
         }

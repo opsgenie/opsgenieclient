@@ -25,7 +25,7 @@ public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = super.toMap();
         if(forwarded != null){
             json.put(ClientConstants.API.FORWARDED, forwarded);
@@ -37,14 +37,14 @@ public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         super.fromMap(map);
         if(map.containsKey(ClientConstants.API.FORWARDED)){
             forwarded = (Boolean) map.get(ClientConstants.API.FORWARDED);
         }
         if(map.containsKey(ClientConstants.API.FORWARDED_FROM)){
             forwardedFrom = new WhoIsOnCallUserParticipant();
-            forwardedFrom.fromMap((Map)map.get(ClientConstants.API.FORWARDED_FROM));
+            forwardedFrom.fromMap((Map<String,Object>)map.get(ClientConstants.API.FORWARDED_FROM));
         }
     }
 }

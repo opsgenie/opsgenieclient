@@ -70,8 +70,8 @@ public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         json.put(ClientConstants.API.OWNER, getOwner());
         if (getUser() != null)
             json.put(ClientConstants.API.USER, getUser());

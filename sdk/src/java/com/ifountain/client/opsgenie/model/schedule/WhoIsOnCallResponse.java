@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 /**
- * Represents OpsGenie service response for get schedule request.
+ * Represents OpsGenie service response for who is on call request.
  *
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#whoIsOnCall(WhoIsOnCallRequest)
  */
@@ -15,7 +15,7 @@ public class WhoIsOnCallResponse extends BaseResponse{
     private WhoIsOnCall whoIsOnCall;
 
     /**
-     * Details of schedule oncall
+     * Returns the participant of the specified schedule who is on call in specified/current time.
      * @see com.ifountain.client.opsgenie.model.beans.WhoIsOnCall
      */
     public WhoIsOnCall getWhoIsOnCall() {
@@ -23,7 +23,7 @@ public class WhoIsOnCallResponse extends BaseResponse{
     }
 
     /**
-     * Sets details of schedule oncall
+     * Sets the participant of the specified schedule who is on call in specified/current time.
      * @see com.ifountain.client.opsgenie.model.beans.WhoIsOnCall
      */
     public void setWhoIsOnCall(WhoIsOnCall whoIsOnCall) {
@@ -31,7 +31,7 @@ public class WhoIsOnCallResponse extends BaseResponse{
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         whoIsOnCall = new WhoIsOnCall();
         whoIsOnCall.fromMap(data);

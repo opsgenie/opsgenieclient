@@ -34,12 +34,12 @@ public class ListEscalationsResponse extends BaseResponse{
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> escalationsData = (List<Map>) data.get(ClientConstants.API.ESCALATIONS);
+        List<Map<String, Object>> escalationsData = (List<Map<String, Object>>) data.get(ClientConstants.API.ESCALATIONS);
         if(escalationsData != null){
         escalations = new ArrayList<Escalation>();
-            for(Map escalationData:escalationsData){
+            for(Map<String, Object> escalationData:escalationsData){
                 Escalation escalation = new Escalation();
                 escalation.fromMap(escalationData);
                 escalations.add(escalation);

@@ -32,8 +32,8 @@ public abstract class BaseGetRequest<T extends BaseResponse> extends BaseRequest
     }
 
     @Override
-    public final Map serialize() throws ClientValidationException {
-        Map data =  super.serialize();
+    public final Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> data =  super.serialize();
         int numberOfParentSerializeParams = data.size();
         if(getId() != null){
             data.put(ClientConstants.API.ID, getId());
@@ -45,5 +45,5 @@ public abstract class BaseGetRequest<T extends BaseResponse> extends BaseRequest
         return data;
     }
 
-    public abstract void _serialize(Map data);
+    public abstract void _serialize(Map<String,Object> data);
 }

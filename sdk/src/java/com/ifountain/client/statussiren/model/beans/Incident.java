@@ -1,30 +1,55 @@
 package com.ifountain.client.statussiren.model.beans;
 
-import com.ifountain.client.model.IBean;
+import com.ifountain.client.ClientConstants;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Incident bean
+ * @see com.ifountain.client.statussiren.model.beans.IncidentUpdate
+ * @see com.ifountain.client.statussiren.model.beans.BaseIncident
  * @author Tuba Ozturk
- * @version 30.4.2014 10:38
+ * @version 2.5.2014 11:28
  */
-public class Incident implements IBean {
+public class Incident extends BaseIncident {
+    private List<IncidentUpdate> updates;
 
-    private String id;
-    private String service;
-    private String message;
-    private String description;
-    private long insertedAt;
-
-    @Override
-    public Map toMap() {
-        return null;
+    /**
+     * List of updates of the Incident
+     */
+    public List<IncidentUpdate> getUpdates() {
+        return updates;
+    }
+    /**
+     * Sets the list of updates of the Incident
+     */
+    public void setUpdates(List<IncidentUpdate> updates) {
+        this.updates = updates;
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public Map<String, Object> toMap() {
+        Map<String, Object> json = super.toMap();
+        List<Map<String,Object>> updateList = new ArrayList<Map<String, Object>>();
+        for(IncidentUpdate incidentUpdate: updates){
+            Map<String, Object> updateMap = incidentUpdate.toMap();
+            updateList.add(updateMap);
+        }
+        json.put(ClientConstants.API.UPDATES,updateList);
+        return json;
+    }
 
+    @Override
+    public void fromMap(Map<String,Object> map) throws ParseException {
+        super.fromMap(map);
+        List<Map<String, Object>> updatesMap = (List<Map<String, Object>>) map.get(ClientConstants.API.UPDATES);
+        updates = new ArrayList<IncidentUpdate>();
+        for(Map<String,Object> updateMap :updatesMap){
+            IncidentUpdate incidentUpdate = new IncidentUpdate();
+            incidentUpdate.fromMap(updateMap);
+            updates.add(incidentUpdate);
+        }
     }
 }

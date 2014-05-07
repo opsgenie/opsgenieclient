@@ -55,21 +55,22 @@ public class ListAlertRecipientsResponse extends BaseResponse {
 
     /**
      * @see com.ifountain.client.model.BaseResponse#deserialize(java.util.Map)
+     * @param data
      */
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> usersData = (List<Map>) data.get(ClientConstants.API.USERS);
-        Map<String, List<Map>> groupsData = (Map<String, List<Map>>) data.get(ClientConstants.API.GROUPS);
+        List<Map<String, Object>> usersData = (List<Map<String, Object>>) data.get(ClientConstants.API.USERS);
+        Map<String, List<Map<String, Object>>> groupsData = (Map<String, List<Map<String, Object>>>) data.get(ClientConstants.API.GROUPS);
         users = new ArrayList<AlertRecipient>();
         groups = new HashMap<String, List<AlertRecipient>>();
-        for(Map userData:usersData){
+        for(Map<String, Object> userData:usersData){
             AlertRecipient recipient = new AlertRecipient();
             recipient.fromMap(userData);
             users.add(recipient);
         }
-        for(Map.Entry<String, List<Map>> groupData:groupsData.entrySet()){
+        for(Map.Entry<String, List<Map<String, Object>>> groupData:groupsData.entrySet()){
             List<AlertRecipient> groupRecipients = new ArrayList<AlertRecipient>();
-            for(Map userData:groupData.getValue()){
+            for(Map<String, Object> userData:groupData.getValue()){
                 AlertRecipient recipient = new AlertRecipient();
                 recipient.fromMap(userData);
                 groupRecipients.add(recipient);

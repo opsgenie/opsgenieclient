@@ -3,13 +3,13 @@ package com.ifountain.client.opsgenie.model.customer;
 import com.ifountain.client.model.BaseRequest;
 
 /**
- * Container for the parameters to make a get heartbeat monitor api call.
+ * Container for the parameters to make a list heartbeats api call.
  *
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#listHeartbeats(ListHeartbeatsRequest)
  */
 public class ListHeartbeatsRequest extends BaseRequest<ListHeartbeatsResponse> {
     /**
-     * Rest api uri of get heartbeat monitor operation.
+     * Rest api uri of list heartbeats operation.
      */
     @Override
     public String getEndPoint() {

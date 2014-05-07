@@ -57,7 +57,6 @@ public class AlertRecipient implements IBean {
         this.stateChangedAt = stateChangedAt;
     }
 
-
     /**
      * Returns method of alert recipient
      */
@@ -73,8 +72,8 @@ public class AlertRecipient implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map json = new HashMap();
+    public Map<String,Object> toMap() {
+        Map<String,Object> json = new HashMap<String,Object>();
         json.put(ClientConstants.API.METHOD, getMethod());
         json.put(ClientConstants.API.USERNAME, getUsername());
         json.put(ClientConstants.API.STATE, getState());
@@ -83,7 +82,7 @@ public class AlertRecipient implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) {
+    public void fromMap(Map<String,Object> map) {
         setMethod((String) map.get(ClientConstants.API.METHOD));
         setUsername((String) map.get(ClientConstants.API.USERNAME));
         setState((String) map.get(ClientConstants.API.STATE));

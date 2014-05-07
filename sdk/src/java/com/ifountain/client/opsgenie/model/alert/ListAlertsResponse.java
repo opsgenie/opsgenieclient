@@ -3,6 +3,7 @@ package com.ifountain.client.opsgenie.model.alert;
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.opsgenie.model.beans.Alert;
+import com.ifountain.client.opsgenie.model.beans.ListAlert;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -17,27 +18,34 @@ import java.util.Map;
  * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient#listAlerts(com.ifountain.client.opsgenie.model.alert.ListAlertsRequest)
  */
 public class ListAlertsResponse extends BaseResponse {
-    private List<Alert> alerts;
+    private List<ListAlert> alerts;
 
-    public List<Alert> getAlerts() {
+    /**
+     * Returns list alert objects
+     */
+    public List<ListAlert> getAlerts() {
         return alerts;
     }
 
-    public void setAlerts(List<Alert> alerts) {
+    /**
+     * Sets list alert objects
+     */
+    public void setAlerts(List<ListAlert> alerts) {
         this.alerts = alerts;
     }
 
 
     /**
      * @see com.ifountain.client.model.BaseResponse#deserialize(java.util.Map)
+     * @param data
      */
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> alertMaps = (List<Map>) data.get(ClientConstants.API.ALERTS);
+        List<Map<String, Object>> alertMaps = (List<Map<String, Object>>) data.get(ClientConstants.API.ALERTS);
         if(alertMaps != null){
-            alerts = new ArrayList<Alert>();
-            for(Map alertmap:alertMaps){
-                Alert alert = new Alert();
+            alerts = new ArrayList<ListAlert>();
+            for(Map<String, Object> alertmap:alertMaps){
+                ListAlert alert = new ListAlert();
                 alert.fromMap(alertmap);
                 alerts.add(alert);
             }

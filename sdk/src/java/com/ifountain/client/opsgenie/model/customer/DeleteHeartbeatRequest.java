@@ -40,8 +40,8 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse>
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         if(source != null){
             json.put(ClientConstants.API.SOURCE, source);
         }

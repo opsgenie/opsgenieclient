@@ -61,8 +61,8 @@ public class Escalation  implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map json = new HashMap();
+    public Map<String,Object> toMap() {
+        Map<String,Object> json = new HashMap<String,Object>();
         json.put(ClientConstants.API.ID, id);
         json.put(ClientConstants.API.NAME, name);
         if(rules != null){
@@ -76,7 +76,7 @@ public class Escalation  implements IBean {
     }
 
     @Override
-    public void fromMap(Map resp) {
+    public void fromMap(Map<String,Object> resp) {
         setId((String) resp.get(ClientConstants.API.ID));
         setName((String) resp.get(ClientConstants.API.NAME));
         List<Map> ruleMaps = (List<Map>) resp.get(ClientConstants.API.RULES);

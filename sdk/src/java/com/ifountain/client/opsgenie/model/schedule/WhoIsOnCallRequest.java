@@ -9,8 +9,11 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * Container for the parameters to make a get schedule api call.
- *
+ * Container for the parameters to make a who is on call api call.
+ * One of schedule name or schedule id field will be sufficient for this request. If no id or name of schedule specified,
+ * it returns a list of on call participants of all schedules of the customer.
+ * @see com.ifountain.client.opsgenie.model.schedule.ListWhoIsOnCallRequest
+ * @see com.ifountain.client.opsgenie.model.schedule.ListWhoIsOnCallResponse
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#whoIsOnCall(com.ifountain.client.opsgenie.model.schedule.WhoIsOnCallRequest)
  */
 public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
@@ -71,7 +74,7 @@ public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public void _serialize(Map json){
+    public void _serialize(Map<String,Object> json){
         if(name != null){
             json.put(ClientConstants.API.NAME, name);
         }

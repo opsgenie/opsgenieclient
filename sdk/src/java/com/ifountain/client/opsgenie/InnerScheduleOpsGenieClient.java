@@ -1,6 +1,7 @@
 package com.ifountain.client.opsgenie;
 
 import com.ifountain.client.ClientException;
+import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.opsgenie.model.schedule.*;
 
 import java.io.IOException;
@@ -10,11 +11,11 @@ import java.text.ParseException;
 * Inner Schedule Client
 */
 public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerScheduleOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerScheduleOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

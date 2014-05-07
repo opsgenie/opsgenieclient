@@ -34,11 +34,11 @@ public class ListGroupsResponse extends BaseResponse {
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> groupsData = (List<Map>) data.get(ClientConstants.API.GROUPS);
+        List<Map<String, Object>> groupsData = (List<Map<String, Object>>) data.get(ClientConstants.API.GROUPS);
         groups = new ArrayList<Group>();
-        for(Map groupData:groupsData){
+        for(Map<String, Object> groupData:groupsData){
             Group group = new Group();
             group.fromMap(groupData);
             groups.add(group);

@@ -1,7 +1,9 @@
 package com.ifountain.client.opsgenie;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientException;
 import com.ifountain.client.http.HttpClient;
+import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.opsgenie.model.customer.*;
 import com.ifountain.client.util.ClientConfiguration;
 
@@ -70,7 +72,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     /**
      * Http client object *
      */
-    private JsonOpgenieHttpClient jsonHttpClient;
+    private JsonHttpClient jsonHttpClient;
 
     /**
      * Constructs a new client to invoke service methods on OpsGenie using the specified client configuration options.
@@ -91,7 +93,8 @@ public class OpsGenieClient implements IOpsGenieClient {
      * Constructs a new client to invoke service methods on OpsGenie using the specified client.
      */
     public OpsGenieClient(HttpClient httpClient) {
-        this.jsonHttpClient = new JsonOpgenieHttpClient(httpClient);
+        this.jsonHttpClient = new JsonHttpClient(httpClient);
+        setRootUri(ClientConstants.OPSGENIE_API_URI);
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerEscalationOpsGenieClient = new InnerEscalationOpsGenieClient(this.jsonHttpClient);

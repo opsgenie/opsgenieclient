@@ -56,8 +56,8 @@ public class AcknowledgeRequest extends BaseAlertRequestWithSource<AcknowledgeRe
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         if (getUser() != null)
             json.put(ClientConstants.API.USER, getUser());
         if (getNote() != null)

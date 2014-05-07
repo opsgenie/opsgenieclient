@@ -73,8 +73,8 @@ public class AlertLog implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map json = new HashMap();
+    public Map<String,Object> toMap() {
+        Map<String,Object> json = new HashMap<String,Object>();
         json.put(ClientConstants.API.CREATED_AT, getCreatedAt());
         json.put(ClientConstants.API.OWNER, getOwner());
         json.put(ClientConstants.API.LOG, getLog());
@@ -83,7 +83,7 @@ public class AlertLog implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) {
+    public void fromMap(Map<String,Object> map) {
         setOwner((String) map.get(ClientConstants.API.OWNER));
         setLogType((String) map.get(ClientConstants.API.LOG_TYPE));
         setLog((String) map.get(ClientConstants.API.LOG));

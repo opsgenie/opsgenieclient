@@ -35,7 +35,7 @@ public class FileAttachRequest extends AttachRequest {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
+    public Map<String,Object> serialize() throws ClientValidationException {
         throw new UnsupportedOperationException("unsupported method serialize");
     }
 }

@@ -18,7 +18,7 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
     private String note;
 
     /**
-     * Rest api uri of assign ownership operation.
+     * Rest api uri of add recipient operation.
      */
     @Override
     public String getEndPoint() {
@@ -70,8 +70,8 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         json.put(ClientConstants.API.RECIPIENT, getRecipient());
         if (getUser() != null)
             json.put(ClientConstants.API.USER, getUser());

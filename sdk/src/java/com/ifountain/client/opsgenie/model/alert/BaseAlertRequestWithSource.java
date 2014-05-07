@@ -26,8 +26,8 @@ public abstract class BaseAlertRequestWithSource<T extends BaseResponse> extends
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map parameters = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> parameters = super.serialize();
         if (getSource() != null)
             parameters.put(ClientConstants.API.SOURCE, getSource());
         return parameters;

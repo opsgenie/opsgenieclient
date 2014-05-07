@@ -48,7 +48,7 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = super.toMap();
         json.put(ClientConstants.API.ID, id);
         if(escalationTime != null){
@@ -59,7 +59,7 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         super.fromMap(map);
         if(map.containsKey(ClientConstants.API.ID)){
             id = (String) map.get(ClientConstants.API.ID);

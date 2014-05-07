@@ -34,12 +34,12 @@ public class ListWhoIsOnCallResponse extends BaseResponse{
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> oncallMaps = (List<Map>) data.get(ClientConstants.API.ON_CALLS);
+        List<Map<String,Object>> oncallMaps = (List<Map<String,Object>>) data.get(ClientConstants.API.ON_CALLS);
         if(oncallMaps != null){
             whoIsOnCallList = new ArrayList<WhoIsOnCall>();
-            for(Map oncallMap:oncallMaps) {
+            for(Map <String,Object> oncallMap:oncallMaps) {
                 WhoIsOnCall whoIsOnCall = new WhoIsOnCall();
                 whoIsOnCall.fromMap(oncallMap);
                 whoIsOnCallList.add(whoIsOnCall);

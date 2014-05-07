@@ -38,8 +38,8 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         if(id != null){
             json.put(ClientConstants.API.ID, id);
         }

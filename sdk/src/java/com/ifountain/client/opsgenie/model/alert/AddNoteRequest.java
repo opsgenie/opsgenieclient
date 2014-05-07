@@ -55,7 +55,7 @@ public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> 
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
+    public Map<String,Object> serialize() throws ClientValidationException {
         Map<String, Object> json  = super.serialize();
         json.put(ClientConstants.API.NOTE, getNote());
         if (getUser() != null) json.put(ClientConstants.API.USER, getUser());

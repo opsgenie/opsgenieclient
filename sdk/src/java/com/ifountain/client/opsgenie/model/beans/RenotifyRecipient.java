@@ -43,7 +43,7 @@ public class RenotifyRecipient implements IBean {
 
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(ClientConstants.API.RECIPIENT, recipient);
         if(type != null){
@@ -53,7 +53,7 @@ public class RenotifyRecipient implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         recipient = (String) map.get(ClientConstants.API.RECIPIENT);
         if(map.containsKey(ClientConstants.API.TYPE)){
             type = Type.valueOf(((String) map.get(ClientConstants.API.TYPE)).toLowerCase());

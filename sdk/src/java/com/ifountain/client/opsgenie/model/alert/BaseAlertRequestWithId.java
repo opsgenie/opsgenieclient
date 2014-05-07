@@ -73,8 +73,8 @@ public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends Bas
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map parameters = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> parameters = super.serialize();
         if (getId() != null)
             parameters.put(ClientConstants.API.ID, getId());
         if (getAlias() != null)

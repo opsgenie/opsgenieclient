@@ -204,8 +204,8 @@ public class User  implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map json = new HashMap();
+    public Map<String,Object> toMap() {
+        Map<String,Object> json = new HashMap<String,Object>();
         json.put(ClientConstants.API.ID, getId());
         json.put(ClientConstants.API.USERNAME, getUsername());
         json.put(ClientConstants.API.FULLNAME, getFullname());
@@ -237,7 +237,7 @@ public class User  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         setId((String) map.get(ClientConstants.API.ID));
         setUsername((String) map.get(ClientConstants.API.USERNAME));
         setFullname((String) map.get(ClientConstants.API.FULLNAME));

@@ -22,8 +22,8 @@ public class ListAlertRecipientsRequest extends BaseAlertRequestWithId<ListAlert
     }
 
     @Override
-    public Map serialize() throws ClientValidationException {
-        Map resp = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> resp = super.serialize();
         if(!(resp.containsKey(ClientConstants.API.ID)
                 || resp.containsKey(ClientConstants.API.ALERT_ID)
                 ||resp.containsKey(ClientConstants.API.ALIAS)

@@ -30,7 +30,7 @@ public class GetForwardingResponse extends BaseResponse {
 
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         forwarding = new Forwarding();
         forwarding.fromMap(data);

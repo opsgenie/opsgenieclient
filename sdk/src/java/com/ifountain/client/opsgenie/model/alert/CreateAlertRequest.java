@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Container for the parameters to make an create alert api call.
+ * Container for the parameters to make a create alert api call.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/30/12 9:41 AM
@@ -58,7 +58,7 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     }
 
     /**
-     * Sets the source of alert.
+     * Sets the source of the alert.
      */
     public void setSource(String source) {
         this.source = source;
@@ -198,8 +198,8 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         json.put(ClientConstants.API.MESSAGE, getMessage());
         if (getRecipients() != null)
             json.put(ClientConstants.API.RECIPIENTS, Strings.join(getRecipients(), ","));

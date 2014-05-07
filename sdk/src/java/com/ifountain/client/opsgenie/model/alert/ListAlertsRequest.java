@@ -45,11 +45,16 @@ public class ListAlertsRequest extends BaseRequest<ListAlertsResponse> {
         return "/v1/json/alert";
     }
 
-
+    /**
+     * Returns the value of the specified time to list all alerts created after it.
+     */
     public Long getCreatedAfter() {
         return createdAfter;
     }
 
+    /**
+     * Sets the value of the specified time to list all alerts created after it.
+     */
     public void setCreatedAfter(Long createdAfter) {
         this.createdAfter = createdAfter;
     }
@@ -78,9 +83,13 @@ public class ListAlertsRequest extends BaseRequest<ListAlertsResponse> {
         this.updatedBefore = updatedBefore;
     }
 
+    /**
+     * Number of alerts to be retrieved. Default value is 20. Max value is 100.
+     */
     public Integer getLimit() {
         return limit;
     }
+
 
     public void setLimit(Integer limit) {
         this.limit = limit;
@@ -113,8 +122,8 @@ public class ListAlertsRequest extends BaseRequest<ListAlertsResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map parameters = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> parameters = super.serialize();
         if (createdAfter != null)
             parameters.put(ClientConstants.API.CREATED_AFTER, createdAfter);
         if (createdBefore != null)

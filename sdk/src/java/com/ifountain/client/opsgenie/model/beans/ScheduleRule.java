@@ -70,7 +70,7 @@ public class ScheduleRule  implements IBean {
     }
 
     /**
-     * Participants of of schedule rule
+     * Participants of schedule rule
      * @see ScheduleParticipant
      */
     public List<ScheduleParticipant> getParticipants() {
@@ -110,7 +110,7 @@ public class ScheduleRule  implements IBean {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);
@@ -139,7 +139,7 @@ public class ScheduleRule  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents OpsGenie service response for list heartbeat request.
+ * Represents OpsGenie service response for list heartbeats request.
  *
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#listHeartbeats(ListHeartbeatsRequest)
  */
@@ -34,11 +34,11 @@ public class ListHeartbeatsResponse extends BaseResponse{
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> sourcesData = (List<Map>) data.get(ClientConstants.API.SOURCES);
+        List<Map<String, Object>> sourcesData = (List<Map<String, Object>>) data.get(ClientConstants.API.SOURCES);
         heartbeats = new ArrayList<Heartbeat>();
-        for(Map sourceData:sourcesData){
+        for(Map<String, Object> sourceData:sourcesData){
             Heartbeat heartbeat = new Heartbeat();
             heartbeat.fromMap(sourceData);
             heartbeats.add(heartbeat);

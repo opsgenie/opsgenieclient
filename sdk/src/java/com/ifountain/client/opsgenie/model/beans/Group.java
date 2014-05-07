@@ -59,7 +59,7 @@ public class Group  implements IBean {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(ClientConstants.API.NAME, name);
         json.put(ClientConstants.API.ID, id);
@@ -70,7 +70,7 @@ public class Group  implements IBean {
     }
 
     @Override
-    public void fromMap(Map resp) throws ParseException {
+    public void fromMap(Map<String,Object> resp) throws ParseException {
         setId((String) resp.get(ClientConstants.API.ID));
         setName((String) resp.get(ClientConstants.API.NAME));
         setUsers((List<String>) resp.get(ClientConstants.API.USERS));

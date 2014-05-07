@@ -1,7 +1,7 @@
 package com.ifountain.client.opsgenie.model.group;
 
 /**
- * Container for the parameters to make an remove group memberapi call.
+ * Container for the parameters to make an remove group member api call.
  *
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#deleteGroupMember(DeleteGroupMemberRequest)
  */

@@ -21,26 +21,44 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     private Integer limit = 100;
     private String lastKey;
 
+    /**
+     * Order of alert logs to be retrieved. Can be ascending or descending.
+     */
     public SortOrder getSortOrder() {
         return sortOrder;
     }
 
+    /**
+     * Sets the order of alert logs to be retrieved.
+     */
     public void setSortOrder(SortOrder sortOrder) {
         this.sortOrder = sortOrder;
     }
 
+    /**
+     * Number of alert logs to be retrieved. Default value is 100.
+     */
     public Integer getLimit() {
         return limit;
     }
 
+    /**
+     * Sets the number of alert logs to be retrieved.
+     */
     public void setLimit(int limit) {
         this.limit = limit;
     }
 
+    /**
+     * Key which will be used in pagination.
+     */
     public String getLastKey() {
         return lastKey;
     }
 
+    /**
+     * Sets the key which will be used in pagination.
+     */
     public void setLastKey(String lastKey) {
         this.lastKey = lastKey;
     }
@@ -54,8 +72,8 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     }
 
     @Override
-    public Map serialize() throws ClientValidationException {
-        Map resp = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> resp = super.serialize();
         if(!(resp.containsKey(ClientConstants.API.ID)
                 || resp.containsKey(ClientConstants.API.ALERT_ID)
                 ||resp.containsKey(ClientConstants.API.ALIAS)

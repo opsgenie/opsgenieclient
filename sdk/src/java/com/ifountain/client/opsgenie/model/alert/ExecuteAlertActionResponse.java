@@ -32,8 +32,9 @@ public class ExecuteAlertActionResponse extends BaseResponse {
 
     /**
      * @see BaseResponse#deserialize(java.util.Map)
+     * @param data
      */
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         result = (String) data.get(ClientConstants.API.RESULT);
     }

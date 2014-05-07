@@ -55,7 +55,7 @@ public class EscalationRule  implements IBean {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> ruleMap = new HashMap<String, Object>();
         ruleMap.put(ClientConstants.API.NOTIFY, notify);
         if(type != null){
@@ -66,7 +66,7 @@ public class EscalationRule  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) {
+    public void fromMap(Map<String,Object> map) {
         notify = (String) map.get(ClientConstants.API.NOTIFY);
         if(map.containsKey(ClientConstants.API.TYPE)){
             type = Type.valueOf(((String) map.get(ClientConstants.API.TYPE)).toLowerCase());

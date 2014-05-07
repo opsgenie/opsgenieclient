@@ -34,12 +34,12 @@ public class ListSchedulesResponse extends BaseResponse{
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        List<Map> scheduleMaps = (List<Map>) data.get(ClientConstants.API.SCHEDULES);
+        List<Map<String, Object>> scheduleMaps = (List<Map<String, Object>>) data.get(ClientConstants.API.SCHEDULES);
         if(scheduleMaps != null){
             schedules = new ArrayList<Schedule>();
-            for(Map scheduleMap:scheduleMaps){
+            for(Map<String, Object> scheduleMap:scheduleMaps){
                 Schedule schedule = new Schedule();
                 schedule.fromMap(scheduleMap);
                 schedules.add(schedule);

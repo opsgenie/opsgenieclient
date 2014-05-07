@@ -1,6 +1,7 @@
 package com.ifountain.client.opsgenie;
 
 import com.ifountain.client.ClientException;
+import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.opsgenie.model.escalation.*;
 
 import java.io.IOException;
@@ -10,11 +11,11 @@ import java.text.ParseException;
  * Inner Escalation Client
  */
 public class InnerEscalationOpsGenieClient implements IEscalationOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerEscalationOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerEscalationOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

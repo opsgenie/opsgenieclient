@@ -2,6 +2,7 @@ package com.ifountain.client.opsgenie;
 
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientException;
+import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.opsgenie.model.InputStreamAttachRequest;
 import com.ifountain.client.opsgenie.model.alert.*;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -17,11 +18,11 @@ import java.text.ParseException;
  * Abstract Inner Client
  */
 public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerAlertOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerAlertOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

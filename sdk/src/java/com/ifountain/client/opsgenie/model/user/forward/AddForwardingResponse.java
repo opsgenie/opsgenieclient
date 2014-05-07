@@ -31,7 +31,7 @@ public class AddForwardingResponse extends BaseResponse {
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         id = (String) data.get(ClientConstants.API.ID);
     }

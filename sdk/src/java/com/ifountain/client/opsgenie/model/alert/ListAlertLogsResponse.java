@@ -36,23 +36,30 @@ public class ListAlertLogsResponse extends BaseResponse {
         this.alertLogs = alertLogs;
     }
 
+    /**
+     * Returns the key which will be used in pagination.
+     */
     public String getLastKey() {
         return lastKey;
     }
 
+    /**
+     * Sets the key which will be used in pagination.
+     */
     public void setLastKey(String lastKey) {
         this.lastKey = lastKey;
     }
 
     /**
      * @see com.ifountain.client.model.BaseResponse#deserialize(java.util.Map)
+     * @param data
      */
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         lastKey = (String) data.get(ClientConstants.API.LAST_KEY);
-        List<Map> logsData = (List<Map>) data.get(ClientConstants.API.LOGS);
+        List<Map<String, Object>> logsData = (List<Map<String, Object>>) data.get(ClientConstants.API.LOGS);
         alertLogs = new ArrayList<AlertLog>();
-        for(Map logData:logsData){
+        for(Map<String, Object> logData:logsData){
             AlertLog log = new AlertLog();
             log.fromMap(logData);
             alertLogs.add(log);

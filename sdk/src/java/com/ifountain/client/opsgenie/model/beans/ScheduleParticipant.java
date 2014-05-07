@@ -44,7 +44,7 @@ public class ScheduleParticipant  implements IBean {
 
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(ClientConstants.API.PARTICIPANT, participant);
         if(type != null){
@@ -54,7 +54,7 @@ public class ScheduleParticipant  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         if(map.containsKey(ClientConstants.API.PARTICIPANT)){
             participant = (String) map.get(ClientConstants.API.PARTICIPANT);
         }

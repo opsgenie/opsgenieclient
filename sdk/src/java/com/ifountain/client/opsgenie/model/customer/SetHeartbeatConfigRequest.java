@@ -19,44 +19,42 @@ public class SetHeartbeatConfigRequest extends BaseRequest<SetHeartbeatConfigRes
 
 
     /**
-     * Enable state
-     * @return
+     * Heartbeat state
      */
     public Boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Sets enable state
-     * @param enabled
+     * Sets heartbeat state
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
     /*
-        * message of heartbeat alert
-         */
+     * message of heartbeat alert
+     */
     public String getMessage() {
         return message;
     }
 
     /*
-    * Sets message of heartbeat alert
+     * Sets message of heartbeat alert
      */
     public void setMessage(String message) {
         this.message = message;
     }
 
     /*
-    * Recipients  of heartbeat alert
+    * Recipients of heartbeat alert
      */
     public List<String> getRecipients() {
         return recipients;
     }
 
     /*
-    * Sets recipients  of heartbeat alert
+    * Sets recipients of heartbeat alert
      */
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
@@ -64,8 +62,8 @@ public class SetHeartbeatConfigRequest extends BaseRequest<SetHeartbeatConfigRes
 
 
     @Override
-    public Map serialize() throws ClientValidationException {
-        Map data = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> data = super.serialize();
         if(message != null){
             data.put(ClientConstants.API.MESSAGE, message);
         }

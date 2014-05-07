@@ -23,34 +23,17 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     }
 
     /**
-     * Sets the tustomer key used for authenticating API requests.
+     * Sets the customer key used for authenticating API requests.
      */
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
 
-    //TODO: delete customer key property
     /**
-     * @deprecated
-     * Use getApiKey
+     * Converts request to map
      */
-    public String getCustomerKey() {
-        return apiKey;
-    }
-
-    /**
-     * @deprecated
-     * Use setApiKey
-     */
-    public void setCustomerKey(String apiKey) {
-        setApiKey(apiKey);
-    }
-
-    /**
-     * convertes request to map
-     */
-    public Map serialize() throws ClientValidationException {
-        Map map = new HashMap();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> map = new HashMap<String,Object>();
         map.put(ClientConstants.API.API_KEY, apiKey);
         return map;
     }

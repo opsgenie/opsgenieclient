@@ -1,6 +1,7 @@
 package com.ifountain.client.opsgenie;
 
 import com.ifountain.client.ClientException;
+import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.opsgenie.model.user.*;
 import com.ifountain.client.opsgenie.model.user.forward.*;
 
@@ -11,11 +12,11 @@ import java.text.ParseException;
  * Inner User Client
  */
 public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
-    private JsonOpgenieHttpClient httpClient;
+    private JsonHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerUserOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerUserOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

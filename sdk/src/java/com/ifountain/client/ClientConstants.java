@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface ClientConstants {
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
-    public static final String STATUSSIRAN_API_URI = "https://api.statussiren.com";
+    public static final String STATUSSIREN_API_URI = "http://api.statussiren.com";
 
     public interface Common {
         String API_DATE_FORMAT = "yyyy-MM-dd HH:mm";
@@ -101,5 +101,9 @@ public interface ClientConstants {
         public static final String CONTACTS = "contacts";
         public static final String INTEGRATION = "integration";
         public static final String POLICY = "policy";
+        public static final String UPDATES = "updates";
+        public static final String SERVICE = "service";
+        public static final String INCIDENT_ID = "incidentId";
+        public static final String INCIDENTS = "incidents";
     }
 }

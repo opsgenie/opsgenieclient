@@ -56,8 +56,8 @@ public class Heartbeat implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map json = new HashMap();
+    public Map<String,Object> toMap() {
+        Map<String,Object> json = new HashMap<String,Object>();
         json.put(ClientConstants.API.SOURCE, source);
         json.put(ClientConstants.API.LAST_HEARTBEAT, lastHeartbeat);
         json.put(ClientConstants.API.EXPIRED, expired);
@@ -65,7 +65,7 @@ public class Heartbeat implements IBean {
     }
 
     @Override
-    public void fromMap(Map resp) {
+    public void fromMap(Map<String,Object> resp) {
         setSource((String) resp.get(ClientConstants.API.SOURCE));
         setLastHeartbeat(new Date(((Number) resp.get(ClientConstants.API.LAST_HEARTBEAT)).longValue()));
         setExpired((Boolean) resp.get(ClientConstants.API.EXPIRED));

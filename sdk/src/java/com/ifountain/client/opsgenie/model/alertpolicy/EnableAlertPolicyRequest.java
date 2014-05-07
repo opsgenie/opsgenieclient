@@ -37,7 +37,7 @@ public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyRespo
     }
 
     /**
-     * Sets enable state of  alert policy.
+     * Sets the state of  alert policy.
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
@@ -75,8 +75,8 @@ public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyRespo
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         if(getId() != null){
             json.put(ClientConstants.API.ID, getId());
         }

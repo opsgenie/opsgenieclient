@@ -63,7 +63,7 @@ public class WhoIsOnCall implements IBean {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(ClientConstants.API.NAME, name);
         if(id != null){
@@ -77,7 +77,7 @@ public class WhoIsOnCall implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         name = (String) map.get(ClientConstants.API.NAME);
         id = (String) map.get(ClientConstants.API.ID);
         type = (String) map.get(ClientConstants.API.TYPE);

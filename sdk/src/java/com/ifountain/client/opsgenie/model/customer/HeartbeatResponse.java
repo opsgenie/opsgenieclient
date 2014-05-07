@@ -30,7 +30,7 @@ public class HeartbeatResponse extends BaseResponse {
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         heartbeat = ((Number) data.get("heartbeat")).longValue();
     }

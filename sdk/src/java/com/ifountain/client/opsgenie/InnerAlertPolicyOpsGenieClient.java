@@ -1,6 +1,7 @@
 package com.ifountain.client.opsgenie;
 
 import com.ifountain.client.ClientException;
+import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.opsgenie.model.alertpolicy.EnableAlertPolicyRequest;
 import com.ifountain.client.opsgenie.model.alertpolicy.EnableAlertPolicyResponse;
 
@@ -11,11 +12,11 @@ import java.text.ParseException;
  * Inner Alert Policy Client
  */
 public class InnerAlertPolicyOpsGenieClient implements IAlertPolicyOpsGenieClient {
-    private JsonOpgenieHttpClient httpClient;
+    private JsonHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerAlertPolicyOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerAlertPolicyOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

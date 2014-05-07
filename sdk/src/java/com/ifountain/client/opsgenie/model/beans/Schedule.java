@@ -89,7 +89,7 @@ public class Schedule  implements IBean {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(ClientConstants.API.ID, id);
         json.put(ClientConstants.API.NAME, name);
@@ -108,7 +108,7 @@ public class Schedule  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         id = (String) map.get(ClientConstants.API.ID);
         name = (String) map.get(ClientConstants.API.NAME);
         if(map.containsKey(ClientConstants.API.ENABLED)){

@@ -34,7 +34,7 @@ public class ListUsersResponse extends BaseResponse {
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         List<Map> usersData = (List<Map>) data.get(ClientConstants.API.USERS);
         users = new ArrayList<User>();

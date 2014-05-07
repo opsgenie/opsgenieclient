@@ -20,7 +20,6 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
         return "/v1/json/schedule";
     }
 
-
     /**
      * Name of schedule to be queried.
      */
@@ -39,7 +38,7 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public void _serialize(Map json) {
+    public void _serialize(Map<String,Object> json) {
         if(name != null){
             json.put(ClientConstants.API.NAME, name);
         }

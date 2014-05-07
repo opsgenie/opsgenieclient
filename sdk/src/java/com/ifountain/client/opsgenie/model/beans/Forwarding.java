@@ -122,8 +122,8 @@ public class Forwarding  implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map<String, String> json = new HashMap<String, String>();
+    public Map<String,Object> toMap() {
+        Map<String, Object> json = new HashMap<String, Object>();
         SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if (timeZone != null) {
             sdf.setTimeZone(timeZone);
@@ -143,7 +143,7 @@ public class Forwarding  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if(map.containsKey(ClientConstants.API.TIMEZONE)){
 

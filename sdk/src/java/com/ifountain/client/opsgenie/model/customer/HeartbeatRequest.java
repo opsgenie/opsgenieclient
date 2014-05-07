@@ -30,8 +30,8 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     }
 
     @Override
-    public Map serialize() throws ClientValidationException {
-        Map res = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> res = super.serialize();
         if(source != null){
             res.put(ClientConstants.API.SOURCE, source);
         }

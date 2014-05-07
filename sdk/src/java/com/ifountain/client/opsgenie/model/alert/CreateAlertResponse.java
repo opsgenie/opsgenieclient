@@ -48,7 +48,7 @@ public class CreateAlertResponse extends BaseResponse {
     /**
      * @see BaseResponse#deserialize(java.util.Map)
      */
-    public void deserialize(Map data) throws ParseException {
+    public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         if(data.containsKey(ClientConstants.API.ALERT_ID)){
             setAlertId((String) data.get(ClientConstants.API.ALERT_ID));
@@ -56,6 +56,5 @@ public class CreateAlertResponse extends BaseResponse {
         if(data.containsKey(ClientConstants.API.ID)){
             setId((String) data.get(ClientConstants.API.ID));
         }
-
     }
 }

@@ -28,10 +28,16 @@ public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationRe
 
     }
 
+    /**
+     * State of integration.
+     */
     public Boolean isEnabled() {
         return enabled;
     }
 
+    /**
+     * Sets the state of the integration.
+     */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
@@ -59,7 +65,7 @@ public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationRe
     }
 
     @Override
-    public void _serialize(Map data) {
+    public void _serialize(Map<String,Object> data) {
         if(getName() != null){
             data.put(ClientConstants.API.NAME, getName());
         }

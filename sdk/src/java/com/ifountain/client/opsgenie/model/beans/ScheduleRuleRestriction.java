@@ -116,7 +116,7 @@ public class ScheduleRuleRestriction  implements IBean {
     }
 
     @Override
-    public Map toMap() {
+    public Map<String,Object> toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(ClientConstants.API.START_DAY, startDay.name());
         json.put(ClientConstants.API.END_DAY, endDay.name());
@@ -126,7 +126,7 @@ public class ScheduleRuleRestriction  implements IBean {
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
+    public void fromMap(Map<String,Object> map) throws ParseException {
         startDay = DAY.valueOf(((String) map.get(ClientConstants.API.START_DAY)).toLowerCase());
         endDay = DAY.valueOf(((String) map.get(ClientConstants.API.END_DAY)).toLowerCase());
         String startTime =  (String) map.get(ClientConstants.API.START_TIME);
