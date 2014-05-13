@@ -27,7 +27,7 @@ public class Bootstrap {
     public static final String MARID_SCRIPTS_DIR_SYSTEM_PROPERTY = "marid.scripts.dir";
     public static final String MARID_CONF_DIR_SYSTEM_PROPERTY = "marid.conf.dir";
     public static final String CONF_PATH_SYSTEM_PROPERTY = "marid.conf.path";
-    public static final String LOG_PATH_SYSTEM_PROPERTY = "marid.log.path";
+    public static final String LOG_PATH_SYSTEM_PROPERTY = "marid.log.conf.path";
     protected Logger logger = Logger.getLogger(Bootstrap.class);
     private HttpProxy proxy;
     private HttpServer httpServer;

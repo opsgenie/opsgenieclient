@@ -27,7 +27,7 @@ public class OpsGenieCommandLine {
     public static final String LAMP_CONF_DIR_SYSTEM_PROPERTY = "lamp.conf.dir";
     public static final String LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY = "lamp.scripts.dir";
     public static final String CONF_PATH_SYSTEM_PROPERTY = "lamp.conf.path";
-    public static final String LOG_PATH_SYSTEM_PROPERTY = "lamp.log.path";
+    public static final String LOG_PATH_SYSTEM_PROPERTY = "lamp.log.conf.path";
     private Map<String, Command> commands = new HashMap<String, Command>();
     private HelpCommand helpCommand;
     private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(OpsGenieCommandLine.class);

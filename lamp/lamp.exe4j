@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<exe4j version="4.4.2" transformSequenceNumber="1">
+<exe4j version="4.5.2" transformSequenceNumber="1">
   <directoryPresets config="" />
   <application name="OpsGenie Lamp" distributionSourceDir=".">
     <languages>
@@ -16,7 +16,7 @@
       <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
     </text>
   </splashScreen>
-  <java mainClass="com.ifountain.opsgenie.client.cli.OpsGenieCommandLine" vmParameters="&quot;-Dlamp.conf.dir=${EXE4J_EXEDIR}/conf&quot; &quot;-Dlamp.logs.dir=${EXE4J_EXEDIR}/logs&quot;  &quot;-Dlamp.scripts.dir=${EXE4J_EXEDIR}/scripts&quot;" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.6" maxVersion="" allowBetaVM="false" jdkOnly="false">
+  <java mainClass="com.ifountain.opsgenie.client.cli.OpsGenieCommandLine" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.6" maxVersion="" allowBetaVM="false" jdkOnly="false">
     <searchSequence>
       <registry />
       <envVar name="JAVA_HOME" />
