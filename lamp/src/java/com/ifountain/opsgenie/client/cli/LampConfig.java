@@ -24,10 +24,16 @@ public class LampConfig {
     }
 
     public void init(String configurationPath){
+        File configFile = new File(configurationPath);
+
+        // if config file doesn't exist, look in home dir
+        if(!configFile.exists())
+            configFile = new File("conf/lamp.conf");
+
         configuration = new Properties();
         FileInputStream in = null;
         try {
-            in = new FileInputStream(configurationPath);
+            in = new FileInputStream(configFile);
             configuration.load(in);
         } catch (Exception ignored) {
         } finally {

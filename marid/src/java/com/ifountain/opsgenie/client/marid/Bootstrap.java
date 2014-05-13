@@ -15,7 +15,6 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.jar.Manifest;
 
@@ -27,6 +26,8 @@ public class Bootstrap {
     private final static Object waitLock = new Object();
     public static final String MARID_SCRIPTS_DIR_SYSTEM_PROPERTY = "marid.scripts.dir";
     public static final String MARID_CONF_DIR_SYSTEM_PROPERTY = "marid.conf.dir";
+    public static final String CONF_PATH_SYSTEM_PROPERTY = "marid.conf.path";
+    public static final String LOG_PATH_SYSTEM_PROPERTY = "marid.log.path";
     protected Logger logger = Logger.getLogger(Bootstrap.class);
     private HttpProxy proxy;
     private HttpServer httpServer;
@@ -242,6 +243,11 @@ public class Bootstrap {
 
     private void configureLogger() {
         File logConfigFile = new File(getLogConfigurationFilePath());
+
+        // if doesn't exist look in home dir
+        if(!logConfigFile.exists())
+            logConfigFile = new File("conf/log.properties");
+
         if (logConfigFile.exists()) {
             Enumeration currentCategories = LogManager.getCurrentLoggers();
             Map<Category, List<Appender>> allAppenders = new HashMap<Category, List<Appender>>();
@@ -272,7 +278,11 @@ public class Bootstrap {
     }
 
     private String getLogConfigurationFilePath() {
-        return getConfigurationDirectoryPath()+ "/log.properties";
+        String logPath = System.getProperty(LOG_PATH_SYSTEM_PROPERTY);
+        if(logPath != null)
+            return logPath;
+
+        return new File(getConfigurationDirectoryPath(), "log.properties").getPath();
     }
 
     private String getScriptsConfigurationFilePath() {
@@ -280,7 +290,11 @@ public class Bootstrap {
     }
 
     private String getConfigurationPath() {
-        return getConfigurationDirectoryPath()+ "/marid.conf";
+        String confPath = System.getProperty(CONF_PATH_SYSTEM_PROPERTY);
+        if(confPath != null)
+            return confPath;
+
+        return new File(getConfigurationDirectoryPath(), "marid.conf").getPath();
     }
 
 

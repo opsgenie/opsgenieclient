@@ -54,6 +54,11 @@ public class MaridConfig {
         if(configuration != null) throw new Exception("Already initialized");
         Properties configuration = new Properties();
         File configFile = new File(configurationPath);
+
+        // if config file doesn't exist, look in home dir
+        if(!configFile.exists())
+            configFile = new File("conf/marid.conf");
+
         if (configFile.exists()) {
             FileInputStream in = new FileInputStream(configFile);
             try {

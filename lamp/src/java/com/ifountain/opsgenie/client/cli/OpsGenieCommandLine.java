@@ -1,18 +1,19 @@
 package com.ifountain.opsgenie.client.cli;
 
-import com.ifountain.opsgenie.client.OpsGenieClientException;
-import com.ifountain.opsgenie.client.cli.commands.*;
 import com.beust.jcommander.JCommander;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
-import com.ifountain.opsgenie.client.util.ClientConfiguration;
+import com.ifountain.opsgenie.client.OpsGenieClientException;
+import com.ifountain.opsgenie.client.cli.commands.*;
 import com.ifountain.opsgenie.client.script.ScriptManager;
+import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +26,8 @@ public class OpsGenieCommandLine {
     public static final String TOOL_NAME = "lamp";
     public static final String LAMP_CONF_DIR_SYSTEM_PROPERTY = "lamp.conf.dir";
     public static final String LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY = "lamp.scripts.dir";
+    public static final String CONF_PATH_SYSTEM_PROPERTY = "lamp.conf.path";
+    public static final String LOG_PATH_SYSTEM_PROPERTY = "lamp.log.path";
     private Map<String, Command> commands = new HashMap<String, Command>();
     private HelpCommand helpCommand;
     private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(OpsGenieCommandLine.class);
@@ -185,7 +188,17 @@ public class OpsGenieCommandLine {
     }
 
     private void loadLogConfiguration() {
-        File logConfFile = new File(new File(getConfigDirectory()), "log.properties");
+        String logPath = System.getProperty(LOG_PATH_SYSTEM_PROPERTY);
+
+        if(logPath == null)
+            logPath = new File(getConfigDirectory(), "log.properties").getPath();
+
+        File logConfFile = new File(logPath);
+
+        // if config file doesn't exist, look in home dir
+        if(!logConfFile.exists())
+            logConfFile = new File("conf/log.properties");
+
         if (logConfFile.exists()) {
             PropertyConfigurator.configure(logConfFile.getPath());
         } else {
@@ -197,8 +210,12 @@ public class OpsGenieCommandLine {
     }
 
     private void loadConfiguration() {
-        File confDir = new File(getConfigDirectory());
-        LampConfig.getInstance().init(new File(confDir, "lamp.conf").getPath());
+        String confPath = System.getProperty(CONF_PATH_SYSTEM_PROPERTY);
+
+        if(confPath == null)
+            confPath = new File(getConfigDirectory(), "lamp.conf").getPath();
+
+        LampConfig.getInstance().init(confPath);
     }
 
     private void addCommands(JCommander commander) {
