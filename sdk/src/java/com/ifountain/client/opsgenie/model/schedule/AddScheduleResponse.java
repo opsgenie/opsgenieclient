@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for add schedule request.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:38
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#addSchedule(AddScheduleRequest)
  */
 public class AddScheduleResponse extends BaseResponse{

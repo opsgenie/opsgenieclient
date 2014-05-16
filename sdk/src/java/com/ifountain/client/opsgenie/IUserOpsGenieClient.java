@@ -76,7 +76,6 @@ public interface IUserOpsGenieClient {
      */
     public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, ClientException, ParseException;
 
-
     /**
      * Updates user notification forwarding setting.
      * time settings.
@@ -89,6 +88,7 @@ public interface IUserOpsGenieClient {
     public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, ClientException, ParseException;
 
     /**
+     * Deletes user notification forwarding setting.
      * @param deleteForwardingRequest Object to construct request parameters
      * @return  Object containing OpsGenie response information.
      * @see com.ifountain.client.opsgenie.model.user.forward.DeleteForwardingRequest
@@ -97,6 +97,7 @@ public interface IUserOpsGenieClient {
     public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, ClientException, ParseException;
 
     /**
+     * Returns user notification forwarding settings with details
      * @param getForwardingRequest Object to construct request parameters
      * @return  Object containing OpsGenie response information.
      * @see com.ifountain.client.opsgenie.model.user.forward.GetForwardingRequest
@@ -105,6 +106,7 @@ public interface IUserOpsGenieClient {
     public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, ClientException, ParseException;
 
     /**
+     * Lists all notification forwarding settings belongs to a spesific user or all users of the customer.
      * @param listForwardingsRequest Object to construct request parameters
      * @return  Object containing OpsGenie response information.
      * @see com.ifountain.client.opsgenie.model.user.forward.ListForwardingsRequest

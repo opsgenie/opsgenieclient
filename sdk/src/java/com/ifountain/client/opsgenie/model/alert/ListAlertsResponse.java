@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents the OpsGenie service response for an get alert request.
+ * Represents the OpsGenie service response for a list alerts request.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 4:30 PM
@@ -30,14 +30,12 @@ public class ListAlertsResponse extends BaseResponse {
     /**
      * Sets list alert objects
      */
-    public void setAlerts(List<ListAlert> alerts) {
+   public void setAlerts(List<ListAlert> alerts) {
         this.alerts = alerts;
     }
 
-
     /**
      * @see com.ifountain.client.model.BaseResponse#deserialize(java.util.Map)
-     * @param data
      */
     public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);

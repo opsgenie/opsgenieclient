@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Abdurrahim on 04.03.2014.
+ * Who Is On Call Schedule Participant Bean.
+ *
+ * @author Abdurrahim Eke
+ * @version 04.03.2014 18:32
  */
 public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
 

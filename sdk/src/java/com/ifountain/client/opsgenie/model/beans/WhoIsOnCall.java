@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Schedule bean
+ * Who Is On Call bean
+ *
+ * @author Mustafa Sener
+ * @version 22.04.2013 15:10
  */
 public class WhoIsOnCall implements IBean {
     private String name;
@@ -39,7 +42,7 @@ public class WhoIsOnCall implements IBean {
     }
 
     /**
-     * Type of WhoIsOnCall
+     * Type of type of the on call participant
      */
     public String getType() {
         return type;

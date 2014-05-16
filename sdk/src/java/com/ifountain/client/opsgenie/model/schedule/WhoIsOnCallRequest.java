@@ -5,15 +5,16 @@ import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Container for the parameters to make a who is on call api call.
- * One of schedule name or schedule id field will be sufficient for this request. If no id or name of schedule specified,
- * it returns a list of on call participants of all schedules of the customer.
- * @see com.ifountain.client.opsgenie.model.schedule.ListWhoIsOnCallRequest
- * @see com.ifountain.client.opsgenie.model.schedule.ListWhoIsOnCallResponse
+ * One of schedule name or schedule id field will be sufficient for this request.
+ *
+ * @author Mustafa Sener
+ * @version 22.04.2013 15:10
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#whoIsOnCall(com.ifountain.client.opsgenie.model.schedule.WhoIsOnCallRequest)
  */
 public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
@@ -87,6 +88,13 @@ public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
             json.put(ClientConstants.API.TIME, sdf.format(time));
         }
 
+    }
+
+    @Override
+    public List<String> getMandatoryProperties() {
+        List<String> mandatoryProperyList = super.getMandatoryProperties();
+        mandatoryProperyList.add(ClientConstants.API.NAME);
+        return mandatoryProperyList;
     }
 
     @Override

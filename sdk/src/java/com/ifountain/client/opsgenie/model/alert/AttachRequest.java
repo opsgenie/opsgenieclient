@@ -25,10 +25,17 @@ public abstract class AttachRequest extends BaseAlertRequestWithSource<AttachRes
         return "/v1/json/alert/attach";
     }
 
+    /**
+     * Returns name of html file which will be shown when attachment clicked on UI.
+     * For more information refer to alert api document.
+     */
     public String getIndexFile() {
         return indexFile;
     }
 
+    /**
+     * Sets the name of html file which will be shown when attachment clicked on UI.
+     */
     public void setIndexFile(String indexFile) {
         this.indexFile = indexFile;
     }

@@ -1,6 +1,7 @@
 package com.ifountain.client.opsgenie;
 
 import com.ifountain.client.ClientException;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.model.customer.*;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.text.ParseException;
  * @version 6/1/12 10:09 AM
  * @see OpsGenieClient
  */
-public interface IOpsGenieClient {
+public interface IOpsGenieClient extends IClient {
     /**
      * Opsgenie User Client
      * @see IUserOpsGenieClient
@@ -123,18 +124,4 @@ public interface IOpsGenieClient {
      * @see com.ifountain.client.opsgenie.model.customer.GetHeartbeatConfigResponse
      */
     public GetHeartbeatConfigResponse getHeartbeatConfig(GetHeartbeatConfigRequest getHeartbeatConfigRequest) throws ClientException, IOException, ParseException;
-    
-    
-
-    /**
-     * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
-     *
-     * @param rootUri Uri to set.
-     */
-    public void setRootUri(String rootUri);
-
-    /**
-     * Closes client
-     */
-    public void close();
 }

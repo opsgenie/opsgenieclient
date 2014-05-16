@@ -6,20 +6,32 @@ import java.text.ParseException;
 import java.util.Map;
 
 /**
- * Schedule bean
+ * Who Is On Call User Participant Bean.
+ * 
+ * @author Mustafa Sener
+ * @version 22.04.2014 15:10
  */
 public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     private Boolean forwarded;
     private WhoIsOnCallUserParticipant forwardedFrom;
 
+    /**
+     * Returns the on call participant is forwarded from another user or not
+     */
     public Boolean getForwarded() {
         return forwarded;
     }
 
+    /*
+     * Sets on call participant is forwarded from another user or not
+     */
     public void setForwarded(Boolean forwarded) {
         this.forwarded = forwarded;
     }
 
+    /**
+     * Returns the user who make the forwarding action
+     */
     public WhoIsOnCallUserParticipant getForwardedFrom(){
         return forwardedFrom;
     }

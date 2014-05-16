@@ -1,14 +1,18 @@
-package com.ifountain.opsgenie.client.cli.commands;
+package com.ifountain.opsgenie.client.cli.commands.opsgenie;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.client.ClientConstants;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
 import com.ifountain.client.opsgenie.model.alert.RenotifyRequest;
 import com.ifountain.client.opsgenie.model.beans.RenotifyRecipient;
 import com.ifountain.client.util.Strings;
+import com.ifountain.opsgenie.client.cli.commands.BaseCommand;
+import com.ifountain.opsgenie.client.cli.commands.CommonCommandOptions;
+import com.ifountain.opsgenie.client.cli.commands.NullSplitter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +24,7 @@ import java.util.List;
  */
 
 @Parameters(commandDescription = "Renotifies recipients at OpsGenie.")
-public class RenotifyCommand extends BaseCommand{
+public class RenotifyCommand extends BaseCommand {
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
 
@@ -54,7 +58,7 @@ public class RenotifyCommand extends BaseCommand{
     }
 
     @Override
-    public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
+    public void doExecute(IClient client) throws Exception {
         RenotifyRequest request = new RenotifyRequest();
         request.setApiKey(commonOptions.getApiKey());
         request.setId(alertId);
@@ -72,6 +76,6 @@ public class RenotifyCommand extends BaseCommand{
             }
             request.setRecipients(recipientBeans);
         }
-        opsGenieClient.alert().renotify(request);
+        ((IOpsGenieClient)client).alert().renotify(request);
     }
 }

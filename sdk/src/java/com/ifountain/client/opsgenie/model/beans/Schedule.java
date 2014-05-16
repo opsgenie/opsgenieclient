@@ -8,6 +8,9 @@ import java.util.*;
 
 /**
  * Schedule bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  */
 public class Schedule  implements IBean {
     private String id;
@@ -123,10 +126,10 @@ public class Schedule  implements IBean {
                 timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
             }
         }
-        List<Map> ruleMaps = (List<Map>) map.get(ClientConstants.API.RULES);
+        List<Map<String,Object>> ruleMaps = (List<Map<String,Object>>) map.get(ClientConstants.API.RULES);
         if(ruleMaps != null){
             rules = new ArrayList<ScheduleRule>();
-            for(Map ruleMap:ruleMaps) {
+            for(Map<String,Object> ruleMap:ruleMaps) {
                 ScheduleRule rule = new ScheduleRule();
                 rule.setScheduleTimeZone(timeZone);
                 rule.fromMap(ruleMap);

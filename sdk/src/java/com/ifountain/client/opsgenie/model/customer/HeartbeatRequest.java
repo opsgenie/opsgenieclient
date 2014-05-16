@@ -16,14 +16,14 @@ import java.util.Map;
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     String source;
     /*
-    * Source of heartbeat monitor
+     * Source of heartbeat monitor
      */
     public String getSource() {
         return source;
     }
 
     /*
-    * Sets source of heartbeat monitor
+     * Sets source of heartbeat monitor
      */
     public void setSource(String source) {
         this.source = source;

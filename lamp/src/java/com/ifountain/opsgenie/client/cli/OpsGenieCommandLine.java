@@ -1,18 +1,24 @@
 package com.ifountain.opsgenie.client.cli;
 
-import com.ifountain.client.ClientException;
-import com.ifountain.opsgenie.client.cli.commands.*;
 import com.beust.jcommander.JCommander;
+import com.ifountain.client.ClientException;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
-import com.ifountain.client.opsgenie.OpsGenieClient;
+import com.ifountain.client.statussiren.IStatusSirenClient;
 import com.ifountain.client.util.ClientConfiguration;
+import com.ifountain.opsgenie.client.cli.commands.Command;
+import com.ifountain.opsgenie.client.cli.commands.HelpCommand;
+import com.ifountain.opsgenie.client.cli.commands.VersionCommand;
+import com.ifountain.opsgenie.client.cli.commands.opsgenie.*;
+import com.ifountain.opsgenie.client.cli.commands.statussiren.*;
+import com.ifountain.opsgenie.client.cli.commands.util.CommandUtils;
 import com.ifountain.opsgenie.client.script.ScriptManager;
-import com.ifountain.client.util.ClientProxyConfiguration;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,9 +31,11 @@ public class OpsGenieCommandLine {
     public static final String TOOL_NAME = "lamp";
     public static final String LAMP_CONF_DIR_SYSTEM_PROPERTY = "lamp.conf.dir";
     public static final String LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY = "lamp.scripts.dir";
-    private Map<String, Command> commands = new HashMap<String, Command>();
+    private Map<String, Command> opsGenieCommands = new HashMap<String, Command>();
+    private Map<String, Command> statusSirenCommands = new HashMap<String, Command>();
     private HelpCommand helpCommand;
     private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(OpsGenieCommandLine.class);
+    private IClient client;
 
     public static void main(String[] args) {
         OpsGenieCommandLine commandLine = new OpsGenieCommandLine();
@@ -44,7 +52,7 @@ public class OpsGenieCommandLine {
             System.out.println(e.getMessage());
             return false;
         }
-        IOpsGenieClient opsGenieClient = configureClient();
+        ClientConfiguration clientConfiguration = CommandUtils.configureClient();
         try {
             JCommander commander = new JCommander();
             commander.setProgramName(TOOL_NAME);
@@ -55,13 +63,22 @@ public class OpsGenieCommandLine {
                 System.out.println(e.getMessage());
                 String parsedCommand = commander.getParsedCommand();
                 if (parsedCommand != null) {
-                    commands.get(parsedCommand).printUsage();
+                    opsGenieCommands.get(parsedCommand).printUsage();
                 } else {
                     helpCommand.printUsage();
                 }
                 return false;
             }
-            Command command = commands.get(commander.getParsedCommand());
+            Command command = opsGenieCommands.get(commander.getParsedCommand());
+            if(command != null){
+                client = createOpsGenieClient(clientConfiguration);
+            }
+            else{
+                command = statusSirenCommands.get(commander.getParsedCommand());
+                if(command != null){
+                    client = createStatusSirenClient(clientConfiguration);
+                }
+            }
             if (command == null) {
                 logger.warn("No command has been specified.");
                 System.out.println("No command has been specified.");
@@ -79,7 +96,7 @@ public class OpsGenieCommandLine {
                 command.setUser((String) LampConfig.getInstance().getConfiguration().get("user"));
             }
             try {
-                command.execute(opsGenieClient);
+                command.execute(client);
             } catch (Exception e) {
                 logException(e);
                 if (e instanceof IOException) {
@@ -91,7 +108,9 @@ public class OpsGenieCommandLine {
             }
             return true;
         } finally {
-            opsGenieClient.close();
+            if(client != null){
+                client.close();
+            }
             LampConfig.destroyInstance();
         }
     }
@@ -133,57 +152,6 @@ public class OpsGenieCommandLine {
         }
     }
 
-    private IOpsGenieClient configureClient() {
-        ClientConfiguration clientConfig = new ClientConfiguration();
-
-        if (LampConfig.getInstance().getConfiguration().containsKey("proxyHost") && LampConfig.getInstance().getConfiguration().containsKey("proxyPort")) {
-            String host = LampConfig.getInstance().getConfiguration().getProperty("proxyHost");
-            int port = Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("proxyPort"));
-            ClientProxyConfiguration clientProxyConfiguration = new ClientProxyConfiguration(host, port);
-            if (LampConfig.getInstance().getConfiguration().containsKey("proxyUsername")) {
-                clientProxyConfiguration.setProxyUsername(LampConfig.getInstance().getConfiguration().getProperty("proxyUsername"));
-            }
-            if (LampConfig.getInstance().getConfiguration().containsKey("proxyPassword")) {
-                clientProxyConfiguration.setProxyPassword(LampConfig.getInstance().getConfiguration().getProperty("proxyPassword"));
-            }
-            if (LampConfig.getInstance().getConfiguration().containsKey("proxyDomain")) {
-                clientProxyConfiguration.setProxyDomain(LampConfig.getInstance().getConfiguration().getProperty("proxyDomain"));
-            }
-            if (LampConfig.getInstance().getConfiguration().containsKey("authMethod")) {
-                String authMethod = LampConfig.getInstance().getConfiguration().getProperty("authMethod", ClientProxyConfiguration.AuthType.NT.name());
-                ClientProxyConfiguration.AuthType authTypeEnum;
-                try{
-                    authTypeEnum = ClientProxyConfiguration.AuthType.valueOf(authMethod);
-                }catch (Throwable t){
-                    throw new RuntimeException("Invalid authMethod ["+authMethod+"]");
-                }
-                clientProxyConfiguration.setAuthType(authTypeEnum);
-            }
-            if (LampConfig.getInstance().getConfiguration().containsKey("proxyWorkstation")) {
-                clientProxyConfiguration.setProxyWorkstation(LampConfig.getInstance().getConfiguration().getProperty("proxyWorkstation"));
-            }
-            if (LampConfig.getInstance().getConfiguration().containsKey("proxyProtocol")) {
-                clientProxyConfiguration.setProxyProtocol(LampConfig.getInstance().getConfiguration().getProperty("proxyProtocol"));
-            }
-            clientConfig.setClientProxyConfiguration(clientProxyConfiguration);
-        }
-        clientConfig.setSocketTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketTimeout", "30")) * 1000);
-        clientConfig.setConnectionTimeout(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("connectionTimeout", "30")) * 1000);
-        clientConfig.setMaxConnections(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("maxConnectionCount", "50")));
-        if (LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint") != null) {
-            clientConfig.setSocketReceiveBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketReceiveBufferSizeHint")));
-        }
-        if (LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint") != null) {
-            clientConfig.setSocketSendBufferSizeHint(Integer.parseInt(LampConfig.getInstance().getConfiguration().getProperty("socketSendBufferSizeHint")));
-        }
-        clientConfig.setUserAgent(ClientConfiguration.createUserAgentFromManifest(OpsGenieCommandLine.class));
-        IOpsGenieClient opsGenieClient = createOpsGenieClient(clientConfig);
-        if (LampConfig.getInstance().getConfiguration().containsKey("opsgenie.api.url")) {
-            opsGenieClient.setRootUri(LampConfig.getInstance().getConfiguration().getProperty("opsgenie.api.url"));
-        }
-        return opsGenieClient;
-    }
-
     private void loadLogConfiguration() {
         File logConfFile = new File(new File(getConfigDirectory()), "log.properties");
         if (logConfFile.exists()) {
@@ -203,28 +171,40 @@ public class OpsGenieCommandLine {
 
     private void addCommands(JCommander commander) {
         helpCommand = new HelpCommand(commander);
-        addCommand(commander, helpCommand);
-        addCommand(commander, new CreateAlertCommand(commander));
-        addCommand(commander, new ExecuteScriptCommand(commander));
-        addCommand(commander, new CloseAlertCommand(commander));
-        addCommand(commander, new DeleteAlertCommand(commander));
-        addCommand(commander, new AcknowledgeCommand(commander));
-        addCommand(commander, new TakeOwnershipCommand(commander));
-        addCommand(commander, new AssignCommand(commander));
-        addCommand(commander, new AddRecipientCommand(commander));
-        addCommand(commander, new AddNoteCommand(commander));
-        addCommand(commander, new RenotifyCommand(commander));
-        addCommand(commander, new ExecuteAlertActionCommand(commander));
-        addCommand(commander, new AttachCommand(commander));
-        addCommand(commander, new HeartbeatCommand(commander));
-        addCommand(commander, new VersionCommand());
-        addCommand(commander, new GetAlertCommand(commander));
-        addCommand(commander, new EnableCommand(commander));
-        addCommand(commander, new DisableCommand(commander));
+        addOpsGenieCommand(commander, helpCommand);
+        addOpsGenieCommand(commander, new CreateAlertCommand(commander));
+        addOpsGenieCommand(commander, new ExecuteScriptCommand(commander));
+        addOpsGenieCommand(commander, new CloseAlertCommand(commander));
+        addOpsGenieCommand(commander, new DeleteAlertCommand(commander));
+        addOpsGenieCommand(commander, new AcknowledgeCommand(commander));
+        addOpsGenieCommand(commander, new TakeOwnershipCommand(commander));
+        addOpsGenieCommand(commander, new AssignCommand(commander));
+        addOpsGenieCommand(commander, new AddRecipientCommand(commander));
+        addOpsGenieCommand(commander, new AddNoteCommand(commander));
+        addOpsGenieCommand(commander, new RenotifyCommand(commander));
+        addOpsGenieCommand(commander, new ExecuteAlertActionCommand(commander));
+        addOpsGenieCommand(commander, new AttachCommand(commander));
+        addOpsGenieCommand(commander, new HeartbeatCommand(commander));
+        addOpsGenieCommand(commander, new VersionCommand());
+        addOpsGenieCommand(commander, new GetAlertCommand(commander));
+        addOpsGenieCommand(commander, new EnableCommand(commander));
+        addOpsGenieCommand(commander, new DisableCommand(commander));
+
+        addStatusSirenCommand(commander, new CreateIncidentCommand(commander));
+        addStatusSirenCommand(commander, new ResolveIncidentCommand(commander));
+        addStatusSirenCommand(commander, new UpdateIncidentCommand(commander));
+        addStatusSirenCommand(commander, new DeleteIncidentCommand(commander));
+        addStatusSirenCommand(commander, new GetIncidentCommand(commander));
+        addStatusSirenCommand(commander, new ListIncidentsCommand(commander));
     }
 
-    private void addCommand(JCommander commander, Command command) {
-        commands.put(command.getName(), command);
+    private void addOpsGenieCommand(JCommander commander, Command command) {
+        opsGenieCommands.put(command.getName(), command);
+        commander.addCommand(command.getName(), command);
+    }
+
+    private void addStatusSirenCommand(JCommander commander, Command command) {
+        statusSirenCommands.put(command.getName(), command);
         commander.addCommand(command.getName(), command);
     }
 
@@ -237,6 +217,10 @@ public class OpsGenieCommandLine {
     }
 
     protected IOpsGenieClient createOpsGenieClient(ClientConfiguration clientConfiguration) {
-        return new OpsGenieClient(clientConfiguration);
+        return CommandUtils.createOpsGenieClient(clientConfiguration);
+    }
+
+    protected IStatusSirenClient createStatusSirenClient(ClientConfiguration clientConfiguration){
+        return CommandUtils.createStatusSirenClient(clientConfiguration);
     }
 }

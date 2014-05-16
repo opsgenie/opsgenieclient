@@ -12,6 +12,9 @@ import java.util.TimeZone;
 
 /**
  * Forwarding bean
+ *
+ * @author Mustafa Sener
+ * @version 22.03.2013 08:46
  */
 public class Forwarding  implements IBean {
     private String id;
@@ -37,7 +40,7 @@ public class Forwarding  implements IBean {
     }
 
     /**
-     * A user defined identifier for the 
+     * A user defined identifier for the forwarding setting
      * Provides ability to assign a known id and later use this id to get forwarding details.
      */
     public String getAlias() {
@@ -45,14 +48,14 @@ public class Forwarding  implements IBean {
     }
 
     /**
-     * Sets a user defined identifier for the 
+     * Sets a user defined identifier for the forwarding setting
      */
     public void setAlias(String alias) {
         this.alias = alias;
     }
 
     /**
-     * Username of user  which forwarding is created for
+     * Username of user who forwarding is created for
      */
     public String getFromUser() {
         return fromUser;

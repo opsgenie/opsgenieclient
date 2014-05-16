@@ -16,7 +16,7 @@ import java.text.ParseException;
  * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations like creating, closing and getting alerts,
  * adding comments, attaching files, etc. All service calls made using this client are blocking, and will not return until the service call completes.</p>
  * <p/>
- * <h4>Creating an Alerts</h4>
+ * <h4>Creating an Alert</h4>
  * <p>Construct a <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code> method on client.</p>
  * <p><blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
@@ -29,8 +29,8 @@ import java.text.ParseException;
  * request.setActions(Arrays.asList("acknowledge", "restart"));
  * request.setTags(Arrays.asList("network", "operations"));
  * request.setRecipients(Arrays.asList("john.smith@acme.com"));
- * CreateAlertResponse response = client.createAlert(request);
- * String alertId = response.getAlertId();
+ * CreateAlertResponse response = client.alert().createAlert(request);
+ * String alertId = response.getId();
  * </pre></blockquote></p>
  * <h4>Adding Notes</h4>
  * <p>Construct a <code>AddNoteRequest</code> object with preferred options and call <code>addNote</code> method on client.</p>
@@ -41,7 +41,7 @@ import java.text.ParseException;
  * request.setApiKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
  * request.setUser("john.smith@acme.com");
  * request.setNote("We should find another solution.");
- * AddNoteResponse response = client.addNote(request);
+ * AddNoteResponse response = client.alert().addNote(request);
  * assert response.isSuccess();
  * </pre></blockquote></p>
  * <h4>Attaching Files</h4>
@@ -53,7 +53,7 @@ import java.text.ParseException;
  * request.setApiKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
  * request.setUser("john.smith@acme.com");
  * request.setFile(new File("/home/john/performanceGraphs.zip"));
- * AttachResponse response = client.attach(request);
+ * AttachResponse response = client.alert().attach(request);
  * assert response.isSuccess();
  * </pre></blockquote></p>
  *
@@ -61,7 +61,7 @@ import java.text.ParseException;
  * @version 5/30/12 9:40 AM
  * @see IOpsGenieClient
  */
-public class OpsGenieClient implements IOpsGenieClient {
+public class OpsGenieClient implements IOpsGenieClient{
     private InnerUserOpsGenieClient innerUserOpsGenieClient;
     private InnerGroupOpsGenieClient innerGroupOpsGenieClient;
     private InnerEscalationOpsGenieClient innerEscalationOpsGenieClient;
@@ -216,5 +216,20 @@ public class OpsGenieClient implements IOpsGenieClient {
     @Override
     public void close() {
         this.jsonHttpClient.close();
+    }
+
+    /**
+     * Api key used for authenticating API requests.
+     *
+     */
+    public String getApiKey(){
+        return this.jsonHttpClient.getApiKey();
+    }
+
+    /**
+     * Sets the api key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey){
+        this.jsonHttpClient.setApiKey(apiKey);
     }
 }

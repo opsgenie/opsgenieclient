@@ -1,6 +1,7 @@
 package com.ifountain.client.statussiren;
 
 import com.ifountain.client.ClientException;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.statussiren.model.incident.*;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.text.ParseException;
  * @version 25.4.2014 08:45
  * @see StatusSirenClient
  */
-public interface IStatusSirenClient {
+public interface IStatusSirenClient extends IClient{
     /**
      * Creates incident at StatusSiren
      *
@@ -23,6 +24,7 @@ public interface IStatusSirenClient {
      * @throws java.io.IOException,com.ifountain.client.ClientException,java.text.ParseException
      */
     public CreateIncidentResponse createIncident(CreateIncidentRequest createIncidentRequest)throws IOException, ClientException, ParseException;
+
     /**
      * Resolves incident at StatusSiren
      *
@@ -54,7 +56,7 @@ public interface IStatusSirenClient {
      * @see com.ifountain.client.statussiren.model.incident.UpdateIncidentResponse
      * @throws java.io.IOException,com.ifountain.client.ClientException,java.text.ParseException
      */
-    public com.ifountain.client.model.BaseResponse updateIncident(UpdateIncidentRequest updateIncidentRequest)throws IOException, ClientException, ParseException;
+    public UpdateIncidentResponse updateIncident(UpdateIncidentRequest updateIncidentRequest)throws IOException, ClientException, ParseException;
 
     /**
      * Retrieves specified incident with details from StatusSiren
@@ -65,10 +67,10 @@ public interface IStatusSirenClient {
      * @see com.ifountain.client.statussiren.model.incident.GetIncidentResponse
      * @throws java.io.IOException,com.ifountain.client.ClientException,java.text.ParseException
      */
-    public com.ifountain.client.model.BaseResponse getIncident(GetIncidentRequest getIncidentRequest)throws IOException, ClientException, ParseException;
+    public GetIncidentResponse getIncident(GetIncidentRequest getIncidentRequest)throws IOException, ClientException, ParseException;
 
     /**
-     *  Lists alerts from OpsGenie.
+     *  Retrieves list of incidents from StatusSiren
      *
      * @param listIncidentsRequest Object to construct request parameters
      * @return <code>ListIncidentResponse</code> object containing StatusSiren response information.
@@ -77,16 +79,4 @@ public interface IStatusSirenClient {
      * @throws java.io.IOException,com.ifountain.client.ClientException,java.text.ParseException
      */
     public ListIncidentsResponse listIncidents(ListIncidentsRequest listIncidentsRequest)throws IOException, ClientException, ParseException;
-
-    /**
-     * Set root endpoint uri that the client uses to send http requests.
-     *
-     * @param rootUri Uri to set.
-     */
-    public void setRootUri(String rootUri);
-
-    /**
-     * Closes client
-     */
-    public void close();
 }

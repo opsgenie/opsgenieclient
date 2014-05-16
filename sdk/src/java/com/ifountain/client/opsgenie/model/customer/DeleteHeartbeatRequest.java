@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a delete heartbeat monitor api call.
  *
+ * @author  Mustafa Sener
+ * @version 30.04.2013 22:36
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#deleteHeartbeat(DeleteHeartbeatRequest)
  */
 public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse> {

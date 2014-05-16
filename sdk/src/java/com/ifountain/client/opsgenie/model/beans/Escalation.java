@@ -10,6 +10,9 @@ import java.util.Map;
 
 /**
  * Escalation bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  */
 public class Escalation  implements IBean {
     private String id;

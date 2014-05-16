@@ -9,6 +9,9 @@ import java.util.Map;
 
 /**
  * ScheduleParticipant bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  */
 public class ScheduleParticipant  implements IBean {
     public enum Type{

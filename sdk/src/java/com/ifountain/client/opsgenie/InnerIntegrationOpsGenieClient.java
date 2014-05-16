@@ -10,6 +10,10 @@ import java.text.ParseException;
 
 /**
  * Inner Integration Client
+ *
+ * @author Halit Okumus
+ * @version 04.03.2014 09:40
+ * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient
  */
 public class InnerIntegrationOpsGenieClient implements IIntegrationOpsGenieClient{
     private JsonHttpClient httpClient;

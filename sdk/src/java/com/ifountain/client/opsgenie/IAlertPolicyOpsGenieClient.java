@@ -10,6 +10,8 @@ import java.text.ParseException;
 /**
  * Interface for accessing OpsGenie for alert policy related operations
  *
+ * @author Halit Okumus
+ * @version 04.03.2014 09:40
  * @see OpsGenieClient
  */
 public interface IAlertPolicyOpsGenieClient {

@@ -15,7 +15,11 @@ import java.nio.charset.Charset;
 import java.text.ParseException;
 
 /**
- * Abstract Inner Client
+ * Inner Alert Client
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 11:39
+ * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient
  */
 public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     private JsonHttpClient httpClient;

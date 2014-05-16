@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for get heartbeat config request.
  *
+ * @author Mustafa Sener
+ * @version 30.04.2013 22:36
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#getHeartbeat(GetHeartbeatRequest)
  */
 public class GetHeartbeatConfigResponse extends BaseResponse{

@@ -9,6 +9,10 @@ import java.text.ParseException;
 
 /**
  * Inner Escalation Client
+ *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
+ * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient
  */
 public class InnerEscalationOpsGenieClient implements IEscalationOpsGenieClient{
     private JsonHttpClient httpClient;

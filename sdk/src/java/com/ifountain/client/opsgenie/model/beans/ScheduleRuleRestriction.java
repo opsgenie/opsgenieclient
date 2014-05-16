@@ -9,6 +9,9 @@ import java.util.Map;
 
 /**
  * ScheduleRuleRestriction bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  */
 public class ScheduleRuleRestriction  implements IBean {
     public enum DAY{

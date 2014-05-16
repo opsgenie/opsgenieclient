@@ -1,14 +1,18 @@
-package com.ifountain.opsgenie.client.cli.commands;
+package com.ifountain.opsgenie.client.cli.commands.opsgenie;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import com.ifountain.client.ClientConstants;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
 import com.ifountain.client.opsgenie.model.alertpolicy.EnableAlertPolicyRequest;
 import com.ifountain.client.opsgenie.model.integration.EnableIntegrationRequest;
 import com.ifountain.client.util.Strings;
+import com.ifountain.opsgenie.client.cli.commands.BaseCommand;
+import com.ifountain.opsgenie.client.cli.commands.CommonCommandOptions;
+import com.ifountain.opsgenie.client.cli.commands.NullSplitter;
 
 import java.util.List;
 
@@ -44,7 +48,7 @@ public class EnableCommand extends BaseCommand {
     }
 
     @Override
-    public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
+    public void doExecute(IClient client) throws Exception {
         String typeStr = null;
         if (type != null) typeStr = Strings.join(type, " ");
         if (ClientConstants.API.INTEGRATION.equals(typeStr)) {
@@ -53,7 +57,7 @@ public class EnableCommand extends BaseCommand {
             if (name != null) request.setName(Strings.join(name, " "));
             if (id != null) request.setId(Strings.join(id, " "));
             request.setApiKey(getCommonCommandOptions().getApiKey());
-            opsGenieClient.integration().enableIntegration(request);
+            ((IOpsGenieClient)client).integration().enableIntegration(request);
             if (isEnabled())
                 System.out.println("Integration enabled");
             else
@@ -64,7 +68,7 @@ public class EnableCommand extends BaseCommand {
             if (name != null) request.setName(Strings.join(name, " "));
             if (id != null) request.setId(Strings.join(id, " "));
             request.setApiKey(getCommonCommandOptions().getApiKey());
-            opsGenieClient.alertPolicy().enableAlertPolicy(request);
+            ((IOpsGenieClient)client).alertPolicy().enableAlertPolicy(request);
             if (isEnabled())
                 System.out.println("Policy enabled");
             else

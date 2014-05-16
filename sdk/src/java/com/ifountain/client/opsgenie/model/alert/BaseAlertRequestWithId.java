@@ -7,26 +7,17 @@ import com.ifountain.client.model.BaseResponse;
 
 import java.util.Map;
 
+/**
+ * Container for the parameters to make alert api calls with id/alias/tinyId.
+ *
+ * @author Mustafa Sener
+ * @version 24.04.2013 14:04
+ * @see com.ifountain.client.model.BaseRequest
+ */
 public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends BaseRequest<T>{
     private String id;
     private String alias;
     private String tinyId;
-
-    /**
-     * The id of the alert.
-     * @deprecated use getId
-     */
-    public String getAlertId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of the alert. Either this or alias should be set.
-     * @deprecated use setId
-     */
-    public void setAlertId(String alertId) {
-        this.id = alertId;
-    }
 
     /**
      * The tiny id of the alert.

@@ -12,11 +12,12 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list forwardings request.
  *
+ * @author Mustafa Sener
+ * @version 22.03.2013 08:46
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#listForwardings(ListForwardingsRequest)
  */
 public class ListForwardingsResponse extends BaseResponse {
     private List<Forwarding> forwardings;
-    private String json;
 
     /**
      * Forwarding setting beans
@@ -26,7 +27,7 @@ public class ListForwardingsResponse extends BaseResponse {
     }
 
     /**
-     * Sets forwarding setting bean
+     * Sets forwarding setting beans
      */
     public void setForwardings(List<Forwarding> forwardings) {
         this.forwardings = forwardings;

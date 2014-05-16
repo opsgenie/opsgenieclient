@@ -9,6 +9,9 @@ import java.util.Map;
 
 /**
  * HeartbeatConfig bean
+ *
+ * @author Mustafa Sener
+ * @version 30.04.2013 22:36
  */
 public class HeartbeatConfig implements IBean {
     private Boolean enabled;

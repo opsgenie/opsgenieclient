@@ -9,6 +9,9 @@ import java.util.*;
 
 /**
  * ScheduleRule bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  */
 public class ScheduleRule  implements IBean {
     public enum RotationType{
@@ -56,14 +59,16 @@ public class ScheduleRule  implements IBean {
     }
 
     /**
-     * Rotation length of schedule rule
+     * Rotation length of custom schedule rule
+     * Splits shifts between users according to the specified rotation length.
      */
     public int getRotationLength() {
         return rotationLength;
     }
 
     /**
-     * Sets rotation length of schedule rule
+     * Sets rotation length of custom schedule rule
+     * Splits shifts between users according to the specified rotation length.
      */
     public void setRotationLength(int rotationLength) {
         this.rotationLength = rotationLength;
@@ -103,7 +108,6 @@ public class ScheduleRule  implements IBean {
 
     /**
      * Will be set by schedule
-     * @param scheduleTimeZone
      */
     public void setScheduleTimeZone(TimeZone scheduleTimeZone) {
         this.scheduleTimeZone = scheduleTimeZone;
@@ -120,7 +124,7 @@ public class ScheduleRule  implements IBean {
         json.put(ClientConstants.API.ROTATION_TYPE, rotationType.name());
         json.put(ClientConstants.API.ROTATION_LENGTH, rotationLength);
         if(participants != null){
-            List participantNames = new ArrayList();
+            List<String> participantNames = new ArrayList<String>();
             for(ScheduleParticipant participant:participants){
                 participantNames.add(participant.getParticipant());
             }
@@ -166,18 +170,18 @@ public class ScheduleRule  implements IBean {
             rotationLength = ((Number) map.get(ClientConstants.API.ROTATION_LENGTH)).intValue();
         }
         if(map.containsKey(ClientConstants.API.PARTICIPANTS)){
-            List<Map> participantMaps = (List<Map>) map.get(ClientConstants.API.PARTICIPANTS);
+            List<Map<String,Object>> participantMaps = (List<Map<String,Object>>) map.get(ClientConstants.API.PARTICIPANTS);
             participants = new ArrayList<ScheduleParticipant>();
-            for( Map participantMap:participantMaps){
+            for( Map<String,Object> participantMap:participantMaps){
                 ScheduleParticipant participant = new ScheduleParticipant();
                 participant.fromMap(participantMap);
                 participants.add(participant);
             }
         }
         if(map.containsKey(ClientConstants.API.RESTRICTIONS)){
-            List<Map> restrictionMaps = (List<Map>) map.get(ClientConstants.API.RESTRICTIONS);
+            List<Map<String,Object>> restrictionMaps = (List<Map<String,Object>>) map.get(ClientConstants.API.RESTRICTIONS);
             restrictions = new ArrayList<ScheduleRuleRestriction>();
-            for( Map restrictionMap:restrictionMaps){
+            for( Map<String,Object> restrictionMap:restrictionMaps){
                 ScheduleRuleRestriction scheduleRuleRestriction = new ScheduleRuleRestriction();
                 scheduleRuleRestriction.fromMap(restrictionMap);
                 restrictions.add(scheduleRuleRestriction);

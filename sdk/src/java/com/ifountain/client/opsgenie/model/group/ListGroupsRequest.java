@@ -5,6 +5,8 @@ import com.ifountain.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list groups api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
 public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {

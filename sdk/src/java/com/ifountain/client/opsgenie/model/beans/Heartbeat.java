@@ -6,7 +6,10 @@ import com.ifountain.client.model.IBean;
 import java.util.*;
 
 /**
- * Escalation bean
+ * HeartBean bean
+ *
+ * @author Mustafa Sener
+ * @version 30.04.2013 22:36
  */
 public class Heartbeat implements IBean {
     private String source;

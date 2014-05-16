@@ -105,5 +105,6 @@ public interface ClientConstants {
         public static final String SERVICE = "service";
         public static final String INCIDENT_ID = "incidentId";
         public static final String INCIDENTS = "incidents";
+        public static final String INCIDENT = "incident";
     }
 }

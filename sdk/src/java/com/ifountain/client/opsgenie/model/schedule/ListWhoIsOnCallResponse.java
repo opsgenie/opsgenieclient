@@ -10,15 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents OpsGenie service response for get schedule request.
+ * Represents OpsGenie service response for lit who is on call request.
  *
+ *  * @author Mustafa Sener
+ * @version 22.04.2013 15:10
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#listWhoIsOnCall(com.ifountain.client.opsgenie.model.schedule.ListWhoIsOnCallRequest)
  */
 public class ListWhoIsOnCallResponse extends BaseResponse{
     private List<WhoIsOnCall> whoIsOnCallList;
 
     /**
-     * Details of schedule
+     * Returns on call participants of all schedules as list
      * @see com.ifountain.client.opsgenie.model.beans.WhoIsOnCall
      */
     public List<WhoIsOnCall> getWhoIsOnCallList() {
@@ -26,7 +28,7 @@ public class ListWhoIsOnCallResponse extends BaseResponse{
     }
 
     /**
-     * Sets details of schedule
+     * Sets the on call participants of all schedules.
      * @see com.ifountain.client.opsgenie.model.beans.WhoIsOnCall
      */
     public void setWhoIsOnCallList(List<WhoIsOnCall> whoIsOnCallList) {

@@ -8,6 +8,7 @@ import com.ifountain.client.model.BaseResponse;
 import java.util.Map;
 
 /**
+ * Container for the service parameter. Requests contain service parameter extends from this request.
  * @author Tuba Ozturk
  * @version 2.5.2014 17:15
  */
@@ -15,14 +16,14 @@ public abstract class BaseIncidentRequestWithService<T extends BaseResponse> ext
     private String service;
 
     /**
-     * Service that incident is belong to.
+     * Service that incident belongs to.
      */
     public String getService() {
         return service;
     }
 
     /**
-     * Sets the service that incident is belong to.
+     * Sets the service that incident belongs to.
      */
     public void setService(String service) {
         this.service = service;

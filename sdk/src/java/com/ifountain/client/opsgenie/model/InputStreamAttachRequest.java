@@ -7,9 +7,9 @@ import java.io.InputStream;
 /**
  * Container for the parameters to make an {@link java.io.InputStream} based attach api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 3:38 PM
- * @see com.ifountain.client.opsgenie.IOpsGenieClient#attach(InputStreamAttachRequest)
+ * @author Mustafa Sener
+ * @version 20.06.2012 17:03
+ * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient#attach(InputStreamAttachRequest)
  */
 public class InputStreamAttachRequest extends AttachRequest {
     private InputStream inputStream;

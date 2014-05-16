@@ -8,6 +8,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make an update escalation api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#updateEscalation(UpdateEscalationRequest)
  */
 public class UpdateEscalationRequest extends AddEscalationRequest {

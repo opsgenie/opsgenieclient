@@ -22,7 +22,7 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     private String lastKey;
 
     /**
-     * Order of alert logs to be retrieved. Can be ascending or descending.
+     * Order of alert logs to be retrieved. Can be asc or desc.
      */
     public SortOrder getSortOrder() {
         return sortOrder;
@@ -75,7 +75,6 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     public Map<String,Object> serialize() throws ClientValidationException {
         Map<String,Object> resp = super.serialize();
         if(!(resp.containsKey(ClientConstants.API.ID)
-                || resp.containsKey(ClientConstants.API.ALERT_ID)
                 ||resp.containsKey(ClientConstants.API.ALIAS)
         || resp.containsKey(ClientConstants.API.TINY_ID)) )
         {

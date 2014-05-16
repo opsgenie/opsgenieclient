@@ -2,7 +2,7 @@ package com.ifountain.client.statussiren.model.incident;
 
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.statussiren.model.beans.Status;
+import com.ifountain.client.statussiren.model.Status;
 
 import java.util.Map;
 
@@ -16,14 +16,14 @@ public class UpdateIncidentRequest extends BaseIncidentRequestWithId<UpdateIncid
     private Status status;
 
     /**
-     * Incident text.
+     * Update Message.
      */
     public String getMessage() {
         return message;
     }
 
     /**
-     *  Sets incident text.
+     *  Sets update message
      */
     public void setMessage(String message) {
         this.message = message;

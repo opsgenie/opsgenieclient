@@ -3,11 +3,14 @@ package com.ifountain.client.opsgenie.model.escalation;
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Container for the parameters to make a get escalation api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#getEscalation(GetEscalationRequest)
  */
 public class GetEscalationRequest extends BaseGetRequest<GetEscalationResponse> {
@@ -42,6 +45,13 @@ public class GetEscalationRequest extends BaseGetRequest<GetEscalationResponse> 
         if(getName() != null){
             json.put(ClientConstants.API.NAME, getName());
         }
+    }
+
+    @Override
+    public List<String> getMandatoryProperties() {
+        List<String> mandatoryProperyList = super.getMandatoryProperties();
+        mandatoryProperyList.add(ClientConstants.API.NAME);
+        return mandatoryProperyList;
     }
 
     @Override

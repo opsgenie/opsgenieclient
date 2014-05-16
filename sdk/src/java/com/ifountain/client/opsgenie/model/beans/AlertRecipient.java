@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Alert bean
+ * Alert Recipient bean
+ *
+ * @author Mustafa Sener
+ * @version 25.06.2013 10:44
  */
 public class AlertRecipient implements IBean {
     private String username;

@@ -5,6 +5,7 @@ import com.ifountain.client.ClientException;
 import com.ifountain.client.http.HttpClient;
 import com.ifountain.client.http.JsonHttpClient;
 import com.ifountain.client.statussiren.model.incident.*;
+import com.ifountain.client.util.ClientConfiguration;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -15,6 +16,18 @@ import java.text.ParseException;
  * <p><code>StatusSirenClient</code> class provides the implementation APIs for StatusSiren operations like creating, resolving and getting incidents,
  * etc. All service calls made using this client are blocking, and will not return until the service call completes.</p>
  * <p/>
+ * <h4>Creating an Incident</h4>
+ * <p>Construct a <code>CreateIncidentRequest</code> object with preferred options and call <code>createIncident</code> method on client.</p>
+ * <p><blockquote><pre>
+ * StatusSirenClient client = new StatusSirenClient();
+ * CreateIncidentRequest request = new CreateIncidentRequest();
+ * request.setApiKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
+ * request.setService("service1");
+ * request.setMessage("appserver1 down");
+ * request.setDescription("cpu usage is over 60%");
+ * CreateIncidentResponse response = client.createIncident(request);
+ * long incidentId = response.getIncidentId();
+ *
  * @author Tuba Ozturk
  * @version 25.4.2014 08:46
  */
@@ -22,7 +35,14 @@ public class StatusSirenClient implements IStatusSirenClient {
     /**
      * Http client object
      */
-    JsonHttpClient jsonHttpClient;
+    private JsonHttpClient jsonHttpClient;
+
+    /**
+     * Constructs a new client to invoke service methods on OpsGenie using the specified client configuration options.
+     */
+    public StatusSirenClient(ClientConfiguration config) {
+        this(new HttpClient(config));
+    }
 
     /**
      * Constructs a new client to invoke service methods on StatusSiren.
@@ -103,5 +123,19 @@ public class StatusSirenClient implements IStatusSirenClient {
     @Override
     public void close() {
         this.jsonHttpClient.close();
+    }
+
+    /**
+     * Api key used for authenticating API requests.
+     */
+    public String getApiKey(){
+        return this.jsonHttpClient.getApiKey();
+    }
+
+    /**
+     * Sets the api key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey){
+        this.jsonHttpClient.setApiKey(apiKey);
     }
 }

@@ -2,11 +2,15 @@ package com.ifountain.client.opsgenie.model.integration;
 
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
+
+import java.util.List;
 import java.util.Map;
 
 /**
  * Container for the parameters to make an enable/disable integration api call.
  *
+ * @author Halit Okumus
+ * @version 04.03.2014 09:40
  * @see com.ifountain.client.opsgenie.IIntegrationOpsGenieClient#enableIntegration(com.ifountain.client.opsgenie.model.integration.EnableIntegrationRequest)
  */
 public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationResponse> {
@@ -25,7 +29,6 @@ public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationRe
         else{
             return "/v1/json/integration/disable";
         }
-
     }
 
     /**
@@ -69,5 +72,12 @@ public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationRe
         if(getName() != null){
             data.put(ClientConstants.API.NAME, getName());
         }
+    }
+
+    @Override
+    public List<String> getMandatoryProperties() {
+        List<String> mandatoryProperyList = super.getMandatoryProperties();
+        mandatoryProperyList.add(ClientConstants.API.NAME);
+        return mandatoryProperyList;
     }
 }

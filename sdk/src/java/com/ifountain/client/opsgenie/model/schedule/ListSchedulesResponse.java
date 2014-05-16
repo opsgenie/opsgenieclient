@@ -12,6 +12,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list schedules request.
  *
+ * @author Mustafa Sener
+ * @version 22.04.2013 14:18
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
 public class ListSchedulesResponse extends BaseResponse{

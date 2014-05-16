@@ -20,34 +20,60 @@ public class ListIncidentsRequest extends BaseIncidentRequestWithService<ListInc
     private Integer limit;
     private Order order;
 
+    /**
+     * Returns the specified createdAfter time.
+     * If created after set in request, response contains incidents which created after the specified time.
+     */
     public Long getCreatedAfter() {
         return createdAfter;
     }
 
+    /**
+     * Sets the specified createdAfter time
+     */
     public void setCreatedAfter(Long createdAfter) {
         this.createdAfter = createdAfter;
     }
 
+    /**
+     * Returns the specified createdBefore time.
+     * If created after set in request, response contains incidents which created before specified time.
+     */
     public Long getCreatedBefore() {
         return createdBefore;
     }
 
+    /**
+     * Sets the specified createdBefore time
+     */
     public void setCreatedBefore(Long createdBefore) {
         this.createdBefore = createdBefore;
     }
 
+    /**
+     * Number of incidents to be retrieved. Default value is 20.
+     */
     public Integer getLimit() {
         return limit;
     }
 
+    /**
+     * Sets the number of incidents to be retrieved.
+     */
     public void setLimit(Integer limit) {
         this.limit = limit;
     }
 
+    /**
+     * Order of incidents to be retrieved. Can be asc or desc.
+     */
     public Order getOrder() {
         return order;
     }
 
+    /**
+     * Sets the order of incidents to be retrieved. Can be asc or desc.
+     */
     public void setOrder(Order order) {
         this.order = order;
     }

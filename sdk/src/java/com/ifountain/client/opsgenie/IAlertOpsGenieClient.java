@@ -76,8 +76,7 @@ public interface IAlertOpsGenieClient {
     public AddNoteResponse addNote(AddNoteRequest addNoteRequest) throws ClientException, IOException, ParseException;
 
     /**
-     * Acknowledges alerts in OpsGenie.
-     *
+     * Acknowledges alerts in OpsGenie.     *
      *
      * @param acknowledgeRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
@@ -87,8 +86,7 @@ public interface IAlertOpsGenieClient {
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws ClientException, IOException, ParseException;
 
     /**
-     * Renotifies recipients in OpsGenie.
-     *
+     * Renotifies recipients in OpsGenie.     *
      *
      * @param renotifyRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.

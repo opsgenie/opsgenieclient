@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
-import com.ifountain.client.opsgenie.IOpsGenieClient;
+import com.ifountain.client.model.IClient;
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -12,7 +12,7 @@ public interface Command {
 
     public void printUsage();
 
-    public void execute(IOpsGenieClient opsGenieClient) throws Exception;
+    public void execute(IClient client) throws Exception;
 
     public void setApiKey(String apiKey);
 

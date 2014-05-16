@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for get escalation request.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#getEscalation(GetEscalationRequest)
  */
 public class GetEscalationResponse extends BaseResponse{

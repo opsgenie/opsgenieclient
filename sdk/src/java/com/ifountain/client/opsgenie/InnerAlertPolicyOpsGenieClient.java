@@ -10,11 +10,15 @@ import java.text.ParseException;
 
 /**
  * Inner Alert Policy Client
+ *
+ * @author Halit Okumus
+ * @version 04.03.2014 09:40
+ * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient
  */
 public class InnerAlertPolicyOpsGenieClient implements IAlertPolicyOpsGenieClient {
     private JsonHttpClient httpClient;
     /**
-     * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
+     * Constructs a new alertpolicy client to invoke service methods on OpsGenie for alert policies using the specified client and root URI.
      */
     public InnerAlertPolicyOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;

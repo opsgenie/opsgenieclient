@@ -7,6 +7,7 @@ import com.ifountain.client.model.BaseResponse;
 import java.util.Map;
 
 /**
+ * Container for the incidentId parameter. Requests contain incidentId parameter extends from this request.
  * @author Tuba Ozturk
  * @version 2.5.2014 17:14
  */

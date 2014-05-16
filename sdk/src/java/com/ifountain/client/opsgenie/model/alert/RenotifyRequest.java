@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Container for the parameters to make an renotify alert api call.
+ * Container for the parameters to make a renotify alert api call.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 11/26/12 4:17 PM
@@ -29,7 +29,7 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
     }
 
     /**
-     * Return recipients
+     * Returns recipients that will renotified
      * @see RenotifyRecipient
      */
     public List<RenotifyRecipient> getRecipients() {
@@ -37,7 +37,7 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
     }
 
     /**
-     * Sets recipients
+     * Sets recipients that will renotified
      * @see RenotifyRecipient
      */
     public void setRecipients(List<RenotifyRecipient> recipients) {

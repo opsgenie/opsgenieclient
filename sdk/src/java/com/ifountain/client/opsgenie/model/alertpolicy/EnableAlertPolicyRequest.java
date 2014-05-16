@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * Container for the parameters to enable/disable  alert policy.
  *
+ * @author Mustafa Sener
  * @version 11/26/12 4:17 PM
  * @see com.ifountain.client.opsgenie.IAlertPolicyOpsGenieClient#enableAlertPolicy(EnableAlertPolicyRequest)
  */

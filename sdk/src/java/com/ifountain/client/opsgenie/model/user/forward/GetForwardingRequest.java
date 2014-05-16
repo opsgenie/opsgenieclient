@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a get forwarding api call.
  *
+ * @author Mustafa Sener
+ * @version 22.03.2013 08:46
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#getForwarding(GetForwardingRequest)
  */
 public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
@@ -56,8 +58,8 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         json.put(ClientConstants.API.ID, getId());
         json.put(ClientConstants.API.ALIAS, getAlias());
         return json;

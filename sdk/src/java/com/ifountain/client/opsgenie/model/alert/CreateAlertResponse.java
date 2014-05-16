@@ -15,21 +15,6 @@ import java.util.Map;
  */
 public class CreateAlertResponse extends BaseResponse {
     private String id;
-
-    /**
-     * Id of the created alert
-     */
-    public String getAlertId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of the created alert.
-     */
-    public void setAlertId(String alertId) {
-        this.id = alertId;
-    }
-
     /**
      * Id of the created alert
      */
@@ -50,11 +35,11 @@ public class CreateAlertResponse extends BaseResponse {
      */
     public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
-        if(data.containsKey(ClientConstants.API.ALERT_ID)){
-            setAlertId((String) data.get(ClientConstants.API.ALERT_ID));
-        }
         if(data.containsKey(ClientConstants.API.ID)){
             setId((String) data.get(ClientConstants.API.ID));
+        }
+        if(data.containsKey(ClientConstants.API.ALERT_ID)){
+            setId((String) data.get(ClientConstants.API.ALERT_ID));
         }
     }
 }

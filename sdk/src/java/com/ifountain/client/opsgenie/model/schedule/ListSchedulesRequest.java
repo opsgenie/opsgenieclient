@@ -4,7 +4,8 @@ import com.ifountain.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a list schedules api call.
- *
+ * @author Mustafa Sener
+ * @version 22.04.2013 14:18
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
 public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse> {

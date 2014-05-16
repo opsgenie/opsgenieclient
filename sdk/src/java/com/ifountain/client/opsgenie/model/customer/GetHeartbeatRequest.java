@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a get heartbeat monitor api call.
  *
+ * @author Mustafa Sener
+ * @version 30.04.2013 22:36
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#getHeartbeat(com.ifountain.client.opsgenie.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
@@ -20,7 +22,6 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     public String getEndPoint() {
         return "/v1/json/customer/heartbeat";
     }
-
 
     /**
      * Source of heartbeat monitor.

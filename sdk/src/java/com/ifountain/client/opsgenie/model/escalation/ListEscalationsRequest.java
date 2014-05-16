@@ -5,6 +5,8 @@ import com.ifountain.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list escalations api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
 public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse> {

@@ -11,6 +11,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make an add group api call.
  *
+ * @author Mustafa Sener
+ * @version 22.04.2013 14:36
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#addGroupMember(AddGroupMemberRequest)
  */
 public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {

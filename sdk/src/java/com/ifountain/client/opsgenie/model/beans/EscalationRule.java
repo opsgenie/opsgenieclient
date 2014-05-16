@@ -6,6 +6,12 @@ import com.ifountain.client.model.IBean;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Escalation Rule Bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
+ */
 public class EscalationRule  implements IBean {
     public static enum Type{
         user,
@@ -32,13 +38,12 @@ public class EscalationRule  implements IBean {
 
     /**
      * Type of escalation rule member
-     * One of user, group
+     * One of user, group, schedule.
      * @see Type
      */
     public Type getType() {
         return type;
     }
-
 
     /**
      * Delay of escalation rule

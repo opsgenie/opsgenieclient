@@ -3,11 +3,14 @@ package com.ifountain.client.opsgenie.model.schedule;
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Container for the parameters to make a get schedule api call.
  *
+ * @author Mustafa Sener
+ * @version 22.04.2013 14:18
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#getSchedule(com.ifountain.client.opsgenie.model.schedule.GetScheduleRequest)
  */
 public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
@@ -42,6 +45,13 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
         if(name != null){
             json.put(ClientConstants.API.NAME, name);
         }
+    }
+
+    @Override
+    public List<String> getMandatoryProperties() {
+        List<String> mandatoryProperyList = super.getMandatoryProperties();
+        mandatoryProperyList.add(ClientConstants.API.NAME);
+        return mandatoryProperyList;
     }
 
     @Override

@@ -12,6 +12,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make an add escalation api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#addEscalation(AddEscalationRequest)
  */
 public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
@@ -42,6 +44,7 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
 
     /**
      * Rules of escalation
+     * @see com.ifountain.client.opsgenie.model.beans.EscalationRule
      */
     public List<EscalationRule> getRules() {
         return rules;
@@ -49,6 +52,7 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
 
     /**
      * Sets rules of escalation
+     * @see com.ifountain.client.opsgenie.model.beans.EscalationRule
      */
     public void setRules(List<EscalationRule> rules) {
         this.rules = rules;

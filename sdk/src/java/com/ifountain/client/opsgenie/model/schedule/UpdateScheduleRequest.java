@@ -8,6 +8,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make an update schedule api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#updateSchedule(UpdateScheduleRequest)
  */
 public class UpdateScheduleRequest extends AddScheduleRequest {

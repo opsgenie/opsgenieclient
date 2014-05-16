@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a delete escalation api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#deleteEscalation(DeleteEscalationRequest)
  */
 public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationResponse> {

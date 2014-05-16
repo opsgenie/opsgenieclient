@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.JCommander;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public abstract class BaseCommand implements Command {
     }
 
     @Override
-    public void execute(IOpsGenieClient opsGenieClient) throws Exception {
+    public void execute(IClient opsGenieClient) throws Exception {
         if (getCommonCommandOptions().isHelp()) {
             printUsage();
         } else {
@@ -46,7 +47,7 @@ public abstract class BaseCommand implements Command {
         }
     }
 
-    protected abstract void doExecute(IOpsGenieClient opsGenieClient) throws Exception;
+    protected abstract void doExecute(IClient client) throws Exception;
 
     protected abstract CommonCommandOptions getCommonCommandOptions();
 

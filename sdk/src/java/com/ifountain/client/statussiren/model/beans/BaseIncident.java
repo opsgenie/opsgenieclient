@@ -2,6 +2,7 @@ package com.ifountain.client.statussiren.model.beans;
 
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.IBean;
+import com.ifountain.client.statussiren.model.Status;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 /**
  * BaseIncident bean
+ *
  * @author Tuba Ozturk
  * @version 30.4.2014 10:38
  */

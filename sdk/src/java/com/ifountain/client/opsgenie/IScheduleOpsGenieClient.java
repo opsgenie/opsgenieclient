@@ -8,7 +8,8 @@ import java.text.ParseException;
 
 /**
  * Interface for accessing OpsGenie for schedule related operations
- *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see OpsGenieClient
  */
 public interface IScheduleOpsGenieClient {
@@ -54,7 +55,7 @@ public interface IScheduleOpsGenieClient {
 
 
     /**
-     * Return current on call participant list fo schedules
+     * Return current on call participant list of the schedule
      *
      * @param whoIsOnCallRequest Object to construct request parameters.
      * @return <code>WhoIsOnCallRequest</code> object containing OpsGenie response information.

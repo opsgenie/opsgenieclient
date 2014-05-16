@@ -55,7 +55,6 @@ public class ListAlertRecipientsResponse extends BaseResponse {
 
     /**
      * @see com.ifountain.client.model.BaseResponse#deserialize(java.util.Map)
-     * @param data
      */
     public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);

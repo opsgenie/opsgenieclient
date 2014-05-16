@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a delete group api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#deleteGroup(com.ifountain.client.opsgenie.model.group.DeleteGroupRequest)
  */
 public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {

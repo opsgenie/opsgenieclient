@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Container for the parameters to make an file based attach api call.
+ * Container for the parameters to make a file based attach api call.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 3:38 PM

@@ -8,6 +8,9 @@ import java.util.*;
 
 /**
  * User bean
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  */
 public class User  implements IBean {
     private static final Map<String, Locale> LOCALES = new HashMap<String, Locale>();
@@ -30,7 +33,6 @@ public class User  implements IBean {
     }
     public static enum State{
         active,
-        waitingverification,
         inactive
     }
     private String id;

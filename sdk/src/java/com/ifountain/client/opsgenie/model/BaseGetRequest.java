@@ -5,14 +5,13 @@ import com.ifountain.client.ClientValidationException;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.client.model.BaseResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ifountain-qj
- * Date: 4/24/13
- * Time: 7:13 AM
- * To change this template use File | Settings | File Templates.
+ * @author Mustafa Sener
+ * @version 25.04.2013 15:53
  */
 public abstract class BaseGetRequest<T extends BaseResponse> extends BaseRequest<T> {
     private String id;
@@ -34,16 +33,34 @@ public abstract class BaseGetRequest<T extends BaseResponse> extends BaseRequest
     @Override
     public final Map<String,Object> serialize() throws ClientValidationException {
         Map<String,Object> data =  super.serialize();
-        int numberOfParentSerializeParams = data.size();
         if(getId() != null){
             data.put(ClientConstants.API.ID, getId());
         }
         _serialize(data);
-        if(numberOfParentSerializeParams == data.size()){
-            throw ClientValidationException.missingMandatoryProperty(ClientConstants.API.ID);
+        List<String> mandatoryProperties = getMandatoryProperties();
+        boolean mandatoryPropertyGiven = mandatoryPropertyCheck(data,mandatoryProperties);
+        if(!mandatoryPropertyGiven){
+            throw ClientValidationException.shouldSpecifyAtLeastOneOf(mandatoryProperties.toString());
         }
         return data;
     }
 
     public abstract void _serialize(Map<String,Object> data);
+
+    public List<String> getMandatoryProperties(){
+        List<String> mandatoryProperties = new ArrayList<String>();
+        mandatoryProperties.add(ClientConstants.API.ID);
+        return mandatoryProperties;
+    }
+
+    private boolean mandatoryPropertyCheck(Map<String,Object> data, List<String> mandatoryProperties){
+        for(String propertyName: mandatoryProperties){
+            if(data.containsKey(propertyName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

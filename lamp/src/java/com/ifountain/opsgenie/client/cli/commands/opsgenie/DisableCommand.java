@@ -1,4 +1,4 @@
-package com.ifountain.opsgenie.client.cli.commands;
+package com.ifountain.opsgenie.client.cli.commands.opsgenie;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameters;

@@ -12,6 +12,8 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add user api call.
  *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#addUser(AddUserRequest)
  */
 public class AddUserRequest extends BaseRequest<AddUserResponse> {
@@ -106,8 +108,8 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String, Object> serialize() throws ClientValidationException {
+        Map<String, Object> json = super.serialize();
         if(getUsername() != null){
             json.put(ClientConstants.API.USERNAME, getUsername());
         }

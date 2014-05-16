@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @see com.ifountain.client.statussiren.model.beans.IncidentUpdate
- * @see com.ifountain.client.statussiren.model.beans.BaseIncident
+ * Incident Bean. GetIncident response contains Incident bean
+ *
  * @author Tuba Ozturk
  * @version 2.5.2014 11:28
+ * @see com.ifountain.client.statussiren.model.beans.IncidentUpdate
+ * @see com.ifountain.client.statussiren.model.beans.BaseIncident
  */
 public class Incident extends BaseIncident {
     private List<IncidentUpdate> updates;

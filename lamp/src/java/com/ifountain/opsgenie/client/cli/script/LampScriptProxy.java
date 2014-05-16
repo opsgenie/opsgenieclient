@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.cli.script;
 
 import com.ifountain.client.ClientConstants;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
 import com.ifountain.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.script.util.ScriptBridgeUtils;

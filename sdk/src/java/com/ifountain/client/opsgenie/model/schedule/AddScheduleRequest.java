@@ -13,6 +13,8 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add schedule api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#addSchedule(AddScheduleRequest)
  */
 public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
@@ -46,6 +48,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
 
     /**
      * Rules of schedule
+     * @see com.ifountain.client.opsgenie.model.beans.ScheduleRule
      */
     public List<ScheduleRule> getRules() {
         return rules;
@@ -53,6 +56,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
 
     /**
      * Sets rules of schedule
+     * @see com.ifountain.client.opsgenie.model.beans.ScheduleRule
      */
     public void setRules(List<ScheduleRule> rules) {
         this.rules = rules;

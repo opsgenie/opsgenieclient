@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Alert bean
+ * Alert Log bean
+ *
+ * @author Mustafa Sener
+ * @version 26.06.2013 10:44
  */
 public class AlertLog implements IBean {
     private String log;

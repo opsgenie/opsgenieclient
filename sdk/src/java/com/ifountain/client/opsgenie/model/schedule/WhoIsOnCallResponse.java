@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for who is on call request.
  *
+ * @author Mustafa Sener
+ * @version 22.04.2013 15:10
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#whoIsOnCall(WhoIsOnCallRequest)
  */
 public class WhoIsOnCallResponse extends BaseResponse{

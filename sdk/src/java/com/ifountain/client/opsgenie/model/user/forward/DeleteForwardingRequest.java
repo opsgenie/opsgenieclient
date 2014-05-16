@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make an delete forwarding api call.
  *
+ * @author Mustafa Sener
+ * @version 22.03.2013 08:46
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#deleteForwarding(DeleteForwardingRequest)
  */
 public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingResponse> {
@@ -40,8 +42,8 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         json.put(ClientConstants.API.ID, getId());
         return json;
     }

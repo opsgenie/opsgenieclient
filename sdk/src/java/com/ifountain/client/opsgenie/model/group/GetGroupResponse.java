@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for get group request.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#getGroup(com.ifountain.client.opsgenie.model.group.GetGroupRequest)
  */
 public class GetGroupResponse extends BaseResponse{

@@ -1,5 +1,6 @@
 package com.ifountain.client.statussiren.model.incident;
 
+import com.ifountain.client.ClientConstants;
 import com.ifountain.client.model.BaseResponse;
 import com.ifountain.client.statussiren.model.beans.Incident;
 
@@ -33,6 +34,6 @@ public class GetIncidentResponse extends BaseResponse {
     public void deserialize(Map<String, Object> data) throws ParseException {
         super.deserialize(data);
         incident = new Incident();
-        incident.fromMap(data);
+        incident.fromMap((Map<String, Object>) data.get(ClientConstants.API.INCIDENT));
     }
 }

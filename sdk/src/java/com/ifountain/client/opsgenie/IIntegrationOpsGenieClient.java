@@ -10,7 +10,8 @@ import java.text.ParseException;
 /**
  * Interface for accessing OpsGenie for integration related operations
  *
- * @version 6/1/12 10:09 AM
+ * @author Halit Okumus
+ * @version 04.03.2014 09:40
  * @see OpsGenieClient
  */
 public interface IIntegrationOpsGenieClient {

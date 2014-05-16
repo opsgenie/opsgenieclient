@@ -12,6 +12,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list group request.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
 public class ListGroupsResponse extends BaseResponse {

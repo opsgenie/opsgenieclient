@@ -23,7 +23,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     }
 
     /**
-     * Sets the customer key used for authenticating API requests.
+     * Sets the api key used for authenticating API requests.
      */
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;

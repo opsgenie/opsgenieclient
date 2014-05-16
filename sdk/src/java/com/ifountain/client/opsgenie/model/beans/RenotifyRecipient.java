@@ -9,6 +9,9 @@ import java.util.Map;
 
 /**
  * RenotifyRecipient bean
+ *
+ * @author Mustafa Sener
+ * @version 26.08.2013 16:28
  */
 public class RenotifyRecipient implements IBean {
     public enum Type{

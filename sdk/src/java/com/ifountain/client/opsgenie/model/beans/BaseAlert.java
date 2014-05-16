@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * BaseIncident Bean
+ *
  * @author Tuba Ozturk
  * @version 6.5.2014 11:33
  */
@@ -30,7 +31,6 @@ public class BaseAlert implements IBean{
 
     /**
      * Returns type of integration which created alert
-     * @return
      */
     public Map<String, String> getSystemData() {
         return systemData;
@@ -38,49 +38,48 @@ public class BaseAlert implements IBean{
 
     /**
      * Sets alert system data. System data contains system parameters such as ackTime, closeTime, integrationType, etc...
-     * @param systemData
      */
     public void setSystemData(Map<String, String> systemData) {
         this.systemData = systemData;
     }
 
     /**
-     * The tiny id of the
+     * The tiny id of the alert
      */
     public String getTinyId() {
         return tinyId;
     }
 
     /**
-     * Sets the tiny id of the
+     * Sets the tiny id of the alert
      */
     public void setTinyId(String tinyId) {
         this.tinyId = tinyId;
     }
 
     /**
-     * The id of the
+     * The id of the alert
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets the id of the
+     * Sets the id of the alert
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * User defined identifier of the
+     * User defined identifier of the alert
      */
     public String getAlias() {
         return alias;
     }
 
     /**
-     * Sets the user defined identifier of the
+     * Sets the user defined identifier of the alert
      */
     public void setAlias(String alias) {
         this.alias = alias;
@@ -101,14 +100,14 @@ public class BaseAlert implements IBean{
     }
 
     /**
-     * The status of the
+     * The status of the alert
      */
     public Status getStatus() {
         return status;
     }
 
     /**
-     * Sets the status of the
+     * Sets the status of the alert
      */
     public void setStatus(Status status) {
         this.status = status;
@@ -143,14 +142,14 @@ public class BaseAlert implements IBean{
     }
 
     /**
-     * Count of the
+     * Count of the alert
      */
     public int getCount() {
         return count;
     }
 
     /**
-     * Sets the count of the
+     * Sets the count of the alert
      */
     public void setCount(int count) {
         this.count = count;
@@ -164,21 +163,21 @@ public class BaseAlert implements IBean{
     }
 
     /**
-     * Sets seen state of the
+     * Sets seen state of the alert
      */
     public void setSeen(boolean seen) {
         isSeen = seen;
     }
 
     /**
-     * The acknowledged state of the
+     * The acknowledged state of the alert
      */
     public boolean isAcknowledged() {
         return acknowledged;
     }
 
     /**
-     * Sets the acknowledged state of the
+     * Sets the acknowledged state of the alert
      */
     public void setAcknowledged(boolean acknowledged) {
         this.acknowledged = acknowledged;

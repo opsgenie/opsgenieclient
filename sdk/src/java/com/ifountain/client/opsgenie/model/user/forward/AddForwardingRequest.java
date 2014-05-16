@@ -12,6 +12,8 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add forwarding api call.
  *
+ * @author Mustafa Sener
+ * @version 22.03.2013 08:46
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
 public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
@@ -33,7 +35,7 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     /**
      * A user defined identifier for the forwarding.
      * Provides ability to assign a known id and later use this id to perform additional actions for the same forwarding.
-     * If a forwarding exists with specified alias for from user, it will update existing one.
+     * If a forwarding exists with specified alias for user, it will update existing one.
      */
     public String getAlias() {
         return alias;
@@ -47,28 +49,28 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     }
 
     /**
-     * Username of user  which forwarding will be created for
+     * Username of user whose notifications will be forwarded
      */
     public String getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets Username of user who forwarding will be created for
+     * Sets Username of user whose notifications will be forwarded
      */
     public void setFromUser(String fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * Username of user who will recieve forwarded notifications
      */
     public String getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets username of user who will recieve forwarded notifications
      */
     public void setToUser(String toUser) {
         this.toUser = toUser;
@@ -120,8 +122,8 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String,Object> serialize() throws ClientValidationException {
+        Map<String,Object> json = super.serialize();
         SimpleDateFormat sdf = new SimpleDateFormat(ClientConstants.Common.API_DATE_FORMAT);
         if (getTimeZone() != null) {
             sdf.setTimeZone(getTimeZone());

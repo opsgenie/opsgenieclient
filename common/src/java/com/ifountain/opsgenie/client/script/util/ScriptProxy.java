@@ -135,8 +135,8 @@ public class ScriptProxy {
         
         CreateAlertResponse resp = this.opsGenieClient.alert().createAlert(request);
         Map mapResponse = new HashMap();
-        mapResponse.put(ClientConstants.API.ALERT_ID, resp.getAlertId());
-        mapResponse.put(ClientConstants.API.ID, resp.getAlertId());
+        mapResponse.put(ClientConstants.API.ALERT_ID, resp.getId());
+        mapResponse.put(ClientConstants.API.ID, resp.getId());
         return mapResponse;
     }
     public Map deleteAlert(Map params) throws Exception {
@@ -732,6 +732,5 @@ public class ScriptProxy {
         if(params.containsKey(ClientConstants.API.ALIAS)){
             request.setAlias(ScriptBridgeUtils.getAsString(params, ClientConstants.API.ALIAS));
         }
-
     }
 }

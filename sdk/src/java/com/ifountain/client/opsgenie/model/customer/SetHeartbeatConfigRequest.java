@@ -10,6 +10,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a set heartbeat configuration api call.
  *
+ * @author Mustafa Sener
+ * @version 30.04.2013 22:36
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#setHeartbeatConfig(com.ifountain.client.opsgenie.model.customer.SetHeartbeatConfigRequest)
  */
 public class SetHeartbeatConfigRequest extends BaseRequest<SetHeartbeatConfigResponse> {
@@ -17,16 +19,15 @@ public class SetHeartbeatConfigRequest extends BaseRequest<SetHeartbeatConfigRes
     private String message;
     private List<String> recipients;
 
-
     /**
-     * Heartbeat state
+     * State of heartbeat
      */
     public Boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Sets heartbeat state
+     * Sets the state of heartbeat
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;

@@ -2,7 +2,7 @@ package com.ifountain.client.statussiren.model.incident;
 
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.ClientValidationException;
-import com.ifountain.client.statussiren.model.beans.Status;
+import com.ifountain.client.statussiren.model.Status;
 
 import java.util.Map;
 
@@ -84,7 +84,7 @@ public class CreateIncidentRequest extends BaseIncidentRequestWithService<Create
         Map<String,Object> json = super.serialize();
         json.put(ClientConstants.API.MESSAGE,getMessage());
         if(getDescription() != null){
-            json.put(ClientConstants.API.DESCRIPTION,getMessage());
+            json.put(ClientConstants.API.DESCRIPTION,getDescription());
         }
         if(getStatus() != null){
             json.put(ClientConstants.API.STATUS,getStatus().getValue());

@@ -9,11 +9,15 @@ import java.text.ParseException;
 
 /**
 * Inner Schedule Client
+ *
+ * @author Mustafa Sener
+ * @version 09.04.2013 11:39
+ * @see com.ifountain.client.opsgenie.IAlertOpsGenieClient
 */
 public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
     private JsonHttpClient httpClient;
     /**
-     * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
+     * Constructs a new schedule client to invoke service methods on OpsGenie for schedules using the specified client and root URI.
      */
     public InnerScheduleOpsGenieClient(JsonHttpClient httpClient) {
         this.httpClient = httpClient;

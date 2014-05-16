@@ -9,8 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for add forwarding request.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/30/12 9:41 AM
+ * @author Mustafa Sener
+ * @version 22.03.2013 08:46
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
 public class AddForwardingResponse extends BaseResponse {

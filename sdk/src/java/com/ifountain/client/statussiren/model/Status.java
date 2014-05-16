@@ -1,4 +1,4 @@
-package com.ifountain.client.statussiren.model.beans;
+package com.ifountain.client.statussiren.model;
 
 import java.util.HashMap;
 import java.util.Map;

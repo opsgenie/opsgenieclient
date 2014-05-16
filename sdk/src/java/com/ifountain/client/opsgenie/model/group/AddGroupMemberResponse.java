@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for add group request.
  *
+ * @author Mustafa Sener
+ * @version 22.04.2013 14:36
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#addGroup(AddGroupRequest)
  */
 public class AddGroupMemberResponse extends BaseResponse{

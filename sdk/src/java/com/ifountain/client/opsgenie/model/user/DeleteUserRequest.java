@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a delete user api call.
  *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#deleteUser(DeleteUserRequest)
  */
 public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
@@ -54,8 +56,8 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
     /**
      * @see com.ifountain.client.model.BaseRequest#serialize()
      */
-    public Map serialize() throws ClientValidationException {
-        Map json = super.serialize();
+    public Map<String, Object> serialize() throws ClientValidationException {
+        Map<String, Object> json = super.serialize();
         if(getId() != null){
             json.put(ClientConstants.API.ID, getId());
         }

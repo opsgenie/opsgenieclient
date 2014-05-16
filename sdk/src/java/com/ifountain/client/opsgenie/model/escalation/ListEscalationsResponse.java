@@ -12,6 +12,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list escalations request.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see com.ifountain.client.opsgenie.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
 public class ListEscalationsResponse extends BaseResponse{

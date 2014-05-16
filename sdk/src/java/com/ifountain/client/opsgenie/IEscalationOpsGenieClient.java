@@ -9,11 +9,13 @@ import java.text.ParseException;
 /**
  * Interface for accessing OpsGenie for escalation related operations
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 11:39
  * @see OpsGenieClient
  */
 public interface IEscalationOpsGenieClient {
     /**
-     * Adds a escalation at OpsGenie.
+     * Adds an escalation at OpsGenie.
      *
      * @param addEscalationRequest Object to construct request parameters.
      * @return <code>AddEscalationResponse</code> object containing OpsGenie response information.
@@ -33,7 +35,7 @@ public interface IEscalationOpsGenieClient {
     public UpdateEscalationResponse updateEscalation(UpdateEscalationRequest updateEscalationRequest) throws IOException, ClientException, ParseException;
 
     /**
-     * Deletes a escalation at OpsGenie.
+     * Deletes an escalation at OpsGenie.
      *
      * @param deleteEscalationRequest Object to construct request parameters.
      * @return <code>DeleteEscalationResponse</code> object containing OpsGenie response information.
@@ -43,7 +45,7 @@ public interface IEscalationOpsGenieClient {
     public DeleteEscalationResponse deleteEscalation(DeleteEscalationRequest deleteEscalationRequest) throws IOException, ClientException, ParseException;
 
     /**
-     * Get escalation details
+     * Get escalation with details
      *
      * @param getEscalationRequest Object to construct request parameters.
      * @return <code>GetEscalationResponse</code> object containing OpsGenie response information.

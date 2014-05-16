@@ -9,6 +9,7 @@ public interface OpsgenieClientApplicationConstants {
         String BINDING_RESPONSE = "response";
         String BINDING_REQUEST = "request";
         String BINDING_OPSGENIE_CLIENT = "opsgenie";
+        String BINDING_STATUS_SIREN_CLIENT = "statussiren";
         String BINDING_LOGGER = "logger";
         String INPUT_STREAM = "stream";
         String FILE_NAME = "fileName";

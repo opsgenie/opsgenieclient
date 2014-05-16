@@ -3,11 +3,14 @@ package com.ifountain.client.opsgenie.model.group;
 import com.ifountain.client.ClientConstants;
 import com.ifountain.client.opsgenie.model.BaseGetRequest;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Container for the parameters to make a get group api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#getGroup(GetGroupRequest)
  */
 public class GetGroupRequest extends BaseGetRequest<GetGroupResponse> {
@@ -50,5 +53,12 @@ public class GetGroupRequest extends BaseGetRequest<GetGroupResponse> {
      */
     public GetGroupResponse createResponse() {
         return new GetGroupResponse();
+    }
+
+    @Override
+    public List<String> getMandatoryProperties() {
+        List<String> mandatoryProperyList = super.getMandatoryProperties();
+        mandatoryProperyList.add(ClientConstants.API.NAME);
+        return mandatoryProperyList;
     }
 }

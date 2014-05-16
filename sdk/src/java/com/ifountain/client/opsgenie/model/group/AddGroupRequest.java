@@ -10,12 +10,13 @@ import java.util.Map;
 /**
  * Container for the parameters to make an add group api call.
  *
+ * @author Mustafa Sener
+ * @version 19.04.2013 09:38
  * @see com.ifountain.client.opsgenie.IGroupOpsGenieClient#addGroup(com.ifountain.client.opsgenie.model.group.AddGroupRequest)
  */
 public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
     private String name;
     private List<String> users;
-
 
     /**
      * Rest api uri of addding group operation.

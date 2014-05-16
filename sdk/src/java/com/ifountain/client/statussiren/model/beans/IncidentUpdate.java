@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * IncidentUpdate bean
+ *
  * @author Tuba Ozturk
  * @version 2.5.2014 11:02
  */

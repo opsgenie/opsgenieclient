@@ -58,7 +58,6 @@ public abstract class BaseResponse implements Response{
 
     /**
      * Convert map data to response
-     * @param data
      */
     public void deserialize(Map<String, Object> data) throws ParseException {
         if(data.containsKey(ClientConstants.API.TOOK)){

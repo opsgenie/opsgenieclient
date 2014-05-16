@@ -10,9 +10,11 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,8 @@ public class JsonHttpClient {
      * Service endpoint uri.
      */
     private String rootUri;
+
+    private String apiKey;
 
     /**
      * Constructs a new inner client to invoke service methods using the specified client configuration options.
@@ -54,6 +58,9 @@ public class JsonHttpClient {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
+        if(request.getApiKey() == null){
+            request.setApiKey(getApiKey());
+        }
         Map parameters = request.serialize();
         log.info("Executing request to ["+uri+"] with Parameters:"+parameters);
         HttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJsonAsBytes(parameters), headers);
@@ -62,6 +69,9 @@ public class JsonHttpClient {
     }
     public BaseResponse doPostRequest(BaseRequest request, MultipartEntity entity) throws IOException, ClientException, ParseException {
         String uri = rootUri + request.getEndPoint();
+        if(request.getApiKey() == null){
+            entity.addPart(ClientConstants.API.API_KEY, new StringBody(getApiKey(), "text/plain", Charset.forName("utf-8")));
+        }
         log.info("Executing request to ["+uri+"] with multipart data");
         HttpResponse httpResponse = httpClient.post(uri, entity);
         JsonResponse jsonResponse = handleResponse(httpResponse);
@@ -71,6 +81,9 @@ public class JsonHttpClient {
     public BaseResponse doDeleteRequest(BaseRequest request) throws ClientException, IOException, ParseException {
         try {
             String uri = rootUri + request.getEndPoint();
+            if(request.getApiKey() == null){
+                request.setApiKey(getApiKey());
+            }
             Map parameters = request.serialize();
             log.info("Executing request to ["+uri+"] with Parameters:"+parameters);
             HttpResponse httpResponse = httpClient.delete(uri, parameters);
@@ -83,6 +96,9 @@ public class JsonHttpClient {
     public BaseResponse doGetRequest(BaseRequest request) throws ClientException, IOException, ParseException {
         try {
             String uri = rootUri + request.getEndPoint();
+            if(request.getApiKey() == null){
+                request.setApiKey(getApiKey());
+            }
             Map parameters = request.serialize();
             log.info("Executing request to ["+uri+"] with Parameters:"+parameters);
             HttpResponse httpResponse = httpClient.get(uri, parameters);
@@ -114,6 +130,14 @@ public class JsonHttpClient {
 
     private void setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     public void close(){

@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.cli.commands;
 
 import com.beust.jcommander.Parameters;
+import com.ifountain.client.model.IClient;
 import com.ifountain.client.opsgenie.IOpsGenieClient;
 import com.ifountain.client.util.ManifestUtils;
 
@@ -15,7 +16,7 @@ public class VersionCommand implements Command{
     }
 
     @Override
-    public void execute(IOpsGenieClient opsGenieClient) throws Exception {
+    public void execute(IClient opsGenieClient) throws Exception {
         Manifest maridManifest = ManifestUtils.loadManifest(VersionCommand.class);
         String version = maridManifest.getMainAttributes().getValue("Implementation-Version");
         if(version == null){

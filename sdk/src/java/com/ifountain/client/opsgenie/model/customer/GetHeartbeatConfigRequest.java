@@ -5,6 +5,8 @@ import com.ifountain.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get heartbeat configuration api call.
  *
+ * @author Mustafa Sener
+ * @version 30.04.2013 22:36
  * @see com.ifountain.client.opsgenie.IOpsGenieClient#getHeartbeatConfig(GetHeartbeatConfigRequest)
  */
 public class GetHeartbeatConfigRequest extends BaseRequest<GetHeartbeatConfigResponse> {

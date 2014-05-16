@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Container for the parameters to make a delete schedule api call.
  *
+ * @author Mustafa Sener
+ * @version 22.04.2013 14:18
  * @see com.ifountain.client.opsgenie.IScheduleOpsGenieClient#deleteSchedule(com.ifountain.client.opsgenie.model.schedule.DeleteScheduleRequest)
  */
 public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {

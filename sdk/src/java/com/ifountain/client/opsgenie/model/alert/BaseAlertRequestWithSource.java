@@ -5,7 +5,13 @@ import com.ifountain.client.ClientValidationException;
 import com.ifountain.client.model.BaseResponse;
 
 import java.util.Map;
-
+/**
+ * Container for the parameters to make alert api calls with source.
+ *
+ * @author Mustafa Sener
+ * @version 03.10.2013 14:48
+ * @see com.ifountain.client.opsgenie.model.alert.BaseAlertRequestWithId
+ */
 public abstract class BaseAlertRequestWithSource<T extends BaseResponse> extends BaseAlertRequestWithId<T>{
     private String source;
 

@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @see com.ifountain.client.opsgenie.model.beans.BaseAlert
  * Alert bean
+ *
+ * @author Sezgin Kucukkaraaslan
+ * @version 11.06.2012 16:50
+ * @see com.ifountain.client.opsgenie.model.beans.BaseAlert
  */
 public class Alert extends BaseAlert {
     private String description;
@@ -36,14 +39,14 @@ public class Alert extends BaseAlert {
     }
 
     /**
-     * Source of the 
+     * Source of the alert
      */
     public String getSource() {
         return source;
     }
 
     /**
-     * Sets the source of the 
+     * Sets the source of the alert
      */
     public void setSource(String source) {
         this.source = source;
@@ -64,14 +67,14 @@ public class Alert extends BaseAlert {
     }
 
     /**
-     * The owner of the 
+     * The owner of the alert
      */
     public String getOwner() {
         return owner;
     }
 
     /**
-     * Sets the owner of the 
+     * Sets the owner of the alert
      */
     public void setOwner(String owner) {
         this.owner = owner;

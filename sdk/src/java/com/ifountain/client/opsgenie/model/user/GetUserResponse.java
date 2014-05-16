@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for get user request.
  *
+ * @author Mustafa Sener
+ * @version 09.04.2013 17:03
  * @see com.ifountain.client.opsgenie.IUserOpsGenieClient#getUser(GetUserRequest)
  */
 public class GetUserResponse extends BaseResponse{
