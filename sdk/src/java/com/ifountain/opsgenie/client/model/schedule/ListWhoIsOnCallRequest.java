@@ -13,7 +13,7 @@ public class ListWhoIsOnCallRequest extends BaseRequest<ListWhoIsOnCallResponse>
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/schedule/whoIsOnCall";
+        return "/v1.1/json/schedule/whoIsOnCall";
     }
 
 
