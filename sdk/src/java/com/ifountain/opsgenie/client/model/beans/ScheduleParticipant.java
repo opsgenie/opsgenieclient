@@ -13,7 +13,8 @@ public class ScheduleParticipant  implements IBean{
     public enum Type{
         user,
         group,
-        escalation
+        escalation,
+        schedule
     }
     private String participant;
     private Type type;
@@ -34,7 +35,7 @@ public class ScheduleParticipant  implements IBean{
 
     /**
      * Type of participant
-     * Could be one of user, group, escalation
+     * Could be one of user, group, escalation, schedule
      * @see Type
      */
     public Type getType() {
