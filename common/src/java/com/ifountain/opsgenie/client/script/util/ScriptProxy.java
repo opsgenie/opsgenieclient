@@ -257,23 +257,7 @@ public class ScriptProxy {
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         return this.opsGenieClient.getHeartbeat(request).getHeartbeat().toMap();
     }
-    public Map getHeartbeatConfig(Map params) throws Exception{
-        GetHeartbeatConfigRequest request = new GetHeartbeatConfigRequest();
-        populateCommonProps(request, params);
-        
-        return this.opsGenieClient.getHeartbeatConfig(request).getHeartbeatConfig().toMap();
-    }
-    public Map setHeartbeatConfig(Map params) throws Exception{
-        SetHeartbeatConfigRequest request = new SetHeartbeatConfigRequest();
-        populateCommonProps(request, params);
-        HeartbeatConfig conf = new HeartbeatConfig();
-        conf.fromMap(params);
-        request.setMessage(conf.getMessage());
-        request.setRecipients(conf.getRecipients());
-        request.setEnabled(conf.isEnabled());
-        
-        return successToMap(this.opsGenieClient.setHeartbeatConfig(request));
-    }
+
     public List<Map> listHeartbeats(Map params) throws Exception{
         ListHeartbeatsRequest request = new ListHeartbeatsRequest();
         populateCommonProps(request, params);

@@ -104,28 +104,6 @@ public interface IOpsGenieClient {
     public ListHeartbeatsResponse listHeartbeats(ListHeartbeatsRequest listHeartbeatsRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
-     * Sets heartbeat configuration
-     *
-     * @param setHeartbeatConfigRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.customer.SetHeartbeatConfigRequest
-     * @see com.ifountain.opsgenie.client.model.customer.SetHeartbeatConfigResponse
-     */
-    public SetHeartbeatConfigResponse setHeartbeatConfig(SetHeartbeatConfigRequest setHeartbeatConfigRequest) throws OpsGenieClientException, IOException, ParseException;
-
-    /**
-     * Gets heartbeat configuration details
-     *
-     * @param getHeartbeatConfigRequest Object to construct request parameters.
-     * @return Object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatConfigRequest
-     * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatConfigResponse
-     */
-    public GetHeartbeatConfigResponse getHeartbeatConfig(GetHeartbeatConfigRequest getHeartbeatConfigRequest) throws OpsGenieClientException, IOException, ParseException;
-    
-    
-
-    /**
      * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
      *
      * @param rootUri Uri to set.
