@@ -14,26 +14,41 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
-    String source;
+    String name;
     /*
+    * Name of heartbeat monitor
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+    * Sets name of heartbeat monitor
+     **/
+    public void setName(String name) {
+        this.name = name;
+    }
+    /**
+     * @deprecated
     * Source of heartbeat monitor
      */
     public String getSource() {
-        return source;
+        return getName();
     }
 
-    /*
-    * Sets source of heartbeat monitor
-     */
+    /**
+     * @deprecated
+    * Use setName
+     **/
     public void setSource(String source) {
-        this.source = source;
+        setName(source);
     }
 
     @Override
     public Map serialize() throws OpsGenieClientValidationException {
         Map res = super.serialize();
-        if(source != null){
-            res.put(OpsGenieClientConstants.API.SOURCE, source);
+        if(name != null){
+            res.put(OpsGenieClientConstants.API.NAME, name);
         }
         return res;
     }
@@ -43,7 +58,7 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/customer/heartbeat";
+        return "/v1/json/heartbeat/send";
     }
 
     @Override

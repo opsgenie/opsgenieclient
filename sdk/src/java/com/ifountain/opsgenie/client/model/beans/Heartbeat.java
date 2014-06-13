@@ -5,25 +5,80 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import java.util.*;
 
 /**
- * Escalation bean
+ * Heartbeat bean
  */
 public class Heartbeat implements IBean{
-    private String source;
+    public static enum FrequencyUnit{
+        minutes,
+        hours,
+        days
+    }
+    private String id;
+    private String name;
     private Date lastHeartbeat;
-    private boolean expired;
+    private Boolean expired;
+    private Boolean enabled;
+    private String status;
+    private String description;
+    private Integer frequency;
+    private FrequencyUnit frequencyUnit;
 
-    /*
-    * Source of heartbeat monitor
+    /**
+     * Id of heartbeat
      */
-    public String getSource() {
-        return source;
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the Id of heartbeat
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Status of heartbeat
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Sets the status of heartbeat
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /*
-    * Sets source of heartbeat monitor
+        * Name of heartbeat monitor
+         */
+    public String getName() {
+        return name;
+    }
+
+    /*
+    * Sets the name of heartbeat monitor
      */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @deprecated
+    * User getName
+    **/
+    public String getSource() {
+        return getName();
+    }
+
+    /**
+     * @deprecated
+    * Use setName
+     **/
     public void setSource(String source) {
-        this.source = source;
+        setName(source);
     }
 
     /*
@@ -54,19 +109,92 @@ public class Heartbeat implements IBean{
         this.expired = expired;
     }
 
+    /**
+     * Return enable/disable state of heartbeat monitor
+     */
+    public Boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Sets the enable/disable state of heartbeat monitor
+     */
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * Return frequency of heartbeat monitor
+     */
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    /**
+     * Sets the frequency of heartbeat monitor
+     */
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
+    /**
+     * Return frequency unit of heartbeat monitor
+     */
+    public Heartbeat.FrequencyUnit getFrequencyUnit() {
+        return frequencyUnit;
+    }
+
+    /**
+     * Sets the frequency unit of heartbeat monitor
+     */
+    public void setFrequencyUnit(Heartbeat.FrequencyUnit frequencyUnit) {
+        this.frequencyUnit = frequencyUnit;
+    }
+
+    /**
+     * Return description of heartbeat monitor
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the description of heartbeat monitor
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+
     @Override
     public Map toMap() {
         Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.SOURCE, source);
+        json.put(OpsGenieClientConstants.API.SOURCE, name);
         json.put(OpsGenieClientConstants.API.LAST_HEARTBEAT, lastHeartbeat);
         json.put(OpsGenieClientConstants.API.EXPIRED, expired);
+        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
+        json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
+        json.put(OpsGenieClientConstants.API.STATUS, status);
+        json.put(OpsGenieClientConstants.API.ID, id);
+        json.put(OpsGenieClientConstants.API.FREQUENCY, frequency);
+        json.put(OpsGenieClientConstants.API.FREQUENCY_UNIT, frequencyUnit != null?frequencyUnit.name():null);
         return json;
     }
 
     @Override
     public void fromMap(Map resp) {
-        setSource((String) resp.get(OpsGenieClientConstants.API.SOURCE));
+        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
         setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
-        setExpired((Boolean) resp.get(OpsGenieClientConstants.API.EXPIRED));
+        setEnabled((Boolean) resp.get(OpsGenieClientConstants.API.ENABLED));
+        setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
+        setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
+        setExpired("Expired".equals(getStatus()));
+        setId((String) resp.get(OpsGenieClientConstants.API.ID));
+        setFrequency(((Number) resp.get(OpsGenieClientConstants.API.FREQUENCY)).intValue());
+        if(resp.containsKey(OpsGenieClientConstants.API.FREQUENCY_UNIT)){
+            setFrequencyUnit(FrequencyUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.FREQUENCY_UNIT)));
+        }
     }
+
 }

@@ -65,6 +65,7 @@ public interface OpsGenieClientConstants {
         public static final String END_TIME = "endTime";
         public static final String UPDATED_AT = "updatedAt";
         public static final String ENABLED = "enabled";
+        public static final String ENABLE = "enable";
         public static final String ROTATION_TYPE = "rotationType";
         public static final String ROTATION_LENGTH = "rotationLength";
         public static final String PARTICIPANTS = "participants";
@@ -100,5 +101,8 @@ public interface OpsGenieClientConstants {
         public static final String CONTACTS = "contacts";
         public static final String INTEGRATION = "integration";
         public static final String POLICY = "policy";
+        public static final String FREQUENCY = "frequency";
+        public static final String FREQUENCY_UNIT = "frequencyUnit";
+        public static final String HEARTBEATS = "heartbeats";
     }
 }

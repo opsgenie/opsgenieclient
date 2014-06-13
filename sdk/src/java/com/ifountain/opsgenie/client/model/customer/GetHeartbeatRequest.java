@@ -12,29 +12,62 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
-    private String source;
+    private String id;
+    private String name;
     /**
      * Rest api uri of get heartbeat monitor operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/customer/heartbeat";
+        return "/v1/json/heartbeat";
     }
 
 
     /**
-     * Source of heartbeat monitor.
+     * Id of heartbeat
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id of heartbeat
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
+    /**
+     * Name of heartbeat monitor.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets name of heartbeat monitor.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @deprecated
+     * Use getName
      */
     public String getSource() {
-        return source;
+        return getName();
     }
 
     /**
-     * Sets source of heartbeat monitor.
+     * @deprecated
+     * Use setSource
      */
     public void setSource(String source) {
-        this.source = source;
+        setName(source);
     }
+
 
     @Override
     /**
@@ -42,11 +75,11 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
      */
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
-        if(source != null){
-            json.put(OpsGenieClientConstants.API.SOURCE, source);
+        if(id != null){
+            json.put(OpsGenieClientConstants.API.ID, id);
         }
-        else {
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.SOURCE);
+        else if(name != null){
+            json.put(OpsGenieClientConstants.API.NAME, name);
         }
         return json;
     }

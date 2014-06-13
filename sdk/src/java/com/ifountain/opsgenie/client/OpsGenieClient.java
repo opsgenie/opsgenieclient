@@ -166,6 +166,30 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * @see IOpsGenieClient#addHeartbeat(com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest)
+     */
+    @Override
+    public AddHeartbeatResponse addHeartbeat(AddHeartbeatRequest addHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (AddHeartbeatResponse) jsonHttpClient.doPostRequest(addHeartbeatRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#updateHeartbeat(com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest)
+     */
+    @Override
+    public UpdateHeartbeatResponse updateHeartbeat(UpdateHeartbeatRequest updateHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (UpdateHeartbeatResponse) jsonHttpClient.doPostRequest(updateHeartbeatRequest);
+    }
+
+    /**
+     * @see IOpsGenieClient#enableHeartbeat(com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest)
+     */
+    @Override
+    public EnableHeartbeatResponse enableHeartbeat(EnableHeartbeatRequest enableHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (EnableHeartbeatResponse) jsonHttpClient.doPostRequest(enableHeartbeatRequest);
+    }
+
+    /**
      * @see IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
      */
     @Override

@@ -7,19 +7,26 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import java.util.Map;
 
 /**
- * Container for the parameters to make a delete heartbeat monitor api call.
+ * Container for the parameters to make a enable/disable heartbeat monitor api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#deleteHeartbeat(DeleteHeartbeatRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#enableHeartbeat(com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest)
  */
-public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse> {
+public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse> {
     private String id;
     private String name;
+    private boolean enable;
     /**
      * Rest api uri of deleting heartbeat monitor operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/heartbeat";
+        if(enable)
+        {
+            return "/v1/json/heartbeat/enable";
+        }
+        else{
+            return "/v1/json/heartbeat/disable";
+        }
     }
 
     /**
@@ -37,32 +44,41 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse>
     }
 
     /**
-     * Name of heartbeat monitor to be deleted.
+     * Name of heartbeat
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets name of heartbeat monitor to be deleted.
+     * Sets name of heartbeat
      */
     public void setName(String name) {
         this.name = name;
     }
+
     /**
-     * @deprecated
-     * Use getName
+     * Enable/disable state of heartbeat monitor
      */
-    public String getSource() {
-        return getName();
+    public boolean isEnable() {
+        return enable;
     }
 
     /**
-     * @deprecated
-     * Use setName
+     * Sets enable/disable state of heartbeat monitor
      */
-    public void setSource(String source) {
-        setName(source);
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+
+
+    @Override
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    public EnableHeartbeatResponse createResponse() {
+        return new EnableHeartbeatResponse();
     }
 
     @Override
@@ -74,17 +90,9 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse>
         if(id != null){
             json.put(OpsGenieClientConstants.API.ID, id);
         }
-        else if(name != null){
+        if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);
         }
         return json;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-     */
-    public DeleteHeartbeatResponse createResponse() {
-        return new DeleteHeartbeatResponse();
     }
 }

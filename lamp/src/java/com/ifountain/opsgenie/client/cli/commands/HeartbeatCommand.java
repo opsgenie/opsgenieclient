@@ -19,8 +19,11 @@ import java.util.List;
  */
 @Parameters(commandDescription = "Sends heartbeat to Opsgenie.")
 public class HeartbeatCommand extends BaseCommand{
-    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Source of action.", variableArity = true, splitter = NullSplitter.class)
+    @Parameter(names = "--" + OpsGenieClientConstants.API.SOURCE, description = "Deprecated use --name paramater.", variableArity = true, splitter = NullSplitter.class)
     private List<String> source;
+
+    @Parameter(names = "--" + OpsGenieClientConstants.API.NAME, description = "Name of action.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> name;
 
     @ParametersDelegate
     private CommonCommandOptions commonOptions = new CommonCommandOptions();
@@ -38,7 +41,8 @@ public class HeartbeatCommand extends BaseCommand{
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         HeartbeatRequest request = new HeartbeatRequest();
         request.setApiKey(commonOptions.getApiKey());
-        if (source != null) request.setSource(Strings.join(source, " "));
+        if (source != null) request.setName(Strings.join(source, " "));
+        if (name != null) request.setName(Strings.join(name, " "));
         HeartbeatResponse response = opsGenieClient.heartbeat(request);
         System.out.println("heartbeat=" + response.getHeartbeat());
     }

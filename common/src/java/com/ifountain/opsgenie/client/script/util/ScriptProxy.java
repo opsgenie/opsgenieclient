@@ -236,7 +236,7 @@ public class ScriptProxy {
         HeartbeatRequest request = new HeartbeatRequest();
         populateCommonProps(request, params);
         
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        request.setName(getHeartbeatName(params));
         HeartbeatResponse resp = this.opsGenieClient.heartbeat(request);
         Map mapResponse = new HashMap();
         mapResponse.put("heartbeat", resp.getHeartbeat());
@@ -247,15 +247,62 @@ public class ScriptProxy {
         DeleteHeartbeatRequest request = new DeleteHeartbeatRequest();
         populateCommonProps(request, params);
         
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        request.setName(getHeartbeatName(params));
         return successToMap(this.opsGenieClient.deleteHeartbeat(request));
+    }
+    public Map enableHeartbeat(Map params) throws Exception{
+        EnableHeartbeatRequest request = new EnableHeartbeatRequest();
+        populateCommonProps(request, params);
+
+        request.setName(getHeartbeatName(params));
+        request.setEnable(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLE));
+        EnableHeartbeatResponse response = this.opsGenieClient.enableHeartbeat(request);
+        return successToMap(response);
+    }
+    public Map addHeartbeat(Map params) throws Exception{
+        AddHeartbeatRequest request = new AddHeartbeatRequest();
+        populateCommonProps(request, params);
+
+        request.setName(getHeartbeatName(params));
+        request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
+        request.setFrequency(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.FREQUENCY));
+        String frequencyUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.FREQUENCY_UNIT);
+        if(frequencyUnitStr != null){
+            request.setFrequencyUnit(Heartbeat.FrequencyUnit.valueOf(frequencyUnitStr));
+        }
+        request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        return successToMap(this.opsGenieClient.addHeartbeat(request));
+    }
+    public Map updateHeartbeat(Map params) throws Exception{
+        UpdateHeartbeatRequest request = new UpdateHeartbeatRequest();
+        populateCommonProps(request, params);
+
+        request.setName(getHeartbeatName(params));
+        request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
+        request.setFrequency(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.FREQUENCY));
+        String frequencyUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.FREQUENCY_UNIT);
+        if(frequencyUnitStr != null){
+            request.setFrequencyUnit(Heartbeat.FrequencyUnit.valueOf(frequencyUnitStr));
+        }
+        request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
+        return successToMap(this.opsGenieClient.addHeartbeat(request));
     }
     public Map getHeartbeat(Map params) throws Exception{
         GetHeartbeatRequest request = new GetHeartbeatRequest();
         populateCommonProps(request, params);
         
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        request.setName(getHeartbeatName(params));
         return this.opsGenieClient.getHeartbeat(request).getHeartbeat().toMap();
+    }
+
+    private String getHeartbeatName(Map params){
+        if(params.containsKey(OpsGenieClientConstants.API.SOURCE)){
+            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE);
+        }
+        else{
+            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
+        }
     }
 
     public List<Map> listHeartbeats(Map params) throws Exception{

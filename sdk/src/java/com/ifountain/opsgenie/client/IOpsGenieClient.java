@@ -74,7 +74,7 @@ public interface IOpsGenieClient {
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
-     * Deletes heartbeat monitor on OpsGenie. If heartbeat monitor is deleted for specified source, OpsGenie will not create alert for expired heartbeat.
+     * Deletes heartbeat monitor on OpsGenie. If heartbeat monitor is deleted, OpsGenie will not create alert for expired heartbeat.
      *
      * @param deleteHeartbeatRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
@@ -82,6 +82,37 @@ public interface IOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse
      */
     public DeleteHeartbeatResponse deleteHeartbeat(DeleteHeartbeatRequest deleteHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Adds heartbeat monitor on OpsGenie.
+     *
+     * @param addHeartbeatRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse
+     */
+    public AddHeartbeatResponse addHeartbeat(AddHeartbeatRequest addHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Updates heartbeat monitor on OpsGenie.
+     *
+     * @param updateHeartbeatRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse
+     */
+    public UpdateHeartbeatResponse updateHeartbeat(UpdateHeartbeatRequest updateHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+
+
+    /**
+     * Enables/Disables heartbeat monitor on OpsGenie.
+     *
+     * @param enableHeartbeatRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest
+     * @see com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse
+     */
+    public EnableHeartbeatResponse enableHeartbeat(EnableHeartbeatRequest enableHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
      * Get heartbeat monitor details on OpsGenie.

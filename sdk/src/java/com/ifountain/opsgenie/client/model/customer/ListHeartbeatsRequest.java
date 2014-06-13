@@ -13,7 +13,7 @@ public class ListHeartbeatsRequest extends BaseRequest<ListHeartbeatsResponse> {
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/customer/heartbeat";
+        return "/v1/json/heartbeat";
     }
 
 

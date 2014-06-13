@@ -36,7 +36,7 @@ public class ListHeartbeatsResponse extends BaseResponse{
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> sourcesData = (List<Map>) data.get(OpsGenieClientConstants.API.SOURCES);
+        List<Map> sourcesData = (List<Map>) data.get(OpsGenieClientConstants.API.HEARTBEATS);
         heartbeats = new ArrayList<Heartbeat>();
         for(Map sourceData:sourcesData){
             Heartbeat heartbeat = new Heartbeat();
