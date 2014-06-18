@@ -265,10 +265,10 @@ public class ScriptProxy {
 
         request.setName(getHeartbeatName(params));
         request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
-        request.setFrequency(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.FREQUENCY));
-        String frequencyUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.FREQUENCY_UNIT);
-        if(frequencyUnitStr != null){
-            request.setFrequencyUnit(Heartbeat.FrequencyUnit.valueOf(frequencyUnitStr));
+        request.setInterval(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.INTERVAL));
+        String intervalUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INTERVAL_UNIT);
+        if(intervalUnitStr != null){
+            request.setIntervalUnit(Heartbeat.IntervalUnit.valueOf(intervalUnitStr));
         }
         request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
         return successToMap(this.opsGenieClient.addHeartbeat(request));
@@ -279,10 +279,10 @@ public class ScriptProxy {
 
         request.setName(getHeartbeatName(params));
         request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
-        request.setFrequency(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.FREQUENCY));
-        String frequencyUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.FREQUENCY_UNIT);
-        if(frequencyUnitStr != null){
-            request.setFrequencyUnit(Heartbeat.FrequencyUnit.valueOf(frequencyUnitStr));
+        request.setInterval(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.INTERVAL));
+        String intervalUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INTERVAL_UNIT);
+        if(intervalUnitStr != null){
+            request.setIntervalUnit(Heartbeat.IntervalUnit.valueOf(intervalUnitStr));
         }
         request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));

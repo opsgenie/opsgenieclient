@@ -8,7 +8,7 @@ import java.util.*;
  * Heartbeat bean
  */
 public class Heartbeat implements IBean{
-    public static enum FrequencyUnit{
+    public static enum IntervalUnit {
         minutes,
         hours,
         days
@@ -20,8 +20,8 @@ public class Heartbeat implements IBean{
     private Boolean enabled;
     private String status;
     private String description;
-    private Integer frequency;
-    private FrequencyUnit frequencyUnit;
+    private Integer interval;
+    private IntervalUnit intervalUnit;
 
     /**
      * Id of heartbeat
@@ -124,31 +124,31 @@ public class Heartbeat implements IBean{
     }
 
     /**
-     * Return frequency of heartbeat monitor
+     * Return interval of heartbeat monitor
      */
-    public Integer getFrequency() {
-        return frequency;
+    public Integer getInterval() {
+        return interval;
     }
 
     /**
-     * Sets the frequency of heartbeat monitor
+     * Sets the interval of heartbeat monitor
      */
-    public void setFrequency(Integer frequency) {
-        this.frequency = frequency;
+    public void setInterval(Integer interval) {
+        this.interval = interval;
     }
 
     /**
-     * Return frequency unit of heartbeat monitor
+     * Return interval unit of heartbeat monitor
      */
-    public Heartbeat.FrequencyUnit getFrequencyUnit() {
-        return frequencyUnit;
+    public IntervalUnit getIntervalUnit() {
+        return intervalUnit;
     }
 
     /**
-     * Sets the frequency unit of heartbeat monitor
+     * Sets the interval unit of heartbeat monitor
      */
-    public void setFrequencyUnit(Heartbeat.FrequencyUnit frequencyUnit) {
-        this.frequencyUnit = frequencyUnit;
+    public void setIntervalUnit(IntervalUnit intervalUnit) {
+        this.intervalUnit = intervalUnit;
     }
 
     /**
@@ -177,8 +177,8 @@ public class Heartbeat implements IBean{
         json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
         json.put(OpsGenieClientConstants.API.STATUS, status);
         json.put(OpsGenieClientConstants.API.ID, id);
-        json.put(OpsGenieClientConstants.API.FREQUENCY, frequency);
-        json.put(OpsGenieClientConstants.API.FREQUENCY_UNIT, frequencyUnit != null?frequencyUnit.name():null);
+        json.put(OpsGenieClientConstants.API.INTERVAL, interval);
+        json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit != null? intervalUnit.name():null);
         return json;
     }
 
@@ -191,9 +191,9 @@ public class Heartbeat implements IBean{
         setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
         setExpired("Expired".equals(getStatus()));
         setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        setFrequency(((Number) resp.get(OpsGenieClientConstants.API.FREQUENCY)).intValue());
-        if(resp.containsKey(OpsGenieClientConstants.API.FREQUENCY_UNIT)){
-            setFrequencyUnit(FrequencyUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.FREQUENCY_UNIT)));
+        setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
+        if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL_UNIT)){
+            setIntervalUnit(IntervalUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.INTERVAL_UNIT)));
         }
     }
 

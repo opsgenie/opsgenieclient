@@ -15,15 +15,15 @@ import java.util.Map;
 public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
     private String name;
     private Boolean enabled;
-    private Integer frequency;
-    private Heartbeat.FrequencyUnit frequencyUnit = Heartbeat.FrequencyUnit.minutes;
+    private Integer interval;
+    private Heartbeat.IntervalUnit intervalUnit = Heartbeat.IntervalUnit.minutes;
     private String description;
     /**
      * Rest api uri of adding heartbeat monitor operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/heartbeat";
+        return "/v2/json/heartbeat";
     }
 
     /**
@@ -55,31 +55,31 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
     }
 
     /**
-     * Return frequency of heartbeat monitor
+     * Return interval of heartbeat monitor
      */
-    public Integer getFrequency() {
-        return frequency;
+    public Integer getInterval() {
+        return interval;
     }
 
     /**
-     * Sets the frequency of heartbeat monitor
+     * Sets the interval of heartbeat monitor
      */
-    public void setFrequency(Integer frequency) {
-        this.frequency = frequency;
+    public void setInterval(Integer interval) {
+        this.interval = interval;
     }
 
     /**
-     * Return frequency unit of heartbeat monitor
+     * Return interval unit of heartbeat monitor
      */
-    public Heartbeat.FrequencyUnit getFrequencyUnit() {
-        return frequencyUnit;
+    public Heartbeat.IntervalUnit getIntervalUnit() {
+        return intervalUnit;
     }
 
     /**
-     * Sets the frequency unit of heartbeat monitor
+     * Sets the interval unit of heartbeat monitor
      */
-    public void setFrequencyUnit(Heartbeat.FrequencyUnit frequencyUnit) {
-        this.frequencyUnit = frequencyUnit;
+    public void setIntervalUnit(Heartbeat.IntervalUnit intervalUnit) {
+        this.intervalUnit = intervalUnit;
     }
 
     /**
@@ -116,11 +116,11 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
         if(enabled != null){
             json.put(OpsGenieClientConstants.API.ENABLED, enabled);
         }
-        if(frequency != null){
-            json.put(OpsGenieClientConstants.API.FREQUENCY, frequency);
+        if(interval != null){
+            json.put(OpsGenieClientConstants.API.INTERVAL, interval);
         }
-        if(frequencyUnit != null){
-            json.put(OpsGenieClientConstants.API.FREQUENCY_UNIT, frequencyUnit.name());
+        if(intervalUnit != null){
+            json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit.name());
         }
         if(description != null){
             json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
