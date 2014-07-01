@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public class AddForwardingResponse extends BaseResponse {
     private String id;
+    private String alias;
 
     /**
      * Id of the created forwarding
@@ -30,9 +31,24 @@ public class AddForwardingResponse extends BaseResponse {
         this.id = id;
     }
 
+    /**
+     * Alias of the created forwarding
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Alias of the created forwarding
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
         id = (String) data.get(OpsGenieClientConstants.API.ID);
+        alias = (String) data.get(OpsGenieClientConstants.API.ALIAS);
     }
 }
