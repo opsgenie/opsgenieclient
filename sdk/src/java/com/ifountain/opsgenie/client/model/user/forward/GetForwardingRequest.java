@@ -39,7 +39,7 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
 
     /**
      * A user defined identifier for the forwarding.
-     * Provides ability to assign a known id and later use this id to get forwarding details.
+     * Provides ability to assign a known identifier and later use this identifier to get forwarding details.
      */
     public String getAlias() {
         return alias;

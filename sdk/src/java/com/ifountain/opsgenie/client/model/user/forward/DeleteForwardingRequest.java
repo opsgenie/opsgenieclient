@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingResponse> {
     private String id;
+    private String alias;
 
     /**
      * Rest api uri of delete forwarding operation.
@@ -36,6 +37,21 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
         this.id = id;
     }
 
+    /**
+     * A user defined identifier for the forwarding.
+     * Provides ability to assign a known identifier and later use this identifier to get forwarding details.
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Sets a user defined identifier for the forwarding.
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
@@ -43,6 +59,7 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         json.put(OpsGenieClientConstants.API.ID, getId());
+        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         return json;
     }
 
