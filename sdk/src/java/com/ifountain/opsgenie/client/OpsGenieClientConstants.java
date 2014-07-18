@@ -101,8 +101,8 @@ public interface OpsGenieClientConstants {
         public static final String CONTACTS = "contacts";
         public static final String INTEGRATION = "integration";
         public static final String POLICY = "policy";
-        public static final String FREQUENCY = "frequency";
-        public static final String FREQUENCY_UNIT = "frequencyUnit";
+        public static final String INTERVAL = "interval";
+        public static final String INTERVAL_UNIT = "intervalUnit";
         public static final String HEARTBEATS = "heartbeats";
     }
 }
