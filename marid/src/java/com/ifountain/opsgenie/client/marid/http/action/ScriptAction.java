@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ifountain.opsgenie.client.marid.http.HTTPRequest;
 import com.ifountain.opsgenie.client.marid.http.HTTPResponse;
 import com.ifountain.opsgenie.client.marid.http.HttpController;
+import com.ifountain.opsgenie.client.script.AsyncScriptManager;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.script.util.ScriptProxy;
@@ -27,9 +28,12 @@ public class ScriptAction extends AbstractMaridKeyAction{
     public HTTPResponse doExecute(HTTPRequest request) throws Exception {
         ScriptResponseVariable scriptResponseVariable = new ScriptResponseVariable();
         String script = request.getParameter(OpsgenieClientApplicationConstants.Marid.SCRIPT_NAME_PARAMETER);
+        String isAsyncStr = request.getParameter(OpsgenieClientApplicationConstants.Marid.ASYNC);
+        boolean isAsync = Boolean.valueOf(isAsyncStr);
         Map<String, Object> params = new HashMap<String, Object>();
         params.putAll(request.getParameters());
         params.remove(OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER);
+        params.remove(OpsgenieClientApplicationConstants.Marid.ASYNC);
         Map<String, Object> bindings = new HashMap<String, Object>();
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getOpsGenieClient(), MaridConfig.getInstance().getApiKey()));
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, params);
@@ -40,7 +44,12 @@ public class ScriptAction extends AbstractMaridKeyAction{
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, maridConfProps);
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_RESPONSE, scriptResponseVariable);
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_REQUEST, request);
-        ScriptManager.getInstance().runScript(script, bindings);
+        if(!isAsync){
+            ScriptManager.getInstance().runScript(script, bindings);
+        } else {
+            AsyncScriptManager.getInstance().runScript(script, bindings);
+        }
+
         HTTPResponse httpResponse = HttpActionUtils.createDefaultHttpResponse();
         if(scriptResponseVariable.content != null){
             httpResponse.setContent(scriptResponseVariable.content);

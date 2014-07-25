@@ -8,6 +8,7 @@ import com.ifountain.opsgenie.client.marid.http.HttpController;
 import com.ifountain.opsgenie.client.marid.http.HttpProxy;
 import com.ifountain.opsgenie.client.marid.http.HttpProxyConfig;
 import com.ifountain.opsgenie.client.marid.http.HttpServer;
+import com.ifountain.opsgenie.client.script.AsyncScriptManager;
 import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import com.ifountain.opsgenie.client.util.ManifestUtils;
@@ -117,6 +118,13 @@ public class Bootstrap {
                 ScriptManager.getInstance().registerScriptingLanguage(engineName, className, extensions);
             }
         }
+
+        logger.warn(getLogPrefix()+"Initializing Asyncronus Scripting");
+        long shutdownWaitTime = MaridConfig.getInstance().getLong("async.script.shutdown.wait.time", AsyncScriptManager.DEFAULT_SHUTDOWN_WAIT_TIME);
+        int scriptExecutorThreadCount = MaridConfig.getInstance().getInt("async.script.executor.thread.count", AsyncScriptManager.DEFAULT_SCRIPT_EXECUTOR_THREAD_COUNT);
+        int scriptExecutorQueueCount = MaridConfig.getInstance().getInt("async.script.executor.queue.count", AsyncScriptManager.DEFAULT_SCRIPT_EXECUTOR_QUEUE_COUNT);
+        AsyncScriptManager.getInstance().setShutdownWaitTime(shutdownWaitTime) ;
+        AsyncScriptManager.getInstance().initialize(scriptExecutorThreadCount, scriptExecutorQueueCount);
     }
 
     private void initializeAlertActionExecutor() {
@@ -239,6 +247,8 @@ public class Bootstrap {
     private void destroyScripting() {
         logger.warn(getLogPrefix()+"Destroying Scripting");
         ScriptManager.destroyInstance();
+        logger.warn(getLogPrefix()+"Destroying Asyncrous Scripting");
+        AsyncScriptManager.destroyInstance();
     }
 
     private void configureLogger() {

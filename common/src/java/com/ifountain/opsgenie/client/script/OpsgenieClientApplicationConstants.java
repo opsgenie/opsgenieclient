@@ -23,5 +23,6 @@ public interface OpsgenieClientApplicationConstants {
     interface Marid {
         String SCRIPT_NAME_PARAMETER = "scriptName";
         String MARID_KEY_PARAMETER = "maridKey";
+        String ASYNC = "async";
     }
 }

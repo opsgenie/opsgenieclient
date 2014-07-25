@@ -213,6 +213,18 @@ public class MaridConfig {
         }
     }
 
+    public long getLong(String key, long defaultValue){
+        String value = getProperty(key);
+        if(value == null || value.length() == 0){
+            return defaultValue;
+        }
+        try{
+            return Long.parseLong(value);
+        }catch (Throwable e){
+            throw new RuntimeException("Invalid long value ["+value+"] for ["+key+"]");
+        }
+    }
+
     public boolean getBoolean(String key, boolean defaultValue){
         String value = getProperty(key);
         if(value == null || value.length() == 0){
