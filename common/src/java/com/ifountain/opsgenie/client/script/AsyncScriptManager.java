@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.script;
 
-import net.sf.ehcache.util.NamedThreadFactory;
+import com.ifountain.opsgenie.client.script.util.OpsGenieExecutorsUtils;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -40,12 +40,7 @@ public class AsyncScriptManager {
     public void initialize(int scriptExecutorThreadCount, int scriptExecutoerQueueCount){
         logger.info(getLogPrefix()+"Starting action executor service with "+scriptExecutorThreadCount +" number of threads.");
         workQueue = new LinkedBlockingQueue<Runnable>(scriptExecutoerQueueCount);
-        scriptExecutionService = new ThreadPoolExecutor(scriptExecutorThreadCount,
-                scriptExecutorThreadCount,
-                0L,
-                TimeUnit.MILLISECONDS,
-                workQueue,
-                new NamedThreadFactory(AsyncScriptManager.class.getName()));
+        scriptExecutionService = OpsGenieExecutorsUtils.newNamedFixedThreadPool(AsyncScriptManager.class.getName(), scriptExecutorThreadCount, workQueue);
         initialized = true;
     }
 
