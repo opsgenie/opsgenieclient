@@ -69,7 +69,8 @@ public class OpsGenieClient implements IOpsGenieClient {
     /**
      * Http client object *
      */
-    private JsonOpgenieHttpClient jsonHttpClient;
+    private JsonOpsgenieHttpClient jsonHttpClient;
+    private StreamOpsgenieHttpClient streamOpsgenieHttpClient;
 
     /**
      * Constructs a new client to invoke service methods on OpsGenie using the specified client configuration options.
@@ -90,12 +91,13 @@ public class OpsGenieClient implements IOpsGenieClient {
      * Constructs a new client to invoke service methods on OpsGenie using the specified client.
      */
     public OpsGenieClient(OpsGenieHttpClient httpClient) {
-        this.jsonHttpClient = new JsonOpgenieHttpClient(httpClient);
+        this.jsonHttpClient = new JsonOpsgenieHttpClient(httpClient);
+        this.streamOpsgenieHttpClient = new StreamOpsgenieHttpClient(httpClient);
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerEscalationOpsGenieClient = new InnerEscalationOpsGenieClient(this.jsonHttpClient);
         innerAlertOpsGenieClient = new InnerAlertOpsGenieClient(this.jsonHttpClient);
-        innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient);
+        innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient, this.streamOpsgenieHttpClient);
         innerAlertPolicyOpsGenieClient = new InnerAlertPolicyOpsGenieClient(this.jsonHttpClient);
         innerIntegrationOpsGenieClient = new InnerIntegrationOpsGenieClient(this.jsonHttpClient);
     }
@@ -213,6 +215,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     @Override
     public void setRootUri(String rootUri) {
         this.jsonHttpClient.setRootUri(rootUri);
+        this.streamOpsgenieHttpClient.setRootUri(rootUri);
     }
 
     /**
@@ -221,5 +224,6 @@ public class OpsGenieClient implements IOpsGenieClient {
     @Override
     public void close() {
         this.jsonHttpClient.close();
+        this.streamOpsgenieHttpClient.close();
     }
 }

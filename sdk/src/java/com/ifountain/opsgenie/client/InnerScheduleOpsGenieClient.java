@@ -9,12 +9,14 @@ import java.text.ParseException;
 * Inner Schedule Client
 */
 public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonOpsgenieHttpClient httpClient;
+    private StreamOpsgenieHttpClient streamOpsgenieHttpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerScheduleOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerScheduleOpsGenieClient(JsonOpsgenieHttpClient httpClient, StreamOpsgenieHttpClient streamOpsgenieHttpClient) {
         this.httpClient = httpClient;
+        this.streamOpsgenieHttpClient = streamOpsgenieHttpClient;
     }
 
     /**
@@ -73,4 +75,11 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
         return (ListSchedulesResponse) httpClient.doGetRequest(listSchedulesRequest);
     }
 
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#exportSchedule(com.ifountain.opsgenie.client.model.schedule.ExportScheduleRequest)
+     */
+    @Override
+    public ExportScheduleResponse exportSchedule(ExportScheduleRequest exportScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ExportScheduleResponse) streamOpsgenieHttpClient.doGetRequest(exportScheduleRequest);
+    }
 }

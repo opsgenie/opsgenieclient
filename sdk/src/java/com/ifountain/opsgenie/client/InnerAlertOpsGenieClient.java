@@ -15,11 +15,11 @@ import java.text.ParseException;
  * Abstract Inner Client
  */
 public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonOpsgenieHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerAlertOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerAlertOpsGenieClient(JsonOpsgenieHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
