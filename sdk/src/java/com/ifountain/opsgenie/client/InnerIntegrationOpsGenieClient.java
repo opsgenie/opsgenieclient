@@ -10,11 +10,11 @@ import java.text.ParseException;
  * Inner Integration Client
  */
 public class InnerIntegrationOpsGenieClient implements IIntegrationOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonOpsgenieHttpClient httpClient;
     /**
      * Constructs a new integration client to invoke service methods on OpsGenie for integrations using the specified client and root URI.
      */
-    public InnerIntegrationOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerIntegrationOpsGenieClient(JsonOpsgenieHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

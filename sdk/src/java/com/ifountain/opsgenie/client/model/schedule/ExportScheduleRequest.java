@@ -3,40 +3,25 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseGetRequest;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * Container for the parameters to make a get schedule api call.
+ * Container for the parameters to make a schedule export api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#exportSchedule(com.ifountain.opsgenie.client.model.schedule.ExportScheduleRequest)
  */
-public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
+public class ExportScheduleRequest extends BaseGetRequest<ExportScheduleResponse> {
     private String name;
-    private Date time;
     private TimeZone timeZone;
+    private Locale locale;
     /**
      * Rest api uri of getting schedule operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1.1/json/schedule/whoIsOnCall";
-    }
-
-    /**
-     * Target date of WhoIsOnCall request
-     */
-    public Date getTime() {
-        return time;
-    }
-
-    /**
-     * Sets target date of WhoIsOnCall request
-     */
-    public void setTime(Date time) {
-        this.time = time;
+        return "/v1/json/schedule/export";
     }
 
     /**
@@ -67,6 +52,20 @@ public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
         this.name = name;
     }
 
+    /**
+     * Locale for request
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Sets locale for request.
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
@@ -78,19 +77,16 @@ public class WhoIsOnCallRequest extends BaseGetRequest<WhoIsOnCallResponse> {
         if(timeZone != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
-        if(time != null){
-            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-            sdf.setTimeZone(timeZone != null?timeZone:TimeZone.getTimeZone("UTC"));
-            json.put(OpsGenieClientConstants.API.TIME, sdf.format(time));
+        if(locale != null){
+            json.put(OpsGenieClientConstants.API.LOCALE, locale.toString());
         }
-
     }
 
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public WhoIsOnCallResponse createResponse() {
-        return new WhoIsOnCallResponse();
+    public ExportScheduleResponse createResponse() {
+        return new ExportScheduleResponse();
     }
 }

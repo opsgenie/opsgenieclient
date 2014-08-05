@@ -10,11 +10,11 @@ import java.text.ParseException;
  * Inner User Client
  */
 public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
-    private JsonOpgenieHttpClient httpClient;
+    private JsonOpsgenieHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerUserOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerUserOpsGenieClient(JsonOpsgenieHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

@@ -81,4 +81,14 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.ListSchedulesResponse
      */
     public ListSchedulesResponse listSchedules(ListSchedulesRequest listSchedulesRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Export schedule to .ics file
+     *
+     * @param exportScheduleRequest Object to construct request parameters.
+     * @return <code>ExportScheduleRequest</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.ExportScheduleRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.ExportScheduleResponse
+     */
+    public ExportScheduleResponse exportSchedule(ExportScheduleRequest exportScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
 }

@@ -9,11 +9,11 @@ import java.text.ParseException;
  * Inner Escalation Client
  */
 public class InnerEscalationOpsGenieClient implements IEscalationOpsGenieClient{
-    private JsonOpgenieHttpClient httpClient;
+    private JsonOpsgenieHttpClient httpClient;
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
-    public InnerEscalationOpsGenieClient(JsonOpgenieHttpClient httpClient) {
+    public InnerEscalationOpsGenieClient(JsonOpsgenieHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
