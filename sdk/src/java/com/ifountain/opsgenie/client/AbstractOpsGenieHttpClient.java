@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseRequestWithHttpParameters;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.commons.logging.Log;
@@ -63,9 +64,20 @@ public abstract class AbstractOpsGenieHttpClient {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        Map parameters = request.serialize();
-        log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
-        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJsonAsBytes(parameters), headers);
+        Map contentParameters = request.serialize();
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + contentParameters);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJsonAsBytes(contentParameters), headers);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
+    }
+
+    protected BaseResponse doPostRequest(BaseRequestWithHttpParameters request) throws OpsGenieClientException, IOException, ParseException, URISyntaxException {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        String uri = rootUri + request.getEndPoint();
+        Map contentParameters = request.serialize();
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + contentParameters);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJson(contentParameters), headers, request.getHttpParameters());
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }

@@ -10,6 +10,7 @@ import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.model.escalation.*;
 import com.ifountain.opsgenie.client.model.group.*;
 import com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest;
+import com.ifountain.opsgenie.client.model.integration.SendToIntegrationRequest;
 import com.ifountain.opsgenie.client.model.schedule.*;
 import com.ifountain.opsgenie.client.model.user.*;
 import com.ifountain.opsgenie.client.model.user.forward.*;
@@ -335,6 +336,14 @@ public class ScriptProxy {
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
         request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
         return successToMap(this.opsGenieClient.integration().enableIntegration(request));
+    }
+
+    public Map sendToIntegration(String endPoint, Map contentParams, Map httpParams) throws Exception {
+        SendToIntegrationRequest request = new SendToIntegrationRequest();
+        request.setEndPoint(endPoint);
+        request.setContentParameters(contentParams);
+        request.setHttpParameters(httpParams);
+        return successToMap(this.opsGenieClient.integration().sendToIntegration(request));
     }
 
     public Map addEscalation(Map params) throws Exception {

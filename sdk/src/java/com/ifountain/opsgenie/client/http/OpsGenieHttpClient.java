@@ -112,11 +112,26 @@ public class OpsGenieHttpClient {
         return executeHttpMethod(postMethod);
     }
 
+    public OpsGenieHttpResponse post(String uri, String content, Map<String, String> headers, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpPost postMethod = new HttpPost(prepareGetUri(uri, parameters));
+        StringEntity entity = new StringEntity(content, "UTF-8");
+        entity.setChunked(true);
+        postMethod.setEntity(entity);
+        configureHeaders(postMethod, headers);
+        return executeHttpMethod(postMethod);
+    }
+
     public OpsGenieHttpResponse get(String uri, Map<String, Object> parameters) throws URISyntaxException, IOException {
         return get(uri, parameters, new HashMap<String, String>());
     }
 
     public OpsGenieHttpResponse get(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
+        HttpGet get = new HttpGet(prepareGetUri(uri, parameters));
+        configureHeaders(get, headers);
+        return executeHttpMethod(get);
+    }
+
+    public URI prepareGetUri(String uri, Map<String, Object> parameters) throws URISyntaxException {
         URI uriObj = new URI(uri);
         List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(uriObj, null);
         List<NameValuePair> queryParams = getNameValuePairsFromMap(parameters);
@@ -127,10 +142,7 @@ public class OpsGenieHttpClient {
             }
         }
 
-        URI newUri = URIUtils.createURI(uriObj.getScheme(), uriObj.getHost(), uriObj.getPort(), uriObj.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), uriObj.getFragment());
-        HttpGet get = new HttpGet(newUri);
-        configureHeaders(get, headers);
-        return executeHttpMethod(get);
+        return URIUtils.createURI(uriObj.getScheme(), uriObj.getHost(), uriObj.getPort(), uriObj.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), uriObj.getFragment());
     }
 
     public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters) throws URISyntaxException, IOException {

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Base class for container objects which provides request parameters for OpsGenie service calls.
+ * Base class for container objects which provides content parameters for OpsGenie service calls.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:03 PM
@@ -23,7 +23,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     }
 
     /**
-     * Sets the tustomer key used for authenticating API requests.
+     * Sets the customer key used for authenticating API requests.
      */
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;

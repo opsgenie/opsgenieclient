@@ -2,8 +2,11 @@ package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest;
 import com.ifountain.opsgenie.client.model.integration.EnableIntegrationResponse;
+import com.ifountain.opsgenie.client.model.integration.SendToIntegrationRequest;
+import com.ifountain.opsgenie.client.model.integration.SendToIntegrationResponse;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 
 /**
@@ -25,6 +28,11 @@ public class InnerIntegrationOpsGenieClient implements IIntegrationOpsGenieClien
     @Override
     public EnableIntegrationResponse enableIntegration(EnableIntegrationRequest enableIntegrationRequest) throws IOException, OpsGenieClientException, ParseException {
         return (EnableIntegrationResponse) httpClient.doPostRequest(enableIntegrationRequest);
+    }
+
+    @Override
+    public SendToIntegrationResponse sendToIntegration(SendToIntegrationRequest sendToIntegrationRequest) throws ParseException, OpsGenieClientException, IOException, URISyntaxException {
+        return (SendToIntegrationResponse) httpClient.doPostRequest(sendToIntegrationRequest);
     }
 
 }
