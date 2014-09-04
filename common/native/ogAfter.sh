@@ -23,7 +23,6 @@ fi
 #rm -r /var/lib/opsgenie/marid/lib
 
 chmod -R 775 /var/log/opsgenie
-chmod -R g+s /var/log/opsgenie
 chmod -R 775 /var/lib/opsgenie
 chmod -R 775 /etc/opsgenie
 chmod -R 775 /var/opsgenie
