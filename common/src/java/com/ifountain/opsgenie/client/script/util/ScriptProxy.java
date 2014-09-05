@@ -339,12 +339,12 @@ public class ScriptProxy {
     }
 
     public Map sendToIntegration(String endPoint, Map contentParams, Map httpParams) throws Exception {
-        SendToIntegrationRequest request = new SendToIntegrationRequest();
-        request.setEndPoint(endPoint);
-        request.setContentParameters(contentParams);
-        request.setHttpParameters(httpParams);
-        return successToMap(this.opsGenieClient.integration().sendToIntegration(request));
-    }
+            SendToIntegrationRequest request = new SendToIntegrationRequest();
+            request.setEndPoint(endPoint);
+            request.setContentParameters(contentParams);
+            request.setHttpParameters(httpParams);
+            return successToMap(this.opsGenieClient.integration().sendToIntegration(request));
+        }
 
     public Map addEscalation(Map params) throws Exception {
         AddEscalationRequest request = new AddEscalationRequest();
@@ -353,7 +353,7 @@ public class ScriptProxy {
         escalation.fromMap(params);
         request.setName(escalation.getName());
         request.setRules(escalation.getRules());
-        
+
         AddEscalationResponse resp = this.opsGenieClient.escalation().addEscalation(request);
         Map mapResponse = new HashMap();
         mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
@@ -365,7 +365,7 @@ public class ScriptProxy {
         populateCommonProps(request, params);
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-        
+
         return successToMap(this.opsGenieClient.escalation().deleteEscalation(request));
     }
 
@@ -374,14 +374,14 @@ public class ScriptProxy {
         populateCommonProps(request, params);
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-        
+
         return this.opsGenieClient.escalation().getEscalation(request).getEscalation().toMap();
     }
 
     public List<Map> listEscalations(Map params) throws Exception {
         ListEscalationsRequest request = new ListEscalationsRequest();
         populateCommonProps(request, params);
-        
+
         return beansToMap(this.opsGenieClient.escalation().listEscalations(request).getEscalations());
     }
 
