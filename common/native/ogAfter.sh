@@ -12,16 +12,6 @@ if [ ! -d "/var/log/opsgenie/marid" ]; then
     mkdir /var/log/opsgenie/marid
 fi
 
-#mv /etc/opsgenie/lamp/conf/* /etc/opsgenie/lamp/
-#rm -r /etc/opsgenie/lamp/conf
-#mv /var/lib/opsgenie/lamp/lib/* /var/lib/opsgenie/lamp/
-#rm -r /var/lib/opsgenie/lamp/lib
-
-#mv /etc/opsgenie/marid/conf/* /etc/opsgenie/marid/
-#rm -r /etc/opsgenie/marid/conf
-#mv /var/lib/opsgenie/marid/lib/* /var/lib/opsgenie/marid/
-#rm -r /var/lib/opsgenie/marid/lib
-
 chmod -R 775 /var/log/opsgenie
 chmod -R g+s /var/log/opsgenie
 chmod -R 775 /var/lib/opsgenie
