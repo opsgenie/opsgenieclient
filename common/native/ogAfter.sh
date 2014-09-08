@@ -32,4 +32,4 @@ fi
 
 type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
 
-echo %{name} >> /usr/tes.txt
+echo %{check_java_for_marid} >> /usr/tes.txt
