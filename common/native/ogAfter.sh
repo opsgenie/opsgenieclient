@@ -30,7 +30,7 @@ if [ ! -z $JAVA_HOME ]; then
         JAVA_CMD=$JAVA_HOME/bin/java
 fi
 
-if [ %{check_java_for_marid_only} = "true" ]
+if [ "%{check_java_for_marid_only}" = "true" ]
 then
     type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
 else
