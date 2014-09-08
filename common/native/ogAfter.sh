@@ -32,4 +32,4 @@ fi
 
 type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
 
-echo "${BASH_SOURCE[0]}" >> /usr/tes.txt
+echo %{name} >> /usr/tes.txt
