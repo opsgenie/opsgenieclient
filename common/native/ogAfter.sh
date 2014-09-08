@@ -30,6 +30,9 @@ if [ ! -z $JAVA_HOME ]; then
         JAVA_CMD=$JAVA_HOME/bin/java
 fi
 
-type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
-
-echo %{check_java_for_marid} >> /usr/tes.txt
+if [ "%{check_java_for_marid_only}" = "true" ]
+then
+    type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. Please set your JAVA_HOME variable in /etc/opsgenie/profile file properly!"
+else
+    type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. If you're going to use Marid on this machine, you should set your JAVA_HOME variable in /etc/opsgenie/profile
+fi
