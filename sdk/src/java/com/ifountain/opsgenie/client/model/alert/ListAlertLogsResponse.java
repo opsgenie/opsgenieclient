@@ -2,9 +2,7 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.beans.Alert;
 import com.ifountain.opsgenie.client.model.beans.AlertLog;
-import com.ifountain.opsgenie.client.model.beans.Heartbeat;
 
 import java.text.ParseException;
 import java.util.ArrayList;

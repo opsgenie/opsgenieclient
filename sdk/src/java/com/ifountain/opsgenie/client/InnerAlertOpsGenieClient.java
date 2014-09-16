@@ -155,6 +155,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
         return (ExecuteAlertActionResponse) httpClient.doPostRequest(executeAlertActionRequest);
     }
 
+    /**
+     * @see IAlertOpsGenieClient#listAlertNotes(com.ifountain.opsgenie.client.model.alert.ListAlertNotesRequest)
+     */
+    @Override
+    public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException {
+        return (ListAlertNotesResponse) httpClient.doGetRequest(listAlertNotesRequest);
+    }
+
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException, ParseException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)

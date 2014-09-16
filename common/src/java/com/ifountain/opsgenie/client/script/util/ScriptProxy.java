@@ -202,7 +202,25 @@ public class ScriptProxy {
         res.put(OpsGenieClientConstants.API.GROUPS, groups);
         return res;
     }
+    public Map listAlertNotes(Map params) throws Exception{
+        ListAlertNotesRequest request = new ListAlertNotesRequest();
+        populateAlertRequestWithId(request, params);
 
+        if(params.containsKey(OpsGenieClientConstants.API.LAST_KEY)){
+            request.setLastKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.LAST_KEY));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.LIMIT)){
+            request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.ORDER)){
+            request.setSortOrder(ListAlertNotesRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+        }
+        ListAlertNotesResponse listAlertNotesResponse = this.opsGenieClient.alert().listAlertNotes(request);
+        Map<String, Object> res = new HashMap<String, Object>();
+        res.put(OpsGenieClientConstants.API.LAST_KEY, listAlertNotesResponse.getLastKey());
+        res.put(OpsGenieClientConstants.API.NOTES, beansToMap(listAlertNotesResponse.getAlertNotes()));
+        return res;
+    }
     public List<Map> listAlerts(Map params) throws Exception{
         ListAlertsRequest request = new ListAlertsRequest();
         populateCommonProps(request, params);

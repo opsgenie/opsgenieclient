@@ -104,5 +104,6 @@ public interface OpsGenieClientConstants {
         public static final String INTERVAL = "interval";
         public static final String INTERVAL_UNIT = "intervalUnit";
         public static final String HEARTBEATS = "heartbeats";
+        public static final String NOTES = "notes";
     }
 }

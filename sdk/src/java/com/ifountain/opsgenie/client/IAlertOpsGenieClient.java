@@ -180,4 +180,14 @@ public interface IAlertOpsGenieClient {
      * @see ListAlertRecipientsResponse
      */
     public ListAlertRecipientsResponse listAlertRecipients(ListAlertRecipientsRequest listAlertRecipientsRequest) throws ParseException, OpsGenieClientException, IOException;
+
+    /**
+     * Lists alert notes
+     *
+     * @param listAlertNotesRequest  Object to construct request parameters.
+     * @return Object containing alert logs
+     * @see ListAlertNotesRequest
+     * @see ListAlertNotesResponse
+     */
+    public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException;
 }
