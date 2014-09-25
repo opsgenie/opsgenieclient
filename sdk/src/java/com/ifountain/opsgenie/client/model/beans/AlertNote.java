@@ -10,23 +10,23 @@ import java.util.Map;
  * Alert bean
  */
 public class AlertNote implements IBean {
-    private String user;
+    private String owner;
     private String note;
     private long createdAt;
 
 
     /**
-     * @return User of the comment
+     * @return Owner of the comment
      */
-    public String getUser() {
-        return user;
+    public String getOwner() {
+        return owner;
     }
 
     /**
-     * Sets the user of the comment
+     * Sets the owner of the comment
      */
-    public void setUser(String user) {
-        this.user = user;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     /**
@@ -61,14 +61,14 @@ public class AlertNote implements IBean {
     public Map toMap() {
         Map json = new HashMap();
         json.put(OpsGenieClientConstants.API.CREATED_AT, getCreatedAt());
-        json.put(OpsGenieClientConstants.API.USER, getUser());
+        json.put(OpsGenieClientConstants.API.OWNER, getOwner());
         json.put(OpsGenieClientConstants.API.NOTE, getNote());
         return json;
     }
 
     @Override
     public void fromMap(Map map) throws ParseException {
-        setUser((String) map.get(OpsGenieClientConstants.API.USER));
+        setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
         setNote((String) map.get(OpsGenieClientConstants.API.NOTE));
         setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
     }
