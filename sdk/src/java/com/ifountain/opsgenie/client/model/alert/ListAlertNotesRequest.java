@@ -46,7 +46,7 @@ public class ListAlertNotesRequest extends BaseAlertRequestWithId<ListAlertNotes
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/alert/notes";
+        return "/v1/json/alert/note";
     }
 
     @Override
