@@ -45,6 +45,7 @@ public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<Send
     @Override
     public Map serialize() throws OpsGenieClientValidationException {
         Map contentParameters = super.serialize();
+        // apiKey in contentParameters will override BaseRequest.apiKey
         contentParameters.putAll(getContentParameters());
         return contentParameters;
     }
