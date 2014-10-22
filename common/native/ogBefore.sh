@@ -1,5 +1,6 @@
 #!/bin/bash
 if [  -z $(getent passwd opsgenie) ]
 then
-  useradd -U opsgenie
+  groupadd opsgenie
+  useradd -g opsgenie opsgenie
 fi
