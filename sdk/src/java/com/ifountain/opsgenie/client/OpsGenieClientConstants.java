@@ -56,6 +56,8 @@ public interface OpsGenieClientConstants {
         public static final String GROUPS = "groups";
         public static final String ESCALATIONS = "escalations";
         public static final String SCHEDULES = "schedules";
+        public static final String OVERRIDES = "overrides";
+        public static final String SCHEDULE = "schedule";
         public static final String USERS = "users";
         public static final String RULES = "rules";
         public static final String TYPE = "type";

@@ -77,8 +77,7 @@ public interface IUserOpsGenieClient {
 
 
     /**
-     * Updates user notification forwarding setting.
-     * time settings.
+     * Updates user notification forwarding settings.
      *
      * @param updateForwardingRequest  Object to construct request parameters
      * @return Object containing OpsGenie response information.

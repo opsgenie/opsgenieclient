@@ -7,18 +7,18 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import java.util.Map;
 
 /**
- * Container for the parameters to make an delete schedule override api call.
+ * Container for the parameters to make a get schedule override api call.
  *
  * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 9:02 AM
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteScheduleOverride(DeleteScheduleOverrideRequest)
+ * @version 12/3/2014 10:42 AM
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(GetScheduleOverrideRequest)
  */
-public class DeleteScheduleOverrideRequest extends BaseRequest<DeleteScheduleOverrideResponse> {
+public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
     private String alias;
     private String schedule;
 
     /**
-     * Rest api uri of delete schedule override operation.
+     * Rest api uri of get schedule override operation.
      */
     @Override
     public String getEndPoint() {
@@ -26,18 +26,19 @@ public class DeleteScheduleOverrideRequest extends BaseRequest<DeleteScheduleOve
     }
 
     /**
-     * A user defined identifier for the override.
+     * A user defined identifier for the schedule override.
      */
     public String getAlias() {
         return alias;
     }
 
     /**
-     * Sets a user defined identifier for the override.
+     * Sets a user defined identifier for the schedule override.
      */
     public void setAlias(String alias) {
         this.alias = alias;
     }
+
 
     /**
      * Id or the name of the schedule that the override belongs to.
@@ -64,11 +65,12 @@ public class DeleteScheduleOverrideRequest extends BaseRequest<DeleteScheduleOve
         return json;
     }
 
+
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public DeleteScheduleOverrideResponse createResponse() {
-        return new DeleteScheduleOverrideResponse();
+    public GetScheduleOverrideResponse createResponse() {
+        return new GetScheduleOverrideResponse();
     }
 }

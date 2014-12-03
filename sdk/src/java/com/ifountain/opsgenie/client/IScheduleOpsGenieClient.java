@@ -1,6 +1,8 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.schedule.*;
+import com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest;
+import com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingResponse;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -104,6 +106,16 @@ public interface IScheduleOpsGenieClient {
     public AddScheduleOverrideResponse addScheduleOverride(AddScheduleOverrideRequest addScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
+     * Updates schedule override settings.
+     *
+     * @param updateScheduleOverrideRequest  Object to construct request parameters
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.UpdateScheduleOverrideRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.UpdateScheduleOverrideResponse
+     */
+    public UpdateScheduleOverrideResponse updateScheduleOverride(UpdateScheduleOverrideRequest updateScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
      * Deletes the specified schedule override.
      *
      * @param deleteScheduleOverrideRequest Object to construct request parameters
@@ -112,4 +124,24 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.DeleteScheduleOverrideResponse
      */
     public DeleteScheduleOverrideResponse deleteScheduleOverride(DeleteScheduleOverrideRequest deleteScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Gets schedule override details.
+     *
+     * @param getScheduleOverrideRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.GetScheduleOverrideRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.GetScheduleOverrideResponse
+     */
+    public GetScheduleOverrideResponse getScheduleOverride(GetScheduleOverrideRequest getScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Lists override settings for the specified schedule.
+     *
+     * @param listScheduleOverridesRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.ListScheduleOverridesRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.ListScheduleOverridesResponse
+     */
+    public ListScheduleOverridesResponse listScheduleOverrides(ListScheduleOverridesRequest listScheduleOverridesRequest) throws IOException, OpsGenieClientException, ParseException;
 }

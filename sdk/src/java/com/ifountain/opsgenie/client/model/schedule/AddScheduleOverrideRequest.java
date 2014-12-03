@@ -18,6 +18,7 @@ import java.util.TimeZone;
  */
 public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideResponse> {
     private String alias;
+    private String schedule;
     private String user;
     private Date startDate;
     private Date endDate;
@@ -45,6 +46,21 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
      */
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+
+    /**
+     * Id or the name of the schedule that the override will belong to.
+     */
+    public String getSchedule() {
+        return schedule;
+    }
+
+    /**
+     * Sets the id or the name of the schedule that the override will belong to.
+     */
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
     /**
@@ -126,6 +142,9 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
         }
         if (alias != null) {
             json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        }
+        if (schedule != null) {
+            json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
         }
         return json;
     }
