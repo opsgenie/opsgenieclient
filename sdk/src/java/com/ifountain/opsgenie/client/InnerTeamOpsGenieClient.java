@@ -58,4 +58,12 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     public ListTeamsResponse listTeams(ListTeamsRequest listTeamsRequest) throws IOException, OpsGenieClientException, ParseException {
         return (ListTeamsResponse) httpClient.doGetRequest(listTeamsRequest);
     }
+
+    /**
+     * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamLogs(com.ifountain.opsgenie.client.model.team.ListTeamLogsRequest)
+     */
+    @Override
+    public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException {
+        return (ListTeamLogsResponse) httpClient.doGetRequest(listTeamLogsRequest);
+    }
 }

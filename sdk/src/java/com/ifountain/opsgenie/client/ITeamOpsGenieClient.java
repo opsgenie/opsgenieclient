@@ -63,5 +63,15 @@ public interface ITeamOpsGenieClient {
      */
     public ListTeamsResponse listTeams(ListTeamsRequest listTeamsRequest) throws IOException, OpsGenieClientException, ParseException;
 
+    /**
+     * Lists team logs
+     *
+     * @param listTeamLogsRequest  Object to construct request parameters.
+     * @return Object containing alert logs
+     * @see com.ifountain.opsgenie.client.model.team.ListTeamLogsRequest
+     * @see com.ifountain.opsgenie.client.model.team.ListTeamLogsResponse
+     */
+    public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException;
+
 
 }
