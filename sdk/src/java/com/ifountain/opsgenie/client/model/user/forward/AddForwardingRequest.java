@@ -103,14 +103,14 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     }
 
     /**
-     * Timezone to determine forwarding start and end dates
+     * Timezone to determine forwarding start and end dates. If not given GMT is used.
      */
     public TimeZone getTimeZone() {
         return timeZone;
     }
 
     /**
-     * Sets timezone to determine forwarding start and end dates
+     * Sets timezone to determine forwarding start and end dates. If not given GMT is used.
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
@@ -123,10 +123,15 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        TimeZone tz;
         if (getTimeZone() != null) {
-            sdf.setTimeZone(getTimeZone());
-            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
+            tz = getTimeZone();
+
+        } else {
+            tz = TimeZone.getTimeZone("GMT");
         }
+        sdf.setTimeZone(tz);
+        json.put(OpsGenieClientConstants.API.TIMEZONE, tz.getID());
         if (getEndDate() != null) {
             json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(getEndDate()));
         }
