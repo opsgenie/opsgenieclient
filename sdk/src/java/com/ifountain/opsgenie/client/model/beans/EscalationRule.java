@@ -13,7 +13,7 @@ public class EscalationRule implements IBean {
     }
 
     public static enum NotifyType {
-        Default("default"), users("users"), members("members"), next("next"), previous("previous");
+        Default("default"), users("users"), admins("admins"), next("next"), previous("previous");
         private String value;
 
         NotifyType(String value) {
@@ -66,7 +66,7 @@ public class EscalationRule implements IBean {
     /**
      * Sets the notification type of team or schedule in escalation.
      * Possible values for schedule are: default, next, previous.
-     * Possible values for team are: default, users, members.
+     * Possible values for team are: default, users, admins.
      */
     public void setNotifyType(NotifyType notifyType) {
         this.notifyType = notifyType;
