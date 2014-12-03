@@ -11,7 +11,7 @@ import java.text.ParseException;
 public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
     private JsonOpsgenieHttpClient httpClient;
     /**
-     * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
+     * Constructs a new group client to invoke service methods on OpsGenie for groups using the specified client and root URI.
      */
     public InnerGroupOpsGenieClient(JsonOpsgenieHttpClient httpClient) {
         this.httpClient = httpClient;

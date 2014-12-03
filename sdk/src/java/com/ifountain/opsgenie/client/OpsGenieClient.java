@@ -61,6 +61,7 @@ import java.text.ParseException;
 public class OpsGenieClient implements IOpsGenieClient {
     private InnerUserOpsGenieClient innerUserOpsGenieClient;
     private InnerGroupOpsGenieClient innerGroupOpsGenieClient;
+    private InnerTeamOpsGenieClient innerTeamOpsGenieClient;
     private InnerEscalationOpsGenieClient innerEscalationOpsGenieClient;
     private InnerAlertOpsGenieClient innerAlertOpsGenieClient;
     private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
@@ -95,6 +96,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.streamOpsgenieHttpClient = new StreamOpsgenieHttpClient(httpClient);
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
+        innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);
         innerEscalationOpsGenieClient = new InnerEscalationOpsGenieClient(this.jsonHttpClient);
         innerAlertOpsGenieClient = new InnerAlertOpsGenieClient(this.jsonHttpClient);
         innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient, this.streamOpsgenieHttpClient);
@@ -114,6 +116,14 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     public IGroupOpsGenieClient group() {
         return innerGroupOpsGenieClient;
+    }
+
+    /**
+     * @see IOpsGenieClient#team() ()
+     */
+    @Override
+    public ITeamOpsGenieClient team() {
+        return innerTeamOpsGenieClient;
     }
 
     /**

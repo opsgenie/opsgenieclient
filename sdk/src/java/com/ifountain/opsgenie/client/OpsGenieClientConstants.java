@@ -59,6 +59,7 @@ public interface OpsGenieClientConstants {
         public static final String OVERRIDES = "overrides";
         public static final String SCHEDULE = "schedule";
         public static final String USERS = "users";
+        public static final String MEMBERS = "members";
         public static final String RULES = "rules";
         public static final String TYPE = "type";
         public static final String DELAY = "delay";
