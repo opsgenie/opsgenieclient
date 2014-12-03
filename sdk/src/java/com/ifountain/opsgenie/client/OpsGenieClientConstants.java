@@ -62,6 +62,7 @@ public interface OpsGenieClientConstants {
         public static final String MEMBERS = "members";
         public static final String RULES = "rules";
         public static final String TYPE = "type";
+        public static final String NOTIFY_TYPE = "notifyType";
         public static final String DELAY = "delay";
         public static final String START_DAY = "startDay";
         public static final String END_DAY = "endDay";
