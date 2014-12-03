@@ -30,12 +30,13 @@ public class Alert implements IBean{
     private boolean isSeen;
     private boolean acknowledged;
     private List<String> recipients;
+    private List<String> teams;
     private List<String> tags;
     private List<String> actions;
     private Map<String, String> details;
 
     /**
-     * Returns type of integration which created alert
+     * Returns type of integration which created alert.
      * @return
      */
     public Map<String, String> getSystemData() {
@@ -51,42 +52,42 @@ public class Alert implements IBean{
     }
 
     /**
-     * The tiny id of the 
+     * The tiny id of the alert.
      */
     public String getTinyId() {
         return tinyId;
     }
 
     /**
-     * Sets the tiny id of the 
+     * Sets the tiny id of the alert.
      */
     public void setTinyId(String tinyId) {
         this.tinyId = tinyId;
     }
 
     /**
-     * The id of the 
+     * The id of the alert.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Sets the id of the 
+     * Sets the id of the alert.
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * User defined identifier of the 
+     * User defined identifier of the alert.
      */
     public String getAlias() {
         return alias;
     }
 
     /**
-     * Sets the user defined identifier of the 
+     * Sets the user defined identifier of the alert.
      */
     public void setAlias(String alias) {
         this.alias = alias;
@@ -121,14 +122,14 @@ public class Alert implements IBean{
     }
 
     /**
-     * Source of the 
+     * Source of the alert.
      */
     public String getSource() {
         return source;
     }
 
     /**
-     * Sets the source of the 
+     * Sets the source of the alert.
      */
     public void setSource(String source) {
         this.source = source;
@@ -149,28 +150,28 @@ public class Alert implements IBean{
     }
 
     /**
-     * The status of the 
+     * The status of the alert.
      */
     public Status getStatus() {
         return status;
     }
 
     /**
-     * Sets the status of the 
+     * Sets the status of the alert.
      */
     public void setStatus(Status status) {
         this.status = status;
     }
 
     /**
-     * The owner of the 
+     * The owner of the alert.
      */
     public String getOwner() {
         return owner;
     }
 
     /**
-     * Sets the owner of the 
+     * Sets the owner of the alert.
      */
     public void setOwner(String owner) {
         this.owner = owner;
@@ -205,14 +206,14 @@ public class Alert implements IBean{
     }
 
     /**
-     * Count of the 
+     * Count of the alert.
      */
     public int getCount() {
         return count;
     }
 
     /**
-     * Sets the count of the 
+     * Sets the count of the alert.
      */
     public void setCount(int count) {
         this.count = count;
@@ -226,38 +227,53 @@ public class Alert implements IBean{
     }
 
     /**
-     * Sets seen state of the 
+     * Sets seen state of the alert.
      */
     public void setSeen(boolean seen) {
         isSeen = seen;
     }
 
     /**
-     * The acknowledged state of the 
+     * The acknowledged state of the alert.
      */
     public boolean isAcknowledged() {
         return acknowledged;
     }
 
     /**
-     * Sets the acknowledged state of the 
+     * Sets the acknowledged state of the alert.
      */
     public void setAcknowledged(boolean acknowledged) {
         this.acknowledged = acknowledged;
     }
 
     /**
-     * The user names of individuval users or group names that will receive the 
+     * The user names of individuval users or group names that will receive the alert.
      */
     public List<String> getRecipients() {
         return recipients;
     }
 
     /**
-     * Sets the user names of individuval users or group names that will receive the 
+     * Sets the user names of individuval users or group names that will receive the alert.
      */
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
+    }
+
+
+    /**
+     * The teams names that will receive the alert.
+     */
+    public List<String> getTeams() {
+        return teams;
+    }
+
+    /**
+     * Sets the teams names that will receive the alert.
+     */
+    public void setTeams(List<String> teams) {
+        this.teams = teams;
     }
 
     /**
@@ -307,6 +323,7 @@ public class Alert implements IBean{
         Map json = new HashMap();
         json.put(OpsGenieClientConstants.API.ID, getId());
         json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
+        json.put(OpsGenieClientConstants.API.TEAMS, getTeams());
         json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
         json.put(OpsGenieClientConstants.API.SYSTEM_DATA, getSystemData());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
@@ -344,6 +361,7 @@ public class Alert implements IBean{
         setTags((List<String>) map.get(OpsGenieClientConstants.API.TAGS));
         setActions((List<String>) map.get(OpsGenieClientConstants.API.ACTIONS));
         setRecipients((List<String>) map.get(OpsGenieClientConstants.API.RECIPIENTS));
+        setTeams((List<String>) map.get(OpsGenieClientConstants.API.TEAMS));
         setDetails((Map<String, String>) map.get(OpsGenieClientConstants.API.DETAILS));
         setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
         setUpdatedAt(((Number) map.get(OpsGenieClientConstants.API.UPDATED_AT)).longValue());

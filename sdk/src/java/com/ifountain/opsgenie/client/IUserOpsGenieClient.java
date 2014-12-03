@@ -88,6 +88,8 @@ public interface IUserOpsGenieClient {
     public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
+     * Deletes the specified forwarding.
+     *
      * @param deleteForwardingRequest Object to construct request parameters
      * @return  Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingRequest
@@ -96,6 +98,8 @@ public interface IUserOpsGenieClient {
     public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
+     * Gets forwarding details.
+     *
      * @param getForwardingRequest Object to construct request parameters
      * @return  Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.user.forward.GetForwardingRequest
@@ -104,6 +108,8 @@ public interface IUserOpsGenieClient {
     public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
+     * Lists forwarding settings for the specified user.
+     *
      * @param listForwardingsRequest Object to construct request parameters
      * @return  Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest

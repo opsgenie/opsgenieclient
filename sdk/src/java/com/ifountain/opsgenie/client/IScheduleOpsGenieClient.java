@@ -91,4 +91,25 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.ExportScheduleResponse
      */
     public ExportScheduleResponse exportSchedule(ExportScheduleRequest exportScheduleRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Adds an override for a schedule. All of alert notifications directed the the schedule will be sent to the specified user during configured
+     * time settings.
+     *
+     * @param addScheduleOverrideRequest  Object to construct request parameters
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.AddScheduleOverrideRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.AddScheduleOverrideResponse
+     */
+    public AddScheduleOverrideResponse addScheduleOverride(AddScheduleOverrideRequest addScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Deletes the specified schedule override.
+     *
+     * @param deleteScheduleOverrideRequest Object to construct request parameters
+     * @return  Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.DeleteScheduleOverrideRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.DeleteScheduleOverrideResponse
+     */
+    public DeleteScheduleOverrideResponse deleteScheduleOverride(DeleteScheduleOverrideRequest deleteScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException;
 }
