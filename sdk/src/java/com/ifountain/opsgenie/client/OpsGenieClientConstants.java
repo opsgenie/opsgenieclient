@@ -28,6 +28,7 @@ public interface OpsGenieClientConstants {
         public static final String ACTIONS = "actions";
         public static final String ACTION = "action";
         public static final String RECIPIENTS = "recipients";
+        public static final String TEAM = "team";
         public static final String TEAMS = "teams";
         public static final String RECIPIENT = "recipient";
         public static final String STATUS = "status";

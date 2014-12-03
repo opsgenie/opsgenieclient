@@ -11,6 +11,7 @@ import java.util.*;
 public class Schedule  implements IBean{
     private String id;
     private String name;
+    private String team;
     private TimeZone timeZone;
     private Boolean enabled;
     private List<ScheduleRule> rules;
@@ -87,11 +88,26 @@ public class Schedule  implements IBean{
         this.rules = rules;
     }
 
+    /**
+     * Name of the team that schedule belongs to, if any
+     */
+    public String getTeam() {
+        return team;
+    }
+
+    /**
+     * Sets the name of the team that schedule belongs to.
+     */
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put(OpsGenieClientConstants.API.ID, id);
         json.put(OpsGenieClientConstants.API.NAME, name);
+        json.put(OpsGenieClientConstants.API.TEAM, team);
         if(timeZone != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
@@ -110,6 +126,7 @@ public class Schedule  implements IBean{
     public void fromMap(Map map) throws ParseException {
         id = (String) map.get(OpsGenieClientConstants.API.ID);
         name = (String) map.get(OpsGenieClientConstants.API.NAME);
+        team = (String) map.get(OpsGenieClientConstants.API.TEAM);
         if(map.containsKey(OpsGenieClientConstants.API.ENABLED)){
             enabled = (Boolean) map.get(OpsGenieClientConstants.API.ENABLED);
         }

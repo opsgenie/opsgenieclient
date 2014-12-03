@@ -14,22 +14,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addScheduleOverride(AddScheduleOverrideRequest)
  */
 public class AddScheduleOverrideResponse extends BaseResponse {
-    private String id;
     private String alias;
-
-    /**
-     * Id of the created override
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Id of the created override
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Alias of the created override
@@ -48,7 +33,6 @@ public class AddScheduleOverrideResponse extends BaseResponse {
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        id = (String) data.get(OpsGenieClientConstants.API.ID);
         alias = (String) data.get(OpsGenieClientConstants.API.ALIAS);
     }
 }

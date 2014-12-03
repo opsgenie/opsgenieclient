@@ -13,6 +13,7 @@ import java.util.Map;
 public class Escalation  implements IBean{
     private String id;
     private String name;
+    private String team;
     private List<EscalationRule> rules;
 
     /**
@@ -59,11 +60,26 @@ public class Escalation  implements IBean{
         this.rules = rules;
     }
 
+    /**
+     * Name of the team that escalation belongs to, if any
+     */
+    public String getTeam() {
+        return team;
+    }
+
+    /**
+     * Sets the name of the team that escalation belongs to.
+     */
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     @Override
     public Map toMap() {
         Map json = new HashMap();
         json.put(OpsGenieClientConstants.API.ID, id);
         json.put(OpsGenieClientConstants.API.NAME, name);
+        json.put(OpsGenieClientConstants.API.TEAM, team);
         if(rules != null){
             List<Map> ruleMaps = new ArrayList<Map>();
             for(EscalationRule escalationRule:rules){
@@ -78,6 +94,7 @@ public class Escalation  implements IBean{
     public void fromMap(Map resp) {
         setId((String) resp.get(OpsGenieClientConstants.API.ID));
         setName((String) resp.get(OpsGenieClientConstants.API.NAME));
+        setTeam((String) resp.get(OpsGenieClientConstants.API.TEAM));
         List<Map> ruleMaps = (List<Map>) resp.get(OpsGenieClientConstants.API.RULES);
         if(ruleMaps != null){
             rules = new ArrayList<EscalationRule>();

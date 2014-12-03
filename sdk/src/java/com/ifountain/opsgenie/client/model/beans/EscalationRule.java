@@ -9,7 +9,8 @@ public class EscalationRule implements IBean {
     public static enum Type {
         user,
         group,
-        schedule
+        schedule,
+        team
     }
 
     public static enum NotifyType {
