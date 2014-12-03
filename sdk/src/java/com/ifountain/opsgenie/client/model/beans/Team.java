@@ -92,6 +92,18 @@ public class Team implements IBean {
         private String user;
         private Role role;
 
+        public TeamMember() {
+        }
+
+        public TeamMember(String user) {
+            this(user, Role.user);
+        }
+
+        public TeamMember(String user, Role role) {
+            this.user = user;
+            this.role = role;
+        }
+
         /**
          * Username of the member.
          */
@@ -135,9 +147,28 @@ public class Team implements IBean {
         @Override
         public void fromMap(Map map) throws ParseException {
             setUser((String) map.get(OpsGenieClientConstants.API.USER));
-            setRole(Role.valueOf((String) map.get(OpsGenieClientConstants.API.USER)));
+            setRole(Role.valueOf((String) map.get(OpsGenieClientConstants.API.ROLE)));
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            TeamMember that = (TeamMember) o;
+
+            if (role != that.role) return false;
+            if (user != null ? !user.equals(that.user) : that.user != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = user != null ? user.hashCode() : 0;
+            result = 31 * result + (role != null ? role.hashCode() : 0);
+            return result;
+        }
     }
 
 

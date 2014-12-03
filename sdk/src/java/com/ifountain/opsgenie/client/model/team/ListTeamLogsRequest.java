@@ -87,9 +87,6 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse>{
     @Override
     public Map serialize() throws OpsGenieClientValidationException {
         Map resp = super.serialize();
-        if(!(resp.containsKey(OpsGenieClientConstants.API.ID) || resp.containsKey(OpsGenieClientConstants.API.NAME))){
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        }
         if (getId() != null)
             resp.put(OpsGenieClientConstants.API.ID, getId());
         if (getName() != null)

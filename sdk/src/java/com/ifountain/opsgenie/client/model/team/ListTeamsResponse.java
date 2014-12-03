@@ -40,7 +40,7 @@ public class ListTeamsResponse extends BaseResponse {
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        List<Map> teamsData = (List<Map>) data.get(OpsGenieClientConstants.API.GROUPS);
+        List<Map> teamsData = (List<Map>) data.get(OpsGenieClientConstants.API.TEAMS);
         teams = new ArrayList<Team>();
         for (Map teamData : teamsData) {
             Team team = new Team();
