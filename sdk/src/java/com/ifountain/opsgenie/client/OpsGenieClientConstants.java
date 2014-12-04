@@ -28,6 +28,8 @@ public interface OpsGenieClientConstants {
         public static final String ACTIONS = "actions";
         public static final String ACTION = "action";
         public static final String RECIPIENTS = "recipients";
+        public static final String TEAM = "team";
+        public static final String TEAMS = "teams";
         public static final String RECIPIENT = "recipient";
         public static final String STATUS = "status";
         public static final String CREATED_AT = "createdAt";
@@ -55,9 +57,13 @@ public interface OpsGenieClientConstants {
         public static final String GROUPS = "groups";
         public static final String ESCALATIONS = "escalations";
         public static final String SCHEDULES = "schedules";
+        public static final String OVERRIDES = "overrides";
+        public static final String SCHEDULE = "schedule";
         public static final String USERS = "users";
+        public static final String MEMBERS = "members";
         public static final String RULES = "rules";
         public static final String TYPE = "type";
+        public static final String NOTIFY_TYPE = "notifyType";
         public static final String DELAY = "delay";
         public static final String START_DAY = "startDay";
         public static final String END_DAY = "endDay";

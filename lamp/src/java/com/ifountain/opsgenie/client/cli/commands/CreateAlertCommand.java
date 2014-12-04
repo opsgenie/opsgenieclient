@@ -43,6 +43,9 @@ public class CreateAlertCommand extends BaseCommand{
     @Parameter(names = "--" + OpsGenieClientConstants.API.RECIPIENTS, description = "The user names of individual users or names of groups that the alert is assigned.", variableArity = true, splitter = NullSplitter.class)
     private List<String> recipients;
 
+    @Parameter(names = "--" + OpsGenieClientConstants.API.TEAMS, description = "The names of teams that the alert is assigned.", variableArity = true, splitter = NullSplitter.class)
+    private List<String> teams;
+
     @Parameter(names = "--" + OpsGenieClientConstants.API.ACTIONS, description = "A comma separated list of actions that can be executed.", variableArity = true, splitter = NullSplitter.class)
     private List<String> actions;
 
@@ -80,6 +83,7 @@ public class CreateAlertCommand extends BaseCommand{
         if (tags != null) request.setTags(Arrays.asList(Strings.join(tags, " ").split(",")));
         if (actions != null) request.setActions(Arrays.asList(Strings.join(actions, " ").split(",")));
         if (recipients != null) request.setRecipients(Arrays.asList(Strings.join(recipients, " ").split(",")));
+        if (teams != null) request.setTeams(Arrays.asList(Strings.join(teams, " ").split(",")));
         request.setDetails(details);
         CreateAlertResponse response = opsGenieClient.alert().createAlert(request);
         System.out.println("alertId=" + response.getAlertId());

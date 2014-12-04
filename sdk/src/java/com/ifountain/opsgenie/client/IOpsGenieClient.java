@@ -28,6 +28,13 @@ public interface IOpsGenieClient {
     IGroupOpsGenieClient group();
 
     /**
+     * Opsgenie Team Client
+     * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient
+     * @return ITeamOpsGenieClient
+     */
+    ITeamOpsGenieClient team();
+
+    /**
      * Opsgenie Escalation Client
      * @see IGroupOpsGenieClient
      * @return IGroupOpsGenieClient

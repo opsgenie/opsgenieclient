@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
-* Inner Schedule Client
-*/
-public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
+ * Inner Schedule Client
+ */
+public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
     private JsonOpsgenieHttpClient httpClient;
     private StreamOpsgenieHttpClient streamOpsgenieHttpClient;
+
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
@@ -81,5 +82,45 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient{
     @Override
     public ExportScheduleResponse exportSchedule(ExportScheduleRequest exportScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
         return (ExportScheduleResponse) streamOpsgenieHttpClient.doGetRequest(exportScheduleRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addScheduleOverride(com.ifountain.opsgenie.client.model.schedule.AddScheduleOverrideRequest)
+     */
+    @Override
+    public AddScheduleOverrideResponse addScheduleOverride(AddScheduleOverrideRequest addScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (AddScheduleOverrideResponse) httpClient.doPostRequest(addScheduleOverrideRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteScheduleOverride(com.ifountain.opsgenie.client.model.schedule.DeleteScheduleOverrideRequest)
+     */
+    @Override
+    public DeleteScheduleOverrideResponse deleteScheduleOverride(DeleteScheduleOverrideRequest deleteScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (DeleteScheduleOverrideResponse) httpClient.doDeleteRequest(deleteScheduleOverrideRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateScheduleOverride(com.ifountain.opsgenie.client.model.schedule.UpdateScheduleOverrideRequest)
+     */
+    @Override
+    public UpdateScheduleOverrideResponse updateScheduleOverride(UpdateScheduleOverrideRequest updateScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (UpdateScheduleOverrideResponse) httpClient.doPostRequest(updateScheduleOverrideRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(com.ifountain.opsgenie.client.model.schedule.GetScheduleOverrideRequest)
+     */
+    @Override
+    public GetScheduleOverrideResponse getScheduleOverride(GetScheduleOverrideRequest getScheduleOverrideRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (GetScheduleOverrideResponse) httpClient.doGetRequest(getScheduleOverrideRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listScheduleOverrides(com.ifountain.opsgenie.client.model.schedule.ListScheduleOverridesRequest)
+     */
+    @Override
+    public ListScheduleOverridesResponse listScheduleOverrides(ListScheduleOverridesRequest listScheduleOverridesRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListScheduleOverridesResponse) httpClient.doGetRequest(listScheduleOverridesRequest);
     }
 }

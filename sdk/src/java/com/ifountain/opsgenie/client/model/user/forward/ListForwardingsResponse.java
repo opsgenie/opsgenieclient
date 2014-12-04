@@ -16,17 +16,16 @@ import java.util.Map;
  */
 public class ListForwardingsResponse extends BaseResponse {
     private List<Forwarding> forwardings;
-    private String json;
 
     /**
-     * Forwarding setting beans
+     * Gets forwarding objects.
      */
     public List<Forwarding> getForwardings() {
         return forwardings;
     }
 
     /**
-     * Sets forwarding setting bean
+     * Sets forwarding objects.
      */
     public void setForwardings(List<Forwarding> forwardings) {
         this.forwardings = forwardings;

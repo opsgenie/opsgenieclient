@@ -1,4 +1,4 @@
-package com.ifountain.opsgenie.client.model.user.forward;
+package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
@@ -10,93 +10,97 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * Container for the parameters to make an add forwarding api call.
+ * ontainer for the parameters to make an add schedule override api call.
  *
- * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
+ * @author Sezgin Kucukkaraaslan
+ * @version 12/3/2014 8:54 AM
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addScheduleOverride(AddScheduleOverrideRequest)
  */
-public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
+public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideResponse> {
     private String alias;
-    private String fromUser;
-    private String toUser;
+    private String schedule;
+    private String user;
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
 
     /**
-     * Rest api uri of forwarding create operation.
+     * Rest api uri of schedule override create operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
+        return "/v1/json/schedule/override";
     }
 
     /**
-     * A user defined identifier for the forwarding.
-     * Provides ability to assign a known id and later use this id to perform additional actions for the same forwarding.
-     * If a forwarding exists with specified alias for from user, it will update existing one.
+     * A user defined identifier for the schedule override.
+     * Provides ability to assign a known id and later use this id to perform additional actions for the same override.
+     * If an override exists with specified alias for from user, it will update existing one.
      */
     public String getAlias() {
         return alias;
     }
 
     /**
-     * Sets a user defined identifier for the forwarding.
+     * Sets a user defined identifier for the schedule override.
      */
     public void setAlias(String alias) {
         this.alias = alias;
     }
 
+
     /**
-     * Username of user  which forwarding will be created for
+     * Id or the name of the schedule that the override will belong to.
      */
-    public String getFromUser() {
-        return fromUser;
+    public String getSchedule() {
+        return schedule;
     }
 
     /**
-     * Sets Username of user who forwarding will be created for
+     * Sets the id or the name of the schedule that the override will belong to.
      */
-    public void setFromUser(String fromUser) {
-        this.fromUser = fromUser;
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * Username of user whom the override will be created for.
      */
-    public String getToUser() {
-        return toUser;
+    public String getUser() {
+        return user;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets the username of user whom the override will be created for
      */
-    public void setToUser(String toUser) {
-        this.toUser = toUser;
+    public void setUser(String user) {
+        this.user = user;
     }
 
+
     /**
-     * Start date of forwarding will be started
+     * Start date of the schedule override.
      */
     public Date getStartDate() {
         return startDate;
     }
 
     /**
-     * Sets start date of forwarding will be started
+     * Sets the start date of the schedule override.
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     /**
-     * End date of forwarding will be discarded
+     * End date of the schedule override.
      */
     public Date getEndDate() {
         return endDate;
     }
 
     /**
-     * Sets end date of forwarding will be discarded
+     * Sets end date of the schedule override.
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
@@ -110,7 +114,7 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     }
 
     /**
-     * Sets timezone to determine forwarding start and end dates. If not given GMT is used.
+     * Sets timezone to determine schedule override start and end dates. If not given GMT is used.
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
@@ -138,14 +142,14 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
         if (getStartDate() != null) {
             json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(getStartDate()));
         }
-        if(fromUser != null){
-            json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
+        if (user != null) {
+            json.put(OpsGenieClientConstants.API.USER, getUser());
         }
-        if(toUser != null){
-            json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
-        }
-        if(alias != null){
+        if (alias != null) {
             json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
+        }
+        if (schedule != null) {
+            json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
         }
         return json;
     }
@@ -154,7 +158,7 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-    public AddForwardingResponse createResponse() {
-        return new AddForwardingResponse();
+    public AddScheduleOverrideResponse createResponse() {
+        return new AddScheduleOverrideResponse();
     }
 }

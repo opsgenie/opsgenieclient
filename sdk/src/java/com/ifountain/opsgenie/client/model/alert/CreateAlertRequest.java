@@ -22,6 +22,7 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     private String alias;
     private String description;
     private List<String> recipients;
+    private List<String> teams;
     private List<String> tags;
     private List<String> actions;
     private Map<String, String> details;
@@ -123,6 +124,20 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     }
 
     /**
+     * The team names that the alert will be sent.
+     */
+    public List<String> getTeams() {
+        return teams;
+    }
+
+    /**
+     * Sets the team names that the alert will be sent.
+     */
+    public void setTeams(List<String> teams) {
+        this.teams = teams;
+    }
+
+    /**
      * Labels attached to the alert.
      */
     public List<String> getTags() {
@@ -202,7 +217,9 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
         Map json = super.serialize();
         json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
         if (getRecipients() != null)
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, Strings.join(getRecipients(), ","));
+            json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
+        if (getTeams() != null)
+            json.put(OpsGenieClientConstants.API.TEAMS, getTeams());
         if (getAlias() != null)
             json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         if (getSource() != null)
@@ -216,9 +233,9 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
         if (getDescription() != null)
             json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
         if (getTags() != null && getTags().size() > 0)
-            json.put(OpsGenieClientConstants.API.TAGS, Strings.join(getTags(), ","));
+            json.put(OpsGenieClientConstants.API.TAGS, getTags());
         if (getActions() != null && getActions().size() > 0)
-            json.put(OpsGenieClientConstants.API.ACTIONS, Strings.join(getActions(), ","));
+            json.put(OpsGenieClientConstants.API.ACTIONS, getActions());
         if (getDetails() != null && getDetails().size() > 0)
             json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
         return json;

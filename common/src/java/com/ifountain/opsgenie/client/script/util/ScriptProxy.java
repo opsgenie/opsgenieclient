@@ -122,6 +122,7 @@ public class ScriptProxy {
         request.setActions(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.ACTIONS));
         request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
         request.setRecipients(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RECIPIENTS));
+        request.setTeams(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TEAMS));
         request.setDetails(ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS));
         request.setMessage(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.MESSAGE));
         request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
