@@ -122,6 +122,16 @@ public interface IAlertOpsGenieClient {
     public AssignResponse assign(AssignRequest assignRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
+     * Adds a new team to an alert.
+     *
+     * @param addAlertTeamRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.AddAlertTeamRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddAlertTeamResponse
+     */
+    public AddAlertTeamResponse addTeam(AddAlertTeamRequest addAlertTeamRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
      * Adds a new recipient to an alert.
      *
      * @param addRecipientRequest Object to construct request parameters.

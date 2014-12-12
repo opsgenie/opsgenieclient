@@ -104,6 +104,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
+     * @see IAlertOpsGenieClient#addTeam(com.ifountain.opsgenie.client.model.alert.AddAlertTeamRequest)
+     */
+    @Override
+    public AddAlertTeamResponse addTeam(AddAlertTeamRequest addAlertTeamRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (AddAlertTeamResponse) httpClient.doPostRequest(addAlertTeamRequest);
+    }
+
+    /**
      * @see IAlertOpsGenieClient#addRecipient(com.ifountain.opsgenie.client.model.alert.AddRecipientRequest)
      */
     @Override

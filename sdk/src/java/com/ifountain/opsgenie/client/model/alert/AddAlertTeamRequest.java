@@ -6,51 +6,51 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import java.util.Map;
 
 /**
- * Container for the parameters to make an add recipient call.
+ * Container for the parameters to make an add team call.
  *
  * @author Sezgin Kucukkaraaslan
- * @version 1/9/13 4:03 PM
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
+ * @version 12/12/2014 4:18 PM
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTeam(AddAlertTeamRequest)
  */
-public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipientResponse> {
+public class AddAlertTeamRequest extends BaseAlertRequestWithSource<AddAlertTeamResponse>{
     private String user;
-    private String recipient;
+    private String team;
     private String note;
 
     /**
-     * Rest api uri of add recipient operation.
+     * Rest api uri of add team operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/alert/recipient";
+        return "/v1/json/alert/team";
     }
 
     /**
-     * The user who is performing the add recipient operation.
+     * The user who is performing the add team operation.
      */
     public String getUser() {
         return user;
     }
 
     /**
-     * Sets the user who is performing the add recipient operation.
+     * Sets the user who is performing the add team operation.
      */
     public void setUser(String user) {
         this.user = user;
     }
 
     /**
-     * The recipient that will be added.
+     * The team that will be added.
      */
-    public String getRecipient() {
-        return recipient;
+    public String getTeam() {
+        return team;
     }
 
     /**
-     * Sets the recipient that will be added.
+     * Sets the team that will be added.
      */
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setTeam(String team) {
+        this.team = team;
     }
 
     /**
@@ -67,12 +67,9 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
         this.note = note;
     }
 
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.RECIPIENT, getRecipient());
+        json.put(OpsGenieClientConstants.API.TEAM, getTeam());
         if (getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, getUser());
         if (getNote() != null)
@@ -80,11 +77,7 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
         return json;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-     */
-    public AddRecipientResponse createResponse() {
-        return new AddRecipientResponse();
+    public AddAlertTeamResponse createResponse() {
+        return new AddAlertTeamResponse();
     }
 }
