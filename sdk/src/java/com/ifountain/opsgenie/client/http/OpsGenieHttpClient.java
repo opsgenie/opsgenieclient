@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.http;
 
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
+import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -31,6 +32,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -113,12 +115,30 @@ public class OpsGenieHttpClient {
     }
 
     public OpsGenieHttpResponse post(String uri, String content, Map<String, String> headers, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpPost postMethod = preparePostMethod(uri, content, headers, parameters);
+        return executeHttpMethod(postMethod);
+    }
+
+    public HttpPost preparePostMethod(String uri, String content, Map<String, String> headers, Map<String, Object> parameters) throws URISyntaxException, UnsupportedEncodingException {
         HttpPost postMethod = new HttpPost(prepareGetUri(uri, parameters));
         StringEntity entity = new StringEntity(content, "UTF-8");
         entity.setChunked(true);
         postMethod.setEntity(entity);
         configureHeaders(postMethod, headers);
-        return executeHttpMethod(postMethod);
+        return postMethod;
+    }
+
+    public OpsGenieHttpResponse put(String uri, Map<String, Object> contentMap, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpPut putMethod = preparePutMethod(uri, contentMap, parameters);
+        return executeHttpMethod(putMethod);
+    }
+
+    public HttpPut preparePutMethod(String uri, Map<String, Object> contentMap, Map<String, Object> parameters) throws URISyntaxException, IOException {
+        HttpPut putMethod = new HttpPut(prepareGetUri(uri, parameters));
+        StringEntity entity = new StringEntity(JsonUtils.toJson(contentMap), "UTF-8");
+        entity.setChunked(true);
+        putMethod.setEntity(entity);
+        return putMethod;
     }
 
     public OpsGenieHttpResponse get(String uri, Map<String, Object> parameters) throws URISyntaxException, IOException {
@@ -189,7 +209,7 @@ public class OpsGenieHttpClient {
         return formparams;
     }
 
-    private OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
+    public OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
         return new OpsgenieHttpClientRetryMechanism(method).execute();
 
     }
