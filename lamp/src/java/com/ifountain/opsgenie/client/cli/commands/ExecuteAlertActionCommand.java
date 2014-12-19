@@ -45,7 +45,7 @@ public class ExecuteAlertActionCommand extends BaseCommand {
     protected void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         ExecuteAlertActionRequest request = new ExecuteAlertActionRequest();
         request.setApiKey(commonOptions.getApiKey());
-        request.setAlertId(alertId);
+        request.setId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (action != null) request.setAction(Strings.join(action, " "));
         if (note != null) request.setNote(Strings.join(note, " "));

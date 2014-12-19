@@ -53,7 +53,7 @@ public class AssignCommand extends BaseCommand{
     public void doExecute(IOpsGenieClient opsGenieClient) throws Exception {
         AssignRequest request = new AssignRequest();
         request.setApiKey(commonOptions.getApiKey());
-        request.setAlertId(alertId);
+        request.setId(alertId);
         if (alias != null) request.setAlias(Strings.join(alias, " "));
         if (owner != null) request.setOwner(Strings.join(owner, " "));
         if (note != null) request.setNote(Strings.join(note, " "));

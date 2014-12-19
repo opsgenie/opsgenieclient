@@ -86,6 +86,6 @@ public class CreateAlertCommand extends BaseCommand{
         if (teams != null) request.setTeams(Arrays.asList(Strings.join(teams, " ").split(",")));
         request.setDetails(details);
         CreateAlertResponse response = opsGenieClient.alert().createAlert(request);
-        System.out.println("alertId=" + response.getAlertId());
+        System.out.println("alertId=" + response.getId());
     }
 }
