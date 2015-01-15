@@ -218,6 +218,14 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * @see IOpsGenieClient#copyNotificationRules(com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest)
+     */
+    @Override
+    public CopyNotificationRulesResponse copyNotificationRules(CopyNotificationRulesRequest copyNotificationRulesRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (CopyNotificationRulesResponse) jsonHttpClient.doPostRequest(copyNotificationRulesRequest);
+    }
+
+    /**
      * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
      *
      * @param rootUri Uri to set.

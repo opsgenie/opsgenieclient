@@ -1,7 +1,5 @@
 package com.ifountain.opsgenie.client;
 
-import java.util.List;
-
 /**
  * @author Sezgin Kucukkaraaslan
  * @version 5/28/12 3:01 PM
@@ -111,5 +109,7 @@ public interface OpsGenieClientConstants {
         public static final String INTERVAL_UNIT = "intervalUnit";
         public static final String HEARTBEATS = "heartbeats";
         public static final String NOTES = "notes";
+        String TO_USERS = "toUsers";
+        String RULE_TYPES = "ruleTypes";
     }
 }

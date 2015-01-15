@@ -2,7 +2,9 @@ package com.ifountain.opsgenie.client.script.util;
 
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.*;
+import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseResponse;
+import com.ifountain.opsgenie.client.model.InputStreamAttachRequest;
 import com.ifountain.opsgenie.client.model.alert.*;
 import com.ifountain.opsgenie.client.model.alertpolicy.EnableAlertPolicyRequest;
 import com.ifountain.opsgenie.client.model.beans.*;
@@ -15,6 +17,7 @@ import com.ifountain.opsgenie.client.model.schedule.*;
 import com.ifountain.opsgenie.client.model.user.*;
 import com.ifountain.opsgenie.client.model.user.forward.*;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
+import com.ifountain.opsgenie.client.util.JsonUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -739,6 +742,16 @@ public class ScriptProxy {
         Map mapResponse = new HashMap();
         mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
         return mapResponse;
+    }
+
+    public Map copyNotificationRules(Map params) throws Exception{
+        CopyNotificationRulesRequest request = new CopyNotificationRulesRequest();
+        populateCommonProps(request, params);
+        request.setFromUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.FROM_USER));
+        request.setToUsers(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TO_USERS));
+        request.setRuleTypes(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RULE_TYPES));
+
+        return JsonUtils.parse(this.opsGenieClient.copyNotificationRules(request).getJson());
     }
 
     private void populateAttachmentRequestCommonProps(AttachRequest request, Map params){
