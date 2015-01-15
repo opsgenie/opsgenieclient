@@ -1,0 +1,8 @@
+dependencies {
+    compile project(':sdk')
+    compile 'bsf:bsf:2.4.0'
+    compile 'org.codehaus.groovy:groovy-all:1.8.4'
+
+    testCompile 'junit:junit:4.12'
+//    testCompile project(':test')
+}
