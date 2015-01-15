@@ -1,7 +1,0 @@
--Xmx512m
--XX:MaxPermSize=128m
--XX:+HeapDumpOnOutOfMemoryError
--Dmarid.conf.path=${EXE4J_EXEDIR}/../conf/opsgenie-integration.conf
--Dmarid.log.conf.path=${EXE4J_EXEDIR}/conf/log.properties
--Dmarid.logs.dir=${EXE4J_EXEDIR}/logs  
--Dmarid.scripts.dir=${EXE4J_EXEDIR}/scripts
