@@ -1,0 +1,7 @@
+-Xmx128m
+-XX:MaxPermSize=128m
+-XX:+HeapDumpOnOutOfMemoryError
+-Dlamp.conf.path=${EXE4J_EXEDIR}/../conf/opsgenie-integration.conf
+-Dlamp.log.conf.path=${EXE4J_EXEDIR}/conf/log.properties
+-Dlamp.logs.dir=${EXE4J_EXEDIR}/logs
+-Dlamp.scripts.dir=${EXE4J_EXEDIR}/scripts
