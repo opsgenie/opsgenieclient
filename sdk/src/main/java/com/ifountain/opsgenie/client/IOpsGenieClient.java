@@ -130,7 +130,7 @@ public interface IOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse
      */
     public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
-    
+
     /**
      * List all heartbeat monitor details on OpsGenie.
      *
