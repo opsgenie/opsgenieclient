@@ -1,0 +1,348 @@
+package com.ifountain.opsgenie.client.script.util
+
+
+import com.ifountain.opsgenie.client.TestConstants
+import com.ifountain.opsgenie.client.model.BaseRequest
+import com.ifountain.opsgenie.client.model.beans.Heartbeat
+import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest
+import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest
+import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest
+import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest
+import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
+import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse
+import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest
+import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse
+import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
+import org.junit.Before
+import org.junit.Test
+import static org.junit.Assert.*
+/**
+ * Created by Sezgin Kucukkaraaslan
+ * Date: 6/1/12
+ * Time: 10:22 AM
+ */
+class ScriptProxyAdminTest {
+    OpsGenieClientMock opsGenieClient;
+    String apiKey = "key1"
+    ScriptProxy proxy;
+
+    @Before
+    public void setUp() {
+        opsGenieClient = new OpsGenieClientMock();
+        proxy = new ScriptProxy(opsGenieClient, apiKey);
+    }
+
+    @Test
+    public void testHearbeat() throws Exception {
+        _testHearbeat(false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testHearbeat(true)
+    }
+
+    public void _testHearbeat(boolean useConfig) throws Exception {
+        HeartbeatResponse response = new HeartbeatResponse();
+        response.setHeartbeat(123);
+        opsGenieClient.setHeartbeatResponse(response);
+
+        def params = [name: "source1"]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        Map responseMap = proxy.heartbeat(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        HeartbeatRequest request = executedRequests[0] as HeartbeatRequest;
+
+        assertEquals("source1", request.getName())
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertEquals(123, responseMap.heartbeat)
+    }
+
+    @Test
+    public void testHeartbeatReturningException() throws Exception {
+        _testeReturningException("heartbeat", [apiKey: "customer1", name: "source1"], new Exception("Exception"))
+    }
+
+    @Test
+    public void testDeleteHearbeat() throws Exception {
+        _testDeleteHearbeat(false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testDeleteHearbeat(true)
+    }
+
+    public void _testDeleteHearbeat(boolean useConfig) throws Exception {
+        DeleteHeartbeatResponse response = new DeleteHeartbeatResponse();
+        response.setSuccess(true)
+        opsGenieClient.setDeleteHeartbeatResponse(response);
+
+        def params = [name: "source1"]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        Map responseMap = proxy.deleteHeartbeat(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        DeleteHeartbeatRequest request = executedRequests[0] as DeleteHeartbeatRequest;
+
+        assertEquals("source1", request.getName())
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertTrue(responseMap.success)
+    }
+
+    @Test
+    public void testEnableHearbeat() throws Exception {
+        _testEnableHearbeat(false, false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testEnableHearbeat(false, true)
+        opsGenieClient.getExecutedRequests().clear()
+        _testEnableHearbeat(true, false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testEnableHearbeat(true, true)
+    }
+
+    public void _testEnableHearbeat(boolean enable, boolean useConfig) throws Exception {
+        EnableHeartbeatResponse response = new EnableHeartbeatResponse();
+        response.setSuccess(true)
+        opsGenieClient.setEnableHeartbeatResponse(response);
+
+        def params = [name: "source1", enable: enable]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        Map responseMap = proxy.enableHeartbeat(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        EnableHeartbeatRequest request = executedRequests[0] as EnableHeartbeatRequest;
+
+        assertEquals("source1", request.getName())
+        assertEquals(enable, request.enable)
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertTrue(responseMap.success)
+    }
+
+    @Test
+    public void testAddHearbeat() throws Exception {
+        _testAddHearbeat(false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testAddHearbeat(true)
+    }
+
+    public void _testAddHearbeat(boolean useConfig) throws Exception {
+        AddHeartbeatResponse response = new AddHeartbeatResponse();
+        response.setId("id1")
+        opsGenieClient.setAddHeartbeatResponse(response);
+
+        def params = [name: "source1", enabled: false, interval: 5, intervalUnit: "days", description: "description1"]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        Map responseMap = proxy.addHeartbeat(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        AddHeartbeatRequest request = executedRequests[0] as AddHeartbeatRequest;
+
+        assertEquals("source1", request.getName())
+        assertEquals(false, request.enabled)
+        assertEquals(5, request.interval)
+        assertEquals(Heartbeat.IntervalUnit.days, request.intervalUnit)
+        assertEquals("description1", request.description)
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertTrue(responseMap.success)
+    }
+
+    @Test
+    public void testUpdateHearbeat() throws Exception {
+        _testUpdateHearbeat(false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testUpdateHearbeat(true)
+    }
+
+    public void _testUpdateHearbeat(boolean useConfig) throws Exception {
+        UpdateHeartbeatResponse response = new UpdateHeartbeatResponse();
+        response.setId("id1")
+        opsGenieClient.setAddHeartbeatResponse(response);
+
+        def params = [id: "id1", name: "source1", enabled: false, interval: 5, intervalUnit: "days", description: "description1"]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        Map responseMap = proxy.updateHeartbeat(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        UpdateHeartbeatRequest request = executedRequests[0] as UpdateHeartbeatRequest;
+
+        assertEquals("id1", request.getId())
+        assertEquals("source1", request.getName())
+        assertEquals(false, request.enabled)
+        assertEquals(5, request.interval)
+        assertEquals(Heartbeat.IntervalUnit.days, request.intervalUnit)
+        assertEquals("description1", request.description)
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertTrue(responseMap.success)
+    }
+
+
+    @Test
+    public void testAddHeartbeatReturningException() throws Exception {
+        _testeReturningException("addHeartbeat", [apiKey: "customer1", name: "source1"], new Exception("Exception"))
+    }
+
+    @Test
+    public void testUpdateHeartbeatReturningException() throws Exception {
+        _testeReturningException("updateHeartbeat", [apiKey: "customer1", name: "source1"], new Exception("Exception"))
+    }
+
+    @Test
+    public void testEnableHeartbeatReturningException() throws Exception {
+        _testeReturningException("enableHeartbeat", [apiKey: "customer1", name: "source1", enable: true], new Exception("Exception"))
+    }
+
+    @Test
+    public void testDeleteHeartbeatReturningException() throws Exception {
+        _testeReturningException("deleteHeartbeat", [apiKey: "customer1", name: "source1"], new Exception("Exception"))
+    }
+
+    @Test
+    public void testGetHearbeat() throws Exception {
+        _testGetHearbeat(false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testGetHearbeat(true)
+    }
+
+    public void _testGetHearbeat(boolean useConfig) throws Exception {
+        GetHeartbeatResponse response = new GetHeartbeatResponse();
+        response.setHeartbeat(new Heartbeat(name: "source1", lastHeartbeat: new Date(), expired: false))
+        opsGenieClient.setGetHeartbeatResponse(response);
+
+        def params = [name: "source1"]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        Map responseMap = proxy.getHeartbeat(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        GetHeartbeatRequest request = executedRequests[0] as GetHeartbeatRequest;
+
+        assertEquals("source1", request.getName())
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertEquals(response.getHeartbeat().getSource(), responseMap[TestConstants.API.SOURCE])
+        assertEquals(response.getHeartbeat().getLastHeartbeat(), responseMap[TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeat().isExpired(), responseMap[TestConstants.API.EXPIRED])
+    }
+
+    @Test
+    public void testGetHeartbeatReturningException() throws Exception {
+        _testeReturningException("getHeartbeat", [apiKey: "customer1", name: "source1"], new Exception("Exception"))
+    }
+
+    @Test
+    public void testListHearbeat() throws Exception {
+        _testListHearbeat(false)
+        opsGenieClient.getExecutedRequests().clear()
+        _testListHearbeat(true)
+    }
+
+    public void _testListHearbeat(boolean useConfig) throws Exception {
+        ListHeartbeatsResponse response = new ListHeartbeatsResponse();
+        response.setHeartbeats([new Heartbeat(name: "source1", lastHeartbeat: new Date(), expired: false)])
+        opsGenieClient.setListHeartbeatsResponse(response);
+
+        def params = [:]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+            params.user = "someuser";
+        }
+        List<Map> responseMap = proxy.listHeartbeats(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        ListHeartbeatsRequest request = executedRequests[0] as ListHeartbeatsRequest;
+
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertEquals(response.getHeartbeats()[0].getSource(), responseMap[0][TestConstants.API.SOURCE])
+        assertEquals(response.getHeartbeats()[0].getLastHeartbeat(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeats()[0].isExpired(), responseMap[0][TestConstants.API.EXPIRED])
+    }
+
+    @Test
+    public void testListHeartbeatReturningException() throws Exception {
+        _testeReturningException("listHeartbeats", [apiKey: "customer1"], new Exception("Exception"))
+    }
+
+
+    public void _testeReturningException(String methodName, Map params, Exception exception) throws Exception {
+        opsGenieClient.setException(exception);
+        try {
+            proxy."${methodName}"(params)
+            fail("should throw exception");
+        }
+        catch (Exception e) {
+            assertEquals(exception.getMessage(), e.getMessage())
+        }
+
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        BaseRequest request = executedRequests[0];
+        assertEquals("customer1", request.getApiKey())
+    }
+}

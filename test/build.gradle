@@ -1,0 +1,12 @@
+dependencies {
+    compile project(':common')
+    compile project(':lamp')
+    compile project(':marid')
+    compile 'io.netty:netty:3.6.6.Final'
+    compile 'commons-io:commons-io:2.1'
+    compile 'commons-fileupload:commons-fileupload:1.2.2'
+    compile 'javax.servlet:servlet-api:2.4'
+    compile 'org.apache.directory.studio:org.apache.commons.lang:2.6'
+    compile 'org.littleshoot:littleproxy:0.5.OG'
+    compile 'junit:junit:4.12'
+}

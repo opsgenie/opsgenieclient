@@ -1,0 +1,8 @@
+Localhost=127.0.0.1
+LocalPort=16666
+
+############# pubnub ############
+Pubnub.publishKey=<your publish key>
+Pubnub.subscribeKey=<your subscribe key>
+Pubnub.secretKey=<your secret key>
+Pubnub.sslOn=true
