@@ -17,7 +17,6 @@ subprojects {
     }
 
     test {
-        ignoreFailures = true
         workingDir = project.rootProject.rootDir
         filter {
             exclude "**/**TestCase**"
