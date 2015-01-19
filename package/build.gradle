@@ -1,0 +1,294 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.0.3'
+    }
+}
+
+apply plugin: "nebula.os-package-base"
+
+configurations {
+    debian
+}
+
+dependencies {
+    compile project(':marid')
+    compile project(':lamp')
+    debian group: 'org.vafer', name: 'jdeb', version: '1.3'
+}
+
+task packageRpm(type: Rpm, dependsOn: ['jar']) {
+    def commonProjectDir = "${project(':common').projectDir}";
+    def maridProjectDir = "${project(':marid').projectDir}";
+    def lampProjectDir = "${project(':lamp').projectDir}";
+
+    packageName = 'opsgenie-integration'
+    description = "OpsGenie client files including lamp and marid"
+    version = project.version.toString().replace("-", ".");
+    release project.version.toString().replace('-', '.')
+    os = LINUX
+    user = 'root'
+
+    preInstall file("${commonProjectDir}/native/ogBefore.sh")
+    postInstall file("${commonProjectDir}/native/ogAfter.sh")
+
+    from("${commonProjectDir}/native/lamp_rpm") {
+        into 'usr/bin'
+        rename 'lamp_rpm', 'lamp'
+    }
+
+    from(project(':lamp').configurations.runtime) {
+        into 'var/lib/opsgenie/lamp'
+    }
+
+    from(project(':lamp').jar.archivePath) {
+        into 'var/lib/opsgenie/lamp'
+    }
+
+    from(project(':marid').configurations.runtime) {
+        into 'var/lib/opsgenie/marid'
+    }
+
+    from(project(':marid').jar.archivePath) {
+        into 'var/lib/opsgenie/marid'
+    }
+
+    from("${lampProjectDir}/scripts") {
+        into 'var/opsgenie/lamp/scripts'
+    }
+
+    from("${maridProjectDir}/scripts") {
+        into 'var/opsgenie/marid/scripts'
+    }
+
+    from("${commonProjectDir}/native/profile") {
+        into 'etc/opsgenie'
+    }
+
+    from("${commonProjectDir}/conf/opsgenie-integration.conf") {
+        fileType CONFIG
+        into 'etc/opsgenie/conf'
+    }
+
+    from("${lampProjectDir}/conf/log.properties") {
+        fileType CONFIG
+        into 'etc/opsgenie/lamp'
+    }
+
+
+    from("${maridProjectDir}/conf/log.properties") {
+        fileType CONFIG
+        into 'etc/opsgenie/marid'
+    }
+
+    from("${maridProjectDir}/conf/.keystore") {
+        into 'etc/opsgenie/marid'
+    }
+
+    from("${commonProjectDir}/native/marid_rpm") {
+        into 'etc/init.d/'
+        rename 'marid_rpm', 'marid'
+    }
+}
+task packageDeb(dependsOn: ['jar']) << {
+    def controlTarget = "${project.buildDir}/deb/control"
+    def dataTarget = "${project.buildDir}/deb/data"
+
+    def commonProjectDir = "${project(':common').projectDir}";
+    def maridProjectDir = "${project(':marid').projectDir}";
+    def lampProjectDir = "${project(':lamp').projectDir}";
+    def debVersion = project.version.toString().replace("-", ".")
+    //CONTROL
+    copy {
+        from "${commonProjectDir}/native/conffiles_deb"
+        into controlTarget
+        rename "conffiles_deb", "conffiles"
+    }
+
+    copy {
+        from "${commonProjectDir}/native/control_deb"
+        filter {
+            it.replace('[description]', "'OpsGenie client files including lamp and marid'")
+                    .replace('[version]', debVersion)
+                    .replace('[package-name]', "opsgenie-integration")
+        }
+        into controlTarget
+        rename "control_deb", "control"
+    }
+
+    copy {
+        from "${commonProjectDir}/native/ogBefore.sh"
+        into controlTarget
+        rename "ogBefore.sh", "preinst"
+    }
+
+    copy {
+        from "${commonProjectDir}/native/ogAfter.sh"
+        into controlTarget
+        rename "ogAfter.sh", "postinst"
+    }
+
+    //DATA
+    copy {
+        from "${commonProjectDir}/native/marid_deb"
+        into "${dataTarget}/etc/init.d"
+        rename "marid_deb", "marid"
+    }
+
+    copy {
+        from "${commonProjectDir}/native/profile"
+        into "${dataTarget}/etc/opsgenie"
+    }
+
+    copy {
+        from "${commonProjectDir}/conf/opsgenie-integration.conf"
+        into "${dataTarget}/etc/opsgenie/conf"
+    }
+
+    copy {
+        from "${lampProjectDir}/conf/log.properties"
+        into "${dataTarget}/etc/opsgenie/lamp"
+    }
+
+    copy {
+        from("${maridProjectDir}/conf")
+        into "${dataTarget}/etc/opsgenie/marid"
+    }
+
+    copy {
+        from "${commonProjectDir}/native/lamp_rpm"
+        into "${dataTarget}/usr/bin"
+        rename 'lamp_rpm', 'lamp'
+    }
+
+    copy {
+        from "${lampProjectDir}/scripts"
+        into "${dataTarget}/var/opsgenie/lamp/scripts"
+    }
+
+    copy {
+        from "${maridProjectDir}/scripts"
+        into "${dataTarget}/var/opsgenie/marid/scripts"
+    }
+
+    copy {
+        from project(':lamp').configurations.runtime
+        into "${dataTarget}/var/lib/opsgenie/lamp"
+    }
+
+    copy {
+        from project(':lamp').jar.archivePath
+        into "${dataTarget}/var/lib/opsgenie/lamp"
+    }
+
+    copy {
+        from project(':marid').configurations.runtime
+        into "${dataTarget}/var/lib/opsgenie/marid"
+    }
+
+    copy {
+        from project(':marid').jar.archivePath
+        into "${dataTarget}/var/lib/opsgenie/marid"
+    }
+
+    ant {
+        taskdef(name: 'deb', classname: 'org.vafer.jdeb.ant.DebAntTask', classpath: configurations.debian.asPath)
+    }
+    ant.deb(destfile: "${project.buildDir}/distributions/opsgenie-integration_${debVersion}_all.deb", control: controlTarget) {
+        ant.data(src: dataTarget, type: 'directory', dst: '/')
+    }
+}
+
+task generateZipDir(dependsOn: 'jar') << {
+    def dataTarget
+    if (project.ext.has('buildDir')) {
+        dataTarget = project.ext.buildDir
+    } else {
+        dataTarget = "${project.buildDir}/zip/opsgenie-integration"
+    }
+
+    def commonProjectDir = "${project(':common').projectDir}";
+    def maridProjectDir = "${project(':marid').projectDir}";
+    def lampProjectDir = "${project(':lamp').projectDir}";
+
+    copy {
+        from "${commonProjectDir}/conf/opsgenie-integration.conf"
+        into "${dataTarget}/conf"
+    }
+
+    copy {
+        from "${lampProjectDir}/conf/log.properties"
+        into "${dataTarget}/lamp/conf"
+    }
+
+    copy {
+        from project(':lamp').configurations.runtime
+        into "${dataTarget}/lamp/lib"
+    }
+
+    copy {
+        from project(':lamp').jar.archivePath
+        into "${dataTarget}/lamp/lib"
+    }
+
+    copy {
+        from "${commonProjectDir}/licenses"
+        into "${dataTarget}/lamp/licenses"
+    }
+
+    copy {
+        from "${lampProjectDir}/scripts"
+        into "${dataTarget}/lamp/scripts"
+    }
+
+    copy {
+        from("${lampProjectDir}/native") {
+            exclude "lamp.exe4j"
+            exclude "lamp_64.exe4j"
+        }
+        into "${dataTarget}/lamp"
+    }
+
+    copy {
+        from("${maridProjectDir}/conf")
+        into "${dataTarget}/marid/conf"
+    }
+
+    copy {
+        from project(':marid').configurations.runtime
+        into "${dataTarget}/marid/lib"
+    }
+
+    copy {
+        from project(':marid').jar.archivePath
+        into "${dataTarget}/marid/lib"
+    }
+
+    copy {
+        from "${commonProjectDir}/licenses"
+        into "${dataTarget}/marid/licenses"
+    }
+
+    copy {
+        from "${maridProjectDir}/scripts"
+        into "${dataTarget}/marid/scripts"
+    }
+
+    copy {
+        from("${maridProjectDir}/native") {
+            exclude "marid.exe4j"
+            exclude "marid_64.exe4j"
+        }
+        into "${dataTarget}/marid"
+    }
+}
+
+task packageZip(dependsOn: 'generateZipDir', type: Zip) {
+    from "${project.buildDir}/zip"
+    baseName = 'opsgenie-integration'
+}
+
+task packageAll(dependsOn: ['packageRpm', 'packageDeb', 'packageZip'])
