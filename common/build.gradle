@@ -1,3 +1,5 @@
+jar.baseName = 'client-scripts'
+
 dependencies {
     compile project(':sdk')
     compile 'bsf:bsf:2.4.0'
