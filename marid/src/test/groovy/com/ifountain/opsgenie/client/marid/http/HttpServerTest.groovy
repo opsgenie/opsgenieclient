@@ -1,11 +1,11 @@
 package com.ifountain.opsgenie.client.marid.http
 
 import com.ifountain.opsgenie.client.TestConstants
+import com.ifountain.opsgenie.client.http.OpsGenieHttpClient
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
+import com.ifountain.opsgenie.client.test.util.MaridTestCase
 import com.ifountain.opsgenie.client.test.util.file.TestFile
-import com.ifountain.opsgenie.client.test.util.http.HttpStatusException
-import com.ifountain.opsgenie.client.test.util.http.HttpUtils
-import org.apache.http.client.methods.HttpPost
+import org.hamcrest.CoreMatchers
 import org.jboss.netty.channel.ChannelException
 import org.jboss.netty.handler.codec.http.HttpMethod
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
@@ -14,8 +14,9 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import sun.security.tools.KeyTool
-import com.ifountain.opsgenie.client.test.util.MaridTestCase
+
 import static org.junit.Assert.*
+
 /**
  * Created by Sezgin Kucukkaraaslan
  * Date: 1/17/12
@@ -23,7 +24,7 @@ import static org.junit.Assert.*
  */
 public class HttpServerTest extends MaridTestCase {
     HttpServer server;
-    HttpUtils httpUtils;
+    OpsGenieHttpClient httpClient;
     def keyPass = "123456"
     def keystorePath = TestFile.TESTOUTPUT_DIR + "/.keystore"
 
@@ -42,16 +43,13 @@ public class HttpServerTest extends MaridTestCase {
                          "-keypass", "${keyPass}"] as String[];
         KeyTool.main(args);
         server = new HttpServer(CommonTestUtils.getLocalhostIp(), 9998, keystorePath, keyPass);
-        httpUtils = new HttpUtils(30000);
+        httpClient = new OpsGenieHttpClient();
     }
 
     @After
     public void tearDown() throws Exception {
         if (server != null) {
             server.close();
-        }
-        if (httpUtils != null) {
-            httpUtils.destroy();
         }
         HttpController.destroyInstance();
         super.tearDown();
@@ -111,14 +109,14 @@ public class HttpServerTest extends MaridTestCase {
 
         server.open();
 
-        String response = httpUtils.doGetRequest("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", new HashMap());
-        assertEquals("Successfully executed", response);
-
-        HttpPost post = httpUtils.preparePostMethod("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", new HashMap())
+        def response = httpClient.get("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", new HashMap());
+        assertEquals("Successfully executed", response.contentAsString);
         def forwardedForIp = "ip"
-        post.addHeader(TestConstants.AWS.X_FORWARDED_FOR, forwardedForIp)
-        response = httpUtils.executePostMethod(post);
-        assertEquals("Successfully executed", response);
+        def headers = new HashMap()
+        headers.put(TestConstants.AWS.X_FORWARDED_FOR, forwardedForIp)
+//        def headers = [ : ]
+        response = httpClient.post("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", "" , headers);
+        assertEquals("Successfully executed", response.contentAsString);
 
         HttpController.getInstance().register(new RequestAction() {
             @Override
@@ -136,12 +134,8 @@ public class HttpServerTest extends MaridTestCase {
             }
         }, "/sub1/action2", HttpMethod.GET);
 
-        try {
-            httpUtils.doGetRequest("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action2", new HashMap());
-            fail("should throw exception");
-        } catch (HttpStatusException e) {
-        }
-
+        response = httpClient.get("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action2", new HashMap())
+        assertTrue(response.getStatusCode() > 399)
     }
 
     @Test
@@ -164,8 +158,8 @@ public class HttpServerTest extends MaridTestCase {
 
         server.open();
 
-        String response = httpUtils.doGetRequest("http://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", new HashMap());
-        assertEquals("Successfully executed", response);
+        def response = httpClient.get("http://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", new HashMap());
+        assertEquals("Successfully executed", response.contentAsString);
     }
 
     @Test
@@ -193,15 +187,16 @@ public class HttpServerTest extends MaridTestCase {
         (maxContentSize).times {
             content += "a";
         }
-        String response = httpUtils.doPostRequest("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", content);
-        assertEquals("Successfully executed", response);
+        def response = httpClient.post("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", content);
+        assertEquals("Successfully executed", response.contentAsString);
         content += "a";
         try {
-            httpUtils.doPostRequest("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", content);
+            httpClient.post("https://" + CommonTestUtils.getLocalhostIp() + ":9998/sub1/action1", content);
             fail("Should throw exception since content length is greater than max content length");
         }
         catch (Exception e) {
             assertTrue(e.getMessage().indexOf("The target server failed to respond") >= 0)
+            assertThat(e.getMessage(), CoreMatchers.containsString("The target server failed to respond"))
         }
     }
 

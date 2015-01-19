@@ -212,7 +212,7 @@ class ProcessOldAlertsScriptTest {
         System.setProperty(OpsGenieCommandLine.CONF_PATH_SYSTEM_PROPERTY, confFile.getAbsolutePath());
         testScript = new File(scriptDir, "processOldAlerts.groovy")
         testScript.parentFile.mkdirs();
-        testScript.setText(new File("../OpsGenieClient/lamp/scripts/processOldAlerts.groovy").getText())
+        testScript.setText(new File("lamp/scripts/processOldAlerts.groovy").getText())
     }
 
 }

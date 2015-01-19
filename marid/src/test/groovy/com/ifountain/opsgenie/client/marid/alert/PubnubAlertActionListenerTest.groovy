@@ -6,11 +6,12 @@ import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.http.HttpTestServer
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient
 import com.ifountain.opsgenie.client.marid.MaridConfig
-import com.ifountain.opsgenie.client.misc.RsSmartWait
+import com.ifountain.opsgenie.client.misc.SmartWait
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.script.ScriptManager
 import com.ifountain.opsgenie.client.script.util.ScriptProxy
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
+import com.ifountain.opsgenie.client.test.util.JSON
 import com.ifountain.opsgenie.client.test.util.MaridTestCase
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import com.ifountain.opsgenie.client.pubnub.PubnubTestUtils
@@ -83,7 +84,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         alertActionExecutorChannelParameters.setCipherKey(MaridConfig.getInstance().getApiKey())
         alertActionExecutorChannelParameters.setSslOn(credentials.isSslOn())
         PubnubAlertActionListener.getInstance().initialize(alertActionExecutorChannelParameters)
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertTrue(PubnubAlertActionListener.getInstance().isSubscribed())
         }
         httpServer.setResponseToReturn("success");
@@ -124,7 +125,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
 
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertEquals(6, scriptCalls.size());
             assertEquals(1, receivedRequests.size());
         }
@@ -161,7 +162,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         scriptCalls.clear();
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertEquals(5, scriptCalls.size());
             assertEquals(2, receivedRequests.size());
         }
@@ -215,7 +216,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
 
             channel.publish(channelName, json)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, scriptCalls.size());
                 assertTrue(scriptCalls.contains("script2"));
             }
@@ -233,7 +234,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
 
             channel.publish(channelName, json)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(2, scriptCalls.size());
                 assertTrue(scriptCalls.contains("script1"));
                 assertTrue(scriptCalls.contains("script2"));
@@ -243,7 +244,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
                 scriptWaitLock.notifyAll()
             }
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(3, scriptCalls.size());
                 assertTrue(scriptCalls.contains("script1"));
                 assertTrue(scriptCalls.contains("script2"));
@@ -291,7 +292,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
 
             channel.publish(channelName, json)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, scriptCalls.size());
                 assertTrue(scriptCalls.contains("script2"));
             }
@@ -305,7 +306,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             def shutdownTime = System.currentTimeMillis() - t
             assertTrue("shutdownTime:" + shutdownTime + " should be greater than " + pubnubShutdownWaitTime, shutdownTime >= pubnubShutdownWaitTime)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(2, scriptCalls.size());
                 assertTrue(scriptCalls.contains("script2"));
                 assertTrue(scriptCalls.contains("script2_exception"));
@@ -337,7 +338,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             alertActionExecutorChannelParameters.setProxyPort(proxyPort)
             //test cannot connect if proxy is not started
             PubnubAlertActionListener.getInstance().initialize(alertActionExecutorChannelParameters)
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertTrue(PubnubAlertActionListener.getInstance().lastErrorMessage.indexOf("Lost Network Connection") >= 0)
             }
             PubnubAlertActionListener.destroyInstance();
@@ -345,7 +346,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             //test successfull connection via proxy
             proxyServer.start();
             PubnubAlertActionListener.getInstance().initialize(alertActionExecutorChannelParameters)
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertTrue(PubnubAlertActionListener.getInstance().isSubscribed())
             }
 
@@ -365,7 +366,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             json.put("action", action)
 
             channel.publish(channelName, json)
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, scriptCalls.size());
                 assertEquals(1, receivedRequests.size());
             }
@@ -406,7 +407,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             alertActionExecutorChannelParameters.setProxyUsername(username)
             alertActionExecutorChannelParameters.setProxyPassword(password)
             PubnubAlertActionListener.getInstance().initialize(alertActionExecutorChannelParameters)
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertTrue(PubnubAlertActionListener.getInstance().isSubscribed())
             }
             assertTrue(proxyUsed);
@@ -427,7 +428,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             json.put("action", action)
 
             channel.publish(channelName, json)
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, scriptCalls.size());
                 assertEquals(1, receivedRequests.size());
             }
@@ -457,7 +458,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             alertActionExecutorChannelParameters.setProxyPort(proxyPort)
             alertActionExecutorChannelParameters.setProxyProtocol("https")
             PubnubAlertActionListener.getInstance().initialize(alertActionExecutorChannelParameters)
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertTrue(PubnubAlertActionListener.getInstance().lastErrorMessage, PubnubAlertActionListener.getInstance().lastErrorMessage.indexOf("Lost Network Connection") >= 0)
             }
         }
@@ -472,7 +473,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         json.put("alert", "{}")
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("No action specified") > -1);
@@ -486,13 +487,13 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         json.put("alert", "{\"alertId\":\"alert1\", \"username\":\"user1\"}")
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("No script file found for action [restart]") > -1);
         }
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertEquals(1, receivedRequests.size());
         }
 
@@ -518,7 +519,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         json.put("action", "restart")
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("No alert specified") > -1);
@@ -537,14 +538,14 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         json.put("alert", "{\"alertId\":\"alert1\", \"username\":\"user1\"}")
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("Could not process message") > -1);
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("script exception") > -1);
         }
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertEquals(1, receivedRequests.size());
         }
 
@@ -571,7 +572,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         json.put("alert", "invalidAlertContent")
         channel.publish(channelName, json)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("Could not parse alert content") > -1);
@@ -590,10 +591,10 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         json.put("action", "restart")
         json.put("alert", "{\"alertId\":\"alert1\", \"username\":\"user1\"}")
         channel.publish(channelName, json)
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertEquals(1, receivedRequests.size());
         }
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("Could not send action result to OpsGenie. HttpStatus:") > -1);

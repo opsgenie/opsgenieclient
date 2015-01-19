@@ -7,7 +7,6 @@ import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.script.ScriptManager
 import com.ifountain.opsgenie.client.test.util.RequestActionTestCase
 import com.ifountain.opsgenie.client.test.util.file.TestFile
-import com.ifountain.opsgenie.client.test.util.http.HttpStatusException
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.commons.io.FileUtils
 import org.apache.log4j.Logger
@@ -84,7 +83,7 @@ public class AlertActionTest extends RequestActionTestCase {
         def alertPropertyMap = [alertId: "alert1", username: "user1"]
         String requestContent = JsonUtils.toJson([alert: alertPropertyMap, action: actionName, source: source])
         def response = doRequest([:], requestContent);
-        assertEquals(JsonUtils.toJson([success: true]), response)
+        assertEquals(JsonUtils.toJson([success: true]), response.contentAsString)
         assertEquals(6, objects.size())
         assertEquals(alertPropertyMap, objects[OpsgenieClientApplicationConstants.ScriptProxy.BINDING_ALERT])
         assertEquals(props, objects[OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF])
@@ -115,7 +114,7 @@ public class AlertActionTest extends RequestActionTestCase {
         String requestContent = JsonUtils.toJson([alert: alertPropertyMap, action: actionName])
 
         def response = doRequest([:], requestContent);
-        assertEquals(JsonUtils.toJson([success: true]), response)
+        assertEquals(JsonUtils.toJson([success: true]), response.contentAsString)
         assertEquals(1, objects.size())
         assertEquals("updatedval", objects[OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF].conf1)
         assertEquals("conf1Value", props.conf1)
@@ -136,7 +135,7 @@ public class AlertActionTest extends RequestActionTestCase {
         def params = [:]
         params[OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER] = MaridConfig.getInstance().getMaridKey();
         def response = doRequest(params, requestContent);
-        assertEquals(JsonUtils.toJson([success: true]), response)
+        assertEquals(JsonUtils.toJson([success: true]), response.contentAsString)
         assertEquals(1, objects.size())
         assertTrue(objects.executed)
     }
@@ -148,7 +147,7 @@ public class AlertActionTest extends RequestActionTestCase {
         def params = [:]
         params[OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER] = MaridConfig.getInstance().getMaridKey();
         def response = doRequest(params, JsonUtils.toJson([:]));
-        def responseData = JsonUtils.parse(response);
+        def responseData = JsonUtils.parse(response.contentAsString);
         assertEquals(true, responseData.success)
         assertEquals("No action specified. Ignoring message :{}", responseData.message)
         assertEquals(0, objects.size())
@@ -170,7 +169,7 @@ public class AlertActionTest extends RequestActionTestCase {
             doRequest([:], requestContent);
 
         }
-        catch (HttpStatusException ex) {
+        catch (IOException ex) {
             Map res = JsonUtils.parse(new String(ex.getContent()))
             assertEquals(0, objects.size())
             assertFalse(res.success)
@@ -191,9 +190,9 @@ public class AlertActionTest extends RequestActionTestCase {
         def alertPropertyMap = [alertId: "alert1", username: "user1"]
         String requestContent = JsonUtils.toJson([alert: alertPropertyMap, action: actionName])
         try {
-            httpUtils.doPostRequest(url, requestContent);
+            httpUtils.post(url, requestContent);
         }
-        catch (HttpStatusException ex) {
+        catch (IOException ex) {
             Map res = JsonUtils.parse(new String(ex.getContent()))
             assertFalse(res.success)
             assertTrue(res.error.indexOf(exceptionMessage) >= 0)
@@ -211,9 +210,9 @@ public class AlertActionTest extends RequestActionTestCase {
 
         String requestContent = JsonUtils.toJson([alert: "invalid alert", action: actionName])
         try {
-            httpUtils.doPostRequest(url, requestContent);
+            httpUtils.post(url, requestContent);
         }
-        catch (HttpStatusException ex) {
+        catch (IOException ex) {
             Map res = JsonUtils.parse(new String(ex.getContent()))
             println res
             assertFalse(res.success)
@@ -222,7 +221,7 @@ public class AlertActionTest extends RequestActionTestCase {
     }
 
 
-    private String doRequest(Map paramsMap, String content) {
+    private def doRequest(Map paramsMap, String content) {
         def urlParams = [];
         paramsMap.each { name, value ->
             urlParams << "${name}=${URLEncoder.encode(value)}"
@@ -232,7 +231,7 @@ public class AlertActionTest extends RequestActionTestCase {
         StringEntity entity = new StringEntity(content, "UTF-8");
         entity.setChunked(true);
         post.setEntity(entity);
-        httpUtils.executePostMethod(post);
+        return httpUtils.executeHttpMethod(post)
     }
 
     public static void addObject(name, value) {

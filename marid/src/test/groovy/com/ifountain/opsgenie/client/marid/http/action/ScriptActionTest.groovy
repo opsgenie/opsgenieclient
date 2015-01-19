@@ -1,11 +1,11 @@
 package com.ifountain.opsgenie.client.marid.http.action
 
+import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse
+import com.ifountain.opsgenie.client.misc.SmartWait
 import com.ifountain.opsgenie.client.script.AsyncScriptManager;
-import com.ifountain.opsgenie.client.test.util.RequestActionTestCase;
 import com.ifountain.opsgenie.client.script.ScriptManager
+import com.ifountain.opsgenie.client.test.util.RequestActionTestCase
 import com.ifountain.opsgenie.client.test.util.file.TestFile
-import com.ifountain.opsgenie.client.test.util.http.HttpStatusException
-import com.ifountain.opsgenie.client.test.util.http.HttpUtils
 import org.apache.commons.io.FileUtils
 
 import com.ifountain.opsgenie.client.util.JsonUtils
@@ -83,8 +83,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         scriptFile.setText(script);
 
         def params = [param1: "param1Value"]
-        def httpPostMethod = httpUtils.preparePostMethod(url + "/" + scriptFile.getName(), params)
-        HttpUtils.Response response = httpUtils.executeHttpMethod(httpPostMethod);
+        OpsGenieHttpResponse response = httpUtils.post(url + "/" + scriptFile.getName(), params);
         assertEquals(expectedResponseContent, new String(response.getContent()))
         assertEquals(expectedContentType, response.getContentType())
         assertEquals(expectedResponseStatus, response.getStatusCode())
@@ -112,8 +111,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         scriptFile.setText(script);
 
         def params = [param1: "param1Value"]
-        def httpPostMethod = httpUtils.preparePostMethod(url + "/" + scriptFile.getName(), params)
-        HttpUtils.Response response = httpUtils.executeHttpMethod(httpPostMethod);
+        OpsGenieHttpResponse response = httpUtils.post(url + "/" + scriptFile.getName(), params);
         assertEquals(JsonUtils.toJson([success: true]), new String(response.getContent()))
         assertEquals("application/json; charset=UTF-8", response.getContentType())
         assertEquals(200, response.getStatusCode())
@@ -136,8 +134,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         scriptFile.setText(script);
 
         def params = [param1: "param1Value"]
-        def httpPostMethod = httpUtils.preparePostMethod(url + "/" + scriptFile.getName(), params)
-        HttpUtils.Response response = httpUtils.executeHttpMethod(httpPostMethod);
+        OpsGenieHttpResponse response = httpUtils.post(url + "/" + scriptFile.getName(), params);
         assertEquals(expectedResponseContent, new String(response.getContent()))
         assertEquals("text/html; charset=UTF-8", response.getContentType())
         assertEquals(200, response.getStatusCode())
@@ -158,10 +155,9 @@ public class ScriptActionTest extends RequestActionTestCase {
         File scriptFile = new File(scriptsDir, "trial.groovy");
         scriptFile.setText(script);
 
-        String requestContent = "content1"
         def params = [param1: "param1Value"]
-        def response = httpUtils.doPostRequest(url + "/" + scriptFile.getName(), params);
-        assertEquals(JsonUtils.toJson([success: true]), response)
+        def response = httpUtils.post(url + "/" + scriptFile.getName(), params);
+        assertEquals(JsonUtils.toJson([success: true]), response.contentAsString)
         assertEquals(1, objects.size())
         def expectedParams = [scriptName: scriptFile.getName()]
         expectedParams.putAll(params)
@@ -179,8 +175,8 @@ public class ScriptActionTest extends RequestActionTestCase {
 
         String requestContent = "content1"
         def params = [param1: "param1Value"]
-        def response = httpUtils.doPostRequest(url + "/" + scriptFile.getName(), params);
-        assertEquals("contentupdated", response)
+        def response = httpUtils.post(url + "/" + scriptFile.getName(), params);
+        assertEquals("contentupdated", response.contentAsString)
     }
 
     @Test
@@ -198,8 +194,8 @@ public class ScriptActionTest extends RequestActionTestCase {
         String requestContent = "content1"
         def params = [param1: "param1Value"]
         params[OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER] = MaridConfig.getInstance().getMaridKey();
-        def response = httpUtils.doPostRequest(url + "/" + scriptFile.getName(), params);
-        assertEquals("contentupdated", response)
+        def response = httpUtils.post(url + "/" + scriptFile.getName(), params);
+        assertEquals("contentupdated", response.contentAsString)
         assertNull(objects[OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS][OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER])
     }
 
@@ -215,8 +211,8 @@ public class ScriptActionTest extends RequestActionTestCase {
         String requestContent = "content1"
         def params = [param1: "param1Value"]
         params[OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER] = MaridConfig.getInstance().getMaridKey();
-        def response = httpUtils.doPostRequest(url + "/" + scriptFile.getName(), params);
-        assertEquals("contentupdated", response)
+        def response = httpUtils.post(url + "/" + scriptFile.getName(), params);
+        assertEquals("contentupdated", response.contentAsString)
     }
 
     @Test
@@ -231,9 +227,9 @@ public class ScriptActionTest extends RequestActionTestCase {
         String requestContent = "content1"
         def params = [param1: "param1Value"]
         try {
-            httpUtils.doPostRequest(url + "/" + scriptFile.getName(), params);
+            httpUtils.post(url + "/" + scriptFile.getName(), params);
         }
-        catch (HttpStatusException ex) {
+        catch (IOException ex) {
             Map res = JsonUtils.parse(new String(ex.getContent()))
             assertFalse(res.success)
             assertTrue(res.error.indexOf("invalid " + OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER) >= 0)
@@ -252,9 +248,9 @@ public class ScriptActionTest extends RequestActionTestCase {
         String requestContent = "content1"
         def params = [param1: "param1Value"]
         try {
-            httpUtils.doPostRequest(url + "/" + scriptFile.getName(), params);
+            httpUtils.post(url + "/" + scriptFile.getName(), params);
         }
-        catch (HttpStatusException ex) {
+        catch (IOException ex) {
             Map res = JsonUtils.parse(new String(ex.getContent()))
             assertFalse(res.success)
             assertTrue(res.error.indexOf(exceptionMessage) >= 0)
@@ -297,8 +293,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         Map<String, Object> params = [:];
         params = ["async": "true", "param1": "param1Value"]
 
-        def httpPostMethod = httpUtils.preparePostMethod(url + "/" + scriptFile.getName(), params)
-        HttpUtils.Response response = httpUtils.executeHttpMethod(httpPostMethod);
+        OpsGenieHttpResponse response = httpUtils.post(url + "/" + scriptFile.getName(), params);
 
         assertEquals("{\"success\":true}", new String(response.getContent()))
         assertEquals("application/json; charset=UTF-8", response.getContentType())
@@ -311,7 +306,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         def expectedParameters = [scriptName: scriptFile.getName()]
         expectedParameters.putAll(params)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertEquals(5, objects.size())
 
             println objects[OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS]
@@ -360,8 +355,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         Map<String, Object> params = [:];
         params = ["async": "false", "param1": "param1Value"]
 
-        def httpPostMethod = httpUtils.preparePostMethod(url + "/" + scriptFile.getName(), params)
-        HttpUtils.Response response = httpUtils.executeHttpMethod(httpPostMethod);
+        OpsGenieHttpResponse response = httpUtils.post(url + "/" + scriptFile.getName(), params);
 
         assertEquals(expectedResponseContent, new String(response.getContent()))
         assertEquals(expectedContentType, response.getContentType())
@@ -416,8 +410,7 @@ public class ScriptActionTest extends RequestActionTestCase {
         Map<String, Object> params = [:];
         params = ["async": "notBoolean", "param1": "param1Value"]
 
-        def httpPostMethod = httpUtils.preparePostMethod(url + "/" + scriptFile.getName(), params)
-        HttpUtils.Response response = httpUtils.executeHttpMethod(httpPostMethod);
+        OpsGenieHttpResponse response = httpUtils.post(url + "/" + scriptFile.getName(), params);
 
         assertEquals(expectedResponseContent, new String(response.getContent()))
         assertEquals(expectedContentType, response.getContentType())

@@ -10,6 +10,7 @@ import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest
 import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest
 import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
 import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest
+import com.ifountain.opsgenie.client.test.util.JSON
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.HttpPost

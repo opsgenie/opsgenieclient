@@ -94,7 +94,7 @@ class ScriptManagerTest {
             fail("Should throw exception");
         }
         catch (Throwable t) {
-            assertEquals("Script [${script.getName()}] does not exist.", t.getMessage())
+            assertEquals("Script [${script.getName()}] does not exist.".toString(), t.getMessage())
         }
     }
 

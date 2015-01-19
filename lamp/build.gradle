@@ -1,7 +1,6 @@
 dependencies {
     compile project(':common')
-    compile 'com.beust:jcommander:1.47'
-    testCompile 'junit:junit:4.12'
-//    testCompile project(':test')
+    compile 'com.beust:jcommander:1.47.OG'
+    testCompile project(':test')
     testCompile project(':common').sourceSets.test.output
 }

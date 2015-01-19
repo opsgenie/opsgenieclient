@@ -10,6 +10,7 @@ import com.ifountain.opsgenie.client.model.beans.AlertLog
 import com.ifountain.opsgenie.client.model.beans.AlertNote
 import com.ifountain.opsgenie.client.model.beans.AlertRecipient
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
+import org.junit.Before
 import org.junit.Test
 import static org.junit.Assert.*
 
@@ -23,7 +24,7 @@ class ScriptProxyAlertTest {
     String apiKey = "key1"
     ScriptProxy proxy;
 
-    @Override
+    @Before
     public void setUp() {
         opsGenieClient = new OpsGenieClientMock();
         proxy = new ScriptProxy(opsGenieClient, apiKey);

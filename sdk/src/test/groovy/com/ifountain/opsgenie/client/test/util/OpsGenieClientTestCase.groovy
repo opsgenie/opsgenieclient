@@ -42,7 +42,7 @@ public class OpsGenieClientTestCase  implements HttpTestRequestListener {
     }
 
     @After
-    protected void tearDown() {
+    public void tearDown() {
         httpServer.close()
         httpServer.removeRequestListener(this);
     }

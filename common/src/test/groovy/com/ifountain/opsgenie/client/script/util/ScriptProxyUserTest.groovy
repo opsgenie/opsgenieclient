@@ -35,7 +35,7 @@ class ScriptProxyUserTest {
     ScriptProxy proxy;
 
     @Before
-    protected void setUp() {
+    public void setUp() {
         opsGenieClient = new OpsGenieClientMock();
         proxy = new ScriptProxy(opsGenieClient, apiKey);
     }
@@ -50,7 +50,8 @@ class ScriptProxyUserTest {
     }
 
     public void _testAddUser(boolean useConfig) throws Exception {
-        def params = [username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "GMT+7", locale: NaaSUtils.getLocaleId(Locale.CHINA)];
+        def params = [username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "GMT+7",
+                      locale: Locale.CHINA.toString()];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -89,7 +90,7 @@ class ScriptProxyUserTest {
     }
 
     public void _testUpdateUser(boolean useConfig) throws Exception {
-        def params = [id: "user1Id", username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "GMT+7", locale: NaaSUtils.getLocaleId(Locale.CHINA)];
+        def params = [id: "user1Id", username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "GMT+7", locale: Locale.CHINA.toString()];
         if (!useConfig) {
             params.apiKey = "customer1";
         }

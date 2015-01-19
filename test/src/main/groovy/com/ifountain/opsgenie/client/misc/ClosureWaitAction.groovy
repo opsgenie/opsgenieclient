@@ -1,5 +1,4 @@
 package com.ifountain.opsgenie.client.misc
-
 /**
 * Created by IntelliJ IDEA.
 * User: admin

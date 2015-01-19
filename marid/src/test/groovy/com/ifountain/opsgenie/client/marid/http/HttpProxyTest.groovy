@@ -33,6 +33,7 @@ import org.jboss.netty.handler.codec.http.HttpMethod
 import com.ifountain.opsgenie.client.test.util.MaridTestCase
 import org.junit.After
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import static org.junit.Assert.*
 
@@ -53,7 +54,7 @@ class HttpProxyTest extends MaridTestCase implements HttpTestRequestListener {
     static def url;
     HttpProxyConfig httpProxyConfig;
 
-    @Override
+    @BeforeClass
     public static void beforeClass() {
         MaridTestCase.beforeClass()
         host = CommonTestUtils.getLocalhostIp()
@@ -75,7 +76,6 @@ class HttpProxyTest extends MaridTestCase implements HttpTestRequestListener {
         httpClientWithProxy = new DefaultHttpClient();
         HttpHost proxyHost = new HttpHost(proxyHost, proxyPort);
         httpClientWithProxy.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-
     }
 
     @After

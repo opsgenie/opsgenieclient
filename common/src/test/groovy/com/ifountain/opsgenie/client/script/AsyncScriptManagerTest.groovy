@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.script
 
-import com.ifountain.opsgenie.client.misc.RsSmartWait
+import com.ifountain.opsgenie.client.misc.SmartWait
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.test.util.logging.MockAppender
 import com.ifountain.opsgenie.client.test.util.logging.TestLogUtils
@@ -77,7 +77,7 @@ class AsyncScriptManagerTest {
         //Test asyncronous. Runscript took about 240 miliseconds
         assertTrue(finishedTime - startTime < 20)
 
-        RsSmartWait.waitForClosure(3000, 10, {
+        SmartWait.waitForClosure(3000, 10, {
             assertEquals(3, messages.size())
             assertEquals(parameterMap.params.param1, messages[0])
             assertSame(Logger.getLogger("script." + script.getName()), messages[1])
@@ -92,9 +92,9 @@ class AsyncScriptManagerTest {
 
         AsyncScriptManager.getInstance().runScript(script.getName(), [:])
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
-            assertEquals("[AsyncScriptManager]: Error occured while processing ${script.getName()}: java.lang.Exception: Script [${script.getName()}] does not exist.",
+            assertEquals("[AsyncScriptManager]: Error occured while processing ${script.getName()}: java.lang.Exception: Script [${script.getName()}] does not exist.".toString(),
                     logMessages[0])
         }
 
@@ -112,7 +112,7 @@ class AsyncScriptManagerTest {
 
         AsyncScriptManager.getInstance().runScript(script.getName(), params)
 
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             def logMessages = logAppender.getMessages(Level.WARN.toString())
             assertTrue(logMessages[0].contains(exceptionMessage))
             assertTrue(logMessages[0].contains(script.getName()))
@@ -142,7 +142,7 @@ class AsyncScriptManagerTest {
             def params = [params: [:]]
             AsyncScriptManager.getInstance().runScript(scriptFile2.getName(), params)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, messages.size());
                 assertTrue(messages.contains("script2"));
             }
@@ -151,7 +151,7 @@ class AsyncScriptManagerTest {
 
             AsyncScriptManager.getInstance().runScript(scriptFile1.getName(), params)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(2, messages.size());
                 assertTrue(messages.contains("script2"));
                 assertTrue(messages.contains("script1"));
@@ -161,7 +161,7 @@ class AsyncScriptManagerTest {
                 scriptWaitLock.notifyAll()
             }
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(3, messages.size());
                 assertTrue(messages.contains("script1"));
                 assertTrue(messages.contains("script2"));
@@ -214,7 +214,7 @@ class AsyncScriptManagerTest {
             Thread.sleep(100)
 
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(2, messages.size());
                 assertTrue(messages.contains("afterLock"))
                 assertFalse(messages.contains("afterAwait"))
@@ -232,7 +232,7 @@ class AsyncScriptManagerTest {
             condition.signalAll();
             scriptLock.unlock();
 
-            RsSmartWait.waitForClosure(AsyncScriptManager.getInstance().getShutdownWaitTime(), {
+            SmartWait.waitForClosure(AsyncScriptManager.getInstance().getShutdownWaitTime(), {
                 println messages
                 assertEquals(6, messages.size());
                 assertTrue(messages.contains("afterLock"))
@@ -244,7 +244,7 @@ class AsyncScriptManagerTest {
             condition.signalAll();
             scriptLock.unlock();
 
-            RsSmartWait.waitForClosure(AsyncScriptManager.getInstance().getShutdownWaitTime(), {
+            SmartWait.waitForClosure(AsyncScriptManager.getInstance().getShutdownWaitTime(), {
                 println messages
                 assertEquals(7, messages.size());
                 assertTrue(messages.contains("afterLock"))
@@ -286,7 +286,7 @@ class AsyncScriptManagerTest {
             def parameterMap = [params: [:]]
             AsyncScriptManager.getInstance().runScript(script.getName(), parameterMap)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, messages.size());
                 assertTrue(messages.contains("script"));
             }
@@ -299,7 +299,7 @@ class AsyncScriptManagerTest {
             def shutdownTime = System.currentTimeMillis() - t
             assertTrue("shutdownTime:" + shutdownTime + " should be greater than " + shutdownWaitTime, shutdownTime >= shutdownWaitTime)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(2, messages.size());
                 assertTrue(messages.contains("script"));
                 assertTrue(messages.contains("script_exception"));
@@ -338,7 +338,7 @@ class AsyncScriptManagerTest {
             def parameterMap = [params: [:]]
             AsyncScriptManager.getInstance().runScript(script.getName(), parameterMap)
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(1, messages.size());
                 assertTrue(messages.contains("script"));
             }
@@ -350,7 +350,7 @@ class AsyncScriptManagerTest {
             }
             AsyncScriptManager.destroyInstance();
 
-            RsSmartWait.waitForClosure {
+            SmartWait.waitForClosure {
                 assertEquals(2, messages.size());
                 assertTrue(messages.contains("script"));
                 assertTrue(messages.contains("script2"));

@@ -4,6 +4,5 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.2.5'
     compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.3'
 
-    testCompile 'junit:junit:4.12'
-//    testCompile project(':test')
+    testCompile project(':test')
 }

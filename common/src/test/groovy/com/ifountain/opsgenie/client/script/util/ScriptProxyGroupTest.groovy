@@ -22,11 +22,9 @@ class ScriptProxyGroupTest {
 
     @Before
     public void setUp() {
-        super.setUp()
         opsGenieClient = new OpsGenieClientMock();
         proxy = new ScriptProxy(opsGenieClient, apiKey);
     }
-
 
     @Test
     public void testAddGroup() throws Exception {

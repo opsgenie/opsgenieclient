@@ -11,6 +11,8 @@ public class OpsGenieHttpResponse {
     private byte[] content;
     private Map<String, String> headers = new HashMap<String, String>();
     private int statusCode;
+    private String contentType;
+
 
     public byte[] getContent() {
         return content;
@@ -18,6 +20,7 @@ public class OpsGenieHttpResponse {
     public String getContentAsString() {
         return new String(content);
     }
+
 
 
 
@@ -39,5 +42,13 @@ public class OpsGenieHttpResponse {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }

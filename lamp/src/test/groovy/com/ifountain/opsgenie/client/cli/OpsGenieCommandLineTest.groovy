@@ -20,6 +20,7 @@ import com.ifountain.opsgenie.client.util.ClientProxyConfiguration
 import org.apache.commons.io.FileUtils
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import static org.junit.Assert.*
@@ -66,10 +67,14 @@ class OpsGenieCommandLineTest {
         System.setProperty(OpsGenieCommandLine.LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY, scriptDir.getPath())
     }
 
-    @Override
-    protected void tearDown() {
+    @After
+    public void tearDown() {
         System.setOut(originalOut)
         System.setErr(originalErr)
+        System.clearProperty(OpsGenieCommandLine.LAMP_CONF_DIR_SYSTEM_PROPERTY)
+        System.clearProperty(OpsGenieCommandLine.LAMP_SCRIPTS_DIR_SYSTEM_PROPERTY)
+        System.clearProperty(OpsGenieCommandLine.LOG_PATH_SYSTEM_PROPERTY)
+        System.clearProperty(OpsGenieCommandLine.CONF_PATH_SYSTEM_PROPERTY)
     }
 
     @Test

@@ -4,15 +4,15 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.http.HttpTestServer
+import com.ifountain.opsgenie.client.http.OpsGenieHttpClient
 import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener
-import com.ifountain.opsgenie.client.misc.RsSmartWait
+import com.ifountain.opsgenie.client.misc.SmartWait
 import com.ifountain.opsgenie.client.script.AsyncScriptManager
 import com.ifountain.opsgenie.client.script.ScriptManager
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
 import com.ifountain.opsgenie.client.test.util.MaridTestCase
 import com.ifountain.opsgenie.client.pubnub.PubnubTestUtils
 import com.ifountain.opsgenie.client.test.util.file.TestFile
-import com.ifountain.opsgenie.client.test.util.http.HttpUtils
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.commons.io.FileUtils
 import org.apache.http.HttpHost
@@ -90,6 +90,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         System.clearProperty(Bootstrap.CONF_PATH_SYSTEM_PROPERTY)
         System.clearProperty(Bootstrap.MARID_CONF_DIR_SYSTEM_PROPERTY)
         System.clearProperty(Bootstrap.MARID_SCRIPTS_DIR_SYSTEM_PROPERTY)
+        System.clearProperty(Bootstrap.LOG_PATH_SYSTEM_PROPERTY)
         testHttpServer.close()
         System.setProperty("maridhome", ".")
         super.tearDown()
@@ -204,7 +205,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         assertEquals(shutdownWaitTime, AsyncScriptManager.getInstance().getShutdownWaitTime())
 
         //alert action executor
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertTrue(PubnubAlertActionListener.getInstance().isSubscribed())
         }
 
@@ -212,11 +213,11 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         testHttpServer.setResponseToReturn("success")
 
         HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
+        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
+        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
 
         HttpGet get = new HttpGet(new URI(this.url));
-        HttpResponse response = httpClient.execute(get);
+        def response = this.httpClient.execute(get);
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
@@ -229,12 +230,10 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("No handler found for url [GET-/unknown]", httpResponse)
 
-        def httpUtils = new HttpUtils(30000);
+        def httpClient = new OpsGenieHttpClient();
 
-        get = new HttpGet(new URI(httpsServerUrl));
-        response = httpUtils.getClient().execute(get);
-        httpResponse = EntityUtils.toString(response.getEntity());
-        assertEquals("No handler found for url [GET-/unknown]", httpResponse)
+        response = httpClient.get(httpServerUrl, [:]);
+        assertEquals("No handler found for url [GET-/unknown]", response.contentAsString)
 
         //test MaridConfigConstruction
         assertEquals("key1", MaridConfig.getInstance().getMaridKey())
@@ -251,14 +250,14 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         bootstrap.close();
 
         try {
-            httpClient.execute(get);
+            this.httpClient.execute(get);
             fail("should throw exception")
         }
         catch (HttpHostConnectException ignored) {
         }
 
         //alert action executor
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertFalse(PubnubAlertActionListener.getInstance().isSubscribed())
         }
         //scripting
@@ -328,7 +327,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         assertTrue(AsyncScriptManager.getInstance().isInitialized())
 
         //alert action executor
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertTrue(PubnubAlertActionListener.getInstance().isSubscribed())
         }
 
@@ -336,11 +335,11 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         testHttpServer.setResponseToReturn("success")
 
         HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
+        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
+        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
 
         HttpGet get = new HttpGet(new URI(this.url));
-        HttpResponse response = httpClient.execute(get);
+        def response = this.httpClient.execute(get);
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
@@ -353,12 +352,11 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("No handler found for url [GET-/unknown]", httpResponse)
 
-        def httpUtils = new HttpUtils(30000);
+        def httpClient = new OpsGenieHttpClient();
 
         get = new HttpGet(new URI(httpsServerUrl));
-        response = httpUtils.getClient().execute(get);
-        httpResponse = EntityUtils.toString(response.getEntity());
-        assertEquals("No handler found for url [GET-/unknown]", httpResponse)
+        response = httpClient.get(httpServerUrl, [:]);
+        assertEquals("No handler found for url [GET-/unknown]", response.contentAsString)
 
         //test MaridConfigConstruction
         assertEquals("key1", MaridConfig.getInstance().getMaridKey())
@@ -376,14 +374,14 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         bootstrap.close();
 
         try {
-            httpClient.execute(get);
+            this.httpClient.execute(get);
             fail("should throw exception")
         }
         catch (HttpHostConnectException ignored) {
         }
 
         //alert action executor
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertFalse(PubnubAlertActionListener.getInstance().isSubscribed())
         }
         //scripting
@@ -441,7 +439,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         assertTrue(AsyncScriptManager.getInstance().isInitialized())
 
         //alert action executor
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertTrue(PubnubAlertActionListener.getInstance().isSubscribed())
         }
 
@@ -500,7 +498,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         }
 
         //alert action executor
-        RsSmartWait.waitForClosure {
+        SmartWait.waitForClosure {
             assertFalse(PubnubAlertActionListener.getInstance().isSubscribed())
         }
         //scripting
@@ -560,7 +558,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
 
         HttpGet get = new HttpGet(new URI(this.url));
-        HttpResponse response = httpClient.execute(get);
+        def response = httpClient.execute(get);
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
@@ -573,12 +571,10 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("No handler found for url [GET-/unknown]", httpResponse)
 
-        def httpUtils = new HttpUtils(30000);
+        def httpUtils = new OpsGenieHttpClient();
 
-        get = new HttpGet(new URI(httpsServerUrl));
-        response = httpUtils.getClient().execute(get);
-        httpResponse = EntityUtils.toString(response.getEntity());
-        assertEquals("No handler found for url [GET-/unknown]", httpResponse)
+        response = httpUtils.get(httpsServerUrl, [:]);
+        assertEquals("No handler found for url [GET-/unknown]", response.contentAsString)
 
         //test MaridConfigConstruction
         assertEquals("key1", MaridConfig.getInstance().getMaridKey())
@@ -644,11 +640,11 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         assertTrue(AsyncScriptManager.getInstance().isInitialized())
 
         HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
+        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
+        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
 
         HttpGet get = new HttpGet(new URI(this.url));
-        HttpResponse response = httpClient.execute(get);
+        def response = this.httpClient.execute(get);
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals(new String(testResponse.getContent()), httpResponse)
 
@@ -661,11 +657,11 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("No handler found for url [GET-/unknown]", httpResponse)
 
-        def httpUtils = new HttpUtils(30000);
+        def httpClient = new OpsGenieHttpClient();
 
         get = new HttpGet(new URI(httpsServerUrl));
-        response = httpUtils.getClient().execute(get);
-        httpResponse = EntityUtils.toString(response.getEntity());
+        response = httpClient.executeHttpMethod(get);
+        httpResponse = response.getContentAsString();
         assertEquals("No handler found for url [GET-/unknown]", httpResponse)
 
         //test MaridConfigConstruction

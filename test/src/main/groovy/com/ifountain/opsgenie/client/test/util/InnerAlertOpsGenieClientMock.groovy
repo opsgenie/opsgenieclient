@@ -1,0 +1,215 @@
+package com.ifountain.opsgenie.client.test.util;
+
+import com.ifountain.opsgenie.client.IAlertOpsGenieClient;
+import com.ifountain.opsgenie.client.OpsGenieClientException;
+import com.ifountain.opsgenie.client.model.InputStreamAttachRequest;
+import com.ifountain.opsgenie.client.model.alert.*
+
+import java.text.ParseException;
+
+/**
+ * Created by Sezgin Kucukkaraaslan
+ * Date: 6/1/12
+ * Time: 10:11 AM
+ */
+public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
+    private OpsGenieClientMockRequestProcessor requestProcessor;
+    private CreateAlertResponse createAlertResponse;
+    private CloseAlertResponse closeAlertResponse;
+    private DeleteAlertResponse deleteAlertResponse;
+    private AddNoteResponse addNoteResponse;
+    private AcknowledgeResponse acknowledgeResponse;
+    private RenotifyResponse renotifyResponse;
+    private TakeOwnershipResponse takeOwnershipResponse;
+    private AssignResponse assignResponse;
+    private AddRecipientResponse addRecipientResponse;
+    private AddAlertTeamResponse addAlertTeamResponse;
+    private AttachResponse attachResponse;
+    private ExecuteAlertActionResponse executeAlertActionResponse;
+    private GetAlertResponse getAlertResponse;
+    private ListAlertsResponse listAlertsResponse;
+    private ListAlertLogsResponse listAlertLogsResponse;
+    private ListAlertRecipientsResponse listAlertRecipientsResponse;
+    private ListAlertNotesResponse listAlertNotesResponse;
+
+
+    public InnerAlertOpsGenieClientMock(OpsGenieClientMockRequestProcessor requestProcessor) {
+        this.requestProcessor = requestProcessor;
+    }
+
+    @Override
+    public CreateAlertResponse createAlert(CreateAlertRequest request) throws IOException, OpsGenieClientException {
+        requestProcessor.processRequest(request);
+        return createAlertResponse;
+    }
+
+    @Override
+    public CloseAlertResponse closeAlert(CloseAlertRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return closeAlertResponse;
+    }
+
+    @Override
+    public DeleteAlertResponse deleteAlert(DeleteAlertRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return deleteAlertResponse;
+    }
+
+    @Override
+    public AddNoteResponse addNote(AddNoteRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return addNoteResponse;
+    }
+
+    @Override
+    public AcknowledgeResponse acknowledge(AcknowledgeRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return acknowledgeResponse;
+    }
+
+    @Override
+    public RenotifyResponse renotify(RenotifyRequest renotifyRequest) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(renotifyRequest);
+        return renotifyResponse;
+    }
+
+    @Override
+    public TakeOwnershipResponse takeOwnership(TakeOwnershipRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return takeOwnershipResponse;
+    }
+
+    @Override
+    public AssignResponse assign(AssignRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return assignResponse;
+    }
+
+    @Override
+    public AddAlertTeamResponse addTeam(AddAlertTeamRequest request) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(request);
+        return addAlertTeamResponse;
+    }
+
+    @Override
+    public AddRecipientResponse addRecipient(AddRecipientRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return addRecipientResponse;
+    }
+
+    @Override
+    public AttachResponse attach(FileAttachRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return attachResponse;
+    }
+
+    @Override
+    public AttachResponse attach(InputStreamAttachRequest attachRequest) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(attachRequest);
+        return attachResponse;
+    }
+
+    @Override
+    public ExecuteAlertActionResponse executeAlertAction(ExecuteAlertActionRequest executeAlertActionRequest) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(executeAlertActionRequest);
+        return executeAlertActionResponse;
+    }
+
+    @Override
+    public GetAlertResponse getAlert(GetAlertRequest request) throws OpsGenieClientException, IOException {
+        requestProcessor.processRequest(request);
+        return getAlertResponse;
+    }
+
+    @Override
+    public ListAlertLogsResponse listAlertLogs(ListAlertLogsRequest listAlertLogsRequest) throws ParseException, OpsGenieClientException, IOException {
+        requestProcessor.processRequest(listAlertLogsRequest);
+        return listAlertLogsResponse;
+    }
+
+    @Override
+    public ListAlertRecipientsResponse listAlertRecipients(ListAlertRecipientsRequest listAlertRecipientsRequest) throws ParseException, OpsGenieClientException, IOException {
+        requestProcessor.processRequest(listAlertRecipientsRequest);
+        return listAlertRecipientsResponse;
+    }
+
+    @Override
+    public ListAlertsResponse listAlerts(ListAlertsRequest listAlertsRequest) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(listAlertsRequest);
+        return listAlertsResponse;
+    }
+
+    @Override
+    public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException {
+        requestProcessor.processRequest(listAlertNotesRequest);
+        return listAlertNotesResponse;
+    }
+
+    public void setCreateAlertResponse(CreateAlertResponse createAlertResponse) {
+        this.createAlertResponse = createAlertResponse;
+    }
+
+    public void setCloseAlertResponse(CloseAlertResponse closeAlertResponse) {
+        this.closeAlertResponse = closeAlertResponse;
+    }
+
+    public void setDeleteAlertResponse(DeleteAlertResponse deleteAlertResponse) {
+        this.deleteAlertResponse = deleteAlertResponse;
+    }
+
+    public void setAddNoteResponse(AddNoteResponse addNoteResponse) {
+        this.addNoteResponse = addNoteResponse;
+    }
+
+    public void setAttachResponse(AttachResponse attachResponse) {
+        this.attachResponse = attachResponse;
+    }
+
+    public void setExecuteAlertActionResponse(ExecuteAlertActionResponse executeAlertActionResponse) {
+        this.executeAlertActionResponse = executeAlertActionResponse;
+    }
+
+    public void setGetAlertResponse(GetAlertResponse getAlertResponse) {
+        this.getAlertResponse = getAlertResponse;
+    }
+
+    public void setAcknowledgeResponse(AcknowledgeResponse acknowledgeResponse) {
+        this.acknowledgeResponse = acknowledgeResponse;
+    }
+
+    public void setTakeOwnershipResponse(TakeOwnershipResponse takeOwnershipResponse) {
+        this.takeOwnershipResponse = takeOwnershipResponse;
+    }
+
+    public void setAssignResponse(AssignResponse assignResponse) {
+        this.assignResponse = assignResponse;
+    }
+
+    public void setAddRecipientResponse(AddRecipientResponse addRecipientResponse) {
+        this.addRecipientResponse = addRecipientResponse;
+    }
+
+    public void setListAlertsResponse(ListAlertsResponse listAlertsResponse) {
+        this.listAlertsResponse = listAlertsResponse;
+    }
+
+    public void setListAlertRecipientsResponse(ListAlertRecipientsResponse listAlertRecipientsResponse) {
+        this.listAlertRecipientsResponse = listAlertRecipientsResponse;
+    }
+
+    public void setRenotifyResponse(RenotifyResponse renotifyResponse) {
+        this.renotifyResponse = renotifyResponse;
+    }
+
+    public void setListAlertLogsResponse(ListAlertLogsResponse listAlertLogsResponse) {
+        this.listAlertLogsResponse = listAlertLogsResponse;
+    }
+
+    public void setListAlertNotesResponse(ListAlertNotesResponse listAlertNotesResponse) {
+        this.listAlertNotesResponse = listAlertNotesResponse;
+    }
+
+    public void setAddAlertTeamResponse(AddAlertTeamResponse addAlertTeamResponse) {
+        this.addAlertTeamResponse = addAlertTeamResponse;
+    }
+}

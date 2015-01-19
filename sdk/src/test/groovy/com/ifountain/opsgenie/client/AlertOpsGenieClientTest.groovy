@@ -7,6 +7,7 @@ import com.ifountain.opsgenie.client.model.InputStreamAttachRequest
 import com.ifountain.opsgenie.client.model.beans.AlertRecipient
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
+import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.FileUpload
@@ -18,6 +19,7 @@ import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import com.ifountain.opsgenie.client.model.alert.*
+import org.junit.Before
 import org.junit.Test
 import static org.junit.Assert.*
 
@@ -27,8 +29,8 @@ import static org.junit.Assert.*
  * Time: 11:09 AM
  */
 class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
-    @Override
-    void setUp() {
+    @Before
+    public void setUp() {
         super.setUp()
     }
 
