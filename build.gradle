@@ -22,6 +22,7 @@ subprojects {
         filter {
             exclude "**/**TestCase**"
         }
+        testLogging.showStandardStreams = true
     }
 
     jar {
@@ -45,8 +46,6 @@ subprojects {
     dependencies {
         compile 'log4j:log4j:1.2.16'
     }
-
-    test.outputs.upToDateWhen { false }
 }
 
 task wrapper(type: Wrapper) {
