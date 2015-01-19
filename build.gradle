@@ -17,6 +17,7 @@ subprojects {
     }
 
     test {
+        maxHeapSize = '1024m'
         ignoreFailures = true
         workingDir = project.rootProject.rootDir
         filter {
