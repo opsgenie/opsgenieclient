@@ -16,6 +16,7 @@ public class ScheduleRule  implements IBean{
         hourly
     }
     private Date startDate;
+    private Date endDate;
     private RotationType rotationType;
     private int rotationLength;
     private List<ScheduleParticipant> participants;
@@ -34,6 +35,20 @@ public class ScheduleRule  implements IBean{
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    /**
+     * Returns the optional end date of schedule rule
+     */
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * Sets end date of schedule rule. Optional.
+     */
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     /**
@@ -115,7 +130,7 @@ public class ScheduleRule  implements IBean{
             sdf.setTimeZone(scheduleTimeZone);
         }
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.START_TIME, sdf.format(startDate));
+        json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
         json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
         json.put(OpsGenieClientConstants.API.ROTATION_LENGTH, rotationLength);
         if(participants != null){
@@ -134,6 +149,10 @@ public class ScheduleRule  implements IBean{
             json.put(OpsGenieClientConstants.API.RESTRICTIONS, restrictionMaps);
         }
 
+        if(endDate != null) {
+            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(endDate));
+        }
+
         return json;
     }
 
@@ -143,14 +162,8 @@ public class ScheduleRule  implements IBean{
         if(scheduleTimeZone != null){
             sdf.setTimeZone(scheduleTimeZone);
         }
-        //TODO:we need to fix inconsistency in add schedule and get schedule collector actions
         Object startDateObj = null;
-        if(map.containsKey(OpsGenieClientConstants.API.START_DATE)){
-            startDateObj = map.get(OpsGenieClientConstants.API.START_DATE);
-        }
-        else{
-            startDateObj = map.get(OpsGenieClientConstants.API.START_TIME);
-        }
+        startDateObj = map.get(OpsGenieClientConstants.API.START_DATE);
         if(startDateObj != null){
             if(startDateObj instanceof Date){
                 startDate = (Date) startDateObj;
@@ -158,6 +171,16 @@ public class ScheduleRule  implements IBean{
             else{
                 String startDateStr = (String) startDateObj;
                 startDate = sdf.parse(startDateStr);
+            }
+        }
+        Object endDateObj = map.get(OpsGenieClientConstants.API.END_DATE);
+        if(endDateObj != null){
+            if(endDateObj instanceof Date){
+                endDate = (Date) endDateObj;
+            }
+            else{
+                String endDateStr = (String) endDateObj;
+                endDate = sdf.parse(endDateStr);
             }
         }
         rotationType = RotationType.valueOf(((String) map.get(OpsGenieClientConstants.API.ROTATION_TYPE)).toLowerCase());
