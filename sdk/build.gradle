@@ -16,19 +16,26 @@ dependencies {
     testCompile project(':test')
 }
 
-//tasks.check.dependsOn 'fatJar'
-//
-//task fatJar(type: Jar) {
-//    baseName = project.name + '-all'
-//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-//    with jar
-//}
-
 tasks.check.dependsOn 'shadowJar'
 
 shadowJar {
-    exclude "*.properties"
-    exclude "*.gif"
     relocate 'org.apache', 'com.ifountain.apache'
     relocate 'org.codehaus', 'com.ifountain.codehaus'
+}
+
+uploadArchives {
+    def type = project.version.toString().contains("SNAPSHOT") ? 'snapshots' : 'releases'
+    def url = "http://repo.opsgenie.com:9393/content/repositories/${type}"
+    def props = new Properties();
+    props.load(new FileInputStream("${project.rootProject.projectDir}/nexus.properties"))
+    def nexusUser = props.getProperty('nexusUser')
+    def nexusPassword = props.getProperty('nexusPassword')
+
+    repositories {
+        mavenDeployer {
+            repository(url: url) {
+                authentication(userName: nexusUser, password: nexusPassword)
+            }
+        }
+    }
 }
