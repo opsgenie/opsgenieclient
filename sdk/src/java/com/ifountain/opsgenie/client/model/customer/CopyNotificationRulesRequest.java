@@ -54,14 +54,14 @@ public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRu
 
     /**
      *  Sets the list of rule types. Specify a list of the action types you want to copy the rules of. It can contain "New Alert", "Acknowledged Alert" or for all types of notification rules, "all". The total list of valid types are:
-     *  all
-     *  New Alert
-     *  Acknowledged Alert
-     *  Closed Alert
-     *  Schedule Start
-     *  Renotified Alert
-     *  Assigned Alert
-     *  Add Note
+     *  "all",
+     *  "New Alert",
+     *  "Acknowledged Alert",
+     *  "Closed Alert",
+     *  "Schedule Start",
+     *  "Renotified Alert",
+     *  "Assigned Alert",
+     *  "Add Note"
      */
     public void setRuleTypes(List<String> ruleTypes) {
         this.ruleTypes = ruleTypes;
