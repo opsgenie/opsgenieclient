@@ -1,3 +1,12 @@
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
 dependencies {
     compile 'org.apache.httpcomponents:httpcore:4.2.5'
     compile 'org.apache.httpcomponents:httpmime:4.2.5'
@@ -7,10 +16,19 @@ dependencies {
     testCompile project(':test')
 }
 
-tasks.check.dependsOn 'fatJar'
+//tasks.check.dependsOn 'fatJar'
+//
+//task fatJar(type: Jar) {
+//    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with jar
+//}
 
-task fatJar(type: Jar) {
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+tasks.check.dependsOn 'shadowJar'
+
+shadowJar {
+    exclude "*.properties"
+    exclude "*.gif"
+    relocate 'org.apache', 'com.ifountain.apache'
+    relocate 'org.codehaus', 'com.ifountain.codehaus'
 }
