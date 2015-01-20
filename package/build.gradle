@@ -4,11 +4,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.0.3'
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.0.2'
     }
 }
 
-apply plugin: "nebula.os-package-base"
+apply plugin: "os-package-base"
 
 configurations {
     debian
