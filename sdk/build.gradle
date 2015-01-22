@@ -24,10 +24,14 @@ shadowJar {
 }
 
 uploadArchives {
+    def uploadOptions = file("${rootProject.projectDir}/uploadOptions.properties")
+    if(!uploadOptions.exists()) {
+       return
+    }
     def type = project.version.toString().contains("SNAPSHOT") ? 'snapshots' : 'releases'
     def url = "http://repo.opsgenie.com:9393/content/repositories/${type}"
     def props = new Properties();
-    props.load(new FileInputStream("${project.rootProject.projectDir}/nexus.properties"))
+    props.load(new FileInputStream(uploadOptions))
     def nexusUser = props.getProperty('nexusUser')
     def nexusPassword = props.getProperty('nexusPassword')
 
