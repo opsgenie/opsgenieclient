@@ -28,7 +28,6 @@ task packageRpm(type: Rpm, dependsOn: ['jar']) {
     packageName = 'opsgenie-integration'
     description = "OpsGenie client files including lamp and marid"
     version = project.version.toString().replace("-", ".");
-    release project.version.toString().replace('-', '.')
     os = LINUX
     user = 'root'
 
@@ -202,14 +201,7 @@ task packageDeb(dependsOn: ['jar']) << {
     }
 }
 
-task generateZipDir(dependsOn: 'jar') << {
-    def dataTarget
-    if (project.ext.has('buildDir')) {
-        dataTarget = project.ext.buildDir
-    } else {
-        dataTarget = "${project.buildDir}/zip/opsgenie-integration"
-    }
-
+def generateClientZip(String dataTarget) {
     def commonProjectDir = "${project(':common').projectDir}";
     def maridProjectDir = "${project(':marid').projectDir}";
     def lampProjectDir = "${project(':lamp').projectDir}";
@@ -286,9 +278,17 @@ task generateZipDir(dependsOn: 'jar') << {
     }
 }
 
-task packageZip(dependsOn: 'generateZipDir', type: Zip) {
+task generateBaseToPackageZip(dependsOn: 'jar') << {
+    generateClientZip("${project.buildDir}/zip/opsgenie-integration")
+}
+
+task generateBaseForIntegration(dependsOn: 'jar') << {
+    generateClientZip("${project.rootProject.buildDir}/opsgenie-integration")
+}
+
+task packageZip(dependsOn: ['generateBaseToPackageZip'], type: Zip) {
     from "${project.buildDir}/zip"
     baseName = 'opsgenie-integration'
 }
 
-task packageAll(dependsOn: ['packageRpm', 'packageDeb', 'packageZip'])
+task packageAll(dependsOn: ['packageZip', 'packageRpm', 'packageDeb'])
