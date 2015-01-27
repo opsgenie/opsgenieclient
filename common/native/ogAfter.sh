@@ -18,7 +18,6 @@ chmod -R 775 /var/lib/opsgenie
 chmod -R 775 /etc/opsgenie
 chmod -R 775 /var/opsgenie
 chmod -R +x /usr/bin/lamp
-ln -s /usr/bin/lamp /usr/local/bin/lamp
 chmod -R +x /etc/init.d/marid
 
 chown -R opsgenie:opsgenie /etc/opsgenie
