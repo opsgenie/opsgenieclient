@@ -8,7 +8,7 @@ The project includes:
 * Marid
 
 ## Java SDK For Maven and Gradle
-***
+
 
 ### Maven
 
@@ -51,7 +51,7 @@ dependencies {
 
 
 ## Build
-***
+
 **Requires JDK 1.7** 
 
 This is a gradle project so you can build by running `build` task
