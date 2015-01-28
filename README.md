@@ -1,5 +1,3 @@
-![OpsGenie](http://www.opsgenie.com/resources/images/public/footer-opsgenie-logo.png =50x) 
-
 # OpsGenie Client
 
 
