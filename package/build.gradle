@@ -286,6 +286,18 @@ task generateBaseForIntegration(dependsOn: 'jar') << {
     generateClientZip("${project.rootProject.buildDir}/opsgenie-integration")
 }
 
+task generateClientDistribution(dependsOn: 'generateBaseToPackageZip') << {
+    def destination = file("${project.rootProject.projectDir}/../Distribution/opsgenie-integration")
+    if(destination.exists()) {
+        delete destination
+    }
+
+    copy {
+        from "${project.buildDir}/zip/opsgenie-integration"
+        into destination
+    }
+}
+
 task packageZip(dependsOn: ['generateBaseToPackageZip'], type: Zip) {
     from "${project.buildDir}/zip"
     baseName = 'opsgenie-integration'
