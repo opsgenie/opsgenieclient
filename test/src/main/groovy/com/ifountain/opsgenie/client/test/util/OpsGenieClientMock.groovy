@@ -31,6 +31,7 @@ public class OpsGenieClientMock implements IOpsGenieClient {
     private AddHeartbeatResponse addHeartbeatResponse;
     private UpdateHeartbeatResponse updateHeartbeatResponse;
     private EnableHeartbeatResponse enableHeartbeatResponse;
+    private CopyNotificationRulesResponse copyNotificationRulesResponse;
 
     public OpsGenieClientMock() {
     }
@@ -117,6 +118,12 @@ public class OpsGenieClientMock implements IOpsGenieClient {
         return listHeartbeatsResponse;
     }
 
+    @Override
+    public CopyNotificationRulesResponse copyNotificationRules(CopyNotificationRulesRequest copyNotificationRulesRequest) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(copyNotificationRulesRequest);
+        return copyNotificationRulesResponse;
+    }
+
     public void setHeartbeatResponse(HeartbeatResponse heartbeatResponse) {
         this.heartbeatResponse = heartbeatResponse;
     }
@@ -143,6 +150,10 @@ public class OpsGenieClientMock implements IOpsGenieClient {
 
     public void setGetHeartbeatResponse(GetHeartbeatResponse getHeartbeatResponse) {
         this.getHeartbeatResponse = getHeartbeatResponse;
+    }
+
+    public void setCopyNotificationRulesResponse(CopyNotificationRulesResponse copyNotificationRulesResponse) {
+        this.copyNotificationRulesResponse = copyNotificationRulesResponse;
     }
 
     public String getRootUri() {
