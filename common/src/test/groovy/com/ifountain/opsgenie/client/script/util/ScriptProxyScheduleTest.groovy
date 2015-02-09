@@ -46,14 +46,14 @@ class ScriptProxyScheduleTest {
         params.put(TestConstants.API.ENABLED, false);
         params.put(TestConstants.API.RULES, [
                 [
-                        startTime   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
+                        startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: ["group1"],
                         restrictions: [
                                 [startDay: "monday", startHour: 0, startMinute: 0, endHour: 24, endMinute: 30, endDay: "sunday"],
                         ]
                 ],
                 [
-                        startTime   : dateobject, rotationType: "weekly",
+                        startDate   : dateobject, rotationType: "weekly",
                         participants: ["group3"],
                 ]
         ]);
@@ -119,14 +119,14 @@ class ScriptProxyScheduleTest {
         params.put(TestConstants.API.ENABLED, false);
         params.put(TestConstants.API.RULES, [
                 [
-                        startTime   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
+                        startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: ["group1"],
                         restrictions: [
                                 [startDay: "monday", startHour: 0, startMinute: 0, endHour: 24, endMinute: 30, endDay: "sunday"],
                         ]
                 ],
                 [
-                        startTime   : dateobject, rotationType: "weekly",
+                        startDate   : dateobject, rotationType: "weekly",
                         participants: ["group3"],
                 ]
         ]);

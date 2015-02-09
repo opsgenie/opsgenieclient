@@ -64,7 +64,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         //first rule
         def ruleObject = request.getRules()[0];
-        def rule = jsonContent[TestConstants.API.RULES].find { it.startTime == sdf.format(ruleObject.getStartDate()) }
+        def rule = jsonContent[TestConstants.API.RULES].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
 
@@ -85,7 +85,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         //second rule
         ruleObject = request.getRules()[1];
-        rule = jsonContent[TestConstants.API.RULES].find { it.startTime == sdf.format(ruleObject.getStartDate()) }
+        rule = jsonContent[TestConstants.API.RULES].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
 
@@ -143,7 +143,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         //first rule
         def ruleObject = request.getRules()[0];
-        def rule = jsonContent[TestConstants.API.RULES].find { it.startTime == sdf.format(ruleObject.getStartDate()) }
+        def rule = jsonContent[TestConstants.API.RULES].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
 
@@ -258,7 +258,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(1, jsonContent[TestConstants.API.RULES].size())
         //first rule
         def ruleObject = request.getRules()[0];
-        def rule = jsonContent[TestConstants.API.RULES].find { it.startTime == sdf.format(ruleObject.getStartDate()) }
+        def rule = jsonContent[TestConstants.API.RULES].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
 
