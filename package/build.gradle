@@ -199,6 +199,8 @@ task packageDeb(dependsOn: ['jar']) << {
     ant.deb(destfile: "${project.buildDir}/distributions/opsgenie-integration_${debVersion}_all.deb", control: controlTarget) {
         ant.data(src: dataTarget, type: 'directory', dst: '/')
     }
+
+    delete "${project.buildDir}/distributions/opsgenie-integration_${debVersion}_all.changes"
 }
 
 def generateClientZip(String dataTarget) {

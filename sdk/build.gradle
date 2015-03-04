@@ -24,17 +24,19 @@ shadowJar {
 }
 
 uploadArchives {
-    def uploadOptions = file("${rootProject.projectDir}/uploadOptions.properties")
+    def uploadOptions = file("${rootProject.buildDir}/uploadOptions.properties")
+
     if(!uploadOptions.exists()) {
-       return
+        println "[Uploading NEXUS] Options parameter is not exist. Skipping!"
+        return;
     }
+
     def type = project.version.toString().contains("SNAPSHOT") ? 'snapshots' : 'releases'
     def url = "http://repo.opsgenie.com:9393/content/repositories/${type}"
     def props = new Properties();
     props.load(new FileInputStream(uploadOptions))
     def nexusUser = props.getProperty('nexusUser')
     def nexusPassword = props.getProperty('nexusPassword')
-
     repositories {
         mavenDeployer {
             repository(url: url) {
@@ -43,3 +45,4 @@ uploadArchives {
         }
     }
 }
+
