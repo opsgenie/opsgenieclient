@@ -315,7 +315,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent.put(TestConstants.API.TEAM, "team1");
         jsonContent.put(TestConstants.API.TIMEZONE, "GMT+2");
         jsonContent.put(TestConstants.API.ENABLED, false);
-        jsonContent.put(TestConstants.API.LAYERS, [
+        jsonContent.put(TestConstants.API.RULES, [
                 [
                         name: "rule1",
                         startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
@@ -357,7 +357,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         //check first rule
         def rule = response.getSchedule().layers.find { !it.restrictions.isEmpty() }
-        def ruleMap = jsonContent[TestConstants.API.LAYERS][0]
+        def ruleMap = jsonContent[TestConstants.API.RULES][0]
 
         assertEquals("rule1",rule.name)
         assertEquals(ScheduleLayer.RotationType.daily, rule.rotationType)
@@ -375,7 +375,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         //check second rule
         rule = response.getSchedule().layers.find { it.restrictions == null }
-        ruleMap = jsonContent[TestConstants.API.LAYERS][1]
+        ruleMap = jsonContent[TestConstants.API.RULES][1]
 
         assertEquals(ScheduleLayer.RotationType.weekly, rule.rotationType)
         assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
@@ -629,7 +629,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         Map schedule1Content = new HashMap();
         schedule1Content.put(TestConstants.API.ID, "schedule1id");
         schedule1Content.put(TestConstants.API.NAME, "schedule1");
-        schedule1Content.put(TestConstants.API.LAYERS, [
+        schedule1Content.put(TestConstants.API.RULES, [
                 [
                         name: "rule1",
                         startDate   : "2013-02-25 22:00", rotationType: "weekly",
@@ -642,7 +642,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         schedule2Content.put(TestConstants.API.ID, "schedule2id");
         schedule2Content.put(TestConstants.API.NAME, "schedule2");
         schedule2Content.put(TestConstants.API.ENABLED, true);
-        schedule2Content.put(TestConstants.API.LAYERS, [
+        schedule2Content.put(TestConstants.API.RULES, [
                 [
                         startDate   : "2013-02-25 22:00", rotationType: "daily",
                         participants: [
