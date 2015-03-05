@@ -7,9 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * ScheduleRule bean
+ * ScheduleLayer bean
  */
-public class ScheduleRule  implements IBean{
+public class ScheduleLayer implements IBean{
     public enum RotationType{
         weekly,
         daily,
@@ -20,54 +20,54 @@ public class ScheduleRule  implements IBean{
     private RotationType rotationType;
     private int rotationLength;
     private List<ScheduleParticipant> participants;
-    private List<ScheduleRuleRestriction> restrictions;
+    private List<ScheduleLayerRestriction> restrictions;
     private TimeZone scheduleTimeZone;
     private String name;
 
     /**
-     * Name of schedule rule
+     * Name of schedule layer
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets name of schedule rule
+     * Sets name of schedule layer
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Start date of schedule rule
+     * Start date of schedule layer
      */
     public Date getStartDate() {
         return startDate;
     }
 
     /**
-     * Sets start date of schedule rule
+     * Sets start date of schedule layer
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     /**
-     * Returns the optional end date of schedule rule
+     * Returns the optional end date of schedule layer
      */
     public Date getEndDate() {
         return endDate;
     }
 
     /**
-     * Sets end date of schedule rule. Optional.
+     * Sets end date of schedule layer. Optional.
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
     /**
-     * Rotation type of schedule rule
+     * Rotation type of schedule layer
      * Could be one of hourly, daily, weekly
      * @see RotationType
      */
@@ -76,7 +76,7 @@ public class ScheduleRule  implements IBean{
     }
 
     /**
-     * Sets rotation type of schedule rule
+     * Sets rotation type of schedule layer
      * Could be one of hourly, daily, weekly
      * @see RotationType
      */
@@ -85,21 +85,21 @@ public class ScheduleRule  implements IBean{
     }
 
     /**
-     * Rotation length of schedule rule
+     * Rotation length of schedule layer
      */
     public int getRotationLength() {
         return rotationLength;
     }
 
     /**
-     * Sets rotation length of schedule rule
+     * Sets rotation length of schedule layer
      */
     public void setRotationLength(int rotationLength) {
         this.rotationLength = rotationLength;
     }
 
     /**
-     * Participants of of schedule rule
+     * Participants of of schedule layer
      * @see ScheduleParticipant
      */
     public List<ScheduleParticipant> getParticipants() {
@@ -107,7 +107,7 @@ public class ScheduleRule  implements IBean{
     }
 
     /**
-     * Sets participants of schedule rule
+     * Sets participants of schedule layer
      * @see ScheduleParticipant
      */
     public void setParticipants(List<ScheduleParticipant> participants) {
@@ -115,18 +115,18 @@ public class ScheduleRule  implements IBean{
     }
 
     /**
-     * Restriction list of schedule rule
-     * @see ScheduleRuleRestriction
+     * Restriction list of schedule layer
+     * @see ScheduleLayerRestriction
      */
-    public List<ScheduleRuleRestriction> getRestrictions() {
+    public List<ScheduleLayerRestriction> getRestrictions() {
         return restrictions;
     }
 
     /**
-     * Sets restriction list of schedule rule
-     * @see ScheduleRuleRestriction
+     * Sets restriction list of schedule layer
+     * @see ScheduleLayerRestriction
      */
-    public void setRestrictions(List<ScheduleRuleRestriction> restrictions) {
+    public void setRestrictions(List<ScheduleLayerRestriction> restrictions) {
         this.restrictions = restrictions;
     }
 
@@ -162,7 +162,7 @@ public class ScheduleRule  implements IBean{
 
         if(restrictions != null){
             List<Map> restrictionMaps = new ArrayList<Map>();
-            for(ScheduleRuleRestriction restriction:restrictions){
+            for(ScheduleLayerRestriction restriction:restrictions){
                 restrictionMaps.add(restriction.toMap());
             }
             json.put(OpsGenieClientConstants.API.RESTRICTIONS, restrictionMaps);
@@ -220,11 +220,11 @@ public class ScheduleRule  implements IBean{
         }
         if(map.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
             List<Map> restrictionMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RESTRICTIONS);
-            restrictions = new ArrayList<ScheduleRuleRestriction>();
+            restrictions = new ArrayList<ScheduleLayerRestriction>();
             for( Map restrictionMap:restrictionMaps){
-                ScheduleRuleRestriction scheduleRuleRestriction = new ScheduleRuleRestriction();
-                scheduleRuleRestriction.fromMap(restrictionMap);
-                restrictions.add(scheduleRuleRestriction);
+                ScheduleLayerRestriction scheduleLayerRestriction = new ScheduleLayerRestriction();
+                scheduleLayerRestriction.fromMap(restrictionMap);
+                restrictions.add(scheduleLayerRestriction);
             }
         }
     }

@@ -645,7 +645,7 @@ public class ScriptProxy {
         schedule.fromMap(params);
         request.setEnabled(schedule.isEnabled());
         request.setName(schedule.getName());
-        request.setRules(schedule.getRules());
+        request.setLayers(schedule.getLayers());
         request.setTimeZone(schedule.getTimeZone());
         
         AddScheduleResponse resp = this.opsGenieClient.schedule().addSchedule(request);
@@ -655,11 +655,11 @@ public class ScriptProxy {
     }
 
     private void correctRestrictionAndParticipantParams(Map params) {
-        if(params.containsKey(OpsGenieClientConstants.API.RULES)){
-            List<Map> rules = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
-            for(Map ruleMap: rules){
-                if(ruleMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
-                    List<Map> restrictions = (List<Map>) ruleMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
+        if(params.containsKey(OpsGenieClientConstants.API.LAYERS)){
+            List<Map> layers = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
+            for(Map layerMap: layers){
+                if(layerMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
+                    List<Map> restrictions = (List<Map>) layerMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
                     for(Map restriction:restrictions){
                         int startHour = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_HOUR);
                         int startMinute = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_MINUTE);
@@ -669,15 +669,15 @@ public class ScriptProxy {
                         restriction.put(OpsGenieClientConstants.API.END_TIME, ""+endHour+":"+endMinute);
                     }
                 }
-                if(ruleMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
-                    List<String> participants = (List<String>) ruleMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
+                if(layerMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
+                    List<String> participants = (List<String>) layerMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
                     List<Map> participantMaps = new ArrayList<Map>();
                     for(String participant:participants){
                         Map participantMap = new HashMap();
                         participantMap.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
                         participantMaps.add(participantMap);
                     }
-                    ruleMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
+                    layerMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
                 }
             }
 
@@ -735,7 +735,7 @@ public class ScriptProxy {
         request.setId(schedule.getId());
         request.setEnabled(schedule.isEnabled());
         request.setName(schedule.getName());
-        request.setRules(schedule.getRules());
+        request.setLayers(schedule.getLayers());
         request.setTimeZone(schedule.getTimeZone());
         
         UpdateScheduleResponse resp = this.opsGenieClient.schedule().updateSchedule(request);

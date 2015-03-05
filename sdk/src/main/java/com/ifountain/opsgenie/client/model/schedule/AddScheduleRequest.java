@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.ScheduleRule;
+import com.ifountain.opsgenie.client.model.beans.ScheduleLayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     private String name;
     private Boolean enabled = null;
     private TimeZone timeZone;
-    private List<ScheduleRule> rules;
+    private List<ScheduleLayer> layers;
 
 
     /**
@@ -45,17 +45,17 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     }
 
     /**
-     * Rules of schedule
+     * Layers of schedule
      */
-    public List<ScheduleRule> getRules() {
-        return rules;
+    public List<ScheduleLayer> getLayers() {
+        return layers;
     }
 
     /**
-     * Sets rules of schedule
+     * Sets layers of schedule
      */
-    public void setRules(List<ScheduleRule> rules) {
-        this.rules = rules;
+    public void setLayers(List<ScheduleLayer> layers) {
+        this.layers = layers;
     }
 
     /**
@@ -101,13 +101,13 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
         if(timeZone != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
-        if(rules != null){
-            List<Map> ruleMaps = new ArrayList<Map>();
-            for(ScheduleRule rule:rules){
-                rule.setScheduleTimeZone(getTimeZone());
-                ruleMaps.add(rule.toMap());
+        if(layers != null){
+            List<Map> layerMaps = new ArrayList<Map>();
+            for(ScheduleLayer layer: layers){
+                layer.setScheduleTimeZone(getTimeZone());
+                layerMaps.add(layer.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+            json.put(OpsGenieClientConstants.API.LAYERS, layerMaps);
         }
         return json;
     }

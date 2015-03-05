@@ -56,6 +56,7 @@ public interface TestConstants {
         public static final String USERS = "users";
         public static final String MEMBERS = "members";
         public static final String RULES = "rules";
+        public static final String LAYERS = "layers";
         public static final String TYPE = "type";
         public static final String NOTIFY_TYPE = "notifyType";
         public static final String DELAY = "delay";

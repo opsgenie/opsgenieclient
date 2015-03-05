@@ -14,7 +14,7 @@ public class Schedule  implements IBean{
     private String team;
     private TimeZone timeZone;
     private Boolean enabled;
-    private List<ScheduleRule> rules;
+    private List<ScheduleLayer> layers;
 
     /**
      * Id of schedule
@@ -73,19 +73,19 @@ public class Schedule  implements IBean{
     }
 
     /**
-     * Rules of schedule
-     * @see ScheduleRule
+     * Layers of schedule
+     * @see ScheduleLayer
      */
-    public List<ScheduleRule> getRules() {
-        return rules;
+    public List<ScheduleLayer> getLayers() {
+        return layers;
     }
 
     /**
-     * Sets rules of schedule
-     * @see ScheduleRule
+     * Sets layers of schedule
+     * @see ScheduleLayer
      */
-    public void setRules(List<ScheduleRule> rules) {
-        this.rules = rules;
+    public void setLayers(List<ScheduleLayer> layers) {
+        this.layers = layers;
     }
 
     /**
@@ -112,12 +112,12 @@ public class Schedule  implements IBean{
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
         json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        if(rules != null){
-            List<Map> ruleMaps = new ArrayList<Map>();
-            for(ScheduleRule rule:rules) {
-                ruleMaps.add(rule.toMap());
+        if(layers != null){
+            List<Map> layerMaps = new ArrayList<Map>();
+            for(ScheduleLayer layer: layers) {
+                layerMaps.add(layer.toMap());
             }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
+            json.put(OpsGenieClientConstants.API.LAYERS, layerMaps);
         }
         return json;
     }
@@ -139,14 +139,14 @@ public class Schedule  implements IBean{
                 timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
             }
         }
-        List<Map> ruleMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
-        if(ruleMaps != null){
-            rules = new ArrayList<ScheduleRule>();
-            for(Map ruleMap:ruleMaps) {
-                ScheduleRule rule = new ScheduleRule();
-                rule.setScheduleTimeZone(timeZone);
-                rule.fromMap(ruleMap);
-                rules.add(rule);
+        List<Map> layerMaps = (List<Map>) map.get(OpsGenieClientConstants.API.LAYERS);
+        if(layerMaps != null){
+            layers = new ArrayList<ScheduleLayer>();
+            for(Map layerMap:layerMaps) {
+                ScheduleLayer layer = new ScheduleLayer();
+                layer.setScheduleTimeZone(timeZone);
+                layer.fromMap(layerMap);
+                layers.add(layer);
             }
         }
     }
