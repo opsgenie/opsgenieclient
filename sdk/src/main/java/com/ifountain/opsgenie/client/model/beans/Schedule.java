@@ -139,7 +139,7 @@ public class Schedule  implements IBean{
                 timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
             }
         }
-        List<Map> layerMaps = (List<Map>) map.get(OpsGenieClientConstants.API.LAYERS);
+        List<Map> layerMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
         if(layerMaps != null){
             layers = new ArrayList<ScheduleLayer>();
             for(Map layerMap:layerMaps) {
