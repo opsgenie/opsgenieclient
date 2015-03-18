@@ -23,6 +23,21 @@ shadowJar {
     relocate 'org.codehaus', 'com.ifountain.codehaus'
 }
 
+jar {
+    manifest {
+        attributes("Built-By": "http://www.opsgenie.com",
+                "Specification-Title": "OpsGenie Java SDK",
+                "Specification-Product": "opsgenie-java-sdk",
+                "Specification-Version": project.version,
+                "Specification-Vendor": "http://www.opsgenie.com",
+                "Implementation-Title" : "OpsGenie Java SDK",
+                "Implementation-Product": "opsgenie-java-sdk",
+                "Implementation-Vendor":"http://www.opsgenie.com",
+                "Implementation-Version":project.version,
+        )
+    }
+}
+
 uploadArchives {
     def uploadOptions = file("${rootProject.buildDir}/uploadOptions.properties")
 
