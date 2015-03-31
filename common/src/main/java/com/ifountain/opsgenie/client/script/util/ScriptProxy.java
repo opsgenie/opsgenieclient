@@ -655,8 +655,14 @@ public class ScriptProxy {
     }
 
     private void correctRestrictionAndParticipantParams(Map params) {
-        if(params.containsKey(OpsGenieClientConstants.API.LAYERS)){
-            List<Map> layers = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
+        List<Map> layers = null;
+        if(params.containsKey(OpsGenieClientConstants.API.RULES)){
+            layers = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
+        }
+        else if(params.containsKey(OpsGenieClientConstants.API.LAYERS)){
+            layers = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
+        }
+        if(layers != null){
             for(Map layerMap: layers){
                 if(layerMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
                     List<Map> restrictions = (List<Map>) layerMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
