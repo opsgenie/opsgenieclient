@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.ScheduleLayer;
+import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     private String name;
     private Boolean enabled = null;
     private TimeZone timeZone;
-    private List<ScheduleLayer> layers;
+    private List<ScheduleRotation> rotations;
 
 
     /**
@@ -45,17 +45,17 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     }
 
     /**
-     * Layers of schedule
+     * Rotations of schedule
      */
-    public List<ScheduleLayer> getLayers() {
-        return layers;
+    public List<ScheduleRotation> getRotations() {
+        return rotations;
     }
 
     /**
-     * Sets layers of schedule
+     * Sets rotations of schedule
      */
-    public void setLayers(List<ScheduleLayer> layers) {
-        this.layers = layers;
+    public void setRotations(List<ScheduleRotation> rotations) {
+        this.rotations = rotations;
     }
 
     /**
@@ -101,13 +101,13 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
         if(timeZone != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
-        if(layers != null){
-            List<Map> layerMaps = new ArrayList<Map>();
-            for(ScheduleLayer layer: layers){
-                layer.setScheduleTimeZone(getTimeZone());
-                layerMaps.add(layer.toMap());
+        if(rotations != null){
+            List<Map> rotationMaps = new ArrayList<Map>();
+            for(ScheduleRotation rotation: rotations){
+                rotation.setScheduleTimeZone(getTimeZone());
+                rotationMaps.add(rotation.toMap());
             }
-            json.put(OpsGenieClientConstants.API.LAYERS, layerMaps);
+            json.put(OpsGenieClientConstants.API.ROTATIONS, rotationMaps);
         }
         return json;
     }

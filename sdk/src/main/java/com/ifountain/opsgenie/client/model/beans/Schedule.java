@@ -14,7 +14,7 @@ public class Schedule  implements IBean{
     private String team;
     private TimeZone timeZone;
     private Boolean enabled;
-    private List<ScheduleLayer> layers;
+    private List<ScheduleRotation> rotations;
 
     /**
      * Id of schedule
@@ -73,19 +73,19 @@ public class Schedule  implements IBean{
     }
 
     /**
-     * Layers of schedule
-     * @see ScheduleLayer
+     * Rotations of schedule
+     * @see ScheduleRotation
      */
-    public List<ScheduleLayer> getLayers() {
-        return layers;
+    public List<ScheduleRotation> getRotations() {
+        return rotations;
     }
 
     /**
-     * Sets layers of schedule
-     * @see ScheduleLayer
+     * Sets rotations of schedule
+     * @see ScheduleRotation
      */
-    public void setLayers(List<ScheduleLayer> layers) {
-        this.layers = layers;
+    public void setRotations(List<ScheduleRotation> rotations) {
+        this.rotations = rotations;
     }
 
     /**
@@ -112,12 +112,12 @@ public class Schedule  implements IBean{
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
         json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        if(layers != null){
-            List<Map> layerMaps = new ArrayList<Map>();
-            for(ScheduleLayer layer: layers) {
-                layerMaps.add(layer.toMap());
+        if(rotations != null){
+            List<Map> rotationMaps = new ArrayList<Map>();
+            for(ScheduleRotation rotation: rotations) {
+                rotationMaps.add(rotation.toMap());
             }
-            json.put(OpsGenieClientConstants.API.LAYERS, layerMaps);
+            json.put(OpsGenieClientConstants.API.RULES, rotationMaps);
         }
         return json;
     }
@@ -139,14 +139,23 @@ public class Schedule  implements IBean{
                 timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
             }
         }
-        List<Map> layerMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
-        if(layerMaps != null){
-            layers = new ArrayList<ScheduleLayer>();
-            for(Map layerMap:layerMaps) {
-                ScheduleLayer layer = new ScheduleLayer();
-                layer.setScheduleTimeZone(timeZone);
-                layer.fromMap(layerMap);
-                layers.add(layer);
+        List<Map> rotationMaps = null;
+        if(map.containsKey(OpsGenieClientConstants.API.RULES)){
+            rotationMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
+        }
+        else if(map.containsKey(OpsGenieClientConstants.API.LAYERS)){
+            rotationMaps = (List<Map>) map.get(OpsGenieClientConstants.API.LAYERS);
+        }
+        else if(map.containsKey(OpsGenieClientConstants.API.ROTATIONS)){
+            rotationMaps = (List<Map>) map.get(OpsGenieClientConstants.API.ROTATIONS);
+        }
+        if(rotationMaps != null){
+            rotations = new ArrayList<ScheduleRotation>();
+            for(Map rotationMap:rotationMaps) {
+                ScheduleRotation rotation = new ScheduleRotation();
+                rotation.setScheduleTimeZone(timeZone);
+                rotation.fromMap(rotationMap);
+                rotations.add(rotation);
             }
         }
     }

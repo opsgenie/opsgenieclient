@@ -26,17 +26,17 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setName("schedule1");
         request.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         request.setEnabled(true);
-        request.setLayers([
-                new ScheduleLayer(name:"rule1", startDate: new Date(10000000000l), rotationType: ScheduleLayer.RotationType.hourly, rotationLength: 8,
+        request.setRotations([
+                new ScheduleRotation(name:"rule1", startDate: new Date(10000000000l), rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
                         restrictions: [
-                                new ScheduleLayerRestriction(startDay: ScheduleLayerRestriction.DAY.monday, startHour: 0, startMin: 0, endDay: ScheduleLayerRestriction.DAY.sunday, endHour: 23, endMin: 30)
+                                new ScheduleRotationRestriction(startDay: ScheduleRotationRestriction.DAY.monday, startHour: 0, startMin: 0, endDay: ScheduleRotationRestriction.DAY.sunday, endHour: 23, endMin: 30)
                         ],
                         participants: [
                                 new ScheduleParticipant(participant: "group1", type: ScheduleParticipant.Type.group),
                                 new ScheduleParticipant(participant: "escalation1", type: ScheduleParticipant.Type.escalation)
                         ]
                 ),
-                new ScheduleLayer(startDate: new Date(20000000000l), rotationType: ScheduleLayer.RotationType.daily,
+                new ScheduleRotation(startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
                         participants: [
                                 new ScheduleParticipant(participant: "user1@xyz.com", type: ScheduleParticipant.Type.user),
                         ])
@@ -60,11 +60,11 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
         sdf.setTimeZone(request.getTimeZone())
-        assertEquals(2, jsonContent[TestConstants.API.LAYERS].size())
+        assertEquals(2, jsonContent[TestConstants.API.ROTATIONS].size())
 
         //first rule
-        def ruleObject = request.getLayers()[0];
-        def rule = jsonContent[TestConstants.API.LAYERS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
+        def ruleObject = request.getRotations()[0];
+        def rule = jsonContent[TestConstants.API.ROTATIONS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals("rule1",rule[TestConstants.API.NAME])
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
@@ -85,8 +85,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertNotNull(rule[TestConstants.API.PARTICIPANTS].find { it == participantObject.getParticipant() })
 
         //second rule
-        ruleObject = request.getLayers()[1];
-        rule = jsonContent[TestConstants.API.LAYERS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
+        ruleObject = request.getRotations()[1];
+        rule = jsonContent[TestConstants.API.ROTATIONS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertNull(rule[TestConstants.API.NAME])
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
@@ -115,8 +115,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setName("schedule1");
         request.setTimeZone(TimeZone.getTimeZone("GMT+5"));
         request.setEnabled(false);
-        request.setLayers([
-                new ScheduleLayer(name:"updatedRule",startDate: new Date(20000000000l), rotationType: ScheduleLayer.RotationType.daily,
+        request.setRotations([
+                new ScheduleRotation(name:"updatedRule",startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
                         participants: [
                                 new ScheduleParticipant(participant: "user1@xyz.com", type: ScheduleParticipant.Type.user),
                         ])
@@ -141,11 +141,11 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
         sdf.setTimeZone(request.getTimeZone())
-        assertEquals(1, jsonContent[TestConstants.API.LAYERS].size())
+        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].size())
 
         //first rule
-        def ruleObject = request.getLayers()[0];
-        def rule = jsonContent[TestConstants.API.LAYERS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
+        def ruleObject = request.getRotations()[0];
+        def rule = jsonContent[TestConstants.API.ROTATIONS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals(ruleObject.name, rule[TestConstants.API.NAME])
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
@@ -234,12 +234,12 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
 
-        //test update layers only
+        //test update rotations only
         request = new UpdateScheduleRequest();
         request.setApiKey("customer1");
         request.setId("schedule1Id");
-        request.setLayers([
-                new ScheduleLayer(startDate: new Date(20000000000l), rotationType: ScheduleLayer.RotationType.daily,
+        request.setRotations([
+                new ScheduleRotation(startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
                         participants: [
                                 new ScheduleParticipant(participant: "user1@xyz.com", type: ScheduleParticipant.Type.user),
                         ])
@@ -258,10 +258,10 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
 
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        assertEquals(1, jsonContent[TestConstants.API.LAYERS].size())
+        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].size())
         //first rule
-        def ruleObject = request.getLayers()[0];
-        def rule = jsonContent[TestConstants.API.LAYERS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
+        def ruleObject = request.getRotations()[0];
+        def rule = jsonContent[TestConstants.API.ROTATIONS].find { it.startDate == sdf.format(ruleObject.getStartDate()) }
         assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
         assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
 
@@ -353,14 +353,14 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(jsonContent[TestConstants.API.ID], response.getSchedule().id)
         assertEquals(sdf.getTimeZone().getID(), response.getSchedule().getTimeZone().getID())
         assertEquals(jsonContent[TestConstants.API.ENABLED], response.getSchedule().isEnabled())
-        assertEquals(2, response.getSchedule().layers.size())
+        assertEquals(2, response.getSchedule().rotations.size())
 
         //check first rule
-        def rule = response.getSchedule().layers.find { !it.restrictions.isEmpty() }
+        def rule = response.getSchedule().rotations.find { !it.restrictions.isEmpty() }
         def ruleMap = jsonContent[TestConstants.API.RULES][0]
 
         assertEquals("rule1",rule.name)
-        assertEquals(ScheduleLayer.RotationType.daily, rule.rotationType)
+        assertEquals(ScheduleRotation.RotationType.daily, rule.rotationType)
         assertEquals(7, rule.rotationLength)
         assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
         assertEquals(3, rule.getParticipants().size())
@@ -374,10 +374,10 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         }
 
         //check second rule
-        rule = response.getSchedule().layers.find { it.restrictions == null }
+        rule = response.getSchedule().rotations.find { it.restrictions == null }
         ruleMap = jsonContent[TestConstants.API.RULES][1]
 
-        assertEquals(ScheduleLayer.RotationType.weekly, rule.rotationType)
+        assertEquals(ScheduleRotation.RotationType.weekly, rule.rotationType)
         assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
         assertEquals(1, rule.getParticipants().size())
 
@@ -664,31 +664,31 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(schedule1Content[TestConstants.API.NAME], schedule.name)
         assertEquals(schedule1Content[TestConstants.API.ID], schedule.id)
         assertNull(schedule.isEnabled())
-        assertEquals(1, schedule.layers.size())
+        assertEquals(1, schedule.rotations.size())
 
 
-        assertEquals(ScheduleLayer.RotationType.weekly, schedule.layers[0].rotationType)
-        assertEquals(sdf.parse("2013-02-25 22:00"), schedule.layers[0].startDate)
-        assertEquals("rule1", schedule.layers[0].name)
-        assertEquals(1, schedule.layers[0].getParticipants().size())
+        assertEquals(ScheduleRotation.RotationType.weekly, schedule.rotations[0].rotationType)
+        assertEquals(sdf.parse("2013-02-25 22:00"), schedule.rotations[0].startDate)
+        assertEquals("rule1", schedule.rotations[0].name)
+        assertEquals(1, schedule.rotations[0].getParticipants().size())
 
-        assertEquals("group1", schedule.layers[0].getParticipants()[0].getParticipant())
-        assertEquals(ScheduleParticipant.Type.group.name(), schedule.layers[0].getParticipants()[0].getType().name())
+        assertEquals("group1", schedule.rotations[0].getParticipants()[0].getParticipant())
+        assertEquals(ScheduleParticipant.Type.group.name(), schedule.rotations[0].getParticipants()[0].getType().name())
 
         //check schedule2
         schedule = response.getSchedules().find { it.id == schedule2Content[TestConstants.API.ID] }
         assertEquals(schedule2Content[TestConstants.API.NAME], schedule.name)
         assertEquals(schedule2Content[TestConstants.API.ID], schedule.id)
         assertEquals(schedule2Content[TestConstants.API.ENABLED], schedule.isEnabled())
-        assertEquals(1, schedule.layers.size())
+        assertEquals(1, schedule.rotations.size())
 
-        assertNull(schedule.layers[0].name)
-        assertEquals(ScheduleLayer.RotationType.daily, schedule.layers[0].rotationType)
-        assertEquals(sdf.parse("2013-02-25 22:00"), schedule.layers[0].startDate)
-        assertEquals(1, schedule.layers[0].getParticipants().size())
+        assertNull(schedule.rotations[0].name)
+        assertEquals(ScheduleRotation.RotationType.daily, schedule.rotations[0].rotationType)
+        assertEquals(sdf.parse("2013-02-25 22:00"), schedule.rotations[0].startDate)
+        assertEquals(1, schedule.rotations[0].getParticipants().size())
 
-        assertEquals("escalation1", schedule.layers[0].getParticipants()[0].getParticipant())
-        assertEquals(ScheduleParticipant.Type.escalation.name(), schedule.layers[0].getParticipants()[0].getType().name())
+        assertEquals("escalation1", schedule.rotations[0].getParticipants()[0].getParticipant())
+        assertEquals(ScheduleParticipant.Type.escalation.name(), schedule.rotations[0].getParticipants()[0].getType().name())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

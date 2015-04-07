@@ -645,7 +645,7 @@ public class ScriptProxy {
         schedule.fromMap(params);
         request.setEnabled(schedule.isEnabled());
         request.setName(schedule.getName());
-        request.setLayers(schedule.getLayers());
+        request.setRotations(schedule.getRotations());
         request.setTimeZone(schedule.getTimeZone());
         
         AddScheduleResponse resp = this.opsGenieClient.schedule().addSchedule(request);
@@ -655,17 +655,20 @@ public class ScriptProxy {
     }
 
     private void correctRestrictionAndParticipantParams(Map params) {
-        List<Map> layers = null;
+        List<Map> rotations = null;
         if(params.containsKey(OpsGenieClientConstants.API.RULES)){
-            layers = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
+            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
         }
         else if(params.containsKey(OpsGenieClientConstants.API.LAYERS)){
-            layers = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
+            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
         }
-        if(layers != null){
-            for(Map layerMap: layers){
-                if(layerMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
-                    List<Map> restrictions = (List<Map>) layerMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
+        else if(params.containsKey(OpsGenieClientConstants.API.ROTATIONS)){
+            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.ROTATIONS);
+        }
+        if(rotations != null){
+            for(Map rotationMap: rotations){
+                if(rotationMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
+                    List<Map> restrictions = (List<Map>) rotationMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
                     for(Map restriction:restrictions){
                         int startHour = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_HOUR);
                         int startMinute = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_MINUTE);
@@ -675,15 +678,15 @@ public class ScriptProxy {
                         restriction.put(OpsGenieClientConstants.API.END_TIME, ""+endHour+":"+endMinute);
                     }
                 }
-                if(layerMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
-                    List<String> participants = (List<String>) layerMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
+                if(rotationMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
+                    List<String> participants = (List<String>) rotationMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
                     List<Map> participantMaps = new ArrayList<Map>();
                     for(String participant:participants){
                         Map participantMap = new HashMap();
                         participantMap.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
                         participantMaps.add(participantMap);
                     }
-                    layerMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
+                    rotationMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
                 }
             }
 
@@ -704,7 +707,7 @@ public class ScriptProxy {
         populateCommonProps(request, params);
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-        
+
         return this.opsGenieClient.schedule().getSchedule(request).getSchedule().toMap();
     }
 
@@ -741,7 +744,7 @@ public class ScriptProxy {
         request.setId(schedule.getId());
         request.setEnabled(schedule.isEnabled());
         request.setName(schedule.getName());
-        request.setLayers(schedule.getLayers());
+        request.setRotations(schedule.getRotations());
         request.setTimeZone(schedule.getTimeZone());
         
         UpdateScheduleResponse resp = this.opsGenieClient.schedule().updateSchedule(request);
