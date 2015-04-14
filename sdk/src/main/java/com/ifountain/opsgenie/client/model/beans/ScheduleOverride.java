@@ -20,6 +20,7 @@ public class ScheduleOverride implements IBean{
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
+    private String rotationId;
 
     /**
      * User defined identifier for the override.
@@ -33,6 +34,20 @@ public class ScheduleOverride implements IBean{
      */
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    /*
+     * Id of the rotation that override will apply.
+     */
+    public String getRotationId() {
+        return rotationId;
+    }
+
+    /*
+     * Sets id of the rotation that override will apply.
+     */
+    public void setRotationId(String rotationId) {
+        this.rotationId = rotationId;
     }
 
     /**
@@ -105,6 +120,9 @@ public class ScheduleOverride implements IBean{
         if (startDate != null) {
             json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
         }
+        if(rotationId != null){
+            json.put(OpsGenieClientConstants.API.ROTATION_ID, getRotationId());
+        }
         json.put(OpsGenieClientConstants.API.USER, getUser());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         return json;
@@ -144,6 +162,9 @@ public class ScheduleOverride implements IBean{
             else{
                 setEndDate(sdf.parse(String.valueOf(dateObj)));
             }
+        }
+        if(map.containsKey(OpsGenieClientConstants.API.ROTATION_ID)){
+            rotationId = ((String) map.get(OpsGenieClientConstants.API.ROTATION_ID));
         }
     }
 }

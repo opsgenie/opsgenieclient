@@ -317,6 +317,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent.put(TestConstants.API.ENABLED, false);
         jsonContent.put(TestConstants.API.RULES, [
                 [
+                        id: "r1",
                         name: "rule1",
                         startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: [
@@ -330,6 +331,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
                         ]
                 ],
                 [
+                        id: "r2",
                         startDate   : "2013-02-25 22:00", rotationType: "weekly",
                         participants: [
                                 [participant: "group3", type: "group"]
@@ -360,6 +362,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         def ruleMap = jsonContent[TestConstants.API.RULES][0]
 
         assertEquals("rule1",rule.name)
+        assertEquals("r1",rule.id)
         assertEquals(ScheduleRotation.RotationType.daily, rule.rotationType)
         assertEquals(7, rule.rotationLength)
         assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
@@ -376,6 +379,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         //check second rule
         rule = response.getSchedule().rotations.find { it.restrictions == null }
         ruleMap = jsonContent[TestConstants.API.RULES][1]
+
+        assertEquals("r2",rule.id)
 
         assertEquals(ScheduleRotation.RotationType.weekly, rule.rotationType)
         assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
@@ -631,6 +636,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         schedule1Content.put(TestConstants.API.NAME, "schedule1");
         schedule1Content.put(TestConstants.API.RULES, [
                 [
+                        id: "r1",
                         name: "rule1",
                         startDate   : "2013-02-25 22:00", rotationType: "weekly",
                         participants: [
@@ -644,6 +650,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         schedule2Content.put(TestConstants.API.ENABLED, true);
         schedule2Content.put(TestConstants.API.RULES, [
                 [
+                        id: "r2",
                         startDate   : "2013-02-25 22:00", rotationType: "daily",
                         participants: [
                                 [participant: "escalation1", type: "escalation"]
@@ -670,6 +677,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(ScheduleRotation.RotationType.weekly, schedule.rotations[0].rotationType)
         assertEquals(sdf.parse("2013-02-25 22:00"), schedule.rotations[0].startDate)
         assertEquals("rule1", schedule.rotations[0].name)
+        assertEquals("r1", schedule.rotations[0].id)
         assertEquals(1, schedule.rotations[0].getParticipants().size())
 
         assertEquals("group1", schedule.rotations[0].getParticipants()[0].getParticipant())
@@ -683,6 +691,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(1, schedule.rotations.size())
 
         assertNull(schedule.rotations[0].name)
+        assertEquals("r2",schedule.rotations[0].id)
         assertEquals(ScheduleRotation.RotationType.daily, schedule.rotations[0].rotationType)
         assertEquals(sdf.parse("2013-02-25 22:00"), schedule.rotations[0].startDate)
         assertEquals(1, schedule.rotations[0].getParticipants().size())
@@ -715,6 +724,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setUser("user1");
         request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
+        request.setRotationId("rotation1")
 
         def response = OpsGenieClientTestCase.opsgenieClient.schedule().addScheduleOverride(request)
         assertEquals("alias1", response.getAlias())
@@ -737,6 +747,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(request.getUser(), jsonContent[TestConstants.API.USER])
         assertEquals(request.getSchedule(), jsonContent[TestConstants.API.SCHEDULE])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
+        assertEquals(request.getRotationId(), jsonContent[TestConstants.API.ROTATION_ID])
     }
 
     @Test
@@ -756,6 +767,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setUser("user1");
         request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
+        request.setRotationId("rot1")
 
         def response = OpsGenieClientTestCase.opsgenieClient.schedule().updateScheduleOverride(request)
         assertEquals("alias1", response.getAlias())
@@ -778,6 +790,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(request.getUser(), jsonContent[TestConstants.API.USER])
         assertEquals(request.getSchedule(), jsonContent[TestConstants.API.SCHEDULE])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
+        assertEquals(request.getRotationId(), jsonContent[TestConstants.API.ROTATION_ID])
     }
 
     @Test
@@ -828,6 +841,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent.put(TestConstants.API.END_DATE, sdf.format(endDate));
         jsonContent.put(TestConstants.API.USER, "user1");
         jsonContent.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
+        jsonContent.put(TestConstants.API.ROTATION_ID, "rot1");
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
 
         GetScheduleOverrideRequest request = new GetScheduleOverrideRequest();
@@ -838,6 +852,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         def response = OpsGenieClientTestCase.opsgenieClient.schedule().getScheduleOverride(request)
         assertEquals(1, response.getTook())
         assertEquals(jsonContent[TestConstants.API.ALIAS], response.getScheduleOverride().alias)
+        assertEquals(jsonContent[TestConstants.API.ROTATION_ID], response.getScheduleOverride().rotationId)
         assertEquals(jsonContent[TestConstants.API.USER], response.getScheduleOverride().user)
         assertEquals(sdf.format(startDate), sdf.format(response.getScheduleOverride().startDate))
         assertEquals(sdf.format(endDate), sdf.format(response.getScheduleOverride().endDate))

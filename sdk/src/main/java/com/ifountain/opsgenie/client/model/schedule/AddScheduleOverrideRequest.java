@@ -23,6 +23,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
+    private String rotationId;
 
     /**
      * Rest api uri of schedule override create operation.
@@ -61,6 +62,20 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
      */
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    /*
+     * Id of the rotation that override will apply.
+     */
+    public String getRotationId() {
+        return rotationId;
+    }
+
+    /*
+     * * Sets id of the rotation that override will apply.
+     */
+    public void setRotationId(String rotationId) {
+        this.rotationId = rotationId;
     }
 
     /**
@@ -150,6 +165,9 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
         }
         if (schedule != null) {
             json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
+        }
+        if (rotationId != null) {
+            json.put(OpsGenieClientConstants.API.ROTATION_ID, getRotationId());
         }
         return json;
     }

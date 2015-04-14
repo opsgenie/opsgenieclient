@@ -23,6 +23,21 @@ public class ScheduleRotation implements IBean{
     private List<ScheduleRotationRestriction> restrictions;
     private TimeZone scheduleTimeZone;
     private String name;
+    private String id;
+
+    /*
+     * Id of the rotation
+     */
+    public String getId() {
+        return id;
+    }
+
+    /*
+     * Sets the id of the rotation
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Name of schedule rotation
@@ -148,6 +163,9 @@ public class ScheduleRotation implements IBean{
         if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);
         }
+        if(id != null){
+            json.put(OpsGenieClientConstants.API.ID, id);
+        }
         json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
         json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
         json.put(OpsGenieClientConstants.API.ROTATION_LENGTH, rotationLength);
@@ -208,6 +226,9 @@ public class ScheduleRotation implements IBean{
         }
         if(map.containsKey(OpsGenieClientConstants.API.NAME)){
             name = ((String) map.get(OpsGenieClientConstants.API.NAME));
+        }
+        if(map.containsKey(OpsGenieClientConstants.API.ID)){
+            id = ((String) map.get(OpsGenieClientConstants.API.ID));
         }
         if(map.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
             List<Map> participantMaps = (List<Map>) map.get(OpsGenieClientConstants.API.PARTICIPANTS);
