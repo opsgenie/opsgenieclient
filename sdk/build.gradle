@@ -42,8 +42,15 @@ uploadArchives {
     def uploadOptions = file("${rootProject.buildDir}/uploadOptions.properties")
 
     if(!uploadOptions.exists()) {
-        println "[Uploading NEXUS] Options parameter is not exist. Skipping!"
-        return;
+        if(project.hasProperty("options")) {
+            uploadOptions = file(project.options)
+            if(!uploadOptions.exists()) {
+                println "[Uploading NEXUS] Options file does not exist. Skipping!"
+                return;
+            }
+        } else {
+            return
+        }
     }
 
     def type = project.version.toString().contains("SNAPSHOT") ? 'snapshots' : 'releases'
