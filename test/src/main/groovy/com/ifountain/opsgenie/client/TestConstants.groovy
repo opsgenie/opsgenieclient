@@ -18,6 +18,7 @@ public interface TestConstants {
         public static final String ENTITY = "entity";
         public static final String ALIAS = "alias";
         public static final String TAGS = "tags";
+        public static final String TAGS_OPERATOR = "tagsOperator";
         public static final String DETAILS = "details";
         public static final String ACTIONS = "actions";
         public static final String ACTION = "action";

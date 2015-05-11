@@ -238,22 +238,26 @@ public class ScriptProxy {
     public List<Map> listAlerts(Map params) throws Exception{
         ListAlertsRequest request = new ListAlertsRequest();
         populateCommonProps(request, params);
-        request.setCreatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_AFTER));
-        request.setCreatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_BEFORE));
-        request.setUpdatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_AFTER));
-        request.setUpdatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_BEFORE));
-        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        populateAlertsRequest(request, params);
+
         if(params.containsKey(OpsGenieClientConstants.API.SORT_BY)){
             request.setSortBy(ListAlertsRequest.SortBy.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_BY)));
         }
         if(params.containsKey(OpsGenieClientConstants.API.ORDER)){
             request.setSortOrder(ListAlertsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
         }
-        if(params.containsKey(OpsGenieClientConstants.API.STATUS)){
-            request.setStatus(ListAlertsRequest.Status.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.STATUS)));
-        }
         
         return beansToMap(this.opsGenieClient.alert().listAlerts(request).getAlerts());
+    }
+
+    public Map countAlerts(Map params) throws Exception{
+        CountAlertsRequest request = new CountAlertsRequest();
+        populateCommonProps(request, params);
+        populateAlertsRequest(request, params);
+
+        Map mapResponse = new HashMap();
+        mapResponse.put(OpsGenieClientConstants.API.COUNT, this.opsGenieClient.alert().countAlerts(request).getCount());
+        return mapResponse;
     }
 
     public Map takeOwnership(Map params) throws Exception{
@@ -784,6 +788,23 @@ public class ScriptProxy {
             apiKeyFromParam = apiKey;
         }
         request.setApiKey(apiKeyFromParam);
+    }
+
+    protected void populateAlertsRequest(AlertsRequest request, Map params){
+        request.setCreatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_AFTER));
+        request.setCreatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_BEFORE));
+        request.setUpdatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_AFTER));
+        request.setUpdatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_BEFORE));
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        if(params.containsKey(OpsGenieClientConstants.API.STATUS)){
+            request.setStatus(AlertsRequest.Status.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.STATUS)));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.TAGS)){
+            request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.TAGS_OPERATOR)) {
+            request.setTagsOperator(AlertsRequest.Operator.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TAGS_OPERATOR)));
+        }
     }
 
     protected Map successToMap(BaseResponse response){

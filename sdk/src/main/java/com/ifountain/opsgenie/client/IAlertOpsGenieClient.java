@@ -70,6 +70,16 @@ public interface IAlertOpsGenieClient {
     public ListAlertsResponse listAlerts(ListAlertsRequest listAlertsRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
+     * Count alerts from OpsGenie.
+     *
+     * @param countAlertsRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.CountAlertsRequest
+     * @see com.ifountain.opsgenie.client.model.alert.CountAlertsRequest
+     */
+    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
      * Add notes to alerts in OpsGenie.
      *
      * @param addNoteRequest Object to construct request parameters.
