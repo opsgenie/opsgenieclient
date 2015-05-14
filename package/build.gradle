@@ -27,11 +27,11 @@ task packageRpm(type: Rpm, dependsOn: ['jar']) {
 
     packageName = 'opsgenie-integration'
     summary = "Opsgenie client files including lamp and marid"
-    packageDescription = "OpsGenie client files including lamp and marid \n Please see doc for details: https://www.opsgenie.com/docs/"
+    packageDescription = "OpsGenie client files including lamp and marid. Please see doc for details: https://www.opsgenie.com/docs/"
     version = project.version.toString().replace("-", ".");
     os = LINUX
     user = 'root'
-    release = 1
+    release = '1.all'
     packager = "ifountain"
     vendor = "opsgenie"
     url = "https://www.opsgenie.com"
