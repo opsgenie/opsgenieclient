@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.0.2'
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.0'
     }
 }
 
@@ -26,10 +26,19 @@ task packageRpm(type: Rpm, dependsOn: ['jar']) {
     def lampProjectDir = "${project(':lamp').projectDir}";
 
     packageName = 'opsgenie-integration'
-    description = "OpsGenie client files including lamp and marid"
+    summary = "Opsgenie client files including lamp and marid"
+    packageDescription = "OpsGenie client files including lamp and marid \n Please see doc for details: https://www.opsgenie.com/docs/"
     version = project.version.toString().replace("-", ".");
     os = LINUX
     user = 'root'
+    release = 1
+    packager = "ifountain"
+    vendor = "opsgenie"
+    url = "https://www.opsgenie.com"
+    license = "Apache License 2.0"
+    buildHost = "repo.opsgenie.com"
+    packageGroup = "System Administration Tools"
+
 
     preInstall file("${commonProjectDir}/native/ogBefore.sh")
     postInstall file("${commonProjectDir}/native/ogAfter.sh")
