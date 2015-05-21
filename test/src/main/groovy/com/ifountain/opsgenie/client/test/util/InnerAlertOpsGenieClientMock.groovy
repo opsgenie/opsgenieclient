@@ -28,6 +28,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     private ExecuteAlertActionResponse executeAlertActionResponse;
     private GetAlertResponse getAlertResponse;
     private ListAlertsResponse listAlertsResponse;
+    private CountAlertsResponse countAlertsResponse;
     private ListAlertLogsResponse listAlertLogsResponse;
     private ListAlertRecipientsResponse listAlertRecipientsResponse;
     private ListAlertNotesResponse listAlertNotesResponse;
@@ -140,6 +141,12 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     }
 
     @Override
+    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException{
+        requestProcessor.processRequest(countAlertsRequest);
+        return countAlertsResponse;
+    }
+
+    @Override
     public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException {
         requestProcessor.processRequest(listAlertNotesRequest);
         return listAlertNotesResponse;
@@ -191,6 +198,10 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
 
     public void setListAlertsResponse(ListAlertsResponse listAlertsResponse) {
         this.listAlertsResponse = listAlertsResponse;
+    }
+
+    public void setCountAlertsResponse(CountAlertsResponse countAlertsResponse) {
+        this.countAlertsResponse = countAlertsResponse;
     }
 
     public void setListAlertRecipientsResponse(ListAlertRecipientsResponse listAlertRecipientsResponse) {

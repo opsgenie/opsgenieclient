@@ -64,6 +64,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     }
 
     /**
+     * @see IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
+     */
+    @Override
+    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException{
+        return (CountAlertsResponse) httpClient.doGetRequest(countAlertsRequest);
+    }
+
+    /**
      * @see IAlertOpsGenieClient#addNote(com.ifountain.opsgenie.client.model.alert.AddNoteRequest)
      */
     @Override

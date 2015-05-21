@@ -988,13 +988,13 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         def alert1Content = [
                 id    : "id1", message: "message1", alias: "alias1", createdAt: 1234, updatedAt: 4567,
                 status: "open",
-                isSeen: true, acknowledged: false, tinyId: "tiny1",
+                isSeen: true, acknowledged: false, tinyId: "tiny1", tags: ["tag1", "tag2"]
         ]
 
         def alert2Content = [
                 id    : "id2", message: "message2", alias: "alias2", createdAt: 4567, updatedAt: 7890,
                 status: "closed",
-                isSeen: false, acknowledged: true, tinyId: "tiny2",
+                isSeen: false, acknowledged: true, tinyId: "tiny2", tags: ["tag2", "tag3"]
         ]
 
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJsonAsBytes([alerts: [alert1Content, alert2Content]]), HttpStatus.SC_OK, "application/json; charset=utf-8"))
@@ -1006,8 +1006,10 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setLimit(10)
         request.setSortBy(ListAlertsRequest.SortBy.createdAt)
         request.setSortOrder(ListAlertsRequest.SortOrder.asc)
-        request.setStatus(ListAlertsRequest.Status.unacked)
+        request.setStatus(AlertsRequest.Status.unacked)
         request.setApiKey("customer1")
+        request.setTags(["tag1", "tag2"])
+        request.setTagsOperator(AlertsRequest.Operator.or)
 
         def response = OpsGenieClientTestCase.opsgenieClient.alert().listAlerts(request)
         assertEquals(2, response.alerts.size())
@@ -1019,6 +1021,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertFalse(alert.isAcknowledged())
         assertEquals(1234, alert.getCreatedAt())
         assertEquals(4567, alert.getUpdatedAt())
+        assertEquals(["tag1", "tag2"], alert.getTags())
 
         alert = response.alerts.find { it.id == alert2Content.id }
         assertEquals("id2", alert.getId())
@@ -1028,6 +1031,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertTrue(alert.isAcknowledged())
         assertEquals(4567, alert.getCreatedAt())
         assertEquals(7890, alert.getUpdatedAt())
+        assertEquals(["tag2", "tag3"], alert.getTags())
 
 
         assertEquals(1, receivedRequests.size());
@@ -1045,6 +1049,39 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertEquals(request.sortOrder.name(), parameters[TestConstants.API.ORDER])
         assertEquals(request.status.name(), parameters[TestConstants.API.STATUS])
         assertEquals("" + request.limit, parameters[TestConstants.API.LIMIT])
+        assertEquals(request.getTagsOperator().name(), parameters[TestConstants.API.TAGS_OPERATOR])
+    }
+
+    @Test
+    public void testCountAlertsSuccessfully() throws Exception {
+
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJsonAsBytes([count: 3]), HttpStatus.SC_OK, "application/json; charset=utf-8"))
+        CountAlertsRequest request = new CountAlertsRequest();
+        request.setCreatedAfter(1)
+        request.setCreatedBefore(2)
+        request.setUpdatedAfter(3)
+        request.setUpdatedBefore(4)
+        request.setStatus(AlertsRequest.Status.unacked)
+        request.setApiKey("customer1")
+        request.setTags(["tag1", "tag2"])
+        request.setTagsOperator(AlertsRequest.Operator.or)
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().countAlerts(request)
+        assertEquals(3, response.count)
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/count", requestSent.getUrl())
+
+        def parameters = requestSent.getParameters();
+        assertEquals("customer1", parameters[TestConstants.API.API_KEY])
+        assertEquals("" + request.getCreatedAfter(), parameters[TestConstants.API.CREATED_AFTER])
+        assertEquals("" + request.getCreatedBefore(), parameters[TestConstants.API.CREATED_BEFORE])
+        assertEquals("" + request.getUpdatedAfter(), parameters[TestConstants.API.UPDATED_AFTER])
+        assertEquals("" + request.getUpdatedBefore(), parameters[TestConstants.API.UPDATED_BEFORE])
+        assertEquals(request.status.name(), parameters[TestConstants.API.STATUS])
+        assertEquals(request.getTagsOperator().name(), parameters[TestConstants.API.TAGS_OPERATOR])
     }
 
     @Test
