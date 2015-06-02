@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ScheduleRuleRestriction bean
+ * ScheduleRotationRestriction bean
  */
-public class ScheduleRuleRestriction  implements IBean{
+public class ScheduleRotationRestriction implements IBean{
     public enum DAY{
         monday,
         tuesday,

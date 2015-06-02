@@ -18,6 +18,7 @@ public interface TestConstants {
         public static final String ENTITY = "entity";
         public static final String ALIAS = "alias";
         public static final String TAGS = "tags";
+        public static final String TAGS_OPERATOR = "tagsOperator";
         public static final String DETAILS = "details";
         public static final String ACTIONS = "actions";
         public static final String ACTION = "action";
@@ -56,6 +57,9 @@ public interface TestConstants {
         public static final String USERS = "users";
         public static final String MEMBERS = "members";
         public static final String RULES = "rules";
+        public static final String LAYERS = "layers";
+        public static final String ROTATIONS = "rotations";
+        public static final String ROTATION_ID = "rotationId";
         public static final String TYPE = "type";
         public static final String NOTIFY_TYPE = "notifyType";
         public static final String DELAY = "delay";

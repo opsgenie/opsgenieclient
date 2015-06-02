@@ -7,8 +7,8 @@ import com.ifountain.opsgenie.client.model.beans.Schedule
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import com.ifountain.opsgenie.client.model.schedule.*
-import com.ifountain.opsgenie.client.model.beans.ScheduleRule
-import com.ifountain.opsgenie.client.model.beans.ScheduleRuleRestriction
+import com.ifountain.opsgenie.client.model.beans.ScheduleRotation
+import com.ifountain.opsgenie.client.model.beans.ScheduleRotationRestriction
 import com.ifountain.opsgenie.client.model.beans.WhoIsOnCall
 import org.junit.Before
 import org.junit.Test
@@ -44,7 +44,7 @@ class ScriptProxyScheduleTest {
         params.put(TestConstants.API.NAME, "schedule1");
         params.put(TestConstants.API.TIMEZONE, "GMT+7");
         params.put(TestConstants.API.ENABLED, false);
-        params.put(TestConstants.API.RULES, [
+        params.put(TestConstants.API.ROTATIONS, [
                 [
                         startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: ["group1"],
@@ -72,22 +72,22 @@ class ScriptProxyScheduleTest {
         assertEquals("schedule1", request.getName())
         assertEquals(TimeZone.getTimeZone("GMT+7").getID(), request.getTimeZone().getID())
         assertFalse(request.isEnabled())
-        assertEquals(2, request.getRules().size())
+        assertEquals(2, request.getRotations().size())
 
-        def scheduleRule = request.getRules().find { !it.startDate.equals(dateobject) }
-        assertEquals(ScheduleRule.RotationType.daily, scheduleRule.getRotationType())
+        def scheduleRule = request.getRotations().find { !it.startDate.equals(dateobject) }
+        assertEquals(ScheduleRotation.RotationType.daily, scheduleRule.getRotationType())
         assertEquals(1, scheduleRule.getParticipants().size())
         assertEquals("group1", scheduleRule.getParticipants()[0].participant)
         assertEquals(1, scheduleRule.getRestrictions().size())
-        assertEquals(ScheduleRuleRestriction.DAY.monday, scheduleRule.getRestrictions()[0].getStartDay())
-        assertEquals(ScheduleRuleRestriction.DAY.sunday, scheduleRule.getRestrictions()[0].getEndDay())
+        assertEquals(ScheduleRotationRestriction.DAY.monday, scheduleRule.getRestrictions()[0].getStartDay())
+        assertEquals(ScheduleRotationRestriction.DAY.sunday, scheduleRule.getRestrictions()[0].getEndDay())
         assertEquals(0, scheduleRule.getRestrictions()[0].getStartHour())
         assertEquals(0, scheduleRule.getRestrictions()[0].getStartMin())
         assertEquals(24, scheduleRule.getRestrictions()[0].getEndHour())
         assertEquals(30, scheduleRule.getRestrictions()[0].getEndMin())
 
-        scheduleRule = request.getRules().find { it.startDate.equals(dateobject) }
-        assertEquals(ScheduleRule.RotationType.weekly, scheduleRule.getRotationType())
+        scheduleRule = request.getRotations().find { it.startDate.equals(dateobject) }
+        assertEquals(ScheduleRotation.RotationType.weekly, scheduleRule.getRotationType())
         assertEquals(1, scheduleRule.getParticipants().size())
         assertEquals("group3", scheduleRule.getParticipants()[0].participant)
         if (useConfig) {
@@ -117,7 +117,7 @@ class ScriptProxyScheduleTest {
         params.put(TestConstants.API.NAME, "schedule1");
         params.put(TestConstants.API.TIMEZONE, TimeZone.getTimeZone("GMT+7"));
         params.put(TestConstants.API.ENABLED, false);
-        params.put(TestConstants.API.RULES, [
+        params.put(TestConstants.API.ROTATIONS, [
                 [
                         startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: ["group1"],
@@ -146,22 +146,22 @@ class ScriptProxyScheduleTest {
         assertEquals("schedule1", request.getName())
         assertEquals(TimeZone.getTimeZone("GMT+7").getID(), request.getTimeZone().getID())
         assertFalse(request.isEnabled())
-        assertEquals(2, request.getRules().size())
+        assertEquals(2, request.getRotations().size())
 
-        def scheduleRule = request.getRules().find { !it.startDate.equals(dateobject) }
-        assertEquals(ScheduleRule.RotationType.daily, scheduleRule.getRotationType())
+        def scheduleRule = request.getRotations().find { !it.startDate.equals(dateobject) }
+        assertEquals(ScheduleRotation.RotationType.daily, scheduleRule.getRotationType())
         assertEquals(1, scheduleRule.getParticipants().size())
         assertEquals("group1", scheduleRule.getParticipants()[0].participant)
         assertEquals(1, scheduleRule.getRestrictions().size())
-        assertEquals(ScheduleRuleRestriction.DAY.monday, scheduleRule.getRestrictions()[0].getStartDay())
-        assertEquals(ScheduleRuleRestriction.DAY.sunday, scheduleRule.getRestrictions()[0].getEndDay())
+        assertEquals(ScheduleRotationRestriction.DAY.monday, scheduleRule.getRestrictions()[0].getStartDay())
+        assertEquals(ScheduleRotationRestriction.DAY.sunday, scheduleRule.getRestrictions()[0].getEndDay())
         assertEquals(0, scheduleRule.getRestrictions()[0].getStartHour())
         assertEquals(0, scheduleRule.getRestrictions()[0].getStartMin())
         assertEquals(24, scheduleRule.getRestrictions()[0].getEndHour())
         assertEquals(30, scheduleRule.getRestrictions()[0].getEndMin())
 
-        scheduleRule = request.getRules().find { it.startDate.equals(dateobject) }
-        assertEquals(ScheduleRule.RotationType.weekly, scheduleRule.getRotationType())
+        scheduleRule = request.getRotations().find { it.startDate.equals(dateobject) }
+        assertEquals(ScheduleRotation.RotationType.weekly, scheduleRule.getRotationType())
         assertEquals(1, scheduleRule.getParticipants().size())
         assertEquals("group3", scheduleRule.getParticipants()[0].participant)
         if (useConfig) {

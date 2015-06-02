@@ -537,9 +537,9 @@ class ScriptProxyAlertTest {
 
     @Test
     public void testListAlerts() throws Exception {
-        _testGetAlert(false)
+        _testListAlerts(false)
         opsGenieClient.getExecutedRequests().clear();
-        _testGetAlert(true)
+        _testListAlerts(true)
     }
 
     public void _testListAlerts(boolean useConfig) throws Exception {
@@ -547,7 +547,7 @@ class ScriptProxyAlertTest {
                 description: "desc1", entity: "entity1", details: [param1: "param1Value"], id: "alert1", source: "ip1", status: "open",
                 recipients: ["user1"], tags: ["tag1"], tinyId: "tinyid1")])
         opsGenieClient.alert().setListAlertsResponse(expectedResponse);
-        def params = [limit: 2, status: "open", createdAfter: 3, createdBefore: 4, updatedAfter: 5, updatedBefore: 6, sortBy: "createdAt", order: "asc"]
+        def params = [limit: 2, status: "open", createdAfter: 3, createdBefore: 4, updatedAfter: 5, updatedBefore: 6, sortBy: "createdAt", order: "asc", tags: "tag1, tag3", tagsOperator: "or"]
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -565,6 +565,8 @@ class ScriptProxyAlertTest {
         assertEquals(6, request.getUpdatedBefore())
         assertEquals(ListAlertsRequest.SortBy.createdAt, request.getSortBy())
         assertEquals(ListAlertsRequest.SortOrder.asc, request.getSortOrder())
+        assertNotNull(request.getTags())
+        assertEquals(AlertsRequest.Operator.or, request.getTagsOperator())
         if (useConfig) {
             assertEquals(apiKey, request.getApiKey())
         } else {
@@ -578,12 +580,49 @@ class ScriptProxyAlertTest {
         assertEquals(expectedResponse.alerts[0].description, response[0].description)
         assertEquals(expectedResponse.alerts[0].entity, response[0].entity)
         assertEquals(expectedResponse.alerts[0].details, response[0].details)
-        assertEquals(expectedResponse.alerts[0].id, response[0].alertId)
+        assertEquals(expectedResponse.alerts[0].id, response[0].id)
         assertEquals(expectedResponse.alerts[0].source, response[0].source)
         assertEquals(expectedResponse.alerts[0].status.name(), response[0].status)
         assertEquals(expectedResponse.alerts[0].recipients, response[0].recipients)
         assertEquals(expectedResponse.alerts[0].tags, response[0].tags)
         assertEquals(expectedResponse.alerts[0].tinyId, response[0].tinyId)
+        assertEquals(expectedResponse.alerts[0].tags, response[0].tags)
+    }
+
+    @Test
+    public void testCountAlerts() throws Exception {
+        _testCountAlerts(false)
+        opsGenieClient.getExecutedRequests().clear();
+        _testCountAlerts(true)
+    }
+
+    public void _testCountAlerts(boolean useConfig) throws Exception {
+        def expectedResponse = new CountAlertsResponse(count: 5)
+        opsGenieClient.alert().setCountAlertsResponse(expectedResponse);
+        def params = [ status: "open", createdAfter: 3, createdBefore: 4, updatedAfter: 5, updatedBefore: 6, sortBy: "createdAt", order: "asc", tags: "tag1, tag3", tagsOperator: "or"]
+        if (!useConfig) {
+            params.apiKey = "customer1";
+        }
+        Map response = proxy.countAlerts(params)
+
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        CountAlertsRequest request = executedRequests[0] as CountAlertsRequest;
+
+        assertEquals(3, request.getCreatedAfter())
+        assertEquals(4, request.getCreatedBefore())
+        assertEquals(5, request.getUpdatedAfter())
+        assertEquals(6, request.getUpdatedBefore())
+        assertNotNull(request.getTags())
+        assertEquals(AlertsRequest.Operator.or, request.getTagsOperator())
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+
+        assertEquals(expectedResponse.count, response.count)
     }
 
     @Test

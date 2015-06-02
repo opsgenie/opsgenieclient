@@ -238,22 +238,26 @@ public class ScriptProxy {
     public List<Map> listAlerts(Map params) throws Exception{
         ListAlertsRequest request = new ListAlertsRequest();
         populateCommonProps(request, params);
-        request.setCreatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_AFTER));
-        request.setCreatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_BEFORE));
-        request.setUpdatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_AFTER));
-        request.setUpdatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_BEFORE));
-        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        populateAlertsRequest(request, params);
+
         if(params.containsKey(OpsGenieClientConstants.API.SORT_BY)){
             request.setSortBy(ListAlertsRequest.SortBy.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_BY)));
         }
         if(params.containsKey(OpsGenieClientConstants.API.ORDER)){
             request.setSortOrder(ListAlertsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
         }
-        if(params.containsKey(OpsGenieClientConstants.API.STATUS)){
-            request.setStatus(ListAlertsRequest.Status.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.STATUS)));
-        }
         
         return beansToMap(this.opsGenieClient.alert().listAlerts(request).getAlerts());
+    }
+
+    public Map countAlerts(Map params) throws Exception{
+        CountAlertsRequest request = new CountAlertsRequest();
+        populateCommonProps(request, params);
+        populateAlertsRequest(request, params);
+
+        Map mapResponse = new HashMap();
+        mapResponse.put(OpsGenieClientConstants.API.COUNT, this.opsGenieClient.alert().countAlerts(request).getCount());
+        return mapResponse;
     }
 
     public Map takeOwnership(Map params) throws Exception{
@@ -645,7 +649,7 @@ public class ScriptProxy {
         schedule.fromMap(params);
         request.setEnabled(schedule.isEnabled());
         request.setName(schedule.getName());
-        request.setRules(schedule.getRules());
+        request.setRotations(schedule.getRotations());
         request.setTimeZone(schedule.getTimeZone());
         
         AddScheduleResponse resp = this.opsGenieClient.schedule().addSchedule(request);
@@ -655,11 +659,20 @@ public class ScriptProxy {
     }
 
     private void correctRestrictionAndParticipantParams(Map params) {
+        List<Map> rotations = null;
         if(params.containsKey(OpsGenieClientConstants.API.RULES)){
-            List<Map> rules = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
-            for(Map ruleMap: rules){
-                if(ruleMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
-                    List<Map> restrictions = (List<Map>) ruleMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
+            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
+        }
+        else if(params.containsKey(OpsGenieClientConstants.API.LAYERS)){
+            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
+        }
+        else if(params.containsKey(OpsGenieClientConstants.API.ROTATIONS)){
+            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.ROTATIONS);
+        }
+        if(rotations != null){
+            for(Map rotationMap: rotations){
+                if(rotationMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)){
+                    List<Map> restrictions = (List<Map>) rotationMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
                     for(Map restriction:restrictions){
                         int startHour = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_HOUR);
                         int startMinute = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_MINUTE);
@@ -669,15 +682,15 @@ public class ScriptProxy {
                         restriction.put(OpsGenieClientConstants.API.END_TIME, ""+endHour+":"+endMinute);
                     }
                 }
-                if(ruleMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
-                    List<String> participants = (List<String>) ruleMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
+                if(rotationMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)){
+                    List<String> participants = (List<String>) rotationMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
                     List<Map> participantMaps = new ArrayList<Map>();
                     for(String participant:participants){
                         Map participantMap = new HashMap();
                         participantMap.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
                         participantMaps.add(participantMap);
                     }
-                    ruleMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
+                    rotationMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
                 }
             }
 
@@ -698,7 +711,7 @@ public class ScriptProxy {
         populateCommonProps(request, params);
         request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-        
+
         return this.opsGenieClient.schedule().getSchedule(request).getSchedule().toMap();
     }
 
@@ -735,7 +748,7 @@ public class ScriptProxy {
         request.setId(schedule.getId());
         request.setEnabled(schedule.isEnabled());
         request.setName(schedule.getName());
-        request.setRules(schedule.getRules());
+        request.setRotations(schedule.getRotations());
         request.setTimeZone(schedule.getTimeZone());
         
         UpdateScheduleResponse resp = this.opsGenieClient.schedule().updateSchedule(request);
@@ -775,6 +788,23 @@ public class ScriptProxy {
             apiKeyFromParam = apiKey;
         }
         request.setApiKey(apiKeyFromParam);
+    }
+
+    protected void populateAlertsRequest(AlertsRequest request, Map params){
+        request.setCreatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_AFTER));
+        request.setCreatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_BEFORE));
+        request.setUpdatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_AFTER));
+        request.setUpdatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_BEFORE));
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        if(params.containsKey(OpsGenieClientConstants.API.STATUS)){
+            request.setStatus(AlertsRequest.Status.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.STATUS)));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.TAGS)){
+            request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
+        }
+        if(params.containsKey(OpsGenieClientConstants.API.TAGS_OPERATOR)) {
+            request.setTagsOperator(AlertsRequest.Operator.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TAGS_OPERATOR)));
+        }
     }
 
     protected Map successToMap(BaseResponse response){

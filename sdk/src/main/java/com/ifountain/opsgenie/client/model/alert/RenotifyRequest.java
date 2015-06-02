@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient;
-import com.ifountain.opsgenie.client.model.beans.ScheduleRule;
 
 import java.util.ArrayList;
 import java.util.List;
