@@ -186,7 +186,7 @@ public class GetAlertResponse extends BaseResponse {
     }
 
     /**
-     * The creation time of alert in milliseconds.
+     * The creation time of alert in nanoseconds.
      * @deprecated
      * @see com.ifountain.opsgenie.client.model.alert.GetAlertResponse#getAlert()
      * @see Alert
@@ -196,7 +196,7 @@ public class GetAlertResponse extends BaseResponse {
     }
 
     /**
-     * Sets the creation time of the alert in milliseconds.
+     * Sets the creation time of the alert in nanoseconds.
      * @deprecated
      * @see com.ifountain.opsgenie.client.model.alert.GetAlertResponse#getAlert()
      * @see Alert
