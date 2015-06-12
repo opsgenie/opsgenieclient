@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPost
 import org.junit.Test
 
 import java.text.SimpleDateFormat
+
 import static org.junit.Assert.*
 
 class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
@@ -424,11 +425,11 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
                         type: "user"
                 ]],
                 [name: "escalation1", type: "escalation", id: "esc1", participants: [
-                        [name: "user5@xyz.com", type: "user", forwarded: false, id: "id_user5", escalationTime: 2],
-                        [name: "group2", type: "group", id: "id_group2", escalationTime: 4, participants: [
+                        [name: "user5@xyz.com", type: "user", forwarded: false, id: "id_user5", escalationTime: 2, notifyType: "default"],
+                        [name: "group2", type: "group", id: "id_group2", escalationTime: 4, notifyType: "default", participants: [
                                 [name: "user6@xyz.com", type: "user", forwarded: false, id: "id_user6"]
                         ]],
-                        [name: "schedule2", type: "schedule", id: "sched2", escalationTime: 54]
+                        [name: "schedule2", type: "schedule", id: "sched2", escalationTime: 54, notifyType: "next"]
                 ]]
         ]);
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
@@ -488,12 +489,14 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         assertEquals("user5@xyz.com", escalationData.participants[0].participant)
         assertEquals(2, escalationData.participants[0].escalationTime)
+        assertEquals("default", escalationData.participants[0].notifyType)
 
         WhoIsOnCallScheduleParticipant escGroupData = escalationData.participants.find { it.participant == "group2" };
         assertNotNull(escGroupData);
 
         assertEquals("group2", escGroupData.participant)
         assertEquals(4, escGroupData.escalationTime)
+        assertEquals("default", escGroupData.notifyType)
 
         assertEquals(1, escGroupData.participants.size())
         assertEquals("user6@xyz.com", escGroupData.participants[0].participant)
@@ -501,6 +504,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         def scheduleData = escalationData.participants.find { it.participant == "schedule2" }
         assertNotNull(scheduleData)
         assertEquals(54, scheduleData.escalationTime)
+        assertEquals("next", scheduleData.notifyType)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

@@ -14,6 +14,7 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
 
     private List<WhoIsOnCallScheduleParticipant> participants;
     private Integer escalationTime;
+    private String notifyType;
 
     private String id;
     /**
@@ -47,12 +48,23 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
         return escalationTime;
     }
 
+    /**
+     * Notify type of the escalation member
+     * Can be "default", "next", "previous", "admins", "users"
+     */
+    public String getNotifyType() {
+        return notifyType;
+    }
+
     @Override
     public Map toMap() {
         Map<String, Object> json = super.toMap();
         json.put(OpsGenieClientConstants.API.ID, id);
         if(escalationTime != null){
             json.put(OpsGenieClientConstants.API.ESCALATION_TIME, escalationTime);
+        }
+        if(notifyType != null){
+            json.put(OpsGenieClientConstants.API.NOTIFY_TYPE, notifyType);
         }
         participantsToMap(json, participants);
         return json;
@@ -66,6 +78,9 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
         }
         if(map.containsKey(OpsGenieClientConstants.API.ESCALATION_TIME)){
             escalationTime = (Integer) map.get(OpsGenieClientConstants.API.ESCALATION_TIME);
+        }
+        if(map.containsKey(OpsGenieClientConstants.API.NOTIFY_TYPE)){
+            notifyType = (String) map.get(OpsGenieClientConstants.API.NOTIFY_TYPE);
         }
         this.participants = participantsFromMap(map);
     }
