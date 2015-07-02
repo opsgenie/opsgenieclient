@@ -1,7 +1,7 @@
 dependencies {
     compile project(':common')
     compile 'org.littleshoot:littleproxy:0.5.OG'
-    compile('pubnub:pubnub:3.3.OG') {
+    compile('pubnub:pubnub:3.3.1.OG') {
         exclude module: 'netty'
     }
     compile 'org.apache.directory.studio:org.apache.commons.lang:2.6'
