@@ -11,3 +11,62 @@ dependencies {
     compile 'io.netty:netty:3.6.6.Final'
     testCompile project(':test')
 }
+
+task maridZip(dependsOn : 'generateMaridZip', type: Zip) {
+    from "${buildDir}/marid"
+    baseName = "marid-standalone"
+}
+
+tasks['build'].dependsOn 'maridZip'
+
+task generateMaridZip(dependsOn : 'jar') << {
+    def commonProjectDir = "${project(':common').projectDir}";
+    copy {
+        from("${projectDir}/conf")
+        into "${buildDir}/marid/conf"
+    }
+
+    copy {
+        from project(':marid').configurations.runtime
+        into "${buildDir}/marid/lib"
+    }
+
+    copy {
+        from project(':marid').jar.archivePath
+        into "${buildDir}/marid/lib"
+    }
+
+    copy {
+        from "${commonProjectDir}/licenses"
+        into "${buildDir}/marid/licenses"
+    }
+
+    copy {
+        from "${projectDir}/scripts"
+        into "${buildDir}/marid/scripts"
+    }
+
+    copy {
+        from("${projectDir}/native") {
+            exclude "marid.exe4j"
+            exclude "marid_64.exe4j"
+            exclude "marid_64.vmoptions"
+            exclude "marid.vmoptions"
+            exclude "marid_64_standalone.vmoptions"
+            exclude "marid_standalone.vmoptions"
+        }
+        into "${buildDir}/marid"
+    }
+
+    copy {
+        from("${projectDir}/native/marid_64_standalone.vmoptions")
+        into "${buildDir}/marid"
+        rename "marid_64_standalone.vmoptions", "marid_64.vmoptions"
+    }
+
+    copy {
+        from("${projectDir}/native/marid_standalone.vmoptions")
+        into "${buildDir}/marid"
+        rename "marid_standalone.vmoptions", "marid.vmoptions"
+    }
+}

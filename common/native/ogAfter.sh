@@ -30,4 +30,4 @@ if [ ! -z $JAVA_HOME ]; then
         JAVA_CMD=$JAVA_HOME/bin/java
 fi
 
-type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. If you're going to use Marid or Lamp on this machine, you should set your JAVA_HOME variable in /etc/opsgenie/profile"
+type -P $JAVA_CMD &>/dev/null && echo "" || echo "WARNING : No java executable found. If you're going to use Marid on this machine, you should set your JAVA_HOME variable in /etc/opsgenie/profile"

@@ -4,7 +4,6 @@
 The project includes:
 
 * Java SDK
-* Lamp
 * Marid
 
 ## Java SDK For Maven and Gradle
