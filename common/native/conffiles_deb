@@ -1,2 +1,2 @@
 /etc/opsgenie/conf/opsgenie-integration.conf
-/etc/opsgenie/marid/conf/log.properties
+/etc/opsgenie/marid/log.properties
