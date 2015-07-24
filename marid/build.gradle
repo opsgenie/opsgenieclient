@@ -30,8 +30,8 @@ dependencies {
     testCompile project(':test')
 }
 
-tasks['build'].dependsOn 'packageMarid'
-task packageMarid(dependsOn: ['maridZip', 'maridRpm', 'maridDeb'])
+tasks['build'].dependsOn 'maridAll'
+task maridAll(dependsOn: ['maridZip', 'maridRpm', 'maridDeb'])
 
 task maridZip(dependsOn : 'generateMaridZip', type: Zip) {
     from "${buildDir}/zip"
