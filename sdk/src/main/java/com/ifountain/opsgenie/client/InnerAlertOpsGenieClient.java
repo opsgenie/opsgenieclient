@@ -127,6 +127,13 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
         return (AddRecipientResponse) httpClient.doPostRequest(addRecipientRequest);
     }
 
+    /**
+     * @see IAlertOpsGenieClient#addTags(com.ifountain.opsgenie.client.model.alert.AddTagsRequest)
+     */
+    @Override
+    public AddTagsResponse addTags(AddTagsRequest addTagsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (AddTagsResponse) httpClient.doPostRequest(addTagsRequest);
+    }
 
 
     /**

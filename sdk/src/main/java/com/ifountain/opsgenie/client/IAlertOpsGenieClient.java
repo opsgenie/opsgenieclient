@@ -1,12 +1,7 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.InputStreamAttachRequest;
 import com.ifountain.opsgenie.client.model.alert.*;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
-import com.ifountain.opsgenie.client.model.user.*;
-import com.ifountain.opsgenie.client.model.user.forward.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -150,6 +145,17 @@ public interface IAlertOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.alert.AddRecipientResponse
      */
     public AddRecipientResponse addRecipient(AddRecipientRequest addRecipientRequest) throws OpsGenieClientException, IOException, ParseException;
+
+
+    /**
+     * Adds tags to an alert.
+     *
+     * @param addTagsRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.AddTagsRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddTagsResponse
+     */
+    public AddTagsResponse addTags(AddTagsRequest addTagsRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
      * Attaches files to the alerts in OpsGenie.
