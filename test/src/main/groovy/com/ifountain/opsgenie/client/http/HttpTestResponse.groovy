@@ -12,6 +12,18 @@ public class HttpTestResponse {
     private int status = HttpStatus.SC_OK;
     private byte[] content;
 
+    /**
+     * Creates an No Content HTTP Response object with the following properties:
+     * - Content-Type: null
+     * - Content: null
+     * - Status: HTTP 204 No Content
+     */
+    public HttpTestResponse() {
+        this.contentType = null;
+        this.content = null;
+        this.status = HttpStatus.SC_NO_CONTENT;
+    }
+
     public HttpTestResponse(String content) {
         this(content.getBytes());
     }
