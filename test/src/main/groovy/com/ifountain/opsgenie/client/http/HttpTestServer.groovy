@@ -1,22 +1,22 @@
-package com.ifountain.opsgenie.client.http;
+package com.ifountain.opsgenie.client.http
 
-import org.jboss.netty.bootstrap.ServerBootstrap;
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
-import org.jboss.netty.channel.*;
-import org.jboss.netty.channel.group.ChannelGroup;
-import org.jboss.netty.channel.group.DefaultChannelGroup;
-import org.jboss.netty.channel.socket.oio.OioServerSocketChannelFactory;
-import org.jboss.netty.handler.codec.http.*;
-import org.jboss.netty.handler.timeout.IdleState;
-import org.jboss.netty.handler.timeout.IdleStateAwareChannelHandler;
-import org.jboss.netty.handler.timeout.IdleStateEvent;
-import org.jboss.netty.handler.timeout.IdleStateHandler;
-import org.jboss.netty.util.CharsetUtil;
-import org.jboss.netty.util.HashedWheelTimer;
+import org.jboss.netty.bootstrap.ServerBootstrap
+import org.jboss.netty.buffer.ChannelBuffer
+import org.jboss.netty.buffer.ChannelBuffers
+import org.jboss.netty.channel.*
+import org.jboss.netty.channel.group.ChannelGroup
+import org.jboss.netty.channel.group.DefaultChannelGroup
+import org.jboss.netty.channel.socket.oio.OioServerSocketChannelFactory
+import org.jboss.netty.handler.codec.http.*
+import org.jboss.netty.handler.timeout.IdleState
+import org.jboss.netty.handler.timeout.IdleStateAwareChannelHandler
+import org.jboss.netty.handler.timeout.IdleStateEvent
+import org.jboss.netty.handler.timeout.IdleStateHandler
+import org.jboss.netty.util.CharsetUtil
+import org.jboss.netty.util.HashedWheelTimer
 import org.jboss.netty.util.Timer
 
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executors
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -74,11 +74,15 @@ public class HttpTestServer {
         boolean isKeepAlive = HttpHeaders.isKeepAlive(request);
         HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.valueOf(responseToReturn.getStatus()));
         byte[] content = responseToReturn.getContent();
-        response.setContent(ChannelBuffers.wrappedBuffer(content, 0, content.length));
-        response.setHeader(HttpHeaders.Names.CONTENT_TYPE, responseToReturn.getContentType());
-        if (isKeepAlive) {
-            // Add 'Content-Length' header only for a keep-alive connection.
-            response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, response.getContent().readableBytes());
+        if (content != null) // if it's not a 204 No Content response
+        {
+            response.setContent(ChannelBuffers.wrappedBuffer(content, 0, content.length));
+            response.setHeader(HttpHeaders.Names.CONTENT_TYPE, responseToReturn.getContentType());
+
+            if (isKeepAlive) {
+                // Add 'Content-Length' header only for a keep-alive connection.
+                response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, response.getContent().readableBytes());
+            }
         }
         if(responseToReturn instanceof HttpTimeoutResponse){
             HttpTimeoutResponse timeoutResponse = (HttpTimeoutResponse) responseToReturn;
