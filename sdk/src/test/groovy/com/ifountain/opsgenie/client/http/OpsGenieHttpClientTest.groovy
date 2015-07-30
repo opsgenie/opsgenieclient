@@ -2,26 +2,28 @@ package com.ifountain.opsgenie.client.http
 
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
 import com.ifountain.opsgenie.client.test.util.file.TestFile
+import com.ifountain.opsgenie.client.util.ClientConfiguration
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration
 import com.ifountain.opsgenie.client.util.JsonUtils
+import org.apache.commons.io.FileUtils
 import org.apache.http.HttpHeaders
 import org.apache.http.HttpRequest
 import org.apache.http.HttpStatus
-import org.apache.http.client.methods.HttpPost
+import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
-import org.apache.commons.io.FileUtils
+import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
+import org.apache.http.conn.HttpHostConnectException
 import org.apache.http.protocol.HttpContext
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import org.littleshoot.proxy.DefaultHttpProxyServer
-import com.ifountain.opsgenie.client.util.ClientConfiguration
-import org.apache.http.conn.HttpHostConnectException
 import org.littleshoot.proxy.ProxyAuthorizationHandler
+
 import javax.net.ssl.SSLPeerUnverifiedException
-import org.apache.http.client.methods.HttpDelete
+
 import static org.junit.Assert.*
 
 /**
@@ -241,6 +243,17 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
         assertEquals(0, exceptionretryCallCount)
     }
 
+    @Test
+    public void testResponseWithNoContent() throws Exception{
+        httpServer.setResponseToReturn(new HttpTestResponse())
+
+        def response = httpClient.post(url, "")
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest request = receivedRequests[0];
+
+        assertEquals(null, response.content)
+        assertEquals(HttpStatus.SC_NO_CONTENT, response.statusCode)
+    }
 
     @Test
     public void testPostWithStringContent() throws Exception {

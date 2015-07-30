@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.InputStreamAttachRequest
+import com.ifountain.opsgenie.client.model.alert.*
 import com.ifountain.opsgenie.client.model.beans.AlertRecipient
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
@@ -18,9 +19,9 @@ import org.apache.http.HttpStatus
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
-import com.ifountain.opsgenie.client.model.alert.*
 import org.junit.Before
 import org.junit.Test
+
 import static org.junit.Assert.*
 
 /**
@@ -445,6 +446,50 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
     @Test
     public void testAddTeamThrowsExceptionIfRequestCannotBeValidated() throws Exception {
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "addTeam", new AddAlertTeamRequest())
+    }
+
+    @Test
+    public void testAddTagsSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        AddTagsRequest request = new AddTagsRequest();
+        request.setAlertId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setTags(["tag1","tag2"])
+        request.setApiKey("customer1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().addTags(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/tags", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("alert1", jsonContent[TestConstants.API.ID])
+        assertEquals("alias", jsonContent[TestConstants.API.ALIAS])
+        assertEquals("tinyId", jsonContent[TestConstants.API.TINY_ID])
+        assertEquals("someuser", jsonContent[TestConstants.API.USER])
+        assertEquals("comment", jsonContent[TestConstants.API.NOTE])
+        assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
+
+        def tags = jsonContent[TestConstants.API.TAGS]
+        assertEquals(2, tags.size())
+        assertTrue(tags.contains("tag1"));
+        assertTrue(tags.contains("tag2"));
+    }
+
+    @Test
+    public void testAddTagsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "addTags", new AddTagsRequest())
     }
 
     @Test

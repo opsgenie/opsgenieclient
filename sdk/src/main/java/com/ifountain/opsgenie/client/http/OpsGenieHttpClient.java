@@ -334,15 +334,18 @@ public class OpsGenieHttpClient {
                     @Override
                     public OpsGenieHttpResponse handleResponse(HttpResponse httpResponse) throws IOException {
                         try {
-                            byte[] content = EntityUtils.toByteArray(httpResponse.getEntity());
-
                             OpsGenieHttpResponse response = new OpsGenieHttpResponse();
+                            byte[] content;
+                            if(httpResponse.getEntity() != null){
+                                content = EntityUtils.toByteArray(httpResponse.getEntity());
+                                Header contentType = httpResponse.getEntity().getContentType();
+                                String contentTypeStr = contentType != null ? contentType.getValue() : null;
+                                response.setContentType(contentTypeStr);
+                                response.setContent(content);
+                            }
                             response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
-                            response.setContent(content);
                             Header[] allHeaders = httpResponse.getAllHeaders();
-                            Header contentType = httpResponse.getEntity().getContentType();
-                            String contentTypeStr = contentType != null ? contentType.getValue() : null;
-                            response.setContentType(contentTypeStr);
+
                             for (Header header : allHeaders) {
                                 response.addHeader(header.getName(), header.getValue());
                             }

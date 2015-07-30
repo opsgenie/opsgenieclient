@@ -1,11 +1,11 @@
-package com.ifountain.opsgenie.client.test.util;
+package com.ifountain.opsgenie.client.test.util
 
-import com.ifountain.opsgenie.client.IAlertOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientException;
-import com.ifountain.opsgenie.client.model.InputStreamAttachRequest;
+import com.ifountain.opsgenie.client.IAlertOpsGenieClient
+import com.ifountain.opsgenie.client.OpsGenieClientException
+import com.ifountain.opsgenie.client.model.InputStreamAttachRequest
 import com.ifountain.opsgenie.client.model.alert.*
 
-import java.text.ParseException;
+import java.text.ParseException
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -24,6 +24,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     private AssignResponse assignResponse;
     private AddRecipientResponse addRecipientResponse;
     private AddAlertTeamResponse addAlertTeamResponse;
+    private AddTagsResponse addTagsResponse;
     private AttachResponse attachResponse;
     private ExecuteAlertActionResponse executeAlertActionResponse;
     private GetAlertResponse getAlertResponse;
@@ -96,6 +97,12 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     public AddRecipientResponse addRecipient(AddRecipientRequest request) throws OpsGenieClientException, IOException {
         requestProcessor.processRequest(request);
         return addRecipientResponse;
+    }
+
+    @Override
+    AddTagsResponse addTags(AddTagsRequest request) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(request)
+        return addTagsResponse
     }
 
     @Override
@@ -222,5 +229,9 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
 
     public void setAddAlertTeamResponse(AddAlertTeamResponse addAlertTeamResponse) {
         this.addAlertTeamResponse = addAlertTeamResponse;
+    }
+
+    public void setAddTagsResponse(AddTagsResponse addTagsResponse) {
+        this.addTagsResponse = addTagsResponse;
     }
 }
