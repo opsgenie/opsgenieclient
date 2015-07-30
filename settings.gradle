@@ -1,6 +1,4 @@
 include 'sdk'
 include 'common'
-include 'lamp'
 include 'marid'
 include 'test'
-include 'package'

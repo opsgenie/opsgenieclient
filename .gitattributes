@@ -1,6 +1,9 @@
 *.txt           text=auto
 *.sh            eol=lf
+profile       eol=lf
 lamp            eol=lf
 marid            eol=lf
 *.properties    text=auto
 *.conf          text=auto
+*_deb           eol=lf
+*_rpm          eol=lf
