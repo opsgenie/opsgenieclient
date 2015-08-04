@@ -32,37 +32,34 @@ dependencies {
 
 tasks['build'].dependsOn 'maridAll'
 task maridAll(dependsOn: ['maridZip', 'maridRpm', 'maridDeb'])
+task packageAll(dependsOn : 'maridAll')
 
 task maridZip(dependsOn : 'generateMaridZip', type: Zip) {
     from "${buildDir}/zip"
     baseName = "opsgenie-marid"
 }
 
-task generateMaridZip(dependsOn : 'jar') << {
+def generateCommonClientStructure(String dataTarget) {
     def commonProjectDir = "${project(':common').projectDir}";
-    copy {
-        from("${projectDir}/conf")
-        into "${buildDir}/zip/marid/conf"
-    }
 
     copy {
         from project(':marid').configurations.runtime
-        into "${buildDir}/zip/marid/lib"
+        into "${dataTarget}/marid/lib"
     }
 
     copy {
         from project(':marid').jar.archivePath
-        into "${buildDir}/zip/marid/lib"
+        into "${dataTarget}/marid/lib"
     }
 
     copy {
         from "${commonProjectDir}/licenses"
-        into "${buildDir}/zip/marid/licenses"
+        into "${dataTarget}/marid/licenses"
     }
 
     copy {
         from "${projectDir}/scripts"
-        into "${buildDir}/zip/marid/scripts"
+        into "${dataTarget}/marid/scripts"
     }
 
     copy {
@@ -72,8 +69,46 @@ task generateMaridZip(dependsOn : 'jar') << {
             exclude "marid_64.vmoptions"
             exclude "marid.vmoptions"
         }
-        into "${buildDir}/zip/marid"
+        into "${dataTarget}/marid"
     }
+}
+
+task generateBaseForIntegration(dependsOn : 'jar') << {
+    def dataTarget = "${project.rootProject.buildDir}/opsgenie-integration"
+    copy {
+        from "${projectDir}/conf/marid.conf"
+        into "${dataTarget}/conf"
+        rename "marid.conf", "opsgenie-integration.conf"
+    }
+
+    copy {
+        from("${projectDir}/conf"){
+            exclude "marid.conf"
+        }
+        into "${dataTarget}/marid/conf"
+    }
+
+    generateCommonClientStructure(dataTarget)
+
+    copy {
+        from("${projectDir}/native/marid_64.vmoptions")
+        into "${dataTarget}/marid"
+    }
+
+    copy {
+        from("${projectDir}/native/marid.vmoptions")
+        into "${dataTarget}/marid"
+    }
+
+}
+
+task generateMaridZip(dependsOn : 'jar') << {
+    copy {
+        from("${projectDir}/conf")
+        into "${buildDir}/zip/marid/conf"
+    }
+
+    generateCommonClientStructure("${buildDir}/zip/")
 
     copy {
         from("${projectDir}/native/marid_64.vmoptions")
