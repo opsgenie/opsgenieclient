@@ -1,6 +1,5 @@
 dependencies {
     compile project(':common')
-    compile project(':lamp')
     compile project(':marid')
     compile 'io.netty:netty:3.6.6.Final'
     compile 'commons-io:commons-io:2.1'
