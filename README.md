@@ -65,19 +65,19 @@ Windows:
 
 ####Tasks####
 
-* **maridRpm:** Packages Marid rpm for Redhat based systems
+* **packageMaridRpm:** Packages Marid rpm for Redhat based systems
 
-* **maridDeb:** Packages Marid deb for Debian based systems
+* **packageMaridDeb:** Packages Marid deb for Debian based systems
 
-* **maridZip:** Packages Marid zip for other systems
+* **packageMaridZip:** Packages Marid zip for other systems
 
-* **maridAll:** Packages Marid all types
+* **packageMarid:** Packages Marid all types
 
 You can run the tasks:
 
-For Unix systems: ``./gradlew maridAll``
+For Unix systems: ``./gradlew packageMarid``
 
-For Windows systems: ``gradlew.bat maridAll``
+For Windows systems: ``gradlew.bat packageMarid``
 
 ###Testing###
 
@@ -85,7 +85,7 @@ If you want to run tests you must copy `Test.example.properties` as `Test.proper
 
 If you want to skip tests, just run commands:
 
-``./gradlew maridAll -x test``
+``./gradlew packageMarid -x test``
 
 
 **Note:** If you use IntellijIdea you can edit run configurations for gradle task and add `-x test` to task input.

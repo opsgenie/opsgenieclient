@@ -30,11 +30,11 @@ dependencies {
     testCompile project(':test')
 }
 
-tasks['build'].dependsOn 'maridAll'
-task maridAll(dependsOn: ['maridZip', 'maridRpm', 'maridDeb'])
-task packageAll(dependsOn : 'maridAll')
+tasks['build'].dependsOn 'packageMarid'
+task packageMarid(dependsOn: ['packageMaridZip', 'packageMaridRpm', 'packageMaridDeb'])
+task packageAll(dependsOn : 'packageMarid')
 
-task maridZip(dependsOn : 'generateMaridZip', type: Zip) {
+task packageMaridZip(dependsOn : 'generateMaridZip', type: Zip) {
     from "${buildDir}/zip"
     baseName = "opsgenie-marid"
 }
@@ -128,7 +128,7 @@ task generateMaridZip(dependsOn : 'jar') << {
     }
 }
 
-task maridRpm(type: Rpm, dependsOn: ['jar']) {
+task packageMaridRpm(type: Rpm, dependsOn: ['jar']) {
     def commonProjectDir = "${project(':common').projectDir}";
 
     packageName = 'opsgenie-marid'
@@ -188,7 +188,7 @@ task maridRpm(type: Rpm, dependsOn: ['jar']) {
     }
 }
 
-task maridDeb(dependsOn: ['jar']) << {
+task packageMaridDeb(dependsOn: ['jar']) << {
     def controlTarget = "${project.buildDir}/deb/control"
     def dataTarget = "${project.buildDir}/deb/data"
 
