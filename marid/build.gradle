@@ -103,7 +103,6 @@ task generateBaseForIntegration(dependsOn : 'jar') << {
 }
 
 task generateMaridZip(dependsOn : 'jar') << {
-    version = project.ext.versions.getProperty('marid')
     copy {
         from("${projectDir}/conf")
         into "${buildDir}/zip/marid/conf"
@@ -134,7 +133,7 @@ task packageMaridRpm(type: Rpm, dependsOn: ['jar']) {
     packageName = 'opsgenie-marid'
     summary = "Opsgenie Marid Integration Server"
     packageDescription = "OpsGenie client files including marid. Please see doc for details: https://www.opsgenie.com/docs/"
-    version = project.ext.versions.getProperty('marid')
+    version = version.toString().replace("-", ".")
     os = LINUX
     user = 'root'
     release = '1.all'
@@ -193,7 +192,8 @@ task packageMaridDeb(dependsOn: ['jar']) << {
     def dataTarget = "${project.buildDir}/deb/data"
 
     def commonProjectDir = "${project(':common').projectDir}";
-    def debVersion = project.ext.versions.getProperty('marid')
+    def debVersion = version.toString().replace("-", ".")
+
     //CONTROL
     copy {
         from "${commonProjectDir}/native/conffiles_deb"
