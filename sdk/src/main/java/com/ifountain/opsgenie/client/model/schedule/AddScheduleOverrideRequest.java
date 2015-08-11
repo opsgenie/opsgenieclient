@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -23,7 +24,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
-    private String rotationId;
+    private List<String> rotationIds;
 
     /**
      * Rest api uri of schedule override create operation.
@@ -65,17 +66,17 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     }
 
     /*
-     * Id of the rotation that override will apply.
+     * Rotation id list that override will apply.
      */
-    public String getRotationId() {
-        return rotationId;
+    public List<String> getRotationIds() {
+        return rotationIds;
     }
 
     /*
-     * * Sets id of the rotation that override will apply.
+     * * Sets the rotation id list that override will apply.
      */
-    public void setRotationId(String rotationId) {
-        this.rotationId = rotationId;
+    public void setRotationIds(List<String> rotationId) {
+        this.rotationIds = rotationId;
     }
 
     /**
@@ -166,8 +167,8 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
         if (schedule != null) {
             json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
         }
-        if (rotationId != null) {
-            json.put(OpsGenieClientConstants.API.ROTATION_ID, getRotationId());
+        if (rotationIds != null) {
+            json.put(OpsGenieClientConstants.API.ROTATION_IDS, getRotationIds());
         }
         return json;
     }
