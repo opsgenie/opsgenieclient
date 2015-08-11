@@ -168,12 +168,12 @@ task packageMaridRpm(type: Rpm, dependsOn: ['jar']) {
     }
 
     from("${projectDir}/conf/marid.conf") {
-        fileType CONFIG
+        fileType CONFIG | NOREPLACE
         into 'etc/opsgenie/marid'
     }
 
     from("${projectDir}/conf/log.properties") {
-        fileType CONFIG
+        fileType CONFIG | NOREPLACE
         into 'etc/opsgenie/marid'
     }
 
@@ -271,4 +271,3 @@ task packageMaridDeb(dependsOn: ['jar']) << {
 
     delete "${project.buildDir}/distributions/opsgenie-marid_${debVersion}_all.changes"
 }
-
