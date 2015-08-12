@@ -32,7 +32,7 @@ KILL_TIMEOUT=120
 # JAVA_OPTS=" -Dcom.sun.management.jmxremote.ssl=false $JAVA_OPTS"
 # JAVA_OPTS=" -Duser.language=en $JAVA_OPTS"
 
-JAVA_OPTS=" -Dmarid.conf.path=$MARID_HOME/../conf/opsgenie-integration.conf $JAVA_OPTS"
+JAVA_OPTS=" -Dmarid.conf.path=$MARID_HOME/conf/marid.conf $JAVA_OPTS"
 JAVA_OPTS=" -Dmarid.log.conf.path=$MARID_HOME/conf/log.properties $JAVA_OPTS"
 JAVA_OPTS=" -Dmarid.scripts.dir=$MARID_HOME/scripts $JAVA_OPTS"
 JAVA_OPTS=" -Dmarid.logs.dir=$MARID_HOME/logs $JAVA_OPTS"

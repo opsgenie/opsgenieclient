@@ -63,7 +63,7 @@ public interface OpsGenieClientConstants {
         public static final String RULES = "rules";
         public static final String LAYERS = "layers";
         public static final String ROTATIONS = "rotations";
-        public static final String ROTATION_ID = "rotationId";
+        public static final String ROTATION_IDS = "rotationIds";
         public static final String TYPE = "type";
         public static final String NOTIFY_TYPE = "notifyType";
         public static final String DELAY = "delay";

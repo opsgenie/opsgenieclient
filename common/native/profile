@@ -27,17 +27,6 @@ export MARID_JVM="-Dmarid.config=/etc/opsgenie/marid \
 MARID_JVM="$MARID_JVM -Xmx512m -Xms256m -server"
 #
 
-
-LAMP_JVM=" -Dlamp.conf.path=/etc/opsgenie/conf/opsgenie-integration.conf $LAMP_JVM"
-LAMP_JVM=" -Dlamp.log.conf.path=/etc/opsgenie/lamp/log.properties $LAMP_JVM"
-LAMP_JVM=" -Dlamp.scripts.dir=/var/opsgenie/lamp/scripts $LAMP_JVM"
-LAMP_JVM=" -Dlamp.logs.dir=/var/log/opsgenie/lamp $LAMP_JVM"
-
-LAMP_CLASSPATH=LAMP_CLASSPATH:/var/lib/opsgenie/lamp/*
-
-LAMP_JVM="$LAMP_JVM -Xmx512m -Xms256m"
-
-
 if test -n "$JRE_HOME"
 then
    unset JRE_HOME
