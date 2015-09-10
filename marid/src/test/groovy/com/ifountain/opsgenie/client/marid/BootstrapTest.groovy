@@ -31,7 +31,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import sun.security.tools.KeyTool
+import sun.security.tools.keytool.Main
+
 import static org.junit.Assert.*
 
 /**
@@ -513,7 +514,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
                          "-validity", "365", "-storepass", "key", "-keystore",
                          "${keystorePath}", "-storepass", "${keyPass}",
                          "-keypass", "${keyPass}"] as String[];
-        KeyTool.main(args)
+        Main.main(args)
     }
 
     @Test
@@ -758,7 +759,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
                 "execute.alert.actions": "true",
                 "pubnub.channel"       : "customer1",
                 "pubnub.subscribekey"  : pubnubCredentials.getSubscribeKey(),
-                "pubnub.ssl.enabled"   : pubnubCredentials.isSslOn(),
+                "pubnub.ssl.enabled"   : pubnubCredentials.isSslOn()
         ])
         testHttpServer.setResponseToReturn(content);
         bootstrap.initialize();

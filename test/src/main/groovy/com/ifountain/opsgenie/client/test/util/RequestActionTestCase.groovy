@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
-import sun.security.tools.KeyTool
+import sun.security.tools.keytool.Main
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -40,7 +40,7 @@ public class RequestActionTestCase extends MaridTestCase {
                 "-validity", "365", "-storepass", "key", "-keystore",
                 "${keystorePath}", "-storepass", "${keyPass}",
                 "-keypass", "${keyPass}"] as String[];
-        KeyTool.main(args);
+        Main.main(args);
         host = CommonTestUtils.getLocalhostIp();
         HttpController.registerActions();
         httpServer = new HttpServer(host, port, keystorePath, keyPass);
