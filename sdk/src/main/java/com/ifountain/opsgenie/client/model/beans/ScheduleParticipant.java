@@ -14,7 +14,8 @@ public class ScheduleParticipant  implements IBean{
         user,
         group,
         escalation,
-        schedule
+        schedule,
+        team
     }
     private String participant;
     private Type type;
@@ -35,7 +36,7 @@ public class ScheduleParticipant  implements IBean{
 
     /**
      * Type of participant
-     * Could be one of user, group, escalation, schedule
+     * Could be one of user, group, escalation, schedule, team
      * @see Type
      */
     public Type getType() {

@@ -4,10 +4,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -20,7 +17,7 @@ public class ScheduleOverride implements IBean{
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
-    private String rotationId;
+    private List<String> rotationIds;
 
     /**
      * User defined identifier for the override.
@@ -37,17 +34,17 @@ public class ScheduleOverride implements IBean{
     }
 
     /*
-     * Id of the rotation that override will apply.
+     * Rotation id list that override will apply.
      */
-    public String getRotationId() {
-        return rotationId;
+    public List<String> getRotationIds() {
+        return rotationIds;
     }
 
     /*
-     * Sets id of the rotation that override will apply.
+     * Sets rotation id list that override will apply.
      */
-    public void setRotationId(String rotationId) {
-        this.rotationId = rotationId;
+    public void setRotationIds(List<String> rotationIds) {
+        this.rotationIds = rotationIds;
     }
 
     /**
@@ -108,7 +105,7 @@ public class ScheduleOverride implements IBean{
 
     @Override
     public Map toMap() {
-        Map<String, String> json = new HashMap<String, String>();
+        Map<String, Object> json = new HashMap<String, Object>();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         if (timeZone != null) {
             sdf.setTimeZone(timeZone);
@@ -120,8 +117,8 @@ public class ScheduleOverride implements IBean{
         if (startDate != null) {
             json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
         }
-        if(rotationId != null){
-            json.put(OpsGenieClientConstants.API.ROTATION_ID, getRotationId());
+        if(rotationIds != null){
+            json.put(OpsGenieClientConstants.API.ROTATION_IDS, getRotationIds());
         }
         json.put(OpsGenieClientConstants.API.USER, getUser());
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
@@ -163,8 +160,8 @@ public class ScheduleOverride implements IBean{
                 setEndDate(sdf.parse(String.valueOf(dateObj)));
             }
         }
-        if(map.containsKey(OpsGenieClientConstants.API.ROTATION_ID)){
-            rotationId = ((String) map.get(OpsGenieClientConstants.API.ROTATION_ID));
+        if(map.containsKey(OpsGenieClientConstants.API.ROTATION_IDS)){
+            rotationIds = (List<String>) map.get(OpsGenieClientConstants.API.ROTATION_IDS);
         }
     }
 }
