@@ -13,7 +13,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import sun.security.tools.KeyTool
+import sun.security.tools.keytool.Main
 
 import static org.junit.Assert.*
 
@@ -41,7 +41,7 @@ public class HttpServerTest extends MaridTestCase {
                          "-validity", "365", "-storepass", "key", "-keystore",
                          "${keystorePath}", "-storepass", "${keyPass}",
                          "-keypass", "${keyPass}"] as String[];
-        KeyTool.main(args);
+        Main.main(args);
         server = new HttpServer(CommonTestUtils.getLocalhostIp(), 9998, keystorePath, keyPass);
         httpClient = new OpsGenieHttpClient();
     }
