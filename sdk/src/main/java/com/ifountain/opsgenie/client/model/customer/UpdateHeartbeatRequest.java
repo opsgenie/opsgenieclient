@@ -2,14 +2,13 @@ package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.util.Map;
 
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#UpdateHeartbeatRequest(com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest)
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#updateHeartbeat(UpdateHeartbeatRequest)
  */
 public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
     private String id;

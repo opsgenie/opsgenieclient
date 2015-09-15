@@ -1,6 +1,8 @@
 package com.ifountain.opsgenie.client.model;
 
+import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.model.alert.AttachRequest;
+import com.ifountain.opsgenie.client.model.alert.FileAttachRequest;
 
 import java.io.InputStream;
 
@@ -9,7 +11,8 @@ import java.io.InputStream;
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 3:38 PM
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#attach(InputStreamAttachRequest)
+ * @see IOpsGenieClient#alert() (InputStreamAttachRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  */
 public class InputStreamAttachRequest extends AttachRequest {
     private InputStream inputStream;

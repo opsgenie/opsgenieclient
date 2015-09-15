@@ -9,10 +9,10 @@ import java.text.ParseException;
 
 /**
  * Provides the client for accessing the OpsGenie web service.
- * <p/>
+ * <p></p>
  * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations like creating, closing and getting alerts,
  * adding comments, attaching files, etc. All service calls made using this client are blocking, and will not return until the service call completes.</p>
- * <p/>
+ * <p></p>
  * <h4>Creating an Alerts</h4>
  * <p>Construct a <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code> method on client.</p>
  * <p><blockquote><pre>
