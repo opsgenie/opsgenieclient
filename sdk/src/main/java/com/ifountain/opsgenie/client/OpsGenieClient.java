@@ -15,7 +15,8 @@ import java.text.ParseException;
  * <p></p>
  * <p><strong>Creating an Alerts</strong></p>
  * <p>Construct a <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code> method on client.</p>
- * <p><blockquote><pre>
+ * <p>
+ * <blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
  * CreateAlertRequest request = new CreateAlertRequest();
  * request.setApiKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
@@ -28,11 +29,13 @@ import java.text.ParseException;
  * request.setRecipients(Arrays.asList("john.smith@acme.com"));
  * CreateAlertResponse response = client.createAlert(request);
  * String alertId = response.getAlertId();
- * </pre></blockquote></p>
+ * </pre></blockquote>
+ *
  * <p><strong>Adding Notes</strong></p>
  * <p>Construct a <code>AddNoteRequest</code> object with preferred options and call <code>addNote</code> method on client.</p>
+ *
  * <p>
- *     <blockquote><pre>
+ * <blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
  * AddNoteRequest request = new AddNoteRequest();
  * request.setAlertId("29c4d6f6-0919-40ec-8d37-4ab2ed2042c8");
@@ -42,7 +45,8 @@ import java.text.ParseException;
  * AddNoteResponse response = client.addNote(request);
  * assert response.isSuccess();
  * </pre></blockquote>
- * </p>
+ *
+ *
  * <p><strong>Attaching Files</strong></p>
  * <p>Construct a <code>FileAttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
  * <p><blockquote><pre>
@@ -54,7 +58,7 @@ import java.text.ParseException;
  * request.setFile(new File("/home/john/performanceGraphs.zip"));
  * AttachResponse response = client.attach(request);
  * assert response.isSuccess();
- * </pre></blockquote></p>
+ * </pre></blockquote>
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/30/12 9:40 AM
