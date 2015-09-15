@@ -13,7 +13,7 @@ import java.text.ParseException;
  * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations like creating, closing and getting alerts,
  * adding comments, attaching files, etc. All service calls made using this client are blocking, and will not return until the service call completes.</p>
  * <p></p>
- * <h4>Creating an Alerts</h4>
+ * <p><strong>Creating an Alerts</strong></p>
  * <p>Construct a <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code> method on client.</p>
  * <p><blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
@@ -29,9 +29,10 @@ import java.text.ParseException;
  * CreateAlertResponse response = client.createAlert(request);
  * String alertId = response.getAlertId();
  * </pre></blockquote></p>
- * <h4>Adding Notes</h4>
+ * <p><strong>Adding Notes</strong></p>
  * <p>Construct a <code>AddNoteRequest</code> object with preferred options and call <code>addNote</code> method on client.</p>
- * <p><blockquote><pre>
+ * <p>
+ *     <blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
  * AddNoteRequest request = new AddNoteRequest();
  * request.setAlertId("29c4d6f6-0919-40ec-8d37-4ab2ed2042c8");
@@ -40,8 +41,9 @@ import java.text.ParseException;
  * request.setNote("We should find another solution.");
  * AddNoteResponse response = client.addNote(request);
  * assert response.isSuccess();
- * </pre></blockquote></p>
- * <h4>Attaching Files</h4>
+ * </pre></blockquote>
+ * </p>
+ * <p><strong>Attaching Files</strong></p>
  * <p>Construct a <code>FileAttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
  * <p><blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
