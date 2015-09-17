@@ -3,6 +3,7 @@ include 'common'
 include 'marid'
 include 'test'
 
-if (file("client-functional").exists()) {
+if (file("../client-functional").exists()) {
     include 'client-functional'
+    project(":client-functional").projectDir = file("../client-functional")
 }
