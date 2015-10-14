@@ -100,6 +100,16 @@ public class ScriptProxy {
         return successToMap(this.opsGenieClient.alert().addTags(request));
     }
 
+    public Map removeTags(Map params) throws Exception{
+        RemoveTagsRequest request = new RemoveTagsRequest();
+        populateAlertRequestWithSource(request, params);
+        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
+
+        return successToMap(this.opsGenieClient.alert().removeTags(request));
+    }
+
     public Map assign(Map params) throws Exception{
         AssignRequest request = new AssignRequest();
         populateAlertRequestWithSource(request, params);

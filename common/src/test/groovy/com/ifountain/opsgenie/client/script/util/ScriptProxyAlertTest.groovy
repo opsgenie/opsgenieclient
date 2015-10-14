@@ -290,6 +290,47 @@ class ScriptProxyAlertTest {
     }
 
     @Test
+    public void testRemoveTags() throws Exception {
+        _testRemoveTags(false);
+        opsGenieClient.getExecutedRequests().clear()
+        _testRemoveTags(true);
+
+    }
+
+    public void _testRemoveTags(boolean useConfig) throws Exception {
+        def params = [alias: "alias1", tinyId: "tinyId1", alertId: "alertId1", note: "mynote", user: "someuser", source: "source1", tags: ["tag1","tag2"]];
+        if (!useConfig) {
+            params.apiKey = "customer1";
+        }
+        opsGenieClient.alert().setRemoveTagsResponse(new RemoveTagsResponse());
+        Map response = proxy.removeTags(params)
+        assertTrue(response.success)
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        RemoveTagsRequest request = executedRequests[0] as RemoveTagsRequest;
+
+        assertEquals("alias1", request.getAlias())
+        assertEquals("tinyId1", request.getTinyId())
+        assertEquals("alertId1", request.getAlertId());
+        assertEquals("mynote", request.getNote());
+        assertEquals("source1", request.getSource());
+        assertEquals("someuser", request.getUser());
+        assertEquals(["tag1","tag2"], request.getTags());
+
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+    }
+
+    @Test
+    public void testRemoveTagsReturningException() throws Exception {
+        _testeReturningException("removeTags", [apiKey: "customer1", alias: "alias1"], new Exception("Alert does not exist."))
+    }
+
+    @Test
     public void testExecuteAction() throws Exception {
         _testExecuteAction(false);
         opsGenieClient.getExecutedRequests().clear()

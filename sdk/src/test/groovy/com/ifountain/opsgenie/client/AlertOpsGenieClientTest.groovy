@@ -493,6 +493,47 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
     }
 
     @Test
+    public void testRemoveTagsSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        RemoveTagsRequest request = new RemoveTagsRequest();
+        request.setAlertId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setTags(["tag1","tag2"])
+        request.setApiKey("customer1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().removeTags(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/tags", requestSent.getUrl())
+
+        def requestParams = requestSent.getParameters();
+        assertEquals("customer1", requestParams[TestConstants.API.API_KEY])
+        assertEquals("alert1", requestParams[TestConstants.API.ID])
+        assertEquals("alias", requestParams[TestConstants.API.ALIAS])
+        assertEquals("tinyId", requestParams[TestConstants.API.TINY_ID])
+        assertEquals("someuser", requestParams[TestConstants.API.USER])
+        assertEquals("comment", requestParams[TestConstants.API.NOTE])
+        assertEquals("source1", requestParams[TestConstants.API.SOURCE])
+
+        def tags = requestParams[TestConstants.API.TAGS]
+        assertEquals("tag1,tag2", tags)
+    }
+
+    @Test
+    public void testRemoveTagsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "removeTags", new RemoveTagsRequest())
+    }
+
+    @Test
     public void testAddNoteSuccessfully() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 

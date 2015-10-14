@@ -158,6 +158,16 @@ public interface IAlertOpsGenieClient {
     public AddTagsResponse addTags(AddTagsRequest addTagsRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
+     * Remove tags from an alert.
+     *
+     * @param removeTagsRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.RemoveTagsRequest
+     * @see com.ifountain.opsgenie.client.model.alert.RemoveTagsResponse
+     */
+    public RemoveTagsResponse removeTags(RemoveTagsRequest removeTagsRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
      * Attaches files to the alerts in OpsGenie.
      *
      * @param attachRequest Object to construct request parameters.

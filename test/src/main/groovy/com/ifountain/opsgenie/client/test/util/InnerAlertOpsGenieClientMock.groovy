@@ -25,6 +25,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     private AddRecipientResponse addRecipientResponse;
     private AddAlertTeamResponse addAlertTeamResponse;
     private AddTagsResponse addTagsResponse;
+    private RemoveTagsResponse removeTagsResponse;
     private AttachResponse attachResponse;
     private ExecuteAlertActionResponse executeAlertActionResponse;
     private GetAlertResponse getAlertResponse;
@@ -103,6 +104,12 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     AddTagsResponse addTags(AddTagsRequest request) throws OpsGenieClientException, IOException, ParseException {
         requestProcessor.processRequest(request)
         return addTagsResponse
+    }
+
+    @Override
+    RemoveTagsResponse removeTags(RemoveTagsRequest request) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(request)
+        return removeTagsResponse
     }
 
     @Override
@@ -233,5 +240,9 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
 
     public void setAddTagsResponse(AddTagsResponse addTagsResponse) {
         this.addTagsResponse = addTagsResponse;
+    }
+
+    public void setRemoveTagsResponse(RemoveTagsResponse removeTagsResponse) {
+        this.removeTagsResponse = removeTagsResponse;
     }
 }

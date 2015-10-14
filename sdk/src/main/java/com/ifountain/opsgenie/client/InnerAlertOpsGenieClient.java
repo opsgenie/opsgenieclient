@@ -135,6 +135,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
         return (AddTagsResponse) httpClient.doPostRequest(addTagsRequest);
     }
 
+    /**
+     * @see IAlertOpsGenieClient#removeTags(com.ifountain.opsgenie.client.model.alert.RemoveTagsRequest)
+     */
+    @Override
+    public RemoveTagsResponse removeTags(RemoveTagsRequest removeTagsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (RemoveTagsResponse) httpClient.doDeleteRequest(removeTagsRequest);
+    }
+
 
     /**
      * @see IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.alert.FileAttachRequest)
