@@ -2,8 +2,4 @@ include 'sdk'
 include 'common'
 include 'marid'
 include 'test'
-
-if (file("../client-functional").exists()) {
-    include 'client-functional'
-    project(":client-functional").projectDir = file("../client-functional")
-}
+include 'client-functional'
