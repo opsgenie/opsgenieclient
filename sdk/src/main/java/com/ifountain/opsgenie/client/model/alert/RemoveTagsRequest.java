@@ -62,7 +62,8 @@ public class RemoveTagsRequest extends BaseAlertRequestWithSource<RemoveTagsResp
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
 
-        json.put(OpsGenieClientConstants.API.TAGS, Strings.join(getTags(), ","));
+        List<String> tags = getTags();
+        json.put(OpsGenieClientConstants.API.TAGS, tags != null ? Strings.join(tags, ",") : null);
         if (getUser() != null)
             json.put(OpsGenieClientConstants.API.USER, getUser());
         if (getNote() != null)
