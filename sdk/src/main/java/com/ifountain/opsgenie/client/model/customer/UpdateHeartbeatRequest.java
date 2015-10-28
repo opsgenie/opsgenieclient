@@ -11,7 +11,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#updateHeartbeat(UpdateHeartbeatRequest)
  */
 public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
-    private String id;
+    private String name;
     /**
      * Rest api uri of updating heartbeat monitor operation.
      */
@@ -21,17 +21,17 @@ public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
     }
 
     /**
-     * Return id of heartbeat monitor
+     * Return name of heartbeat monitor
      */
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the id of heartbeat monitor
+     * Sets the name of heartbeat monitor
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
      */
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
-        if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
+        if(name != null){
+            json.put(OpsGenieClientConstants.API.NAME, name);
         }
         return json;
     }

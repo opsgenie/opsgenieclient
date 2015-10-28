@@ -159,7 +159,7 @@ class ScriptProxyAdminTest {
 
     public void _testAddHearbeat(boolean useConfig) throws Exception {
         AddHeartbeatResponse response = new AddHeartbeatResponse();
-        response.setId("id1")
+        response.setName("source1")
         opsGenieClient.setAddHeartbeatResponse(response);
 
         def params = [name: "source1", enabled: false, interval: 5, intervalUnit: "days", description: "description1"]
@@ -197,10 +197,10 @@ class ScriptProxyAdminTest {
 
     public void _testUpdateHearbeat(boolean useConfig) throws Exception {
         UpdateHeartbeatResponse response = new UpdateHeartbeatResponse();
-        response.setId("id1")
+        response.setName("source1")
         opsGenieClient.setAddHeartbeatResponse(response);
 
-        def params = [id: "id1", name: "source1", enabled: false, interval: 5, intervalUnit: "days", description: "description1"]
+        def params = [name: "source1", enabled: false, interval: 5, intervalUnit: "days", description: "description1"]
         if (!useConfig) {
             params.apiKey = "customer1";
             params.user = "someuser";
@@ -212,7 +212,6 @@ class ScriptProxyAdminTest {
         assertEquals(1, executedRequests.size())
         UpdateHeartbeatRequest request = executedRequests[0] as UpdateHeartbeatRequest;
 
-        assertEquals("id1", request.getId())
         assertEquals("source1", request.getName())
         assertEquals(false, request.enabled)
         assertEquals(5, request.interval)

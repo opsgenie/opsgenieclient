@@ -160,7 +160,7 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
         //test disable
         request = new EnableHeartbeatRequest();
         request.setEnable(false)
-        request.setId("id1")
+        request.setName("source1")
         request.setApiKey("customer1")
 
         response = OpsGenieClientTestCase.opsgenieClient.enableHeartbeat(request)
@@ -174,7 +174,7 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
 
         jsonContent = JSON.parse(requestSent.getContent())
         assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
-        assertEquals("id1", jsonContent[TestConstants.API.ID])
+        assertEquals("source1", jsonContent[TestConstants.API.NAME])
     }
 
     @Test
@@ -184,7 +184,7 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
 
     @Test
     public void testAddHeartbeatSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1, \"success\":true, \"id\":\"id1\"}".getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1, \"success\":true, \"name\":\"source1\"}".getBytes(), 200, "application/json; charset=utf-8"))
 
         AddHeartbeatRequest request = new AddHeartbeatRequest();
         request.setEnabled(true)
@@ -196,7 +196,7 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
 
         def response = OpsGenieClientTestCase.opsgenieClient.addHeartbeat(request)
         assertTrue(response.isSuccess())
-        assertEquals("id1", response.id)
+        assertEquals("source1", response.name)
         assertEquals(1, response.getTook())
 
         assertEquals(1, receivedRequests.size());
@@ -221,10 +221,9 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
 
     @Test
     public void testUpdateHeartbeatSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1, \"success\":true, \"id\":\"id1\"}".getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1, \"success\":true, \"name\":\"source1\"}".getBytes(), 200, "application/json; charset=utf-8"))
 
         UpdateHeartbeatRequest request = new UpdateHeartbeatRequest();
-        request.setId("id1")
         request.setEnabled(true)
         request.setInterval(10)
         request.setIntervalUnit(Heartbeat.IntervalUnit.days)
@@ -234,7 +233,7 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
 
         def response = OpsGenieClientTestCase.opsgenieClient.addHeartbeat(request)
         assertTrue(response.isSuccess())
-        assertEquals("id1", response.id)
+        assertEquals("source1", response.name)
         assertEquals(1, response.getTook())
 
         assertEquals(1, receivedRequests.size());
@@ -245,7 +244,6 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
         def jsonContent = JSON.parse(requestSent.getContent())
         assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
         assertEquals("source1", jsonContent[TestConstants.API.NAME])
-        assertEquals("id1", jsonContent[TestConstants.API.ID])
         assertEquals(10, jsonContent[TestConstants.API.INTERVAL])
         assertEquals(Heartbeat.IntervalUnit.days.name(), jsonContent[TestConstants.API.INTERVAL_UNIT])
         assertEquals("description1", jsonContent[TestConstants.API.DESCRIPTION])

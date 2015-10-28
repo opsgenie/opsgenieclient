@@ -12,24 +12,24 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#addHeartbeat(AddHeartbeatRequest)
  */
 public class AddHeartbeatResponse extends BaseResponse{
-    private String id;
+    private String name;
     /**
-     * Id of the added  heartbeat monitor
+     * Name of the added  heartbeat monitor
      */
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the id of the added heartbeat monitor
+     * Sets the name of the added heartbeat monitor
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        id = (String) data.get(OpsGenieClientConstants.API.ID);
+        name = (String) data.get(OpsGenieClientConstants.API.NAME);
     }
 }

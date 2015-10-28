@@ -13,7 +13,6 @@ public class Heartbeat implements IBean{
         hours,
         days
     }
-    private String id;
     private String name;
     private Date lastHeartbeat;
     private Boolean expired;
@@ -22,20 +21,6 @@ public class Heartbeat implements IBean{
     private String description;
     private Integer interval;
     private IntervalUnit intervalUnit;
-
-    /**
-     * Id of heartbeat
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the Id of heartbeat
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Status of heartbeat
@@ -176,7 +161,6 @@ public class Heartbeat implements IBean{
         json.put(OpsGenieClientConstants.API.ENABLED, enabled);
         json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
         json.put(OpsGenieClientConstants.API.STATUS, status);
-        json.put(OpsGenieClientConstants.API.ID, id);
         json.put(OpsGenieClientConstants.API.INTERVAL, interval);
         json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit != null? intervalUnit.name():null);
         return json;
@@ -190,7 +174,6 @@ public class Heartbeat implements IBean{
         setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
         setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
         setExpired("Expired".equals(getStatus()));
-        setId((String) resp.get(OpsGenieClientConstants.API.ID));
         setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
         if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL_UNIT)){
             setIntervalUnit(IntervalUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.INTERVAL_UNIT)));

@@ -342,7 +342,6 @@ public class ScriptProxy {
             request.setIntervalUnit(Heartbeat.IntervalUnit.valueOf(intervalUnitStr));
         }
         request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
         return successToMap(this.opsGenieClient.addHeartbeat(request));
     }
     public Map getHeartbeat(Map params) throws Exception{

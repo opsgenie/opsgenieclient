@@ -12,8 +12,8 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
-    private String id;
     private String name;
+
     /**
      * Rest api uri of get heartbeat monitor operation.
      */
@@ -21,22 +21,6 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     public String getEndPoint() {
         return "/v1/json/heartbeat";
     }
-
-
-    /**
-     * Id of heartbeat
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of heartbeat
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
 
     /**
      * Name of heartbeat monitor.
@@ -53,16 +37,14 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     }
 
     /**
-     * @deprecated
-     * Use getName
+     * @deprecated Use getName
      */
     public String getSource() {
         return getName();
     }
 
     /**
-     * @deprecated
-     * Use setSource
+     * @deprecated Use setSource
      */
     public void setSource(String source) {
         setName(source);
@@ -75,10 +57,7 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
      */
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
-        if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
-        }
-        else if(name != null){
+        if(name != null){
             json.put(OpsGenieClientConstants.API.NAME, name);
         }
         return json;
