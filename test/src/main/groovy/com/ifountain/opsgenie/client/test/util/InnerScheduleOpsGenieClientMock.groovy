@@ -1,10 +1,10 @@
-package com.ifountain.opsgenie.client.test.util;
+package com.ifountain.opsgenie.client.test.util
 
-import com.ifountain.opsgenie.client.IScheduleOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientException;
+import com.ifountain.opsgenie.client.IScheduleOpsGenieClient
+import com.ifountain.opsgenie.client.OpsGenieClientException
 import com.ifountain.opsgenie.client.model.schedule.*
 
-import java.text.ParseException;
+import java.text.ParseException
 
 public class InnerScheduleOpsGenieClientMock implements IScheduleOpsGenieClient {
     private OpsGenieClientMockRequestProcessor requestProcessor;
@@ -14,7 +14,9 @@ public class InnerScheduleOpsGenieClientMock implements IScheduleOpsGenieClient 
     private GetScheduleResponse getScheduleResponse;
     private ListSchedulesResponse listSchedulesResponse;
     private WhoIsOnCallResponse whoIsOnCallResponse;
+    private FlatWhoIsOnCallResponse flatWhoIsOnCallResponse;
     private ListWhoIsOnCallResponse listWhoIsOnCallResponse;
+    private ListFlatWhoIsOnCallResponse listFlatWhoIsOnCallResponse;
     private ExportScheduleResponse exportScheduleResponse;
     private AddScheduleOverrideResponse addScheduleOverrideResponse;
     private UpdateScheduleOverrideResponse updateScheduleOverrideResponse;
@@ -59,11 +61,25 @@ public class InnerScheduleOpsGenieClientMock implements IScheduleOpsGenieClient 
         requestProcessor.processRequest(whoIsOnCallRequest);
         return whoIsOnCallResponse;
     }
+
+    @Override
+    FlatWhoIsOnCallResponse flatWhoIsOnCall(FlatWhoIsOnCallRequest flatWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
+        requestProcessor.processRequest(flatWhoIsOnCallRequest);
+        return flatWhoIsOnCallResponse;
+    }
+
     @Override
     public ListWhoIsOnCallResponse listWhoIsOnCall(ListWhoIsOnCallRequest listWhoIsOnCallRequest) throws IOException, OpsGenieClientException {
         requestProcessor.processRequest(listWhoIsOnCallRequest);
         return listWhoIsOnCallResponse;
     }
+
+    @Override
+    ListFlatWhoIsOnCallResponse listFlatWhoIsOnCall(ListFlatWhoIsOnCallRequest listFlatWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
+        requestProcessor.processRequest(listFlatWhoIsOnCallRequest)
+        return listFlatWhoIsOnCallResponse
+    }
+
     @Override
     public ExportScheduleResponse exportSchedule(ExportScheduleRequest exportScheduleRequest) throws IOException, OpsGenieClientException {
         requestProcessor.processRequest(exportScheduleRequest);
@@ -124,8 +140,16 @@ public class InnerScheduleOpsGenieClientMock implements IScheduleOpsGenieClient 
         this.whoIsOnCallResponse = whoIsOnCallResponse;
     }
 
+    public void setFlatWhoIsOnCallResponse(FlatWhoIsOnCallResponse flatWhoIsOnCallResponse) {
+        this.flatWhoIsOnCallResponse = flatWhoIsOnCallResponse;
+    }
+
     public void setListWhoIsOnCallResponse(ListWhoIsOnCallResponse listWhoIsOnCallResponse) {
         this.listWhoIsOnCallResponse = listWhoIsOnCallResponse;
+    }
+
+    public void setListFlatWhoIsOnCallResponse(ListFlatWhoIsOnCallResponse listFlatWhoIsOnCallResponse) {
+        this.listFlatWhoIsOnCallResponse = listFlatWhoIsOnCallResponse;
     }
 
     public void setExportScheduleResponse(ExportScheduleResponse exportScheduleResponse) {

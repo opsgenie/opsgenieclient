@@ -405,7 +405,6 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "getSchedule", new GetScheduleRequest(id: "sch1"))
     }
 
-
     @Test
     public void testWhoIsOnCallSuccessfully() throws Exception {
         Map jsonContent = new HashMap();
@@ -519,6 +518,46 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
     }
 
     @Test
+    public void testFlatWhoIsOnCallSuccessfully() throws Exception {
+        def recipientList = [
+                "user1@xyz.com",
+                "user2@xyz.com",
+                "user3@xyz.com",
+                "user4@xyz.com"
+        ]
+        Map jsonContent = new HashMap();
+        jsonContent.put("took", 1);
+        jsonContent.put(TestConstants.API.ID, "id_schedule1");
+        jsonContent.put(TestConstants.API.NAME, "schedule1");
+        jsonContent.put(TestConstants.API.TYPE, "schedule");
+        jsonContent.put(TestConstants.API.RECIPIENTS, recipientList);
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+
+        FlatWhoIsOnCallRequest request = new FlatWhoIsOnCallRequest();
+        request.setId(jsonContent[TestConstants.API.ID]);
+        request.setName(jsonContent[TestConstants.API.NAME]);
+        request.setApiKey("customer1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.schedule().flatWhoIsOnCall(request)
+        assertEquals(1, response.getTook())
+        assertEquals("schedule1", response.getWhoIsOnCall().name)
+        assertEquals("id_schedule1", response.getWhoIsOnCall().id)
+        assertEquals("schedule", response.getWhoIsOnCall().type)
+        assertEquals(recipientList, response.getWhoIsOnCall().recipients)
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
+        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME]);
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertFalse(requestSent.getParameters().containsKey(TestConstants.API.TIMEZONE))
+        assertFalse(requestSent.getParameters().containsKey(TestConstants.API.TIME))
+        assertEquals("true", requestSent.getParameters()[TestConstants.API.FLAT])
+        assertEquals("/v1.1/json/schedule/whoIsOnCall", requestSent.getUrl())
+    }
+
+    @Test
     public void testWhoIsOnCallSuccessfullyWithOptionalParams() throws Exception {
         Map jsonContent = new HashMap();
         jsonContent.put("took", 1);
@@ -566,6 +605,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
         assertEquals(request.getTimeZone().getID(), requestSent.getParameters()[TestConstants.API.TIMEZONE])
         assertEquals(sdf.format(request.getTime()), requestSent.getParameters()[TestConstants.API.TIME])
+        assertEquals("false", requestSent.getParameters()[TestConstants.API.FLAT])
         assertEquals("/v1.1/json/schedule/whoIsOnCall", requestSent.getUrl())
     }
 
@@ -620,13 +660,49 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals("group2", whoIsOnCall.participants[0].participant)
         assertEquals("group", whoIsOnCall.participants[0].type.name())
 
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals("false", requestSent.getParameters()[TestConstants.API.FLAT])
+        assertEquals("/v1.1/json/schedule/whoIsOnCall", requestSent.getUrl())
+    }
 
+    @Test
+    public void testFlatListWhoIsOnCallSuccessfully() throws Exception {
+        Map oncall1Content = new HashMap();
+        def oncall1Recipients = [
+                "user1@xyz.com",
+                "user2@xyz.com"
+        ]
+        oncall1Content.put(TestConstants.API.NAME, "schedule1");
+        oncall1Content.put(TestConstants.API.RECIPIENTS, oncall1Recipients);
 
+        Map oncall2Content = new HashMap();
+        def oncall2Recipients = [
+                "user3@xyz.com",
+                "user4@xyz.com"
+        ]
+        oncall2Content.put(TestConstants.API.NAME, "schedule2");
+        oncall2Content.put(TestConstants.API.RECIPIENTS, oncall2Recipients);
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson([oncalls: [oncall1Content, oncall2Content]]).getBytes(), 200, "application/json; charset=utf-8"))
+
+        ListFlatWhoIsOnCallRequest request = new ListFlatWhoIsOnCallRequest();
+        request.setApiKey("customer1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.schedule().listFlatWhoIsOnCall(request)
+
+        def whoIsOnCall = response.whoIsOnCallList.find { it.name == "schedule1" }
+        assertEquals(oncall1Recipients, whoIsOnCall.recipients)
+
+        whoIsOnCall = response.whoIsOnCallList.find { it.name == "schedule2" }
+        assertEquals(oncall2Recipients, whoIsOnCall.recipients)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals("true", requestSent.getParameters()[TestConstants.API.FLAT])
         assertEquals("/v1.1/json/schedule/whoIsOnCall", requestSent.getUrl())
     }
 

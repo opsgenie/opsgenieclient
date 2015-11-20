@@ -1,8 +1,6 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.model.schedule.*;
-import com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest;
-import com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingResponse;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -55,7 +53,7 @@ public interface IScheduleOpsGenieClient {
 
 
     /**
-     * Return current on call participant list fo schedules
+     * Return current on call participant list of schedules
      *
      * @param whoIsOnCallRequest Object to construct request parameters.
      * @return <code>WhoIsOnCallRequest</code> object containing OpsGenie response information.
@@ -63,6 +61,16 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.WhoIsOnCallResponse
      */
     public WhoIsOnCallResponse whoIsOnCall(WhoIsOnCallRequest whoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Return current on call username list of schedules
+     *
+     * @param flatWhoIsOnCallRequest Object to construct request parameters.
+     * @return <code>FlatWhoIsOnCallRequest</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.FlatWhoIsOnCallRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.FlatWhoIsOnCallResponse
+     */
+    public FlatWhoIsOnCallResponse flatWhoIsOnCall(FlatWhoIsOnCallRequest flatWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Return current on call participant list of all schedules
@@ -73,6 +81,16 @@ public interface IScheduleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.schedule.ListWhoIsOnCallResponse
      */
     public ListWhoIsOnCallResponse listWhoIsOnCall(ListWhoIsOnCallRequest listWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Return current on call username list of all schedules
+     *
+     * @param listFlatWhoIsOnCallRequest Object to construct request parameters.
+     * @return <code>ListWhoIsOnCallResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.schedule.ListFlatWhoIsOnCallRequest
+     * @see com.ifountain.opsgenie.client.model.schedule.ListFlatWhoIsOnCallResponse
+     */
+    public ListFlatWhoIsOnCallResponse listFlatWhoIsOnCall(ListFlatWhoIsOnCallRequest listFlatWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * List schedules of customer

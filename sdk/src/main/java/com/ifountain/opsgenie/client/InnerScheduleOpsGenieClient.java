@@ -61,11 +61,27 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
     }
 
     /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#flatWhoIsOnCall(com.ifountain.opsgenie.client.model.schedule.FlatWhoIsOnCallRequest)
+     */
+    @Override
+    public FlatWhoIsOnCallResponse flatWhoIsOnCall(FlatWhoIsOnCallRequest flatWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (FlatWhoIsOnCallResponse) httpClient.doGetRequest(flatWhoIsOnCallRequest);
+    }
+
+    /**
      * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listWhoIsOnCall(com.ifountain.opsgenie.client.model.schedule.ListWhoIsOnCallRequest)
      */
     @Override
     public ListWhoIsOnCallResponse listWhoIsOnCall(ListWhoIsOnCallRequest listWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
         return (ListWhoIsOnCallResponse) httpClient.doGetRequest(listWhoIsOnCallRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listFlatWhoIsOnCall(com.ifountain.opsgenie.client.model.schedule.ListFlatWhoIsOnCallRequest)
+     */
+    @Override
+    public ListFlatWhoIsOnCallResponse listFlatWhoIsOnCall(ListFlatWhoIsOnCallRequest listFlatWhoIsOnCallRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (ListFlatWhoIsOnCallResponse) httpClient.doGetRequest(listFlatWhoIsOnCallRequest);
     }
 
     /**

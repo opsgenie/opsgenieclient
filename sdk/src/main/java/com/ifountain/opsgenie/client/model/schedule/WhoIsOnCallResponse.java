@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 /**
- * Represents OpsGenie service response for get schedule request.
+ * Represents OpsGenie service response for who is on call request.
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(WhoIsOnCallRequest)
  */
@@ -15,7 +15,7 @@ public class WhoIsOnCallResponse extends BaseResponse{
     private WhoIsOnCall whoIsOnCall;
 
     /**
-     * Details of schedule oncall
+     * Details of schedule on call
      * @see com.ifountain.opsgenie.client.model.beans.WhoIsOnCall
      */
     public WhoIsOnCall getWhoIsOnCall() {
@@ -23,7 +23,7 @@ public class WhoIsOnCallResponse extends BaseResponse{
     }
 
     /**
-     * Sets details of schedule oncall
+     * Sets details of schedule on call
      * @see com.ifountain.opsgenie.client.model.beans.WhoIsOnCall
      */
     public void setWhoIsOnCall(WhoIsOnCall whoIsOnCall) {

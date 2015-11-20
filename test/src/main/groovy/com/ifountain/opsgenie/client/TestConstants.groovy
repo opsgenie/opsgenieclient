@@ -110,6 +110,7 @@ public interface TestConstants {
         public static final String INTERVAL_UNIT = "intervalUnit";
         public static final String HEARTBEATS = "heartbeats";
         public static final String NOTES = "notes";
+        public static final String FLAT = "flat";
     }
 
     public interface AWS {

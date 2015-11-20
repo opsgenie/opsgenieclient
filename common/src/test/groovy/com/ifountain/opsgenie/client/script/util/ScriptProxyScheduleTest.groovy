@@ -1,17 +1,14 @@
 package com.ifountain.opsgenie.client.script.util
 
-
 import com.ifountain.opsgenie.client.TestConstants
 import com.ifountain.opsgenie.client.model.BaseRequest
-import com.ifountain.opsgenie.client.model.beans.Schedule
+import com.ifountain.opsgenie.client.model.beans.*
+import com.ifountain.opsgenie.client.model.schedule.*
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
-import com.ifountain.opsgenie.client.model.schedule.*
-import com.ifountain.opsgenie.client.model.beans.ScheduleRotation
-import com.ifountain.opsgenie.client.model.beans.ScheduleRotationRestriction
-import com.ifountain.opsgenie.client.model.beans.WhoIsOnCall
 import org.junit.Before
 import org.junit.Test
+
 import static org.junit.Assert.*
 
 /**
@@ -290,6 +287,47 @@ class ScriptProxyScheduleTest {
     }
 
     @Test
+    public void testFlatWhoIsOnCall() throws Exception {
+        _testFlatWhoIsOnCall(false);
+        opsGenieClient.getExecutedRequests().clear()
+        _testFlatWhoIsOnCall(true);
+
+    }
+
+    public void _testFlatWhoIsOnCall(boolean useConfig) throws Exception {
+        def params = [id      : "schedule1Id", name: "schedule1", time: new Date(),
+                      timezone: TimeZone.getTimeZone("GMT+2")];
+        if (!useConfig) {
+            params.apiKey = "customer1";
+        }
+        def expectedResponse = new FlatWhoIsOnCallResponse()
+        expectedResponse.setWhoIsOnCall(new FlatWhoIsOnCall(name: "schedule1", recipients: ["usr1@xyz.com"]))
+        opsGenieClient.schedule().setFlatWhoIsOnCallResponse(expectedResponse);
+        Map response = proxy.flatWhoIsOnCall(params)
+        assertEquals("schedule1", response[TestConstants.API.NAME])
+        assertEquals(["usr1@xyz.com"], response[TestConstants.API.RECIPIENTS])
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        FlatWhoIsOnCallRequest request = executedRequests[0] as FlatWhoIsOnCallRequest;
+
+        assertEquals("schedule1Id", request.getId())
+        assertEquals("schedule1", request.getName())
+        assertEquals(params.time, request.getTime())
+        assertEquals(params.timezone, request.getTimeZone())
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+    }
+
+    @Test
+    public void testFlatWhoIsOnCallReturningException() throws Exception {
+        _testeReturningException("flatWhoIsOnCall", [apiKey: "customer1"], new Exception("Schedule does not exist."))
+    }
+
+    @Test
     public void testListWhoIsOnCall() throws Exception {
         _testListWhoIsOnCall(false);
         opsGenieClient.getExecutedRequests().clear()
@@ -324,6 +362,44 @@ class ScriptProxyScheduleTest {
     @Test
     public void testListWhoIsOnCallReturningException() throws Exception {
         _testeReturningException("listWhoIsOnCall", [apiKey: "customer1"], new Exception("Schedule does not exist."))
+    }
+
+    @Test
+    public void testListFlatWhoIsOnCall() throws Exception {
+        _testListFlatWhoIsOnCall(false);
+        opsGenieClient.getExecutedRequests().clear()
+        _testListFlatWhoIsOnCall(true);
+
+    }
+
+    public void _testListFlatWhoIsOnCall(boolean useConfig) throws Exception {
+        def params = [:];
+        if (!useConfig) {
+            params.apiKey = "customer1";
+        }
+        def expectedResponse = new ListFlatWhoIsOnCallResponse()
+        expectedResponse.setWhoIsOnCallList([new FlatWhoIsOnCall(name: "schedule1", recipients: ["usr1@xyz.com", "usr2@xyz.com"])])
+        opsGenieClient.schedule().setListFlatWhoIsOnCallResponse(expectedResponse);
+        List<Map> response = proxy.listFlatWhoIsOnCall(params)
+        assertEquals(1, response.size())
+        def whoIsOnCall = response[0];
+        assertEquals("schedule1", whoIsOnCall[TestConstants.API.NAME])
+        assertEquals(["usr1@xyz.com", "usr2@xyz.com"], whoIsOnCall[TestConstants.API.RECIPIENTS])
+        assertEquals(1, opsGenieClient.getExecutedRequests().size())
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size())
+        ListFlatWhoIsOnCallRequest request = executedRequests[0] as ListFlatWhoIsOnCallRequest;
+
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey())
+        } else {
+            assertEquals("customer1", request.getApiKey())
+        }
+    }
+
+    @Test
+    public void testListFlatWhoIsOnCallReturningException() throws Exception {
+        _testeReturningException("listFlatWhoIsOnCall", [apiKey: "customer1"], new Exception("Schedule does not exist."))
     }
 
     @Test

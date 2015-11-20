@@ -115,5 +115,6 @@ public interface OpsGenieClientConstants {
         public static final String NOTES = "notes";
         String TO_USERS = "toUsers";
         String RULE_TYPES = "ruleTypes";
+        String FLAT = "flat";
     }
 }

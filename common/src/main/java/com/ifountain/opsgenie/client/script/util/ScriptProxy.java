@@ -744,11 +744,30 @@ public class ScriptProxy {
         request.setTime(ScriptBridgeUtils.getAsDate(params, OpsGenieClientConstants.API.TIME));
         return this.opsGenieClient.schedule().whoIsOnCall(request).getWhoIsOnCall().toMap();
     }
+
+    public Map flatWhoIsOnCall(Map params) throws Exception {
+        FlatWhoIsOnCallRequest request = new FlatWhoIsOnCallRequest();
+        populateCommonProps(request, params);
+        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
+        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+
+        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
+        request.setTime(ScriptBridgeUtils.getAsDate(params, OpsGenieClientConstants.API.TIME));
+        return this.opsGenieClient.schedule().flatWhoIsOnCall(request).getWhoIsOnCall().toMap();
+    }
+
     public List<Map> listWhoIsOnCall(Map params) throws Exception {
         ListWhoIsOnCallRequest request = new ListWhoIsOnCallRequest();
         populateCommonProps(request, params);
         
         return beansToMap(this.opsGenieClient.schedule().listWhoIsOnCall(request).getWhoIsOnCallList());
+    }
+
+    public List<Map> listFlatWhoIsOnCall(Map params) throws Exception{
+        ListFlatWhoIsOnCallRequest request = new ListFlatWhoIsOnCallRequest();
+        populateCommonProps(request, params);
+
+        return beansToMap(this.opsGenieClient.schedule().listFlatWhoIsOnCall(request).getWhoIsOnCallList());
     }
 
     public List<Map> listSchedules(Map params) throws Exception {
