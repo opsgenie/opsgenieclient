@@ -1074,13 +1074,13 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         def alert1Content = [
                 id    : "id1", message: "message1", alias: "alias1", createdAt: 1234, updatedAt: 4567,
                 status: "open",
-                isSeen: true, acknowledged: false, tinyId: "tiny1", tags: ["tag1", "tag2"]
+                isSeen: true, acknowledged: false, tinyId: "tiny1", tags: ["tag1", "tag2"], owner: "test@opsgenie.com"
         ]
 
         def alert2Content = [
                 id    : "id2", message: "message2", alias: "alias2", createdAt: 4567, updatedAt: 7890,
                 status: "closed",
-                isSeen: false, acknowledged: true, tinyId: "tiny2", tags: ["tag2", "tag3"]
+                isSeen: false, acknowledged: true, tinyId: "tiny2", tags: ["tag2", "tag3"], owner: "test2@opsgenie.com"
         ]
 
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJsonAsBytes([alerts: [alert1Content, alert2Content]]), HttpStatus.SC_OK, "application/json; charset=utf-8"))
@@ -1108,6 +1108,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertEquals(1234, alert.getCreatedAt())
         assertEquals(4567, alert.getUpdatedAt())
         assertEquals(["tag1", "tag2"], alert.getTags())
+        assertEquals("test@opsgenie.com", alert.getOwner())
 
         alert = response.alerts.find { it.id == alert2Content.id }
         assertEquals("id2", alert.getId())
@@ -1118,6 +1119,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertEquals(4567, alert.getCreatedAt())
         assertEquals(7890, alert.getUpdatedAt())
         assertEquals(["tag2", "tag3"], alert.getTags())
+        assertEquals("test2@opsgenie.com", alert.getOwner())
 
 
         assertEquals(1, receivedRequests.size());
