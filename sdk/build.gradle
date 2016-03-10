@@ -89,9 +89,9 @@ uploadArchives {
                 authentication(userName: nexusUser, password: nexusPassword)
             }
 
-//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
 
             pom.project {
                 name 'OpsGenie Java SDK'
