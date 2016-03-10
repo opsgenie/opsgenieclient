@@ -6,6 +6,7 @@ buildscript {
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'signing'
 
 dependencies {
     compile 'org.apache.httpcomponents:httpcore:4.2.5'
@@ -53,6 +54,11 @@ artifacts {
     archives javadocJar
 }
 
+signing {
+    sign configurations.archives
+}
+
+
 uploadArchives {
     def uploadOptions = file("${rootProject.buildDir}/uploadOptions.properties")
 
@@ -75,9 +81,36 @@ uploadArchives {
     def nexusUser = props.getProperty('nexusUser')
     def nexusPassword = props.getProperty('nexusPassword')
     repositories {
+
         mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
             repository(url: url) {
                 authentication(userName: nexusUser, password: nexusPassword)
+            }
+
+//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+//                authentication(userName: ossrhUsername, password: ossrhPassword)
+//            }
+
+            pom.project {
+                name 'OpsGenie Java SDK'
+                packaging 'jar'
+                description "OpsGenie Java SDK"
+
+                url 'https://www.opsgenie.com'
+
+                scm {
+                    connection 'scm:git:git@github.com:opsgenie/opsgenieclient.git'
+                    url 'https://github.com/opsgenie/opsgenieclient'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
             }
         }
     }
