@@ -75,7 +75,7 @@ uploadArchives {
     }
 
     def type = project.version.toString().contains("SNAPSHOT") ? 'snapshots' : 'releases'
-    def url = "http://repo.opsgenie.com:9393/content/repositories/${type}"
+    def localNexusUrl = "http://repo.opsgenie.com:9393/content/repositories/${type}"
     def props = new Properties();
     props.load(new FileInputStream(uploadOptions))
     def nexusUser = props.getProperty('nexusUser')
@@ -85,7 +85,7 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: url) {
+            repository(url: localNexusUrl) {
                 authentication(userName: nexusUser, password: nexusPassword)
             }
 
@@ -98,7 +98,7 @@ uploadArchives {
                 packaging 'jar'
                 description "OpsGenie Java SDK"
 
-                url 'https://www.opsgenie.com'
+                url "https://www.opsgenie.com"
 
                 scm {
                     connection 'scm:git:git@github.com:opsgenie/opsgenieclient.git'
