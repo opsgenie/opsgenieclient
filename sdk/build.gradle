@@ -111,6 +111,68 @@ uploadArchives {
                         url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
                 }
+
+                developers {
+                    developer {
+                        id 'sezgin'
+                        name 'Sezgin Kucukaraaslan'
+                        email 'sezgin@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'eke'
+                        name 'Abdurrahim Eke'
+                        email 'abdurrahim@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'halit'
+                        name 'Halit Okumus'
+                        email 'halit@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'tuba'
+                        name 'Tuba Ozturk'
+                        email 'tuba@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'burak'
+                        name 'Veli Burak Celen'
+                        email 'burak@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'kadir'
+                        name 'Kadir Turker Gulsoy'
+                        email 'kadir@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'omer'
+                        name 'Omer Ozkan'
+                        email 'omer@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'tarik'
+                        name 'M. Tarik Yurt'
+                        email 'tarik@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'zafer'
+                        name 'Zafer Genckaya'
+                        email 'zafer@opsgenie.com'
+                    }
+
+                    developer {
+                        id 'kaan'
+                        name 'Kaan Basal'
+                        email 'kaan@opsgenie.com'
+                    }
+                }
             }
         }
     }
