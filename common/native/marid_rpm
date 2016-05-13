@@ -3,6 +3,9 @@
 # marid    Startup script for the marid
 #
 # chkconfig: 2345 90 10
+# description: Marid is an OpsGenie tool to integrate nagios
+# processname: marid
+# config: /etc/opsgenie/opsgenie.cfg
 # pidfile: /var/run/marid.pid
 
 # Source function library
