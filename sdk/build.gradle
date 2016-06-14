@@ -20,8 +20,7 @@ dependencies {
 tasks.check.dependsOn 'shadowJar'
 
 shadowJar {
-    baseName = "sdk-shaded"
-    classifier = null
+    classifier = "shaded"
     relocate 'org.apache', 'com.ifountain.apache'
     relocate 'org.codehaus', 'com.ifountain.codehaus'
 }
@@ -33,10 +32,10 @@ jar {
                 "Specification-Product": "opsgenie-java-sdk",
                 "Specification-Version": project.version,
                 "Specification-Vendor": "http://www.opsgenie.com",
-                "Implementation-Title" : "OpsGenie Java SDK",
+                "Implementation-Title": "OpsGenie Java SDK",
                 "Implementation-Product": "opsgenie-java-sdk",
-                "Implementation-Vendor":"http://www.opsgenie.com",
-                "Implementation-Version":project.version,
+                "Implementation-Vendor": "http://www.opsgenie.com",
+                "Implementation-Version": project.version,
         )
     }
 }
@@ -62,121 +61,101 @@ signing {
 }
 
 
-uploadArchives {
-    def uploadOptions = file("${rootProject.buildDir}/uploadOptions.properties")
+def populatePom(def pom) {
+    pom.project {
+        name 'OpsGenie Java SDK'
+        packaging 'jar'
+        description "OpsGenie Java SDK"
 
-    if(!uploadOptions.exists()) {
-        if(project.hasProperty("options")) {
-            uploadOptions = file(project.options)
-            if(!uploadOptions.exists()) {
-                println "[Uploading NEXUS] Options file does not exist. Skipping!"
-                return;
+        url "https://www.opsgenie.com"
+
+        scm {
+            connection 'scm:git:git@github.com:opsgenie/opsgenieclient.git'
+            url 'https://github.com/opsgenie/opsgenieclient'
+        }
+
+        licenses {
+            license {
+                name 'The Apache License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
             }
-        } else {
-            return
+        }
+
+        developers {
+            developer {
+                id 'sezgin'
+                name 'Sezgin Kucukaraaslan'
+                email 'sezgin@opsgenie.com'
+            }
+
+            developer {
+                id 'eke'
+                name 'Abdurrahim Eke'
+                email 'abdurrahim@opsgenie.com'
+            }
+
+            developer {
+                id 'halit'
+                name 'Halit Okumus'
+                email 'halit@opsgenie.com'
+            }
+
+            developer {
+                id 'tuba'
+                name 'Tuba Ozturk'
+                email 'tuba@opsgenie.com'
+            }
+
+            developer {
+                id 'burak'
+                name 'Veli Burak Celen'
+                email 'burak@opsgenie.com'
+            }
+
+            developer {
+                id 'kadir'
+                name 'Kadir Turker Gulsoy'
+                email 'kadir@opsgenie.com'
+            }
+
+            developer {
+                id 'omer'
+                name 'Omer Ozkan'
+                email 'omer@opsgenie.com'
+            }
+
+            developer {
+                id 'tarik'
+                name 'M. Tarik Yurt'
+                email 'tarik@opsgenie.com'
+            }
+
+            developer {
+                id 'zafer'
+                name 'Zafer Genckaya'
+                email 'zafer@opsgenie.com'
+            }
+
+            developer {
+                id 'kaan'
+                name 'Kaan Basal'
+                email 'kaan@opsgenie.com'
+            }
         }
     }
+}
 
-    def type = project.version.toString().contains("SNAPSHOT") ? 'snapshots' : 'releases'
-    def localNexusUrl = "http://repo.opsgenie.com:9393/content/repositories/${type}"
-    def props = new Properties();
-    props.load(new FileInputStream(uploadOptions))
-    def nexusUser = props.getProperty('nexusUser')
-    def nexusPassword = props.getProperty('nexusPassword')
+
+uploadArchives {
     repositories {
-
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: localNexusUrl) {
-                authentication(userName: nexusUser, password: nexusPassword)
-            }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
 
-            pom.project {
-                name 'OpsGenie Java SDK'
-                packaging 'jar'
-                description "OpsGenie Java SDK"
-
-                url "https://www.opsgenie.com"
-
-                scm {
-                    connection 'scm:git:git@github.com:opsgenie/opsgenieclient.git'
-                    url 'https://github.com/opsgenie/opsgenieclient'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'sezgin'
-                        name 'Sezgin Kucukaraaslan'
-                        email 'sezgin@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'eke'
-                        name 'Abdurrahim Eke'
-                        email 'abdurrahim@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'halit'
-                        name 'Halit Okumus'
-                        email 'halit@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'tuba'
-                        name 'Tuba Ozturk'
-                        email 'tuba@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'burak'
-                        name 'Veli Burak Celen'
-                        email 'burak@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'kadir'
-                        name 'Kadir Turker Gulsoy'
-                        email 'kadir@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'omer'
-                        name 'Omer Ozkan'
-                        email 'omer@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'tarik'
-                        name 'M. Tarik Yurt'
-                        email 'tarik@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'zafer'
-                        name 'Zafer Genckaya'
-                        email 'zafer@opsgenie.com'
-                    }
-
-                    developer {
-                        id 'kaan'
-                        name 'Kaan Basal'
-                        email 'kaan@opsgenie.com'
-                    }
-                }
-            }
+            populatePom(pom)
         }
     }
 }
