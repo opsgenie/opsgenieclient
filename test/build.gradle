@@ -8,4 +8,5 @@ dependencies {
     compile 'org.apache.directory.studio:org.apache.commons.lang:2.6'
     compile 'org.littleshoot:littleproxy:0.5.OG'
     compile 'junit:junit:4.12'
+    compile 'org.hamcrest:hamcrest-all:1.3'
 }

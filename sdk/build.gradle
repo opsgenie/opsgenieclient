@@ -1,7 +1,7 @@
 buildscript {
     repositories { jcenter() }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
@@ -20,8 +20,11 @@ dependencies {
 tasks.check.dependsOn 'shadowJar'
 
 shadowJar {
+    baseName = "sdk-shaded"
+    classifier = null
     relocate 'org.apache', 'com.ifountain.apache'
     relocate 'org.codehaus', 'com.ifountain.codehaus'
+
 }
 
 jar {

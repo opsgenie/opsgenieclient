@@ -1,17 +1,13 @@
 package com.ifountain.opsgenie.client.marid
 
-import com.ifountain.opsgenie.client.http.HttpTestRequest
-import com.ifountain.opsgenie.client.http.HttpTestRequestListener
-import com.ifountain.opsgenie.client.http.HttpTestResponse
-import com.ifountain.opsgenie.client.http.HttpTestServer
-import com.ifountain.opsgenie.client.http.OpsGenieHttpClient
+import com.ifountain.opsgenie.client.http.*
 import com.ifountain.opsgenie.client.marid.alert.PubnubAlertActionListener
 import com.ifountain.opsgenie.client.misc.SmartWait
+import com.ifountain.opsgenie.client.pubnub.PubnubTestUtils
 import com.ifountain.opsgenie.client.script.AsyncScriptManager
 import com.ifountain.opsgenie.client.script.ScriptManager
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
 import com.ifountain.opsgenie.client.test.util.MaridTestCase
-import com.ifountain.opsgenie.client.pubnub.PubnubTestUtils
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.commons.io.FileUtils
@@ -20,10 +16,14 @@ import org.apache.http.HttpResponse
 import org.apache.http.HttpStatus
 import org.apache.http.auth.AuthScope
 import org.apache.http.auth.NTCredentials
+import org.apache.http.client.CredentialsProvider
+import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.protocol.HttpClientContext
 import org.apache.http.conn.HttpHostConnectException
-import org.apache.http.conn.params.ConnRoutePNames
-import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.impl.client.BasicCredentialsProvider
+import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.util.EntityUtils
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
@@ -33,6 +33,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import sun.security.tools.keytool.Main
 
+import static org.hamcrest.Matchers.*
 import static org.junit.Assert.*
 
 /**
@@ -45,11 +46,11 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
     def static int proxyPort = 0;
     def static HttpTestServer testHttpServer;
     static def receivedRequests = [];
-    def static url;
+    def static String url;
     def keyPass = "123456"
     def keystorePath = TestFile.TESTOUTPUT_DIR + "/.keystore"
     Bootstrap bootstrap;
-    DefaultHttpClient httpClient;
+    CloseableHttpClient httpClient;
     File confFile;
 
     @BeforeClass
@@ -76,10 +77,9 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         MaridConfig.destroyInstance()
         receivedRequests.clear();
         bootstrap = new Bootstrap();
-        httpClient = new DefaultHttpClient();
+        httpClient = HttpClientBuilder.create().build();
         confFile = new File(TestFile.TESTOUTPUT_DIR + "/conf/marid.conf")
         confFile.getParentFile().mkdirs();
-        //FileUtils.deleteQuietly(confFile)
     }
 
     @After
@@ -213,17 +213,13 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         //proxy server
         testHttpServer.setResponseToReturn("success")
 
-        HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
-
-        HttpGet get = new HttpGet(new URI(this.url));
-        def response = this.httpClient.execute(get);
+        HttpGet get = new HttpGet(new URI(url));
+        def response = this.httpClient.execute(get, createHttpClientContext());
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
         //test httpserver
-        DefaultHttpClient httpServerClient = new DefaultHttpClient();
+        CloseableHttpClient httpServerClient = HttpClientBuilder.create().build();
         def httpServerUrl = "http://${CommonTestUtils.getLocalhostIp()}:${httpPort}/unknown"
         def httpsServerUrl = "https://${CommonTestUtils.getLocalhostIp()}:${httpsPort}/unknown"
         get = new HttpGet(new URI(httpServerUrl));
@@ -271,7 +267,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
             fail("should throw exception");
         }
         catch (Exception e) {
-            assertEquals("Connection to http://${CommonTestUtils.getLocalhostIp()}:${httpPort} refused".toString(), e.getMessage())
+            assertThat(e.getMessage(), containsString("refused"))
         }
 
         get = new HttpGet(new URI(httpsServerUrl));
@@ -280,7 +276,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
             fail("should throw exception");
         }
         catch (Exception e) {
-            assertEquals("Connection to https://${CommonTestUtils.getLocalhostIp()}:${httpsPort} refused".toString(), e.getMessage())
+            assertThat(e.getMessage(), containsString("refused"))
         }
     }
 
@@ -335,17 +331,13 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         //proxy server
         testHttpServer.setResponseToReturn("success")
 
-        HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
-
-        HttpGet get = new HttpGet(new URI(this.url));
-        def response = this.httpClient.execute(get);
+        HttpGet get = new HttpGet(new URI(url));
+        def response = this.httpClient.execute(get, createHttpClientContext());
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
         //test httpserver
-        DefaultHttpClient httpServerClient = new DefaultHttpClient();
+        CloseableHttpClient httpServerClient = HttpClientBuilder.create().build();
         def httpServerUrl = "http://${CommonTestUtils.getLocalhostIp()}:${httpPort}/unknown"
         def httpsServerUrl = "https://${CommonTestUtils.getLocalhostIp()}:${httpsPort}/unknown"
         get = new HttpGet(new URI(httpServerUrl));
@@ -395,7 +387,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
             fail("should throw exception");
         }
         catch (Exception e) {
-            assertEquals("Connection to http://${CommonTestUtils.getLocalhostIp()}:${httpPort} refused".toString(), e.getMessage())
+            assertThat(e.getMessage(), containsString("refused"))
         }
 
         get = new HttpGet(new URI(httpsServerUrl));
@@ -404,7 +396,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
             fail("should throw exception");
         }
         catch (Exception e) {
-            assertEquals("Connection to https://${CommonTestUtils.getLocalhostIp()}:${httpsPort} refused".toString(), e.getMessage())
+            assertThat(e.getMessage(), containsString("refused"))
         }
     }
 
@@ -447,17 +439,14 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         //proxy server
         testHttpServer.setResponseToReturn("success")
 
-        HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
 
-        HttpGet get = new HttpGet(new URI(this.url));
-        HttpResponse response = httpClient.execute(get);
+        HttpGet get = new HttpGet(new URI(url));
+        HttpResponse response = httpClient.execute(get, createHttpClientContext());
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
         //test httpserver
-        DefaultHttpClient httpServerClient = new DefaultHttpClient();
+        CloseableHttpClient httpServerClient = HttpClientBuilder.create().build();
         def httpServerUrl = "http://${CommonTestUtils.getLocalhostIp()}:${httpPort}/unknown"
         def httpsServerUrl = "https://${CommonTestUtils.getLocalhostIp()}:${httpsPort}/unknown"
         get = new HttpGet(new URI(httpServerUrl));
@@ -466,7 +455,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
             fail("should throw exception");
         }
         catch (Exception e) {
-            assertEquals("Connection to http://${CommonTestUtils.getLocalhostIp()}:${httpPort} refused".toString(), e.getMessage())
+            assertThat(e.getMessage(), containsString("refused"))
         }
 
         get = new HttpGet(new URI(httpsServerUrl));
@@ -475,7 +464,7 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
             fail("should throw exception");
         }
         catch (Exception e) {
-            assertEquals("Connection to https://${CommonTestUtils.getLocalhostIp()}:${httpsPort} refused".toString(), e.getMessage())
+            assertThat(e.getMessage(), containsString("refused"))
         }
 
         //test MaridConfigConstruction
@@ -554,17 +543,15 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         //proxy server
         testHttpServer.setResponseToReturn("success")
 
-        HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
+        HttpClientContext context = createHttpClientContext();
 
-        HttpGet get = new HttpGet(new URI(this.url));
-        def response = httpClient.execute(get);
+        HttpGet get = new HttpGet(new URI(url));
+        def response = httpClient.execute(get, context);
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals("success", httpResponse)
 
         //test httpserver
-        DefaultHttpClient httpServerClient = new DefaultHttpClient();
+        CloseableHttpClient httpServerClient = HttpClientBuilder.create().build();
         def httpServerUrl = "http://${CommonTestUtils.getLocalhostIp()}:${httpPort}/unknown"
         def httpsServerUrl = "https://${CommonTestUtils.getLocalhostIp()}:${httpsPort}/unknown"
         get = new HttpGet(new URI(httpServerUrl));
@@ -596,12 +583,6 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
     @Test
     public void testIfServerReturnsErrorWillStartInWebhookModeWithOkStatusCodeAndInvalidContent() throws Exception {
         HttpTestResponse testResponse = new HttpTestResponse("success")
-        _testIfServerReturnsErrorWillStartInWebhookMode(testResponse)
-    }
-
-    @Test
-    public void testIfServerReturnsErrorWillStartInWebhookModeWithBadRequest() throws Exception {
-        HttpTestResponse testResponse = new HttpTestResponse("error".getBytes(), HttpStatus.SC_BAD_REQUEST)
         _testIfServerReturnsErrorWillStartInWebhookMode(testResponse)
     }
 
@@ -640,17 +621,18 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
         assertTrue(ScriptManager.getInstance().isInitialized())
         assertTrue(AsyncScriptManager.getInstance().isInitialized())
 
-        HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
-        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
-        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), new NTCredentials("sezgin", "sezgin", null, null));
+        HttpClientContext context = createHttpClientContext()
+//        this.httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHost);
+//        this.httpClient.getCredentialsProvider().setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), credentials);
 
-        HttpGet get = new HttpGet(new URI(this.url));
-        def response = this.httpClient.execute(get);
+        HttpGet get = new HttpGet(new URI(url));
+        def response = this.httpClient.execute(get, context);
         def httpResponse = EntityUtils.toString(response.getEntity());
         assertEquals(new String(testResponse.getContent()), httpResponse)
 
         //test httpserver
-        DefaultHttpClient httpServerClient = new DefaultHttpClient();
+
+        CloseableHttpClient httpServerClient = HttpClientBuilder.create().build();
         def httpServerUrl = "http://${CommonTestUtils.getLocalhostIp()}:${httpPort}/unknown"
         def httpsServerUrl = "https://${CommonTestUtils.getLocalhostIp()}:${httpsPort}/unknown"
         get = new HttpGet(new URI(httpServerUrl));
@@ -679,6 +661,26 @@ class BootstrapTest extends MaridTestCase implements HttpTestRequestListener {
 
         //will not start pubnub
         assertFalse(PubnubAlertActionListener.getInstance().isSubscribed())
+    }
+
+    private HttpClientContext createHttpClientContext() {
+        HttpHost proxyHost = new HttpHost(CommonTestUtils.getLocalhostIp(), proxyPort);
+        RequestConfig requestConfig = RequestConfig.custom().setProxy(proxyHost).build();
+
+        NTCredentials credentials = new NTCredentials("sezgin", "sezgin", null, null)
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(new AuthScope(CommonTestUtils.getLocalhostIp(), proxyPort), credentials)
+
+        HttpClientContext context = HttpClientContext.create();
+        context.setCredentialsProvider(credentialsProvider)
+        context.setRequestConfig(requestConfig)
+        return context
+    }
+
+    @Test
+    public void testIfServerReturnsErrorWillStartInWebhookModeWithBadRequest() throws Exception {
+        HttpTestResponse testResponse = new HttpTestResponse("error".getBytes(), HttpStatus.SC_BAD_REQUEST)
+        _testIfServerReturnsErrorWillStartInWebhookMode(testResponse)
     }
 
     @Test
