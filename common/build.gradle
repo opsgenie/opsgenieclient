@@ -4,6 +4,6 @@ dependencies {
     compile project(':sdk')
     compile 'bsf:bsf:2.4.0'
     compile 'org.codehaus.groovy:groovy-all:1.8.4'
-
+    compile 'log4j:log4j:1.2.16'
     testCompile project(':test')
 }

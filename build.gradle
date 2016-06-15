@@ -45,10 +45,6 @@ subprojects {
     task listJars << {
         configurations.compile.sort().each { File file -> println file.name }
     }
-
-    dependencies {
-        compile 'log4j:log4j:1.2.16'
-    }
 }
 
 task wrapper(type: Wrapper) {

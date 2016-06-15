@@ -1,15 +1,26 @@
-apply plugin: 'signing'
-apply from: 'pom.gradle'
-
-dependencies {
-    compile 'org.apache.httpcomponents:httpcore:4.2.5'
-    compile 'org.apache.httpcomponents:httpmime:4.2.5'
-    compile 'org.apache.httpcomponents:httpclient:4.2.5'
-    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.3'
-
-    testCompile project(':test')
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
 }
 
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'signing'
+apply from: "${project(':sdk').projectDir}/pom.gradle"
+
+
+dependencies {
+    shadow project(':sdk')
+}
+
+shadowJar {
+    classifier = null
+    relocate 'org.apache', 'com.opsgenie.apache'
+    relocate 'org.codehaus', 'com.opsgenie.codehaus'
+
+    configurations = [project.configurations.shadow]
+}
 
 jar {
     manifest {
@@ -26,17 +37,25 @@ jar {
     }
 }
 
+tasks.check.dependsOn 'shadowJar'
+tasks.shadowJar.dependsOn project(':sdk').tasks.jar
+
 task sourcesJar(type: Jar) {
     classifier 'sources'
-    from sourceSets.main.allSource
+    from project(':sdk').sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: 'javadoc') {
+task javadocJar(type: Jar, dependsOn: ':sdk:javadoc') {
     classifier 'javadoc'
-    from javadoc.destinationDir
+    from project(':sdk').javadoc.destinationDir
+}
+
+jar.onlyIf {
+    false
 }
 
 artifacts {
+    archives shadowJar
     archives sourcesJar
     archives javadocJar
 }
@@ -44,8 +63,6 @@ artifacts {
 signing {
     sign configurations.archives
 }
-
-
 
 uploadArchives {
     repositories {
@@ -60,4 +77,3 @@ uploadArchives {
         }
     }
 }
-
