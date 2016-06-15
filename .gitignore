@@ -14,3 +14,5 @@ testlogfile
 log.txt
 nexus.properties
 client-functional/
+
+.DS_Store
