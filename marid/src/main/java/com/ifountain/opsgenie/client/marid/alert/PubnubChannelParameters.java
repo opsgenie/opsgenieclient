@@ -113,4 +113,22 @@ public class PubnubChannelParameters {
     public void setSslOn(boolean sslOn) {
         this.sslOn = sslOn;
     }
+
+    @Override
+    public String toString() {
+        return "PubnubChannelParameters{" +
+                "channel='" + channel + '\'' +
+                ", publishKey='" + publishKey + '\'' +
+                ", secretKey='" + secretKey + '\'' +
+                ", subscribeKey='" + subscribeKey + '\'' +
+                ", cipherKey='" + cipherKey + '\'' +
+                ", proxyEnabled=" + proxyEnabled +
+                ", proxyHost='" + proxyHost + '\'' +
+                ", proxyPort=" + proxyPort +
+                ", proxyUsername='" + proxyUsername + '\'' +
+                ", proxyPassword='" + proxyPassword + '\'' +
+                ", proxyProtocol='" + proxyProtocol + '\'' +
+                ", sslOn=" + sslOn +
+                '}';
+    }
 }

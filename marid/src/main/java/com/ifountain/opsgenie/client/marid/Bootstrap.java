@@ -138,9 +138,10 @@ public class Bootstrap {
             params.setSslOn(MaridConfig.getInstance().getBoolean("pubnub.ssl.enabled", true));
             boolean isProxyEnabled = MaridConfig.getInstance().getBoolean("http.proxy.enabled", false);
             if(isProxyEnabled){
-                params.setProxyEnabled(isProxyEnabled);
+                params.setProxyEnabled(true);
                 params.setProxyHost(MaridConfig.getInstance().getProperty("http.proxy.host"));
                 params.setProxyPort(MaridConfig.getInstance().getInt("http.proxy.port", 12222));
+                params.setProxyProtocol(MaridConfig.getInstance().getProperty("http.proxy.protocol"));
                 params.setProxyUsername(MaridConfig.getInstance().getProperty("http.proxy.username"));
                 params.setProxyPassword(MaridConfig.getInstance().getProperty("http.proxy.password"));
             }

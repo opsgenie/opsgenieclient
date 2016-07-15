@@ -55,7 +55,7 @@ public class PubnubAlertActionListener {
     }
 
     public void initialize(PubnubChannelParameters params) {
-        logger.info("Starting action executor service with "+actionExecutorThreadCount +" number of threads.");
+        logger.info("Starting action executor service with " + actionExecutorThreadCount + " number of threads.");
         actionExecutionService = Executors.newFixedThreadPool(actionExecutorThreadCount);
         subscribeToOpsGenie(params);
     }
@@ -63,17 +63,17 @@ public class PubnubAlertActionListener {
     private void subscribeToOpsGenie(final PubnubChannelParameters params) {
         logger.debug(getLogPrefix() + "Subscribing to OpsGenie.");
         this.pubnubChannelParameters = params;
-        pubnub = new Pubnub(params.getPublishKey(), params.getSubscribeKey(), params.getSecretKey(), params.getCipherKey(), params.isSslOn()){
+        pubnub = new Pubnub(params.getPublishKey(), params.getSubscribeKey(), params.getSecretKey(), params.getCipherKey(), params.isSslOn()) {
             @Override
             protected AsyncHttpClientConfig.Builder createHttpClientBuilder() {
                 AsyncHttpClientConfig.Builder builder = super.createHttpClientBuilder();
-                if(params.isProxyEnabled()){
+                if (params.isProxyEnabled()) {
                     ProxyServer proxyServer;
-                    if(params.getProxyProtocol() == null){
+                    if (params.getProxyProtocol() == null) {
                         proxyServer = new ProxyServer(params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
-                    }
-                    else{
-                        proxyServer = new ProxyServer(ProxyServer.Protocol.valueOf(params.getProxyProtocol()), params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
+                    } else {
+                        ProxyServer.Protocol protocol = ProxyServer.Protocol.valueOf(params.getProxyProtocol().toUpperCase());
+                        proxyServer = new ProxyServer(protocol, params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
                     }
                     builder.setProxyServer(proxyServer);
                 }
@@ -202,17 +202,17 @@ public class PubnubAlertActionListener {
 
     private void destroy() {
         unsubscribe();
-        if(actionExecutionService != null){
+        if (actionExecutionService != null) {
             actionExecutionService.shutdown();
             try {
                 logger.info("Shuttingdown action execution service");
                 actionExecutionService.awaitTermination(shutdownWaitTime, TimeUnit.MILLISECONDS);
-                if(!actionExecutionService.isTerminated()){
+                if (!actionExecutionService.isTerminated()) {
                     actionExecutionService.shutdownNow();
                 }
                 logger.info("Shutdown action execution service");
             } catch (InterruptedException e) {
-                logger.info("Could not shutdown action execution service in "+shutdownWaitTime+" msecs.");
+                logger.info("Could not shutdown action execution service in " + shutdownWaitTime + " msecs.");
                 actionExecutionService.shutdownNow();
             }
         }
