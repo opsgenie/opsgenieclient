@@ -50,7 +50,7 @@ class ScriptProxyUserTest {
     }
 
     public void _testAddUser(boolean useConfig) throws Exception {
-        def params = [username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "GMT+7",
+        def params = [username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "Etc/GMT+7",
                       locale: Locale.CHINA.toString()];
         if (!useConfig) {
             params.apiKey = "customer1";
@@ -67,7 +67,7 @@ class ScriptProxyUserTest {
         assertEquals("user1@xyz.com", request.getUsername())
         assertEquals("user1", request.getFullname())
         assertEquals("user", request.getRole().name())
-        assertEquals(TimeZone.getTimeZone("GMT+7").getID(), request.getTimeZone().getID())
+        assertEquals(TimeZone.getTimeZone("Etc/GMT+7").getID(), request.getTimeZone().getID())
         assertEquals(Locale.CHINA, request.getLocale())
         if (useConfig) {
             assertEquals(apiKey, request.getApiKey())
@@ -90,7 +90,7 @@ class ScriptProxyUserTest {
     }
 
     public void _testUpdateUser(boolean useConfig) throws Exception {
-        def params = [id: "user1Id", username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "GMT+7", locale: Locale.CHINA.toString()];
+        def params = [id: "user1Id", username: "user1@xyz.com", fullname: "user1", role: "user", timezone: "Etc/GMT+7", locale: Locale.CHINA.toString()];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -108,7 +108,7 @@ class ScriptProxyUserTest {
         assertEquals("user1", request.getFullname())
         assertEquals("user", request.getRole().name())
         assertEquals(Locale.CHINA, request.getLocale())
-        assertEquals(TimeZone.getTimeZone("GMT+7").getID(), request.getTimeZone().getID())
+        assertEquals(TimeZone.getTimeZone("Etc/GMT+7").getID(), request.getTimeZone().getID())
         if (useConfig) {
             assertEquals(apiKey, request.getApiKey())
         } else {
@@ -238,7 +238,7 @@ class ScriptProxyUserTest {
     }
 
     public void _testAddForwarding(boolean useConfig) throws Exception {
-        def params = [alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: "2013-01-22 22:00", endDate: new Date(), timezone: "GMT+7"];
+        def params = [alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: "2013-01-22 22:00", endDate: new Date(), timezone: "Etc/GMT+7"];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -280,7 +280,7 @@ class ScriptProxyUserTest {
     }
 
     public void _testUpdateForwarding(boolean useConfig) throws Exception {
-        def params = [id: "forwarding1Id", alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: new Date(), endDate: "2013-01-22 22:00", timezone: TimeZone.getTimeZone("GMT+7")];
+        def params = [id: "forwarding1Id", alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: new Date(), endDate: "2013-01-22 22:00", timezone: TimeZone.getTimeZone("Etc/GMT+7")];
         if (!useConfig) {
             params.apiKey = "customer1";
         }

@@ -40,7 +40,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setStartDate(new Date());
         request.setFromUser("user1");
         request.setToUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
 
         def response = OpsGenieClientTestCase.opsgenieClient.user().addForwarding(request)
@@ -83,7 +83,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setStartDate(new Date());
         request.setFromUser("user1");
         request.setToUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
 
         def response = OpsGenieClientTestCase.opsgenieClient.user().updateForwarding(request)
@@ -161,7 +161,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
     @Test
     public void testGetForwardingSuccessfully() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
 
         def startDate = new Date()
         def endDate = new Date(System.currentTimeMillis() + 1000000)
@@ -209,7 +209,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
     @Test
     public void testListForwardingsSuccessfully() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
 
         def startDate1 = new Date()
         def endDate1 = new Date(System.currentTimeMillis() + 1000000)
@@ -224,7 +224,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         jsonContent1.put(TestConstants.API.TO_USER, "user2");
         jsonContent1.put(TestConstants.API.ALIAS, "forwarding1Alias");
         jsonContent1.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-3"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-3"));
         Map jsonContent2 = new HashMap();
         jsonContent2.put(TestConstants.API.ID, "forwarding2");
         jsonContent2.put(TestConstants.API.START_DATE, sdf.format(startDate2));
@@ -250,7 +250,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(jsonContent1[TestConstants.API.FROM_USER], forwarding.fromUser)
         assertEquals(sdf.format(startDate1), sdf.format(forwarding.startDate))
         assertEquals(sdf.format(endDate1), sdf.format(forwarding.endDate))
-        assertEquals(TimeZone.getTimeZone("GMT-5"), forwarding.timeZone)
+        assertEquals(TimeZone.getTimeZone("Etc/GMT-5"), forwarding.timeZone)
 
         forwarding = forwardings.find { it.alias == jsonContent2[TestConstants.API.ALIAS] }
         assertEquals(jsonContent2[TestConstants.API.ALIAS], forwarding.alias)
@@ -259,7 +259,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(jsonContent2[TestConstants.API.FROM_USER], forwarding.fromUser)
         assertEquals(sdf.format(startDate2), sdf.format(forwarding.startDate))
         assertEquals(sdf.format(endDate2), sdf.format(forwarding.endDate))
-        assertEquals(TimeZone.getTimeZone("GMT-3"), forwarding.timeZone)
+        assertEquals(TimeZone.getTimeZone("Etc/GMT-3"), forwarding.timeZone)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
@@ -284,7 +284,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setUsername("user1@xyz.com");
         request.setRole(User.Role.user);
         request.setFullname("user1 user1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"));
         request.setLocale(Locale.CHINA);
 
         def response = OpsGenieClientTestCase.opsgenieClient.user().addUser(request)
@@ -350,7 +350,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setUsername("user1@xyz.com");
         request.setRole(User.Role.user);
         request.setFullname("user1 user1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"));
         request.setLocale(Locale.CHINA);
 
         def response = OpsGenieClientTestCase.opsgenieClient.user().updateUser(request)
@@ -439,7 +439,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         jsonContent.put(TestConstants.API.USERNAME, "user1@xyz.com");
         jsonContent.put(TestConstants.API.FULLNAME, "user1 user1");
         jsonContent.put(TestConstants.API.ROLE, User.Role.admin.name());
-        jsonContent.put(TestConstants.API.TIMEZONE, "GMT+6");
+        jsonContent.put(TestConstants.API.TIMEZONE, "Etc/GMT+6");
         jsonContent.put(TestConstants.API.LOCALE, User.getLocaleId(Locale.CHINA));
         jsonContent.put(TestConstants.API.STATE, "active");
         jsonContent.put(TestConstants.API.GROUPS, ["group1", "group2"]);
@@ -484,7 +484,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         jsonContent.put(TestConstants.API.USERNAME, "user1@xyz.com");
         jsonContent.put(TestConstants.API.FULLNAME, "user1 user1");
         jsonContent.put(TestConstants.API.ROLE, User.Role.admin.name());
-        jsonContent.put(TestConstants.API.TIMEZONE, "GMT+6");
+        jsonContent.put(TestConstants.API.TIMEZONE, "Etc/GMT+6");
         jsonContent.put(TestConstants.API.STATE, "active");
         jsonContent.put(TestConstants.API.GROUPS, ["group1", "group2"]);
         jsonContent.put(TestConstants.API.ESCALATIONS, ["esc1", "esc2"]);
@@ -530,7 +530,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         user1Content.put(TestConstants.API.USERNAME, "user1@xyz.com");
         user1Content.put(TestConstants.API.FULLNAME, "user1 user1");
         user1Content.put(TestConstants.API.ROLE, User.Role.admin.name());
-        user1Content.put(TestConstants.API.TIMEZONE, "GMT+6");
+        user1Content.put(TestConstants.API.TIMEZONE, "Etc/GMT+6");
         user1Content.put(TestConstants.API.STATE, "active");
         user1Content.put(TestConstants.API.GROUPS, ["group1", "group2"]);
         user1Content.put(TestConstants.API.ESCALATIONS, ["esc1", "esc2"]);
@@ -542,7 +542,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         user2Content.put(TestConstants.API.USERNAME, "user2@xyz.com");
         user2Content.put(TestConstants.API.FULLNAME, "user2 user2");
         user2Content.put(TestConstants.API.ROLE, User.Role.user.name());
-        user2Content.put(TestConstants.API.TIMEZONE, "GMT+3");
+        user2Content.put(TestConstants.API.TIMEZONE, "Etc/GMT+3");
         user2Content.put(TestConstants.API.STATE, "inactive");
         user2Content.put(TestConstants.API.GROUPS, []);
         user2Content.put(TestConstants.API.ESCALATIONS, []);

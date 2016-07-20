@@ -25,7 +25,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         AddScheduleRequest request = new AddScheduleRequest();
         request.setApiKey("customer1");
         request.setName("schedule1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+8"));
         request.setEnabled(true);
         request.setRotations([
                 new ScheduleRotation(name:"rule1", startDate: new Date(10000000000l), rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
@@ -114,7 +114,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setApiKey("customer1");
         request.setId("schedule1Id");
         request.setName("schedule1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+5"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+5"));
         request.setEnabled(false);
         request.setRotations([
                 new ScheduleRotation(name:"updatedRule",startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
@@ -220,7 +220,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request = new UpdateScheduleRequest();
         request.setApiKey("customer1");
         request.setId("schedule1Id");
-        request.setTimeZone(TimeZone.getTimeZone("GMT-7"))
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT-7"))
 
         response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
         assertEquals("schedule1Id", response.getId())
@@ -314,7 +314,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent.put(TestConstants.API.ID, "schedule1id");
         jsonContent.put(TestConstants.API.NAME, "schedule1");
         jsonContent.put(TestConstants.API.TEAM, "team1");
-        jsonContent.put(TestConstants.API.TIMEZONE, "GMT+2");
+        jsonContent.put(TestConstants.API.TIMEZONE, "Etc/GMT+2");
         jsonContent.put(TestConstants.API.ENABLED, false);
         jsonContent.put(TestConstants.API.RULES, [
                 [
@@ -574,7 +574,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         WhoIsOnCallRequest request = new WhoIsOnCallRequest();
         request.setId(jsonContent[TestConstants.API.ID]);
         request.setName(jsonContent[TestConstants.API.NAME]);
-        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
         request.setTime(new Date(System.currentTimeMillis()));
         request.setApiKey("customer1");
 
@@ -805,7 +805,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setSchedule("schedule1");
         request.setStartDate(new Date());
         request.setUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
         request.setRotationIds(["rotation1"])
 
@@ -848,7 +848,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setSchedule("schedule1");
         request.setStartDate(new Date());
         request.setUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
         request.setRotationIds(["rot1"])
 
@@ -912,7 +912,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
     @Test
     public void testGetScheduleOverrideSuccessfully() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
 
         def startDate = new Date()
         def endDate = new Date(System.currentTimeMillis() + 1000000)
@@ -958,7 +958,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
     @Test
     public void testListScheduleOverridesSuccessfully() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
 
         def startDate1 = new Date()
         def endDate1 = new Date(System.currentTimeMillis() + 1000000)
@@ -971,7 +971,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent1.put(TestConstants.API.USER, "user1");
         jsonContent1.put(TestConstants.API.ALIAS, "alias1");
         jsonContent1.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-3"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-3"));
         Map jsonContent2 = new HashMap();
         jsonContent2.put(TestConstants.API.START_DATE, sdf.format(startDate2));
         jsonContent2.put(TestConstants.API.END_DATE, sdf.format(endDate2));
@@ -992,13 +992,13 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(jsonContent1[TestConstants.API.USER], override.user)
         assertEquals(sdf.format(startDate1), sdf.format(override.startDate))
         assertEquals(sdf.format(endDate1), sdf.format(override.endDate))
-        assertEquals(TimeZone.getTimeZone("GMT-5"), override.timeZone)
+        assertEquals(TimeZone.getTimeZone("Etc/GMT-5"), override.timeZone)
 
         override = overrides.find { it.alias == jsonContent2[TestConstants.API.ALIAS] }
         assertEquals(jsonContent2[TestConstants.API.USER], override.user)
         assertEquals(sdf.format(startDate2), sdf.format(override.startDate))
         assertEquals(sdf.format(endDate2), sdf.format(override.endDate))
-        assertEquals(TimeZone.getTimeZone("GMT-3"), override.timeZone)
+        assertEquals(TimeZone.getTimeZone("Etc/GMT-3"), override.timeZone)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

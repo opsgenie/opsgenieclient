@@ -39,7 +39,7 @@ class ScriptProxyScheduleTest {
         Date dateobject = new Date();
         Map params = new HashMap();
         params.put(TestConstants.API.NAME, "schedule1");
-        params.put(TestConstants.API.TIMEZONE, "GMT+7");
+        params.put(TestConstants.API.TIMEZONE, "Etc/GMT+7");
         params.put(TestConstants.API.ENABLED, false);
         params.put(TestConstants.API.ROTATIONS, [
                 [
@@ -67,7 +67,7 @@ class ScriptProxyScheduleTest {
         AddScheduleRequest request = executedRequests[0] as AddScheduleRequest;
 
         assertEquals("schedule1", request.getName())
-        assertEquals(TimeZone.getTimeZone("GMT+7").getID(), request.getTimeZone().getID())
+        assertEquals(TimeZone.getTimeZone("Etc/GMT+7").getID(), request.getTimeZone().getID())
         assertFalse(request.isEnabled())
         assertEquals(2, request.getRotations().size())
 
@@ -112,7 +112,7 @@ class ScriptProxyScheduleTest {
         Map params = new HashMap();
         params.put(TestConstants.API.ID, "schedule1Id");
         params.put(TestConstants.API.NAME, "schedule1");
-        params.put(TestConstants.API.TIMEZONE, TimeZone.getTimeZone("GMT+7"));
+        params.put(TestConstants.API.TIMEZONE, TimeZone.getTimeZone("Etc/GMT+7"));
         params.put(TestConstants.API.ENABLED, false);
         params.put(TestConstants.API.ROTATIONS, [
                 [
@@ -141,7 +141,7 @@ class ScriptProxyScheduleTest {
 
         assertEquals("schedule1Id", request.getId())
         assertEquals("schedule1", request.getName())
-        assertEquals(TimeZone.getTimeZone("GMT+7").getID(), request.getTimeZone().getID())
+        assertEquals(TimeZone.getTimeZone("Etc/GMT+7").getID(), request.getTimeZone().getID())
         assertFalse(request.isEnabled())
         assertEquals(2, request.getRotations().size())
 
@@ -256,7 +256,7 @@ class ScriptProxyScheduleTest {
 
     public void _testWhoIsOnCall(boolean useConfig) throws Exception {
         def params = [id      : "schedule1Id", name: "schedule1", time: new Date(),
-                      timezone: TimeZone.getTimeZone("GMT+2")];
+                      timezone: TimeZone.getTimeZone("Etc/GMT+2")];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -296,7 +296,7 @@ class ScriptProxyScheduleTest {
 
     public void _testFlatWhoIsOnCall(boolean useConfig) throws Exception {
         def params = [id      : "schedule1Id", name: "schedule1", time: new Date(),
-                      timezone: TimeZone.getTimeZone("GMT+2")];
+                      timezone: TimeZone.getTimeZone("Etc/GMT+2")];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
