@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRule(ChangeNotificationRuleRequest)
  */
-public class ChangeNotificationRuleRequest extends BaseRequest<ChangeNotificationRuleResponse> {
+public class ChangeNotificationRuleOrderRequest extends BaseRequest<ChangeNotificationRuleOrderResponse> {
 	private String username;
 	private String userId;
 	private String id;
@@ -43,42 +43,24 @@ public class ChangeNotificationRuleRequest extends BaseRequest<ChangeNotificatio
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
-	public ChangeNotificationRuleResponse createResponse() {
-		return new ChangeNotificationRuleResponse();
+	public ChangeNotificationRuleOrderResponse createResponse() {
+		return new ChangeNotificationRuleOrderResponse();
 	}
-    /**
-     * username of notificationRule to be deleted.
-     */
 	public String getUsername() {
 		return username;
 	}
-    /**
-     * Sets username of notificationRule to be deleted.
-     */
 	public void setUsername(String username) {
 		this.username = username;
 	}
-    /**
-     * userId of notificationRule to be deleted.
-     */
 	public String getUserId() {
 		return userId;
 	}
-    /**
-     * Sets userId of notificationRule to be deleted.
-     */
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-    /**
-     * Id of notificationRule to be deleted.
-     */
 	public String getId() {
 		return id;
 	}
-    /**
-     * Sets Id of notificationRule to be deleted.
-     */
 	public void setId(String id) {
 		this.id = id;
 	}

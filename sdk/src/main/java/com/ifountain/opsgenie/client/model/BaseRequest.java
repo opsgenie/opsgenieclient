@@ -25,7 +25,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     }
     /**
      * check the parameters for validation.
-     * It will override by necessary Requests.
+     * It will be overridden by necessary Requests.
      * @throws ValidationException 
      */
     public boolean isValid() throws ValidationException{

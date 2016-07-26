@@ -6,6 +6,6 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRule(ChangeNotificationRuleRequest)
  */
-public class ChangeNotificationRuleResponse extends BaseResponse {
+public class ChangeNotificationRuleOrderResponse extends BaseResponse {
 
 }

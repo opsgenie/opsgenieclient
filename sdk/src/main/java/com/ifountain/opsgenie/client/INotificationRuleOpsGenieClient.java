@@ -57,10 +57,10 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param addNotificationRuleRequest Object to construct request parameters.
      * @return <code>ChangeNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleOrderRequest
      * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleResponse
      */
-    public ChangeNotificationRuleResponse changeNotificationRule(ChangeNotificationRuleRequest changeNotificationRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+    public ChangeNotificationRuleOrderResponse changeNotificationRule(ChangeNotificationRuleOrderRequest changeNotificationRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
     
     /**
      * Repeat a notificationRule at OpsGenie.

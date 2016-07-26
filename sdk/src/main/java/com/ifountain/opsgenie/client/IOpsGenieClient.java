@@ -29,6 +29,13 @@ public interface IOpsGenieClient {
      * @return IContactOpsGenieClient
      */
     IContactOpsGenieClient contact();
+    
+    /**
+     * Opsgenie Notification Client
+     * @see INotificationRuleOpsGenieClient
+     * @return INotificationRuleOpsGenieClient
+     */
+    INotificationRuleOpsGenieClient notificationRule();
 
     /**
      * Opsgenie Group Client

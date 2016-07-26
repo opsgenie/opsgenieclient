@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * Inner Group Contact
+ * Inner Contact Client
  */
 public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	private JsonOpsgenieHttpClient httpClient;
