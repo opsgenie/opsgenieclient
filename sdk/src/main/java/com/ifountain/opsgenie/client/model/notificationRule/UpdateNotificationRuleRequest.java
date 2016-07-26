@@ -34,8 +34,6 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
 		if(rule == null)
 			return null;
 		UpdateNotificationRuleRequest request = new UpdateNotificationRuleRequest();
-		request.setUsername(rule.getUsername());
-		request.setUserId(rule.getUserId());
 		request.setId(rule.getId());
 		request.setName(rule.getName());
 		request.setConditionMatchType(rule.getConditionMatchType());
@@ -68,7 +66,7 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
 		if (getName() != null) 
 			json.put(OpsGenieClientConstants.API.NAME, getName());
 		if(getConditionMatchType() != null)
-			json.put(OpsGenieClientConstants.API.CONDITION_MATCH_TYPE, ConditionMatchType.getConditionMatchTypeEnumName(getConditionMatchType()));
+			json.put(OpsGenieClientConstants.API.CONDITION_MATCH_TYPE, getConditionMatchType().value());
 		if(getConditions() != null){
 			List<Map> conditionMapList = new ArrayList<Map>();
 			for (NotificationRuleConditions cond : getConditions()) 
@@ -78,7 +76,7 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
 		if(getNotifyBefore() != null){
 			List<String> notifyStringList = new ArrayList<String>();
 			for (NotifyBefore notifyBefore : getNotifyBefore()) 
-				notifyStringList.add(NotifyBefore.getNotifyBeforeEnumName(notifyBefore));
+				notifyStringList.add(notifyBefore.value());
 			json.put(OpsGenieClientConstants.API.NOTIFY_BEFORE, notifyStringList);
 		}
 		if(getRestirictions() != null){

@@ -34,8 +34,6 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 		if(rule == null)
 			return null;
 		AddNotificationRuleRequest request = new AddNotificationRuleRequest();
-		request.setUsername(rule.getUsername());
-		request.setUserId(rule.getUserId());
 		request.setName(rule.getName());
 		request.setAction(rule.getActionType());
 		request.setConditionMatchType(rule.getConditionMatchType());
@@ -66,9 +64,9 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 		if (getName() != null) 
 			json.put(OpsGenieClientConstants.API.NAME, getName());
 		if(getAction() != null)
-			json.put(OpsGenieClientConstants.API.ACTION_TYPE, ActionType.getActionTypeEnumName(getAction()));
+			json.put(OpsGenieClientConstants.API.ACTION_TYPE, getAction().value());
 		if(getConditionMatchType() != null)
-			json.put(OpsGenieClientConstants.API.CONDITION_MATCH_TYPE, ConditionMatchType.getConditionMatchTypeEnumName(getConditionMatchType()));
+			json.put(OpsGenieClientConstants.API.CONDITION_MATCH_TYPE, getConditionMatchType().value());
 		if(getConditions() != null){
 			List<Map> conditionMapList = new ArrayList<Map>();
 			for (NotificationRuleConditions cond : getConditions()) 
@@ -78,7 +76,7 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 		if(getNotifyBefore() != null){
 			List<String> notifyStringList = new ArrayList<String>();
 			for (NotifyBefore notifyBefore : getNotifyBefore()) 
-				notifyStringList.add(NotifyBefore.getNotifyBeforeEnumName(notifyBefore));
+				notifyStringList.add(notifyBefore.value());
 			json.put(OpsGenieClientConstants.API.NOTIFY_BEFORE, notifyStringList);
 		}
 		if(getApplyOrder() != null)
