@@ -15,13 +15,13 @@ import com.ifountain.opsgenie.client.model.beans.NotificationRuleStep;
 public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotificationRuleStepResponse> {
 	private String username;
 	private String userId;
-	private String ruleID;
+	private String ruleId;
 	private String id;
 
 	private Method method;
 	private String to;
 	private Integer sendAfter;
-	public static UpdateNotificationRuleStepRequest fromUpdateNotificationRuleStep(NotificationRuleStep step,String ruleID){
+	public static UpdateNotificationRuleStepRequest fromUpdateNotificationRuleStep(NotificationRuleStep step,String ruleId){
 		if(step == null)
 			return null;
 		UpdateNotificationRuleStepRequest request = new UpdateNotificationRuleStepRequest();
@@ -29,7 +29,7 @@ public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotific
 		request.setMethod(step.getMethod());
 		request.setSendAfter(step.getSendAfter());
 		request.setTo(step.getTo());
-		request.setRuleID(ruleID);
+		request.setRuleId(ruleId);
 		return request;
 	}
 	
@@ -50,8 +50,8 @@ public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotific
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 
 			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if (getRuleID() != null) 
-			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleID());
+		if (getRuleId() != null) 
+			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleId());
 		if (getId() != null) 
 			json.put(OpsGenieClientConstants.API.ID, getId());
 		if (getMethod() != null) 
@@ -118,11 +118,11 @@ public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotific
 	public void setTo(String to) {
 		this.to = to;
 	}
-	public String getRuleID() {
-		return ruleID;
+	public String getRuleId() {
+		return ruleId;
 	}
-	public void setRuleID(String ruleID) {
-		this.ruleID = ruleID;
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
 	}
 	public Method getMethod() {
 		return method;

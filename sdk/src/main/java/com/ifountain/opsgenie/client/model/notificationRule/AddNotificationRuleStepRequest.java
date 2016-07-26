@@ -15,7 +15,7 @@ import com.ifountain.opsgenie.client.model.beans.NotificationRuleStep;
 public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationRuleStepResponse> {
 	private String username;
 	private String userId;
-	private String ruleID;
+	private String ruleId;
 	private Method method;
 	private String to;
 	private Integer sendAfter;
@@ -46,8 +46,8 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 
 			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if (getRuleID() != null) 
-			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleID());
+		if (getRuleId() != null) 
+			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleId());
 		if (getMethod() != null) 
 			json.put(OpsGenieClientConstants.API.METHOD, getMethod().name());
 		if (getTo() != null) 
@@ -100,11 +100,11 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 	public void setTo(String to) {
 		this.to = to;
 	}
-	public String getRuleID() {
-		return ruleID;
+	public String getRuleId() {
+		return ruleId;
 	}
-	public void setRuleID(String ruleID) {
-		this.ruleID = ruleID;
+	public void setRuleID(String ruleId) {
+		this.ruleId = ruleId;
 	}
 	public Method getMethod() {
 		return method;

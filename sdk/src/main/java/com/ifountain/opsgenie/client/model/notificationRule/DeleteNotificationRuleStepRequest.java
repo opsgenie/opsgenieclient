@@ -13,7 +13,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotificationRuleStepResponse> {
 	private String username;
 	private String userId;
-	private String ruleID;
+	private String ruleId;
 	private String id;
     /**
      * Rest api uri of deleting notificationRuleStep operation.
@@ -32,8 +32,8 @@ public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotific
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 
 			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if (getRuleID() != null) 
-			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleID());
+		if (getRuleId() != null) 
+			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleId());
 		if (getId() != null) 
 			json.put(OpsGenieClientConstants.API.ID, getId());
         return json;
@@ -82,11 +82,11 @@ public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotific
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getRuleID() {
-		return ruleID;
+	public String getRuleId() {
+		return ruleId;
 	}
-	public void setRuleID(String ruleID) {
-		this.ruleID = ruleID;
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
 	}
 	
 
