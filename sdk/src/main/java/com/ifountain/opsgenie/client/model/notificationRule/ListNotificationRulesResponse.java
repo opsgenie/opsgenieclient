@@ -37,7 +37,6 @@ public class ListNotificationRulesResponse extends BaseResponse {
             notificationRules = new ArrayList<NotificationRule>();
             List<Map> notificationRulesData = (List<Map>) data.get(OpsGenieClientConstants.API.RULES);
             for(Map notificationRuleData:notificationRulesData){
-            	System.out.println("Data = " + notificationRuleData);
                 NotificationRule notificationRule = new NotificationRule();
                 notificationRule.fromMap(notificationRuleData);
                 notificationRules.add(notificationRule);
