@@ -6,6 +6,8 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.ValidationException;
+
 /**
  * Base class for container objects which provides content parameters for OpsGenie service calls.
  *
@@ -20,6 +22,16 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      */
     public String getApiKey() {
         return apiKey;
+    }
+    /**
+     * check the parameters for validation.
+     * It will override by necessary Requests.
+     * @throws ValidationException 
+     */
+    public boolean isValid() throws ValidationException{
+    	if(apiKey == null)
+    		throw new ValidationException("ValidationException[[apiKey] field should be provided.]");
+    	return true;
     }
 
     /**
