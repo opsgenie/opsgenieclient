@@ -60,7 +60,7 @@ public interface INotificationRuleOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleOrderRequest
      * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleResponse
      */
-    public ChangeNotificationRuleOrderResponse changeNotificationRule(ChangeNotificationRuleOrderRequest changeNotificationRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
+    public ChangeNotificationRuleOrderResponse changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest changeNotificationRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
     
     /**
      * Repeat a notificationRule at OpsGenie.

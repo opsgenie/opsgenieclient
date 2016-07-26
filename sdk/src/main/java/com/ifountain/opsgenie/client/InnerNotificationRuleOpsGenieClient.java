@@ -111,7 +111,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	@Override
-	public ChangeNotificationRuleOrderResponse changeNotificationRule(ChangeNotificationRuleOrderRequest changeNotificationRuleRequest)throws IOException, OpsGenieClientException, ParseException {
+	public ChangeNotificationRuleOrderResponse changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest changeNotificationRuleRequest)throws IOException, OpsGenieClientException, ParseException {
 		return (ChangeNotificationRuleOrderResponse) httpClient.doPostRequest(changeNotificationRuleRequest);
 	}
 
