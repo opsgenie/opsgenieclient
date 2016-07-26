@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
@@ -18,8 +19,20 @@ public class Account implements IBean {
 
 	@Override
 	public Map toMap() {
-		// TODO Auto-generated method stub
-		return null;
+        Map<String, Object> json = new HashMap<String, Object>();
+        if(getUserCount() != null)
+        	json.put(OpsGenieClientConstants.API.USER_COUNT, getUserCount());
+        if(getName() != null)
+        	json.put(OpsGenieClientConstants.API.NAME, getName());
+        Map planmap = new HashMap<String, String>();
+        if(getIsYearly() != null)
+        	planmap.put(OpsGenieClientConstants.API.IS_YEARLY, getIsYearly());
+        if(getPlanName() != null)
+        	planmap.put(OpsGenieClientConstants.API.NAME, getPlanName());
+        if(getMaxUserCount() != null)
+        	planmap.put(OpsGenieClientConstants.API.MAX_USER_COUNT, getMaxUserCount());
+    	json.put(OpsGenieClientConstants.API.PLAN, planmap);
+        return json;
 	}
 
 	@Override
