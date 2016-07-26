@@ -1,6 +1,8 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
+import com.ifountain.opsgenie.client.model.account.GetAccountRequest;
+import com.ifountain.opsgenie.client.model.account.GetAccountResponse;
 import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
@@ -66,6 +68,7 @@ import java.text.ParseException;
  */
 public class OpsGenieClient implements IOpsGenieClient {
     private InnerUserOpsGenieClient innerUserOpsGenieClient;
+    private InnerContactOpsGenieClient innerContactOpsGenieClient;
     private InnerGroupOpsGenieClient innerGroupOpsGenieClient;
     private InnerTeamOpsGenieClient innerTeamOpsGenieClient;
     private InnerEscalationOpsGenieClient innerEscalationOpsGenieClient;
@@ -73,6 +76,8 @@ public class OpsGenieClient implements IOpsGenieClient {
     private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
     private InnerAlertPolicyOpsGenieClient innerAlertPolicyOpsGenieClient;
     private IIntegrationOpsGenieClient innerIntegrationOpsGenieClient;
+    private IPolicyOpsGenieClient innerPolicyOpsGenieClient;
+    private INotificationRuleOpsGenieClient innerNotificationRuleOpsGenieClient;
     /**
      * Http client object *
      */
@@ -108,6 +113,9 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient, this.streamOpsgenieHttpClient);
         innerAlertPolicyOpsGenieClient = new InnerAlertPolicyOpsGenieClient(this.jsonHttpClient);
         innerIntegrationOpsGenieClient = new InnerIntegrationOpsGenieClient(this.jsonHttpClient);
+        innerContactOpsGenieClient = new InnerContactOpsGenieClient(this.jsonHttpClient);
+        innerPolicyOpsGenieClient = new InnerPolicyOpsGenieClient(this.jsonHttpClient);
+        innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
     }
 
     /**
@@ -166,7 +174,21 @@ public class OpsGenieClient implements IOpsGenieClient {
     public IIntegrationOpsGenieClient integration() {
         return innerIntegrationOpsGenieClient;
     }
-
+    
+    /**
+     * @see IOpsGenieClient#policy() ()
+     */
+    public IPolicyOpsGenieClient policy() {
+        return innerPolicyOpsGenieClient;
+    }
+    
+    /**
+     * @see IOpsGenieClient#notificationRule() ()
+     */
+    public INotificationRuleOpsGenieClient notificationRule() {
+        return innerNotificationRuleOpsGenieClient;
+    }
+    
     /**
      * @see IOpsGenieClient#heartbeat(com.ifountain.opsgenie.client.model.customer.HeartbeatRequest)
      */
@@ -250,4 +272,20 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.jsonHttpClient.close();
         this.streamOpsgenieHttpClient.close();
     }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#contact()
+     */
+	public IContactOpsGenieClient contact() {
+		return innerContactOpsGenieClient;
+	}
+
+    /**
+     * @see IOpsGenieClient#getAccount(com.ifountain.opsgenie.client.model.account.GetAccountRequest)
+     */
+	@Override
+	public GetAccountResponse getAccount(GetAccountRequest getAccountRequest)
+			throws OpsGenieClientException, IOException, ParseException {
+		return (GetAccountResponse) jsonHttpClient.doGetRequest(getAccountRequest);
+	}
 }

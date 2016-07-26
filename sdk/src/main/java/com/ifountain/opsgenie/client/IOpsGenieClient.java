@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client;
 
+import com.ifountain.opsgenie.client.model.account.GetAccountRequest;
+import com.ifountain.opsgenie.client.model.account.GetAccountResponse;
 import com.ifountain.opsgenie.client.model.customer.*;
 
 import java.io.IOException;
@@ -19,6 +21,14 @@ public interface IOpsGenieClient {
      * @return IUserOpsGenieClient
      */
     IUserOpsGenieClient user();
+    
+
+    /**
+     * Opsgenie Contact Client
+     * @see IContactOpsGenieClient
+     * @return IContactOpsGenieClient
+     */
+    IContactOpsGenieClient contact();
 
     /**
      * Opsgenie Group Client
@@ -131,6 +141,7 @@ public interface IOpsGenieClient {
      */
     public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
 
+    
     /**
      * List all heartbeat monitor details on OpsGenie.
      *
@@ -162,4 +173,15 @@ public interface IOpsGenieClient {
      * Closes client
      */
     public void close();
+    
+    /**
+     * Get account  details on OpsGenie.
+     *
+     * @param getHeartbeatRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.account.GetAccountRequest
+     * @see com.ifountain.opsgenie.client.model.account.GetAccountResponse
+     */
+    public GetAccountResponse getAccount(GetAccountRequest getAccountRequest) throws OpsGenieClientException, IOException, ParseException;
+    
 }
