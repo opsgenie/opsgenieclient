@@ -63,8 +63,6 @@ public class NotificationRule implements IBean {
 	}
 
 	private String id;
-	private String userId;
-	private String username;
 	private String name;
 	private Integer applyOrder;
 	private ActionType actionType;
@@ -138,10 +136,6 @@ public class NotificationRule implements IBean {
 			this.name = (String) map.get(OpsGenieClientConstants.API.NAME);
 		if (map.containsKey(OpsGenieClientConstants.API.ID))
 			this.id = (String) map.get(OpsGenieClientConstants.API.ID);
-		if (map.containsKey(OpsGenieClientConstants.API.USERNAME))
-			this.username = (String) map.get(OpsGenieClientConstants.API.USERNAME);
-		if (map.containsKey(OpsGenieClientConstants.API.USER_ID))
-			this.userId = (String) map.get(OpsGenieClientConstants.API.USER_ID);
 		if (map.containsKey(OpsGenieClientConstants.API.ENABLED))
 			this.enabled = (Boolean) map.get(OpsGenieClientConstants.API.ENABLED);
 		if (map.containsKey(OpsGenieClientConstants.API.LOOP_AFTER))
@@ -302,22 +296,6 @@ public class NotificationRule implements IBean {
 
 	public void setNotifyBefore(List<NotifyBefore> notifyBefore) {
 		this.notifyBefore = notifyBefore;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getId() {
