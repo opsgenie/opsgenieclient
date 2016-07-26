@@ -78,6 +78,8 @@ public class OpsGenieClient implements IOpsGenieClient {
     private IIntegrationOpsGenieClient innerIntegrationOpsGenieClient;
     private IPolicyOpsGenieClient innerPolicyOpsGenieClient;
     private INotificationRuleOpsGenieClient innerNotificationRuleOpsGenieClient;
+    private IAccountOpsGenieClient innerAccountOpsGenieClient;
+    
     /**
      * Http client object *
      */
@@ -116,6 +118,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerContactOpsGenieClient = new InnerContactOpsGenieClient(this.jsonHttpClient);
         innerPolicyOpsGenieClient = new InnerPolicyOpsGenieClient(this.jsonHttpClient);
         innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
+        innerAccountOpsGenieClient = new InnerAccountOpsGenieClient(this.jsonHttpClient);
     }
 
     /**
@@ -279,13 +282,11 @@ public class OpsGenieClient implements IOpsGenieClient {
 	public IContactOpsGenieClient contact() {
 		return innerContactOpsGenieClient;
 	}
-
     /**
-     * @see IOpsGenieClient#getAccount(com.ifountain.opsgenie.client.model.account.GetAccountRequest)
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#account()
      */
 	@Override
-	public GetAccountResponse getAccount(GetAccountRequest getAccountRequest)
-			throws OpsGenieClientException, IOException, ParseException {
-		return (GetAccountResponse) jsonHttpClient.doGetRequest(getAccountRequest);
+	public IAccountOpsGenieClient account() {
+		return innerAccountOpsGenieClient;
 	}
 }
