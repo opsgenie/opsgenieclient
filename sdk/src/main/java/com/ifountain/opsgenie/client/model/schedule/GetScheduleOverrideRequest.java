@@ -1,10 +1,13 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.util.Map;
+
+import javax.xml.bind.ValidationException;
 
 /**
  * Container for the parameters to make a get schedule override api call.
@@ -53,6 +56,15 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
+    
+    @Override
+    public boolean isValid() throws ValidationException {
+    	if(this.alias == null)
+			throw new ValidationException("ValidationException[[Alias] field should be provided.]");
+    	else if(this.schedule == null)
+			throw new ValidationException("ValidationException[[Schedule] field should be provided.]");
+    	return super.isValid();
+    }
 
     @Override
     /**
@@ -64,6 +76,8 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
         json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
         return json;
     }
+    
+    
 
 
     @Override
