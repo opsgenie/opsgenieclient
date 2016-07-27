@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.xml.bind.ValidationException;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.model.BaseGetRequest;
 /**
  * Container for the parameters to make a get contact api call.
@@ -23,7 +22,10 @@ public class GetContactRequest extends BaseGetRequest<GetContactResponse> {
 	public String getEndPoint() {
 		return "/v1/json/user/contact";
 	}
-	
+    /**
+     * check the parameters for validation.
+     * @throws ValidationException when id is null or both of the username and userId are null
+     */
     @Override
     public boolean isValid() throws ValidationException {
     	if(this.id == null)

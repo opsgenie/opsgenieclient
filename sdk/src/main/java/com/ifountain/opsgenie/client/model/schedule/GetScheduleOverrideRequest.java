@@ -56,7 +56,10 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
-    
+    /**
+     * check the parameters for validation.
+     * @throws ValidationException when alias is null or schedule is null
+     */
     @Override
     public boolean isValid() throws ValidationException {
     	if(this.alias == null)

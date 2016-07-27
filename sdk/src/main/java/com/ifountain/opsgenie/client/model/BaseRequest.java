@@ -26,7 +26,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     /**
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
-     * @throws ValidationException 
+     * @throws ValidationException when api key is null!
      */
     public boolean isValid() throws ValidationException{
     	if(apiKey == null)
