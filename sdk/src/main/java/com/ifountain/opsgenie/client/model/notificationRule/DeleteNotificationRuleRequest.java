@@ -27,10 +27,10 @@ public class DeleteNotificationRuleRequest extends BaseRequest<DeleteNotificatio
      */
 	public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
-        if (getUsername() != null) 
+        if (getUsername() != null)
         	json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if (getUserId() != null) 
-			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
+        if (getUserId() != null)
+        	json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
         if(getId() != null)
         	json.put(OpsGenieClientConstants.API.ID, getId());
         return json;
