@@ -7,22 +7,23 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
- * Container for the parameters to make an enable notificationRule api
- * call.
+ * Container for the parameters to make an enable/disable notificationRuleStep
+ * api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#enableNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRuleStep.DisableNotificationRuleStepRequest)
  */
-public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificationRuleResponse> {
+public class DisableNotificationRuleStepRequest extends BaseRequest<DisableNotificationRuleStepResponse> {
 	private String username;
 	private String userId;
+	private String ruleId;
 	private String id;
 
 	/**
-	 * Rest api uri of enable notificationRule operation.
+	 * Rest api uri of enable/disable notificationRuleStep operation.
 	 */
 	@Override
 	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/enable";
+		return "/v1/json/user/notificationRule/step/disable";
 	}
 
 	@Override
@@ -32,6 +33,8 @@ public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificatio
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null)
 			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
+		if (getRuleId() != null)
+			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleId());
 		if (getId() != null)
 			json.put(OpsGenieClientConstants.API.ID, getId());
 		return json;
@@ -41,8 +44,8 @@ public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificatio
 	/**
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
 	 */
-	public EnableNotificationRuleResponse createResponse() {
-		return new EnableNotificationRuleResponse();
+	public DisableNotificationRuleStepResponse createResponse() {
+		return new DisableNotificationRuleStepResponse();
 	}
 
 	public String getUsername() {
@@ -67,6 +70,14 @@ public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificatio
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
 	}
 
 }

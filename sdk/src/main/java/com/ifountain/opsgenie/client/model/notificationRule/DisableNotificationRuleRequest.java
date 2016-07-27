@@ -5,68 +5,57 @@ import java.util.Map;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
 /**
- * Container for the parameters to make an enable notificationRule api
- * call.
+ * Container for the parameters to make an disable notificationRule api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleRequest)
  */
-public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificationRuleResponse> {
+public class DisableNotificationRuleRequest extends BaseRequest<DisableNotificationRuleResponse> {
 	private String username;
 	private String userId;
 	private String id;
-
-	/**
-	 * Rest api uri of enable notificationRule operation.
-	 */
+    /**
+     * Rest api uri of disable notificationRule operation.
+     */
 	@Override
 	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/enable";
+           return "/v1/json/user/notificationRule/disable";
 	}
-
 	@Override
 	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = super.serialize();
-		if (getUsername() != null)
+        Map json = super.serialize();
+        if (getUsername() != null) 
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if (getUserId() != null)
+		if (getUserId() != null) 
 			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if (getId() != null)
-			json.put(OpsGenieClientConstants.API.ID, getId());
-		return json;
+        if(getId() != null)
+        	json.put(OpsGenieClientConstants.API.ID, getId());
+        return json;
 	}
 
 	@Override
-	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-	 */
-	public EnableNotificationRuleResponse createResponse() {
-		return new EnableNotificationRuleResponse();
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+	public DisableNotificationRuleResponse createResponse() {
+		return new DisableNotificationRuleResponse();
 	}
-
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 	public String getUserId() {
 		return userId;
 	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 }

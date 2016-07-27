@@ -55,7 +55,7 @@ public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotific
 		if (getId() != null) 
 			json.put(OpsGenieClientConstants.API.ID, getId());
 		if (getMethod() != null) 
-			json.put(OpsGenieClientConstants.API.METHOD, getMethod().name());
+			json.put(OpsGenieClientConstants.API.METHOD, getMethod().value());
 		if (getTo() != null) 
 			json.put(OpsGenieClientConstants.API.TO, getTo());
 		if(getSendAfter() != null)

@@ -54,6 +54,15 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 			throws ParseException, OpsGenieClientException, IOException {
 		return (EnableContactResponse) httpClient.doPostRequest(enableContactRequest);
 	}
+	
+	/**
+	 * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#disableContact(com.ifountain.opsgenie.client.model.contact.DisableContactRequest)
+	 */
+	@Override
+	public DisableContactResponse disableContact(DisableContactRequest disableContactRequest)
+			throws ParseException, OpsGenieClientException, IOException {
+		return (DisableContactResponse) httpClient.doPostRequest(disableContactRequest);
+	}
 
 	/**
 	 * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(com.ifountain.opsgenie.client.model.contact.GetContactRequest)

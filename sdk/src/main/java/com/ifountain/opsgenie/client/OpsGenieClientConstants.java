@@ -177,6 +177,9 @@ public interface OpsGenieClientConstants {
         public static final String NOTIFY_JUST_BEFORE = "Just Before";
 
         public static final String RULE_ID = "ruleId";
+        public static final String EMAIL = "email";
+        public static final String VOICE = "voice";
+        public static final String SMS = "sms";
         
     }
 }

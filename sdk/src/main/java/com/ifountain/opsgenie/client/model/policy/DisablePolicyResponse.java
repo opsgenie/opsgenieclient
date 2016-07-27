@@ -4,9 +4,9 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 
 
 /**
- * Represents OpsGenie service response for enable policy request.
+ * Represents OpsGenie service response for disable policy request.
  *
  * @see com.ifountain.opsgenie.client.IPolicyOpsGenieClient#enablePolicy(EnablePolicyRequest)
  */
-public class EnablePolicyResponse extends BaseResponse{
+public class DisablePolicyResponse extends BaseResponse{
 }

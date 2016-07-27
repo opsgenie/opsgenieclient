@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * Inner Group NotificationRule
+ * Inner NotificationRule Client
  */
 public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOpsGenieClient {
 	private JsonOpsgenieHttpClient httpClient;
@@ -54,6 +54,15 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 			throws ParseException, OpsGenieClientException, IOException {
 		return (EnableNotificationRuleResponse) httpClient.doPostRequest(enableNotificationRuleRequest);
 	}
+	
+
+	@Override
+	public DisableNotificationRuleResponse disableNotificationRule(
+			DisableNotificationRuleRequest disableNotificationRuleRequest)
+			throws ParseException, OpsGenieClientException, IOException {
+		return (DisableNotificationRuleResponse) httpClient.doPostRequest(disableNotificationRuleRequest);
+	}
+
 
 	/**
 	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#getNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleRequest)
@@ -109,6 +118,13 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 			throws ParseException, OpsGenieClientException, IOException {
 		return (EnableNotificationRuleStepResponse) httpClient.doPostRequest(enableNotificationRuleStepRequest);
 	}
+	
+	@Override
+	public DisableNotificationRuleStepResponse disableNotificationRuleStep(
+			DisableNotificationRuleStepRequest disableNotificationRuleStepRequest)
+			throws ParseException, OpsGenieClientException, IOException {
+		return (DisableNotificationRuleStepResponse) httpClient.doPostRequest(disableNotificationRuleStepRequest);
+	}
 
 	@Override
 	public ChangeNotificationRuleOrderResponse changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest changeNotificationRuleRequest)throws IOException, OpsGenieClientException, ParseException {
@@ -120,6 +136,8 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 			throws IOException, OpsGenieClientException, ParseException {
 		return (RepeatNotificationRuleResponse) httpClient.doPostRequest(repeatNotificationRuleRequest);
 	}
+
+
 
 	
 

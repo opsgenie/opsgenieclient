@@ -1,4 +1,4 @@
-package com.ifountain.opsgenie.client.model.notificationRule;
+package com.ifountain.opsgenie.client.model.contact;
 
 import java.util.Map;
 
@@ -7,22 +7,21 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
- * Container for the parameters to make an enable notificationRule api
- * call.
+ * Container for the parameters to make an disable contact api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest)
+ * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#disableContact(com.ifountain.opsgenie.client.model.contact.DisableContactRequest)
  */
-public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificationRuleResponse> {
+public class DisableContactRequest extends BaseRequest<DisableContactResponse> {
 	private String username;
 	private String userId;
 	private String id;
 
 	/**
-	 * Rest api uri of enable notificationRule operation.
+	 * Rest api uri of enable/disable contact operation.
 	 */
 	@Override
 	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/enable";
+		return "/v1/json/user/contact/disable";
 	}
 
 	@Override
@@ -41,8 +40,8 @@ public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificatio
 	/**
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
 	 */
-	public EnableNotificationRuleResponse createResponse() {
-		return new EnableNotificationRuleResponse();
+	public DisableContactResponse createResponse() {
+		return new DisableContactResponse();
 	}
 
 	public String getUsername() {

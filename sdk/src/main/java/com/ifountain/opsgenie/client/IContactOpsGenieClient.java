@@ -9,7 +9,6 @@ import java.text.ParseException;
  * Interface for accessing OpsGenie for contact related operations
  *
  * @author Mehmet Mustafa Demir
- * @version 6/1/12 10:09 AM
  * @see com.ifountain.opsgenie.client.OpsGenieClient
  */
 public interface IContactOpsGenieClient {
@@ -44,14 +43,24 @@ public interface IContactOpsGenieClient {
     public DeleteContactResponse deleteContact(DeleteContactRequest deleteContactRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
-     * Enable or disable contact
+     * Enable contact
      *
      * @param enableContactRequest  Object to construct request parameters.
      * @return <code>EnableContactResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest
-     * @see com.ifountain.opsgenie.client.model.integration.EnableIntegrationResponse
+     * @see com.ifountain.opsgenie.client.model.contact.EnableContactRequest
+     * @see com.ifountain.opsgenie.client.model.contact.EnableContactResponse
      */
     public EnableContactResponse enableContact(EnableContactRequest enableContactRequest) throws ParseException, OpsGenieClientException, IOException;
+
+    /**
+     *  Disable contact
+     *
+     * @param disableContactRequest  Object to construct request parameters.
+     * @return <code>EnableContactResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.contact.disableContactRequest
+     * @see com.ifountain.opsgenie.client.model.contact.DisableContactResponse
+     */
+    public DisableContactResponse disableContact(DisableContactRequest disableContactRequest) throws ParseException, OpsGenieClientException, IOException;
 
     
     /**

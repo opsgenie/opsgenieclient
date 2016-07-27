@@ -49,7 +49,7 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 		if (getRuleId() != null) 
 			json.put(OpsGenieClientConstants.API.RULE_ID, getRuleId());
 		if (getMethod() != null) 
-			json.put(OpsGenieClientConstants.API.METHOD, getMethod().name());
+			json.put(OpsGenieClientConstants.API.METHOD, getMethod().value());
 		if (getTo() != null) 
 			json.put(OpsGenieClientConstants.API.TO, getTo());
 		if(getSendAfter() != null)
