@@ -68,7 +68,6 @@ import java.text.ParseException;
  */
 public class OpsGenieClient implements IOpsGenieClient {
     private InnerUserOpsGenieClient innerUserOpsGenieClient;
-    private InnerContactOpsGenieClient innerContactOpsGenieClient;
     private InnerGroupOpsGenieClient innerGroupOpsGenieClient;
     private InnerTeamOpsGenieClient innerTeamOpsGenieClient;
     private InnerEscalationOpsGenieClient innerEscalationOpsGenieClient;
@@ -79,6 +78,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     private IPolicyOpsGenieClient innerPolicyOpsGenieClient;
     private INotificationRuleOpsGenieClient innerNotificationRuleOpsGenieClient;
     private IAccountOpsGenieClient innerAccountOpsGenieClient;
+    private IContactOpsGenieClient innerContactOpsGenieClient;
     
     /**
      * Http client object *
