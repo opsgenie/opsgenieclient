@@ -28,18 +28,18 @@ public class RepeatNotificationRuleRequest extends BaseRequest<RepeatNotificatio
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
 	public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if (getUsername() != null)
-        	json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        if (getUserId() != null)
-        	json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-        if(getId() != null)
-        	json.put(OpsGenieClientConstants.API.ID, getId());
-        if(getEnabled() != null)
-        	json.put(OpsGenieClientConstants.API.ENABLED, getEnabled());
-        if(getLoopAfter() != null)
-        	json.put(OpsGenieClientConstants.API.LOOP_AFTER, getLoopAfter());
-        return json;
+		Map json = super.serialize();
+		if (getUsername() != null)
+			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
+		if (getUserId() != null)
+			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
+		if(getId() != null)
+			json.put(OpsGenieClientConstants.API.ID, getId());
+		if(getEnabled() != null)
+			json.put(OpsGenieClientConstants.API.ENABLED, getEnabled());
+		if(getLoopAfter() != null)
+			json.put(OpsGenieClientConstants.API.LOOP_AFTER, getLoopAfter());
+		return json;
 	}
 
 	@Override
