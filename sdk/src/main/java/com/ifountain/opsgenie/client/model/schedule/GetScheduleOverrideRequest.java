@@ -63,9 +63,9 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     @Override
     public boolean isValid() throws ValidationException {
     	if(this.alias == null)
-			throw new ValidationException("ValidationException[[Alias] field should be provided.]");
+    		throw new ValidationException("ValidationException[[Alias] field should be provided.]");
     	else if(this.schedule == null)
-			throw new ValidationException("ValidationException[[Schedule] field should be provided.]");
+    		throw new ValidationException("ValidationException[[Schedule] field should be provided.]");
     	return super.isValid();
     }
 

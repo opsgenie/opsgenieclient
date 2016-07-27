@@ -30,7 +30,7 @@ public class RepeatNotificationRuleRequest extends BaseRequest<RepeatNotificatio
 	public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
         if (getUsername() != null) 
-			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
+        	json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 
 			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
         if(getId() != null)
@@ -39,7 +39,6 @@ public class RepeatNotificationRuleRequest extends BaseRequest<RepeatNotificatio
         	json.put(OpsGenieClientConstants.API.ENABLED, getEnabled());
         if(getLoopAfter() != null)
         	json.put(OpsGenieClientConstants.API.LOOP_AFTER, getLoopAfter());
-        	
         return json;
 	}
 

@@ -27,7 +27,7 @@ public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotific
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
 	public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
+		Map json = super.serialize();
 		if (getUsername() != null) 
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 
