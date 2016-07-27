@@ -26,9 +26,9 @@ public class GetNotificationRuleRequest extends BaseGetRequest<GetNotificationRu
     @Override
     public boolean isValid() throws ValidationException {
     	if(this.id == null)
-			throw new ValidationException("ValidationException[[ID] field should be provided.]");
+    		throw new ValidationException("ValidationException[[ID] field should be provided.]");
     	else if(this.username == null && this.userId == null)
-			throw new ValidationException("ValidationException[One of [userId] or [username] fields should be provided.]");
+    		throw new ValidationException("ValidationException[One of [userId] or [username] fields should be provided.]");
     	return super.isValid();
     }
     
