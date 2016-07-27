@@ -154,12 +154,12 @@ public interface OpsGenieClientConstants {
         public static final String OPERATION_CONTAINS = "Contains";
         public static final String OPERATION_CONTAINS_KEY = "Contains Key";
         public static final String OPERATION_CONTAINS_VALUE = "Contains Value";
-        public static final String OPERATION_EQUALS_IGNORE_SPACE = "Equals Ignore Whitespace";
+        public static final String OPERATION_EQUALS_IGNORE_WHITE_SPACE = "Equals Ignore Whitespace";
         public static final String OPERATION_IS_EMPTY = "Is Empty";
         public static final String OPERATION_EQUALS = "Equals";
         public static final String OPERATION_MATCHES = "Matches";
         public static final String OPERATION_STARTS_WITH = "Starts With";
-        public static final String OPERATION_END_WITH = "Ends With";
+        public static final String OPERATION_ENDS_WITH = "Ends With";
         //notification variable constants
         public static final String EXTRA_PROPERTIES = "extraProperties";
         public static final String FIELD = "field";
