@@ -178,6 +178,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         return innerIntegrationOpsGenieClient;
     }
     
+    
     /**
      * @see IOpsGenieClient#policy() ()
      */
