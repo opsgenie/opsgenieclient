@@ -116,7 +116,7 @@ public class NotificationRuleConditions implements IBean {
 		if (map.containsKey(OpsGenieClientConstants.API.OPERATION))  {
 			String operationName = (String) map.get(OpsGenieClientConstants.API.OPERATION);
 			for (Operation operation : Operation.values()) 
-				if(field.value().equals(operationName)){
+				if(operation.value().equals(operationName)){
 					setOperation(operation);
 					break;
 				}
