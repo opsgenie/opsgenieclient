@@ -146,6 +146,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         assertEquals(request.getTo(), jsonContent[TestConstants.API.TO]);
     }
 
+    @Test
     public void testDeleteContactSuccessfullyWithUserName() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
         DeleteContactRequest request = new DeleteContactRequest();
