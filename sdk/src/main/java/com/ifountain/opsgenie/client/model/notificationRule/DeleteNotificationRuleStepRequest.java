@@ -20,7 +20,7 @@ public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotific
      */
 	@Override
 	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/Step";
+		return "/v1/json/user/notificationRule/step";
 	}
 	@Override
     /**

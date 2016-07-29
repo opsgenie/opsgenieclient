@@ -147,7 +147,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
     }
 
     public void testDeleteContactSuccessfullyWithUserName() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"user1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
         DeleteContactRequest request = new DeleteContactRequest();
         request.setApiKey("customer1");
         request.setId("contact1Id");
@@ -168,7 +168,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
 
     @Test
     public void testDeleteContactSuccessfullyWithUserId() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"user1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
         DeleteContactRequest request = new DeleteContactRequest();
         request.setApiKey("customer1");
         request.setId("contact1Id");

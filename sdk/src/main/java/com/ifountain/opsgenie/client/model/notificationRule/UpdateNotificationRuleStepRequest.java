@@ -38,7 +38,7 @@ public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotific
 	 */
 	@Override
 	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/Step";
+		return "/v1/json/user/notificationRule/step";
 	}
 	@Override
 	/**

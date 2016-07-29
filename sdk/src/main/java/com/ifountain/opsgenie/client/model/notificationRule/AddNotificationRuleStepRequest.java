@@ -34,7 +34,7 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 	 * Rest api uri of adding notificationRuleStep operation.
 	 */
 	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/Step";
+		return "/v1/json/user/notificationRule/step";
 	}
 	/**
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
