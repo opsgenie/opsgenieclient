@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import java.text.ParseException;
-import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +10,22 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
  */
 public class NotificationRuleRestriction implements IBean{
 
+	public static enum DayOfWeek {
+		SUNDAY(OpsGenieClientConstants.API.SUNDAY),
+		MONDAY(OpsGenieClientConstants.API.MONDAY),
+		TUESDAY(OpsGenieClientConstants.API.TUESDAY),
+		WEDNESDAY(OpsGenieClientConstants.API.WEDNESDAY),
+		THURSDAY(OpsGenieClientConstants.API.THURSDAY),
+		FRIDAY(OpsGenieClientConstants.API.FRIDAY),
+		SATURDAY(OpsGenieClientConstants.API.SATURDAY);
+		private String value;
+		private DayOfWeek(String value) {
+			this.value = value;
+		}
+		public String value() {
+			return value;
+		}
+	}
     
     private Integer endHour;
     private Integer endMinute;
@@ -18,7 +33,6 @@ public class NotificationRuleRestriction implements IBean{
     private Integer startMinute;
     private DayOfWeek startDay;
     private DayOfWeek endDay;
-    
     
 	/**
      * endHour of NotificationRuleRestriction
@@ -99,11 +113,11 @@ public class NotificationRuleRestriction implements IBean{
 		if(getEndHour() != null)
 			json.put(OpsGenieClientConstants.API.RESTRICTION_END_HOUR, getEndHour());
 		if(getStartDay() != null)
-			json.put(OpsGenieClientConstants.API.RESTRICTION_START_DAY, getStartDay());
+			json.put(OpsGenieClientConstants.API.RESTRICTION_START_DAY, getStartDay().value);
 		if(getStartHour() != null)
 			json.put(OpsGenieClientConstants.API.RESTRICTION_START_HOUR, getStartHour());
 		if(getEndDay() != null)
-			json.put(OpsGenieClientConstants.API.RESTRICTION_END_DAY, getEndDay().name());
+			json.put(OpsGenieClientConstants.API.RESTRICTION_END_DAY, getEndDay().value());
 		if(getStartMinute() != null)
 			json.put(OpsGenieClientConstants.API.RESTRICTION_START_MINUTE, getStartMinute());
 		if(getEndMinute() != null)
@@ -113,19 +127,32 @@ public class NotificationRuleRestriction implements IBean{
 
 	@Override
 	public void fromMap(Map map) throws ParseException {
+		System.out.println((String) map.get(OpsGenieClientConstants.API.RESTRICTION_END_DAY));
 		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_END_HOUR))
 			this.endHour = (Integer) map.get(OpsGenieClientConstants.API.RESTRICTION_END_HOUR);
 		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_END_MINUTE))
 			this.endMinute = (Integer) map.get(OpsGenieClientConstants.API.RESTRICTION_END_MINUTE);
-		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_END_DAY))
-			this.endDay = DayOfWeek.valueOf((String) map.get(OpsGenieClientConstants.API.RESTRICTION_END_DAY));
+		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_END_DAY)) {
+			String dayName = (String) map.get(OpsGenieClientConstants.API.RESTRICTION_END_DAY);
+			for (DayOfWeek day:DayOfWeek.values())
+				if(day.value().equals(dayName)){
+					setEndDay(day);
+					break;
+				}
+		}
 			
 		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_START_HOUR))
 			this.startHour = (Integer) map.get(OpsGenieClientConstants.API.RESTRICTION_START_HOUR);
 		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_START_MINUTE))
 			this.startMinute = (Integer) map.get(OpsGenieClientConstants.API.RESTRICTION_START_MINUTE);
-		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_START_DAY))
-			this.startDay = DayOfWeek.valueOf((String) map.get(OpsGenieClientConstants.API.RESTRICTION_START_DAY));
+		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_START_DAY)) {
+			String dayName = (String) map.get(OpsGenieClientConstants.API.RESTRICTION_START_DAY);
+			for (DayOfWeek day:DayOfWeek.values())
+				if(day.value().equals(dayName)){
+					setStartDay(day);
+					break;
+				}
+		}
 		
 		
 	}
