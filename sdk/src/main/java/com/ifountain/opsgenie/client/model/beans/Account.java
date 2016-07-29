@@ -45,7 +45,7 @@ public class Account implements IBean {
 			setIsYearly((Boolean) planMap.get(OpsGenieClientConstants.API.IS_YEARLY));
 			setPlanName((String) planMap.get(OpsGenieClientConstants.API.NAME));
 			if (planMap.get(OpsGenieClientConstants.API.MAX_USER_COUNT) != null)
-				setMaxUserCount((Integer) map.get(OpsGenieClientConstants.API.USER_COUNT));
+				setMaxUserCount((Integer) planMap.get(OpsGenieClientConstants.API.MAX_USER_COUNT));
 		}
 	}
 
