@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.beans.Contact
 import com.ifountain.opsgenie.client.model.beans.User
 import com.ifountain.opsgenie.client.model.contact.AddContactRequest
+import com.ifountain.opsgenie.client.model.contact.DeleteContactRequest
 import com.ifountain.opsgenie.client.model.contact.DisableContactRequest
 import com.ifountain.opsgenie.client.model.contact.EnableContactRequest
 import com.ifountain.opsgenie.client.model.contact.GetContactRequest
@@ -92,7 +93,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
     }
 
     @Test
-    public void testUpdateUserSuccessfullyWithUserName() throws Exception {
+    public void testUpdateContactSuccessfullyWithUserName() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"contact1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         UpdateContactRequest request = new UpdateContactRequest();
@@ -119,7 +120,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
     }
 
     @Test
-    public void testUpdateUserSuccessfullyWithUserId() throws Exception {
+    public void testUpdateContactSuccessfullyWithUserId() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"contact1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         UpdateContactRequest request = new UpdateContactRequest();
@@ -143,6 +144,47 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
         assertEquals(request.getTo(), jsonContent[TestConstants.API.TO]);
+    }
+
+    public void testDeleteContactSuccessfullyWithUserName() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"user1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        DeleteContactRequest request = new DeleteContactRequest();
+        request.setApiKey("customer1");
+        request.setId("contact1Id");
+        request.setUsername("user1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.contact().deleteContact(request)
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME])
+    }
+
+    @Test
+    public void testDeleteContactSuccessfullyWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"user1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        DeleteContactRequest request = new DeleteContactRequest();
+        request.setApiKey("customer1");
+        request.setId("contact1Id");
+        request.setUserId("user1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.contact().deleteContact(request)
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID])
     }
 
     @Test
