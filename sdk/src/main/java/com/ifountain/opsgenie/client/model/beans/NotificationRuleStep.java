@@ -37,6 +37,7 @@ public class NotificationRuleStep implements IBean {
 		setSendAfter(((Integer) map.get(OpsGenieClientConstants.API.SEND_AFTER)));
 		if (map.containsKey(OpsGenieClientConstants.API.METHOD)){
 			String methodName = (String) map.get(OpsGenieClientConstants.API.METHOD);
+			methodName = methodName.toLowerCase();
 			for (Method method : Method.values())
 				if (method.value().equals(methodName)) {
 					setMethod(method);
