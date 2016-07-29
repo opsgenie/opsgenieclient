@@ -33,7 +33,7 @@ public class NotificationRuleRestriction implements IBean{
     private Integer startMinute;
     private DayOfWeek startDay;
     private DayOfWeek endDay;
-    
+
 	/**
      * endHour of NotificationRuleRestriction
      */
@@ -113,7 +113,7 @@ public class NotificationRuleRestriction implements IBean{
 		if(getEndHour() != null)
 			json.put(OpsGenieClientConstants.API.RESTRICTION_END_HOUR, getEndHour());
 		if(getStartDay() != null)
-			json.put(OpsGenieClientConstants.API.RESTRICTION_START_DAY, getStartDay().value);
+			json.put(OpsGenieClientConstants.API.RESTRICTION_START_DAY, getStartDay().value());
 		if(getStartHour() != null)
 			json.put(OpsGenieClientConstants.API.RESTRICTION_START_HOUR, getStartHour());
 		if(getEndDay() != null)
@@ -127,7 +127,6 @@ public class NotificationRuleRestriction implements IBean{
 
 	@Override
 	public void fromMap(Map map) throws ParseException {
-		System.out.println((String) map.get(OpsGenieClientConstants.API.RESTRICTION_END_DAY));
 		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_END_HOUR))
 			this.endHour = (Integer) map.get(OpsGenieClientConstants.API.RESTRICTION_END_HOUR);
 		if(map.containsKey(OpsGenieClientConstants.API.RESTRICTION_END_MINUTE))
@@ -153,8 +152,6 @@ public class NotificationRuleRestriction implements IBean{
 					break;
 				}
 		}
-		
-		
 	}
    
 
