@@ -180,6 +180,15 @@ public interface OpsGenieClientConstants {
         public static final String EMAIL = "email";
         public static final String VOICE = "voice";
         public static final String SMS = "sms";
+
+        //Day of Week Enum
+        public static final String SUNDAY ="sunday";
+        public static final String MONDAY = "monday";
+        public static final String TUESDAY = "tuesday";
+        public static final String WEDNESDAY = "wednesday";
+        public static final String THURSDAY = "thursday";
+        public static final String FRIDAY = "friday";
+        public static final String SATURDAY = "saturday";
         
     }
 }
