@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.beans.Contact
 import com.ifountain.opsgenie.client.model.beans.NotificationRule
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleConditions
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleRestriction
-import com.ifountain.opsgenie.client.model.beans.Team
+import com.ifountain.opsgenie.client.model.beans.NotificationRuleStep
 import com.ifountain.opsgenie.client.model.contact.*
 import com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleStepRequest
@@ -18,6 +18,8 @@ import com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationR
 import com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleStepRequest
+import com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleRequest
+import com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleResponse
 import com.ifountain.opsgenie.client.model.notificationRule.RepeatNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepRequest
@@ -29,6 +31,7 @@ import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.junit.Test
+
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
@@ -641,6 +644,313 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getEnabled(), jsonContent[TestConstants.API.ENABLED])
     }
 
+    @Test
+    public void testGetNotificationRuleSuccessfullyWithUserName() throws Exception {
+        Map jsonContent = new HashMap();
+        jsonContent.put("took", 1);
+        jsonContent.put(TestConstants.API.ACTION_TYPE, "New Alert");
+        jsonContent.put(TestConstants.API.SCHEDULES, ["Schedule1","Schedule2"]);
+        jsonContent.put(TestConstants.API.NAME, "New Notification Rule");
+
+        String condition1 = '{"not": false,"field": "message","operation": "contains","expectedValue": "night"}';
+        String condition2 = '{"not": true,"field": "extraProperties","operation": "contains Key","expectedValue": "prop1"}';
+        jsonContent.put(TestConstants.API.CONDITIONS, [condition1,condition2]);
+
+        String restriction1 = '{"endHour": 0,"startDay": "SUNDAY","startHour": 1,"endDay": "MONDAY","startMinute": 2,"endMinute": 3}';
+        String restriction2 = '{"endHour": 4,"startDay": "TUESDAY","startHour": 5,"endDay": "WEDNESDAY","startMinute": 6,"endMinute": 7}';
+        jsonContent.put(TestConstants.API.RESTRICTIONS,[restriction1,restriction2]);
+
+        jsonContent.put(TestConstants.API.ID,"67c4855a-4c1b-4cbf-9be2-87eb212760e9")
+
+        String step1 = '{"method": "Email","to": "john@opsgenie.com","id": "2dae31b1-5e89-4c33-a05f-d1f0e746c4db","sendAfter": 0,"enabled": true}';
+        String step2 = '{"method": "Voice","to": "1-9999999999","id": "6419cef5-ca1f-4842-9ddc-518952c60c2b","sendAfter": 0,"enabled": false}';
+        jsonContent.put(TestConstants.API.STEPS,[step1,step2]);
+        jsonContent.put(TestConstants.API.ENABLED, true);
+        jsonContent.put(TestConstants.API.CONDITION_MATCH_TYPE, "Match All Conditions");
+        jsonContent.put(TestConstants.API.LOOP_AFTER, 1);
+
+        println("json = " +jsonContent);
+
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+
+        GetNotificationRuleRequest request = new GetNotificationRuleRequest();
+        request.setApiKey("customer1");
+        request.setId(jsonContent[TestConstants.API.ID]);
+        request.setUsername("user1");
+
+        GetNotificationRuleResponse response = OpsGenieClientTestCase.opsgenieClient.notificationRule().getNotificationRule(request)
+        assertEquals(1, response.getTook())
+        assertEquals(jsonContent[TestConstants.API.ACTION_TYPE], response.getNotificationRule().getActionType().value())
+        assertEquals(jsonContent[TestConstants.API.SCHEDULES], response.getNotificationRule().getSchedules())
+        assertEquals(jsonContent[TestConstants.API.NAME], response.getNotificationRule().getName())
+        assertEquals(2,response.getNotificationRule().getRestirictions().size());
+
+
+        NotificationRuleRestriction rest1 = response.getNotificationRule().getRestirictions().find  { it.startHour == restriction1[TestConstants.API.RESTRICTION_START_HOUR] }
+        assertEquals(restriction1[TestConstants.API.RESTRICTION_START_HOUR], rest1.getStartHour())
+        assertEquals(restriction1[TestConstants.API.RESTRICTION_START_MINUTE], rest1.getStartMinute())
+        assertEquals(restriction1[TestConstants.API.RESTRICTION_START_DAY], rest1.getStartDay().value())
+        assertEquals(restriction1[TestConstants.API.RESTRICTION_END_HOUR], rest1.getEndHour())
+        assertEquals(restriction1[TestConstants.API.RESTRICTION_END_MINUTE], rest1.getEndMinute())
+        assertEquals(restriction1[TestConstants.API.RESTRICTION_END_DAY], rest1.getEndDay().value())
+
+        NotificationRuleRestriction rest2 = response.getNotificationRule().getRestirictions().find { it.startHour == restriction2[TestConstants.API.RESTRICTION_START_HOUR] }
+        assertEquals(restriction2[TestConstants.API.RESTRICTION_START_HOUR], rest2.getStartHour())
+        assertEquals(restriction2[TestConstants.API.RESTRICTION_START_MINUTE], rest2.getStartMinute())
+        assertEquals(restriction2[TestConstants.API.RESTRICTION_START_DAY].value(), rest2.getStartDay().value())
+        assertEquals(restriction2[TestConstants.API.RESTRICTION_END_HOUR], rest2.getEndHour())
+        assertEquals(restriction2[TestConstants.API.RESTRICTION_END_MINUTE], rest2.getEndMinute())
+        assertEquals(restriction2[TestConstants.API.RESTRICTION_END_DAY].value(), rest2.getEndDay().value())
+
+
+/*
+
+        assertEquals(jsonContent[TestConstants.API.ID], response.getNotificationRule().getId())
+
+        assertEquals(2, response.getNotificationRule().getConditions().size())
+        NotificationRuleConditions cond1 = response.getNotificationRule().getConditions().find  { it.field == condition1[TestConstants.API.FIELD] }*/
+        /*
+        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
+        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
+        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+
+
+
+
+
+
+
+
+
+
+        assertEquals(jsonContent[TestConstants.API.TO], response.getNotificationRule().getTo())
+        assertEquals(jsonContent[TestConstants.API.ID], response.getNotificationRule().getId())
+        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getContact().getEnabled())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
+        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals("/v1/json/user/contact", requestSent.getUrl())*/
+    }
+
+    @Test
+    public void testGetContactSuccessfullyWithUserId() throws Exception {
+        Map jsonContent = new HashMap();
+        jsonContent.put("took", 1);
+        jsonContent.put(TestConstants.API.DISABLED_REASON, "reason");
+        jsonContent.put(TestConstants.API.METHOD, "email");
+        jsonContent.put(TestConstants.API.TO, "john@opsgenie.com");
+        jsonContent.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
+        jsonContent.put(TestConstants.API.ENABLED, true);
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+
+        GetContactRequest request = new GetContactRequest();
+        request.setApiKey("customer1");
+        request.setId(jsonContent[TestConstants.API.ID]);
+        request.setUserId("user1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.contact().getContact(request)
+        assertEquals(1, response.getTook())
+        assertEquals(jsonContent[TestConstants.API.DISABLED_REASON], response.getContact().getDisabledReason())
+        assertEquals(jsonContent[TestConstants.API.METHOD], response.getContact().getMethod().value())
+        assertEquals(jsonContent[TestConstants.API.TO], response.getContact().getTo())
+        assertEquals(jsonContent[TestConstants.API.ID], response.getContact().getId())
+        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getContact().getEnabled())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
+        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+    }
+
+    @Test
+    public void testListContactSuccessfullyWithUserName() throws Exception {
+        Map contact1Content = new HashMap();
+        contact1Content.put(TestConstants.API.DISABLED_REASON, "reason1");
+        contact1Content.put(TestConstants.API.METHOD, "sms");
+        contact1Content.put(TestConstants.API.TO, "1-9999999999");
+        contact1Content.put(TestConstants.API.ID, "60b77613-f86f-4642-bf32-dee2aa678e4d");
+        contact1Content.put(TestConstants.API.ENABLED, true);
+
+        Map contact2Content = new HashMap();
+        contact2Content.put(TestConstants.API.DISABLED_REASON, "reason2");
+        contact2Content.put(TestConstants.API.METHOD, "voice");
+        contact2Content.put(TestConstants.API.TO, "1-9999999998");
+        contact2Content.put(TestConstants.API.ID, "6987706b-eaa9-4801-9269-94b13c2eda9a");
+        contact2Content.put(TestConstants.API.ENABLED, false);
+
+        Map contact3Content = new HashMap();
+        contact3Content.put(TestConstants.API.DISABLED_REASON, "reason3");
+        contact3Content.put(TestConstants.API.METHOD, "email");
+        contact3Content.put(TestConstants.API.TO, "john@opsgenie.com");
+        contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
+        contact3Content.put(TestConstants.API.ENABLED, false);
+
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
+
+        ListContactsRequest request = new ListContactsRequest();
+        request.setApiKey("customer1");
+        request.setUsername("user1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
+        assertEquals(3, response.getContacts().size())
+        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
+        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
+        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
+        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
+        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+    }
+
+    @Test
+    public void testListContactSuccessfullyWithUserId() throws Exception {
+        Map contact1Content = new HashMap();
+        contact1Content.put(TestConstants.API.DISABLED_REASON, "reason1");
+        contact1Content.put(TestConstants.API.METHOD, "sms");
+        contact1Content.put(TestConstants.API.TO, "1-9999999999");
+        contact1Content.put(TestConstants.API.ID, "60b77613-f86f-4642-bf32-dee2aa678e4d");
+        contact1Content.put(TestConstants.API.ENABLED, true);
+
+        Map contact2Content = new HashMap();
+        contact2Content.put(TestConstants.API.DISABLED_REASON, "reason2");
+        contact2Content.put(TestConstants.API.METHOD, "voice");
+        contact2Content.put(TestConstants.API.TO, "1-9999999998");
+        contact2Content.put(TestConstants.API.ID, "6987706b-eaa9-4801-9269-94b13c2eda9a");
+        contact2Content.put(TestConstants.API.ENABLED, false);
+
+        Map contact3Content = new HashMap();
+        contact3Content.put(TestConstants.API.DISABLED_REASON, "reason3");
+        contact3Content.put(TestConstants.API.METHOD, "email");
+        contact3Content.put(TestConstants.API.TO, "john@opsgenie.com");
+        contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
+        contact3Content.put(TestConstants.API.ENABLED, false);
+
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
+
+        ListContactsRequest request = new ListContactsRequest();
+        request.setApiKey("customer1");
+        request.setUserId("user1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
+        assertEquals(3, response.getContacts().size())
+        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
+        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
+        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
+        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
+        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
+        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
+        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
+        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
+        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -943,258 +1253,5 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
         assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-    
-    @Test
-    public void testGetContactSuccessfullyWithUserName() throws Exception {
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.DISABLED_REASON, "reason");
-        jsonContent.put(TestConstants.API.METHOD, "email");
-        jsonContent.put(TestConstants.API.TO, "john@opsgenie.com");
-        jsonContent.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        jsonContent.put(TestConstants.API.ENABLED, true);
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
-
-        GetContactRequest request = new GetContactRequest();
-        request.setApiKey("customer1");
-        request.setId(jsonContent[TestConstants.API.ID]);
-        request.setUsername("user1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().getContact(request)
-        assertEquals(1, response.getTook())
-        assertEquals(jsonContent[TestConstants.API.DISABLED_REASON], response.getContact().getDisabledReason())
-        assertEquals(jsonContent[TestConstants.API.METHOD], response.getContact().getMethod().value())
-        assertEquals(jsonContent[TestConstants.API.TO], response.getContact().getTo())
-        assertEquals(jsonContent[TestConstants.API.ID], response.getContact().getId())
-        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getContact().getEnabled())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
-        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
-    }
-
-    @Test
-    public void testGetContactSuccessfullyWithUserId() throws Exception {
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.DISABLED_REASON, "reason");
-        jsonContent.put(TestConstants.API.METHOD, "email");
-        jsonContent.put(TestConstants.API.TO, "john@opsgenie.com");
-        jsonContent.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        jsonContent.put(TestConstants.API.ENABLED, true);
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
-
-        GetContactRequest request = new GetContactRequest();
-        request.setApiKey("customer1");
-        request.setId(jsonContent[TestConstants.API.ID]);
-        request.setUserId("user1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().getContact(request)
-        assertEquals(1, response.getTook())
-        assertEquals(jsonContent[TestConstants.API.DISABLED_REASON], response.getContact().getDisabledReason())
-        assertEquals(jsonContent[TestConstants.API.METHOD], response.getContact().getMethod().value())
-        assertEquals(jsonContent[TestConstants.API.TO], response.getContact().getTo())
-        assertEquals(jsonContent[TestConstants.API.ID], response.getContact().getId())
-        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getContact().getEnabled())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
-        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
-    }
-
-    @Test
-    public void testListContactSuccessfullyWithUserName() throws Exception {
-        Map contact1Content = new HashMap();
-        contact1Content.put(TestConstants.API.DISABLED_REASON, "reason1");
-        contact1Content.put(TestConstants.API.METHOD, "sms");
-        contact1Content.put(TestConstants.API.TO, "1-9999999999");
-        contact1Content.put(TestConstants.API.ID, "60b77613-f86f-4642-bf32-dee2aa678e4d");
-        contact1Content.put(TestConstants.API.ENABLED, true);
-
-        Map contact2Content = new HashMap();
-        contact2Content.put(TestConstants.API.DISABLED_REASON, "reason2");
-        contact2Content.put(TestConstants.API.METHOD, "voice");
-        contact2Content.put(TestConstants.API.TO, "1-9999999998");
-        contact2Content.put(TestConstants.API.ID, "6987706b-eaa9-4801-9269-94b13c2eda9a");
-        contact2Content.put(TestConstants.API.ENABLED, false);
-
-        Map contact3Content = new HashMap();
-        contact3Content.put(TestConstants.API.DISABLED_REASON, "reason3");
-        contact3Content.put(TestConstants.API.METHOD, "email");
-        contact3Content.put(TestConstants.API.TO, "john@opsgenie.com");
-        contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        contact3Content.put(TestConstants.API.ENABLED, false);
-
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
-
-        ListContactsRequest request = new ListContactsRequest();
-        request.setApiKey("customer1");
-        request.setUsername("user1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
-        assertEquals(3, response.getContacts().size())
-        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
-        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
-        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
-        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
-    }
-
-    @Test
-    public void testListContactSuccessfullyWithUserId() throws Exception {
-        Map contact1Content = new HashMap();
-        contact1Content.put(TestConstants.API.DISABLED_REASON, "reason1");
-        contact1Content.put(TestConstants.API.METHOD, "sms");
-        contact1Content.put(TestConstants.API.TO, "1-9999999999");
-        contact1Content.put(TestConstants.API.ID, "60b77613-f86f-4642-bf32-dee2aa678e4d");
-        contact1Content.put(TestConstants.API.ENABLED, true);
-
-        Map contact2Content = new HashMap();
-        contact2Content.put(TestConstants.API.DISABLED_REASON, "reason2");
-        contact2Content.put(TestConstants.API.METHOD, "voice");
-        contact2Content.put(TestConstants.API.TO, "1-9999999998");
-        contact2Content.put(TestConstants.API.ID, "6987706b-eaa9-4801-9269-94b13c2eda9a");
-        contact2Content.put(TestConstants.API.ENABLED, false);
-
-        Map contact3Content = new HashMap();
-        contact3Content.put(TestConstants.API.DISABLED_REASON, "reason3");
-        contact3Content.put(TestConstants.API.METHOD, "email");
-        contact3Content.put(TestConstants.API.TO, "john@opsgenie.com");
-        contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        contact3Content.put(TestConstants.API.ENABLED, false);
-
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
-
-        ListContactsRequest request = new ListContactsRequest();
-        request.setApiKey("customer1");
-        request.setUserId("user1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
-        assertEquals(3, response.getContacts().size())
-        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
-        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
-        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
-        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
     }
 }
