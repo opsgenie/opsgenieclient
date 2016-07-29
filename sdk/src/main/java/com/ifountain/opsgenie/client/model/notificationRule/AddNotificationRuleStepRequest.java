@@ -26,7 +26,7 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 		request.setMethod(step.getMethod());
 		request.setSendAfter(step.getSendAfter());
 		request.setTo(step.getTo());
-		request.setRuleID(ruleID);
+		request.setRuleId(ruleID);
 		return request;
 	}
 	
@@ -103,7 +103,7 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 	public String getRuleId() {
 		return ruleId;
 	}
-	public void setRuleID(String ruleId) {
+	public void setRuleId(String ruleId) {
 		this.ruleId = ruleId;
 	}
 	public Method getMethod() {

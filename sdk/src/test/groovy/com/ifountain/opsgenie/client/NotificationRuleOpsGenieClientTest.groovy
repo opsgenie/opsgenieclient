@@ -17,6 +17,7 @@ import com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationR
 import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.RepeatNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleRequest
+import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
 import com.sun.org.apache.regexp.internal.RE
@@ -665,15 +666,13 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
     public void testAddNotificationRuleStepSuccessfullyWithUserName() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"notificationRuleStep1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
-
         AddNotificationRuleStepRequest request = new AddNotificationRuleStepRequest();
         request.setApiKey("customer1");
         request.setUsername("user1");
-        request.setRuleID("notificationRule1Id")
+        request.setRuleId("notificationRule1Id")
         request.setMethod(Contact.Method.EMAIL)
         request.setTo("john@opsgenie.com");
         request.setSendAfter(5);
-
 
         def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().addNotificationRuleStep(request);
         assertEquals("notificationRuleStep1Id", response.getId())
@@ -693,10 +692,101 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getTo(), jsonContent[TestConstants.API.TO])
         assertEquals(request.getSendAfter(), jsonContent[TestConstants.API.SEND_AFTER])
     }
+    @Test
+    public void testAddNotificationRuleStepSuccessfullyWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"notificationRuleStep1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
+        AddNotificationRuleStepRequest request = new AddNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setUserId("user1");
+        request.setRuleId("notificationRule1Id")
+        request.setMethod(Contact.Method.EMAIL)
+        request.setTo("john@opsgenie.com");
+        request.setSendAfter(5);
 
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().addNotificationRuleStep(request);
+        assertEquals("notificationRuleStep1Id", response.getId())
+        assertEquals(1, response.getTook())
 
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+        assertEquals(request.getMethod().value(), jsonContent[TestConstants.API.METHOD])
+        assertEquals(request.getTo(), jsonContent[TestConstants.API.TO])
+        assertEquals(request.getSendAfter(), jsonContent[TestConstants.API.SEND_AFTER])
+    }
+
+    @Test
+    public void testUpdateNotificationRuleStepSuccessfullyWithUserName() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"notificationRuleStep1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        UpdateNotificationRuleStepRequest request = new UpdateNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setUsername("user1");
+        request.setRuleId("notificationRule1Id")
+        request.setId("notificationRuleStep1Id")
+        request.setMethod(Contact.Method.VOICE)
+        request.setTo("1-9999999999");
+        request.setSendAfter(5);
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().updateNotificationRuleStep(request);
+        assertEquals("notificationRuleStep1Id", response.getId())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getMethod().value(), jsonContent[TestConstants.API.METHOD])
+        assertEquals(request.getTo(), jsonContent[TestConstants.API.TO])
+        assertEquals(request.getSendAfter(), jsonContent[TestConstants.API.SEND_AFTER])
+    }
+    @Test
+    public void testUpdateNotificationRuleStepSuccessfullyWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"notificationRuleStep1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        UpdateNotificationRuleStepRequest request = new UpdateNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setUserId("user1");
+        request.setRuleId("notificationRule1Id")
+        request.setId("notificationRuleStep1Id")
+        request.setMethod(Contact.Method.VOICE)
+        request.setTo("1-9999999999");
+        request.setSendAfter(5);
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().updateNotificationRuleStep(request);
+        assertEquals("notificationRuleStep1Id", response.getId())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getMethod().value(), jsonContent[TestConstants.API.METHOD])
+        assertEquals(request.getTo(), jsonContent[TestConstants.API.TO])
+        assertEquals(request.getSendAfter(), jsonContent[TestConstants.API.SEND_AFTER])
+    }
 
 
 
