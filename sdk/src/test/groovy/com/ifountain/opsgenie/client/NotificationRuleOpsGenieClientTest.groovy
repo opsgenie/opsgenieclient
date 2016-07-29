@@ -13,8 +13,11 @@ import com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleR
 import com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleOrderRequest
 import com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleRequest
+import com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleRequest
+import com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest
+import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.model.notificationRule.RepeatNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepRequest
@@ -385,6 +388,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getSchedules(),jsonContent[TestConstants.API.SCHEDULES])
     }
 
+    @Test
     public void testDeleteNotificationRuleSuccessfullyWithUserName() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
         DeleteNotificationRuleRequest request = new DeleteNotificationRuleRequest();
@@ -787,11 +791,170 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getTo(), jsonContent[TestConstants.API.TO])
         assertEquals(request.getSendAfter(), jsonContent[TestConstants.API.SEND_AFTER])
     }
+    @Test
+    public void testDeleteNotificationRuleStepSuccessfullyWithUserName() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"notificationRuleStep1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        DeleteNotificationRuleStepRequest request = new DeleteNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setUsername("user1");
+        request.setRuleId("notificationRule1Id")
+        request.setId("notificationRuleStep1Id")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().deleteNotificationRuleStep(request);
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step", requestSent.getUrl())
+
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME])
+        assertEquals(request.getRuleId(), requestSent.getParameters()[TestConstants.API.RULE_ID])
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID])
+    }
+    @Test
+    public void testDeleteNotificationRuleStepSuccessfullyWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"notificationRuleStep1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        DeleteNotificationRuleStepRequest request = new DeleteNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setUserId("user1");
+        request.setRuleId("notificationRule1Id")
+        request.setId("notificationRuleStep1Id")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().deleteNotificationRuleStep(request);
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step", requestSent.getUrl())
+
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID])
+        assertEquals(request.getRuleId(), requestSent.getParameters()[TestConstants.API.RULE_ID])
+        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID])
+    }
 
 
+    @Test
+    public void testEnableNotificationRuleStepWithUserName() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        EnableNotificationRuleStepRequest request = new EnableNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setId("notificationRuleStep1")
+        request.setRuleId("notificationRule1")
+        request.setUsername("user1")
 
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().enableNotificationRuleStep(request);
 
+        assertTrue(response.success)
+        assertEquals(1, response.getTook())
+        assertEquals(1, receivedRequests.size());
 
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step/enable", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+    }
+    @Test
+    public void testEnableNotificationRuleStepWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        EnableNotificationRuleStepRequest request = new EnableNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setId("notificationRuleStep1")
+        request.setRuleId("notificationRule1")
+        request.setUserId("user1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().enableNotificationRuleStep(request);
+
+        assertTrue(response.success)
+        assertEquals(1, response.getTook())
+        assertEquals(1, receivedRequests.size());
+
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step/enable", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+    }
+
+    @Test
+    public void testDisableNotificationRuleStepWithUserName() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        DisableNotificationRuleStepRequest request = new DisableNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setId("notificationRuleStep1")
+        request.setRuleId("notificationRule1")
+        request.setUsername("user1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().disableNotificationRuleStep(request);
+
+        assertTrue(response.success)
+        assertEquals(1, response.getTook())
+        assertEquals(1, receivedRequests.size());
+
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step/disable", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+    }
+    @Test
+    public void testDisableNotificationRuleStepWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        DisableNotificationRuleStepRequest request = new DisableNotificationRuleStepRequest();
+        request.setApiKey("customer1");
+        request.setId("notificationRuleStep1")
+        request.setRuleId("notificationRule1")
+        request.setUserId("user1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().disableNotificationRuleStep(request);
+
+        assertTrue(response.success)
+        assertEquals(1, response.getTook())
+        assertEquals(1, receivedRequests.size());
+
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/user/notificationRule/step/disable", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
+        assertEquals(request.getRuleId(), jsonContent[TestConstants.API.RULE_ID])
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 
