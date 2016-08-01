@@ -20,6 +20,7 @@ import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRu
 import com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleStepRequest
 import com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleResponse
+import com.ifountain.opsgenie.client.model.notificationRule.ListNotificationRulesRequest
 import com.ifountain.opsgenie.client.model.notificationRule.RepeatNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleRequest
 import com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepRequest
@@ -36,6 +37,7 @@ import org.junit.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertTrue
 
 /**
@@ -94,27 +96,27 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
-        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
-        assertEquals(request.getAction().value(), jsonContent[TestConstants.API.ACTION_TYPE])
-        assertEquals(request.getConditionMatchType().value(), jsonContent[TestConstants.API.CONDITION_MATCH_TYPE])
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("user1", jsonContent[TestConstants.API.USERNAME])
+        assertEquals("notificationRule1", jsonContent[TestConstants.API.NAME])
+        assertEquals("New Alert", jsonContent[TestConstants.API.ACTION_TYPE])
+        assertEquals("Match All Conditions", jsonContent[TestConstants.API.CONDITION_MATCH_TYPE])
 
         def conditions = jsonContent[TestConstants.API.CONDITIONS]
         assertEquals(2, conditions.size());
         def con1 = conditions.find { it.expectedValue == "night" }
         assertNotNull(con1)
         assertEquals(false,con1[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.MESSAGE.value(),con1[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS.value(),con1[TestConstants.API.OPERATION])
+        assertEquals("message",con1[TestConstants.API.FIELD])
+        assertEquals("Contains",con1[TestConstants.API.OPERATION])
         assertEquals("night",con1[TestConstants.API.EXPECTED_VALUE])
 
 
         def con2 = conditions.find { it.expectedValue == "prop1" }
         assertNotNull(con2)
         assertEquals(true,con2[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.EXTRA_PROPERTIES.value(),con2[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS_KEY.value(),con2[TestConstants.API.OPERATION])
+        assertEquals("extraProperties",con2[TestConstants.API.FIELD])
+        assertEquals("Contains Key",con2[TestConstants.API.OPERATION])
         assertEquals("prop1",con2[TestConstants.API.EXPECTED_VALUE])
 
         def notifyBefores = jsonContent[TestConstants.API.NOTIFY_BEFORE]
@@ -181,27 +183,27 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
-        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
-        assertEquals(request.getAction().value(), jsonContent[TestConstants.API.ACTION_TYPE])
-        assertEquals(request.getConditionMatchType().value(), jsonContent[TestConstants.API.CONDITION_MATCH_TYPE])
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("user1", jsonContent[TestConstants.API.USER_ID])
+        assertEquals("notificationRule1", jsonContent[TestConstants.API.NAME])
+        assertEquals("New Alert", jsonContent[TestConstants.API.ACTION_TYPE])
+        assertEquals("Match All Conditions", jsonContent[TestConstants.API.CONDITION_MATCH_TYPE])
 
         def conditions = jsonContent[TestConstants.API.CONDITIONS]
         assertEquals(2, conditions.size());
         def con1 = conditions.find { it.expectedValue == "night" }
         assertNotNull(con1)
         assertEquals(false,con1[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.MESSAGE.value(),con1[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS.value(),con1[TestConstants.API.OPERATION])
+        assertEquals("message",con1[TestConstants.API.FIELD])
+        assertEquals("Contains",con1[TestConstants.API.OPERATION])
         assertEquals("night",con1[TestConstants.API.EXPECTED_VALUE])
 
 
         def con2 = conditions.find { it.expectedValue == "prop1" }
         assertNotNull(con2)
         assertEquals(true,con2[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.EXTRA_PROPERTIES.value(),con2[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS_KEY.value(),con2[TestConstants.API.OPERATION])
+        assertEquals("extraProperties",con2[TestConstants.API.FIELD])
+        assertEquals("Contains Key",con2[TestConstants.API.OPERATION])
         assertEquals("prop1",con2[TestConstants.API.EXPECTED_VALUE])
 
         def notifyBefores = jsonContent[TestConstants.API.NOTIFY_BEFORE]
@@ -646,103 +648,95 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
     @Test
     public void testGetNotificationRuleSuccessfullyWithUserName() throws Exception {
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.ACTION_TYPE, "New Alert");
-        jsonContent.put(TestConstants.API.SCHEDULES, ["Schedule1","Schedule2"]);
-        jsonContent.put(TestConstants.API.NAME, "New Notification Rule");
+        def condition1 = [
+                not: false,
+                field: "message",
+                expectedValue: "new",
+                operation: "Contains"
+        ]
+        def condition2 = [
+                not: true,
+                field: "actions",
+                expectedValue: "ping",
+                operation: "Contains"
+        ]
+        def step1 = [
+                method: "voice",
+                to: "1-9999999999",
+                id: "6419cef5-ca1f-4842-9ddc-518952c60c2b",
+                sendAfter: 0,
+                enabled: true
+        ]
 
-        String condition1 = '{"not": false,"field": "message","operation": "contains","expectedValue": "night"}';
-        String condition2 = '{"not": true,"field": "extraProperties","operation": "contains Key","expectedValue": "prop1"}';
-        jsonContent.put(TestConstants.API.CONDITIONS, [condition1,condition2]);
+        def jsonResponse = [
+                actionType: "New Alert",
+                name: "New Alert",
+                restrictions: [
+                    [endHour:1, startDay:"MONDAY", startHour:2, endDay:"TUESDAY", startMinute:3, endMinute:4]
+                ],
+                id: "67c4855a-4c1b-4cbf-9be2-87eb212760e9",
+                enabled: true,
+                conditionMatchType: "Match All Conditions",
+                loopAfter: 0
+        ]
+        jsonResponse.put("conditions",[condition1,condition2])
+        jsonResponse.put("steps",[step1])
 
-        String restriction1 = '{"endHour": 0,"startDay": "SUNDAY","startHour": 1,"endDay": "MONDAY","startMinute": 2,"endMinute": 3}';
-        String restriction2 = '{"endHour": 4,"startDay": "TUESDAY","startHour": 5,"endDay": "WEDNESDAY","startMinute": 6,"endMinute": 7}';
-        jsonContent.put(TestConstants.API.RESTRICTIONS,[restriction1,restriction2]);
 
-        jsonContent.put(TestConstants.API.ID,"67c4855a-4c1b-4cbf-9be2-87eb212760e9")
-
-        String step1 = '{"method": "Email","to": "john@opsgenie.com","id": "2dae31b1-5e89-4c33-a05f-d1f0e746c4db","sendAfter": 0,"enabled": true}';
-        String step2 = '{"method": "Voice","to": "1-9999999999","id": "6419cef5-ca1f-4842-9ddc-518952c60c2b","sendAfter": 0,"enabled": false}';
-        jsonContent.put(TestConstants.API.STEPS,[step1,step2]);
-        jsonContent.put(TestConstants.API.ENABLED, true);
-        jsonContent.put(TestConstants.API.CONDITION_MATCH_TYPE, "Match All Conditions");
-        jsonContent.put(TestConstants.API.LOOP_AFTER, 1);
-
-        println("json = " +jsonContent);
-
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonResponse).getBytes(), 200, "application/json; charset=utf-8"))
 
         GetNotificationRuleRequest request = new GetNotificationRuleRequest();
         request.setApiKey("customer1");
-        request.setId(jsonContent[TestConstants.API.ID]);
+        request.setId(jsonResponse[TestConstants.API.ID]);
         request.setUsername("user1");
 
-        GetNotificationRuleResponse response = OpsGenieClientTestCase.opsgenieClient.notificationRule().getNotificationRule(request)
-        assertEquals(1, response.getTook())
-        assertEquals(jsonContent[TestConstants.API.ACTION_TYPE], response.getNotificationRule().getActionType().value())
-        assertEquals(jsonContent[TestConstants.API.SCHEDULES], response.getNotificationRule().getSchedules())
-        assertEquals(jsonContent[TestConstants.API.NAME], response.getNotificationRule().getName())
-        assertEquals(2,response.getNotificationRule().getRestirictions().size());
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().getNotificationRule(request)
+
+        assertEquals(jsonResponse[TestConstants.API.ACTION_TYPE], response.getNotificationRule().getActionType().value())
+        assertEquals(jsonResponse[TestConstants.API.NAME], response.getNotificationRule().getName())
 
 
-        NotificationRuleRestriction rest1 = response.getNotificationRule().getRestirictions().find  { it.startHour == restriction1[TestConstants.API.RESTRICTION_START_HOUR] }
-        assertEquals(restriction1[TestConstants.API.RESTRICTION_START_HOUR], rest1.getStartHour())
-        assertEquals(restriction1[TestConstants.API.RESTRICTION_START_MINUTE], rest1.getStartMinute())
-        assertEquals(restriction1[TestConstants.API.RESTRICTION_START_DAY], rest1.getStartDay().value())
-        assertEquals(restriction1[TestConstants.API.RESTRICTION_END_HOUR], rest1.getEndHour())
-        assertEquals(restriction1[TestConstants.API.RESTRICTION_END_MINUTE], rest1.getEndMinute())
-        assertEquals(restriction1[TestConstants.API.RESTRICTION_END_DAY], rest1.getEndDay().value())
+        assertEquals(jsonResponse[TestConstants.API.SCHEDULES], response.getNotificationRule().getSchedules())
+        assertEquals(jsonResponse[TestConstants.API.NAME], response.getNotificationRule().getName())
+        assertEquals(1,response.getNotificationRule().getRestirictions().size());
 
-        NotificationRuleRestriction rest2 = response.getNotificationRule().getRestirictions().find { it.startHour == restriction2[TestConstants.API.RESTRICTION_START_HOUR] }
-        assertEquals(restriction2[TestConstants.API.RESTRICTION_START_HOUR], rest2.getStartHour())
-        assertEquals(restriction2[TestConstants.API.RESTRICTION_START_MINUTE], rest2.getStartMinute())
-        assertEquals(restriction2[TestConstants.API.RESTRICTION_START_DAY].value(), rest2.getStartDay().value())
-        assertEquals(restriction2[TestConstants.API.RESTRICTION_END_HOUR], rest2.getEndHour())
-        assertEquals(restriction2[TestConstants.API.RESTRICTION_END_MINUTE], rest2.getEndMinute())
-        assertEquals(restriction2[TestConstants.API.RESTRICTION_END_DAY].value(), rest2.getEndDay().value())
+        NotificationRuleRestriction restriction = response.getNotificationRule().getRestirictions().get(0);
+        assertEquals(1,restriction.getEndHour());
+        assertEquals("MONDAY",restriction.getStartDay().value());
+        assertEquals(2,restriction.getStartHour());
+        assertEquals("TUESDAY",restriction.getEndDay().value());
+        assertEquals(3,restriction.getStartMinute());
+        assertEquals(4,restriction.getEndMinute());
 
+        assertEquals(jsonResponse[TestConstants.API.ID],response.getNotificationRule().getId());
+        assertEquals(2,response.getNotificationRule().getConditions().size());
+        NotificationRuleConditions condition = response.getNotificationRule().getConditions().find{it.expectedValue == condition1.expectedValue}
+        assertEquals(condition1.field,condition.getField().value())
+        assertEquals(condition1.expectedValue,condition.getExpectedValue())
+        assertEquals(condition1.operation,condition.getOperation().value())
+        assertEquals(condition1.not,condition.getNot())
 
-/*
-
-        assertEquals(jsonContent[TestConstants.API.ID], response.getNotificationRule().getId())
-
-        assertEquals(2, response.getNotificationRule().getConditions().size())
-        NotificationRuleConditions cond1 = response.getNotificationRule().getConditions().find  { it.field == condition1[TestConstants.API.FIELD] }*/
-        /*
-        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
-        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
-
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
-        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
+        condition = response.getNotificationRule().getConditions().find{it.expectedValue == condition2.expectedValue}
+        assertEquals(condition2.field,condition.getField().value())
+        assertEquals(condition2.expectedValue,condition.getExpectedValue())
+        assertEquals(condition2.operation,condition.getOperation().value())
+        assertEquals(condition2.not,condition.getNot())
 
 
+        assertEquals(1,response.getNotificationRule().getSteps().size());
+        NotificationRuleStep step = response.getNotificationRule().getSteps().get(0);
+        assertEquals(step1.method,step.getMethod().value())
+        assertEquals(step1.to,step.getTo())
+        assertEquals(step1.id,step.getId())
+        assertEquals(step1.sendAfter,step.getSendAfter())
+        assertEquals(step1.enabled,step.getEnabled())
 
 
-
-
-
-
-
-
-
-        assertEquals(jsonContent[TestConstants.API.TO], response.getNotificationRule().getTo())
-        assertEquals(jsonContent[TestConstants.API.ID], response.getNotificationRule().getId())
-        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getContact().getEnabled())
+        assertEquals(jsonResponse[TestConstants.API.ID], response.getNotificationRule().getId())
+        assertEquals(jsonResponse[TestConstants.API.ENABLED], response.getNotificationRule().getEnabled())
+        assertEquals(jsonResponse[TestConstants.API.CONDITION_MATCH_TYPE], response.getNotificationRule().getConditionMatchType().value())
+        assertEquals(jsonResponse[TestConstants.API.LOOP_AFTER], response.getNotificationRule().getLoopAfter())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
@@ -750,32 +744,100 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
         assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())*/
+        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+
     }
-
     @Test
-    public void testGetContactSuccessfullyWithUserId() throws Exception {
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.DISABLED_REASON, "reason");
-        jsonContent.put(TestConstants.API.METHOD, "email");
-        jsonContent.put(TestConstants.API.TO, "john@opsgenie.com");
-        jsonContent.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        jsonContent.put(TestConstants.API.ENABLED, true);
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+    public void testGetNotificationRuleSuccessfullyWithUserId() throws Exception {
+        def condition1 = [
+                not: false,
+                field: "message",
+                expectedValue: "new",
+                operation: "Contains"
+        ]
+        def condition2 = [
+                not: true,
+                field: "actions",
+                expectedValue: "ping",
+                operation: "Contains"
+        ]
+        def step1 = [
+                method: "voice",
+                to: "1-9999999999",
+                id: "6419cef5-ca1f-4842-9ddc-518952c60c2b",
+                sendAfter: 0,
+                enabled: true
+        ]
 
-        GetContactRequest request = new GetContactRequest();
+        def jsonResponse = [
+                actionType: "New Alert",
+                name: "New Alert",
+                restrictions: [
+                        [endHour:1, startDay:"MONDAY", startHour:2, endDay:"TUESDAY", startMinute:3, endMinute:4]
+                ],
+                id: "67c4855a-4c1b-4cbf-9be2-87eb212760e9",
+                enabled: true,
+                conditionMatchType: "Match All Conditions",
+                loopAfter: 0
+        ]
+        jsonResponse.put("conditions",[condition1,condition2])
+        jsonResponse.put("steps",[step1])
+
+
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonResponse).getBytes(), 200, "application/json; charset=utf-8"))
+
+        GetNotificationRuleRequest request = new GetNotificationRuleRequest();
         request.setApiKey("customer1");
-        request.setId(jsonContent[TestConstants.API.ID]);
+        request.setId(jsonResponse[TestConstants.API.ID]);
         request.setUserId("user1");
 
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().getContact(request)
-        assertEquals(1, response.getTook())
-        assertEquals(jsonContent[TestConstants.API.DISABLED_REASON], response.getContact().getDisabledReason())
-        assertEquals(jsonContent[TestConstants.API.METHOD], response.getContact().getMethod().value())
-        assertEquals(jsonContent[TestConstants.API.TO], response.getContact().getTo())
-        assertEquals(jsonContent[TestConstants.API.ID], response.getContact().getId())
-        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getContact().getEnabled())
+
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().getNotificationRule(request)
+
+        assertEquals(jsonResponse[TestConstants.API.ACTION_TYPE], response.getNotificationRule().getActionType().value())
+        assertEquals(jsonResponse[TestConstants.API.NAME], response.getNotificationRule().getName())
+
+
+        assertEquals(jsonResponse[TestConstants.API.SCHEDULES], response.getNotificationRule().getSchedules())
+        assertEquals(jsonResponse[TestConstants.API.NAME], response.getNotificationRule().getName())
+        assertEquals(1,response.getNotificationRule().getRestirictions().size());
+
+        NotificationRuleRestriction restriction = response.getNotificationRule().getRestirictions().get(0);
+        assertEquals(1,restriction.getEndHour());
+        assertEquals("MONDAY",restriction.getStartDay().value());
+        assertEquals(2,restriction.getStartHour());
+        assertEquals("TUESDAY",restriction.getEndDay().value());
+        assertEquals(3,restriction.getStartMinute());
+        assertEquals(4,restriction.getEndMinute());
+
+        assertEquals(jsonResponse[TestConstants.API.ID],response.getNotificationRule().getId());
+        assertEquals(2,response.getNotificationRule().getConditions().size());
+        NotificationRuleConditions condition = response.getNotificationRule().getConditions().find{it.expectedValue == condition1.expectedValue}
+        assertEquals(condition1.field,condition.getField().value())
+        assertEquals(condition1.expectedValue,condition.getExpectedValue())
+        assertEquals(condition1.operation,condition.getOperation().value())
+        assertEquals(condition1.not,condition.getNot())
+
+        condition = response.getNotificationRule().getConditions().find{it.expectedValue == condition2.expectedValue}
+        assertEquals(condition2.field,condition.getField().value())
+        assertEquals(condition2.expectedValue,condition.getExpectedValue())
+        assertEquals(condition2.operation,condition.getOperation().value())
+        assertEquals(condition2.not,condition.getNot())
+
+
+        assertEquals(1,response.getNotificationRule().getSteps().size());
+        NotificationRuleStep step = response.getNotificationRule().getSteps().get(0);
+        assertEquals(step1.method,step.getMethod().value())
+        assertEquals(step1.to,step.getTo())
+        assertEquals(step1.id,step.getId())
+        assertEquals(step1.sendAfter,step.getSendAfter())
+        assertEquals(step1.enabled,step.getEnabled())
+
+
+        assertEquals(jsonResponse[TestConstants.API.ID], response.getNotificationRule().getId())
+        assertEquals(jsonResponse[TestConstants.API.ENABLED], response.getNotificationRule().getEnabled())
+        assertEquals(jsonResponse[TestConstants.API.CONDITION_MATCH_TYPE], response.getNotificationRule().getConditionMatchType().value())
+        assertEquals(jsonResponse[TestConstants.API.LOOP_AFTER], response.getNotificationRule().getLoopAfter())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
@@ -783,197 +845,418 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
         assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
     }
 
+
     @Test
-    public void testListContactSuccessfullyWithUserName() throws Exception {
-        Map contact1Content = new HashMap();
-        contact1Content.put(TestConstants.API.DISABLED_REASON, "reason1");
-        contact1Content.put(TestConstants.API.METHOD, "sms");
-        contact1Content.put(TestConstants.API.TO, "1-9999999999");
-        contact1Content.put(TestConstants.API.ID, "60b77613-f86f-4642-bf32-dee2aa678e4d");
-        contact1Content.put(TestConstants.API.ENABLED, true);
+    public void testListNotificationRuleSuccessfullyWithUserName() throws Exception {
+        def rule1 =[
+                actionType: "Schedule Start",
+                applyOrder: 0,
+                schedules: ["network_team_schedule"],
+                name: "Schedule Start Name",
+                notifyBefore: ["Just Before","15 mins"],
+                restrictions: [[endHour: 0,startDay: "SUNDAY",startHour: 0,endDay: "MONDAY",startMinute: 0,endMinute: 0]],
+                id: "5ef5cc7f-23f4-4168-9f0f-d543d0c325b4",
+                steps: [
+                        [
+                            method: "email",
+                            to: "john@opsgenie.com",
+                            id: "2dae31b1-5e89-4c33-a05f-d1f0e746c4db",
+                            sendAfter: 0,
+                            enabled: true
+                        ]
+                ],
+                "enabled": true
+        ]
+        def rule2 =[
+                actionType: "New Alert",
+                applyOrder: 0,
+                name: "New Alert",
+                restrictions: [
+                    endHour: 18,
+                    startHour: 0,
+                    startMinute: 0,
+                    endMinute: 0
+                ],
+                id: "67c4855a-4c1b-4cbf-9be2-87eb212760e9",
+                conditions: [
+                        [
+                            not: false,
+                            field: "message",
+                            expectedValue: "new",
+                            operation: "Contains"
+                        ],
+                        [
+                            not: false,
+                            field: "actions",
+                            expectedValue: "ping",
+                            operation: "Contains"
+                        ]
+                ],
+                steps: [
+                        [
+                            method: "voice",
+                            to: "1-9999999999",
+                            id: "6419cef5-ca1f-4842-9ddc-518952c60c2b",
+                            sendAfter: 0,
+                            enabled: true
+                        ]
+                ],
+                enabled: true,
+                conditionMatchType: "Match All Conditions",
+                loopAfter: 0
+        ]
 
-        Map contact2Content = new HashMap();
-        contact2Content.put(TestConstants.API.DISABLED_REASON, "reason2");
-        contact2Content.put(TestConstants.API.METHOD, "voice");
-        contact2Content.put(TestConstants.API.TO, "1-9999999998");
-        contact2Content.put(TestConstants.API.ID, "6987706b-eaa9-4801-9269-94b13c2eda9a");
-        contact2Content.put(TestConstants.API.ENABLED, false);
+        def rule3 =[
+                actionType: "New Alert",
+                applyOrder: 1,
+                name: "New Alert Night",
+                restrictions: [
+                    endHour: 18,
+                    startHour: 15,
+                    startMinute: 4,
+                    endMinute: 58
+                ],
+                id: "d609c2d4-c7e0-4c3c-b339-40bb58f89963",
+                conditions: [
+                        [
+                            not: false,
+                            field: "message",
+                            expectedValue: "asdf",
+                            operation: "Equals"
+                        ],
+                        [
+                            not: true,
+                            field: "extraProperties",
+                            expectedValue: "asdf",
+                            operation: "Contains Key"
+                        ]
+                ],
+                steps: [
+                        [
+                            method: "email",
+                            to: "john@opsgenie.com",
+                            id: "bd96aa09-e161-4c7e-8d15-ba5e55b7b1e2",
+                            sendAfter: 5,
+                            enabled: true
+                        ]
+                ],
+                enabled: true,
+                conditionMatchType: "Match All Conditions",
+                loopAfter: 5
+        ]
 
-        Map contact3Content = new HashMap();
-        contact3Content.put(TestConstants.API.DISABLED_REASON, "reason3");
-        contact3Content.put(TestConstants.API.METHOD, "email");
-        contact3Content.put(TestConstants.API.TO, "john@opsgenie.com");
-        contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        contact3Content.put(TestConstants.API.ENABLED, false);
 
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson("rules": [rule1, rule2,rule3]).getBytes(), 200, "application/json; charset=utf-8"))
 
-        ListContactsRequest request = new ListContactsRequest();
+        ListNotificationRulesRequest request = new ListNotificationRulesRequest();
         request.setApiKey("customer1");
         request.setUsername("user1");
 
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
-        assertEquals(3, response.getContacts().size())
-        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
-        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().listNotificationRule(request)
+        assertEquals(3, response.getNotificationRules().size())
+        NotificationRule inputRule1 = response.getNotificationRules().find{it.name == rule1.name}
+        assertEquals(inputRule1.getActionType().value(),rule1.actionType);
+        assertEquals(inputRule1.getApplyOrder(),rule1.applyOrder);
+        assertEquals(inputRule1.getSchedules(),rule1.schedules);
+        assertEquals(inputRule1.getName(),rule1.name);
+        assertEquals(inputRule1.getNotifyBefore().get(0).value(),rule1.notifyBefore.get(0));
+        assertEquals(inputRule1.getNotifyBefore().get(1).value(),rule1.notifyBefore.get(1));
+        assertEquals(1, inputRule1.getRestirictions().size())
+        def inputRestriction = inputRule1.getRestirictions().get(0);
+        assertEquals(inputRestriction.getEndHour(),rule1.restrictions[0].endHour);
+        assertEquals(inputRestriction.getStartDay().value(),rule1.restrictions[0].startDay);
+        assertEquals(inputRestriction.getStartHour(),rule1.restrictions[0].startHour);
+        assertEquals(inputRestriction.getEndDay().value(),rule1.restrictions[0].endDay);
+        assertEquals(inputRestriction.getStartMinute(),rule1.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(),rule1.restrictions[0].endMinute);
+        assertEquals(inputRule1.getId(),rule1.id);
+        assertEquals(inputRule1.getSteps().size(),rule1.steps.size());
+        assertEquals(inputRule1.getSteps().get(0).getMethod().value(),rule1.steps.get(0).method);
+        assertEquals(inputRule1.getSteps().get(0).getTo(),rule1.steps.get(0).to);
+        assertEquals(inputRule1.getSteps().get(0).getId(),rule1.steps.get(0).id);
+        assertEquals(inputRule1.getSteps().get(0).getSendAfter(),rule1.steps.get(0).sendAfter);
+        assertEquals(inputRule1.getSteps().get(0).getEnabled(),rule1.steps.get(0).enabled);
+        assertEquals(inputRule1.getEnabled(),rule1.enabled);
 
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
-        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
+        NotificationRule inputRule2 = response.getNotificationRules().find{it.name == rule2.name}
+        assertEquals(inputRule2.getActionType().value(),rule2.actionType);
+        assertEquals(inputRule2.getApplyOrder(),rule2.applyOrder);
+        assertEquals(inputRule2.getName(),rule2.name);
+        inputRestriction = inputRule2.getRestirictions().get(0);
+        assertEquals(inputRestriction.getEndHour(),rule2.restrictions.endHour);
+        assertEquals(inputRestriction.getStartHour(),rule2.restrictions.startHour);
+        assertEquals(inputRestriction.getStartMinute(),rule2.restrictions.startMinute);
+        assertEquals(inputRestriction.getEndMinute(),rule2.restrictions.endMinute);
+        assertEquals(inputRule2.getId(),rule2.id);
+        assertEquals(inputRule2.getConditions().size(),rule2.conditions.size());
 
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
-        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
+        assertEquals(inputRule2.getConditions().get(0).getNot(),rule2.conditions.get(0).not);
+        assertEquals(inputRule2.getConditions().get(0).getField().value(),rule2.conditions.get(0).field);
+        assertEquals(inputRule2.getConditions().get(0).getExpectedValue(),rule2.conditions.get(0).expectedValue);
+        assertEquals(inputRule2.getConditions().get(0).getOperation().value(),rule2.conditions.get(0).operation);
+
+        assertEquals(inputRule2.getConditions().get(1).getNot(),rule2.conditions.get(1).not);
+        assertEquals(inputRule2.getConditions().get(1).getField().value(),rule2.conditions.get(1).field);
+        assertEquals(inputRule2.getConditions().get(1).getExpectedValue(),rule2.conditions.get(1).expectedValue);
+        assertEquals(inputRule2.getConditions().get(1).getOperation().value(),rule2.conditions.get(1).operation);
+        
+        assertEquals(inputRule2.getSteps().size(),rule2.steps.size());
+        assertEquals(inputRule2.getSteps().get(0).getMethod().value(),rule2.steps.get(0).method);
+        assertEquals(inputRule2.getSteps().get(0).getTo(),rule2.steps.get(0).to);
+        assertEquals(inputRule2.getSteps().get(0).getId(),rule2.steps.get(0).id);
+        assertEquals(inputRule2.getSteps().get(0).getSendAfter(),rule2.steps.get(0).sendAfter);
+        assertEquals(inputRule2.getSteps().get(0).getEnabled(),rule2.steps.get(0).enabled);
+        assertEquals(inputRule2.getEnabled(),rule2.enabled);
+        assertEquals(inputRule2.getConditionMatchType().value(),rule2.conditionMatchType);
+        assertEquals(inputRule2.getLoopAfter(),rule2.loopAfter);
+
+        NotificationRule inputRule3 = response.getNotificationRules().find{it.name == rule3.name}
+        assertEquals(inputRule3.getActionType().value(),rule3.actionType);
+        assertEquals(inputRule3.getApplyOrder(),rule3.applyOrder);
+        assertEquals(inputRule3.getName(),rule3.name);
+        assertEquals(1, inputRule3.getRestirictions().size())
+        inputRestriction = inputRule3.getRestirictions().get(0);
+        assertEquals(inputRestriction.getEndHour(),rule3.restrictions.endHour);
+        assertEquals(inputRestriction.getStartHour(),rule3.restrictions.startHour);
+        assertEquals(inputRestriction.getStartMinute(),rule3.restrictions.startMinute);
+        assertEquals(inputRestriction.getEndMinute(),rule3.restrictions.endMinute);
+        assertEquals(inputRule3.getId(),rule3.id);
+        assertEquals(inputRule3.getConditions().size(),rule3.conditions.size());
+
+        assertEquals(inputRule3.getConditions().get(0).getNot(),rule3.conditions.get(0).not);
+        assertEquals(inputRule3.getConditions().get(0).getField().value(),rule3.conditions.get(0).field);
+        assertEquals(inputRule3.getConditions().get(0).getExpectedValue(),rule3.conditions.get(0).expectedValue);
+        assertEquals(inputRule3.getConditions().get(0).getOperation().value(),rule3.conditions.get(0).operation);
+
+        assertEquals(inputRule3.getConditions().get(1).getNot(),rule3.conditions.get(1).not);
+        assertEquals(inputRule3.getConditions().get(1).getField().value(),rule3.conditions.get(1).field);
+        assertEquals(inputRule3.getConditions().get(1).getExpectedValue(),rule3.conditions.get(1).expectedValue);
+        assertEquals(inputRule3.getConditions().get(1).getOperation().value(),rule3.conditions.get(1).operation);
+
+        assertEquals(inputRule3.getSteps().size(),rule3.steps.size());
+        assertEquals(inputRule3.getSteps().get(0).getMethod().value(),rule3.steps.get(0).method);
+        assertEquals(inputRule3.getSteps().get(0).getTo(),rule3.steps.get(0).to);
+        assertEquals(inputRule3.getSteps().get(0).getId(),rule3.steps.get(0).id);
+        assertEquals(inputRule3.getSteps().get(0).getSendAfter(),rule3.steps.get(0).sendAfter);
+        assertEquals(inputRule3.getSteps().get(0).getEnabled(),rule3.steps.get(0).enabled);
+        assertEquals(inputRule3.getEnabled(),rule3.enabled);
+        assertEquals(inputRule3.getConditionMatchType().value(),rule3.conditionMatchType);
+        assertEquals(inputRule3.getLoopAfter(),rule3.loopAfter);
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
         assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
     }
-
     @Test
-    public void testListContactSuccessfullyWithUserId() throws Exception {
-        Map contact1Content = new HashMap();
-        contact1Content.put(TestConstants.API.DISABLED_REASON, "reason1");
-        contact1Content.put(TestConstants.API.METHOD, "sms");
-        contact1Content.put(TestConstants.API.TO, "1-9999999999");
-        contact1Content.put(TestConstants.API.ID, "60b77613-f86f-4642-bf32-dee2aa678e4d");
-        contact1Content.put(TestConstants.API.ENABLED, true);
+    public void testListNotificationRuleSuccessfullyWithUserId() throws Exception {
+        def rule1 =[
+                actionType: "Schedule Start",
+                applyOrder: 0,
+                schedules: ["network_team_schedule"],
+                name: "Schedule Start Name",
+                notifyBefore: ["Just Before","15 mins"],
+                restrictions: [[endHour: 0,startDay: "SUNDAY",startHour: 0,endDay: "MONDAY",startMinute: 0,endMinute: 0]],
+                id: "5ef5cc7f-23f4-4168-9f0f-d543d0c325b4",
+                steps: [
+                        [
+                                method: "email",
+                                to: "john@opsgenie.com",
+                                id: "2dae31b1-5e89-4c33-a05f-d1f0e746c4db",
+                                sendAfter: 0,
+                                enabled: true
+                        ]
+                ],
+                "enabled": true
+        ]
+        def rule2 =[
+                actionType: "New Alert",
+                applyOrder: 0,
+                name: "New Alert",
+                restrictions: [
+                        endHour: 18,
+                        startHour: 0,
+                        startMinute: 0,
+                        endMinute: 0
+                ],
+                id: "67c4855a-4c1b-4cbf-9be2-87eb212760e9",
+                conditions: [
+                        [
+                                not: false,
+                                field: "message",
+                                expectedValue: "new",
+                                operation: "Contains"
+                        ],
+                        [
+                                not: false,
+                                field: "actions",
+                                expectedValue: "ping",
+                                operation: "Contains"
+                        ]
+                ],
+                steps: [
+                        [
+                                method: "voice",
+                                to: "1-9999999999",
+                                id: "6419cef5-ca1f-4842-9ddc-518952c60c2b",
+                                sendAfter: 0,
+                                enabled: true
+                        ]
+                ],
+                enabled: true,
+                conditionMatchType: "Match All Conditions",
+                loopAfter: 0
+        ]
 
-        Map contact2Content = new HashMap();
-        contact2Content.put(TestConstants.API.DISABLED_REASON, "reason2");
-        contact2Content.put(TestConstants.API.METHOD, "voice");
-        contact2Content.put(TestConstants.API.TO, "1-9999999998");
-        contact2Content.put(TestConstants.API.ID, "6987706b-eaa9-4801-9269-94b13c2eda9a");
-        contact2Content.put(TestConstants.API.ENABLED, false);
+        def rule3 =[
+                actionType: "New Alert",
+                applyOrder: 1,
+                name: "New Alert Night",
+                restrictions: [
+                        endHour: 18,
+                        startHour: 15,
+                        startMinute: 4,
+                        endMinute: 58
+                ],
+                id: "d609c2d4-c7e0-4c3c-b339-40bb58f89963",
+                conditions: [
+                        [
+                                not: false,
+                                field: "message",
+                                expectedValue: "asdf",
+                                operation: "Equals"
+                        ],
+                        [
+                                not: true,
+                                field: "extraProperties",
+                                expectedValue: "asdf",
+                                operation: "Contains Key"
+                        ]
+                ],
+                steps: [
+                        [
+                                method: "email",
+                                to: "john@opsgenie.com",
+                                id: "bd96aa09-e161-4c7e-8d15-ba5e55b7b1e2",
+                                sendAfter: 5,
+                                enabled: true
+                        ]
+                ],
+                enabled: true,
+                conditionMatchType: "Match All Conditions",
+                loopAfter: 5
+        ]
 
-        Map contact3Content = new HashMap();
-        contact3Content.put(TestConstants.API.DISABLED_REASON, "reason3");
-        contact3Content.put(TestConstants.API.METHOD, "email");
-        contact3Content.put(TestConstants.API.TO, "john@opsgenie.com");
-        contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
-        contact3Content.put(TestConstants.API.ENABLED, false);
 
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson("rules": [rule1, rule2,rule3]).getBytes(), 200, "application/json; charset=utf-8"))
 
-        ListContactsRequest request = new ListContactsRequest();
+        ListNotificationRulesRequest request = new ListNotificationRulesRequest();
         request.setApiKey("customer1");
         request.setUserId("user1");
 
-        def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
-        assertEquals(3, response.getContacts().size())
-        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
-        assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
+        def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().listNotificationRule(request)
+        assertEquals(3, response.getNotificationRules().size())
+        NotificationRule inputRule1 = response.getNotificationRules().find{it.name == rule1.name}
+        assertEquals(inputRule1.getActionType().value(),rule1.actionType);
+        assertEquals(inputRule1.getApplyOrder(),rule1.applyOrder);
+        assertEquals(inputRule1.getSchedules(),rule1.schedules);
+        assertEquals(inputRule1.getName(),rule1.name);
+        assertEquals(inputRule1.getNotifyBefore().get(0).value(),rule1.notifyBefore.get(0));
+        assertEquals(inputRule1.getNotifyBefore().get(1).value(),rule1.notifyBefore.get(1));
+        assertEquals(1, inputRule1.getRestirictions().size())
+        def inputRestriction = inputRule1.getRestirictions().get(0);
+        assertEquals(inputRestriction.getEndHour(),rule1.restrictions[0].endHour);
+        assertEquals(inputRestriction.getStartDay().value(),rule1.restrictions[0].startDay);
+        assertEquals(inputRestriction.getStartHour(),rule1.restrictions[0].startHour);
+        assertEquals(inputRestriction.getEndDay().value(),rule1.restrictions[0].endDay);
+        assertEquals(inputRestriction.getStartMinute(),rule1.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(),rule1.restrictions[0].endMinute);
+        assertEquals(inputRule1.getId(),rule1.id);
+        assertEquals(inputRule1.getSteps().size(),rule1.steps.size());
+        assertEquals(inputRule1.getSteps().get(0).getMethod().value(),rule1.steps.get(0).method);
+        assertEquals(inputRule1.getSteps().get(0).getTo(),rule1.steps.get(0).to);
+        assertEquals(inputRule1.getSteps().get(0).getId(),rule1.steps.get(0).id);
+        assertEquals(inputRule1.getSteps().get(0).getSendAfter(),rule1.steps.get(0).sendAfter);
+        assertEquals(inputRule1.getSteps().get(0).getEnabled(),rule1.steps.get(0).enabled);
+        assertEquals(inputRule1.getEnabled(),rule1.enabled);
 
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
-        assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
+        NotificationRule inputRule2 = response.getNotificationRules().find{it.name == rule2.name}
+        assertEquals(inputRule2.getActionType().value(),rule2.actionType);
+        assertEquals(inputRule2.getApplyOrder(),rule2.applyOrder);
+        assertEquals(inputRule2.getName(),rule2.name);
+        inputRestriction = inputRule2.getRestirictions().get(0);
+        assertEquals(inputRestriction.getEndHour(),rule2.restrictions.endHour);
+        assertEquals(inputRestriction.getStartHour(),rule2.restrictions.startHour);
+        assertEquals(inputRestriction.getStartMinute(),rule2.restrictions.startMinute);
+        assertEquals(inputRestriction.getEndMinute(),rule2.restrictions.endMinute);
+        assertEquals(inputRule2.getId(),rule2.id);
+        assertEquals(inputRule2.getConditions().size(),rule2.conditions.size());
 
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
-        assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
-        assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
-        assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
-        assertEquals(contact3Content[TestConstants.API.ID], contact.getId())
-        assertEquals(contact3Content[TestConstants.API.ENABLED], contact.getEnabled())
+        assertEquals(inputRule2.getConditions().get(0).getNot(),rule2.conditions.get(0).not);
+        assertEquals(inputRule2.getConditions().get(0).getField().value(),rule2.conditions.get(0).field);
+        assertEquals(inputRule2.getConditions().get(0).getExpectedValue(),rule2.conditions.get(0).expectedValue);
+        assertEquals(inputRule2.getConditions().get(0).getOperation().value(),rule2.conditions.get(0).operation);
+
+        assertEquals(inputRule2.getConditions().get(1).getNot(),rule2.conditions.get(1).not);
+        assertEquals(inputRule2.getConditions().get(1).getField().value(),rule2.conditions.get(1).field);
+        assertEquals(inputRule2.getConditions().get(1).getExpectedValue(),rule2.conditions.get(1).expectedValue);
+        assertEquals(inputRule2.getConditions().get(1).getOperation().value(),rule2.conditions.get(1).operation);
+
+        assertEquals(inputRule2.getSteps().size(),rule2.steps.size());
+        assertEquals(inputRule2.getSteps().get(0).getMethod().value(),rule2.steps.get(0).method);
+        assertEquals(inputRule2.getSteps().get(0).getTo(),rule2.steps.get(0).to);
+        assertEquals(inputRule2.getSteps().get(0).getId(),rule2.steps.get(0).id);
+        assertEquals(inputRule2.getSteps().get(0).getSendAfter(),rule2.steps.get(0).sendAfter);
+        assertEquals(inputRule2.getSteps().get(0).getEnabled(),rule2.steps.get(0).enabled);
+        assertEquals(inputRule2.getEnabled(),rule2.enabled);
+        assertEquals(inputRule2.getConditionMatchType().value(),rule2.conditionMatchType);
+        assertEquals(inputRule2.getLoopAfter(),rule2.loopAfter);
+
+        NotificationRule inputRule3 = response.getNotificationRules().find{it.name == rule3.name}
+        assertEquals(inputRule3.getActionType().value(),rule3.actionType);
+        assertEquals(inputRule3.getApplyOrder(),rule3.applyOrder);
+        assertEquals(inputRule3.getName(),rule3.name);
+        assertEquals(1, inputRule3.getRestirictions().size())
+        inputRestriction = inputRule3.getRestirictions().get(0);
+        assertEquals(inputRestriction.getEndHour(),rule3.restrictions.endHour);
+        assertEquals(inputRestriction.getStartHour(),rule3.restrictions.startHour);
+        assertEquals(inputRestriction.getStartMinute(),rule3.restrictions.startMinute);
+        assertEquals(inputRestriction.getEndMinute(),rule3.restrictions.endMinute);
+        assertEquals(inputRule3.getId(),rule3.id);
+        assertEquals(inputRule3.getConditions().size(),rule3.conditions.size());
+
+        assertEquals(inputRule3.getConditions().get(0).getNot(),rule3.conditions.get(0).not);
+        assertEquals(inputRule3.getConditions().get(0).getField().value(),rule3.conditions.get(0).field);
+        assertEquals(inputRule3.getConditions().get(0).getExpectedValue(),rule3.conditions.get(0).expectedValue);
+        assertEquals(inputRule3.getConditions().get(0).getOperation().value(),rule3.conditions.get(0).operation);
+
+        assertEquals(inputRule3.getConditions().get(1).getNot(),rule3.conditions.get(1).not);
+        assertEquals(inputRule3.getConditions().get(1).getField().value(),rule3.conditions.get(1).field);
+        assertEquals(inputRule3.getConditions().get(1).getExpectedValue(),rule3.conditions.get(1).expectedValue);
+        assertEquals(inputRule3.getConditions().get(1).getOperation().value(),rule3.conditions.get(1).operation);
+
+        assertEquals(inputRule3.getSteps().size(),rule3.steps.size());
+        assertEquals(inputRule3.getSteps().get(0).getMethod().value(),rule3.steps.get(0).method);
+        assertEquals(inputRule3.getSteps().get(0).getTo(),rule3.steps.get(0).to);
+        assertEquals(inputRule3.getSteps().get(0).getId(),rule3.steps.get(0).id);
+        assertEquals(inputRule3.getSteps().get(0).getSendAfter(),rule3.steps.get(0).sendAfter);
+        assertEquals(inputRule3.getSteps().get(0).getEnabled(),rule3.steps.get(0).enabled);
+        assertEquals(inputRule3.getEnabled(),rule3.enabled);
+        assertEquals(inputRule3.getConditionMatchType().value(),rule3.conditionMatchType);
+        assertEquals(inputRule3.getLoopAfter(),rule3.loopAfter);
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
         assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
-        assertEquals("/v1/json/user/contact", requestSent.getUrl())
+        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Test
