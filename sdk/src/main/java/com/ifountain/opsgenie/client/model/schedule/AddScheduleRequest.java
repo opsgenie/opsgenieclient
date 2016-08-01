@@ -101,9 +101,11 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
         if(timeZone != null){
             json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
         }
-        if(rotations != null){
+        if(rotations != null && rotations.size() > 0){
             List<Map> rotationMaps = new ArrayList<Map>();
             for(ScheduleRotation rotation: rotations){
+                if(rotation.getRotationLength() < 1)
+                    rotation.setRotationLength(1);
                 rotation.setScheduleTimeZone(getTimeZone());
                 rotationMaps.add(rotation.toMap());
             }
