@@ -4,7 +4,6 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.beans.Contact
-import com.ifountain.opsgenie.client.model.beans.User
 import com.ifountain.opsgenie.client.model.contact.AddContactRequest
 import com.ifountain.opsgenie.client.model.contact.DeleteContactRequest
 import com.ifountain.opsgenie.client.model.contact.DisableContactRequest
@@ -12,10 +11,6 @@ import com.ifountain.opsgenie.client.model.contact.EnableContactRequest
 import com.ifountain.opsgenie.client.model.contact.GetContactRequest
 import com.ifountain.opsgenie.client.model.contact.ListContactsRequest
 import com.ifountain.opsgenie.client.model.contact.UpdateContactRequest
-import com.ifountain.opsgenie.client.model.policy.DisablePolicyRequest
-import com.ifountain.opsgenie.client.model.policy.EnablePolicyRequest
-import com.ifountain.opsgenie.client.model.user.*
-import com.ifountain.opsgenie.client.model.user.forward.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.http.HttpHeaders
@@ -24,11 +19,8 @@ import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.junit.Test
 
-import java.text.SimpleDateFormat
 
 import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertFalse
-import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertTrue
 
 /**
