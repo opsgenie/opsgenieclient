@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.User;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -107,22 +108,19 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getUsername() != null){
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
+        if(getUsername() != null)
             json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        }
-        if(getFullname() != null){
+        if(getFullname() != null)
             json.put(OpsGenieClientConstants.API.FULLNAME, getFullname());
-        }
-        if(getRole() != null){
+        if(getRole() != null)
             json.put(OpsGenieClientConstants.API.ROLE, getRole().name());
-        }
-        if(getTimeZone() != null){
+        if(getTimeZone() != null)
             json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
-        }
-        if(getLocale() != null){
+        if(getLocale() != null)
             json.put(OpsGenieClientConstants.API.LOCALE, User.getLocaleId(getLocale()));
-        }
         return json;
     }
 

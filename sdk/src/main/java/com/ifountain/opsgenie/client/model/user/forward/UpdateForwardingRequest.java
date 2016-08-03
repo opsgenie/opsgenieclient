@@ -1,10 +1,9 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import java.util.Map;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.text.SimpleDateFormat;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an update forwarding api call.
@@ -37,19 +36,16 @@ public class UpdateForwardingRequest extends AddForwardingRequest{
 
     @Override
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        return json;
-    }
-
-    @Override
-    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
     public UpdateForwardingResponse createResponse() {
         return new UpdateForwardingResponse();
+    }
+    @Override
+    public Map serialize() throws OpsGenieClientValidationException {
+    	Map json = super.serialize();
+    	if(getId() != null)
+            json.put(OpsGenieClientConstants.API.ID, getId());
+    	return json;
     }
 }

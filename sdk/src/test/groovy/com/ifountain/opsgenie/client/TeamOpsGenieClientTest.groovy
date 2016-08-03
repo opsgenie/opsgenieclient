@@ -4,7 +4,9 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.beans.Team
+import com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest
 import com.ifountain.opsgenie.client.model.team.AddTeamRequest
+import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest
 import com.ifountain.opsgenie.client.model.team.DeleteTeamRequest
 import com.ifountain.opsgenie.client.model.team.GetTeamRequest
 import com.ifountain.opsgenie.client.model.team.ListTeamLogsRequest
@@ -63,6 +65,106 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
     @Test
     public void testAddTeamThrowsExceptionIfRequestCannotBeValidated() throws Exception {
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.team(), "addTeam", new AddTeamRequest())
+    }
+
+    @Test
+    public void testAddTeamMemberSuccessfullyWithUsername() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        AddTeamMemberRequest request = new AddTeamMemberRequest();
+        request.setApiKey("customer1");
+        request.setUsername("user1")
+        request.setRole(Team.TeamMember.Role.admin)
+        request.setName("team1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.team().addTeamMember(request)
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/team/member", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
+        assertEquals(request.getRole().toString(), jsonContent[TestConstants.API.ROLE])
+        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
+    }
+
+    @Test
+    public void testAddTeamMemberSuccessfullyWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        AddTeamMemberRequest request = new AddTeamMemberRequest();
+        request.setApiKey("customer1");
+        request.setUserId("user1")
+        request.setRole(Team.TeamMember.Role.user)
+        request.setName("team1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.team().addTeamMember(request)
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/team/member", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
+        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
+        assertEquals(request.getRole().toString(), jsonContent[TestConstants.API.ROLE])
+        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
+    }
+
+    @Test
+    public void testDeleteTeamMemberSuccessfullyWithUsername() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest();
+        request.setApiKey("customer1");
+        request.setUsername("user1")
+        request.setName("team1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.team().deleteTeamMember(request)
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/team/member", requestSent.getUrl())
+
+
+        assertEquals(3, requestSent.getParameters().size())
+        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME])
+        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME])
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+    }
+
+    @Test
+    public void testDeleteTeamMemberSuccessfullyWithUserId() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest();
+        request.setApiKey("customer1");
+        request.setUserId("user1")
+        request.setName("team1");
+
+        def response = OpsGenieClientTestCase.opsgenieClient.team().deleteTeamMember(request)
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/team/member", requestSent.getUrl())
+
+        assertEquals(3, requestSent.getParameters().size())
+        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME])
+        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID])
+        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+
     }
 
     @Test

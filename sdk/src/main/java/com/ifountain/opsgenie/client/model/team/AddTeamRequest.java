@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Team;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,11 +63,11 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
         if(getName() != null)
-        {
             json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
         if(getMembers() != null){
             List<Map> memberMaps = new ArrayList<Map>();
             for(Team.TeamMember member:getMembers()){

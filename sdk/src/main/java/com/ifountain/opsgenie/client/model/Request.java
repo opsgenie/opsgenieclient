@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Interface for OpsGenie service api requests.
  *
@@ -12,5 +14,6 @@ public interface Request {
     /**
      * Returns the request's rest api uri.
      */
+	@JsonIgnore
     public String getEndPoint();
 }

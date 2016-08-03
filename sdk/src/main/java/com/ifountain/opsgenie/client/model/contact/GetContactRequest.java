@@ -1,17 +1,15 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import java.util.Map;
 
 import javax.xml.bind.ValidationException;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseGetRequest;
+import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get contact api call.
  *
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(GetContactRequest)
  */
-public class GetContactRequest extends BaseGetRequest<GetContactResponse> {
+public class GetContactRequest extends BaseRequest<GetContactResponse> {
 	private String username;
 	private String userId;
 	private String id;
@@ -34,17 +32,6 @@ public class GetContactRequest extends BaseGetRequest<GetContactResponse> {
 			throw new ValidationException("ValidationException[One of [userId] or [username] fields should be provided.]");
     	return super.isValid();
     }
-    
-	@Override
-    public void _serialize(Map json) {
-		if(getUsername() != null)
-			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if(getUserId() != null)
-			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if(getId() != null)
-			json.put(OpsGenieClientConstants.API.ID, getId());
-    }
-
 	@Override
 	public GetContactResponse createResponse() {
 		return new GetContactResponse();

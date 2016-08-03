@@ -1,17 +1,25 @@
 package com.ifountain.opsgenie.client.model.integration;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseGetRequest;
-import java.util.Map;
+import com.ifountain.opsgenie.client.model.BaseRequest;
+
 
 /**
  * Container for the parameters to make an enable/disable integration api call.
  *
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#enableIntegration(com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest)
  */
-public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationResponse> {
+public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {
     private String name;
     private Boolean enabled = true;
+	private String id;
+	
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
 
     /**
@@ -58,10 +66,4 @@ public class EnableIntegrationRequest extends BaseGetRequest<EnableIntegrationRe
         return new EnableIntegrationResponse();
     }
 
-    @Override
-    public void _serialize(Map data) {
-        if(getName() != null){
-            data.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-    }
 }

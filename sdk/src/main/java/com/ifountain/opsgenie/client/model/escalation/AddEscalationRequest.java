@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.EscalationRule;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,10 +61,11 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
+        if(name != null)
             json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
         if(getRules() != null){
             List<Map> ruleMaps = new ArrayList<Map>();
             for(EscalationRule rule:rules){

@@ -78,10 +78,6 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
      */
     public Map serialize() throws OpsGenieClientValidationException {
         Map json = super.serialize();
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
         if (getRecipients() != null){
             List<String> recipientNames = new ArrayList<String>();
             for(RenotifyRecipient recipient:recipients){

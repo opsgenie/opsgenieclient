@@ -1,17 +1,15 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseGetRequest;
-
-import java.util.Map;
+import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a get schedule api call.
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
  */
-public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
+public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
     private String name;
+    private String id;
     /**
      * Rest api uri of getting schedule operation.
      */
@@ -34,15 +32,18 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     * Id of object to be queried.
      */
-    public void _serialize(Map json) {
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets id of object to be queried.
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -52,4 +53,5 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
     public GetScheduleResponse createResponse() {
         return new GetScheduleResponse();
     }
+
 }

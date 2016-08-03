@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.notificationRule;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
@@ -45,7 +46,9 @@ public class UpdateNotificationRuleStepRequest extends BaseRequest<UpdateNotific
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
 	 */
 	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = super.serialize();
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
 		if (getUsername() != null) 
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 

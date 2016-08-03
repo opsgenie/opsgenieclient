@@ -64,10 +64,6 @@ public class RemoveTagsRequest extends BaseAlertRequestWithSource<RemoveTagsResp
 
         List<String> tags = getTags();
         json.put(OpsGenieClientConstants.API.TAGS, tags != null ? Strings.join(tags, ",") : null);
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
         return json;
     }
 

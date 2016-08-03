@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -121,32 +122,27 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         TimeZone tz;
-        if (getTimeZone() != null) {
+        if (getTimeZone() != null) 
             tz = getTimeZone();
-
-        } else {
+        else
             tz = TimeZone.getTimeZone("GMT");
-        }
         sdf.setTimeZone(tz);
         json.put(OpsGenieClientConstants.API.TIMEZONE, tz.getID());
-        if (getEndDate() != null) {
+        if (getEndDate() != null) 
             json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(getEndDate()));
-        }
-        if (getStartDate() != null) {
+        if (getStartDate() != null) 
             json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(getStartDate()));
-        }
-        if(fromUser != null){
+        if(fromUser != null)
             json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
-        }
-        if(toUser != null){
+        if(toUser != null)
             json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
-        }
-        if(alias != null){
+        if(alias != null)
             json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        }
         return json;
     }
 

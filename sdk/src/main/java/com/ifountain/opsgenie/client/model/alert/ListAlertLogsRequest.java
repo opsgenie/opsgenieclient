@@ -17,16 +17,16 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
         asc,
         desc
     }
-    private SortOrder sortOrder =SortOrder.asc;
+    private SortOrder order =SortOrder.asc;
     private Integer limit = 100;
     private String lastKey;
 
     public SortOrder getSortOrder() {
-        return sortOrder;
+        return order;
     }
 
     public void setSortOrder(SortOrder sortOrder) {
-        this.sortOrder = sortOrder;
+        this.order = sortOrder;
     }
 
     public Integer getLimit() {
@@ -63,12 +63,8 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
         {
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
         }
-        if (getLastKey() != null)
-            resp.put(OpsGenieClientConstants.API.LAST_KEY, getLastKey());
         if (getSortOrder() != null)
             resp.put(OpsGenieClientConstants.API.ORDER, getSortOrder().name());
-        if (getLimit() != null)
-            resp.put(OpsGenieClientConstants.API.LIMIT, getLimit());
         return resp;
     }
 

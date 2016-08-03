@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -86,7 +87,9 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse>{
 
     @Override
     public Map serialize() throws OpsGenieClientValidationException {
-        Map resp = super.serialize();
+		Map resp = new HashMap();
+		if (getApiKey() != null) 
+			resp.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
         if (getId() != null)
             resp.put(OpsGenieClientConstants.API.ID, getId());
         if (getName() != null)

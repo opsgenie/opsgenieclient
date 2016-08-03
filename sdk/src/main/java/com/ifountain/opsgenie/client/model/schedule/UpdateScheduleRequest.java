@@ -36,21 +36,16 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
 
     @Override
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
-        }
-        return json;
-    }
-
-    @Override
-    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
     public UpdateScheduleResponse createResponse() {
         return new UpdateScheduleResponse();
+    }
+    @Override
+    public Map serialize() throws OpsGenieClientValidationException {
+    	Map json = super.serialize();
+    	if(getId() != null)
+            json.put(OpsGenieClientConstants.API.ID, getId());
+    	return json;
     }
 }

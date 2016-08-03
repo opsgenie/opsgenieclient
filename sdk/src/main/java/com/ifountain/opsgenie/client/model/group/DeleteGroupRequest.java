@@ -1,10 +1,6 @@
 package com.ifountain.opsgenie.client.model.group;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a delete group api call.
@@ -48,21 +44,6 @@ public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
-        if(getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        return json;
     }
 
     @Override

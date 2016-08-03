@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,9 @@ public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
+		Map parameters = new HashMap();
+		if (getApiKey() != null) 
+			parameters.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
         if (getCreatedAfter() != null)
             parameters.put(OpsGenieClientConstants.API.CREATED_AFTER, getCreatedAfter());
         if (getCreatedBefore() != null)

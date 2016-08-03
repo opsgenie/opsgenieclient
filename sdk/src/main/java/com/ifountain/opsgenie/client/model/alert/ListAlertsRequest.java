@@ -1,12 +1,9 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import java.util.Map;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.apache.commons.codec.binary.StringUtils;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list alerts api call.
@@ -55,12 +52,10 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
      */
     public Map serialize() throws OpsGenieClientValidationException {
         Map parameters = super.serialize();
-
         if (sortBy != null)
             parameters.put(OpsGenieClientConstants.API.SORT_BY, sortBy.name());
         if (sortOrder != null)
             parameters.put(OpsGenieClientConstants.API.ORDER, sortOrder.name());
-
         return parameters;
     }
 

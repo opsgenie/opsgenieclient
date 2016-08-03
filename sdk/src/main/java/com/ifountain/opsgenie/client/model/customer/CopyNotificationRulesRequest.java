@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,16 +86,15 @@ public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRu
 
     @Override
     public Map serialize() throws OpsGenieClientValidationException {
-        Map res = super.serialize();
-        if(fromUser != null){
+		Map res = new HashMap();
+		if (getApiKey() != null) 
+			res.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
+        if(fromUser != null)
             res.put(OpsGenieClientConstants.API.FROM_USER, fromUser);
-        }
-        if(toUsers != null){
+        if(toUsers != null)
             res.put(OpsGenieClientConstants.API.TO_USERS, toUsers);
-        }
-        if(ruleTypes != null){
+        if(ruleTypes != null)
             res.put(OpsGenieClientConstants.API.RULE_TYPES, ruleTypes);
-        }
         return res;
     }
 }

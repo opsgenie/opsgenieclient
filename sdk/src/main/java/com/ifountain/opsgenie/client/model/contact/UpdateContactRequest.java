@@ -24,23 +24,6 @@ public class UpdateContactRequest extends BaseRequest<UpdateContactResponse> {
 	}
 	@Override
 	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-	 */
-	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = super.serialize();
-		if (getUsername() != null) 
-			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if (getUserId() != null) 
-			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if (getTo() != null) 
-			json.put(OpsGenieClientConstants.API.TO, getTo());
-        if(getId() != null)
-        	json.put(OpsGenieClientConstants.API.ID, getId());
-		return json;
-	}
-
-	@Override
-	/**
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
 	 */
 	public UpdateContactResponse createResponse() {

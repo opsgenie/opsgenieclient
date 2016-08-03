@@ -41,16 +41,12 @@ public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
     public AddHeartbeatResponse createResponse() {
         return new UpdateHeartbeatResponse();
     }
-
     @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        return json;
+    	Map json = super.serialize();
+    	if(getName() != null)
+            json.put(OpsGenieClientConstants.API.NAME, getName());
+    	return json;
     }
+
 }

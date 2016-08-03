@@ -67,19 +67,6 @@ public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
         this.note = note;
     }
 
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.OWNER, getOwner());
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        return json;
-    }
-
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()

@@ -1,13 +1,8 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientException;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
-
 import javax.xml.bind.ValidationException;
+
+import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a get schedule override api call.
@@ -68,21 +63,7 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     		throw new ValidationException("ValidationException[[Schedule] field should be provided.]");
     	return super.isValid();
     }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
-    }
     
-    
-
-
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()

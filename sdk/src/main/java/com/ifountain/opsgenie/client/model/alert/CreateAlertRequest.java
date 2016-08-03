@@ -1,12 +1,12 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.util.Strings;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an create alert api call.
@@ -214,8 +214,11 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
+		if(getMessage() != null)
+			json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
         if (getRecipients() != null)
             json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
         if (getTeams() != null)

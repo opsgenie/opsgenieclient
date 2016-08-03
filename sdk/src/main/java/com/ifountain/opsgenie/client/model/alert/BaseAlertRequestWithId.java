@@ -1,11 +1,9 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-
-import java.util.Map;
 
 public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends BaseRequest<T>{
     private String id;
@@ -16,6 +14,7 @@ public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends Bas
      * The id of the alert.
      * @deprecated use getId
      */
+    @JsonIgnore
     public String getAlertId() {
         return id;
     }
@@ -68,20 +67,6 @@ public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends Bas
      */
     public void setAlias(String alias) {
         this.alias = alias;
-    }
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
-        if (getId() != null)
-            parameters.put(OpsGenieClientConstants.API.ID, getId());
-        if (getAlias() != null)
-            parameters.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        if (getTinyId() != null)
-            parameters.put(OpsGenieClientConstants.API.TINY_ID, getTinyId());
-        return parameters;
     }
 
 }

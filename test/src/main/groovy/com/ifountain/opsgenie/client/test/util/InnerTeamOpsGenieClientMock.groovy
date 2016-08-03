@@ -59,6 +59,16 @@ public class InnerTeamOpsGenieClientMock implements ITeamOpsGenieClient{
         return listTeamLogsResponse;
     }
 
+    @Override
+    AddTeamMemberResponse addTeamMember(AddTeamMemberRequest addTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
     public void setAddTeamResponse(AddTeamResponse addTeamResponse) {
         this.addTeamResponse = addTeamResponse;
     }

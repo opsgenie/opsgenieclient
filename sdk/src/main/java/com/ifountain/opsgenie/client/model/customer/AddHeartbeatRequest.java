@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Heartbeat;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -109,22 +110,19 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
+        if(name != null)
             json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        if(enabled != null){
+        if(enabled != null)
             json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        }
-        if(interval != null){
+        if(interval != null)
             json.put(OpsGenieClientConstants.API.INTERVAL, interval);
-        }
-        if(intervalUnit != null){
+        if(intervalUnit != null)
             json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit.name());
-        }
-        if(description != null){
+        if(description != null)
             json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
-        }
         return json;
     }
 

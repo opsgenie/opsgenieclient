@@ -1,10 +1,6 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list schedule overrides api call.
@@ -36,19 +32,6 @@ public class ListScheduleOverridesRequest extends BaseRequest<ListScheduleOverri
      */
     public void setSchedule(String schedule) {
         this.schedule = schedule;
-    }
-
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getSchedule() != null){
-            json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
-        }
-        return json;
     }
 
     @Override

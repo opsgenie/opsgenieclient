@@ -1,9 +1,5 @@
 package com.ifountain.opsgenie.client.model.notificationRule;
 
-import java.util.Map;
-
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to repeat notificationRule api call.
@@ -21,22 +17,6 @@ public class ChangeNotificationRuleOrderRequest extends BaseRequest<ChangeNotifi
 	@Override
 	public String getEndPoint() {
 		return "/v1/json/user/notificationRule/changeOrder";
-	}
-	@Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-	public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if (getUsername() != null) 
-			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if (getUserId() != null) 
-			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-        if(getId() != null)
-        	json.put(OpsGenieClientConstants.API.ID, getId());
-        if(getApplyOrder() != null)
-        	json.put(OpsGenieClientConstants.API.APPLY_ORDER, getApplyOrder());
-        return json;
 	}
 
 	@Override

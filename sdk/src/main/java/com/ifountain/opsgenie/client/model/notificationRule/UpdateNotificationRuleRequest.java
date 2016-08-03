@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.notificationRule;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule;
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleConditions;
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleRestriction;
-import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.NotifyBefore;
 /**
@@ -56,7 +56,9 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
 	 */
 	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = super.serialize();
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
 		if (getUsername() != null) 
 			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
 		if (getUserId() != null) 

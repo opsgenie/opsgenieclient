@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,14 +59,13 @@ public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
      * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
+		Map json = new HashMap();
+		if (getApiKey() != null) 
+			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
         if(getName() != null)
-        {
             json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getUsers() != null){
+        if(getUsers() != null)
             json.put(OpsGenieClientConstants.API.USERS, getUsers());
-        }
         return json;
     }
 

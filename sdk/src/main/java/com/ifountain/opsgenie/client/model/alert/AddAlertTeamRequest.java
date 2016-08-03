@@ -1,10 +1,5 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
-
 /**
  * Container for the parameters to make an add team call.
  *
@@ -65,16 +60,6 @@ public class AddAlertTeamRequest extends BaseAlertRequestWithSource<AddAlertTeam
      */
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.TEAM, getTeam());
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        return json;
     }
 
     public AddAlertTeamResponse createResponse() {

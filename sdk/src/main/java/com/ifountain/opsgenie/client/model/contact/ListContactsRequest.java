@@ -20,16 +20,6 @@ public class ListContactsRequest extends BaseRequest<ListContactsResponse> {
 	public String getEndPoint() {
 		return "/v1/json/user/contact";
 	}
-	
-	@Override
-	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = super.serialize();
-		if (getUsername() != null) 
-			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if (getUserId() != null) 
-			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		return json;
-	}
 
 	@Override
     /**

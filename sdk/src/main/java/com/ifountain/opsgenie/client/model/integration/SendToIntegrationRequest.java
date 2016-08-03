@@ -1,8 +1,10 @@
 package com.ifountain.opsgenie.client.model.integration;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequestWithHttpParameters;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,7 +46,9 @@ public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<Send
 
     @Override
     public Map serialize() throws OpsGenieClientValidationException {
-        Map contentParameters = super.serialize();
+		Map contentParameters = new HashMap();
+		if (getApiKey() != null) 
+			contentParameters.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
         // apiKey in contentParameters will override BaseRequest.apiKey
         contentParameters.putAll(getContentParameters());
         return contentParameters;

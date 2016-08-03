@@ -1,10 +1,9 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import java.util.Map;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list who is on call.
