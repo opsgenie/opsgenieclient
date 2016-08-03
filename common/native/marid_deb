@@ -1,9 +1,14 @@
 #!/bin/bash 
-#
-# marid    Startup script for the marid
-#
-# chkconfig: 2345 90 10
-# pidfile: /var/run/marid.pid
+### BEGIN INIT INFO
+# Provides:          marid
+# Required-Start:    $network $named $remote_fs $syslog
+# Required-Stop:     $network $named $remote_fs $syslog
+# Should-Start:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: marid
+# Description:       marid
+### END INIT INFO
 
 # Source function library
 . /lib/lsb/init-functions
