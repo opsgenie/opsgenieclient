@@ -21,15 +21,6 @@ You can add OpsGenie Repository and SDK as dependency. Example:
   		<version>[2.0.0,)</version>
   	</dependency>
   </dependencies>
-  
-<repositories>
-	<repository>
-		<id>opsgenie-repo</id>
-		<name>OpsGenie Maven Repository</name>
-		<url>http://repo.opsgenie.com:9393/content/groups/public</url>
-		<layout>default</layout>
-	</repository>  	
-</repositories>
 ```
 
 ### Gradle
@@ -37,12 +28,6 @@ You can add OpsGenie Repository and SDK as dependency. Example:
 You can add OpsGenie Repository and SDK as dependeny. Example:
 
 ```
-repositories {
-    maven{
-		url "http://repo.opsgenie.com:9393/content/groups/public"
-	}
-}
-
 dependencies {
 	compile "com.opsgenie.integration:sdk:2+"
 }
