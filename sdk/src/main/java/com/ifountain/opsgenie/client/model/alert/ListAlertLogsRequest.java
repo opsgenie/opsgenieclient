@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -18,6 +18,7 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
         asc,
         desc
     }
+    @JsonIgnore
     private SortOrder sortOrder =SortOrder.asc;
     private Integer limit = 100;
     private String lastKey;

@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -14,22 +14,23 @@ public class ListAlertNotesRequest extends BaseAlertRequestWithId<ListAlertNotes
         asc,
         desc
     }
-    private SortOrder order =SortOrder.asc;
+    @JsonIgnore
+    private SortOrder sortOrder =SortOrder.asc;
     private Integer limit = 100;
     private String lastKey;
     @JsonProperty("order")
     public String getSortOrderName() {
-    	if(order != null)
-    		return order.name();
+    	if(sortOrder != null)
+    		return sortOrder.name();
     	return null;
     }
     
     public SortOrder getSortOrder() {
-        return order;
+        return sortOrder;
     }
 
     public void setSortOrder(SortOrder sortOrder) {
-        this.order = sortOrder;
+        this.sortOrder = sortOrder;
     }
 
     public Integer getLimit() {
