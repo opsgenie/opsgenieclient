@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.test.util
 
 import com.ifountain.opsgenie.client.OpsGenieClient
 import com.ifountain.opsgenie.client.OpsGenieClientException
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException
 import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
@@ -55,6 +56,11 @@ public class OpsGenieClientTestCase  implements HttpTestRequestListener {
             client."${methodName}"(request)
             fail("should throw exception")
         }
+        catch (OpsGenieClientValidationException e){
+            assertEquals(4000, e.getCode())
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
+
+        }
         catch (OpsGenieClientException e) {
             assertEquals(2, e.getCode())
             assertEquals("Could not authenticate.", e.getMessage())
@@ -65,6 +71,9 @@ public class OpsGenieClientTestCase  implements HttpTestRequestListener {
         try {
             client."${methodName}"(request)
             fail("should throw exception")
+        }
+        catch (OpsGenieClientValidationException e) {
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
         }
         catch (IOException e) {
             assertEquals("No handler found.", e.getMessage())

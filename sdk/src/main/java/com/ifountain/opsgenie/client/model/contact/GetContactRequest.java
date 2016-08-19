@@ -3,6 +3,8 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import javax.xml.bind.ValidationException;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get contact api call.
@@ -24,14 +26,15 @@ public class GetContactRequest extends BaseRequest<GetContactResponse> {
      * check the parameters for validation.
      * @throws ValidationException when id is null or both of the username and userId are null
      */
-    @Override
-    public boolean isValid() throws ValidationException {
-    	if(this.id == null)
-			throw new ValidationException("ValidationException[[ID] field should be provided.]");
-    	else if(this.username == null && this.userId == null)
-			throw new ValidationException("ValidationException[One of [userId] or [username] fields should be provided.]");
-    	return super.isValid();
-    }
+
+	@Override
+	public void validate() throws OpsGenieClientValidationException {
+		if(id == null)
+			throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+		else if(this.username == null && this.userId == null)
+			throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.USERNAME,OpsGenieClientConstants.API.ID);
+		super.validate();
+	}
 	@Override
 	public GetContactResponse createResponse() {
 		return new GetContactResponse();

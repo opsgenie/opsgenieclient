@@ -66,7 +66,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      * convertes request to map
      */
     public Map serialize() throws OpsGenieClientValidationException {
-    	//validate();
+    	validate();
     	ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Inclusion.NON_NULL);
 		return  new TreeMap(mapper.convertValue(this, Map.class));

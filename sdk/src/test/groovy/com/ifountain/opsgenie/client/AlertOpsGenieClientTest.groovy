@@ -1052,6 +1052,11 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
             OpsGenieClientTestCase.opsgenieClient.alert().getAlert(getAlertRequest)
             fail("should throw exception")
         }
+        catch (OpsGenieClientValidationException e){
+            assertEquals(4000, e.getCode())
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
+
+        }
         catch (OpsGenieClientException e) {
             assertEquals(2, e.getCode())
             assertEquals("Could not authenticate.", e.getMessage())
@@ -1062,6 +1067,10 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         try {
             OpsGenieClientTestCase.opsgenieClient.alert().getAlert(getAlertRequest)
             fail("should throw exception")
+        }
+        catch (OpsGenieClientValidationException e){
+            assertEquals(4000, e.getCode())
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
         }
         catch (IOException e) {
             assertEquals("No handler found.", e.getMessage())

@@ -2,6 +2,8 @@ package com.ifountain.opsgenie.client.model.notificationRule;
 
 import javax.xml.bind.ValidationException;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
@@ -23,15 +25,16 @@ public class GetNotificationRuleRequest extends BaseRequest<GetNotificationRuleR
 	public String getEndPoint() {
 		return "/v1/json/user/notificationRule";
 	}
-	
-    @Override
-    public boolean isValid() throws ValidationException {
-    	if(this.id == null)
-    		throw new ValidationException("ValidationException[[ID] field should be provided.]");
-    	else if(this.username == null && this.userId == null)
-    		throw new ValidationException("ValidationException[One of [userId] or [username] fields should be provided.]");
-    	return super.isValid();
-    }
+
+
+	@Override
+	public void validate() throws OpsGenieClientValidationException {
+		if(id == null)
+			throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+		else if(this.username == null && this.userId == null)
+			throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.USERNAME,OpsGenieClientConstants.API.ID);
+		super.validate();
+	}
 
 	@Override
 	public GetNotificationRuleResponse createResponse() {
