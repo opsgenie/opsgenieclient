@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.notificationRule;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
@@ -11,6 +12,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 public class UpdateNotificationRuleRequest extends AddNotificationRuleRequest {
 	@JsonSerialize(include=Inclusion.ALWAYS)
 	private String id;
+	@JsonIgnore
+	private Integer applyOrder;
 	
 	/**
 	 * Rest api uri of updating notificationRule operation.
