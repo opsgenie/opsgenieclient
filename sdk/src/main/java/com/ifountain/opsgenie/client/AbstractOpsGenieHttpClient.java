@@ -10,12 +10,15 @@ import org.apache.commons.logging.Log;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by user on 8/5/2014.
@@ -61,12 +64,14 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPostRequest(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
-        Map<String, String> headers = new HashMap<String, String>();
+        request.validate();
+    	Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        Map contentParameters = request.serialize();
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + contentParameters);
-        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJsonAsBytes(contentParameters), headers);
+    	ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Inclusion.NON_NULL);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + mapper.writeValueAsString(request));
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, mapper.writeValueAsBytes(request), headers);
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }
@@ -75,9 +80,11 @@ public abstract class AbstractOpsGenieHttpClient {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        Map contentParameters = request.serialize();
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + contentParameters);
-        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJson(contentParameters), headers, request.getHttpParameters());
+    	ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Inclusion.NON_NULL);
+        String json = mapper.writeValueAsString(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers, request.getHttpParameters());
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }
@@ -105,6 +112,7 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doGetRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
+            request.validate();
             String uri = rootUri + request.getEndPoint();
             Map parameters = request.serialize();
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);

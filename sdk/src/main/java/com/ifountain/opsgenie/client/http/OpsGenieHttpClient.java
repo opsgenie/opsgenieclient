@@ -188,24 +188,25 @@ public class OpsGenieHttpClient {
 
     private List<NameValuePair> getNameValuePairsFromMap(Map<String, Object> params) {
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-        for (Map.Entry<String, Object> o : params.entrySet()) {
-            if (o.getValue() != null) {
-                if (o.getValue() instanceof Collection) {
-                    Collection col = (Collection) o.getValue();
-                    for (Object content : col) {
-                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
-                    }
-                } else if (o.getValue().getClass().isArray()) {
-                    int length = Array.getLength(o.getValue());
-                    for (int i = 0; i < length; i++) {
-                        Object content = Array.get(o.getValue(), i);
-                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
-                    }
-                } else {
-                    formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(o.getValue())));
-                }
-            }
-        }
+        if(params != null)
+	        for (Map.Entry<String, Object> o : params.entrySet()) {
+	            if (o.getValue() != null) {
+	                if (o.getValue() instanceof Collection) {
+	                    Collection col = (Collection) o.getValue();
+	                    for (Object content : col) {
+	                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+	                    }
+	                } else if (o.getValue().getClass().isArray()) {
+	                    int length = Array.getLength(o.getValue());
+	                    for (int i = 0; i < length; i++) {
+	                        Object content = Array.get(o.getValue(), i);
+	                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+	                    }
+	                } else {
+	                    formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(o.getValue())));
+	                }
+	            }
+	        }
         return formparams;
     }
 
