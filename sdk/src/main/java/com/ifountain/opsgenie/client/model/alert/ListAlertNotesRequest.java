@@ -3,7 +3,8 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Created by user on 9/16/2014.
@@ -16,7 +17,13 @@ public class ListAlertNotesRequest extends BaseAlertRequestWithId<ListAlertNotes
     private SortOrder order =SortOrder.asc;
     private Integer limit = 100;
     private String lastKey;
-
+    @JsonProperty("order")
+    public String getSortOrderName() {
+    	if(order != null)
+    		return order.name();
+    	return null;
+    }
+    
     public SortOrder getSortOrder() {
         return order;
     }
@@ -48,20 +55,16 @@ public class ListAlertNotesRequest extends BaseAlertRequestWithId<ListAlertNotes
     public String getEndPoint() {
         return "/v1/json/alert/note";
     }
-
+    
     @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map resp = super.serialize();
-        if(!(resp.containsKey(OpsGenieClientConstants.API.ID)
-                || resp.containsKey(OpsGenieClientConstants.API.ALERT_ID)
-                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)
-                || resp.containsKey(OpsGenieClientConstants.API.TINY_ID)) )
-        {
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        }
-        if (getSortOrder() != null)
-            resp.put(OpsGenieClientConstants.API.ORDER, getSortOrder().name());
-        return resp;
+    public void validate() throws OpsGenieClientValidationException { 
+    	if(!(this.getId() != null
+            || this.getAlertId() != null
+            || this.getAlias() != null
+    		|| this.getTinyId() != null) )
+        throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
+        		OpsGenieClientConstants.API.ALERT_ID,OpsGenieClientConstants.API.ALIAS,OpsGenieClientConstants.API.TINY_ID);
+    	super.validate();
     }
 
     @Override

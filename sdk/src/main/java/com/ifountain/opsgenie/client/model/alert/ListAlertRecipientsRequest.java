@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list alert recipient api call.
@@ -20,18 +19,16 @@ public class ListAlertRecipientsRequest extends BaseAlertRequestWithId<ListAlert
     public String getEndPoint() {
         return "/v1/json/alert/recipient";
     }
-
+    
     @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map resp = super.serialize();
-        if(!(resp.containsKey(OpsGenieClientConstants.API.ID)
-                || resp.containsKey(OpsGenieClientConstants.API.ALERT_ID)
-                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)
-        || resp.containsKey(OpsGenieClientConstants.API.TINY_ID)) )
-        {
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        }
-        return resp;
+    public void validate() throws OpsGenieClientValidationException { 
+    	if(!(this.getId() != null
+            || this.getAlertId() != null
+            || this.getAlias() != null
+    		|| this.getTinyId() != null) )
+        throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
+        		OpsGenieClientConstants.API.ALERT_ID,OpsGenieClientConstants.API.ALIAS,OpsGenieClientConstants.API.TINY_ID);
+    	super.validate();
     }
 
     @Override
