@@ -1,9 +1,7 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * Container for the parameters to make an update schedule api call.
@@ -11,6 +9,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateSchedule(UpdateScheduleRequest)
  */
 public class UpdateScheduleRequest extends AddScheduleRequest {
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
     /**
      * Rest api uri of updating schedule operation.
@@ -40,12 +39,5 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
      */
     public UpdateScheduleResponse createResponse() {
         return new UpdateScheduleResponse();
-    }
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-    	Map json = super.serialize();
-    	if(getId() != null)
-            json.put(OpsGenieClientConstants.API.ID, getId());
-    	return json;
     }
 }

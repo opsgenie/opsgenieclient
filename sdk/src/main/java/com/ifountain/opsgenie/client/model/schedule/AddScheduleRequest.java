@@ -1,15 +1,15 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add schedule api call.
@@ -19,6 +19,7 @@ import java.util.TimeZone;
 public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     private String name;
     private Boolean enabled = null;
+    @JsonIgnore
     private TimeZone timeZone;
     private List<ScheduleRotation> rotations;
 
@@ -48,6 +49,24 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     /**
      * Rotations of schedule
      */
+	@JsonProperty("rotations")
+    public List<Map> getRotationsMap() {
+        if(rotations != null && rotations.size() > 0){
+            List<Map> rotationMaps = new ArrayList<Map>();
+            for(ScheduleRotation rotation: rotations){
+                if(rotation.getRotationLength() < 1)
+                    rotation.setRotationLength(1);
+                rotation.setScheduleTimeZone(getTimeZone());
+                rotationMaps.add(rotation.toMap());
+            }
+            return rotationMaps;
+        }
+        return null;
+    }
+    
+    /**
+     * Rotations of schedule
+     */
     public List<ScheduleRotation> getRotations() {
         return rotations;
     }
@@ -74,6 +93,16 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     }
 
     /**
+     * Timezone to determine forwarding start and end dates. If not given GMT is used.
+     */
+	@JsonProperty("timezone")
+    public String getTimeZoneId() {
+    	if(timeZone == null)
+    		return null;
+        return timeZone.getID();
+    }
+	
+    /**
      * Timezone of schedule
      */
     public TimeZone getTimeZone() {
@@ -85,36 +114,6 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-		Map json = new HashMap();
-		if (getApiKey() != null) 
-			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        if(enabled != null){
-            json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        }
-        if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
-        }
-        if(rotations != null && rotations.size() > 0){
-            List<Map> rotationMaps = new ArrayList<Map>();
-            for(ScheduleRotation rotation: rotations){
-                if(rotation.getRotationLength() < 1)
-                    rotation.setRotationLength(1);
-                rotation.setScheduleTimeZone(getTimeZone());
-                rotationMaps.add(rotation.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.ROTATIONS, rotationMaps);
-        }
-        return json;
     }
 
     @Override

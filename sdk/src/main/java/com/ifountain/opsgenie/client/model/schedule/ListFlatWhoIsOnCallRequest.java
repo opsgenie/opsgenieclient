@@ -1,10 +1,5 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
-
 /**
  * Container for the parameters to make a list flat who is on call.
  *
@@ -12,12 +7,7 @@ import java.util.Map;
  */
 public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<ListFlatWhoIsOnCallResponse> {
 
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.FLAT, true);
-        return json;
-    }
+    private final boolean flat=true;
 
     @Override
     /**
@@ -26,4 +16,8 @@ public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<L
     public ListFlatWhoIsOnCallResponse createResponse() {
         return new ListFlatWhoIsOnCallResponse();
     }
+
+	public boolean isFlat() {
+		return flat;
+	}
 }

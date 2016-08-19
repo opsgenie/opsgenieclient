@@ -1,6 +1,5 @@
 package com.ifountain.opsgenie.client.model.account;
 
-
 import java.text.ParseException;
 import java.util.Map;
 
@@ -19,7 +18,6 @@ public class GetAccountResponse extends BaseResponse {
 		super.deserialize(data);
 		account = new Account();
 		account.fromMap(data);
-		
 	}
     /**
      * Details of account
@@ -35,5 +33,4 @@ public class GetAccountResponse extends BaseResponse {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-
 }

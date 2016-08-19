@@ -167,7 +167,8 @@ public class ScheduleRotation implements IBean{
             json.put(OpsGenieClientConstants.API.ID, id);
         }
         json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
-        json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
+        if(rotationType != null)
+        	json.put(OpsGenieClientConstants.API.ROTATION_TYPE, rotationType.name());
         json.put(OpsGenieClientConstants.API.ROTATION_LENGTH, rotationLength);
         if(participants != null){
             List participantNames = new ArrayList();

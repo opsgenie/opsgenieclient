@@ -1,9 +1,6 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
 
 /**
  * Container for the parameters to make an assign ownership call.

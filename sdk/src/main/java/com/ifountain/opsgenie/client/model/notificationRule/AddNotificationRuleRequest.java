@@ -1,12 +1,11 @@
 package com.ifountain.opsgenie.client.model.notificationRule;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
@@ -23,12 +22,12 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	private String username;
 	private String userId;
 	private String name;
-	private ActionType action;
+	private ActionType actionType;
 	private ConditionMatchType conditionMatchType;
 	private List<NotificationRuleConditions> conditions;
 	private List<NotifyBefore> notifyBefore;
 	private Integer applyOrder;
-	private List<NotificationRuleRestriction> restirictions;
+	private List<NotificationRuleRestriction> restrictions;
 	private List<String> schedules;
 	
 	public static AddNotificationRuleRequest fromNotification(NotificationRule rule){
@@ -36,12 +35,12 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 			return null;
 		AddNotificationRuleRequest request = new AddNotificationRuleRequest();
 		request.setName(rule.getName());
-		request.setAction(rule.getActionType());
+		request.setActionType(rule.getActionType());
 		request.setConditionMatchType(rule.getConditionMatchType());
 		request.setConditions(rule.getConditions());
 		request.setNotifyBefore(rule.getNotifyBefore());
 		request.setApplyOrder(rule.getApplyOrder());
-		request.setRestirictions(rule.getRestirictions());
+		request.setRestrictions(rule.getRestirictions());
 		request.setSchedules(rule.getSchedules());
 		return request;
 	}
@@ -51,53 +50,6 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	 */
 	public String getEndPoint() {
 		return "/v1/json/user/notificationRule";
-	}
-	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-	 */
-	@Override
-	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = new HashMap();
-		if (getApiKey() != null) 
-			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
-		if (getUsername() != null) 
-			json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-		if (getUserId() != null) 
-			json.put(OpsGenieClientConstants.API.USER_ID, getUserId());
-		if (getName() != null) 
-			json.put(OpsGenieClientConstants.API.NAME, getName());
-		if(getAction() != null)
-			json.put(OpsGenieClientConstants.API.ACTION_TYPE, getAction().value());
-		if(getConditionMatchType() != null)
-			json.put(OpsGenieClientConstants.API.CONDITION_MATCH_TYPE, getConditionMatchType().value());
-		if(getConditions() != null){
-			List<Map> conditionMapList = new ArrayList<Map>();
-			for (NotificationRuleConditions cond : getConditions()) 
-				conditionMapList.add(cond.toMap());
-			json.put(OpsGenieClientConstants.API.CONDITIONS, conditionMapList);
-		}
-		if(getNotifyBefore() != null){
-			List<String> notifyStringList = new ArrayList<String>();
-			for (NotifyBefore notifyBefore : getNotifyBefore()) 
-				notifyStringList.add(notifyBefore.value());
-			json.put(OpsGenieClientConstants.API.NOTIFY_BEFORE, notifyStringList);
-		}
-		if(getApplyOrder() != null)
-			json.put(OpsGenieClientConstants.API.APPLY_ORDER, getApplyOrder());
-		if(getRestirictions() != null){
-			if(getRestirictions().size() == 1 && getRestirictions().get(0).getEndDay() == null){
-				json.put(OpsGenieClientConstants.API.RESTRICTIONS, getRestirictions().get(0));
-			}
-			else{
-				List<Map> restirictionList = new ArrayList<Map>();
-				for (NotificationRuleRestriction rest : getRestirictions()) 
-					restirictionList.add(rest.toMap());
-				json.put(OpsGenieClientConstants.API.RESTRICTIONS, restirictionList);
-			}
-		}
-		if(getSchedules() != null)
-			json.put(OpsGenieClientConstants.API.SCHEDULES, getSchedules());
-		return json;
 	}
 	
 	/**
@@ -144,16 +96,35 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 		this.name = name;
 	}
 	/**
+	 * String ActionType of notificationRule
+	 */
+	@JsonProperty("actionType")
+	public String getActionTypeValue() {
+		if(actionType != null)
+			return actionType.value();
+		return null;
+	}
+	
+	/**
 	 * ActionType of notificationRule
 	 */
-	public ActionType getAction() {
-		return action;
+	public ActionType getActionType() {
+		return actionType;
 	}
 	/**
 	 * Sets ActionType of notificationRule
 	 */
-	public void setAction(ActionType action) {
-		this.action = action;
+	public void setActionType(ActionType action) {
+		this.actionType = action;
+	}
+	/**
+	 * String conditionMatchType of notificationRule
+	 */
+	@JsonProperty("conditionMatchType")
+	public String getConditionMatchTypeString() {
+		if(conditionMatchType != null)
+			return conditionMatchType.value();
+		return null;
 	}
 	public ConditionMatchType getConditionMatchType() {
 		return conditionMatchType;
@@ -161,17 +132,36 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	public void setConditionMatchType(ConditionMatchType conditionType) {
 		this.conditionMatchType = conditionType;
 	}
+	@JsonProperty("conditions")
+	public List<Map> getConditionsMap() {
+		List<Map> conditionMapList = new ArrayList<Map>();
+		for (NotificationRuleConditions cond : getConditions()) 
+			conditionMapList.add(cond.toMap());
+		return conditionMapList;
+	}
 	public List<NotificationRuleConditions> getConditions() {
 		return conditions;
 	}
 	public void setConditions(List<NotificationRuleConditions> conditions) {
 		this.conditions = conditions;
 	}
-	public List<NotificationRuleRestriction> getRestirictions() {
-		return restirictions;
+
+	@JsonProperty("restrictions")
+	public Object getRestirictionsMap() {
+		if(getRestrictions().size() == 1 
+				&& (getRestrictions().get(0).getEndDay() == null && getRestrictions().get(0).getStartDay() == null)){
+			return getRestrictions().get(0).toMap();
+		}
+		List<Map> restrictionList = new ArrayList<Map>();
+		for (NotificationRuleRestriction rest : getRestrictions()) 
+			restrictionList.add(rest.toMap());
+		return restrictionList;
 	}
-	public void setRestirictions(List<NotificationRuleRestriction> restirictions) {
-		this.restirictions = restirictions;
+	public List<NotificationRuleRestriction> getRestrictions() {
+		return restrictions;
+	}
+	public void setRestrictions(List<NotificationRuleRestriction> restrictions) {
+		this.restrictions = restrictions;
 	}
 	public List<String> getSchedules() {
 		return schedules;
@@ -184,6 +174,13 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	}
 	public void setApplyOrder(Integer applyOrder) {
 		this.applyOrder = applyOrder;
+	}
+	@JsonProperty("notifyBefore")
+	public List<String> getNotifyBeforeString() {
+		List<String> notifyStringList = new ArrayList<String>();
+		for (NotifyBefore notifyBefore : getNotifyBefore()) 
+			notifyStringList.add(notifyBefore.value());
+		return notifyStringList;
 	}
 	public List<NotifyBefore> getNotifyBefore() {
 		return notifyBefore;

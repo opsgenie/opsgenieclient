@@ -1,9 +1,8 @@
 package com.ifountain.opsgenie.client.model.notificationRule;
 
-import java.util.Map;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleStep;
@@ -19,32 +18,12 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 	private Method method;
 	private String to;
 	private Integer sendAfter;
-	public static AddNotificationRuleStepRequest fromNotificationRuleStep(NotificationRuleStep step,String ruleID){
-		if(step == null)
-			return null;
-		AddNotificationRuleStepRequest request = new AddNotificationRuleStepRequest();
-		request.setMethod(step.getMethod());
-		request.setSendAfter(step.getSendAfter());
-		request.setTo(step.getTo());
-		request.setRuleId(ruleID);
-		return request;
-	}
 	
 	/**
 	 * Rest api uri of adding notificationRuleStep operation.
 	 */
 	public String getEndPoint() {
 		return "/v1/json/user/notificationRule/step";
-	}
-	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-	 */
-	@Override
-	public Map serialize() throws OpsGenieClientValidationException {
-		Map json = super.serialize();
-		if (getMethod() != null) 
-			json.put(OpsGenieClientConstants.API.METHOD, getMethod().value());
-		return json;
 	}
 	
 	/**
@@ -95,6 +74,12 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
 	}
 	public void setRuleId(String ruleId) {
 		this.ruleId = ruleId;
+	}
+	@JsonProperty("method")
+	public String getMethodValue() {
+		if(method != null)
+			return method.value();
+		return null;
 	}
 	public Method getMethod() {
 		return method;

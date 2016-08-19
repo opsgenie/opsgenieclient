@@ -1,8 +1,10 @@
 package com.ifountain.opsgenie.client.model;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.bind.ValidationException;
 
@@ -31,10 +33,9 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      * @throws ValidationException when api key is null!
      */
     @JsonIgnore
-    public boolean isValid() throws ValidationException{
+    public void validate() throws OpsGenieClientValidationException{
     	if(apiKey == null)
-    		throw new ValidationException("ValidationException[[apiKey] field should be provided.]");
-    	return true;
+    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.API_KEY);
     }
 
     /**
@@ -65,9 +66,10 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      * convertes request to map
      */
     public Map serialize() throws OpsGenieClientValidationException {
+    	//validate();
     	ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Inclusion.NON_NULL);
-		return mapper.convertValue(this, Map.class);
+		return  new TreeMap(mapper.convertValue(this, Map.class));
     }
 
     /**

@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import java.util.Map;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 
 /**
  * Container for the parameters to make an update forwarding api call.
@@ -11,6 +11,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends AddForwardingRequest{
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
     /**
      * Rest api uri of update forwarding operation.
@@ -40,12 +41,5 @@ public class UpdateForwardingRequest extends AddForwardingRequest{
      */
     public UpdateForwardingResponse createResponse() {
         return new UpdateForwardingResponse();
-    }
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-    	Map json = super.serialize();
-    	if(getId() != null)
-            json.put(OpsGenieClientConstants.API.ID, getId());
-    	return json;
     }
 }

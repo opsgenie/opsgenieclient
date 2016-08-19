@@ -1,9 +1,8 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import java.util.Map;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make an update contact api call.
@@ -11,6 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#updateContact(UpdateContactRequest)
  */
 public class UpdateContactRequest extends BaseRequest<UpdateContactResponse> {
+	@JsonSerialize(include=Inclusion.ALWAYS)
 	private String id;
 	private String username;
 	private String userId;

@@ -1,9 +1,7 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
-import java.util.Map;
-
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * Container for the parameters to make an update escalation api call.
@@ -11,6 +9,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#updateEscalation(UpdateEscalationRequest)
  */
 public class UpdateEscalationRequest extends AddEscalationRequest {
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
     /**
      * Rest api uri of updating escalation operation.
@@ -40,12 +39,5 @@ public class UpdateEscalationRequest extends AddEscalationRequest {
      */
     public UpdateEscalationResponse createResponse() {
         return new UpdateEscalationResponse();
-    }
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-    	Map json = super.serialize();
-    	if(getId() != null)
-            json.put(OpsGenieClientConstants.API.ID, getId());
-    	return json;
     }
 }

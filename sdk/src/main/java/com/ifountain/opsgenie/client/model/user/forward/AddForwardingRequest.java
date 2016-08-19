@@ -1,14 +1,14 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add forwarding api call.
@@ -21,6 +21,7 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     private String toUser;
     private Date startDate;
     private Date endDate;
+    @JsonIgnore
     private TimeZone timeZone;
 
     /**
@@ -119,38 +120,49 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
 
     @Override
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-		Map json = new HashMap();
-		if (getApiKey() != null) 
-			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-        TimeZone tz;
-        if (getTimeZone() != null) 
-            tz = getTimeZone();
-        else
-            tz = TimeZone.getTimeZone("GMT");
-        sdf.setTimeZone(tz);
-        json.put(OpsGenieClientConstants.API.TIMEZONE, tz.getID());
-        if (getEndDate() != null) 
-            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(getEndDate()));
-        if (getStartDate() != null) 
-            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(getStartDate()));
-        if(fromUser != null)
-            json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
-        if(toUser != null)
-            json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
-        if(alias != null)
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
-    }
-
-    @Override
-    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
     public AddForwardingResponse createResponse() {
         return new AddForwardingResponse();
     }
+    /**
+     * End date of the schedule override.
+     */
+	@JsonProperty("startDate")
+    public String getStartDateString() {
+        if (getStartDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            if (getTimeZone() != null)
+                sdf.setTimeZone(getTimeZone());
+            else
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return sdf.format(getStartDate());
+        }
+        return null;
+    }
+    /**
+     * End date of the schedule override.
+     */
+	@JsonProperty("endDate")
+    public String getEndDateString() {
+        if (getEndDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            if (getTimeZone() != null)
+                sdf.setTimeZone(getTimeZone());
+            else
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return sdf.format(getEndDate());
+        }
+        return null;
+    }
+    /**
+     * Timezone to determine forwarding start and end dates. If not given GMT is used.
+     */
+	@JsonProperty("timezone")
+    public String getTimeZoneId() {
+    	if(timeZone == null)
+    		return TimeZone.getTimeZone("GMT").getID();
+        return timeZone.getID();
+    }
+	
 }

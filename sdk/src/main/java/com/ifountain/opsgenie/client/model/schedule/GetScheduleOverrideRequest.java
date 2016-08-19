@@ -2,6 +2,9 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import javax.xml.bind.ValidationException;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -12,7 +15,9 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(GetScheduleOverrideRequest)
  */
 public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String alias;
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String schedule;
 
     /**
@@ -50,18 +55,6 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
      */
     public void setSchedule(String schedule) {
         this.schedule = schedule;
-    }
-    /**
-     * check the parameters for validation.
-     * @throws ValidationException when alias is null or schedule is null
-     */
-    @Override
-    public boolean isValid() throws ValidationException {
-    	if(this.alias == null)
-    		throw new ValidationException("ValidationException[[Alias] field should be provided.]");
-    	else if(this.schedule == null)
-    		throw new ValidationException("ValidationException[[Schedule] field should be provided.]");
-    	return super.isValid();
     }
     
     @Override

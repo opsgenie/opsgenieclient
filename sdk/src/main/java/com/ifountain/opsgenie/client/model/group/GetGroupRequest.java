@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import java.util.Map;
 
 /**
  * Container for the parameters to make a get group api call.

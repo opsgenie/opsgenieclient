@@ -53,7 +53,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setApiKey("customer1");
         request.setUsername("user1");
         request.setName("notificationRule1")
-        request.setAction(NotificationRule.ActionType.NEW_ALERT);
+        request.setActionType(NotificationRule.ActionType.NEW_ALERT);
         request.setConditionMatchType(NotificationRule.ConditionMatchType.MATCH_ALL_CONDITIONS)
 
         NotificationRuleConditions condition1 = new NotificationRuleConditions();
@@ -79,7 +79,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         restriction.setEndHour(18);
         restriction.setEndMinute(58);
 
-        request.setRestirictions([restriction])
+        request.setRestrictions([restriction])
         request.setSchedules(["schedule1","schedule2"]);
 
 
@@ -140,7 +140,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setApiKey("customer1");
         request.setUserId("user1");
         request.setName("notificationRule1")
-        request.setAction(NotificationRule.ActionType.NEW_ALERT);
+        request.setActionType(NotificationRule.ActionType.NEW_ALERT);
         request.setConditionMatchType(NotificationRule.ConditionMatchType.MATCH_ALL_CONDITIONS)
 
         NotificationRuleConditions condition1 = new NotificationRuleConditions();
@@ -166,7 +166,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         restriction.setEndHour(18);
         restriction.setEndMinute(58);
 
-        request.setRestirictions([restriction])
+        request.setRestrictions([restriction])
         request.setSchedules(["schedule1","schedule2"]);
 
 
@@ -253,7 +253,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         restriction.setEndHour(18);
         restriction.setEndMinute(58);
 
-        request.setRestirictions([restriction])
+        request.setRestrictions([restriction])
         request.setSchedules(["schedule1","schedule2"]);
 
 
@@ -339,7 +339,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         restriction.setEndHour(18);
         restriction.setEndMinute(58);
 
-        request.setRestirictions([restriction])
+        request.setRestrictions([restriction])
         request.setSchedules(["schedule1","schedule2"]);
 
 

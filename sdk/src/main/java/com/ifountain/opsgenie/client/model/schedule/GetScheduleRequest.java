@@ -1,5 +1,8 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -8,7 +11,9 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
  */
 public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String name;
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
     /**
      * Rest api uri of getting schedule operation.

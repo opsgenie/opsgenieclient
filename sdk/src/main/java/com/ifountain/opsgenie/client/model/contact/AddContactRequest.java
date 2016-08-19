@@ -1,13 +1,7 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Contact;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
@@ -26,20 +20,8 @@ public class AddContactRequest extends BaseRequest<AddContactResponse> {
 	/**
 	 * Rest api uri of adding contact operation.
 	 */
-	@JsonIgnore
 	public String getEndPoint() {
 		return "/v1/json/user/contact";
-	}
-
-	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-	 */
-	@Override
-	public Map serialize() throws OpsGenieClientValidationException {
-		Map jsonMap = super.serialize();
-		if (getMethod() != null) 
-			jsonMap.put(OpsGenieClientConstants.API.METHOD, getMethod().value());
-		return jsonMap;
 	}
 
 	/**
@@ -64,6 +46,12 @@ public class AddContactRequest extends BaseRequest<AddContactResponse> {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	@JsonProperty("method")
+	public String getMethodValue(){
+		if(method != null)
+			return method.value();
+		return null;
 	}
 
 	public Contact.Method getMethod() {

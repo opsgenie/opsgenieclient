@@ -1,9 +1,7 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
@@ -11,6 +9,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#updateHeartbeat(UpdateHeartbeatRequest)
  */
 public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String name;
     /**
      * Rest api uri of updating heartbeat monitor operation.
@@ -41,12 +40,4 @@ public class UpdateHeartbeatRequest extends AddHeartbeatRequest{
     public AddHeartbeatResponse createResponse() {
         return new UpdateHeartbeatResponse();
     }
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-    	Map json = super.serialize();
-    	if(getName() != null)
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-    	return json;
-    }
-
 }

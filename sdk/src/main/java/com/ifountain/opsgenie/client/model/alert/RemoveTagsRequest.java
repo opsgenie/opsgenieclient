@@ -1,11 +1,10 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+
 import com.ifountain.opsgenie.client.util.Strings;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
-import java.util.Map;
 
 public class RemoveTagsRequest extends BaseAlertRequestWithSource<RemoveTagsResponse>{
     private String user;
@@ -18,6 +17,11 @@ public class RemoveTagsRequest extends BaseAlertRequestWithSource<RemoveTagsResp
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/tags";
+    }
+
+    @JsonProperty("tags")
+    public String getTagsJoin() {
+        return  tags != null ? Strings.join(tags, ",") : null;
     }
 
     public List<String> getTags() {
@@ -54,17 +58,6 @@ public class RemoveTagsRequest extends BaseAlertRequestWithSource<RemoveTagsResp
      */
     public void setNote(String note) {
         this.note = note;
-    }
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-
-        List<String> tags = getTags();
-        json.put(OpsGenieClientConstants.API.TAGS, tags != null ? Strings.join(tags, ",") : null);
-        return json;
     }
 
     @Override

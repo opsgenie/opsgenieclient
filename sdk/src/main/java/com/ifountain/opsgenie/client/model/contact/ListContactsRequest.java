@@ -1,9 +1,6 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import java.util.Map;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list contacts api call.

@@ -1,5 +1,8 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 /**
  * Container for the parameters to make an update team api call.
  *
@@ -8,8 +11,7 @@ package com.ifountain.opsgenie.client.model.team;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#updateTeam(UpdateTeamRequest)
  */
 public class UpdateTeamRequest extends AddTeamRequest {
-
-
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
 
     /**

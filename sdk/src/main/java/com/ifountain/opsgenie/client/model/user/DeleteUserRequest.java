@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.user;
 
+
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**

@@ -1,11 +1,8 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -207,41 +204,6 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
      */
     public void setNote(String note) {
         this.note = note;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-		Map json = new HashMap();
-		if (getApiKey() != null) 
-			json.put(OpsGenieClientConstants.API.API_KEY, getApiKey());
-		if(getMessage() != null)
-			json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
-        if (getRecipients() != null)
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
-        if (getTeams() != null)
-            json.put(OpsGenieClientConstants.API.TEAMS, getTeams());
-        if (getAlias() != null)
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        if (getSource() != null)
-            json.put(OpsGenieClientConstants.API.SOURCE, getSource());
-        if (getEntity() != null)
-            json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getDescription() != null)
-            json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
-        if (getTags() != null && getTags().size() > 0)
-            json.put(OpsGenieClientConstants.API.TAGS, getTags());
-        if (getActions() != null && getActions().size() > 0)
-            json.put(OpsGenieClientConstants.API.ACTIONS, getActions());
-        if (getDetails() != null && getDetails().size() > 0)
-            json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
-        return json;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.model.contact;
 import java.text.ParseException;
 import java.util.Map;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 
 
@@ -31,7 +32,7 @@ public class AddContactResponse extends BaseResponse {
 	@Override
 	public void deserialize(Map data) throws ParseException {
 		super.deserialize(data);
-		id = (String) data.get("id");
+		id = (String) data.get(OpsGenieClientConstants.API.ID);
 	}
 
 }

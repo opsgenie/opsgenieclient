@@ -1,12 +1,11 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an renotify alert api call.
@@ -28,6 +27,22 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
         return "/v1/json/alert/renotify";
     }
 
+    /**
+     * Return recipients
+     * @see RenotifyRecipient
+     */
+
+	@JsonProperty("recipients")
+    public List<String> getRecipientsName() {
+	    if(recipients != null){
+            List<String> recipientNames = new ArrayList<String>();
+            for(RenotifyRecipient recipient:recipients)
+                recipientNames.add(recipient.getRecipient());
+            return recipientNames;
+        }
+        return null;
+    }
+    
     /**
      * Return recipients
      * @see RenotifyRecipient
@@ -70,22 +85,6 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
      */
     public void setNote(String note) {
         this.note = note;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if (getRecipients() != null){
-            List<String> recipientNames = new ArrayList<String>();
-            for(RenotifyRecipient recipient:recipients){
-                recipientNames.add(recipient.getRecipient());
-            }
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, recipientNames);
-        }
-        return json;
     }
 
     @Override
