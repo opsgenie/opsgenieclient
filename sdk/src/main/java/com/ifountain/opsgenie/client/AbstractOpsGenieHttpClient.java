@@ -11,14 +11,12 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by user on 8/5/2014.
@@ -69,9 +67,9 @@ public abstract class AbstractOpsGenieHttpClient {
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
     	ObjectMapper mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(Inclusion.NON_NULL);
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + mapper.writeValueAsString(request));
-        OpsGenieHttpResponse httpResponse = httpClient.post(uri, mapper.writeValueAsBytes(request), headers);
+        String json = mapper.writeValueAsString(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers);
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }
@@ -81,7 +79,6 @@ public abstract class AbstractOpsGenieHttpClient {
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
     	ObjectMapper mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(Inclusion.NON_NULL);
         String json = mapper.writeValueAsString(request);
         log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers, request.getHttpParameters());
@@ -99,8 +96,10 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doDeleteRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
+        	request.validate();
             String uri = rootUri + request.getEndPoint();
-            Map parameters = request.serialize();
+        	ObjectMapper mapper = new ObjectMapper();
+            Map parameters = mapper.convertValue(request, Map.class);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
             handleResponse(httpResponse);
@@ -114,7 +113,8 @@ public abstract class AbstractOpsGenieHttpClient {
         try {
             request.validate();
             String uri = rootUri + request.getEndPoint();
-            Map parameters = request.serialize();
+        	ObjectMapper mapper = new ObjectMapper();
+            Map parameters = mapper.convertValue(request, Map.class);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
             handleResponse(httpResponse);

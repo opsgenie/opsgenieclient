@@ -10,6 +10,7 @@ import javax.xml.bind.ValidationException;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
@@ -18,6 +19,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:03 PM
  */
+@JsonSerialize(include=Inclusion.NON_NULL)
 public abstract class BaseRequest<T extends BaseResponse> implements Request {
     private String apiKey;
 

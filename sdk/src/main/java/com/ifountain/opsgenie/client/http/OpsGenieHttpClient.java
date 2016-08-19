@@ -179,7 +179,6 @@ public class OpsGenieHttpClient {
                 queryParams.add(nvp);
             }
         }
-
         URI newUri = URIUtils.createURI(uriObj.getScheme(), uriObj.getHost(), uriObj.getPort(), uriObj.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), uriObj.getFragment());
         HttpDelete delete = new HttpDelete(newUri);
         configureHeaders(delete, headers);
