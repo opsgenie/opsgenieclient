@@ -30,21 +30,6 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	private List<NotificationRuleRestriction> restrictions;
 	private List<String> schedules;
 	
-	public static AddNotificationRuleRequest fromNotification(NotificationRule rule){
-		if(rule == null)
-			return null;
-		AddNotificationRuleRequest request = new AddNotificationRuleRequest();
-		request.setName(rule.getName());
-		request.setActionType(rule.getActionType());
-		request.setConditionMatchType(rule.getConditionMatchType());
-		request.setConditions(rule.getConditions());
-		request.setNotifyBefore(rule.getNotifyBefore());
-		request.setApplyOrder(rule.getApplyOrder());
-		request.setRestrictions(rule.getRestirictions());
-		request.setSchedules(rule.getSchedules());
-		return request;
-	}
-	
 	/**
 	 * Rest api uri of adding notificationRule operation.
 	 */
@@ -134,10 +119,13 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	}
 	@JsonProperty("conditions")
 	public List<Map> getConditionsMap() {
-		List<Map> conditionMapList = new ArrayList<Map>();
-		for (NotificationRuleConditions cond : getConditions()) 
-			conditionMapList.add(cond.toMap());
-		return conditionMapList;
+		if(getConditions() != null){
+			List<Map> conditionMapList = new ArrayList<Map>();
+			for (NotificationRuleConditions cond : getConditions()) 
+				conditionMapList.add(cond.toMap());
+			return conditionMapList;
+		}
+		return null;
 	}
 	public List<NotificationRuleConditions> getConditions() {
 		return conditions;
@@ -148,14 +136,17 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 
 	@JsonProperty("restrictions")
 	public Object getRestirictionsMap() {
-		if(getRestrictions().size() == 1 
-				&& (getRestrictions().get(0).getEndDay() == null && getRestrictions().get(0).getStartDay() == null)){
-			return getRestrictions().get(0).toMap();
+		if(getRestrictions() != null){
+			if(getRestrictions().size() == 1 
+					&& (getRestrictions().get(0).getEndDay() == null && getRestrictions().get(0).getStartDay() == null)){
+				return getRestrictions().get(0).toMap();
+			}
+			List<Map> restrictionList = new ArrayList<Map>();
+			for (NotificationRuleRestriction rest : getRestrictions()) 
+				restrictionList.add(rest.toMap());
+			return restrictionList;
 		}
-		List<Map> restrictionList = new ArrayList<Map>();
-		for (NotificationRuleRestriction rest : getRestrictions()) 
-			restrictionList.add(rest.toMap());
-		return restrictionList;
+		return null;
 	}
 	public List<NotificationRuleRestriction> getRestrictions() {
 		return restrictions;
@@ -177,10 +168,13 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	}
 	@JsonProperty("notifyBefore")
 	public List<String> getNotifyBeforeString() {
-		List<String> notifyStringList = new ArrayList<String>();
-		for (NotifyBefore notifyBefore : getNotifyBefore()) 
-			notifyStringList.add(notifyBefore.value());
-		return notifyStringList;
+		if(getNotifyBefore() != null){
+			List<String> notifyStringList = new ArrayList<String>();
+			for (NotifyBefore notifyBefore : getNotifyBefore()) 
+				notifyStringList.add(notifyBefore.value());
+			return notifyStringList;
+		}
+		return null;
 	}
 	public List<NotifyBefore> getNotifyBefore() {
 		return notifyBefore;
