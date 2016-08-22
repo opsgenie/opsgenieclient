@@ -17,6 +17,7 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
     private Integer interval;
     private Heartbeat.IntervalUnit intervalUnit = Heartbeat.IntervalUnit.minutes;
     private String description;
+    
     /**
      * Rest api uri of adding heartbeat monitor operation.
      */

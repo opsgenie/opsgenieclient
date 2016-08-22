@@ -1,5 +1,10 @@
 package com.ifountain.opsgenie.client.model.customer;
 
+
+import javax.xml.bind.ValidationException;
+
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -9,6 +14,18 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     private String name;
+    
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(name == null)
+    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.NAME);
+    }
 
     /**
      * Rest api uri of get heartbeat monitor operation.
