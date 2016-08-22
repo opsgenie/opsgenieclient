@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
+import javax.xml.bind.ValidationException;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
@@ -13,6 +15,10 @@ public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     private String name;
     private String id;
     
+    /**
+     * check the parameters for validation.
+     * @throws ValidationException when name and id are both null!
+     */
     @Override
     public void validate() throws OpsGenieClientValidationException {
     	super.validate();
