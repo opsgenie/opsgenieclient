@@ -51,7 +51,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
      */
 	@JsonProperty("rotations")
     public List<Map> getRotationsMap() {
-        if(rotations != null && rotations.size() > 0){
+        if(rotations != null){
             List<Map> rotationMaps = new ArrayList<Map>();
             for(ScheduleRotation rotation: rotations){
                 if(rotation.getRotationLength() < 1)

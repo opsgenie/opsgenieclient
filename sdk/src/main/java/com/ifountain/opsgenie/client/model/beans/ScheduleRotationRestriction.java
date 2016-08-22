@@ -117,8 +117,10 @@ public class ScheduleRotationRestriction implements IBean{
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.START_DAY, startDay.name());
-        json.put(OpsGenieClientConstants.API.END_DAY, endDay.name());
+        if(startDay != null)
+        	json.put(OpsGenieClientConstants.API.START_DAY, startDay.name());
+        if(endDay != null)
+        	json.put(OpsGenieClientConstants.API.END_DAY, endDay.name());
         json.put(OpsGenieClientConstants.API.START_TIME, createTimeStr(startHour, startMin));
         json.put(OpsGenieClientConstants.API.END_TIME, createTimeStr(endHour, endMin));
         return json;
