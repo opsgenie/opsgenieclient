@@ -79,13 +79,15 @@ public class Team implements IBean {
         setId((String) resp.get(OpsGenieClientConstants.API.ID));
         setName((String) resp.get(OpsGenieClientConstants.API.NAME));
         List<TeamMember> members = new ArrayList<TeamMember>();
-        List<Map> memberList = (List<Map>) resp.get(OpsGenieClientConstants.API.MEMBERS);
-        for (Map map : memberList) {
-            TeamMember member = new TeamMember();
-            member.fromMap(map);
-            members.add(member);
+        if(resp.containsKey(OpsGenieClientConstants.API.MEMBERS)){
+	        List<Map> memberList = (List<Map>) resp.get(OpsGenieClientConstants.API.MEMBERS);
+	        for (Map map : memberList) {
+	            TeamMember member = new TeamMember();
+	            member.fromMap(map);
+	            members.add(member);
+	        }
+	        setMembers(members);
         }
-        setMembers(members);
     }
 
     public static class TeamMember implements IBean {
