@@ -1,5 +1,9 @@
 package com.ifountain.opsgenie.client.model.group;
 
+import javax.xml.bind.ValidationException;
+
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 
@@ -11,7 +15,16 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
     private String name;
     private String id;
-    
+    /**
+     * check the parameters for validation.
+     * @throws ValidationException when name and id are both null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(name == null && id == null)
+    		throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME,OpsGenieClientConstants.API.ID);
+    }
     public String getId() {
         return id;
     }
