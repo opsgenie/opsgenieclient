@@ -2,9 +2,8 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import javax.xml.bind.ValidationException;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -15,10 +14,20 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(GetScheduleOverrideRequest)
  */
 public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
-	@JsonSerialize(include=Inclusion.ALWAYS)
     private String alias;
-	@JsonSerialize(include=Inclusion.ALWAYS)
     private String schedule;
+    
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when alias is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(alias == null)
+    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ALIAS);
+    }
 
     /**
      * Rest api uri of get schedule override operation.

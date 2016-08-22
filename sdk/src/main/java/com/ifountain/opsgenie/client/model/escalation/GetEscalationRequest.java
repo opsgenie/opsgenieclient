@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -10,6 +12,13 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     private String name;
     private String id;
+    
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(name == null && id == null)
+    		throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME,OpsGenieClientConstants.API.ID);
+    }
     
     public String getId() {
         return id;
