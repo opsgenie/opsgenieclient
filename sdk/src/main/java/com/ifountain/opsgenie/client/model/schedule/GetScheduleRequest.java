@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
+import javax.xml.bind.ValidationException;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -11,10 +11,22 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
  */
 public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
-	@JsonSerialize(include=Inclusion.ALWAYS)
     private String name;
-	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
+    
+    
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(name == null && id == null)
+    		throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME,OpsGenieClientConstants.API.ID);
+    }
+    
     /**
      * Rest api uri of getting schedule operation.
      */
