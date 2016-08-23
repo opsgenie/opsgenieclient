@@ -73,7 +73,6 @@ public class OpsGenieClient implements IOpsGenieClient {
     private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
     private InnerAlertPolicyOpsGenieClient innerAlertPolicyOpsGenieClient;
     private IIntegrationOpsGenieClient innerIntegrationOpsGenieClient;
-    private IPolicyOpsGenieClient innerPolicyOpsGenieClient;
     private INotificationRuleOpsGenieClient innerNotificationRuleOpsGenieClient;
     private IAccountOpsGenieClient innerAccountOpsGenieClient;
     private IContactOpsGenieClient innerContactOpsGenieClient;
@@ -114,7 +113,6 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerAlertPolicyOpsGenieClient = new InnerAlertPolicyOpsGenieClient(this.jsonHttpClient);
         innerIntegrationOpsGenieClient = new InnerIntegrationOpsGenieClient(this.jsonHttpClient);
         innerContactOpsGenieClient = new InnerContactOpsGenieClient(this.jsonHttpClient);
-        innerPolicyOpsGenieClient = new InnerPolicyOpsGenieClient(this.jsonHttpClient);
         innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
         innerAccountOpsGenieClient = new InnerAccountOpsGenieClient(this.jsonHttpClient);
     }
@@ -175,14 +173,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     public IIntegrationOpsGenieClient integration() {
         return innerIntegrationOpsGenieClient;
     }
-    
-    
-    /**
-     * @see IOpsGenieClient#policy() ()
-     */
-    public IPolicyOpsGenieClient policy() {
-        return innerPolicyOpsGenieClient;
-    }
+
     
     /**
      * @see IOpsGenieClient#notificationRule() ()
