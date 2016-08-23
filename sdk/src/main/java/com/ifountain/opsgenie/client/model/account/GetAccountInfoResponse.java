@@ -7,10 +7,10 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents OpsGenie service response for get account request.
  *
- * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(GetAccountRequest)
+ * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(GetAccountInfoRequest)
  */
 import com.ifountain.opsgenie.client.model.beans.Account;
-public class GetAccountResponse extends BaseResponse {
+public class GetAccountInfoResponse extends BaseResponse {
 	private Account account;
 	
 	@Override

@@ -1,8 +1,6 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
-import com.ifountain.opsgenie.client.model.account.GetAccountRequest;
-import com.ifountain.opsgenie.client.model.account.GetAccountResponse;
 import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 

@@ -4,9 +4,9 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get account api call.
  *
- * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(GetAccountRequest)
+ * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(GetAccountInfoRequest)
  */
-public class GetAccountRequest extends BaseRequest<GetAccountResponse> {
+public class GetAccountInfoRequest extends BaseRequest<GetAccountInfoResponse> {
     /**
      * Rest api uri of getting account operation.
      */
@@ -16,8 +16,8 @@ public class GetAccountRequest extends BaseRequest<GetAccountResponse> {
 	}
 
 	@Override
-	public GetAccountResponse createResponse() {
-		return new GetAccountResponse();
+	public GetAccountInfoResponse createResponse() {
+		return new GetAccountInfoResponse();
 	}
 
 	

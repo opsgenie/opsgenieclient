@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.account.GetAccountRequest;
-import com.ifountain.opsgenie.client.model.account.GetAccountResponse;
+import com.ifountain.opsgenie.client.model.account.GetAccountInfoRequest;
+import com.ifountain.opsgenie.client.model.account.GetAccountInfoResponse;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -17,10 +17,10 @@ public interface IAccountOpsGenieClient {
      * Get Account details
      *
      * @param getAccountRequest Object to construct request parameters.
-     * @return <code>GetAccountResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.account.GetAccountRequest
-     * @see com.ifountain.opsgenie.client.model.account.GetAccountResponse
+     * @return <code>GetAccountInfoResponse</code> object containing OpsGenie response information.
+     * @see GetAccountInfoRequest
+     * @see GetAccountInfoResponse
      */
-    public GetAccountResponse getAccount(GetAccountRequest getAccountRequest) throws IOException, OpsGenieClientException, ParseException;
+    public GetAccountInfoResponse getAccount(GetAccountInfoRequest getAccountRequest) throws IOException, OpsGenieClientException, ParseException;
 
 }

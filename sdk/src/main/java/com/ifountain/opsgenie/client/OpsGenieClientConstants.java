@@ -1,10 +1,11 @@
 package com.ifountain.opsgenie.client;
 
 /**
- * @author Sezgin Kucukkaraaslan
- * @version 5/28/12 3:01 PM
+ * @author Mehmet Mustafa Demir
+ * @version 8/28/16 3:01 PM
  */
 public interface OpsGenieClientConstants {
+	//"http://localhost:9000/"
     public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
 
     public interface Common {

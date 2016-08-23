@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.account.GetAccountRequest;
-import com.ifountain.opsgenie.client.model.account.GetAccountResponse;
+import com.ifountain.opsgenie.client.model.account.GetAccountInfoRequest;
+import com.ifountain.opsgenie.client.model.account.GetAccountInfoResponse;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,12 +21,12 @@ public class InnerAccountOpsGenieClient implements IAccountOpsGenieClient {
 	}
 	
 	/**
-	 * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(com.ifountain.opsgenie.client.model.account.GetAccountRequest)
+	 * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(GetAccountInfoRequest)
 	 */
 	@Override
-	public GetAccountResponse getAccount(GetAccountRequest getAccountRequest)
+	public GetAccountInfoResponse getAccount(GetAccountInfoRequest getAccountRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (GetAccountResponse) httpClient.doGetRequest(getAccountRequest);
+		return (GetAccountInfoResponse) httpClient.doGetRequest(getAccountRequest);
 	}
 
 }

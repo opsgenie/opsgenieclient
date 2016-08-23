@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client
 import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
-import com.ifountain.opsgenie.client.model.account.GetAccountRequest
+import com.ifountain.opsgenie.client.model.account.GetAccountInfoRequest
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.junit.Test
@@ -30,7 +30,7 @@ class AccountOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         jsonContent.put(TestConstants.API.PLAN,planContent);
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
 
-        GetAccountRequest request = new GetAccountRequest();
+        GetAccountInfoRequest request = new GetAccountInfoRequest();
         request.setApiKey("customer1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.account().getAccount(request);
