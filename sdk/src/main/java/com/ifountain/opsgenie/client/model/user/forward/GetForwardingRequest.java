@@ -19,7 +19,7 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
     /**
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
-     * @throws ValidationException when api key is null!
+     * @throws ValidationException when alias and id both null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {

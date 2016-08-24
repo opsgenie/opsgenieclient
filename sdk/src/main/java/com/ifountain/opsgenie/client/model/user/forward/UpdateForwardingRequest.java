@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import javax.xml.bind.ValidationException;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 /**
  * Container for the parameters to make an update forwarding api call.
@@ -11,7 +11,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends AddForwardingRequest{
-	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
     /**
      * Rest api uri of update forwarding operation.
@@ -19,6 +18,19 @@ public class UpdateForwardingRequest extends AddForwardingRequest{
     @Override
     public String getEndPoint() {
         return "/v1/json/user/forward";
+    }
+    
+    
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when alias and id both null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(getId() == null && getAlias() == null)
+    		throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS,OpsGenieClientConstants.API.ID);
     }
 
     /**
