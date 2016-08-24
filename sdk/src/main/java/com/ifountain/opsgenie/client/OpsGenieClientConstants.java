@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client;
  */
 public interface OpsGenieClientConstants {
 	//"http://localhost:9000/"
-    public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
+    public static final String OPSGENIE_API_URI = "http://localhost:9000/";
 
     public interface Common {
         String API_DATE_FORMAT = "yyyy-MM-dd HH:mm";

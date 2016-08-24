@@ -7,7 +7,6 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.NotificationRule;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.NotifyBefore;
@@ -182,8 +181,5 @@ public class AddNotificationRuleRequest extends BaseRequest<AddNotificationRuleR
 	public void setNotifyBefore(List<NotifyBefore> notifyBefore) {
 		this.notifyBefore = notifyBefore;
 	}
-	
-	
-	
 
 }

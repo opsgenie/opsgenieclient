@@ -31,8 +31,6 @@ public class GetNotificationRuleRequest extends BaseRequest<GetNotificationRuleR
 	public void validate() throws OpsGenieClientValidationException {
 		if(id == null)
 			throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-		else if(this.username == null && this.userId == null)
-			throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.USERNAME,OpsGenieClientConstants.API.ID);
 		super.validate();
 	}
 
