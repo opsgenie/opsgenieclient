@@ -210,6 +210,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
 		 return (RemoveDetailsResponse) httpClient.doDeleteRequest(removeDetailsRequest);
 	}
 	
+    /**
+     * @see IAlertOpsGenieClient#snooze(SnoozeRequest))
+     */
+	@Override
+	public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
+		return (SnoozeResponse) httpClient.doPostRequest(snoozeRequest);
+	}
+	
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException, ParseException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)
@@ -244,8 +252,4 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
         in.close();
         return outputStream.toByteArray();
     }
-
-
-    
-
 }

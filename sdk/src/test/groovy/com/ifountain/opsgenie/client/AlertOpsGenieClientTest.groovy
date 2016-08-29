@@ -22,6 +22,8 @@ import org.apache.http.client.methods.HttpPost
 import org.junit.Before
 import org.junit.Test
 
+import java.text.SimpleDateFormat
+
 import static org.junit.Assert.*
 
 /**
@@ -533,12 +535,48 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "removeTags", new RemoveTagsRequest())
     }
 
+    @Test
+    public void testSnoozeSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
+        SnoozeRequest request = new SnoozeRequest();
+        request.setAlertId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setApiKey("customer1")
+        request.setTimeZone(TimeZone.getDefault())
+        request.setEndDate(new Date(System.currentTimeMillis()+100000))
 
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().snooze(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
 
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/snooze", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("alert1", jsonContent[TestConstants.API.ID])
+        assertEquals("alias", jsonContent[TestConstants.API.ALIAS])
+        assertEquals("tinyId", jsonContent[TestConstants.API.TINY_ID])
+        assertEquals("someuser", jsonContent[TestConstants.API.USER])
+        assertEquals("comment", jsonContent[TestConstants.API.NOTE])
+        assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
+        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT)
+        sdf.setTimeZone(TimeZone.getDefault())
+        assertEquals(sdf.format(new Date(System.currentTimeMillis()+100000)), jsonContent[TestConstants.API.END_DATE])
+    }
 
-
+    @Test
+    public void testSnoozeThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "snooze", new SnoozeRequest())
+    }
 
     @Test
     public void testAddDetailsSuccessfully() throws Exception {

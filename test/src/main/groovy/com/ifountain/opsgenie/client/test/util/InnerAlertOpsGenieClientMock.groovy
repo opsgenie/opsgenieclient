@@ -176,6 +176,11 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
         return null
     }
 
+    @Override
+    SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
+        return null
+    }
+
     public void setCreateAlertResponse(CreateAlertResponse createAlertResponse) {
         this.createAlertResponse = createAlertResponse;
     }

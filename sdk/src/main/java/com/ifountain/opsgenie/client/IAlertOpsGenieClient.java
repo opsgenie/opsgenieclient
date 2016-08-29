@@ -248,5 +248,15 @@ public interface IAlertOpsGenieClient {
      */
     public RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException;
 
+    /**
+     * snooze an alert.
+     *
+     * @param snoozeRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.SnoozeRequest
+     * @see com.ifountain.opsgenie.client.model.alert.SnoozeResponse
+     */
+    public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException;
+
 
 }
