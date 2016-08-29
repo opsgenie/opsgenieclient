@@ -18,7 +18,7 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     /**
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
-     * @throws ValidationException when api key is null!
+     * @throws ValidationException when heartbeat name is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
