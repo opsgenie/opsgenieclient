@@ -6,6 +6,8 @@ package com.ifountain.opsgenie.client;
  */
 public interface OpsGenieClientConstants {
 	//"http://localhost:9000/"
+	//https://api.opsgeni.us/
+	
     public static final String OPSGENIE_API_URI = "http://localhost:9000/";
 
     public interface Common {

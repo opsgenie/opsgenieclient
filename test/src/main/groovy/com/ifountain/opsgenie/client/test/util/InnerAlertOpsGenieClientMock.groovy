@@ -166,6 +166,16 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
         return listAlertNotesResponse;
     }
 
+    @Override
+    AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return null
+    }
+
+    @Override
+    RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return null
+    }
+
     public void setCreateAlertResponse(CreateAlertResponse createAlertResponse) {
         this.createAlertResponse = createAlertResponse;
     }
