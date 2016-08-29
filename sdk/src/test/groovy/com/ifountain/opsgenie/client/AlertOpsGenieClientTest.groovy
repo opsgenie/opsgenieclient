@@ -569,7 +569,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertEquals("comment", jsonContent[TestConstants.API.NOTE])
         assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT)
-        sdf.setTimeZone(TimeZone.getDefault())
+        sdf.setTimeZone(TimeZone.getDefault()) 
         assertEquals(sdf.format(new Date(System.currentTimeMillis()+100000)), jsonContent[TestConstants.API.END_DATE])
     }
 
