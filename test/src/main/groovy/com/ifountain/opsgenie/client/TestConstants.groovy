@@ -175,6 +175,7 @@ public interface TestConstants {
         public static final String EMAIL = "email";
         public static final String VOICE = "voice";
         public static final String SMS = "sms";
+        public static final String KEYS = "keys";
 
     }
 
