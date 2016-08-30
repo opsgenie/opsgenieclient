@@ -4,7 +4,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import javax.xml.bind.ValidationException;
 
 
 /**
@@ -19,7 +18,7 @@ public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
     /**
      * check the parameters for validation.
      *
-     * @throws ValidationException when name and id are both null!
+     * @throws OpsGenieClientValidationException when name and id are both null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
@@ -58,10 +57,10 @@ public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetGroupResponse createResponse() {
         return new GetGroupResponse();
     }

@@ -77,10 +77,10 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
         this.users = users;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddGroupMemberResponse createResponse() {
         return new AddGroupMemberResponse();
     }

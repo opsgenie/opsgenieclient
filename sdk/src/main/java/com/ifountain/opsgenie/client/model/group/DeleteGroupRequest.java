@@ -46,10 +46,10 @@ public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteGroupResponse createResponse() {
         return new DeleteGroupResponse();
     }

@@ -57,10 +57,10 @@ public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationRespo
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public EnableIntegrationResponse createResponse() {
         return new EnableIntegrationResponse();
     }

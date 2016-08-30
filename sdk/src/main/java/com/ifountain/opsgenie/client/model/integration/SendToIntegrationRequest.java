@@ -37,10 +37,10 @@ public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<Send
         return endPoint;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public SendToIntegrationResponse createResponse() {
         return new SendToIntegrationResponse();
     }
