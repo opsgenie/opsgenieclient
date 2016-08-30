@@ -21,10 +21,10 @@ public class DeleteContactRequest extends BaseRequest<DeleteContactResponse> {
         return "/v1/json/user/contact";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteContactResponse createResponse() {
         return new DeleteContactResponse();
     }

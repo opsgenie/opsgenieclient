@@ -6,7 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list contacts api call.
  *
- * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#listContacts(ListContactsRequest)
+ * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#listContact(ListContactsRequest)
  */
 public class ListContactsRequest extends BaseRequest<ListContactsResponse> {
     private String username;
@@ -20,10 +20,10 @@ public class ListContactsRequest extends BaseRequest<ListContactsResponse> {
         return "/v1/json/user/contact";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListContactsResponse createResponse() {
         return new ListContactsResponse();
     }

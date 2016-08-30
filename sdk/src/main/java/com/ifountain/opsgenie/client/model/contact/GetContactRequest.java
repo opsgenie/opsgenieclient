@@ -5,8 +5,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import javax.xml.bind.ValidationException;
-
 /**
  * Container for the parameters to make a get contact api call.
  *
@@ -28,7 +26,7 @@ public class GetContactRequest extends BaseRequest<GetContactResponse> {
     /**
      * check the parameters for validation.
      *
-     * @throws ValidationException when id is null or both of the username and userId are null
+     * @throws OpsGenieClientValidationException when id is null.
      */
 
     @Override
