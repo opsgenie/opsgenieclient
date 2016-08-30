@@ -65,10 +65,10 @@ public abstract class AttachRequest extends BaseAlertRequestWithSource<AttachRes
         throw new UnsupportedOperationException("unsupported method serialize");
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AttachResponse createResponse() {
         return new AttachResponse();
     }
