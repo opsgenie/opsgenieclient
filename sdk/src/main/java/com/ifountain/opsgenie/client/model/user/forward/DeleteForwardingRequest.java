@@ -48,10 +48,10 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
         this.alias = alias;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteForwardingResponse createResponse() {
         return new DeleteForwardingResponse();
     }

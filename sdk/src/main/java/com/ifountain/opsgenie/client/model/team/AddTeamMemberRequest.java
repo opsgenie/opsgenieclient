@@ -51,10 +51,10 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse> {
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddTeamMemberResponse createResponse() {
         return new AddTeamMemberResponse();
     }

@@ -18,10 +18,10 @@ public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberRespons
         return "/v1/json/team/member";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteTeamMemberResponse createResponse() {
         return new DeleteTeamMemberResponse();
     }

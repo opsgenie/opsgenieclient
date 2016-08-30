@@ -47,10 +47,10 @@ public class UpdateForwardingRequest extends AddForwardingRequest {
         this.id = id;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateForwardingResponse createResponse() {
         return new UpdateForwardingResponse();
     }
