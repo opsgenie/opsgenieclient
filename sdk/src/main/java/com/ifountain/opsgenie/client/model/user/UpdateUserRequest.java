@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 /**
  * Container for the parameters to make an update user api call.
@@ -9,8 +9,19 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateUser(UpdateUserRequest)
  */
 public class UpdateUserRequest extends AddUserRequest {
-    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+    }
 
     /**
      * Rest api uri of updating user operation.
@@ -34,10 +45,10 @@ public class UpdateUserRequest extends AddUserRequest {
         this.id = id;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateUserResponse createResponse() {
         return new UpdateUserResponse();
     }
