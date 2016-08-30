@@ -16,10 +16,10 @@ public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse> {
         return "/v1/json/schedule";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListSchedulesResponse createResponse() {
         return new ListSchedulesResponse();
     }

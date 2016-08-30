@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 /**
  * Container for the parameters to make an update schedule api call.
@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateSchedule(UpdateScheduleRequest)
  */
 public class UpdateScheduleRequest extends AddScheduleRequest {
-    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
 
     /**
@@ -18,6 +17,18 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
     @Override
     public String getEndPoint() {
         return "/v1/json/schedule";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**
@@ -34,10 +45,10 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
         this.id = id;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateScheduleResponse createResponse() {
         return new UpdateScheduleResponse();
     }

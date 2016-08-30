@@ -34,10 +34,10 @@ public class ListScheduleOverridesRequest extends BaseRequest<ListScheduleOverri
         this.schedule = schedule;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListScheduleOverridesResponse createResponse() {
         return new ListScheduleOverridesResponse();
     }

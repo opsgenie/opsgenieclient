@@ -17,7 +17,7 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
      *
-     * @throws OpsGenieClientValidationException when api key is null!
+     * @throws OpsGenieClientValidationException when id and username both null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {

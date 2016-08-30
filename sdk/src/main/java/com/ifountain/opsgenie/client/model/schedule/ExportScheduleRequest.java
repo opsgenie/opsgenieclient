@@ -41,10 +41,10 @@ public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ExportScheduleResponse createResponse() {
         return new ExportScheduleResponse();
     }

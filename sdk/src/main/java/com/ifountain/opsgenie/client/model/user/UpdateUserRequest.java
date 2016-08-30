@@ -14,7 +14,7 @@ public class UpdateUserRequest extends AddUserRequest {
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
      *
-     * @throws OpsGenieClientValidationException when api key is null!
+     * @throws OpsGenieClientValidationException when id is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {

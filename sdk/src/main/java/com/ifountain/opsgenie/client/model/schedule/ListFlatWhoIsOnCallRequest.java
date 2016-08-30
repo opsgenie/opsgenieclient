@@ -7,10 +7,10 @@ package com.ifountain.opsgenie.client.model.schedule;
  */
 public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<ListFlatWhoIsOnCallResponse> {
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListFlatWhoIsOnCallResponse createResponse() {
         return new ListFlatWhoIsOnCallResponse();
     }

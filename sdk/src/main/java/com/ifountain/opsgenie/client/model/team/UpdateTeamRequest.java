@@ -24,7 +24,7 @@ public class UpdateTeamRequest extends AddTeamRequest {
     /**
      * check the parameters for validation.
      *
-     * @throws OpsGenieClientValidationException when name and id are both null!
+     * @throws OpsGenieClientValidationException when id is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
