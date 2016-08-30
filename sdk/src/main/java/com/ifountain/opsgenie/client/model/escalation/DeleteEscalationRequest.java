@@ -47,10 +47,10 @@ public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationRespons
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteEscalationResponse createResponse() {
         return new DeleteEscalationResponse();
     }

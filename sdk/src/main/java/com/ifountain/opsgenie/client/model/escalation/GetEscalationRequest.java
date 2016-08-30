@@ -48,10 +48,10 @@ public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetEscalationResponse createResponse() {
         return new GetEscalationResponse();
     }

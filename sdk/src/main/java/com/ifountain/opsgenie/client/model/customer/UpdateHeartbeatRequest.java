@@ -3,8 +3,6 @@ package com.ifountain.opsgenie.client.model.customer;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import javax.xml.bind.ValidationException;
-
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
  *
@@ -16,7 +14,7 @@ public class UpdateHeartbeatRequest extends AddHeartbeatRequest {
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
      *
-     * @throws ValidationException when heartbeat name is null!
+     * @throws OpsGenieClientValidationException when heartbeat name is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
