@@ -1,13 +1,13 @@
 package com.ifountain.opsgenie.client.model.team;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add team api call.
@@ -44,6 +44,20 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
     }
 
     /**
+     * Map Members of team
+     */
+	@JsonProperty("members")
+    public List<Map> getMembersMap() {
+        if(getMembers() != null){
+            List<Map> memberMaps = new ArrayList<Map>();
+            for(Team.TeamMember member:getMembers())
+                memberMaps.add(member.toMap());
+            return memberMaps;
+        }
+        return null;
+    }
+    
+    /**
      * Members of team
      */
     public List<Team.TeamMember> getMembers() {
@@ -55,26 +69,6 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
      */
     public void setMembers(List<Team.TeamMember> members) {
         this.members = members;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getName() != null)
-        {
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getMembers() != null){
-            List<Map> memberMaps = new ArrayList<Map>();
-            for(Team.TeamMember member:getMembers()){
-                memberMaps.add(member.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.MEMBERS, memberMaps);
-        }
-        return json;
     }
 
     @Override

@@ -193,7 +193,31 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException {
         return (ListAlertNotesResponse) httpClient.doGetRequest(listAlertNotesRequest);
     }
-
+    
+    /**
+     * @see IAlertOpsGenieClient#addDetails(AddDetailsRequest))
+     */
+	@Override
+	public AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
+		 return (AddDetailsResponse) httpClient.doPostRequest(addDetailsRequest);
+	}
+    
+    /**
+     * @see IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest))
+     */
+	@Override
+	public RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
+		 return (RemoveDetailsResponse) httpClient.doDeleteRequest(removeDetailsRequest);
+	}
+	
+    /**
+     * @see IAlertOpsGenieClient#snooze(SnoozeRequest))
+     */
+	@Override
+	public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
+		return (SnoozeResponse) httpClient.doPostRequest(snoozeRequest);
+	}
+	
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException, ParseException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)

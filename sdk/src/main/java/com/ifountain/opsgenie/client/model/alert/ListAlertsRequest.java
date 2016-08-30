@@ -1,16 +1,15 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.apache.commons.codec.binary.StringUtils;
 
-import java.util.List;
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 
 /**
  * Container for the parameters to make a list alerts api call.
  *
+ * @author Mehmet Mustafa Demir mehmetdemircs@gmail.com
+ * @version 18/08/16 1:30 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(com.ifountain.opsgenie.client.model.alert.ListAlertsRequest)
  */
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
@@ -24,6 +23,7 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     }
 
     private SortBy sortBy;
+    @JsonIgnore
     private SortOrder sortOrder;
 
     /**
@@ -33,7 +33,12 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     public String getEndPoint() {
         return "/v1/json/alert";
     }
-
+	@JsonProperty("sortBy")
+    public String getSortByName() {
+    	if(sortBy != null)
+    		return sortBy.name();
+    	return null;
+    }
     public SortBy getSortBy() {
         return sortBy;
     }
@@ -42,26 +47,19 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
         this.sortBy = sortBy;
     }
 
+	@JsonProperty("order")
+    public String getSortOrderName() {
+    	if(sortOrder != null)
+    		return sortOrder.name();
+    	return null;
+    }
+    
     public SortOrder getSortOrder() {
         return sortOrder;
     }
 
     public void setSortOrder(SortOrder sortOrder) {
         this.sortOrder = sortOrder;
-    }
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
-
-        if (sortBy != null)
-            parameters.put(OpsGenieClientConstants.API.SORT_BY, sortBy.name());
-        if (sortOrder != null)
-            parameters.put(OpsGenieClientConstants.API.ORDER, sortOrder.name());
-
-        return parameters;
     }
 
     @Override

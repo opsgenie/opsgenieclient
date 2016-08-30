@@ -1,10 +1,10 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import javax.xml.bind.ValidationException;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a get schedule override api call.
@@ -16,6 +16,18 @@ import java.util.Map;
 public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
     private String alias;
     private String schedule;
+    
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when alias is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(alias == null)
+    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ALIAS);
+    }
 
     /**
      * Rest api uri of get schedule override operation.
@@ -53,19 +65,7 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
-    }
-
-
+    
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()

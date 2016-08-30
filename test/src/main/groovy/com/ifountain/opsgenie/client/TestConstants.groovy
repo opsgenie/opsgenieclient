@@ -111,6 +111,72 @@ public interface TestConstants {
         public static final String HEARTBEATS = "heartbeats";
         public static final String NOTES = "notes";
         public static final String FLAT = "flat";
+        //contact constants
+        public static final String USER_ID = "userId";
+        public static final String USER_CONTACTS = "userContacts";
+        public static final String TO = "to";
+        public static final String DISABLED_REASON = "disabledReason";
+        public static final String USER_COUNT = "userCount";
+        public static final String PLAN = "plan";
+        public static final String IS_YEARLY = "isYearly";
+        public static final String MAX_USER_COUNT = "maxUserCount";
+        //notification action constants
+        public static final String ACTION_TYPE = "actionType";
+        public static final String RENOTIFIED_ALERT = "Renotified Alert";
+        public static final String SCHEDULE_END = "Schedule End";
+        public static final String INCOMING_CALL_ROUTING = "Incoming Call Routing";
+        public static final String SCHEDULE_START = "Schedule Start";
+        public static final String CLOSED_ALERT = "Closed Alert";
+        public static final String NEW_ALERT = "New Alert";
+        public static final String ASSIGNED_ALERT = "Assigned Alert";
+        public static final String ACKNOWLEDGED_ALERT = "Acknowledged Alert";
+        public static final String ADD_NOTE = "Add Note";
+        //notification condition constants
+        public static final String CONDITIONS = "conditions";
+        public static final String CONDITION_MATCH_TYPE = "conditionMatchType";
+        public static final String CONDITION_MATCH_ALL = "Match All";
+        public static final String CONDITION_MATCH_ALL_CONDITIONS = "Match All Conditions";
+        public static final String CONDITION_MATCH_ANY_CONDITIONS = "Match Any Condition";
+        //notification restriction constants
+        public static final String RESTRICTION_END_HOUR = "endHour";
+        public static final String RESTRICTION_END_MINUTE = "endMinute";
+        public static final String RESTRICTION_END_DAY = "endDay";
+        public static final String RESTRICTION_START_HOUR = "startHour";
+        public static final String RESTRICTION_START_MINUTE = "startMinute";
+        public static final String RESTRICTION_START_DAY = "startDay";
+        //notification operation constants
+        public static final String OPERATION = "operation";
+        public static final String OPERATION_CONTAINS = "Contains";
+        public static final String OPERATION_CONTAINS_KEY = "Contains Key";
+        public static final String OPERATION_CONTAINS_VALUE = "Contains Value";
+        public static final String OPERATION_EQUALS_IGNORE_WHITE_SPACE = "Equals Ignore Whitespace";
+        public static final String OPERATION_IS_EMPTY = "Is Empty";
+        public static final String OPERATION_EQUALS = "Equals";
+        public static final String OPERATION_MATCHES = "Matches";
+        public static final String OPERATION_STARTS_WITH = "Starts With";
+        public static final String OPERATION_ENDS_WITH = "Ends With";
+        //notification variable constants
+        public static final String EXTRA_PROPERTIES = "extraProperties";
+        public static final String FIELD = "field";
+        public static final String NOT = "not";
+        public static final String EXPECTED_VALUE = "expectedValue";
+        public static final String APPLY_ORDER = "applyOrder";
+        public static final String LOOP_AFTER = "loopAfter";
+        public static final String STEPS = "steps";
+        public static final String SEND_AFTER = "sendAfter";
+        //notification notifyBefore constants
+        public static final String NOTIFY_BEFORE = "notifyBefore";
+        public static final String NOTIFY_ONE_HOUR = "1 hour";
+        public static final String NOTIFY_ONE_DAY = "1 day";
+        public static final String NOTIFY_FIFTEEN_MINUTE = "15 mins";
+        public static final String NOTIFY_JUST_BEFORE = "Just Before";
+
+        public static final String RULE_ID = "ruleId";
+        public static final String EMAIL = "email";
+        public static final String VOICE = "voice";
+        public static final String SMS = "sms";
+        public static final String KEYS = "keys";
+
     }
 
     public interface AWS {

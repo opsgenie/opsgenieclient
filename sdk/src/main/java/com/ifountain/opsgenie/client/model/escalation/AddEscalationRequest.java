@@ -1,13 +1,13 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.EscalationRule;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add escalation api call.
@@ -42,6 +42,20 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
     }
 
     /**
+     * Rules of escalation in Map mode
+     */
+	@JsonProperty("rules")
+    public List<Map> getRulesMap() {
+        if(getRules() != null){
+            List<Map> ruleMaps = new ArrayList<Map>();
+            for(EscalationRule rule:rules)
+                ruleMaps.add(rule.toMap());
+            return ruleMaps;
+        }
+        return null;
+    }
+    
+    /**
      * Rules of escalation
      */
     public List<EscalationRule> getRules() {
@@ -53,25 +67,6 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
      */
     public void setRules(List<EscalationRule> rules) {
         this.rules = rules;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getRules() != null){
-            List<Map> ruleMaps = new ArrayList<Map>();
-            for(EscalationRule rule:rules){
-                ruleMaps.add(rule.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
-        }
-        return json;
     }
 
     @Override

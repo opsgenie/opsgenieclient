@@ -1,9 +1,7 @@
 package com.ifountain.opsgenie.client.model.team;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * Container for the parameters to make an update team api call.
@@ -13,8 +11,7 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#updateTeam(UpdateTeamRequest)
  */
 public class UpdateTeamRequest extends AddTeamRequest {
-
-
+	@JsonSerialize(include=Inclusion.ALWAYS)
     private String id;
 
     /**
@@ -37,16 +34,6 @@ public class UpdateTeamRequest extends AddTeamRequest {
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        return json;
     }
 
     @Override

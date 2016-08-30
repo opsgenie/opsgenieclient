@@ -1,10 +1,11 @@
 package com.ifountain.opsgenie.client.model.customer;
 
+
+import javax.xml.bind.ValidationException;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a get heartbeat monitor api call.
@@ -13,6 +14,18 @@ import java.util.Map;
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     private String name;
+    
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when heartbeat name is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+    	super.validate();
+    	if(name == null)
+    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.NAME);
+    }
 
     /**
      * Rest api uri of get heartbeat monitor operation.
@@ -48,19 +61,6 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
      */
     public void setSource(String source) {
         setName(source);
-    }
-
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        return json;
     }
 
     @Override

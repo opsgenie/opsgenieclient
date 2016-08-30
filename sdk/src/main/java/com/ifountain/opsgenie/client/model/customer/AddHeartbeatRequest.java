@@ -1,11 +1,10 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Heartbeat;
 
-import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
@@ -18,6 +17,7 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
     private Integer interval;
     private Heartbeat.IntervalUnit intervalUnit = Heartbeat.IntervalUnit.minutes;
     private String description;
+    
     /**
      * Rest api uri of adding heartbeat monitor operation.
      */
@@ -69,6 +69,16 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
     }
 
     /**
+     * Return interval unit of heartbeat in string type monitor
+     */
+	@JsonProperty("intervalUnit")
+    public String getStringIntervalUnit() {
+    	if(intervalUnit != null)
+    		return intervalUnit.name();
+    	return null;
+    }
+    
+    /**
      * Return interval unit of heartbeat monitor
      */
     public Heartbeat.IntervalUnit getIntervalUnit() {
@@ -102,30 +112,6 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
      */
     public AddHeartbeatResponse createResponse() {
         return new AddHeartbeatResponse();
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        if(enabled != null){
-            json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        }
-        if(interval != null){
-            json.put(OpsGenieClientConstants.API.INTERVAL, interval);
-        }
-        if(intervalUnit != null){
-            json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit.name());
-        }
-        if(description != null){
-            json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
-        }
-        return json;
     }
 
 }

@@ -1,5 +1,9 @@
 package com.ifountain.opsgenie.client;
 
+import com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest;
+import com.ifountain.opsgenie.client.model.team.AddTeamMemberResponse;
+import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest;
+import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberResponse;
 import com.ifountain.opsgenie.client.model.team.*;
 
 import java.io.IOException;
@@ -73,5 +77,27 @@ public interface ITeamOpsGenieClient {
      */
     public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException;
 
+    
+    /**
+     * Adds a team member at OpsGenie.
+     *
+     * @param addTeamMemberRequest Object to construct request parameters.
+     * @return <code>AddTeamResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest
+     * @see com.ifountain.opsgenie.client.model.team.AddTeamMemberResponse
+     */
+    public AddTeamMemberResponse addTeamMember(AddTeamMemberRequest addTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Removes a team member at OpsGenie.
+     *
+     * @param deleteTeamMemberRequest Object to construct request parameters.
+     * @return <code>AddTeamResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest
+     * @see com.ifountain.opsgenie.client.model.team.DeleteTeamMemberResponse
+     */
+    public DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    
 
 }

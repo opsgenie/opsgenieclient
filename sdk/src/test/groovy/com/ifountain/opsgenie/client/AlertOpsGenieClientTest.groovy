@@ -22,6 +22,8 @@ import org.apache.http.client.methods.HttpPost
 import org.junit.Before
 import org.junit.Test
 
+import java.text.SimpleDateFormat
+
 import static org.junit.Assert.*
 
 /**
@@ -531,6 +533,137 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
     @Test
     public void testRemoveTagsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "removeTags", new RemoveTagsRequest())
+    }
+
+    @Test
+    public void testSnoozeSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        SnoozeRequest request = new SnoozeRequest();
+        request.setAlertId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setApiKey("customer1")
+        request.setTimeZone(TimeZone.getDefault())
+        request.setEndDate(new Date(System.currentTimeMillis()+100000))
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().snooze(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/snooze", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("alert1", jsonContent[TestConstants.API.ID])
+        assertEquals("alias", jsonContent[TestConstants.API.ALIAS])
+        assertEquals("tinyId", jsonContent[TestConstants.API.TINY_ID])
+        assertEquals("someuser", jsonContent[TestConstants.API.USER])
+        assertEquals("comment", jsonContent[TestConstants.API.NOTE])
+        assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
+        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT)
+        sdf.setTimeZone(TimeZone.getDefault()) 
+        assertEquals(sdf.format(new Date(System.currentTimeMillis()+100000)), jsonContent[TestConstants.API.END_DATE])
+    }
+
+    @Test
+    public void testSnoozeThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "snooze", new SnoozeRequest())
+    }
+
+    @Test
+    public void testAddDetailsSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        AddDetailsRequest request = new AddDetailsRequest();
+        request.setAlertId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setDetails(["key1": "value1", "key2": "value2"])
+        request.setApiKey("customer1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().addDetails(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/details", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("alert1", jsonContent[TestConstants.API.ID])
+        assertEquals("alias", jsonContent[TestConstants.API.ALIAS])
+        assertEquals("tinyId", jsonContent[TestConstants.API.TINY_ID])
+        assertEquals("someuser", jsonContent[TestConstants.API.USER])
+        assertEquals("comment", jsonContent[TestConstants.API.NOTE])
+        assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
+
+        Map details = jsonContent[TestConstants.API.DETAILS]
+        assertEquals(2, details.keySet().size())
+        assertTrue( details.keySet().contains("key1"));
+        assertTrue( details.keySet().contains("key2"));
+        assertEquals(2, details.values().size())
+        assertTrue( details.values().contains("value1"));
+        assertTrue( details.values().contains("value2"));
+    }
+
+    @Test
+    public void testAddDetailsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "addDetails", new AddDetailsRequest())
+    }
+
+    @Test
+    public void testRemoveDetailsSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        RemoveDetailsRequest request = new RemoveDetailsRequest();
+        request.setAlertId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setKeys(["key1","key2"])
+        request.setApiKey("customer1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().removeDetails(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/details", requestSent.getUrl())
+
+        def requestParams = requestSent.getParameters();
+        assertEquals("customer1", requestParams[TestConstants.API.API_KEY])
+        assertEquals("alert1", requestParams[TestConstants.API.ID])
+        assertEquals("alias", requestParams[TestConstants.API.ALIAS])
+        assertEquals("tinyId", requestParams[TestConstants.API.TINY_ID])
+        assertEquals("someuser", requestParams[TestConstants.API.USER])
+        assertEquals("comment", requestParams[TestConstants.API.NOTE])
+        assertEquals("source1", requestParams[TestConstants.API.SOURCE])
+
+        def keys = requestParams[TestConstants.API.KEYS]
+        assertEquals("key1,key2", keys)
+    }
+
+    @Test
+    public void testRemoveDetailsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "removeDetails", new RemoveDetailsRequest())
     }
 
     @Test
@@ -1052,6 +1185,11 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
             OpsGenieClientTestCase.opsgenieClient.alert().getAlert(getAlertRequest)
             fail("should throw exception")
         }
+        catch (OpsGenieClientValidationException e){
+            assertEquals(4000, e.getCode())
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
+
+        }
         catch (OpsGenieClientException e) {
             assertEquals(2, e.getCode())
             assertEquals("Could not authenticate.", e.getMessage())
@@ -1062,6 +1200,10 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         try {
             OpsGenieClientTestCase.opsgenieClient.alert().getAlert(getAlertRequest)
             fail("should throw exception")
+        }
+        catch (OpsGenieClientValidationException e){
+            assertEquals(4000, e.getCode())
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
         }
         catch (IOException e) {
             assertEquals("No handler found.", e.getMessage())

@@ -1,10 +1,10 @@
 package com.ifountain.opsgenie.client.model.team;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list team logs api call.
@@ -20,6 +20,7 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse>{
     }
     private String id;
     private String name;
+    @JsonIgnore
     private SortOrder sortOrder =SortOrder.asc;
     private Integer limit = 100;
     private String lastKey;
@@ -52,6 +53,14 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse>{
         this.name = name;
     }
 
+
+	@JsonProperty("order")
+    public String getSortOrderName() {
+        if(sortOrder != null)
+        	return sortOrder.name();
+        return null;
+    }
+    
     public SortOrder getSortOrder() {
         return sortOrder;
     }
@@ -82,22 +91,6 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse>{
     @Override
     public String getEndPoint() {
         return "/v1/json/team/log";
-    }
-
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map resp = super.serialize();
-        if (getId() != null)
-            resp.put(OpsGenieClientConstants.API.ID, getId());
-        if (getName() != null)
-            resp.put(OpsGenieClientConstants.API.NAME, getName());
-        if (getLastKey() != null)
-            resp.put(OpsGenieClientConstants.API.LAST_KEY, getLastKey());
-        if (getSortOrder() != null)
-            resp.put(OpsGenieClientConstants.API.ORDER, getSortOrder().name());
-        if (getLimit() != null)
-            resp.put(OpsGenieClientConstants.API.LIMIT, getLimit());
-        return resp;
     }
 
     @Override

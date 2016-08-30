@@ -1,10 +1,6 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a enable/disable heartbeat monitor api call.
@@ -62,17 +58,5 @@ public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse>
      */
     public EnableHeartbeatResponse createResponse() {
         return new EnableHeartbeatResponse();
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        return json;
     }
 }

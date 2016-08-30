@@ -1,5 +1,9 @@
 package com.ifountain.opsgenie.client;
 
+import com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest;
+import com.ifountain.opsgenie.client.model.team.AddTeamMemberResponse;
+import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest;
+import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberResponse;
 import com.ifountain.opsgenie.client.model.team.*;
 
 import java.io.IOException;
@@ -65,5 +69,21 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException {
         return (ListTeamLogsResponse) httpClient.doGetRequest(listTeamLogsRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeamMember(com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest)
+     */
+    @Override
+    public AddTeamMemberResponse addTeamMember(AddTeamMemberRequest addTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (AddTeamMemberResponse) httpClient.doPostRequest(addTeamMemberRequest);
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeamMember(com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest)
+     */
+    @Override
+    public DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return (DeleteTeamMemberResponse) httpClient.doDeleteRequest(deleteTeamMemberRequest);
     }
 }

@@ -1,17 +1,18 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.model.BaseRequest;
+
 /**
- * ontainer for the parameters to make an add schedule override api call.
+ * Container for the parameters to make an add schedule override api call.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 12/3/2014 8:54 AM
@@ -23,6 +24,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     private String user;
     private Date startDate;
     private Date endDate;
+    @JsonIgnore
     private TimeZone timeZone;
     private List<String> rotationIds;
 
@@ -92,7 +94,23 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     public void setUser(String user) {
         this.user = user;
     }
-
+    
+    /**
+     * End date of the schedule override.
+     */
+	@JsonProperty("startDate")
+    public String getStartDateString() {
+        if (getStartDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            if (getTimeZone() != null)
+                sdf.setTimeZone(getTimeZone());
+            else
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return sdf.format(getStartDate());
+        }
+        return null;
+    }
+	
 
     /**
      * Start date of the schedule override.
@@ -111,6 +129,22 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     /**
      * End date of the schedule override.
      */
+	@JsonProperty("endDate")
+    public String getEndDateString() {
+        if (getEndDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            if (getTimeZone() != null)
+                sdf.setTimeZone(getTimeZone());
+            else
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return sdf.format(getEndDate());
+        }
+        return null;
+    }
+    
+    /**
+     * End date of the schedule override.
+     */
     public Date getEndDate() {
         return endDate;
     }
@@ -125,6 +159,15 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     /**
      * Timezone to determine forwarding start and end dates. If not given GMT is used.
      */
+	@JsonProperty("timezone")
+    public String getTimeZoneId() {
+    	if(timeZone == null)
+    		return TimeZone.getTimeZone("GMT").getID();
+        return timeZone.getID();
+    }
+    /**
+     * Timezone to determine forwarding start and end dates. If not given GMT is used.
+     */
     public TimeZone getTimeZone() {
         return timeZone;
     }
@@ -134,43 +177,6 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-        TimeZone tz;
-        if (getTimeZone() != null) {
-            tz = getTimeZone();
-
-        } else {
-            tz = TimeZone.getTimeZone("GMT");
-        }
-        sdf.setTimeZone(tz);
-        json.put(OpsGenieClientConstants.API.TIMEZONE, tz.getID());
-        if (getEndDate() != null) {
-            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(getEndDate()));
-        }
-        if (getStartDate() != null) {
-            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(getStartDate()));
-        }
-        if (user != null) {
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        }
-        if (alias != null) {
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        }
-        if (schedule != null) {
-            json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
-        }
-        if (rotationIds != null) {
-            json.put(OpsGenieClientConstants.API.ROTATION_IDS, getRotationIds());
-        }
-        return json;
     }
 
     @Override

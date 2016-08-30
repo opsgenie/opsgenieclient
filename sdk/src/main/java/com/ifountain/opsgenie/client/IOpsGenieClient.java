@@ -19,6 +19,28 @@ public interface IOpsGenieClient {
      * @return IUserOpsGenieClient
      */
     IUserOpsGenieClient user();
+    
+
+    /**
+     * Opsgenie Contact Client
+     * @see IContactOpsGenieClient
+     * @return IContactOpsGenieClient
+     */
+    IContactOpsGenieClient contact();
+    
+    /**
+     * Opsgenie Account Client
+     * @see IAccountOpsGenieClient
+     * @return IAccountOpsGenieClient
+     */
+    IAccountOpsGenieClient account();
+    
+    /**
+     * Opsgenie Notification Client
+     * @see INotificationRuleOpsGenieClient
+     * @return INotificationRuleOpsGenieClient
+     */
+    INotificationRuleOpsGenieClient notificationRule();
 
     /**
      * Opsgenie Group Client
@@ -131,6 +153,7 @@ public interface IOpsGenieClient {
      */
     public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
 
+    
     /**
      * List all heartbeat monitor details on OpsGenie.
      *
@@ -162,4 +185,5 @@ public interface IOpsGenieClient {
      * Closes client
      */
     public void close();
+    
 }

@@ -1,10 +1,5 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
-
 /**
  * Container for the parameters to make a delete alert api call.
  *
@@ -35,16 +30,6 @@ public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertRe
      */
     public void setUser(String user) {
         this.user = user;
-    }
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
-        if (getUser() != null)
-            parameters.put(OpsGenieClientConstants.API.USER, getUser());
-        return parameters;
     }
 
     @Override

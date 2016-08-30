@@ -3,8 +3,6 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
-
 /**
  * Container for the parameters to make a get alert api call.
  *
@@ -22,16 +20,14 @@ public class GetAlertRequest extends BaseAlertRequestWithId<GetAlertResponse> {
     }
 
     @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map resp = super.serialize();
-        if(!(resp.containsKey(OpsGenieClientConstants.API.ID)
-                || resp.containsKey(OpsGenieClientConstants.API.ALERT_ID)
-                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)
-        || resp.containsKey(OpsGenieClientConstants.API.TINY_ID)) )
-        {
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        }
-        return resp;
+    public void validate() throws OpsGenieClientValidationException { 
+    	if(!(this.getId() != null
+            || this.getAlertId() != null
+            || this.getAlias() != null
+    		|| this.getTinyId() != null) )
+        throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
+        		OpsGenieClientConstants.API.ALERT_ID,OpsGenieClientConstants.API.ALIAS,OpsGenieClientConstants.API.TINY_ID);
+    	super.validate();
     }
 
     @Override

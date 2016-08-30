@@ -33,6 +33,27 @@ public class OpsGenieClientMock implements IOpsGenieClient {
     private EnableHeartbeatResponse enableHeartbeatResponse;
     private CopyNotificationRulesResponse copyNotificationRulesResponse;
 
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#contact()
+     */
+    public IContactOpsGenieClient contact() {
+        return null;
+    }
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#account()
+     */
+    @Override
+    public IAccountOpsGenieClient account() {
+        return null;
+    }
+
+    /**
+     * @see IOpsGenieClient#notificationRule() ()
+     */
+    public INotificationRuleOpsGenieClient notificationRule() {
+        return null;
+    }
+
     public OpsGenieClientMock() {
     }
 

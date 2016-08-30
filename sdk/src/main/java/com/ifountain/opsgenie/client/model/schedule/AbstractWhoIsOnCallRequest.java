@@ -1,23 +1,52 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseGetRequest;
-import com.ifountain.opsgenie.client.model.BaseResponse;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.TimeZone;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseResponse;
 
 /**
  * Base Container for the parameters to make a who is on call api call.
  *
  */
-public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseGetRequest<T> {
+public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> {
     private String name;
     private Date time;
-    private TimeZone timeZone;
+    private TimeZone timezone;    
+    private String id;
+    
+    
+    /**
+     * Id of object to be queried.
+     */
+    public String getId() {
+        return id;
+    }
 
+    /**
+     * Sets id of object to be queried.
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+    /**
+     * Target date in string form of WhoIsOnCall request
+     */
+	@JsonProperty("time")
+    public String getTimeString() {
+    	if(time != null) {
+    	    SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+    	    sdf.setTimeZone(timezone != null?timezone:TimeZone.getTimeZone("UTC"));
+    	    return sdf.format(time);
+    	}
+        return null;
+    }
+    
     /**
      * Target date of WhoIsOnCall request
      */
@@ -33,17 +62,27 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
     }
 
     /**
+     * Timezone Id for request
+     */
+	@JsonProperty("timezone")
+    public String getTimeZoneId() {
+    	if(timezone != null)
+    		return timezone.getID();
+    	return null;
+    }
+    
+    /**
      * Timezone for request
      */
     public TimeZone getTimeZone() {
-        return timeZone;
+        return timezone;
     }
 
     /**
      * Sets timezone for request
      */
-    public void setTimeZone(TimeZone timeZone) {
-        this.timeZone = timeZone;
+    public void setTimeZone(TimeZone timezone) {
+        this.timezone = timezone;
     }
 
     /**
@@ -58,24 +97,6 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseGetRequest#_serialize()
-     */
-    public void _serialize(Map json){
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
-        }
-        if(time != null){
-            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-            sdf.setTimeZone(timeZone != null?timeZone:TimeZone.getTimeZone("UTC"));
-            json.put(OpsGenieClientConstants.API.TIME, sdf.format(time));
-        }
     }
 
     @Override

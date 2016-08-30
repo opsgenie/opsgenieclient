@@ -61,10 +61,8 @@ public abstract class AttachRequest extends BaseAlertRequestWithSource<AttachRes
         this.note = note;
     }
 
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
         throw new UnsupportedOperationException("unsupported method serialize");
     }
 

@@ -1,12 +1,11 @@
 package com.ifountain.opsgenie.client.model.group;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.util.Strings;
 
 import java.util.List;
-import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add group api call.
@@ -56,6 +55,16 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
     }
 
     /**
+     * Users to be added in String mode
+     */
+	@JsonProperty("users")
+    public String getUsersString() {
+	    if(getUsers() != null)
+            return Strings.join(getUsers(), ",");
+        return null;
+    }
+    
+    /**
      * Users to be added
      */
     public List<String> getUsers() {
@@ -67,26 +76,6 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
      */
     public void setUsers(List<String> users) {
         this.users = users;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getId() != null)
-        {
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
-        if(getName() != null)
-        {
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getUsers() != null){
-            json.put(OpsGenieClientConstants.API.USERS, Strings.join(getUsers(),","));
-        }
-        return json;
     }
 
     @Override

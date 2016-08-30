@@ -3,8 +3,15 @@ package com.ifountain.opsgenie.client.model;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
+
+import javax.xml.bind.ValidationException;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * Base class for container objects which provides content parameters for OpsGenie service calls.
@@ -12,6 +19,7 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:03 PM
  */
+@JsonSerialize(include=Inclusion.NON_NULL)
 public abstract class BaseRequest<T extends BaseResponse> implements Request {
     private String apiKey;
 
@@ -20,6 +28,16 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      */
     public String getApiKey() {
         return apiKey;
+    }
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     * @throws ValidationException when api key is null!
+     */
+    @JsonIgnore
+    public void validate() throws OpsGenieClientValidationException{
+    	if(apiKey == null)
+    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.API_KEY);
     }
 
     /**
@@ -33,6 +51,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      * @deprecated
      * Use getApiKey
      */
+    @JsonIgnore
     public String getCustomerKey() {
         return apiKey;
     }
@@ -49,9 +68,10 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      * convertes request to map
      */
     public Map serialize() throws OpsGenieClientValidationException {
-        Map map = new HashMap();
-        map.put(OpsGenieClientConstants.API.API_KEY, apiKey);
-        return map;
+    	validate();
+    	ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Inclusion.NON_NULL);
+		return  new TreeMap(mapper.convertValue(this, Map.class));
     }
 
     /**

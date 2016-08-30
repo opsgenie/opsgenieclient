@@ -169,12 +169,14 @@ public class Heartbeat implements IBean{
     @Override
     public void fromMap(Map resp) {
         setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
+        if(resp.containsKey(OpsGenieClientConstants.API.LAST_HEARTBEAT))
+        	setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
         setEnabled((Boolean) resp.get(OpsGenieClientConstants.API.ENABLED));
         setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
         setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
         setExpired("Expired".equals(getStatus()));
-        setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
+        if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL))
+        	setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
         if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL_UNIT)){
             setIntervalUnit(IntervalUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.INTERVAL_UNIT)));
         }

@@ -1,12 +1,9 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Heartbeat;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +32,7 @@ public class GetHeartbeatResponse extends BaseResponse{
 
     @Override
     public void deserialize(Map data) throws ParseException {
+    	System.out.println("Data = "+data);
         super.deserialize(data);
         heartbeat = new Heartbeat();
         heartbeat.fromMap(data);

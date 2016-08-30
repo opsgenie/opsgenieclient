@@ -3,7 +3,8 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list alert logs api call.
@@ -17,9 +18,17 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
         asc,
         desc
     }
+    @JsonIgnore
     private SortOrder sortOrder =SortOrder.asc;
     private Integer limit = 100;
     private String lastKey;
+    
+    @JsonProperty("order")
+    public String getSortOrderName() {
+    	if(sortOrder != null)
+    		return sortOrder.name();
+    	return null;
+    }
 
     public SortOrder getSortOrder() {
         return sortOrder;
@@ -52,24 +61,15 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     public String getEndPoint() {
         return "/v1/json/alert/log";
     }
-
     @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map resp = super.serialize();
-        if(!(resp.containsKey(OpsGenieClientConstants.API.ID)
-                || resp.containsKey(OpsGenieClientConstants.API.ALERT_ID)
-                ||resp.containsKey(OpsGenieClientConstants.API.ALIAS)
-        || resp.containsKey(OpsGenieClientConstants.API.TINY_ID)) )
-        {
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        }
-        if (getLastKey() != null)
-            resp.put(OpsGenieClientConstants.API.LAST_KEY, getLastKey());
-        if (getSortOrder() != null)
-            resp.put(OpsGenieClientConstants.API.ORDER, getSortOrder().name());
-        if (getLimit() != null)
-            resp.put(OpsGenieClientConstants.API.LIMIT, getLimit());
-        return resp;
+    public void validate() throws OpsGenieClientValidationException { 
+    	if(!(this.getId() != null
+            || this.getAlertId() != null
+            || this.getAlias() != null
+    		|| this.getTinyId() != null) )
+        throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
+        		OpsGenieClientConstants.API.ALERT_ID,OpsGenieClientConstants.API.ALIAS,OpsGenieClientConstants.API.TINY_ID);
+    	super.validate();
     }
 
     @Override

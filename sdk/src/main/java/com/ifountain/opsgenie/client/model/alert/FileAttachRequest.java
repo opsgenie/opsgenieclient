@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 import java.io.File;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an file based attach api call.
@@ -32,10 +31,9 @@ public class FileAttachRequest extends AttachRequest {
         this.file = file;
     }
 
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
         throw new UnsupportedOperationException("unsupported method serialize");
     }
+
 }

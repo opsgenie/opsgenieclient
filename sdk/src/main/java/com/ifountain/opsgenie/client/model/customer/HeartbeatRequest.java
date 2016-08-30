@@ -1,10 +1,6 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a heartbeat api call.
@@ -42,15 +38,6 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
      **/
     public void setSource(String source) {
         setName(source);
-    }
-
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map res = super.serialize();
-        if(name != null){
-            res.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        return res;
     }
 
     /**

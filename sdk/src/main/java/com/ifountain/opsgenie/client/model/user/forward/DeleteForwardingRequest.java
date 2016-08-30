@@ -1,10 +1,6 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make an delete forwarding api call.
@@ -50,17 +46,6 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
      */
     public void setAlias(String alias) {
         this.alias = alias;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
     }
 
     @Override

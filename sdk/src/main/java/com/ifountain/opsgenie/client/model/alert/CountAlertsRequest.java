@@ -1,17 +1,10 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.List;
-import java.util.Map;
-
 /**
  * Container for the parameters to make a count alerts api call.
  *
- * @author Veli Burak Celen
- * @version 5/11/15 1:30 PM
+ * @author Mehmet Mustafa Demir mehmetdemircs@gmail.com
+ * @version 18/08/16 1:30 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
  */
 public class CountAlertsRequest extends AlertsRequest<CountAlertsResponse> {
