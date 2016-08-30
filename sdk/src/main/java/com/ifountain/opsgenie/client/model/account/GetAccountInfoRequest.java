@@ -19,7 +19,4 @@ public class GetAccountInfoRequest extends BaseRequest<GetAccountInfoResponse> {
 	public GetAccountInfoResponse createResponse() {
 		return new GetAccountInfoResponse();
 	}
-
-	
-
 }

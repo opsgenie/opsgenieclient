@@ -9,8 +9,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#updateEscalation(UpdateEscalationRequest)
  */
 public class UpdateEscalationRequest extends AddEscalationRequest {
-	@JsonSerialize(include=Inclusion.ALWAYS)
+    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
+
     /**
      * Rest api uri of updating escalation operation.
      */

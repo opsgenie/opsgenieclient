@@ -7,8 +7,6 @@ package com.ifountain.opsgenie.client.model.schedule;
  */
 public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<ListFlatWhoIsOnCallResponse> {
 
-    private final boolean flat=true;
-
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
@@ -17,7 +15,7 @@ public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<L
         return new ListFlatWhoIsOnCallResponse();
     }
 
-	public boolean isFlat() {
-		return flat;
-	}
+    public boolean isFlat() {
+        return true;
+    }
 }

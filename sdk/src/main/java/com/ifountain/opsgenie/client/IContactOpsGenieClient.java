@@ -76,7 +76,7 @@ public interface IContactOpsGenieClient {
     /**
      * List contact of customer
      *
-     * @param listContactRequest Object to construct request parameters.
+     * @param listContactsRequest Object to construct request parameters.
      * @return <code>ListContactResponse</code> object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.contact.ListContactsRequest
      * @see com.ifountain.opsgenie.client.model.contact.ListContactsResponse

@@ -1,7 +1,5 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import javax.xml.bind.ValidationException;
-
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
@@ -16,17 +14,18 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
     private String alias;
     private String schedule;
-    
+
     /**
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
-     * @throws ValidationException when alias is null!
+     *
+     * @throws OpsGenieClientValidationException when alias is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
-    	super.validate();
-    	if(alias == null)
-    		throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ALIAS);
+        super.validate();
+        if (alias == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ALIAS);
     }
 
     /**
@@ -65,7 +64,7 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
-    
+
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()

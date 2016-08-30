@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model;
 
-import java.util.Map;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import java.util.Map;
 
 /**
  * Base class for container objects which provides http parameters for OpsGenie service calls.
@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @version 5/31/12 2:03 PM
  */
 public abstract class BaseRequestWithHttpParameters<T extends BaseResponse> extends BaseRequest<T> implements Request {
-	@JsonIgnore
+    @JsonIgnore
     private Map<String, Object> httpParameters;
 
     /**

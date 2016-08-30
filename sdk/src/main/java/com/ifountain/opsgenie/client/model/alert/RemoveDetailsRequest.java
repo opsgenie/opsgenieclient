@@ -1,16 +1,16 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import java.util.List;
-
+import com.ifountain.opsgenie.client.util.Strings;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.ifountain.opsgenie.client.util.Strings;
+import java.util.List;
 
 public class RemoveDetailsRequest extends BaseAlertRequestWithSource<RemoveDetailsResponse> {
 
     private List<String> keys;
     private String user;
     private String note;
+
     /**
      * The user who is performing the add note operation.
      */
@@ -42,31 +42,31 @@ public class RemoveDetailsRequest extends BaseAlertRequestWithSource<RemoveDetai
     /**
      * Keys to be deleted in String mode
      */
-	@JsonProperty("keys")
+    @JsonProperty("keys")
     public String getKeysString() {
-	    if(getKeys() != null)
+        if (getKeys() != null)
             return Strings.join(getKeys(), ",");
         return null;
     }
-	
-	public List<String> getKeys() {
-		return keys;
-	}
 
-	public void setKeys(List<String> keys) {
-		this.keys = keys;
-	}
-    
-    
-	@Override
-	public String getEndPoint() {
+    public List<String> getKeys() {
+        return keys;
+    }
+
+    public void setKeys(List<String> keys) {
+        this.keys = keys;
+    }
+
+
+    @Override
+    public String getEndPoint() {
         return "/v1/json/alert/details";
-	}
+    }
 
-	@Override
-	public RemoveDetailsResponse createResponse() {
-		return new RemoveDetailsResponse();
-	}
+    @Override
+    public RemoveDetailsResponse createResponse() {
+        return new RemoveDetailsResponse();
+    }
 
 
 }

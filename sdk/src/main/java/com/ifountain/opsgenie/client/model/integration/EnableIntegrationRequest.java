@@ -11,15 +11,15 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {
     private String name;
     private Boolean enabled = true;
-	private String id;
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 
     /**
@@ -27,10 +27,9 @@ public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationRespo
      */
     @Override
     public String getEndPoint() {
-        if(enabled == null || enabled){
+        if (enabled == null || enabled) {
             return "/v1/json/integration/enable";
-        }
-        else{
+        } else {
             return "/v1/json/integration/disable";
         }
 

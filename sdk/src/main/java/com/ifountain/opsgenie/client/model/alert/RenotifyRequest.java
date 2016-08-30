@@ -1,11 +1,10 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an renotify alert api call.
@@ -29,22 +28,24 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
 
     /**
      * Return recipients
+     *
      * @see RenotifyRecipient
      */
 
-	@JsonProperty("recipients")
+    @JsonProperty("recipients")
     public List<String> getRecipientsName() {
-	    if(recipients != null){
+        if (recipients != null) {
             List<String> recipientNames = new ArrayList<String>();
-            for(RenotifyRecipient recipient:recipients)
+            for (RenotifyRecipient recipient : recipients)
                 recipientNames.add(recipient.getRecipient());
             return recipientNames;
         }
         return null;
     }
-    
+
     /**
      * Return recipients
+     *
      * @see RenotifyRecipient
      */
     public List<RenotifyRecipient> getRecipients() {
@@ -53,6 +54,7 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
 
     /**
      * Recipients list
+     *
      * @see RenotifyRecipient
      */
     public void setRecipients(List<RenotifyRecipient> recipients) {
@@ -87,10 +89,10 @@ public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public RenotifyResponse createResponse() {
         return new RenotifyResponse();
     }

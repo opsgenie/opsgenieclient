@@ -33,6 +33,7 @@ public abstract class AbstractOpsGenieHttpClient {
      * Http client object *
      */
     protected OpsGenieHttpClient httpClient;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Constructs a new inner client to invoke service methods on OpsGenie using the specified client configuration options.
@@ -57,16 +58,15 @@ public abstract class AbstractOpsGenieHttpClient {
         this.httpClient = httpClient;
     }
 
-    public void close(){
+    public void close() {
         this.httpClient.close();
     }
 
     protected BaseResponse doPostRequest(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
         request.validate();
-    	Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-    	ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
         log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers);
@@ -78,7 +78,6 @@ public abstract class AbstractOpsGenieHttpClient {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-    	ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(request);
         log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers, request.getHttpParameters());
@@ -96,9 +95,8 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doDeleteRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
-        	request.validate();
+            request.validate();
             String uri = rootUri + request.getEndPoint();
-        	ObjectMapper mapper = new ObjectMapper();
             Map parameters = mapper.convertValue(request, Map.class);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
@@ -113,7 +111,6 @@ public abstract class AbstractOpsGenieHttpClient {
         try {
             request.validate();
             String uri = rootUri + request.getEndPoint();
-        	ObjectMapper mapper = new ObjectMapper();
             Map parameters = mapper.convertValue(request, Map.class);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
@@ -137,7 +134,7 @@ public abstract class AbstractOpsGenieHttpClient {
         }
     }
 
-    protected BaseResponse populateResponse(BaseRequest request, OpsGenieHttpResponse httpResponse) throws ParseException, IOException{
+    protected BaseResponse populateResponse(BaseRequest request, OpsGenieHttpResponse httpResponse) throws ParseException, IOException {
         return request.createResponse();
     }
 }

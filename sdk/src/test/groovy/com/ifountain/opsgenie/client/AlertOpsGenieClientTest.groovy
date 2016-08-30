@@ -19,7 +19,6 @@ import org.apache.http.HttpStatus
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
-import org.junit.Before
 import org.junit.Test
 
 import java.text.SimpleDateFormat
@@ -32,11 +31,6 @@ import static org.junit.Assert.*
  * Time: 11:09 AM
  */
 class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
-    @Before
-    public void setUp() {
-        super.setUp()
-    }
-
     @Test
     public void testCreateAlertSuccessfully() throws Exception {
 
@@ -461,7 +455,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setUser("someuser")
         request.setNote("comment")
         request.setSource("source1")
-        request.setTags(["tag1","tag2"])
+        request.setTags(["tag1", "tag2"])
         request.setApiKey("customer1")
 
         def response = OpsGenieClientTestCase.opsgenieClient.alert().addTags(request)
@@ -505,7 +499,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setUser("someuser")
         request.setNote("comment")
         request.setSource("source1")
-        request.setTags(["tag1","tag2"])
+        request.setTags(["tag1", "tag2"])
         request.setApiKey("customer1")
 
         def response = OpsGenieClientTestCase.opsgenieClient.alert().removeTags(request)
@@ -548,7 +542,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setSource("source1")
         request.setApiKey("customer1")
         request.setTimeZone(TimeZone.getDefault())
-        request.setEndDate(new Date(System.currentTimeMillis()+100000))
+        request.setEndDate(new Date(System.currentTimeMillis() + 100000))
 
         def response = OpsGenieClientTestCase.opsgenieClient.alert().snooze(request)
         assertTrue(response.isSuccess())
@@ -569,8 +563,8 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertEquals("comment", jsonContent[TestConstants.API.NOTE])
         assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT)
-        sdf.setTimeZone(TimeZone.getDefault()) 
-        assertEquals(sdf.format(new Date(System.currentTimeMillis()+100000)), jsonContent[TestConstants.API.END_DATE])
+        sdf.setTimeZone(TimeZone.getDefault())
+        assertEquals(sdf.format(new Date(System.currentTimeMillis() + 100000)), jsonContent[TestConstants.API.END_DATE])
     }
 
     @Test
@@ -613,11 +607,11 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
 
         Map details = jsonContent[TestConstants.API.DETAILS]
         assertEquals(2, details.keySet().size())
-        assertTrue( details.keySet().contains("key1"));
-        assertTrue( details.keySet().contains("key2"));
+        assertTrue(details.keySet().contains("key1"));
+        assertTrue(details.keySet().contains("key2"));
         assertEquals(2, details.values().size())
-        assertTrue( details.values().contains("value1"));
-        assertTrue( details.values().contains("value2"));
+        assertTrue(details.values().contains("value1"));
+        assertTrue(details.values().contains("value2"));
     }
 
     @Test
@@ -636,7 +630,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setUser("someuser")
         request.setNote("comment")
         request.setSource("source1")
-        request.setKeys(["key1","key2"])
+        request.setKeys(["key1", "key2"])
         request.setApiKey("customer1")
 
         def response = OpsGenieClientTestCase.opsgenieClient.alert().removeDetails(request)
@@ -1185,7 +1179,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
             OpsGenieClientTestCase.opsgenieClient.alert().getAlert(getAlertRequest)
             fail("should throw exception")
         }
-        catch (OpsGenieClientValidationException e){
+        catch (OpsGenieClientValidationException e) {
             assertEquals(4000, e.getCode())
             assertEquals("Missing mandatory property [apiKey]", e.getMessage())
 
@@ -1201,7 +1195,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
             OpsGenieClientTestCase.opsgenieClient.alert().getAlert(getAlertRequest)
             fail("should throw exception")
         }
-        catch (OpsGenieClientValidationException e){
+        catch (OpsGenieClientValidationException e) {
             assertEquals(4000, e.getCode())
             assertEquals("Missing mandatory property [apiKey]", e.getMessage())
         }

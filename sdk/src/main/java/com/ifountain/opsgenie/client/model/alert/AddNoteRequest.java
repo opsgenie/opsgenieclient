@@ -47,10 +47,10 @@ public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> 
         this.user = user;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddNoteResponse createResponse() {
         return new AddNoteResponse();
     }

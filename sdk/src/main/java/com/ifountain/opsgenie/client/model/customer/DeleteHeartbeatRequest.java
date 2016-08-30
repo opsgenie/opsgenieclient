@@ -46,10 +46,10 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse>
         setName(source);
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteHeartbeatResponse createResponse() {
         return new DeleteHeartbeatResponse();
     }

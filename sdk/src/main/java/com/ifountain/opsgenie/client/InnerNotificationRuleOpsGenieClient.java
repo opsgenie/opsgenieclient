@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.notificationRule.*;
+import com.ifountain.opsgenie.client.model.notification_rule.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -20,7 +20,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.AddNotificationRuleRequest)
 	 */
 	@Override
 	public AddNotificationRuleResponse addNotificationRule(AddNotificationRuleRequest addNotificationRuleRequest)
@@ -29,7 +29,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.UpdateNotificationRuleRequest)
 	 */
 	@Override
 	public UpdateNotificationRuleResponse updateNotificationRule(UpdateNotificationRuleRequest updateNotificationRuleRequest)
@@ -38,7 +38,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.DeleteNotificationRuleRequest)
 	 */
 	@Override
 	public DeleteNotificationRuleResponse deleteNotificationRule(DeleteNotificationRuleRequest deleteNotificationRuleRequest)
@@ -47,7 +47,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleRequest)
 	 */
 	@Override
 	public EnableNotificationRuleResponse enableNotificationRule(EnableNotificationRuleRequest enableNotificationRuleRequest)
@@ -65,7 +65,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#getNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#getNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.GetNotificationRuleRequest)
 	 */
 	@Override
 	public GetNotificationRuleResponse getNotificationRule(GetNotificationRuleRequest getNotificationRuleRequest)
@@ -74,7 +74,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.ListNotificationRulesRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.ListNotificationRulesRequest)
 	 */
 	@Override
 	public ListNotificationRulesResponse listNotificationRule(ListNotificationRulesRequest listNotificationRuleRequest)
@@ -84,7 +84,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	
 	
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleStepRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRuleStep(com.ifountain.opsgenie.client.model.notification_rule.AddNotificationRuleStepRequest)
 	 */
 	@Override
 	public AddNotificationRuleStepResponse addNotificationRuleStep(AddNotificationRuleStepRequest addNotificationRuleStepRequest)
@@ -93,7 +93,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRuleStep(com.ifountain.opsgenie.client.model.notification_rule.UpdateNotificationRuleStepRequest)
 	 */
 	@Override
 	public UpdateNotificationRuleStepResponse updateNotificationRuleStep(UpdateNotificationRuleStepRequest updateNotificationRuleStepRequest)
@@ -102,7 +102,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleStepRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRuleStep(com.ifountain.opsgenie.client.model.notification_rule.DeleteNotificationRuleStepRequest)
 	 */
 	@Override
 	public DeleteNotificationRuleStepResponse deleteNotificationRuleStep(DeleteNotificationRuleStepRequest deleteNotificationRuleStepRequest)
@@ -111,7 +111,7 @@ public class InnerNotificationRuleOpsGenieClient implements INotificationRuleOps
 	}
 
 	/**
-	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleStepRequest)
+	 * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRuleStep(com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleStepRequest)
 	 */
 	@Override
 	public EnableNotificationRuleStepResponse enableNotificationRuleStep(EnableNotificationRuleStepRequest enableNotificationRuleStepRequest)

@@ -62,10 +62,10 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddRecipientResponse createResponse() {
         return new AddRecipientResponse();
     }

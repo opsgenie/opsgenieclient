@@ -32,10 +32,10 @@ public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertRe
         this.user = user;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteAlertResponse createResponse() {
         return new DeleteAlertResponse();
     }

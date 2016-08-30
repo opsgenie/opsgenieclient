@@ -10,6 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationResponse> {
     private String id;
     private String name;
+
     /**
      * Rest api uri of deleting escalation operation.
      */

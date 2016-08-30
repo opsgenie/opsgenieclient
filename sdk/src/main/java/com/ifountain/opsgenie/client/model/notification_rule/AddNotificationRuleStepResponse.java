@@ -1,6 +1,5 @@
-package com.ifountain.opsgenie.client.model.contact;
+package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 
 import java.text.ParseException;
@@ -10,9 +9,9 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for add contact request.
  *
- * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#addContact(AddContactRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#addNotificationRuleStep(AddNotificationRuleStepRequest)
  */
-public class AddContactResponse extends BaseResponse {
+public class AddNotificationRuleStepResponse extends BaseResponse {
     private String id;
 
     /**
@@ -23,7 +22,7 @@ public class AddContactResponse extends BaseResponse {
     }
 
     /**
-     * Sets the id of the added contact
+     * Sets the id of the added notificationRuleStep
      */
     public void setId(String id) {
         this.id = id;
@@ -32,7 +31,7 @@ public class AddContactResponse extends BaseResponse {
     @Override
     public void deserialize(Map data) throws ParseException {
         super.deserialize(data);
-        id = (String) data.get(OpsGenieClientConstants.API.ID);
+        id = (String) data.get("id");
     }
 
 }

@@ -2,13 +2,12 @@ package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add forwarding api call.
@@ -125,10 +124,11 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
     public AddForwardingResponse createResponse() {
         return new AddForwardingResponse();
     }
+
     /**
      * End date of the schedule override.
      */
-	@JsonProperty("startDate")
+    @JsonProperty("startDate")
     public String getStartDateString() {
         if (getStartDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
@@ -140,10 +140,11 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
         }
         return null;
     }
+
     /**
      * End date of the schedule override.
      */
-	@JsonProperty("endDate")
+    @JsonProperty("endDate")
     public String getEndDateString() {
         if (getEndDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
@@ -155,14 +156,15 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> {
         }
         return null;
     }
+
     /**
      * Timezone to determine forwarding start and end dates. If not given GMT is used.
      */
-	@JsonProperty("timezone")
+    @JsonProperty("timezone")
     public String getTimeZoneId() {
-    	if(timeZone == null)
-    		return TimeZone.getTimeZone("GMT").getID();
+        if (timeZone == null)
+            return TimeZone.getTimeZone("GMT").getID();
         return timeZone.getID();
     }
-	
+
 }

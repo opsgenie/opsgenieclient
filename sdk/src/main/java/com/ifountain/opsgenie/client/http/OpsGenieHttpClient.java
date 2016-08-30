@@ -57,8 +57,8 @@ public class OpsGenieHttpClient {
         createHttpClient();
     }
 
-    public void close(){
-        if(httpClient != null){
+    public void close() {
+        if (httpClient != null) {
             httpClient.getConnectionManager().shutdown();
             httpClient = null;
         }
@@ -70,7 +70,7 @@ public class OpsGenieHttpClient {
 
     public OpsGenieHttpResponse post(String uri, Map<String, Object> parameters) throws IOException {
         List<NameValuePair> formParams = new ArrayList<NameValuePair>();
-        for(Map.Entry<String, Object> entry:parameters.entrySet()){
+        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
             formParams.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
         }
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
@@ -154,7 +154,7 @@ public class OpsGenieHttpClient {
     public URI prepareGetUri(String uri, Map<String, Object> parameters) throws URISyntaxException {
         URI uriObj = new URI(uri);
         List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(uriObj, null);
-        List<NameValuePair> queryParams = getNameValuePairsFromMap(parameters);
+        List<NameValuePair> queryParams = generateNameValuePairsFrom(parameters);
 
         for (NameValuePair nvp : optionsInQuery) {
             if (!parameters.containsKey(nvp.getName())) {
@@ -172,7 +172,7 @@ public class OpsGenieHttpClient {
     public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
         URI uriObj = new URI(uri);
         List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(uriObj, null);
-        List<NameValuePair> queryParams = getNameValuePairsFromMap(parameters);
+        List<NameValuePair> queryParams = generateNameValuePairsFrom(parameters);
 
         for (NameValuePair nvp : optionsInQuery) {
             if (!parameters.containsKey(nvp.getName())) {
@@ -185,28 +185,29 @@ public class OpsGenieHttpClient {
         return executeHttpMethod(delete);
     }
 
-    private List<NameValuePair> getNameValuePairsFromMap(Map<String, Object> params) {
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-        if(params != null)
-	        for (Map.Entry<String, Object> o : params.entrySet()) {
-	            if (o.getValue() != null) {
-	                if (o.getValue() instanceof Collection) {
-	                    Collection col = (Collection) o.getValue();
-	                    for (Object content : col) {
-	                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
-	                    }
-	                } else if (o.getValue().getClass().isArray()) {
-	                    int length = Array.getLength(o.getValue());
-	                    for (int i = 0; i < length; i++) {
-	                        Object content = Array.get(o.getValue(), i);
-	                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
-	                    }
-	                } else {
-	                    formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(o.getValue())));
-	                }
-	            }
-	        }
-        return formparams;
+    private List<NameValuePair> generateNameValuePairsFrom(Map<String, Object> params) {
+        List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+        if (params != null) {
+            for (Map.Entry<String, Object> o : params.entrySet()) {
+                if (o.getValue() != null) {
+                    if (o.getValue() instanceof Collection) {
+                        Collection col = (Collection) o.getValue();
+                        for (Object content : col) {
+                            formParams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+                        }
+                    } else if (o.getValue().getClass().isArray()) {
+                        int length = Array.getLength(o.getValue());
+                        for (int i = 0; i < length; i++) {
+                            Object content = Array.get(o.getValue(), i);
+                            formParams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+                        }
+                    } else {
+                        formParams.add(new BasicNameValuePair(o.getKey(), String.valueOf(o.getValue())));
+                    }
+                }
+            }
+        }
+        return formParams;
     }
 
     public OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
@@ -246,33 +247,32 @@ public class OpsGenieHttpClient {
             HttpConnectionParams.setSocketBufferSize(httpClientParams, Math.max(socketSendBufferSizeHint, socketReceiveBufferSizeHint));
         }
         ClientConnectionManager connectionManager;
-        if(config.getMaxConnections() > 1){
+        if (config.getMaxConnections() > 1) {
             ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager();
             threadSafeClientConnManager.setDefaultMaxPerRoute(config.getMaxConnections());
             threadSafeClientConnManager.setMaxTotal(config.getMaxConnections());
             connectionManager = threadSafeClientConnManager;
-        }
-        else{
+        } else {
             connectionManager = new SingleClientConnManager();
         }
         httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
-        if(config.getCredentials() != null){
+        if (config.getCredentials() != null) {
             httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY, config.getCredentials());
         }
         try {
             SSLSocketFactory sf = createSocketFactory();
             List<Integer> httpsPorts = config.getHttpsPorts();
-            if(httpsPorts == null){
+            if (httpsPorts == null) {
                 httpsPorts = Arrays.asList(443);
             }
-            for(int httpsPort:httpsPorts){
+            for (int httpsPort : httpsPorts) {
                 httpClient.getConnectionManager().getSchemeRegistry().register(new Scheme("https", httpsPort, sf));
             }
 
         } catch (Exception ignored) {
         }
 
-        if(config.getRetryHandler() != null){
+        if (config.getRetryHandler() != null) {
             httpClient.setHttpRequestRetryHandler(config.getRetryHandler());
         }
         if (config.getClientProxyConfiguration() != null) {
@@ -280,10 +280,9 @@ public class OpsGenieHttpClient {
             int proxyPort = config.getClientProxyConfiguration().getProxyPort();
 
             HttpHost proxyHttpHost;
-            if(config.getClientProxyConfiguration().getProxyProtocol() == null){
+            if (config.getClientProxyConfiguration().getProxyProtocol() == null) {
                 proxyHttpHost = new HttpHost(proxyHost, proxyPort);
-            }
-            else{
+            } else {
                 proxyHttpHost = new HttpHost(proxyHost, proxyPort, config.getClientProxyConfiguration().getProxyProtocol());
             }
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxyHttpHost);
@@ -292,17 +291,16 @@ public class OpsGenieHttpClient {
             String proxyDomain = config.getClientProxyConfiguration().getProxyDomain();
             String proxyWorkstation = config.getClientProxyConfiguration().getProxyWorkstation();
             if ((proxyUsername != null) && (proxyPassword != null)) {
-                if(config.getClientProxyConfiguration().getAuthType() == ClientProxyConfiguration.AuthType.NT){
+                if (config.getClientProxyConfiguration().getAuthType() == ClientProxyConfiguration.AuthType.NT) {
                     httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new NTCredentials(proxyUsername, proxyPassword, proxyWorkstation, proxyDomain));
-                }
-                else if(config.getClientProxyConfiguration().getAuthType() == ClientProxyConfiguration.AuthType.BASIC){
+                } else if (config.getClientProxyConfiguration().getAuthType() == ClientProxyConfiguration.AuthType.BASIC) {
                     httpClient.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, proxyPort), new UsernamePasswordCredentials(proxyUsername, proxyPassword));
                 }
             }
         }
     }
 
-    private SSLSocketFactory createSocketFactory() throws Exception{
+    private SSLSocketFactory createSocketFactory() throws Exception {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         TrustManager tm = new X509TrustManager() {
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -322,11 +320,12 @@ public class OpsGenieHttpClient {
 
     private class OpsgenieHttpClientRetryMechanism {
         HttpRequestBase request;
+
         public OpsgenieHttpClientRetryMechanism(HttpRequestBase request) {
             this.request = request;
         }
 
-        public  OpsGenieHttpResponse execute() throws IOException {
+        public OpsGenieHttpResponse execute() throws IOException {
             int retryCount = 1;
             while (true) {
                 request.reset();
@@ -336,7 +335,7 @@ public class OpsGenieHttpClient {
                         try {
                             OpsGenieHttpResponse response = new OpsGenieHttpResponse();
                             byte[] content;
-                            if(httpResponse.getEntity() != null){
+                            if (httpResponse.getEntity() != null) {
                                 content = EntityUtils.toByteArray(httpResponse.getEntity());
                                 Header contentType = httpResponse.getEntity().getContentType();
                                 String contentTypeStr = contentType != null ? contentType.getValue() : null;
@@ -355,17 +354,15 @@ public class OpsGenieHttpClient {
                         }
                     }
                 });
-                if(config.getRetryHandler() != null && config.getRetryHandler().retryRequest(request, opsGenieHttpResponse, retryCount)){
+                if (config.getRetryHandler() != null && config.getRetryHandler().retryRequest(request, opsGenieHttpResponse, retryCount)) {
                     retryCount++;
-                }
-                else {
+                } else {
                     return opsGenieHttpResponse;
                 }
             }
         }
 
     }
-
 
 
 }

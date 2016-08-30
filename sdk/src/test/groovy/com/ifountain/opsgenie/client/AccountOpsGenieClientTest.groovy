@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals
 class AccountOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 
     @Test
-    public void testGetUserSuccessfullyWithUsername() throws Exception {
+    public void getUserSuccessfullyWithUsername() throws Exception {
         Map jsonContent = new HashMap();
         jsonContent.put("took", 1);
         jsonContent.put(TestConstants.API.USER_COUNT, 1450);

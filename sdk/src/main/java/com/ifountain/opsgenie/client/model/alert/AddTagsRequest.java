@@ -55,10 +55,11 @@ public class AddTagsRequest extends BaseAlertRequestWithSource<AddTagsResponse>{
         this.note = note;
     }
 
-    @Override
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddTagsResponse createResponse() {
         return new AddTagsResponse();
     }

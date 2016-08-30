@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
+
 /**
  * Represents OpsGenie service response for disable contact request.
  *

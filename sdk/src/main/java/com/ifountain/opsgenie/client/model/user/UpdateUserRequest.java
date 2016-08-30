@@ -9,8 +9,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateUser(UpdateUserRequest)
  */
 public class UpdateUserRequest extends AddUserRequest {
-	@JsonSerialize(include=Inclusion.ALWAYS)
+    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
+
     /**
      * Rest api uri of updating user operation.
      */

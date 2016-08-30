@@ -11,6 +11,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  */
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     String name;
+
     /*
     * Name of heartbeat monitor
      */
@@ -19,23 +20,24 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     }
 
     /**
-    * Sets name of heartbeat monitor
+     * Sets name of heartbeat monitor
      **/
     public void setName(String name) {
         this.name = name;
     }
+
     /**
-     * @deprecated
-    * Source of heartbeat monitor
+     * @deprecated Source of heartbeat monitor
      */
+    @Deprecated
     public String getSource() {
         return getName();
     }
 
     /**
-     * @deprecated
-    * Use setName
+     * @deprecated Use setName
      **/
+    @Deprecated
     public void setSource(String source) {
         setName(source);
     }
@@ -48,10 +50,10 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
         return "/v1/json/heartbeat/send";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public HeartbeatResponse createResponse() {
         return new HeartbeatResponse();
     }

@@ -2,13 +2,12 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 /**
- * @author Mehmet Mustafa Demir mehmetdemircs@gmail.com
+ * @author Mehmet Mustafa Demir
  * @version 18/08/16 1:30 PM
  */
 public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<T>{

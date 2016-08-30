@@ -4,13 +4,7 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.beans.Contact
-import com.ifountain.opsgenie.client.model.contact.AddContactRequest
-import com.ifountain.opsgenie.client.model.contact.DeleteContactRequest
-import com.ifountain.opsgenie.client.model.contact.DisableContactRequest
-import com.ifountain.opsgenie.client.model.contact.EnableContactRequest
-import com.ifountain.opsgenie.client.model.contact.GetContactRequest
-import com.ifountain.opsgenie.client.model.contact.ListContactsRequest
-import com.ifountain.opsgenie.client.model.contact.UpdateContactRequest
+import com.ifountain.opsgenie.client.model.contact.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.http.HttpHeaders
@@ -18,7 +12,6 @@ import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.junit.Test
-
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -204,6 +197,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
     }
+
     @Test
     public void testEnableContactWithUserId() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
@@ -254,6 +248,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
     }
+
     @Test
     public void testDisableContactWithUserId() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
@@ -368,7 +363,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
         contact3Content.put(TestConstants.API.ENABLED, false);
 
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content, contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
 
         ListContactsRequest request = new ListContactsRequest();
         request.setApiKey("customer1");
@@ -428,7 +423,7 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         contact3Content.put(TestConstants.API.ID, "d670912e-25fe-4101-9719-0b72898b74e5");
         contact3Content.put(TestConstants.API.ENABLED, false);
 
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content,contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(userContacts: [contact1Content, contact2Content, contact3Content]).getBytes(), 200, "application/json; charset=utf-8"))
 
         ListContactsRequest request = new ListContactsRequest();
         request.setApiKey("customer1");

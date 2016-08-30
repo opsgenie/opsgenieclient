@@ -1,4 +1,4 @@
-package com.ifountain.opsgenie.client.model.notificationRule;
+package com.ifountain.opsgenie.client.model.notification_rule;
 
 /**
  * Represents OpsGenie service response for update notificationRuleStep request.

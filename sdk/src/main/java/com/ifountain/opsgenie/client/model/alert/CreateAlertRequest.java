@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.ifountain.opsgenie.client.model.BaseRequest;
+
 import java.util.List;
 import java.util.Map;
-
-import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make an create alert api call.
@@ -206,10 +206,10 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public CreateAlertResponse createResponse() {
         return new CreateAlertResponse();
     }

@@ -9,8 +9,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(com.ifountain.opsgenie.client.model.group.UpdateGroupRequest)
  */
 public class UpdateGroupRequest extends AddGroupRequest {
-	@JsonSerialize(include=Inclusion.ALWAYS)
+    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
+
     /**
      * Rest api uri of updating group operation.
      */

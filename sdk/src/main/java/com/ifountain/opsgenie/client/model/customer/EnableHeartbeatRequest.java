@@ -52,10 +52,10 @@ public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse>
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public EnableHeartbeatResponse createResponse() {
         return new EnableHeartbeatResponse();
     }

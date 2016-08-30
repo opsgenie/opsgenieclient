@@ -47,10 +47,11 @@ public class AcknowledgeRequest extends BaseAlertRequestWithSource<AcknowledgeRe
         this.note = note;
     }
 
-    @Override
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AcknowledgeResponse createResponse() {
         return new AcknowledgeResponse();
     }

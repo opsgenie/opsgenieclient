@@ -2,14 +2,13 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add schedule api call.
@@ -49,12 +48,12 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     /**
      * Rotations of schedule
      */
-	@JsonProperty("rotations")
+    @JsonProperty("rotations")
     public List<Map> getRotationsMap() {
-        if(rotations != null){
+        if (rotations != null) {
             List<Map> rotationMaps = new ArrayList<Map>();
-            for(ScheduleRotation rotation: rotations){
-                if(rotation.getRotationLength() < 1)
+            for (ScheduleRotation rotation : rotations) {
+                if (rotation.getRotationLength() < 1)
                     rotation.setRotationLength(1);
                 rotation.setScheduleTimeZone(getTimeZone());
                 rotationMaps.add(rotation.toMap());
@@ -63,7 +62,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
         }
         return null;
     }
-    
+
     /**
      * Rotations of schedule
      */
@@ -95,13 +94,13 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
     /**
      * Timezone to determine forwarding start and end dates. If not given GMT is used.
      */
-	@JsonProperty("timezone")
+    @JsonProperty("timezone")
     public String getTimeZoneId() {
-    	if(timeZone == null)
-    		return null;
+        if (timeZone == null)
+            return null;
         return timeZone.getID();
     }
-	
+
     /**
      * Timezone of schedule
      */

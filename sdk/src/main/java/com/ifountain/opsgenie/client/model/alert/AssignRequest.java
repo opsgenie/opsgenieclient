@@ -64,10 +64,10 @@ public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AssignResponse createResponse() {
         return new AssignResponse();
     }

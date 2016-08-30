@@ -7,12 +7,17 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeamMember(DeleteTeamMemberRequest)
  */
-public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberResponse>{
+public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberResponse> {
     private String id;
     private String name;
     private String userId;
     private String username;
-	
+
+    @Override
+    public String getEndPoint() {
+        return "/v1/json/team/member";
+    }
+
     @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
@@ -21,41 +26,36 @@ public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberRespons
         return new DeleteTeamMemberResponse();
     }
 
-	@Override
-	public String getEndPoint() {
-        return "/v1/json/team/member";
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
 }

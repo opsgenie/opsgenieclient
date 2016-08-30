@@ -9,8 +9,8 @@ import java.util.Map;
 /**
  * ScheduleRotationRestriction bean
  */
-public class ScheduleRotationRestriction implements IBean{
-    public enum DAY{
+public class ScheduleRotationRestriction implements IBean {
+    public enum DAY {
         monday,
         tuesday,
         wednesday,
@@ -19,6 +19,7 @@ public class ScheduleRotationRestriction implements IBean{
         saturday,
         sunday
     }
+
     private DAY startDay;
     private int startHour;
     private int startMin;
@@ -117,10 +118,10 @@ public class ScheduleRotationRestriction implements IBean{
     @Override
     public Map toMap() {
         Map<String, Object> json = new HashMap<String, Object>();
-        if(startDay != null)
-        	json.put(OpsGenieClientConstants.API.START_DAY, startDay.name());
-        if(endDay != null)
-        	json.put(OpsGenieClientConstants.API.END_DAY, endDay.name());
+        if (startDay != null)
+            json.put(OpsGenieClientConstants.API.START_DAY, startDay.name());
+        if (endDay != null)
+            json.put(OpsGenieClientConstants.API.END_DAY, endDay.name());
         json.put(OpsGenieClientConstants.API.START_TIME, createTimeStr(startHour, startMin));
         json.put(OpsGenieClientConstants.API.END_TIME, createTimeStr(endHour, endMin));
         return json;
@@ -130,8 +131,8 @@ public class ScheduleRotationRestriction implements IBean{
     public void fromMap(Map map) throws ParseException {
         startDay = DAY.valueOf(((String) map.get(OpsGenieClientConstants.API.START_DAY)).toLowerCase());
         endDay = DAY.valueOf(((String) map.get(OpsGenieClientConstants.API.END_DAY)).toLowerCase());
-        String startTime =  (String) map.get(OpsGenieClientConstants.API.START_TIME);
-        String endTime =  (String) map.get(OpsGenieClientConstants.API.END_TIME);
+        String startTime = (String) map.get(OpsGenieClientConstants.API.START_TIME);
+        String endTime = (String) map.get(OpsGenieClientConstants.API.END_TIME);
         String[] startTimeParts = startTime.split(":", -1);
         String[] endTimeParts = endTime.split(":", -1);
         startHour = Integer.parseInt(startTimeParts[0]);
@@ -140,13 +141,13 @@ public class ScheduleRotationRestriction implements IBean{
         endMin = Integer.parseInt(endTimeParts[1]);
     }
 
-    private String createTimeStr(int hour, int min){
+    private String createTimeStr(int hour, int min) {
         StringBuffer time = new StringBuffer();
-        if(hour < 10){
+        if (hour < 10) {
             time.append("0");
         }
         time.append(hour).append(":");
-        if(min < 10){
+        if (min < 10) {
             time.append("0");
         }
         time.append(min);

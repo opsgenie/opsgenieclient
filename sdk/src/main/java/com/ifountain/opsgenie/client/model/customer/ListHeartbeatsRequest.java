@@ -16,10 +16,10 @@ public class ListHeartbeatsRequest extends BaseRequest<ListHeartbeatsResponse> {
         return "/v1/json/heartbeat";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListHeartbeatsResponse createResponse() {
         return new ListHeartbeatsResponse();
     }

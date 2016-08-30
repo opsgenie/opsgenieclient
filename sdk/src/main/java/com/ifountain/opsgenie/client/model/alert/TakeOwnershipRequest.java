@@ -46,10 +46,11 @@ public class TakeOwnershipRequest extends BaseAlertRequestWithSource<TakeOwnersh
     public void setNote(String note) {
         this.note = note;
     }
-    @Override
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public TakeOwnershipResponse createResponse() {
         return new TakeOwnershipResponse();
     }

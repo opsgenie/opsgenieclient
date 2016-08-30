@@ -1,9 +1,9 @@
-package com.ifountain.opsgenie.client.model.notificationRule;
+package com.ifountain.opsgenie.client.model.notification_rule;
+
+import com.ifountain.opsgenie.client.model.BaseResponse;
 
 import java.text.ParseException;
 import java.util.Map;
-
-import com.ifountain.opsgenie.client.model.BaseResponse;
 
 
 /**

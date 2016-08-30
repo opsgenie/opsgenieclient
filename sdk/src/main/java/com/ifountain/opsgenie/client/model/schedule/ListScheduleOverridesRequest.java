@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @version 12/3/2014 10:42 AM
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listScheduleOverrides(ListScheduleOverridesRequest)
  */
-public class ListScheduleOverridesRequest extends BaseRequest<ListScheduleOverridesResponse>{
+public class ListScheduleOverridesRequest extends BaseRequest<ListScheduleOverridesResponse> {
     private String schedule;
 
     /**

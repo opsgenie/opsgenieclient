@@ -1,15 +1,14 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.model.BaseRequest;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make an add schedule override api call.
@@ -94,11 +93,11 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     public void setUser(String user) {
         this.user = user;
     }
-    
+
     /**
      * End date of the schedule override.
      */
-	@JsonProperty("startDate")
+    @JsonProperty("startDate")
     public String getStartDateString() {
         if (getStartDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
@@ -110,7 +109,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
         }
         return null;
     }
-	
+
 
     /**
      * Start date of the schedule override.
@@ -129,7 +128,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     /**
      * End date of the schedule override.
      */
-	@JsonProperty("endDate")
+    @JsonProperty("endDate")
     public String getEndDateString() {
         if (getEndDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
@@ -141,7 +140,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
         }
         return null;
     }
-    
+
     /**
      * End date of the schedule override.
      */
@@ -159,12 +158,13 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     /**
      * Timezone to determine forwarding start and end dates. If not given GMT is used.
      */
-	@JsonProperty("timezone")
+    @JsonProperty("timezone")
     public String getTimeZoneId() {
-    	if(timeZone == null)
-    		return TimeZone.getTimeZone("GMT").getID();
+        if (timeZone == null)
+            return TimeZone.getTimeZone("GMT").getID();
         return timeZone.getID();
     }
+
     /**
      * Timezone to determine forwarding start and end dates. If not given GMT is used.
      */

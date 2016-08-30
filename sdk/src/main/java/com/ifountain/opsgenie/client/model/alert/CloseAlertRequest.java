@@ -47,10 +47,10 @@ public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResp
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public CloseAlertResponse createResponse() {
         return new CloseAlertResponse();
     }

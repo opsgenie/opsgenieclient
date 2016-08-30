@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.notificationRule.*;
+import com.ifountain.opsgenie.client.model.notification_rule.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -17,8 +17,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param addNotificationRuleRequest Object to construct request parameters.
      * @return <code>AddNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.AddNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.AddNotificationRuleResponse
      */
     public AddNotificationRuleResponse addNotificationRule(AddNotificationRuleRequest addNotificationRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -27,8 +27,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param updateNotificationRuleRequest Object to construct request parameters.
      * @return <code>UpdateNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.UpdateNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.UpdateNotificationRuleResponse
      */
     public UpdateNotificationRuleResponse updateNotificationRule(UpdateNotificationRuleRequest updateNotificationRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -37,8 +37,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param deleteNotificationRuleRequest Object to construct request parameters.
      * @return <code>DeleteNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DeleteNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DeleteNotificationRuleResponse
      */
     public DeleteNotificationRuleResponse deleteNotificationRule(DeleteNotificationRuleRequest deleteNotificationRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -47,8 +47,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param enableNotificationRuleRequest  Object to construct request parameters.
      * @return <code>EnableNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleResponse
      */
     public EnableNotificationRuleResponse enableNotificationRule(EnableNotificationRuleRequest enableNotificationRuleRequest) throws ParseException, OpsGenieClientException, IOException;
   
@@ -57,8 +57,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param disableNotificationRuleRequest  Object to construct request parameters.
      * @return <code>DisableNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DisableNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DisableNotificationRuleResponse
      */
     public DisableNotificationRuleResponse disableNotificationRule(DisableNotificationRuleRequest disableNotificationRuleRequest) throws ParseException, OpsGenieClientException, IOException;
   
@@ -68,8 +68,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param changeNotificationRuleOrderRequest Object to construct request parameters.
      * @return <code>ChangeNotificationRuleOrderResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleOrderRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.ChangeNotificationRuleOrderResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.ChangeNotificationRuleOrderRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.ChangeNotificationRuleOrderResponse
      */
     public ChangeNotificationRuleOrderResponse changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest changeNotificationRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
     
@@ -78,8 +78,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param repeatNotificationRuleRequest Object to construct request parameters.
      * @return <code>RepeatNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.RepeatNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.RepeatNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.RepeatNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.RepeatNotificationRuleResponse
      */
     public RepeatNotificationRuleResponse repeatNotificationRule(RepeatNotificationRuleRequest repeatNotificationRuleRequest) throws IOException, OpsGenieClientException, ParseException;
     /**
@@ -87,8 +87,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param getNotificationRuleRequest Object to construct request parameters.
      * @return <code>GetNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.GetNotificationRuleResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.GetNotificationRuleRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.GetNotificationRuleResponse
      */
     public GetNotificationRuleResponse getNotificationRule(GetNotificationRuleRequest getNotificationRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -97,8 +97,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param listNotificationRuleRequest Object to construct request parameters.
      * @return <code>ListNotificationRuleResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.ListNotificationRulesRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.ListNotificationRulesResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.ListNotificationRulesRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.ListNotificationRulesResponse
      */
     public ListNotificationRulesResponse listNotificationRule(ListNotificationRulesRequest listNotificationRulesRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -108,8 +108,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param addNotificationRuleStepRequest Object to construct request parameters.
      * @return <code>AddNotificationRuleStepResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleStepRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.AddNotificationRuleStepResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.AddNotificationRuleStepRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.AddNotificationRuleStepResponse
      */
     public AddNotificationRuleStepResponse addNotificationRuleStep(AddNotificationRuleStepRequest addNotificationRuleStepRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -118,8 +118,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param updateNotificationRuleStepRequest Object to construct request parameters.
      * @return <code>UpdateNotificationRuleStepResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.UpdateNotificationRuleStepResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.UpdateNotificationRuleStepRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.UpdateNotificationRuleStepResponse
      */
     public UpdateNotificationRuleStepResponse updateNotificationRuleStep(UpdateNotificationRuleStepRequest updateNotificationRuleStepRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -128,8 +128,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param deleteNotificationRuleStepRequest Object to construct request parameters.
      * @return <code>DeleteNotificationRuleStepResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleStepRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DeleteNotificationRuleStepResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DeleteNotificationRuleStepRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DeleteNotificationRuleStepResponse
      */
     public DeleteNotificationRuleStepResponse deleteNotificationRuleStep(DeleteNotificationRuleStepRequest deleteNotificationRuleStepRequest) throws IOException, OpsGenieClientException, ParseException;
 
@@ -138,8 +138,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param enableNotificationRuleStepRequest  Object to construct request parameters.
      * @return <code>EnableNotificationRuleStepResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleStepRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.EnableNotificationRuleStepResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleStepRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleStepResponse
      */
     public EnableNotificationRuleStepResponse enableNotificationRuleStep(EnableNotificationRuleStepRequest enableNotificationRuleStepRequest) throws ParseException, OpsGenieClientException, IOException;
 
@@ -148,8 +148,8 @@ public interface INotificationRuleOpsGenieClient {
      *
      * @param disableNotificationRuleStepRequest  Object to construct request parameters.
      * @return <code>DisableNotificationRuleStepResponse</code> object containing OpsGenie response information.
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleStepRequest
-     * @see com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleStepResponse
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DisableNotificationRuleStepRequest
+     * @see com.ifountain.opsgenie.client.model.notification_rule.DisableNotificationRuleStepResponse
      */
     public DisableNotificationRuleStepResponse disableNotificationRuleStep(DisableNotificationRuleStepRequest disableNotificationRuleStepRequest) throws ParseException, OpsGenieClientException, IOException;
 

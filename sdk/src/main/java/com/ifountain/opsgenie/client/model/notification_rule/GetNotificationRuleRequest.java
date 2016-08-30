@@ -1,13 +1,10 @@
-package com.ifountain.opsgenie.client.model.notificationRule;
-
-import javax.xml.bind.ValidationException;
+package com.ifountain.opsgenie.client.model.notification_rule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.BaseRequest;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
-import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get notificationRule api call.
  *

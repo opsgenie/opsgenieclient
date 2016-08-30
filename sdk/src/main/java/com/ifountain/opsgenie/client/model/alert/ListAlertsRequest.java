@@ -13,11 +13,12 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(com.ifountain.opsgenie.client.model.alert.ListAlertsRequest)
  */
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
-    public enum SortBy{
+    public enum SortBy {
         createdAt,
         updatedAt
     }
-    public enum SortOrder{
+
+    public enum SortOrder {
         asc,
         desc
     }
@@ -33,12 +34,14 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     public String getEndPoint() {
         return "/v1/json/alert";
     }
-	@JsonProperty("sortBy")
+
+    @JsonProperty("sortBy")
     public String getSortByName() {
-    	if(sortBy != null)
-    		return sortBy.name();
-    	return null;
+        if (sortBy != null)
+            return sortBy.name();
+        return null;
     }
+
     public SortBy getSortBy() {
         return sortBy;
     }
@@ -47,13 +50,13 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
         this.sortBy = sortBy;
     }
 
-	@JsonProperty("order")
+    @JsonProperty("order")
     public String getSortOrderName() {
-    	if(sortOrder != null)
-    		return sortOrder.name();
-    	return null;
+        if (sortOrder != null)
+            return sortOrder.name();
+        return null;
     }
-    
+
     public SortOrder getSortOrder() {
         return sortOrder;
     }
@@ -62,10 +65,10 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
         this.sortOrder = sortOrder;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListAlertsResponse createResponse() {
         return new ListAlertsResponse();
     }

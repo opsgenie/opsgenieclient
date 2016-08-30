@@ -1,4 +1,4 @@
-package com.ifountain.opsgenie.client.model.notificationRule;
+package com.ifountain.opsgenie.client.model.notification_rule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 /**

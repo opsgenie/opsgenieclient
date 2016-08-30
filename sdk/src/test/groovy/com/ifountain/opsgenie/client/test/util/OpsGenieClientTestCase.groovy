@@ -22,7 +22,7 @@ import static org.junit.Assert.fail
  * Date: 5/31/12
  * Time: 11:09 AM
  */
-public class OpsGenieClientTestCase  implements HttpTestRequestListener {
+public class OpsGenieClientTestCase implements HttpTestRequestListener {
     static host = "localhost"
     static port = 9998;
     static httpServer = new HttpTestServer(host, port)
@@ -55,13 +55,11 @@ public class OpsGenieClientTestCase  implements HttpTestRequestListener {
         try {
             client."${methodName}"(request)
             fail("should throw exception")
-        }
-        catch (OpsGenieClientValidationException e){
+        } catch (OpsGenieClientValidationException e) {
             assertEquals(4000, e.getCode())
             assertEquals("Missing mandatory property [apiKey]", e.getMessage())
 
-        }
-        catch (OpsGenieClientException e) {
+        } catch (OpsGenieClientException e) {
             assertEquals(2, e.getCode())
             assertEquals("Could not authenticate.", e.getMessage())
         }
@@ -71,11 +69,9 @@ public class OpsGenieClientTestCase  implements HttpTestRequestListener {
         try {
             client."${methodName}"(request)
             fail("should throw exception")
-        }
-        catch (OpsGenieClientValidationException e) {
+        } catch (OpsGenieClientValidationException e) {
             assertEquals("Missing mandatory property [apiKey]", e.getMessage())
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             assertEquals("No handler found.", e.getMessage())
         }
     }

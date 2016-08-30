@@ -1,12 +1,13 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
 /**
+ * TODO: Use Jackson
  * Account bean
  */
 public class Account implements IBean {

@@ -2,10 +2,9 @@ package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.util.Strings;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add group api call.
@@ -57,13 +56,13 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
     /**
      * Users to be added in String mode
      */
-	@JsonProperty("users")
+    @JsonProperty("users")
     public String getUsersString() {
-	    if(getUsers() != null)
+        if (getUsers() != null)
             return Strings.join(getUsers(), ",");
         return null;
     }
-    
+
     /**
      * Users to be added
      */

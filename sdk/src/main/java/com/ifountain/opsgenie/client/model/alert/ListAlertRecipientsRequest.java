@@ -31,10 +31,11 @@ public class ListAlertRecipientsRequest extends BaseAlertRequestWithId<ListAlert
     	super.validate();
     }
 
-    @Override
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListAlertRecipientsResponse createResponse() {
         return new ListAlertRecipientsResponse();
     }

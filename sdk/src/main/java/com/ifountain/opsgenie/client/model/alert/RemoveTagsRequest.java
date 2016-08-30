@@ -60,10 +60,10 @@ public class RemoveTagsRequest extends BaseAlertRequestWithSource<RemoveTagsResp
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public RemoveTagsResponse createResponse() {
         return new RemoveTagsResponse();
     }

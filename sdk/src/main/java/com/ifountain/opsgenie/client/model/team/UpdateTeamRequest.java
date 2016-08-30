@@ -11,7 +11,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#updateTeam(UpdateTeamRequest)
  */
 public class UpdateTeamRequest extends AddTeamRequest {
-	@JsonSerialize(include=Inclusion.ALWAYS)
+    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
 
     /**

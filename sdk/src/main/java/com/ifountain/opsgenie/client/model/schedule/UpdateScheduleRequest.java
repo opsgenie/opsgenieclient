@@ -9,8 +9,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateSchedule(UpdateScheduleRequest)
  */
 public class UpdateScheduleRequest extends AddScheduleRequest {
-	@JsonSerialize(include=Inclusion.ALWAYS)
+    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
+
     /**
      * Rest api uri of updating schedule operation.
      */

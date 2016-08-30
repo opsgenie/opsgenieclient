@@ -1,10 +1,10 @@
-package com.ifountain.opsgenie.client.model.notificationRule;
+package com.ifountain.opsgenie.client.model.notification_rule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make an disable notificationRule api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRule(com.ifountain.opsgenie.client.model.notificationRule.DisableNotificationRuleRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.DisableNotificationRuleRequest)
  */
 public class DisableNotificationRuleRequest extends BaseRequest<DisableNotificationRuleResponse> {
 	private String username;

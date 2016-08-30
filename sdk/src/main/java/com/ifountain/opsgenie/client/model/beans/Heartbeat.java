@@ -2,17 +2,20 @@ package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Heartbeat bean
  */
-public class Heartbeat implements IBean{
+public class Heartbeat implements IBean {
     public static enum IntervalUnit {
         minutes,
         hours,
         days
     }
+
     private String name;
     private Date lastHeartbeat;
     private Boolean expired;
@@ -51,17 +54,17 @@ public class Heartbeat implements IBean{
     }
 
     /**
-     * @deprecated
-    * User getName
-    **/
+     * @deprecated User getName
+     **/
+    @Deprecated
     public String getSource() {
         return getName();
     }
 
     /**
-     * @deprecated
-    * Use setName
+     * @deprecated Use setName
      **/
+    @Deprecated
     public void setSource(String source) {
         setName(source);
     }
@@ -151,7 +154,6 @@ public class Heartbeat implements IBean{
     }
 
 
-
     @Override
     public Map toMap() {
         Map json = new HashMap();
@@ -162,22 +164,24 @@ public class Heartbeat implements IBean{
         json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
         json.put(OpsGenieClientConstants.API.STATUS, status);
         json.put(OpsGenieClientConstants.API.INTERVAL, interval);
-        json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit != null? intervalUnit.name():null);
+        json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit != null ? intervalUnit.name() : null);
         return json;
     }
 
     @Override
     public void fromMap(Map resp) {
         setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        if(resp.containsKey(OpsGenieClientConstants.API.LAST_HEARTBEAT))
-        	setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
+        if (resp.containsKey(OpsGenieClientConstants.API.LAST_HEARTBEAT)) {
+            setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
+        }
         setEnabled((Boolean) resp.get(OpsGenieClientConstants.API.ENABLED));
         setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
         setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
         setExpired("Expired".equals(getStatus()));
-        if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL))
-        	setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
-        if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL_UNIT)){
+        if (resp.containsKey(OpsGenieClientConstants.API.INTERVAL)) {
+            setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
+        }
+        if (resp.containsKey(OpsGenieClientConstants.API.INTERVAL_UNIT)) {
             setIntervalUnit(IntervalUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.INTERVAL_UNIT)));
         }
     }

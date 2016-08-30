@@ -24,16 +24,18 @@ public class GetAlertRequest extends BaseAlertRequestWithId<GetAlertResponse> {
     	if(!(this.getId() != null
             || this.getAlertId() != null
             || this.getAlias() != null
-    		|| this.getTinyId() != null) )
-        throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
-        		OpsGenieClientConstants.API.ALERT_ID,OpsGenieClientConstants.API.ALIAS,OpsGenieClientConstants.API.TINY_ID);
-    	super.validate();
+                || this.getTinyId() != null)) {
+
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
+                    OpsGenieClientConstants.API.ALERT_ID, OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.TINY_ID);
+        }
+        super.validate();
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetAlertResponse createResponse() {
         return new GetAlertResponse();
     }

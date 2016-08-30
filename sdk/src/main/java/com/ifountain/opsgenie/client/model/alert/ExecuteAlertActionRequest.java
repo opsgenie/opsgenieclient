@@ -63,10 +63,10 @@ public class ExecuteAlertActionRequest extends BaseAlertRequestWithSource<Execut
         this.note = note;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ExecuteAlertActionResponse createResponse() {
         return new ExecuteAlertActionResponse();
     }

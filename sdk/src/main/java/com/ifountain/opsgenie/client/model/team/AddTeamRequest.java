@@ -2,12 +2,11 @@ package com.ifountain.opsgenie.client.model.team;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Team;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add team api call.
@@ -16,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @version 12/3/2014 11:59 AM
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
-public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
+public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
     private String name;
     private List<Team.TeamMember> members;
 
@@ -46,17 +45,17 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
     /**
      * Map Members of team
      */
-	@JsonProperty("members")
+    @JsonProperty("members")
     public List<Map> getMembersMap() {
-        if(getMembers() != null){
+        if (getMembers() != null) {
             List<Map> memberMaps = new ArrayList<Map>();
-            for(Team.TeamMember member:getMembers())
+            for (Team.TeamMember member : getMembers())
                 memberMaps.add(member.toMap());
             return memberMaps;
         }
         return null;
     }
-    
+
     /**
      * Members of team
      */
