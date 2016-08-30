@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make an enable notificationRuleStep api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#enableNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRuleStep.EnableNotificationRuleStepRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRuleStep(EnableNotificationRuleStepRequest)
  */
 public class EnableNotificationRuleStepRequest extends BaseRequest<EnableNotificationRuleStepResponse> {
 	private String username;
@@ -22,10 +22,10 @@ public class EnableNotificationRuleStepRequest extends BaseRequest<EnableNotific
 	}
 
 
-	@Override
 	/**
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
 	 */
+	@Override
 	public EnableNotificationRuleStepResponse createResponse() {
 		return new EnableNotificationRuleStepResponse();
 	}

@@ -3,8 +3,6 @@ package com.ifountain.opsgenie.client.model.notification_rule;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 /**
  * Container for the parameters to make a get notificationRule api call.
  *
@@ -13,7 +11,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 public class GetNotificationRuleRequest extends BaseRequest<GetNotificationRuleResponse> {
 	private String username;
 	private String userId;
-	@JsonSerialize(include=Inclusion.ALWAYS)
 	private String id;
     /**
      * Rest api uri of getting notificationRule operation.

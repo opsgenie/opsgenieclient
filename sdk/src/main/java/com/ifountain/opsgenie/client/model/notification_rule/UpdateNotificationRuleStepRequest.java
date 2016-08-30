@@ -1,15 +1,14 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 /**
  * Container for the parameters to make an update notificationRuleStep api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#updateNotificationRuleStep(UpdateNotificationRuleStepRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRuleStep(UpdateNotificationRuleStepRequest)
  */
 public class UpdateNotificationRuleStepRequest extends AddNotificationRuleStepRequest {
-    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
 
     /**
@@ -19,11 +18,21 @@ public class UpdateNotificationRuleStepRequest extends AddNotificationRuleStepRe
     public String getEndPoint() {
         return "/v1/json/user/notificationRule/step";
     }
-
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
     @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+    }
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateNotificationRuleStepResponse createResponse() {
         return new UpdateNotificationRuleStepResponse();
     }

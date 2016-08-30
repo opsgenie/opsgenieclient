@@ -4,7 +4,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a delete notificationRuleStep api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#deleteNotificationRuleStep(DeleteNotificationRuleStepRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRuleStep(DeleteNotificationRuleStepRequest)
  */
 public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotificationRuleStepResponse> {
 	private String username;
@@ -19,10 +19,10 @@ public class DeleteNotificationRuleStepRequest extends BaseRequest<DeleteNotific
 		return "/v1/json/user/notificationRule/step";
 	}
 
-	@Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+	@Override
 	public DeleteNotificationRuleStepResponse createResponse() {
 		return new DeleteNotificationRuleStepResponse();
 	}

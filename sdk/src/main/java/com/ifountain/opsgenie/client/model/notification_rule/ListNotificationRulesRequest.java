@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list notificationRules api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRules(ListNotificationRulesRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRule(ListNotificationRulesRequest)
  */
 public class ListNotificationRulesRequest extends BaseRequest<ListNotificationRulesResponse> {
     private String username;
@@ -19,10 +19,10 @@ public class ListNotificationRulesRequest extends BaseRequest<ListNotificationRu
         return "/v1/json/user/notificationRule";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListNotificationRulesResponse createResponse() {
         return new ListNotificationRulesResponse();
     }

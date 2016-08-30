@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
@@ -7,8 +9,6 @@ import com.ifountain.opsgenie.client.model.beans.NotificationRule.NotifyBefore;
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleConditions;
 import com.ifountain.opsgenie.client.model.beans.NotificationRuleRestriction;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ import java.util.Map;
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRule(UpdateNotificationRuleRequest)
  */
 public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificationRuleResponse> {
-    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
     private String username;
     private String userId;
@@ -37,6 +36,18 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
      */
     public String getEndPoint() {
         return "/v1/json/user/notificationRule";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**

@@ -18,10 +18,10 @@ public class DisableNotificationRuleRequest extends BaseRequest<DisableNotificat
            return "/v1/json/user/notificationRule/disable";
 	}
 
-	@Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+	@Override
 	public DisableNotificationRuleResponse createResponse() {
 		return new DisableNotificationRuleResponse();
 	}

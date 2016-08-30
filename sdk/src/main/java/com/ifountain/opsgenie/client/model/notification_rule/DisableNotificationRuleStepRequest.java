@@ -6,7 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * Container for the parameters to make an enable/disable notificationRuleStep
  * api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#enableNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRuleStep.DisableNotificationRuleStepRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRuleStep(DisableNotificationRuleStepRequest)
  */
 public class DisableNotificationRuleStepRequest extends BaseRequest<DisableNotificationRuleStepResponse> {
 	private String username;
@@ -22,10 +22,10 @@ public class DisableNotificationRuleStepRequest extends BaseRequest<DisableNotif
 		return "/v1/json/user/notificationRule/step/disable";
 	}
 
-	@Override
 	/**
 	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
 	 */
+	@Override
 	public DisableNotificationRuleStepResponse createResponse() {
 		return new DisableNotificationRuleStepResponse();
 	}

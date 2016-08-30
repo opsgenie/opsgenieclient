@@ -18,10 +18,10 @@ public class DeleteNotificationRuleRequest extends BaseRequest<DeleteNotificatio
 		return "/v1/json/user/notificationRule";
 	}
 
-	@Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+	@Override
 	public DeleteNotificationRuleResponse createResponse() {
 		return new DeleteNotificationRuleResponse();
 	}

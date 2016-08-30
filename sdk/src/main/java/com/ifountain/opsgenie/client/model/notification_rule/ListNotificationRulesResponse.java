@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Represents OpsGenie service response for list notificationRule request.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRules(ListNotificationRulesRequest)
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRule(ListNotificationRulesRequest)
  */
 public class ListNotificationRulesResponse extends BaseResponse {
     private List<NotificationRule> notificationRules;

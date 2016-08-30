@@ -22,10 +22,10 @@ public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificatio
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public EnableNotificationRuleResponse createResponse() {
         return new EnableNotificationRuleResponse();
     }
