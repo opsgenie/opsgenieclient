@@ -2,12 +2,12 @@ package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Heartbeat;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
  *
- * @see com.ifountain.opsgenie.client.IOpsGenieClient#addHeartbeat(com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IOpsGenieClient#addHeartbeat(AddHeartbeatRequest)
  */
 public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
     private String name;
@@ -64,16 +64,6 @@ public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {
      */
     public void setInterval(Integer interval) {
         this.interval = interval;
-    }
-
-    /**
-     * Return interval unit of heartbeat in string type monitor
-     */
-    @JsonProperty("intervalUnit")
-    public String getStringIntervalUnit() {
-        if (intervalUnit != null)
-            return intervalUnit.name();
-        return null;
     }
 
     /**

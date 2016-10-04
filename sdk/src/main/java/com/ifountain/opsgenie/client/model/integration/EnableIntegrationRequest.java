@@ -2,10 +2,10 @@ package com.ifountain.opsgenie.client.model.integration;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-
 /**
  * Container for the parameters to make an enable/disable integration api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#enableIntegration(com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest)
  */
 public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {
@@ -20,7 +20,6 @@ public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationRespo
     public void setId(String id) {
         this.id = id;
     }
-
 
     /**
      * Rest api uri of enable/disable integration operation.

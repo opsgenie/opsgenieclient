@@ -7,8 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get schedule override api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 10:42 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(GetScheduleOverrideRequest)
  */
 public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
@@ -17,7 +16,6 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
 
     /**
      * check the parameters for validation.
-     * It will be overridden by necessary Requests.
      *
      * @throws OpsGenieClientValidationException when alias is null!
      */
@@ -65,10 +63,10 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
         this.schedule = schedule;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetScheduleOverrideResponse createResponse() {
         return new GetScheduleOverrideResponse();
     }

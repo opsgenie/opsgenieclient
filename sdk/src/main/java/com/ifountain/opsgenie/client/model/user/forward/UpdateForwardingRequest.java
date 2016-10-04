@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make an update forwarding api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends AddForwardingRequest {

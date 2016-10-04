@@ -1,16 +1,11 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-
-import java.text.ParseException;
-import java.util.Map;
 
 /**
  * Represents OpsGenie service response for a create alert request.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/30/12 9:41 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
 public class CreateAlertResponse extends BaseResponse {
@@ -44,18 +39,4 @@ public class CreateAlertResponse extends BaseResponse {
         this.id = id;
     }
 
-    @Override
-    /**
-     * @see BaseResponse#deserialize(java.util.Map)
-     */
-    public void deserialize(Map data) throws ParseException {
-        super.deserialize(data);
-        if(data.containsKey(OpsGenieClientConstants.API.ALERT_ID)){
-            setAlertId((String) data.get(OpsGenieClientConstants.API.ALERT_ID));
-        }
-        if(data.containsKey(OpsGenieClientConstants.API.ID)){
-            setId((String) data.get(OpsGenieClientConstants.API.ID));
-        }
-
-    }
 }

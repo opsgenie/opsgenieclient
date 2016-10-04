@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list forwarding api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
  */
 public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse> {
@@ -19,8 +20,8 @@ public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse>
     }
 
     /**
-     * Username of user who forwarding is created for.
-     * If not specified all forwardings belongs to customer will be returned
+     * Username of user who forwarding is created for. If not specified all
+     * forwardings belongs to customer will be returned
      */
     public String getUser() {
         return user;

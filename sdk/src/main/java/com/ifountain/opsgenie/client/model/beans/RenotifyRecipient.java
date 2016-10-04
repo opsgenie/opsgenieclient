@@ -3,13 +3,13 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * RenotifyRecipient bean
  */
-public class RenotifyRecipient implements IBean{
+@Deprecated
+public class RenotifyRecipient extends Bean {
     public enum Type{
         user,
         group
@@ -38,17 +38,6 @@ public class RenotifyRecipient implements IBean{
      */
     public Type getType() {
         return type;
-    }
-
-
-    @Override
-    public Map toMap() {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.RECIPIENT, recipient);
-        if(type != null){
-            json.put(OpsGenieClientConstants.API.TYPE, type.name());
-        }
-        return json;
     }
 
     @Override

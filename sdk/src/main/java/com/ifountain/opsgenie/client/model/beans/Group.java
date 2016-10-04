@@ -1,16 +1,11 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
-import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Group bean
  */
-public class Group  implements IBean{
+public class Group extends Bean {
     private String id;
     private String name;
     private List<String> users;
@@ -57,21 +52,4 @@ public class Group  implements IBean{
         this.users = users;
     }
 
-    @Override
-    public Map toMap() {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.NAME, name);
-        json.put(OpsGenieClientConstants.API.ID, id);
-        if(users != null){
-            json.put(OpsGenieClientConstants.API.USERS, users);
-        }
-        return json;
-    }
-
-    @Override
-    public void fromMap(Map resp) throws ParseException {
-        setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        setUsers((List<String>) resp.get(OpsGenieClientConstants.API.USERS));
-    }
 }

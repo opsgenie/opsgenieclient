@@ -3,13 +3,10 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make a close alert api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 2:05 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#closeAlert(CloseAlertRequest)
  */
-public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResponse> {
-    private String user;
-    private String note;
+public class CloseAlertRequest extends AddNoteRequest {
 
     /**
      * Rest api uri of close alert operation.
@@ -17,34 +14,6 @@ public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResp
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/close";
-    }
-
-    /**
-     * The user who is performing the close alert operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the close alert operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
     }
 
     /**

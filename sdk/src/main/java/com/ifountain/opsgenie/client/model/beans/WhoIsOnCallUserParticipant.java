@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * Schedule bean
  */
+@Deprecated
 public class WhoIsOnCallUserParticipant extends WhoIsOnCallScheduleParticipant{
     private Boolean forwarded;
     private WhoIsOnCallUserParticipant forwardedFrom;

@@ -586,7 +586,6 @@ public class ScriptProxy {
         User user = new User();
         user.fromMap(params);
         request.setId(user.getId());
-        request.setUsername(user.getUsername());
         request.setFullname(user.getFullname());
         request.setRole(user.getRole());
         request.setTimeZone(user.getTimeZone());

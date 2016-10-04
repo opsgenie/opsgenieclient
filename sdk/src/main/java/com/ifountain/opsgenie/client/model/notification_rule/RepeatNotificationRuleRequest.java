@@ -1,15 +1,14 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
 
 /**
  * Container for the parameters to repeat notificationRule api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#repeatNotificationRule(RepeatNotificationRuleRequest)
  */
-public class RepeatNotificationRuleRequest extends BaseRequest<RepeatNotificationRuleResponse> {
-    private String username;
-    private String userId;
+public class RepeatNotificationRuleRequest extends BaseUserComponentRequest<RepeatNotificationRuleResponse> {
     private String id;
     private Boolean enabled;
     private Integer loopAfter;
@@ -28,34 +27,6 @@ public class RepeatNotificationRuleRequest extends BaseRequest<RepeatNotificatio
     @Override
     public RepeatNotificationRuleResponse createResponse() {
         return new RepeatNotificationRuleResponse();
-    }
-
-    /**
-     * username of notificationRule to be deleted.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets username of notificationRule to be deleted.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userId of notificationRule to be deleted.
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userId of notificationRule to be deleted.
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     /**
@@ -87,6 +58,5 @@ public class RepeatNotificationRuleRequest extends BaseRequest<RepeatNotificatio
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-
 
 }

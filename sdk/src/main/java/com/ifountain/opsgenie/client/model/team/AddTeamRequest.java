@@ -1,24 +1,20 @@
 package com.ifountain.opsgenie.client.model.team;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.Team;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.ifountain.opsgenie.client.model.beans.Team.TeamMember;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an add team api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 11:59 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
 public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
     private String name;
-    private List<Team.TeamMember> members;
-
+    private String description;
+    private List<TeamMember> members;
 
     /**
      * Rest api uri of addding team operation.
@@ -43,30 +39,16 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
     }
 
     /**
-     * Map Members of team
-     */
-    @JsonProperty("members")
-    public List<Map> getMembersMap() {
-        if (getMembers() != null) {
-            List<Map> memberMaps = new ArrayList<Map>();
-            for (Team.TeamMember member : getMembers())
-                memberMaps.add(member.toMap());
-            return memberMaps;
-        }
-        return null;
-    }
-
-    /**
      * Members of team
      */
-    public List<Team.TeamMember> getMembers() {
+    public List<TeamMember> getMembers() {
         return members;
     }
 
     /**
      * Sets the members of team.
      */
-    public void setMembers(List<Team.TeamMember> members) {
+    public void setMembers(List<TeamMember> members) {
         this.members = members;
     }
 
@@ -76,5 +58,13 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
     @Override
     public AddTeamResponse createResponse() {
         return new AddTeamResponse();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

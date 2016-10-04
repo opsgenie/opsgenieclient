@@ -448,8 +448,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         int index = 0;
         jsonContent[TestConstants.API.PARTICIPANTS].each {
-            assertEquals(it.name, response.whoIsOnCall.participants[index].participant)
-            assertEquals(it.type, response.whoIsOnCall.participants[index].type.name())
+            assertEquals(it.name, response.whoIsOnCall.participants[index].name)
+            assertEquals(it.type, response.whoIsOnCall.participants[index].type)
             assertEquals(it.id, response.whoIsOnCall.participants[index].id)
             if (it.type == "user") {
                 assertEquals(it.forwarded, response.whoIsOnCall.participants[index].forwarded)
@@ -457,51 +457,51 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
             index++;
         }
 
-        WhoIsOnCallUserParticipant forwardedUserData = response.whoIsOnCall.participants.find {
-            it.participant == "user2@xyz.com"
-        };
+        WhoIsOnCall forwardedUserData = response.whoIsOnCall.participants.find {
+            it.name == "user2@xyz.com"
+        }
         assertNotNull(forwardedUserData);
 
         assertEquals(true, forwardedUserData.forwarded);
 
-        WhoIsOnCallUserParticipant forwardedFromData = forwardedUserData.forwardedFrom;
+        WhoIsOnCall forwardedFromData = forwardedUserData.forwardedFrom;
         assertNotNull(forwardedFromData);
 
-        assertEquals("user7@xyz.com", forwardedFromData.participant)
-        assertEquals("user", forwardedFromData.type.name())
+        assertEquals("user7@xyz.com", forwardedFromData.name)
+        assertEquals("user", forwardedFromData.type)
         assertEquals("id_user7", forwardedFromData.id)
 
-        WhoIsOnCallScheduleParticipant groupData = response.whoIsOnCall.participants.find {
-            it.participant == "group1"
+        WhoIsOnCall groupData = response.whoIsOnCall.participants.find {
+            it.name == "group1"
         };
         assertNotNull(groupData);
 
         assertEquals(2, groupData.participants.size())
-        assertEquals("user3@xyz.com", groupData.participants[0].participant)
-        assertEquals("user4@xyz.com", groupData.participants[1].participant)
+        assertEquals("user3@xyz.com", groupData.participants[0].name)
+        assertEquals("user4@xyz.com", groupData.participants[1].name)
 
-        WhoIsOnCallScheduleParticipant escalationData = response.whoIsOnCall.participants.find {
-            it.participant == "escalation1"
+        WhoIsOnCall escalationData = response.whoIsOnCall.participants.find {
+            it.name == "escalation1"
         };
         assertNotNull(escalationData);
 
         assertEquals(3, escalationData.participants.size())
 
-        assertEquals("user5@xyz.com", escalationData.participants[0].participant)
+        assertEquals("user5@xyz.com", escalationData.participants[0].name)
         assertEquals(2, escalationData.participants[0].escalationTime)
         assertEquals("default", escalationData.participants[0].notifyType)
 
-        WhoIsOnCallScheduleParticipant escGroupData = escalationData.participants.find { it.participant == "group2" };
+        WhoIsOnCall escGroupData = escalationData.participants.find { it.name == "group2" };
         assertNotNull(escGroupData);
 
-        assertEquals("group2", escGroupData.participant)
+        assertEquals("group2", escGroupData.name)
         assertEquals(4, escGroupData.escalationTime)
         assertEquals("default", escGroupData.notifyType)
 
         assertEquals(1, escGroupData.participants.size())
-        assertEquals("user6@xyz.com", escGroupData.participants[0].participant)
+        assertEquals("user6@xyz.com", escGroupData.participants[0].name)
 
-        def scheduleData = escalationData.participants.find { it.participant == "schedule2" }
+        def scheduleData = escalationData.participants.find { it.name == "schedule2" }
         assertNotNull(scheduleData)
         assertEquals(54, scheduleData.escalationTime)
         assertEquals("next", scheduleData.notifyType)
@@ -585,8 +585,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         int index = 0;
         jsonContent[TestConstants.API.PARTICIPANTS].each {
-            assertEquals(it.name, response.whoIsOnCall.participants[index].participant)
-            assertEquals(it.type, response.whoIsOnCall.participants[index].type.name())
+            assertEquals(it.name, response.whoIsOnCall.participants[index].name)
+            assertEquals(it.type, response.whoIsOnCall.participants[index].type)
             if (it.type == "user") {
                 assertEquals(it.forwarded, response.whoIsOnCall.participants[index].forwarded)
             }
@@ -619,16 +619,16 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         Map oncall1Content = new HashMap();
         oncall1Content.put(TestConstants.API.NAME, "schedule1");
         oncall1Content.put(TestConstants.API.PARTICIPANTS, [
-                [participant: "group1", type: "group"],
-                [participant: "user1@xyz.com", type: "user", forwarded: false],
-                [participant: "user2@xyz.com", type: "user", forwarded: true],
-                [participant: "escalation1", type: "escalation", participants: [[participant: "schedule2", type: "schedule"]]],
-                [participant: "tim", type: "team"]
+                [name: "group1", type: "group"],
+                [name: "user1@xyz.com", type: "user", forwarded: false],
+                [name: "user2@xyz.com", type: "user", forwarded: true],
+                [name: "escalation1", type: "escalation", participants: [[name: "schedule2", type: "schedule"]]],
+                [name: "tim", type: "team"]
         ]);
         Map oncall2Content = new HashMap();
         oncall2Content.put(TestConstants.API.NAME, "schedule2");
         oncall2Content.put(TestConstants.API.PARTICIPANTS, [
-                [participant: "group2", type: "group"],
+                [name: "group2", type: "group"],
         ]);
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson([oncalls: [oncall1Content, oncall2Content]]).getBytes(), 200, "application/json; charset=utf-8"))
 
@@ -638,27 +638,27 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         def response = OpsGenieClientTestCase.opsgenieClient.schedule().listWhoIsOnCall(request)
 
         def whoIsOnCall = response.whoIsOnCallList.find { it.name == "schedule1" }
-        assertEquals(5, whoIsOnCall.participants.size())
 
-        def escalationData = whoIsOnCall.participants.find { it.participant == "escalation1" }
+        assertEquals(5, whoIsOnCall.getParticipants().size())
+        def escalationData = whoIsOnCall.getParticipants().find { it.name == "escalation1" }
         assertNotNull(escalationData)
         assertEquals(1, escalationData.participants.size())
-        assertEquals("schedule2", escalationData.participants[0].participant)
+        assertEquals("schedule2", escalationData.participants[0].name)
 
         int index = 0;
-        oncall1Content[TestConstants.API.ON_CALLS].each {
-            assertEquals(it.getParticipant, whoIsOnCall.participants[index].participant)
-            assertEquals(it.type, whoIsOnCall.participants[index].type)
-            if (it.type == "user") {
-                assertEquals(it.forwarded, whoIsOnCall.participants[index].forwarded)
+        oncall1Content[TestConstants.API.PARTICIPANTS].each {
+            assertEquals(it.getAt("name"), whoIsOnCall.participants[index].name)
+            assertEquals(it.getAt("type"), whoIsOnCall.participants[index].type)
+            if (it.getAt("type") == "user") {
+                assertEquals(it.getAt("forwarded"), whoIsOnCall.participants[index].forwarded)
             }
             index++;
         }
 
         whoIsOnCall = response.whoIsOnCallList.find { it.name == "schedule2" }
         assertEquals(1, whoIsOnCall.participants.size())
-        assertEquals("group2", whoIsOnCall.participants[0].participant)
-        assertEquals("group", whoIsOnCall.participants[0].type.name())
+        assertEquals("group2", whoIsOnCall.participants[0].name)
+        assertEquals("group", whoIsOnCall.participants[0].type)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

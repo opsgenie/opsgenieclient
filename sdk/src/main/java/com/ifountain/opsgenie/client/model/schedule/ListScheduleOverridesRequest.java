@@ -5,8 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list schedule overrides api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 10:42 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listScheduleOverrides(ListScheduleOverridesRequest)
  */
 public class ListScheduleOverridesRequest extends BaseRequest<ListScheduleOverridesResponse> {

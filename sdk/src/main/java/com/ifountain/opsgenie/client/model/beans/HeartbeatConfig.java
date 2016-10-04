@@ -2,22 +2,21 @@ package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * HeartbeatConfig bean
  */
-public class HeartbeatConfig implements IBean{
+@Deprecated
+public class HeartbeatConfig extends Bean {
     private Boolean enabled;
     private String message;
     private List<String> recipients;
 
-
     /**
      * Enable state
+     *
      * @return
      */
     public Boolean isEnabled() {
@@ -26,6 +25,7 @@ public class HeartbeatConfig implements IBean{
 
     /**
      * Sets enable state
+     *
      * @param enabled
      */
     public void setEnabled(Boolean enabled) {
@@ -33,40 +33,31 @@ public class HeartbeatConfig implements IBean{
     }
 
     /*
-        * message of heartbeat alert
-         */
+     * message of heartbeat alert
+     */
     public String getMessage() {
         return message;
     }
 
     /*
-    * Sets message of heartbeat alert
+     * Sets message of heartbeat alert
      */
     public void setMessage(String message) {
         this.message = message;
     }
 
     /*
-    * Recipients  of heartbeat alert
+     * Recipients of heartbeat alert
      */
     public List<String> getRecipients() {
         return recipients;
     }
 
     /*
-    * Sets recipients  of heartbeat alert
+     * Sets recipients of heartbeat alert
      */
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
-    }
-
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        json.put(OpsGenieClientConstants.API.MESSAGE, message);
-        json.put(OpsGenieClientConstants.API.RECIPIENTS, recipients);
-        return json;
     }
 
     @Override

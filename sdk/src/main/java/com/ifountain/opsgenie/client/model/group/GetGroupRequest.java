@@ -4,11 +4,10 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-
-
 /**
  * Container for the parameters to make a get group api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#getGroup(GetGroupRequest)
  */
 public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
@@ -24,7 +23,8 @@ public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
         if (name == null && id == null)
-            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME,
+                    OpsGenieClientConstants.API.ID);
     }
 
     public String getId() {

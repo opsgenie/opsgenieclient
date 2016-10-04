@@ -2,7 +2,12 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 
-public abstract class BaseAlertRequestWithSource<T extends BaseResponse> extends BaseAlertRequestWithId<T>{
+/**
+ * Abstract Container for the alert requests.
+ *
+ * @author Mehmet Mustafa Demir
+ */
+public abstract class BaseAlertRequestWithSource<T extends BaseResponse> extends BaseAlertRequestWithId<T> {
     private String source;
 
     /**

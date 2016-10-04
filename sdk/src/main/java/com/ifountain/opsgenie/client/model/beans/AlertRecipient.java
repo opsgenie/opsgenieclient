@@ -1,14 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Alert bean
  */
-public class AlertRecipient implements IBean{
+public class AlertRecipient extends Bean {
     private String username;
     private String state;
     private long stateChangedAt;
@@ -56,7 +51,6 @@ public class AlertRecipient implements IBean{
         this.stateChangedAt = stateChangedAt;
     }
 
-
     /**
      * Returns method of alert recipient
      */
@@ -71,21 +65,4 @@ public class AlertRecipient implements IBean{
         this.method = method;
     }
 
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.METHOD, getMethod());
-        json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        json.put(OpsGenieClientConstants.API.STATE, getState());
-        json.put(OpsGenieClientConstants.API.STATE_CHANGED_AT, getStateChangedAt());
-        return json;
-    }
-
-    @Override
-    public void fromMap(Map map) {
-        setMethod((String) map.get(OpsGenieClientConstants.API.METHOD));
-        setUsername((String) map.get(OpsGenieClientConstants.API.USERNAME));
-        setState((String) map.get(OpsGenieClientConstants.API.STATE));
-        setStateChangedAt(((Number) map.get(OpsGenieClientConstants.API.STATE_CHANGED_AT)).longValue());
-    }
 }

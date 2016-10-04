@@ -1,15 +1,14 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
 
 /**
  * Container for the parameters to make an disable contact api call.
  *
- * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#disableContact(com.ifountain.opsgenie.client.model.contact.DisableContactRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#disableContact(DisableContactRequest)
  */
-public class DisableContactRequest extends BaseRequest<DisableContactResponse> {
-    private String username;
-    private String userId;
+public class DisableContactRequest extends BaseUserComponentRequest<DisableContactResponse> {
     private String id;
 
     @Override
@@ -20,22 +19,6 @@ public class DisableContactRequest extends BaseRequest<DisableContactResponse> {
     @Override
     public DisableContactResponse createResponse() {
         return new DisableContactResponse();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getId() {

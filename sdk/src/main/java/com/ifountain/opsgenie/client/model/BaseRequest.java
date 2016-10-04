@@ -2,21 +2,23 @@ package com.ifountain.opsgenie.client.model;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
- * Base class for container objects which provides content parameters for OpsGenie service calls.
+ * Base class for container objects which provides content parameters for
+ * OpsGenie service calls.
  *
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:03 PM
  */
 @JsonSerialize(include = Inclusion.NON_NULL)
+@JsonPropertyOrder(alphabetic = true)
 public abstract class BaseRequest<T extends BaseResponse> implements Request {
     private String apiKey;
 
@@ -28,8 +30,8 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     }
 
     /**
-     * check the parameters for validation.
-     * It will be overridden by necessary Requests.
+     * check the parameters for validation. It will be overridden by necessary
+     * Requests.
      *
      * @throws OpsGenieClientValidationException when api key is null!
      */
@@ -50,6 +52,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
      * @deprecated Use getApiKey
      */
     @JsonIgnore
+    @Deprecated
     public String getCustomerKey() {
         return apiKey;
     }
@@ -57,6 +60,7 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     /**
      * @deprecated Use setApiKey
      */
+    @Deprecated
     public void setCustomerKey(String apiKey) {
         setApiKey(apiKey);
     }
@@ -67,9 +71,12 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     @Deprecated
     public Map serialize() throws OpsGenieClientValidationException {
         validate();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(Inclusion.NON_NULL);
-        return new TreeMap(mapper.convertValue(this, Map.class));
+        try {
+            return JsonUtils.toMap(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

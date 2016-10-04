@@ -1,19 +1,26 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.text.ParseException;
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Schedule bean
  */
-public class Schedule  implements IBean{
+public class Schedule extends Bean implements ConvertFromTimeZone {
     private String id;
     private String name;
     private String team;
+    private String description;
+    @JsonProperty("timezone")
     private TimeZone timeZone;
     private Boolean enabled;
+    @JsonProperty("rules")
     private List<ScheduleRotation> rotations;
 
     /**
@@ -74,6 +81,7 @@ public class Schedule  implements IBean{
 
     /**
      * Rotations of schedule
+     *
      * @see ScheduleRotation
      */
     public List<ScheduleRotation> getRotations() {
@@ -82,6 +90,7 @@ public class Schedule  implements IBean{
 
     /**
      * Sets rotations of schedule
+     *
      * @see ScheduleRotation
      */
     public void setRotations(List<ScheduleRotation> rotations) {
@@ -103,60 +112,35 @@ public class Schedule  implements IBean{
     }
 
     @Override
-    public Map toMap() {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.ID, id);
-        json.put(OpsGenieClientConstants.API.NAME, name);
-        json.put(OpsGenieClientConstants.API.TEAM, team);
-        if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
-        }
-        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        if(rotations != null){
-            List<Map> rotationMaps = new ArrayList<Map>();
-            for(ScheduleRotation rotation: rotations) {
-                rotationMaps.add(rotation.toMap());
+    public void setTime() throws ParseException {
+        if (getTimeZone() != null && rotations != null && rotations.size() > 0) {
+            for (ScheduleRotation scheduleRotation : rotations) {
+                scheduleRotation.setScheduleTimeZone(getTimeZone());
+                SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+                String endDateString = null, startDateString = null;
+                if (scheduleRotation.getEndDate() != null)
+                    endDateString = sdf.format(scheduleRotation.getEndDate());
+                if (scheduleRotation.getStartDate() != null)
+                    startDateString = sdf.format(scheduleRotation.getStartDate());
+                sdf.setTimeZone(getTimeZone());
+                if (endDateString != null)
+                    scheduleRotation.setEndDate(sdf.parse(endDateString));
+                if (startDateString != null)
+                    scheduleRotation.setStartDate(sdf.parse(startDateString));
             }
-            json.put(OpsGenieClientConstants.API.RULES, rotationMaps);
         }
-        return json;
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
-        id = (String) map.get(OpsGenieClientConstants.API.ID);
-        name = (String) map.get(OpsGenieClientConstants.API.NAME);
-        team = (String) map.get(OpsGenieClientConstants.API.TEAM);
-        if(map.containsKey(OpsGenieClientConstants.API.ENABLED)){
-            enabled = (Boolean) map.get(OpsGenieClientConstants.API.ENABLED);
-        }
-        if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
-            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
-            if(timezoneObj instanceof TimeZone){
-                timeZone = (TimeZone) timezoneObj;
-            }
-            else{
-                timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
-            }
-        }
-        List<Map> rotationMaps = null;
-        if(map.containsKey(OpsGenieClientConstants.API.RULES)){
-            rotationMaps = (List<Map>) map.get(OpsGenieClientConstants.API.RULES);
-        }
-        else if(map.containsKey(OpsGenieClientConstants.API.LAYERS)){
-            rotationMaps = (List<Map>) map.get(OpsGenieClientConstants.API.LAYERS);
-        }
-        else if(map.containsKey(OpsGenieClientConstants.API.ROTATIONS)){
-            rotationMaps = (List<Map>) map.get(OpsGenieClientConstants.API.ROTATIONS);
-        }
-        if(rotationMaps != null){
-            rotations = new ArrayList<ScheduleRotation>();
-            for(Map rotationMap:rotationMaps) {
-                ScheduleRotation rotation = new ScheduleRotation();
-                rotation.setScheduleTimeZone(timeZone);
-                rotation.fromMap(rotationMap);
-                rotations.add(rotation);
-            }
-        }
+    public TimeZone getObjectTimeZone() {
+        return this.timeZone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

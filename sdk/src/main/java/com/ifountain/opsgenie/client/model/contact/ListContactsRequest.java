@@ -1,16 +1,15 @@
 package com.ifountain.opsgenie.client.model.contact;
 
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
 
 /**
  * Container for the parameters to make a list contacts api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#listContact(ListContactsRequest)
  */
-public class ListContactsRequest extends BaseRequest<ListContactsResponse> {
-    private String username;
-    private String userId;
+public class ListContactsRequest extends BaseUserComponentRequest<ListContactsResponse> {
 
     /**
      * Rest api uri of listing contact operation.
@@ -27,34 +26,5 @@ public class ListContactsRequest extends BaseRequest<ListContactsResponse> {
     public ListContactsResponse createResponse() {
         return new ListContactsResponse();
     }
-
-    /**
-     * Username of contact to be listed.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets Username of contact to be listed.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userId of contact to be listed.
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userId of contact to be listed.
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
 
 }

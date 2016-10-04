@@ -5,39 +5,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
-public class RemoveDetailsRequest extends BaseAlertRequestWithSource<RemoveDetailsResponse> {
+/**
+ * Container for the parameters to remove details from alert api call.
+ *
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
+ */
+public class RemoveDetailsRequest extends AddNoteRequest {
 
     private List<String> keys;
-    private String user;
-    private String note;
-
-    /**
-     * The user who is performing the add note operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the add note operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
-    }
 
     /**
      * Keys to be deleted in String mode
@@ -57,7 +33,6 @@ public class RemoveDetailsRequest extends BaseAlertRequestWithSource<RemoveDetai
         this.keys = keys;
     }
 
-
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/details";
@@ -67,6 +42,5 @@ public class RemoveDetailsRequest extends BaseAlertRequestWithSource<RemoveDetai
     public RemoveDetailsResponse createResponse() {
         return new RemoveDetailsResponse();
     }
-
 
 }

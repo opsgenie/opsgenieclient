@@ -1,18 +1,15 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add notificationRuleStep api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#addNotificationRuleStep(AddNotificationRuleStepRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRuleStep(AddNotificationRuleStepRequest)
  */
-public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationRuleStepResponse> {
-    private String username;
-    private String userId;
+public class AddNotificationRuleStepRequest extends BaseUserComponentRequest<AddNotificationRuleStepResponse> {
     private String ruleId;
     private Method method;
     private String to;
@@ -31,34 +28,6 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
     @Override
     public AddNotificationRuleStepResponse createResponse() {
         return new AddNotificationRuleStepResponse();
-    }
-
-    /**
-     * UserName of notificationRuleStep
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets userName of notificationRuleStep
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userID of notificationRuleStep
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userID of notificationRuleStep
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     /**
@@ -83,13 +52,6 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
         this.ruleId = ruleId;
     }
 
-    @JsonProperty("method")
-    public String getMethodValue() {
-        if (method != null)
-            return method.value();
-        return null;
-    }
-
     public Method getMethod() {
         return method;
     }
@@ -105,6 +67,5 @@ public class AddNotificationRuleStepRequest extends BaseRequest<AddNotificationR
     public void setSendAfter(Integer sendAfter) {
         this.sendAfter = sendAfter;
     }
-
 
 }

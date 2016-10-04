@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -8,11 +9,13 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make a schedule export api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#exportSchedule(com.ifountain.opsgenie.client.model.schedule.ExportScheduleRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#exportSchedule(ExportScheduleRequest)
  */
 public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
     private String name;
     private String id;
+    @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
 
@@ -59,7 +62,6 @@ public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
     /**
      * Timezone for request
      */
-    @Deprecated
     public TimeZone getTimeZone() {
         return timeZone;
     }
@@ -67,7 +69,6 @@ public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
     /**
      * Sets timezone for request
      */
-    @Deprecated
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
     }

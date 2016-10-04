@@ -8,14 +8,12 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Container for the parameters to make a list alert logs api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 4:30 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertLogs(ListAlertLogsRequest)
  */
 public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsResponse> {
     public enum SortOrder {
-        asc,
-        desc
+        asc, desc
     }
 
     @JsonIgnore
@@ -64,15 +62,11 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
 
     @Override
     public void validate() throws OpsGenieClientValidationException {
-        if (!(this.getId() != null
-                || this.getAlertId() != null
-                || this.getAlias() != null
-                || this.getTinyId() != null))
+        if (!(this.getId() != null || this.getAlias() != null || this.getTinyId() != null))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID,
-                    OpsGenieClientConstants.API.ALERT_ID, OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.TINY_ID);
+                    OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.TINY_ID);
         super.validate();
     }
-
 
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()

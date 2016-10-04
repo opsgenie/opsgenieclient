@@ -1,41 +1,38 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.AlertNote;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the OpsGenie service response for list alert notes request.
  *
- * @author Halit Okumus
- * @version 9/16/14 4:30 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertNotes(ListAlertNotesRequest)
  */
 public class ListAlertNotesResponse extends BaseResponse {
     private String lastKey;
+    private List<AlertNote> notes;
 
     /**
-     * @return alert note objects
-     * @see AlertNote
+     * @deprecated Use getNotes
      */
+    @Deprecated
+    @JsonIgnore
     public List<AlertNote> getAlertNotes() {
-        return alertNotes;
+        return notes;
     }
 
     /**
-     * Sets alert note objects
-     * @see AlertNote
+     * @deprecated Use setNotes
      */
+    @Deprecated
+    @JsonIgnore
     public void setAlertNotes(List<AlertNote> alertNotes) {
-        this.alertNotes = alertNotes;
+        this.notes = alertNotes;
     }
-
-    private List<AlertNote> alertNotes;
 
     public String getLastKey() {
         return lastKey;
@@ -45,18 +42,11 @@ public class ListAlertNotesResponse extends BaseResponse {
         this.lastKey = lastKey;
     }
 
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseResponse#deserialize(java.util.Map)
-     */
-    public void deserialize(Map data) throws ParseException {
-        super.deserialize(data);
-        lastKey = (String) data.get(OpsGenieClientConstants.API.LAST_KEY);
-        List<Map> notesMap = (List<Map>) data.get(OpsGenieClientConstants.API.NOTES);
-        alertNotes = new ArrayList<AlertNote>();
-        for(Map logData:notesMap){
-            AlertNote note = new AlertNote();
-            note.fromMap(logData);
-            alertNotes.add(note);
-        }
+    public List<AlertNote> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<AlertNote> notes) {
+        this.notes = notes;
     }
 }

@@ -7,6 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get user api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
 public class GetUserRequest extends BaseRequest<GetUserResponse> {

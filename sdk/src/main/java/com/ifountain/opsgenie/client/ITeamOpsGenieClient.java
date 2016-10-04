@@ -1,10 +1,7 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest;
-import com.ifountain.opsgenie.client.model.team.AddTeamMemberResponse;
-import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest;
-import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberResponse;
 import com.ifountain.opsgenie.client.model.team.*;
+import com.ifountain.opsgenie.client.model.team.routing_rule.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -70,14 +67,13 @@ public interface ITeamOpsGenieClient {
     /**
      * Lists team logs
      *
-     * @param listTeamLogsRequest  Object to construct request parameters.
+     * @param listTeamLogsRequest Object to construct request parameters.
      * @return Object containing alert logs
      * @see com.ifountain.opsgenie.client.model.team.ListTeamLogsRequest
      * @see com.ifountain.opsgenie.client.model.team.ListTeamLogsResponse
      */
     public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException;
 
-    
     /**
      * Adds a team member at OpsGenie.
      *
@@ -98,6 +94,65 @@ public interface ITeamOpsGenieClient {
      */
     public DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
 
-    
+    /**
+     * Adds a TeamRoutingRule at OpsGenie.
+     *
+     * @param addTeamRoutingRuleRequest Object to construct request parameters.
+     * @return <code>AddTeamRoutingRuleResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.AddTeamRoutingRuleRequest
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.AddTeamRoutingRuleResponse
+     */
+    public AddTeamRoutingRuleResponse addTeamRoutingRule(AddTeamRoutingRuleRequest addTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Updates TeamRoutingRule at OpsGenie.
+     *
+     * @param updateTeamRoutingRuleRequest Object to construct request parameters.
+     * @return <code>UpdateTeamRoutingRuleResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.UpdateTeamRoutingRuleRequest
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.UpdateTeamRoutingRuleResponse
+     */
+    public UpdateTeamRoutingRuleResponse updateTeamRoutingRule(UpdateTeamRoutingRuleRequest updateTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Change order of a TeamRoutingRule at OpsGenie.
+     *
+     * @param changeTeamRoutingRuleOrderRequest Object to construct request parameters.
+     * @return <code>ChangeTeamRoutingRuleOrderResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.ChangeTeamRoutingRuleOrderRequest
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.ChangeTeamRoutingRuleOrderResponse
+     */
+    public ChangeTeamRoutingRuleOrderResponse changeTeamRoutingRuleOrder(ChangeTeamRoutingRuleOrderRequest changeTeamRoutingRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
+
+
+    /**
+     * Deletes a TeamRoutingRule at OpsGenie.
+     *
+     * @param deleteTeamRoutingRuleRequest Object to construct request parameters.
+     * @return <code>DeleteTeamRoutingRuleResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.DeleteTeamRoutingRuleRequest
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.DeleteTeamRoutingRuleResponse
+     */
+    public DeleteTeamRoutingRuleResponse deleteTeamRoutingRule(DeleteTeamRoutingRuleRequest deleteTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * Get TeamRoutingRule details
+     *
+     * @param getTeamRoutingRuleRequest Object to construct request parameters.
+     * @return <code>GetTeamRoutingRuleResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.GetTeamRoutingRuleRequest
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.GetTeamRoutingRuleResponse
+     */
+    public GetTeamRoutingRuleResponse getTeamRoutingRule(GetTeamRoutingRuleRequest getTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+
+    /**
+     * List TeamRoutingRules of customer
+     *
+     * @param listTeamRoutingRulesRequest Object to construct request parameters.
+     * @return <code>ListTeamRoutingRulesResponse</code> object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.ListTeamRoutingRulesRequest
+     * @see com.ifountain.opsgenie.client.model.team.routing_rule.ListTeamRoutingRulesResponse
+     */
+    public ListTeamRoutingRulesResponse listTeamRoutingRules(ListTeamRoutingRulesRequest listTeamRoutingRulesRequest) throws IOException, OpsGenieClientException, ParseException;
 
 }

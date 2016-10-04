@@ -2,18 +2,20 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.annotate.JsonUnwrapped;
 
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.Map;
 
 /**
  * Represents OpsGenie service response for get schedule override request.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 10:41 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(GetScheduleOverrideRequest)
  */
 public class GetScheduleOverrideResponse extends BaseResponse {
+    @JsonUnwrapped
     private ScheduleOverride scheduleOverride;
 
     /**
@@ -30,12 +32,13 @@ public class GetScheduleOverrideResponse extends BaseResponse {
         this.scheduleOverride = scheduleOverride;
     }
 
-
     @Override
-    public void deserialize(Map data) throws ParseException {
-        super.deserialize(data);
-        scheduleOverride = new ScheduleOverride();
-        scheduleOverride.fromMap(data);
+    public void fromJson(String json) throws JsonProcessingException, IOException, ParseException {
+        super.fromJson(json);
+        System.out.println(scheduleOverride.getTimeZone());
+        System.out.println(scheduleOverride.getStartDate());
+        System.out.println(scheduleOverride.getStartDate());
+        scheduleOverride.setTime();
     }
 
 }

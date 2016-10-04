@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 /**
  * Container for the parameters to enable/disable  alert policy.
  *
- * @version 11/26/12 4:17 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertPolicyOpsGenieClient#enableAlertPolicy(EnableAlertPolicyRequest)
  */
 public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyResponse> {

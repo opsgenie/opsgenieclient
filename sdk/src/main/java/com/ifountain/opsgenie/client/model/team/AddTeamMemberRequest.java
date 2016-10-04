@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.beans.Team.TeamMember.Role;
 /**
  * Container for the parameters to make an add team api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeamMember(AddTeamMemberRequest)
  */
 public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse> {
@@ -82,6 +83,5 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse> {
     public void setRole(Role role) {
         this.role = role;
     }
-
 
 }

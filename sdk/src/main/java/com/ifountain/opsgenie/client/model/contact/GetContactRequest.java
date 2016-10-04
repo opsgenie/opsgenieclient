@@ -3,16 +3,15 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
 
 /**
  * Container for the parameters to make a get contact api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(GetContactRequest)
  */
-public class GetContactRequest extends BaseRequest<GetContactResponse> {
-    private String username;
-    private String userId;
+public class GetContactRequest extends BaseUserComponentRequest<GetContactResponse> {
     private String id;
 
     /**
@@ -39,34 +38,6 @@ public class GetContactRequest extends BaseRequest<GetContactResponse> {
     @Override
     public GetContactResponse createResponse() {
         return new GetContactResponse();
-    }
-
-    /**
-     * Username of contact to be queried.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets Username of contact to be queried.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userId of contact to be queried.
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userId of contact to be queried.
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     /**

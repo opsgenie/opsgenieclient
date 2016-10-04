@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * Created by Abdurrahim on 04.03.2014.
  */
+@Deprecated
 public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
 
     private List<WhoIsOnCallScheduleParticipant> participants;
@@ -73,6 +74,10 @@ public class WhoIsOnCallScheduleParticipant extends ScheduleParticipant {
     @Override
     public void fromMap(Map map) throws ParseException {
         super.fromMap(map);
+        if (map.containsKey(OpsGenieClientConstants.API.NAME)) {
+            setParticipant((String) map.get(OpsGenieClientConstants.API.NAME));
+        }
+
         if(map.containsKey(OpsGenieClientConstants.API.ID)){
             id = (String) map.get(OpsGenieClientConstants.API.ID);
         }

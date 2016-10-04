@@ -1,26 +1,21 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-
 
 /**
  * Container for the parameters to make a list alerts api call.
  *
- * @author Mehmet Mustafa Demir mehmetdemircs@gmail.com
- * @version 18/08/16 1:30 PM
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(com.ifountain.opsgenie.client.model.alert.ListAlertsRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
  */
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     public enum SortBy {
-        createdAt,
-        updatedAt
+        createdAt, updatedAt
     }
 
     public enum SortOrder {
-        asc,
-        desc
+        asc, desc
     }
 
     private SortBy sortBy;

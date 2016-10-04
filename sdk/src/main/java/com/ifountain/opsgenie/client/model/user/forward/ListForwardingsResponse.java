@@ -1,17 +1,17 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
+import org.codehaus.jackson.JsonProcessingException;
 
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents OpsGenie service response for list forwardings request.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(ListForwardingsRequest)
  */
 public class ListForwardingsResponse extends BaseResponse {
@@ -32,16 +32,10 @@ public class ListForwardingsResponse extends BaseResponse {
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
-        super.deserialize(data);
-        forwardings = new ArrayList<Forwarding>();
-        if (data.containsKey(OpsGenieClientConstants.API.FORWARDINGS)) {
-            List<Map> forwardingMaps = (List<Map>) data.get(OpsGenieClientConstants.API.FORWARDINGS);
-            for (Map forwardingMap : forwardingMaps) {
-                Forwarding forwarding = new Forwarding();
-                forwarding.fromMap(forwardingMap);
-                forwardings.add(forwarding);
-            }
-        }
+    public void fromJson(String json) throws JsonProcessingException, IOException, ParseException {
+        super.fromJson(json);
+        if (forwardings != null)
+            for (Forwarding forwarding : forwardings)
+                forwarding.setTime();
     }
 }

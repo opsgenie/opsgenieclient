@@ -4,7 +4,8 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents OpsGenie service response for change notificationRule apply order request.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRule(ChangeNotificationRuleRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest)
  */
 public class ChangeNotificationRuleOrderResponse extends BaseResponse {
 

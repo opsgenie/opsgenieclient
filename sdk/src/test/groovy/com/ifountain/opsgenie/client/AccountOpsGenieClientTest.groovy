@@ -38,9 +38,9 @@ class AccountOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         assertEquals(jsonContent[TestConstants.API.USER_COUNT], response.getAccount().getUserCount());
         assertEquals(jsonContent[TestConstants.API.NAME], response.getAccount().getName());
 
-        assertEquals(planContent[TestConstants.API.IS_YEARLY], response.getAccount().getIsYearly());
-        assertEquals(planContent[TestConstants.API.NAME], response.getAccount().getPlanName());
-        assertEquals(planContent[TestConstants.API.MAX_USER_COUNT], response.getAccount().getMaxUserCount());
+        assertEquals(planContent[TestConstants.API.IS_YEARLY], response.getAccount().getPlan().getIsYearly());
+        assertEquals(planContent[TestConstants.API.NAME], response.getAccount().getPlan().getName());
+        assertEquals(planContent[TestConstants.API.MAX_USER_COUNT], response.getAccount().getPlan().getMaxUserCount());
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

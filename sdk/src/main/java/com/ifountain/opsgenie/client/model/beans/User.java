@@ -1,6 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonValue;
 
 import java.text.ParseException;
 import java.util.*;
@@ -8,41 +11,58 @@ import java.util.*;
 /**
  * User bean
  */
-public class User  implements IBean{
+public class User extends Bean {
     private static final Map<String, Locale> LOCALES = new HashMap<String, Locale>();
+
     static {
-        for(Locale locale:Locale.getAvailableLocales()){
+        for (Locale locale : Locale.getAvailableLocales()) {
             LOCALES.put(getLocaleId(locale), locale);
         }
     }
 
-    public static String getLocaleId(Locale locale){
+    public static String getLocaleId(Locale locale) {
         return locale.toString();
     }
-    public static Locale getLocale(String localeId){
+
+    public static Locale getLocale(String localeId) {
         return LOCALES.get(localeId);
     }
-    public static enum Role{
-        admin,
-        owner,
-        user
+
+    public static enum Role {
+        admin, owner, user;
+
+        @JsonCreator
+        public static Role fromName(String name) {
+            for (Role role : Role.values()) {
+                if (role.name().toLowerCase().equals(name.toLowerCase()))
+                    return role;
+            }
+            return null;
+        }
+
+        @JsonValue
+        public String value() {
+            return name();
+        }
     }
-    public static enum State{
-        active,
-        waitingverification,
-        inactive
+
+    public static enum State {
+        active, waitingverification, inactive;
     }
+
     private String id;
     private String username;
     private State state;
     private String fullname;
+    private String skypeUsername;
+    @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
     private Role role;
     private List<String> groups;
     private List<String> escalations;
     private List<String> schedules;
-    private List<Map<String,String>> contacts;
+    private List<Contact> contacts;
 
     /**
      * Id of user
@@ -74,6 +94,7 @@ public class User  implements IBean{
 
     /**
      * State of user
+     *
      * @see State
      */
     public State getState() {
@@ -82,6 +103,7 @@ public class User  implements IBean{
 
     /**
      * Sets state of user
+     *
      * @see State
      */
     public void setState(State state) {
@@ -132,6 +154,7 @@ public class User  implements IBean{
 
     /**
      * Role of user
+     *
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
     public User.Role getRole() {
@@ -140,6 +163,7 @@ public class User  implements IBean{
 
     /**
      * Sets role of user
+     *
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
     public void setRole(User.Role role) {
@@ -189,84 +213,59 @@ public class User  implements IBean{
     }
 
     /**
+     * @deprecated Use getUserContacts
+     */
+    @Deprecated
+    @JsonIgnore
+    public List<Map<String, String>> getContacts() {
+        if (contacts == null)
+            return null;
+        List<Map<String, String>> contactMapList = new ArrayList();
+        for (Contact contact : contacts)
+            contactMapList.add(contact.toMap());
+        return contactMapList;
+    }
+
+    /**
+     * @deprecated Use setUserContacts
+     */
+    @Deprecated
+    public void setContacts(List<Map<String, String>> contacts) {
+        if (contacts == null)
+            this.contacts = null;
+        this.contacts = new ArrayList<Contact>();
+        for (Map<String, String> map : contacts) {
+            Contact contact = new Contact();
+            try {
+                contact.fromMap(map);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            this.contacts.add(contact);
+        }
+    }
+
+    /**
      * Contacts of user
      */
-    public List<Map<String, String>> getContacts() {
+    @JsonProperty("contacts")
+    public List<Contact> getUserContacts() {
         return contacts;
     }
 
     /**
      * Sets contacts of user
      */
-    public void setContacts(List<Map<String, String>> contacts) {
+    public void setUserContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        json.put(OpsGenieClientConstants.API.FULLNAME, getFullname());
-        if(getState() != null){
-            json.put(OpsGenieClientConstants.API.STATE, getState().name());
-        }
-        if(getRole() != null){
-            json.put(OpsGenieClientConstants.API.ROLE, getRole().name());
-        }
-        if(getTimeZone() != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
-        }
-        if(getLocale() != null){
-            json.put(OpsGenieClientConstants.API.LOCALE, getLocaleId(locale));
-        }
-        if(getGroups() != null){
-            json.put(OpsGenieClientConstants.API.GROUPS, getGroups());
-        }
-        if(getEscalations() != null){
-            json.put(OpsGenieClientConstants.API.ESCALATIONS, getEscalations());
-        }
-        if(getSchedules() != null){
-            json.put(OpsGenieClientConstants.API.SCHEDULES, getSchedules());
-        }
-        if(getContacts() != null){
-            json.put(OpsGenieClientConstants.API.CONTACTS, getContacts());
-        }
-        return json;
+    public String getSkypeUsername() {
+        return skypeUsername;
     }
 
-    @Override
-    public void fromMap(Map map) throws ParseException {
-        setId((String) map.get(OpsGenieClientConstants.API.ID));
-        setUsername((String) map.get(OpsGenieClientConstants.API.USERNAME));
-        setFullname((String) map.get(OpsGenieClientConstants.API.FULLNAME));
-        if(map.containsKey(OpsGenieClientConstants.API.ROLE)){
-            setRole(User.Role.valueOf(((String) map.get(OpsGenieClientConstants.API.ROLE)).toLowerCase()));
-        }
-        if(map.containsKey(OpsGenieClientConstants.API.STATE)){
-            setState(State.valueOf(((String) map.get(OpsGenieClientConstants.API.STATE)).toLowerCase()));
-        }
-        setGroups((List<String>) map.get(OpsGenieClientConstants.API.GROUPS));
-        setEscalations((List<String>) map.get(OpsGenieClientConstants.API.ESCALATIONS));
-        setSchedules((List<String>) map.get(OpsGenieClientConstants.API.SCHEDULES));
-        setContacts((List<Map<String, String>>) map.get(OpsGenieClientConstants.API.CONTACTS));
-        if(map.get(OpsGenieClientConstants.API.TIMEZONE) != null){
-            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
-            if(timezoneObj instanceof TimeZone){
-                setTimeZone((TimeZone) timezoneObj);
-            }
-            else{
-                setTimeZone(TimeZone.getTimeZone(String.valueOf(timezoneObj)));
-            }
-        }
-        if(map.get(OpsGenieClientConstants.API.LOCALE) != null){
-            Object localeObj = map.get(OpsGenieClientConstants.API.LOCALE);
-            if(localeObj instanceof Locale){
-                setLocale((Locale) localeObj);
-            }
-            else{
-                setLocale(User.getLocale(String.valueOf(localeObj)));
-            }
-        }
+    public void setSkypeUsername(String skypeUsername) {
+        this.skypeUsername = skypeUsername;
     }
+
 }

@@ -3,8 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make a delete alert api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/4/12 3:38 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#deleteAlert(DeleteAlertRequest)
  */
 public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertResponse> {

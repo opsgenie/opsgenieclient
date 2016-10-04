@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
@@ -9,91 +10,65 @@ import java.util.List;
 /**
  * Container for the parameters to make an renotify alert api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 11/26/12 4:17 PM
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(com.ifountain.opsgenie.client.model.alert.RenotifyRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(RenotifyRequest)
  */
-public class RenotifyRequest extends BaseAlertRequestWithSource<RenotifyResponse> {
-    private String user;
-    private String note;
-    private List<RenotifyRecipient> recipients;
+public class RenotifyRequest extends AddNoteRequest {
+	private List<String> recipients;
 
-    /**
-     * Rest api uri of renotify alert operation.
-     */
-    @Override
-    public String getEndPoint() {
-        return "/v1/json/alert/renotify";
-    }
+	/**
+	 * Rest api uri of renotify alert operation.
+	 */
+	@Override
+	public String getEndPoint() {
+		return "/v1/json/alert/renotify";
+	}
 
-    /**
-     * Return recipients
-     *
-     * @see RenotifyRecipient
-     */
+	/**
+	 * @deprecated Use getRecipientList
+	 */
+	@Deprecated
+	@JsonIgnore
+	public List<RenotifyRecipient> getRecipients() {
+		if (recipients == null)
+			return null;
+		List<RenotifyRecipient> renotifyRecipientList = new ArrayList<RenotifyRecipient>();
+		for (String participantName : recipients) {
+			RenotifyRecipient recipient = new RenotifyRecipient();
+			recipient.setRecipient(participantName);
+			renotifyRecipientList.add(recipient);
+		}
+		return renotifyRecipientList;
+	}
 
-    @JsonProperty("recipients")
-    public List<String> getRecipientsName() {
-        if (recipients != null) {
-            List<String> recipientNames = new ArrayList<String>();
-            for (RenotifyRecipient recipient : recipients)
-                recipientNames.add(recipient.getRecipient());
-            return recipientNames;
-        }
-        return null;
-    }
+	/**
+	 * @deprecated Use setRecipientList
+	 */
+	@Deprecated
+	@JsonIgnore
+	public void setRecipients(List<RenotifyRecipient> recipients) {
+		if (recipients != null) {
+			this.recipients = new ArrayList();
+			for (RenotifyRecipient renotifyRecipient : recipients)
+				this.recipients.add(renotifyRecipient.getRecipient());
+		} else
+			this.recipients = null;
+	}
 
-    /**
-     * Return recipients
-     *
-     * @see RenotifyRecipient
-     */
-    public List<RenotifyRecipient> getRecipients() {
-        return recipients;
-    }
+	/**
+	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+	 */
+	@Override
+	public RenotifyResponse createResponse() {
+		return new RenotifyResponse();
+	}
 
-    /**
-     * Recipients list
-     *
-     * @see RenotifyRecipient
-     */
-    public void setRecipients(List<RenotifyRecipient> recipients) {
-        this.recipients = recipients;
-    }
+	@JsonProperty("recipients")
+	public List<String> getRecipientList() {
+		return recipients;
+	}
 
-    /**
-     * The user who is performing the renotify alert operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the renotify alert operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-     */
-    @Override
-    public RenotifyResponse createResponse() {
-        return new RenotifyResponse();
-    }
+	public void setRecipientList(List<String> recipients) {
+		this.recipients = recipients;
+	}
 }

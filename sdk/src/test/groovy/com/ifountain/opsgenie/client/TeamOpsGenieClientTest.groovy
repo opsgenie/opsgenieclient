@@ -4,14 +4,8 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.beans.Team
-import com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest
-import com.ifountain.opsgenie.client.model.team.AddTeamRequest
-import com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest
-import com.ifountain.opsgenie.client.model.team.DeleteTeamRequest
-import com.ifountain.opsgenie.client.model.team.GetTeamRequest
-import com.ifountain.opsgenie.client.model.team.ListTeamLogsRequest
-import com.ifountain.opsgenie.client.model.team.ListTeamsRequest
-import com.ifountain.opsgenie.client.model.team.UpdateTeamRequest
+import com.ifountain.opsgenie.client.model.beans.Team.TeamMember
+import com.ifountain.opsgenie.client.model.team.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.http.HttpHeaders
@@ -20,6 +14,7 @@ import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.junit.Test
+
 import static org.junit.Assert.*
 
 /**
@@ -34,7 +29,7 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         AddTeamRequest request = new AddTeamRequest();
         request.setApiKey("customer1");
         request.setName("team1");
-        request.setMembers([new Team.TeamMember("user1@xyz.com", Team.TeamMember.Role.admin), new Team.TeamMember("user2@xyz.com")]);
+        request.setMembers([new TeamMember("user1@xyz.com", TeamMember.Role.admin), new TeamMember("user2@xyz.com")]);
 
         def response = OpsGenieClientTestCase.opsgenieClient.team().addTeam(request)
         assertEquals("teamId1", response.getId())
@@ -54,11 +49,11 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(2, members.size());
         def member1 = members.find { it.user == "user1@xyz.com" }
         assertNotNull(member1)
-        assertEquals(Team.TeamMember.Role.admin.toString(), member1[TestConstants.API.ROLE])
+        assertEquals(TeamMember.Role.admin.toString(), member1[TestConstants.API.ROLE])
 
         def member2 = members.find { it.user == "user2@xyz.com" }
         assertNotNull(member2)
-        assertEquals(Team.TeamMember.Role.user.toString(), member2[TestConstants.API.ROLE])
+        assertEquals(TeamMember.Role.user.toString(), member2[TestConstants.API.ROLE])
     }
 
 
@@ -74,7 +69,7 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         AddTeamMemberRequest request = new AddTeamMemberRequest();
         request.setApiKey("customer1");
         request.setUsername("user1")
-        request.setRole(Team.TeamMember.Role.admin)
+        request.setRole(TeamMember.Role.admin)
         request.setName("team1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.team().addTeamMember(request)
@@ -100,7 +95,7 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         AddTeamMemberRequest request = new AddTeamMemberRequest();
         request.setApiKey("customer1");
         request.setUserId("user1")
-        request.setRole(Team.TeamMember.Role.user)
+        request.setRole(TeamMember.Role.user)
         request.setName("team1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.team().addTeamMember(request)
@@ -175,7 +170,7 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setApiKey("customer1");
         request.setId("team1Id");
         request.setName("teamNameUpdated");
-        request.setMembers([new Team.TeamMember("user1@xyz.com", Team.TeamMember.Role.admin), new Team.TeamMember("user2@xyz.com")]);
+        request.setMembers([new TeamMember("user1@xyz.com", TeamMember.Role.admin), new TeamMember("user2@xyz.com")]);
 
         def response = OpsGenieClientTestCase.opsgenieClient.team().updateTeam(request)
         assertEquals("team1Id", response.getId())
@@ -195,11 +190,11 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(2, members.size());
         def member1 = members.find { it.user == "user1@xyz.com" }
         assertNotNull(member1)
-        assertEquals(Team.TeamMember.Role.admin.toString(), member1[TestConstants.API.ROLE])
+        assertEquals(TeamMember.Role.admin.toString(), member1[TestConstants.API.ROLE])
 
         def member2 = members.find { it.user == "user2@xyz.com" }
         assertNotNull(member2)
-        assertEquals(Team.TeamMember.Role.user.toString(), member2[TestConstants.API.ROLE])
+        assertEquals(TeamMember.Role.user.toString(), member2[TestConstants.API.ROLE])
     }
 
     @Test
@@ -257,8 +252,8 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
 
         def members = response.getTeam().getMembers()
         assertEquals(2, members.size());
-        assertTrue(members.contains(new Team.TeamMember("user1@xyz.com")))
-        assertTrue(members.contains(new Team.TeamMember("user2@xyz.com", Team.TeamMember.Role.admin)))
+        assertTrue(members.contains(new TeamMember("user1@xyz.com")))
+        assertTrue(members.contains(new TeamMember("user2@xyz.com", TeamMember.Role.admin)))
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
@@ -297,7 +292,7 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(team1Content[TestConstants.API.ID], team.id)
         def members = team.getMembers()
         assertEquals(1, members.size());
-        assertTrue(members.contains(new Team.TeamMember("user1@xyz.com")))
+        assertTrue(members.contains(new TeamMember("user1@xyz.com")))
 
 
         team = response.getTeams().find { it.id == team2Content[TestConstants.API.ID] }
@@ -306,7 +301,7 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
 
         members = team.getMembers()
         assertEquals(1, members.size());
-        assertTrue(members.contains(new Team.TeamMember("user2@xyz.com", Team.TeamMember.Role.admin)))
+        assertTrue(members.contains(new TeamMember("user2@xyz.com", TeamMember.Role.admin)))
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

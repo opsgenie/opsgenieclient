@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make an update group api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(com.ifountain.opsgenie.client.model.group.UpdateGroupRequest)
  */
 public class UpdateGroupRequest extends AddGroupRequest {

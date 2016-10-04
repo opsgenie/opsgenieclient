@@ -5,13 +5,15 @@ package com.ifountain.opsgenie.client;
  * @version 5/28/12 3:01 PM
  */
 public interface OpsGenieClientConstants {
-    public static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
+    static final String OPSGENIE_API_URI = "https://api.opsgenie.com";
 
-    public interface Common {
+
+    interface Common {
         String API_DATE_FORMAT = "yyyy-MM-dd HH:mm";
         String API_DATE_FORMAT_WITH_TIMEZONE = "yyyy-MM-dd HH:mm z";
     }
-    public interface API {
+
+    interface API {
         public static final String ID = "id";
         public static final String API_KEY = "apiKey";
         public static final String CUSTOMER_KEY = "customerKey";
@@ -54,6 +56,7 @@ public interface OpsGenieClientConstants {
         public static final String ROLE = "role";
         public static final String STATE = "state";
         public static final String GROUPS = "groups";
+        public static final String GROUP = "group";
         public static final String ESCALATIONS = "escalations";
         public static final String SCHEDULES = "schedules";
         public static final String OVERRIDES = "overrides";
@@ -180,6 +183,7 @@ public interface OpsGenieClientConstants {
         public static final String EMAIL = "email";
         public static final String VOICE = "voice";
         public static final String SMS = "sms";
+        public static final String MOBILE_APP = "Mobile App";
 
         //Day of Week Enum
         public static final String SUNDAY ="SUNDAY";

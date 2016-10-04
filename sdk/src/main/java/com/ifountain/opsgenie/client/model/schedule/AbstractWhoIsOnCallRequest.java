@@ -11,13 +11,15 @@ import java.util.TimeZone;
 
 /**
  * Base Container for the parameters to make a who is on call api call.
+ *
+ * @author Mehmet Mustafa Demir
  */
 public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> {
     private String name;
     private Date time;
-    private TimeZone timezone;
+    @JsonProperty("timezone")
+    private TimeZone timeZone;
     private String id;
-
 
     /**
      * Id of object to be queried.
@@ -40,7 +42,7 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
     public String getTimeString() {
         if (time != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-            sdf.setTimeZone(timezone != null ? timezone : TimeZone.getTimeZone("UTC"));
+            sdf.setTimeZone(timeZone != null ? timeZone : TimeZone.getTimeZone("UTC"));
             return sdf.format(time);
         }
         return null;
@@ -61,27 +63,17 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
     }
 
     /**
-     * Timezone Id for request
-     */
-    @JsonProperty("timezone")
-    public String getTimeZoneId() {
-        if (timezone != null)
-            return timezone.getID();
-        return null;
-    }
-
-    /**
-     * Timezone for request
+     * TimeZone for request
      */
     public TimeZone getTimeZone() {
-        return timezone;
+        return timeZone;
     }
 
     /**
-     * Sets timezone for request
+     * Sets timeZone for request
      */
-    public void setTimeZone(TimeZone timezone) {
-        this.timezone = timezone;
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 
     /**

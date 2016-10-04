@@ -6,8 +6,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make an update team api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 11:59 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#updateTeam(UpdateTeamRequest)
  */
 public class UpdateTeamRequest extends AddTeamRequest {

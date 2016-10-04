@@ -1,18 +1,13 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-
-
 /**
  * Container for the parameters to make an assign ownership call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 11/26/12 4:36 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#assign(AssignRequest)
  */
-public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
-    private String user;
+public class AssignRequest extends AddNoteRequest {
     private String owner;
-    private String note;
 
     /**
      * Rest api uri of assign ownership operation.
@@ -20,20 +15,6 @@ public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/assign";
-    }
-
-    /**
-     * The user who is performing the assign ownership operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the assign ownership operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
     }
 
     /**
@@ -48,20 +29,6 @@ public class AssignRequest extends BaseAlertRequestWithSource<AssignResponse> {
      */
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
     }
 
     /**
