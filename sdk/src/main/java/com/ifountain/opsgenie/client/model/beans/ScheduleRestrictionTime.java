@@ -9,7 +9,7 @@ public class ScheduleRestrictionTime {
     private int minute;
 
     @JsonCreator
-    public static ScheduleRestrictionTime fomTime(String time) {
+    public static ScheduleRestrictionTime fromTime(String time) {
         if (time != null) {
             ScheduleRestrictionTime scheduleRestrictionTime = new ScheduleRestrictionTime();
             String[] timeArray = time.split(":", -1);

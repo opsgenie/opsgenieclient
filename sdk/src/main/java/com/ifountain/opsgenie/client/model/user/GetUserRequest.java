@@ -16,7 +16,6 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
 
     /**
      * check the parameters for validation.
-     * It will be overridden by necessary Requests.
      *
      * @throws OpsGenieClientValidationException when id and username both null!
      */
@@ -57,10 +56,10 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
         this.username = username;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetUserResponse createResponse() {
         return new GetUserResponse();
     }

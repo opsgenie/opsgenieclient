@@ -8,31 +8,10 @@ import org.codehaus.jackson.annotate.JsonValue;
  * ScheduleRotationRestriction bean
  */
 public class ScheduleRotationRestriction extends Bean {
-    public enum DAY {
-        monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-
-        @JsonCreator
-        public static DAY fromName(String name) {
-            if (name == null)
-                return null;
-            for (DAY day : DAY.values()) {
-                if (day.name().toLowerCase().equals(name.toLowerCase()))
-                    return day;
-            }
-            return null;
-        }
-
-        @JsonValue
-        public String value() {
-            return this.name();
-        }
-    }
-
     private DAY startDay;
     private DAY endDay;
     private ScheduleRestrictionTime startTime;
     private ScheduleRestrictionTime endTime;
-
     public ScheduleRotationRestriction() {
         super();
         startTime = new ScheduleRestrictionTime();
@@ -173,6 +152,24 @@ public class ScheduleRotationRestriction extends Bean {
 
     public void setEndTime(ScheduleRestrictionTime endTime) {
         this.endTime = endTime;
+    }
+
+    public enum DAY {
+        monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+
+        @JsonCreator
+        public static DAY fromName(String name) {
+            for (DAY day : DAY.values()) {
+                if (day.name().equalsIgnoreCase(name))
+                    return day;
+            }
+            return null;
+        }
+
+        @JsonValue
+        public String value() {
+            return this.name();
+        }
     }
 
 }

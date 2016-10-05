@@ -165,10 +165,8 @@ public class NotificationRule extends Bean {
 
         @JsonCreator
         public static ActionType fromValue(String value) {
-            if (value == null)
-                return null;
             for (ActionType actionType : ActionType.values()) {
-                if (actionType.value().toLowerCase().equals(value.toLowerCase()))
+                if (actionType.value().equalsIgnoreCase(value))
                     return actionType;
             }
             return null;
@@ -180,22 +178,20 @@ public class NotificationRule extends Bean {
         }
     }
 
-    public static enum ConditionMatchType {
+    public enum ConditionMatchType {
         MATCH_ALL(OpsGenieClientConstants.API.CONDITION_MATCH_ALL),
         MATCH_ALL_CONDITIONS(OpsGenieClientConstants.API.CONDITION_MATCH_ALL_CONDITIONS),
         MATCH_ANY_CONDITIONS(OpsGenieClientConstants.API.CONDITION_MATCH_ANY_CONDITIONS);
         private String value;
 
-        private ConditionMatchType(String value) {
+        ConditionMatchType(String value) {
             this.value = value;
         }
 
         @JsonCreator
         public static ConditionMatchType fromValue(String value) {
-            if (value == null)
-                return null;
             for (ConditionMatchType conditionMatchType : ConditionMatchType.values()) {
-                if (conditionMatchType.value().toLowerCase().equals(value.toLowerCase()))
+                if (conditionMatchType.value().equalsIgnoreCase(value))
                     return conditionMatchType;
             }
             return null;
@@ -207,7 +203,7 @@ public class NotificationRule extends Bean {
         }
     }
 
-    public static enum NotifyBefore {
+    public enum NotifyBefore {
         JUST_BEFORE(OpsGenieClientConstants.API.NOTIFY_JUST_BEFORE),
         ONE_HOUR(OpsGenieClientConstants.API.NOTIFY_ONE_HOUR),
         FIFTEEN_MINUTES(OpsGenieClientConstants.API.NOTIFY_FIFTEEN_MINUTE),
@@ -221,10 +217,8 @@ public class NotificationRule extends Bean {
 
         @JsonCreator
         public static NotifyBefore fromValue(String value) {
-            if (value == null)
-                return null;
             for (NotifyBefore notifyBefore : NotifyBefore.values()) {
-                if (notifyBefore.value().toLowerCase().equals(value.toLowerCase()))
+                if (notifyBefore.value().equalsIgnoreCase(value))
                     return notifyBefore;
             }
             return null;

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to repeat notificationRule api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#repeatNotificationRule(RepeatNotificationRuleRequest)
  */
-public class RepeatNotificationRuleRequest extends BaseUserComponentRequest<RepeatNotificationRuleResponse> {
+public class RepeatNotificationRuleRequest extends BaseUserRequest<RepeatNotificationRuleResponse> {
     private String id;
     private Boolean enabled;
     private Integer loopAfter;

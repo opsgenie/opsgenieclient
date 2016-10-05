@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by user on 8/5/2014.
+ * @author Mehmet Mustafa Demir
  */
 public abstract class AbstractOpsGenieHttpClient {
     protected Log log;
@@ -65,6 +65,7 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPostRequest(BaseRequestWithHttpParameters request) throws OpsGenieClientException, IOException, ParseException, URISyntaxException {
+        request.validate();
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
@@ -76,6 +77,7 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPostRequest(BaseRequest request, MultipartEntity entity) throws IOException, OpsGenieClientException, ParseException {
+        request.validate();
         String uri = rootUri + request.getEndPoint();
         log.info("Executing OpsGenie request to [" + uri + "] with multipart data");
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, entity);

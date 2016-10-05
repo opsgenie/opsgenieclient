@@ -1,6 +1,5 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
@@ -32,14 +31,14 @@ public class Heartbeat extends Bean {
 		this.status = status;
 	}
 
-	/*
+	/**
 	 * Name of heartbeat monitor
 	 */
 	public String getName() {
 		return name;
 	}
 
-	/*
+	/**
 	 * Sets the name of heartbeat monitor
 	 */
 	public void setName(String name) {
@@ -47,23 +46,6 @@ public class Heartbeat extends Bean {
 	}
 
 	/**
-	 * @deprecated Use getName
-	 **/
-	@Deprecated
-	@JsonIgnore
-	public String getSource() {
-		return getName();
-	}
-
-	/**
-	 * @deprecated Use setName
-	 **/
-	@Deprecated
-	public void setSource(String source) {
-		setName(source);
-	}
-
-	/*
 	 * Last heartbeat recieve time
 	 */
 	@JsonProperty("lastHeartbeat")
@@ -73,28 +55,28 @@ public class Heartbeat extends Bean {
 		return null;
 	}
 
-	/*
+	/**
 	 * Last heartbeat recieve time
 	 */
 	public Date getLastHeartbeat() {
 		return lastHeartbeat;
 	}
 
-	/*
+	/**
 	 * Sets last heartbeat receieve time
 	 */
 	public void setLastHeartbeat(Date lastHeartbeat) {
 		this.lastHeartbeat = lastHeartbeat;
 	}
 
-	/*
+	/**
 	 * Returns true if heartbeat is expired
 	 */
 	public Boolean isExpired() {
 		return expired;
 	}
 
-	/*
+	/**
 	 * Set expired state of heartbeat
 	 */
 	public void setExpired(boolean expired) {

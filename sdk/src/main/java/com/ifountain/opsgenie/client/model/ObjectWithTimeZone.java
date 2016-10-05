@@ -6,5 +6,5 @@ import java.util.TimeZone;
 
 public interface ObjectWithTimeZone {
     @JsonIgnore
-    public TimeZone getObjectTimeZone();
+    TimeZone getObjectTimeZone();
 }

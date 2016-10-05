@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 import java.io.IOException;
@@ -33,11 +32,8 @@ public class GetScheduleOverrideResponse extends BaseResponse {
     }
 
     @Override
-    public void fromJson(String json) throws JsonProcessingException, IOException, ParseException {
+    public void fromJson(String json) throws IOException, ParseException {
         super.fromJson(json);
-        System.out.println(scheduleOverride.getTimeZone());
-        System.out.println(scheduleOverride.getStartDate());
-        System.out.println(scheduleOverride.getStartDate());
         scheduleOverride.setTime();
     }
 

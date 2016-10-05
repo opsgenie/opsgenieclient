@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.beans.Condition;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.Restriction;
-import com.ifountain.opsgenie.client.model.beans.TeamRoutingRuleNotify;
+import com.ifountain.opsgenie.client.model.beans.TeamRoutingRule;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<UpdateTeamRoutingRuleResponse> {
     private String id;
-    private TeamRoutingRuleNotify notify;
+    private TeamRoutingRule.TeamRoutingRuleNotify notify;
     private String name;
     private ConditionMatchType conditionMatchType;
     private List<Condition> conditions;
@@ -46,11 +46,11 @@ public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<Upd
         return new UpdateTeamRoutingRuleResponse();
     }
 
-    public TeamRoutingRuleNotify getNotify() {
+    public TeamRoutingRule.TeamRoutingRuleNotify getNotify() {
         return notify;
     }
 
-    public void setNotify(TeamRoutingRuleNotify notify) {
+    public void setNotify(TeamRoutingRule.TeamRoutingRuleNotify notify) {
         this.notify = notify;
     }
 
@@ -79,7 +79,7 @@ public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<Upd
     }
 
     @JsonProperty("restrictions")
-    public Object getRestirictionsMap() {
+    public Object getRestrictionsMap() {
         if (getRestrictions() != null) {
             if (getRestrictions().size() == 1 && (getRestrictions().get(0).getEndDay() == null
                     && getRestrictions().get(0).getStartDay() == null)) {

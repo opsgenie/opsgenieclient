@@ -34,10 +34,10 @@ public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse>
         this.user = user;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListForwardingsResponse createResponse() {
         return new ListForwardingsResponse();
     }

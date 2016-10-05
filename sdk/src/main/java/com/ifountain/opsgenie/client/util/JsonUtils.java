@@ -3,9 +3,6 @@ package com.ifountain.opsgenie.client.util;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -15,8 +12,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * @author Sezgin Kucukkaraaslan
- * @version  5/31/12 11:35 AM
+ * @author Mehmet Mustafa Demir
  */
 public class JsonUtils {
     public static Map parse(String json) throws IOException {
@@ -39,7 +35,7 @@ public class JsonUtils {
         return mapper.writeValueAsBytes(jsonContent);
     }
 
-    public static void fromMap(Object object, Map map) throws JsonGenerationException, JsonMappingException, JsonProcessingException, IOException, ParseException {
+    public static void fromMap(Object object, Map map) throws IOException, ParseException {
         ObjectMapper mapper = new ObjectMapper();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         mapper.setDateFormat(sdf);
@@ -48,7 +44,7 @@ public class JsonUtils {
             ((ConvertFromTimeZone) object).setTime();
     }
 
-    public static Map toMap(Object object) throws JsonGenerationException, JsonMappingException, JsonProcessingException, IOException, ParseException {
+    public static Map toMap(Object object) throws IOException, ParseException {
         ObjectMapper mapper = new ObjectMapper();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         if (object instanceof ObjectWithTimeZone && ((ObjectWithTimeZone) object).getObjectTimeZone() != null)
@@ -57,7 +53,7 @@ public class JsonUtils {
         return new TreeMap(mapper.convertValue(object, Map.class));
     }
 
-    public static void fromJson(Object object, String json) throws JsonGenerationException, JsonMappingException, JsonProcessingException, IOException, ParseException {
+    public static void fromJson(Object object, String json) throws IOException, ParseException {
         ObjectMapper mapper = new ObjectMapper();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         mapper.setDateFormat(sdf);
@@ -66,7 +62,7 @@ public class JsonUtils {
             ((ConvertFromTimeZone) object).setTime();
     }
 
-    public static String toJson(Object object) throws ParseException, JsonGenerationException, JsonMappingException, IOException {
+    public static String toJson(Object object) throws ParseException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         if (object instanceof ObjectWithTimeZone && ((ObjectWithTimeZone) object).getObjectTimeZone() != null)

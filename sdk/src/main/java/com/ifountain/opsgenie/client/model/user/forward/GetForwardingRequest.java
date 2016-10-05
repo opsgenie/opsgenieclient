@@ -66,10 +66,10 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
         this.alias = alias;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetForwardingResponse createResponse() {
         return new GetForwardingResponse();
     }

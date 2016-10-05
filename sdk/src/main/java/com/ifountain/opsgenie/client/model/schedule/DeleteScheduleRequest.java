@@ -48,10 +48,10 @@ public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteScheduleResponse createResponse() {
         return new DeleteScheduleResponse();
     }

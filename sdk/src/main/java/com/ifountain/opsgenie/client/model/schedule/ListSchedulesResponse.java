@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Schedule;
-import org.codehaus.jackson.JsonProcessingException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -36,7 +35,7 @@ public class ListSchedulesResponse extends BaseResponse {
     }
 
     @Override
-    public void fromJson(String json) throws JsonProcessingException, IOException, ParseException {
+    public void fromJson(String json) throws IOException, ParseException {
         super.fromJson(json);
         if (schedules != null)
             for (Schedule schedule : schedules)

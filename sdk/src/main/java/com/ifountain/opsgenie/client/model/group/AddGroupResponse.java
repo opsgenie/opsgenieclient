@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.group;
 
-import com.ifountain.opsgenie.client.model.GetResponseWithId;
+import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 
 /**
  * Represents OpsGenie service response for add group request.
@@ -8,5 +8,5 @@ import com.ifountain.opsgenie.client.model.GetResponseWithId;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroup(com.ifountain.opsgenie.client.model.group.AddGroupRequest)
  */
-public class AddGroupResponse extends GetResponseWithId {
+public class AddGroupResponse extends BaseResponseWithId {
 }

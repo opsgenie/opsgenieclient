@@ -6,7 +6,6 @@ import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.InputStreamAttachRequest
 import com.ifountain.opsgenie.client.model.alert.*
 import com.ifountain.opsgenie.client.model.beans.AlertRecipient
-import com.ifountain.opsgenie.client.model.beans.RenotifyRecipient
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.util.JsonUtils
@@ -34,7 +33,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
     @Test
     public void testCreateAlertSuccessfully() throws Exception {
 
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"alertId\":\"alertid1\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        httpServer.setResponseToReturn(new HttpTestResponse("{\"alertId\":\"alertid1\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         CreateAlertRequest request = new CreateAlertRequest();
         request.setApiKey("customer1");
@@ -51,7 +50,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setTeams(["team1", "team2"])
         request.setDetails([param1: "value1", param2: "value2"])
 
-        def response = OpsGenieClientTestCase.opsgenieClient.alert().createAlert(request)
+        def response = opsgenieClient.alert().createAlert(request)
         assertEquals("alertid1", response.getAlertId())
         assertEquals(1, response.getTook())
 
@@ -100,12 +99,12 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
 
     @Test
     public void testCreateAlertThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "createAlert", new CreateAlertRequest())
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.alert(), "createAlert", new CreateAlertRequest())
     }
 
     @Test
     public void testCloseAlertSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         CloseAlertRequest request = new CloseAlertRequest();
         request.setAlertId("alert1")
@@ -116,7 +115,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setSource("source1")
         request.setApiKey("customer1")
 
-        def response = OpsGenieClientTestCase.opsgenieClient.alert().closeAlert(request)
+        def response = opsgenieClient.alert().closeAlert(request)
         assertTrue(response.isSuccess())
         assertEquals(1, response.getTook())
 
@@ -138,15 +137,15 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
 
     @Test
     public void testCloseAlertThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "closeAlert", new CloseAlertRequest())
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.alert(), "closeAlert", new CloseAlertRequest())
     }
 
     @Test
     public void testDeleteAlertSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         DeleteAlertRequest request = new DeleteAlertRequest();
-        request.setAlertId("alert1")
+        request.setId("alert1")
         request.setAlias("alias")
         request.setTinyId("tinyId")
         request.setUser("someuser")
@@ -255,8 +254,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         request.setNote("comment")
         request.setSource("source1")
         request.setApiKey("customer1")
-        request.setRecipients([new RenotifyRecipient(recipient: "user1@xyz.com"),
-                               new RenotifyRecipient(recipient: "group1", type: RenotifyRecipient.Type.group)]);
+        request.setRecipients(["user1@xyz.com", "group1"]);
 
         response = OpsGenieClientTestCase.opsgenieClient.alert().renotify(request)
         assertTrue(response.isSuccess())

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.ifountain.opsgenie.client.model.GetResponseWithId;
+import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 
 /**
  * Represents OpsGenie service response for add forwarding request.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.GetResponseWithId;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
-public class AddForwardingResponse extends GetResponseWithId {
+public class AddForwardingResponse extends BaseResponseWithId {
     private String alias;
     /**
      * Alias of the created forwarding

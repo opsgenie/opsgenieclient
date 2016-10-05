@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.ifountain.opsgenie.client.model.GetResponseWithId;
+import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 
 /**
  * Represents OpsGenie service response for add user request.
@@ -8,6 +8,6 @@ import com.ifountain.opsgenie.client.model.GetResponseWithId;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addUser(AddUserRequest)
  */
-public class AddUserResponse extends GetResponseWithId {
+public class AddUserResponse extends BaseResponseWithId {
 
 }

@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.AlertNote;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
@@ -14,24 +14,24 @@ import java.util.List;
  */
 public class ListAlertNotesResponse extends BaseResponse {
     private String lastKey;
-    private List<AlertNote> notes;
+    @JsonProperty("notes")
+    private List<AlertNote> alertNotes;
 
     /**
-     * @deprecated Use getNotes
+     * @return alert note objects
+     * @see AlertNote
      */
-    @Deprecated
-    @JsonIgnore
     public List<AlertNote> getAlertNotes() {
-        return notes;
+        return alertNotes;
     }
 
     /**
-     * @deprecated Use setNotes
+     * Sets alert note objects
+     *
+     * @see AlertNote
      */
-    @Deprecated
-    @JsonIgnore
     public void setAlertNotes(List<AlertNote> alertNotes) {
-        this.notes = alertNotes;
+        this.alertNotes = alertNotes;
     }
 
     public String getLastKey() {
@@ -42,11 +42,4 @@ public class ListAlertNotesResponse extends BaseResponse {
         this.lastKey = lastKey;
     }
 
-    public List<AlertNote> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<AlertNote> notes) {
-        this.notes = notes;
-    }
 }

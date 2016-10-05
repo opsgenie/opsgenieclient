@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to repeat notificationRule api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest)
  */
-public class ChangeNotificationRuleOrderRequest extends BaseUserComponentRequest<ChangeNotificationRuleOrderResponse> {
+public class ChangeNotificationRuleOrderRequest extends BaseUserRequest<ChangeNotificationRuleOrderResponse> {
     private String id;
     private Integer applyOrder;
 

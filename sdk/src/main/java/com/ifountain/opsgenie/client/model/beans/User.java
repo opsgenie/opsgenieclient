@@ -20,36 +20,6 @@ public class User extends Bean {
         }
     }
 
-    public static String getLocaleId(Locale locale) {
-        return locale.toString();
-    }
-
-    public static Locale getLocale(String localeId) {
-        return LOCALES.get(localeId);
-    }
-
-    public static enum Role {
-        admin, owner, user;
-
-        @JsonCreator
-        public static Role fromName(String name) {
-            for (Role role : Role.values()) {
-                if (role.name().toLowerCase().equals(name.toLowerCase()))
-                    return role;
-            }
-            return null;
-        }
-
-        @JsonValue
-        public String value() {
-            return name();
-        }
-    }
-
-    public static enum State {
-        active, waitingverification, inactive;
-    }
-
     private String id;
     private String username;
     private State state;
@@ -63,6 +33,14 @@ public class User extends Bean {
     private List<String> escalations;
     private List<String> schedules;
     private List<Contact> contacts;
+
+    public static String getLocaleId(Locale locale) {
+        return locale.toString();
+    }
+
+    public static Locale getLocale(String localeId) {
+        return LOCALES.get(localeId);
+    }
 
     /**
      * Id of user
@@ -266,6 +244,28 @@ public class User extends Bean {
 
     public void setSkypeUsername(String skypeUsername) {
         this.skypeUsername = skypeUsername;
+    }
+
+    public enum Role {
+        admin, owner, user;
+
+        @JsonCreator
+        public static Role fromName(String name) {
+            for (Role role : Role.values()) {
+                if (role.name().equalsIgnoreCase(name))
+                    return role;
+            }
+            return null;
+        }
+
+        @JsonValue
+        public String value() {
+            return name();
+        }
+    }
+
+    public enum State {
+        active, waitingverification, inactive
     }
 
 }

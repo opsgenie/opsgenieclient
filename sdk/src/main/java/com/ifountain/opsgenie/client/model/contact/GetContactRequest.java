@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make a get contact api call.
@@ -11,7 +11,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(GetContactRequest)
  */
-public class GetContactRequest extends BaseUserComponentRequest<GetContactResponse> {
+public class GetContactRequest extends BaseUserRequest<GetContactResponse> {
     private String id;
 
     /**
@@ -30,9 +30,9 @@ public class GetContactRequest extends BaseUserComponentRequest<GetContactRespon
 
     @Override
     public void validate() throws OpsGenieClientValidationException {
+        super.validate();
         if (id == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        super.validate();
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
-import org.codehaus.jackson.JsonProcessingException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -32,7 +31,7 @@ public class ListForwardingsResponse extends BaseResponse {
     }
 
     @Override
-    public void fromJson(String json) throws JsonProcessingException, IOException, ParseException {
+    public void fromJson(String json) throws IOException, ParseException {
         super.fromJson(json);
         if (forwardings != null)
             for (Forwarding forwarding : forwardings)

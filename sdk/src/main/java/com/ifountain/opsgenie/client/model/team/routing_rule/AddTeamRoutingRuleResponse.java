@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.team.routing_rule;
 
-import com.ifountain.opsgenie.client.model.GetResponseWithId;
+import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 
 /**
  * Represents OpsGenie service response for add team routing rule request.
@@ -8,6 +8,6 @@ import com.ifountain.opsgenie.client.model.GetResponseWithId;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeamRoutingRule(AddTeamRoutingRuleRequest)
  */
-public class AddTeamRoutingRuleResponse extends GetResponseWithId {
+public class AddTeamRoutingRuleResponse extends BaseResponseWithId {
 
 }

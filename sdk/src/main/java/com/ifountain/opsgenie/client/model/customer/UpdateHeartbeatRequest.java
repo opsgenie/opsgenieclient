@@ -12,6 +12,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 public class UpdateHeartbeatRequest extends AddHeartbeatRequest {
 
     /**
+     * check the parameters for validation.
      * @throws OpsGenieClientValidationException when heartbeat name is null!
      */
     @Override

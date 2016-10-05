@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.GetResponseWithId;
+import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 
 /**
  * Represents OpsGenie service response for add notification rule request.
@@ -8,6 +8,6 @@ import com.ifountain.opsgenie.client.model.GetResponseWithId;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRule(AddNotificationRuleRequest)
  */
-public class AddNotificationRuleResponse extends GetResponseWithId {
+public class AddNotificationRuleResponse extends BaseResponseWithId {
 
 }

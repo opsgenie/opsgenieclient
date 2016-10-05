@@ -24,22 +24,7 @@ class JsonOpsgenieHttpClient extends AbstractOpsGenieHttpClient {
     protected BaseResponse populateResponse(BaseRequest request, OpsGenieHttpResponse httpResponse) throws ParseException, IOException {
         BaseResponse response = super.populateResponse(request, httpResponse);
         OpsGenieJsonResponse jsonResponse = new OpsGenieJsonResponse(httpResponse.getContent());
-        /*        
-        response.deserialize(jsonResponse.getJson());
-        
-        response.setJson(new String(jsonResponse.getContent()));
-
-        String toJson = response.toJson();*/
-
         response.fromJson(new String(jsonResponse.getContent()));
-        /*
-        String superJson = response.toJson();
-        
-        System.out.println(superJson);
-        System.out.println(toJson);
-        System.out.println(superJson.equals(toJson));
-        */
-        
         return response;
     }
 

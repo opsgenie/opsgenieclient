@@ -90,18 +90,29 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> impleme
         this.timeZone = timeZone;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddScheduleResponse createResponse() {
         return new AddScheduleResponse();
     }
 
+    /**
+     * Get Name of the team that the schedule will be assigned to. If left empty, the schedule will be global and not belong to any team.
+     *
+     * @return String team Name
+     */
     public String getTeam() {
         return team;
+
     }
 
+    /**
+     * Sets Name of the team that the schedule will be assigned to. If left empty, the schedule will be global and not belong to any team.
+     *
+     * @param team String team Name
+     */
     public void setTeam(String team) {
         this.team = team;
     }

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make a list notificationRules api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRule(ListNotificationRulesRequest)
  */
-public class ListNotificationRulesRequest extends BaseUserComponentRequest<ListNotificationRulesResponse> {
+public class ListNotificationRulesRequest extends BaseUserRequest<ListNotificationRulesResponse> {
 
     /**
      * Rest api uri of listing notificationRule operation.

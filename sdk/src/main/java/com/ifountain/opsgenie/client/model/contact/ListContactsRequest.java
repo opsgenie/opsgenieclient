@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model.contact;
 
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make a list contacts api call.
@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#listContact(ListContactsRequest)
  */
-public class ListContactsRequest extends BaseUserComponentRequest<ListContactsResponse> {
+public class ListContactsRequest extends BaseUserRequest<ListContactsResponse> {
 
     /**
      * Rest api uri of listing contact operation.

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 import com.ifountain.opsgenie.client.model.beans.Contact;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
 
@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.beans.Contact.Method;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#addContact(AddContactRequest)
  */
-public class AddContactRequest extends BaseUserComponentRequest<AddContactResponse> {
+public class AddContactRequest extends BaseUserRequest<AddContactResponse> {
     private Method method;
     private String to;
 

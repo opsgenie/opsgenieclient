@@ -14,8 +14,7 @@ import java.util.Map;
  * Base class for container objects which provides content parameters for
  * OpsGenie service calls.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 2:03 PM
+ * @author Mehmet Mustafa Demir
  */
 @JsonSerialize(include = Inclusion.NON_NULL)
 @JsonPropertyOrder(alphabetic = true)
@@ -30,6 +29,13 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     }
 
     /**
+     * Sets the customer key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    /**
      * check the parameters for validation. It will be overridden by necessary
      * Requests.
      *
@@ -39,13 +45,6 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     public void validate() throws OpsGenieClientValidationException {
         if (apiKey == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.API_KEY);
-    }
-
-    /**
-     * Sets the customer key used for authenticating API requests.
-     */
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
     }
 
     /**

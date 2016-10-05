@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.team;
 
-import com.ifountain.opsgenie.client.model.GetResponseWithId;
+import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 
 /**
  * Represents OpsGenie service response for add team request.
@@ -8,6 +8,6 @@ import com.ifountain.opsgenie.client.model.GetResponseWithId;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
-public class AddTeamResponse extends GetResponseWithId {
+public class AddTeamResponse extends BaseResponseWithId {
 
 }

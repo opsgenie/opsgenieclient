@@ -1,11 +1,10 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -14,7 +13,7 @@ import java.util.TimeZone;
  *
  * @author Mehmet Mustafa Demir
  */
-public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> {
+abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> implements ObjectWithTimeZone {
     private String name;
     private Date time;
     @JsonProperty("timezone")
@@ -33,19 +32,6 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * Target date in string form of WhoIsOnCall request
-     */
-    @JsonProperty("time")
-    public String getTimeString() {
-        if (time != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-            sdf.setTimeZone(timeZone != null ? timeZone : TimeZone.getTimeZone("UTC"));
-            return sdf.format(time);
-        }
-        return null;
     }
 
     /**
@@ -93,5 +79,10 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
     @Override
     public String getEndPoint() {
         return "/v1.1/json/schedule/whoIsOnCall";
+    }
+
+    @Override
+    public TimeZone getObjectTimeZone() {
+        return timeZone;
     }
 }

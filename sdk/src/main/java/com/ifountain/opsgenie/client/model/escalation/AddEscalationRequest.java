@@ -62,10 +62,16 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
         return new AddEscalationResponse();
     }
 
+    /**
+     * Name of team
+     */
     public String getTeam() {
         return team;
     }
 
+    /**
+     * Sets Name of team
+     */
     public void setTeam(String team) {
         this.team = team;
     }

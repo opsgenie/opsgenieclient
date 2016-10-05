@@ -20,7 +20,7 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> imp
 	private Date startDate;
 	private Date endDate;
 	@JsonProperty("timezone")
-	private TimeZone timeZone;
+	private TimeZone timeZone = TimeZone.getTimeZone("GMT");
 
 	/**
 	 * Rest api uri of forwarding create operation.

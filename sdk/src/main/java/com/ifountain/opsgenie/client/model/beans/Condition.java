@@ -46,7 +46,7 @@ public class Condition extends Bean {
         this.operation = operation;
     }
 
-    public static enum Field {
+    public enum Field {
         ACTIONS(OpsGenieClientConstants.API.ACTIONS),
         ALIAS(OpsGenieClientConstants.API.ALIAS),
         DESCRIPTION(OpsGenieClientConstants.API.DESCRIPTION),
@@ -65,10 +65,8 @@ public class Condition extends Bean {
 
         @JsonCreator
         public static Field fromValue(String value) {
-            if (value == null)
-                return null;
             for (Field field : Field.values()) {
-                if (field.value().toLowerCase().equals(value.toLowerCase()))
+                if (field.value().equalsIgnoreCase(value))
                     return field;
             }
             return null;
@@ -80,7 +78,7 @@ public class Condition extends Bean {
         }
     }
 
-    public static enum Operation {
+    public enum Operation {
         CONTAINS(OpsGenieClientConstants.API.OPERATION_CONTAINS),
         EQUALS(OpsGenieClientConstants.API.OPERATION_EQUALS),
         STARTS_WITH(OpsGenieClientConstants.API.OPERATION_STARTS_WITH),
@@ -99,10 +97,8 @@ public class Condition extends Bean {
 
         @JsonCreator
         public static Operation fromValue(String value) {
-            if (value == null)
-                return null;
             for (Operation operation : Operation.values()) {
-                if (operation.value().toLowerCase().equals(value.toLowerCase()))
+                if (operation.value().equalsIgnoreCase(value))
                     return operation;
             }
             return null;

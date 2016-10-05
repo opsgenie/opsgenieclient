@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class GetForwardingResponse extends BaseResponse {
     }
 
     @Override
-    public void fromJson(String json) throws JsonProcessingException, IOException, ParseException {
+    public void fromJson(String json) throws IOException, ParseException {
         super.fromJson(json);
         if (forwarding != null)
             forwarding.setTime();

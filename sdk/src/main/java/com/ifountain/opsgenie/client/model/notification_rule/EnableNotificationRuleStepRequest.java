@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make an enable notificationRuleStep api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRuleStep(EnableNotificationRuleStepRequest)
  */
-public class EnableNotificationRuleStepRequest extends BaseUserComponentRequest<EnableNotificationRuleStepResponse> {
+public class EnableNotificationRuleStepRequest extends BaseUserRequest<EnableNotificationRuleStepResponse> {
     private String ruleId;
     private String id;
 

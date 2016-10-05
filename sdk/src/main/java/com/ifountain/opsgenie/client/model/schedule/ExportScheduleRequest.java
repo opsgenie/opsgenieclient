@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -17,7 +16,6 @@ public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
     private String id;
     @JsonProperty("timezone")
     private TimeZone timeZone;
-    private Locale locale;
 
     public String getId() {
         return id;
@@ -71,22 +69,6 @@ public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
-    }
-
-    /**
-     * Locale for request
-     */
-    @Deprecated
-    public Locale getLocale() {
-        return locale;
-    }
-
-    /**
-     * Sets locale for request.
-     */
-    @Deprecated
-    public void setLocale(Locale locale) {
-        this.locale = locale;
     }
 
 }

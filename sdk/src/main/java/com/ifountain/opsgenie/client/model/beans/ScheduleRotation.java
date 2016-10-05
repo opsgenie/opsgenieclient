@@ -103,7 +103,7 @@ public class ScheduleRotation extends Bean implements ObjectWithTimeZone {
 	 * @see ScheduleParticipant
 	 */
 	@JsonProperty("participants")
-	public List<String> getParticipantList() {
+	public List<String> getParticipantsNames() {
 		if (participants == null)
 			return null;
 		List<String> participantList = new ArrayList<String>();
@@ -151,7 +151,7 @@ public class ScheduleRotation extends Bean implements ObjectWithTimeZone {
 	/**
 	 * Will be set by schedule
 	 *
-	 * @param scheduleTimeZone
+	 * @param scheduleTimeZone -schedule time zone
 	 */
 	public void setScheduleTimeZone(TimeZone scheduleTimeZone) {
 		this.scheduleTimeZone = scheduleTimeZone;

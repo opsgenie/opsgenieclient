@@ -22,7 +22,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.AddTeamRequest
      * @see com.ifountain.opsgenie.client.model.team.AddTeamResponse
      */
-    public AddTeamResponse addTeam(AddTeamRequest addTeamRequest) throws IOException, OpsGenieClientException, ParseException;
+    AddTeamResponse addTeam(AddTeamRequest addTeamRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Updates team at OpsGenie.
@@ -32,7 +32,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.UpdateTeamRequest
      * @see com.ifountain.opsgenie.client.model.team.UpdateTeamResponse
      */
-    public UpdateTeamResponse updateTeam(UpdateTeamRequest updateTeamRequest) throws IOException, OpsGenieClientException, ParseException;
+    UpdateTeamResponse updateTeam(UpdateTeamRequest updateTeamRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Deletes a team at OpsGenie.
@@ -42,7 +42,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.DeleteTeamRequest
      * @see com.ifountain.opsgenie.client.model.team.DeleteTeamResponse
      */
-    public DeleteTeamResponse deleteTeam(DeleteTeamRequest deleteTeamRequest) throws IOException, OpsGenieClientException, ParseException;
+    DeleteTeamResponse deleteTeam(DeleteTeamRequest deleteTeamRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Get team details
@@ -52,7 +52,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.GetTeamRequest
      * @see com.ifountain.opsgenie.client.model.team.GetTeamResponse
      */
-    public GetTeamResponse getTeam(GetTeamRequest getTeamRequest) throws IOException, OpsGenieClientException, ParseException;
+    GetTeamResponse getTeam(GetTeamRequest getTeamRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * List teams of customer
@@ -62,7 +62,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.ListTeamsRequest
      * @see com.ifountain.opsgenie.client.model.team.ListTeamsResponse
      */
-    public ListTeamsResponse listTeams(ListTeamsRequest listTeamsRequest) throws IOException, OpsGenieClientException, ParseException;
+    ListTeamsResponse listTeams(ListTeamsRequest listTeamsRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Lists team logs
@@ -72,7 +72,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.ListTeamLogsRequest
      * @see com.ifountain.opsgenie.client.model.team.ListTeamLogsResponse
      */
-    public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException;
+    ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest) throws ParseException, OpsGenieClientException, IOException;
 
     /**
      * Adds a team member at OpsGenie.
@@ -82,7 +82,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.AddTeamMemberRequest
      * @see com.ifountain.opsgenie.client.model.team.AddTeamMemberResponse
      */
-    public AddTeamMemberResponse addTeamMember(AddTeamMemberRequest addTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
+    AddTeamMemberResponse addTeamMember(AddTeamMemberRequest addTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Removes a team member at OpsGenie.
@@ -92,7 +92,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.DeleteTeamMemberRequest
      * @see com.ifountain.opsgenie.client.model.team.DeleteTeamMemberResponse
      */
-    public DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
+    DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Adds a TeamRoutingRule at OpsGenie.
@@ -102,7 +102,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.AddTeamRoutingRuleRequest
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.AddTeamRoutingRuleResponse
      */
-    public AddTeamRoutingRuleResponse addTeamRoutingRule(AddTeamRoutingRuleRequest addTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+    AddTeamRoutingRuleResponse addTeamRoutingRule(AddTeamRoutingRuleRequest addTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Updates TeamRoutingRule at OpsGenie.
@@ -112,7 +112,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.UpdateTeamRoutingRuleRequest
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.UpdateTeamRoutingRuleResponse
      */
-    public UpdateTeamRoutingRuleResponse updateTeamRoutingRule(UpdateTeamRoutingRuleRequest updateTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+    UpdateTeamRoutingRuleResponse updateTeamRoutingRule(UpdateTeamRoutingRuleRequest updateTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Change order of a TeamRoutingRule at OpsGenie.
@@ -122,7 +122,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.ChangeTeamRoutingRuleOrderRequest
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.ChangeTeamRoutingRuleOrderResponse
      */
-    public ChangeTeamRoutingRuleOrderResponse changeTeamRoutingRuleOrder(ChangeTeamRoutingRuleOrderRequest changeTeamRoutingRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
+    ChangeTeamRoutingRuleOrderResponse changeTeamRoutingRuleOrder(ChangeTeamRoutingRuleOrderRequest changeTeamRoutingRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException;
 
 
     /**
@@ -133,7 +133,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.DeleteTeamRoutingRuleRequest
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.DeleteTeamRoutingRuleResponse
      */
-    public DeleteTeamRoutingRuleResponse deleteTeamRoutingRule(DeleteTeamRoutingRuleRequest deleteTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+    DeleteTeamRoutingRuleResponse deleteTeamRoutingRule(DeleteTeamRoutingRuleRequest deleteTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * Get TeamRoutingRule details
@@ -143,7 +143,7 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.GetTeamRoutingRuleRequest
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.GetTeamRoutingRuleResponse
      */
-    public GetTeamRoutingRuleResponse getTeamRoutingRule(GetTeamRoutingRuleRequest getTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
+    GetTeamRoutingRuleResponse getTeamRoutingRule(GetTeamRoutingRuleRequest getTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException;
 
     /**
      * List TeamRoutingRules of customer
@@ -153,6 +153,6 @@ public interface ITeamOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.ListTeamRoutingRulesRequest
      * @see com.ifountain.opsgenie.client.model.team.routing_rule.ListTeamRoutingRulesResponse
      */
-    public ListTeamRoutingRulesResponse listTeamRoutingRules(ListTeamRoutingRulesRequest listTeamRoutingRulesRequest) throws IOException, OpsGenieClientException, ParseException;
+    ListTeamRoutingRulesResponse listTeamRoutingRules(ListTeamRoutingRulesRequest listTeamRoutingRulesRequest) throws IOException, OpsGenieClientException, ParseException;
 
 }

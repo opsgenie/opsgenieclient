@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.integration;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Container for the parameters to make an enable/disable integration api call.
@@ -10,6 +11,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  */
 public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {
     private String name;
+    @JsonIgnore
     private Boolean enabled = true;
     private String id;
 

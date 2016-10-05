@@ -23,7 +23,6 @@ public class UpdateForwardingRequest extends AddForwardingRequest {
 
     /**
      * check the parameters for validation.
-     * It will be overridden by necessary Requests.
      *
      * @throws OpsGenieClientValidationException when alias and id both null!
      */

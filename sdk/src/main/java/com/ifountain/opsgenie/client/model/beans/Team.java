@@ -3,8 +3,8 @@ package com.ifountain.opsgenie.client.model.beans;
 import java.util.List;
 
 /**
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 12:15 PM
+ * Team Bean
+ * @author Mehmet Mustafa Demir
  */
 public class Team extends Bean {
     private String id;
@@ -124,7 +124,7 @@ public class Team extends Bean {
             this.role = role;
         }
 
-        public static enum Role {
+        public enum Role {
             admin, user
         }
 

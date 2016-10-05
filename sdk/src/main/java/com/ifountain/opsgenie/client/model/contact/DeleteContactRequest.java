@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model.contact;
 
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make a delete contact api call.
@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#deleteContact(DeleteContactRequest)
  */
-public class DeleteContactRequest extends BaseUserComponentRequest<DeleteContactResponse> {
+public class DeleteContactRequest extends BaseUserRequest<DeleteContactResponse> {
     private String id;
 
     /**

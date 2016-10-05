@@ -50,13 +50,7 @@ public class ScriptProxy {
         
         List<String> recipientList = ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RECIPIENTS);
         if(recipientList != null){
-            List<RenotifyRecipient> recipients = new ArrayList<RenotifyRecipient>();
-            for(String recipientName:recipientList){
-                RenotifyRecipient recipient = new RenotifyRecipient();
-                recipient.setRecipient(recipientName);
-                recipients.add(recipient);
-            }
-            request.setRecipients(recipients);
+            request.setRecipients(recipientList);
         }
         return successToMap(this.opsGenieClient.alert().renotify(request));
     }

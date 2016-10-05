@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make an update contact api call.
@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#updateContact(UpdateContactRequest)
  */
-public class UpdateContactRequest extends BaseUserComponentRequest<UpdateContactResponse> {
+public class UpdateContactRequest extends BaseUserRequest<UpdateContactResponse> {
     private String id;
     private String to;
 

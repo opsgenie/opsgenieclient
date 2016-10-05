@@ -4,73 +4,9 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
 public class EscalationRule extends Bean {
-    public static enum Type {
-        user, group, schedule, team
-    }
-
-    public static enum NotifyType {
-        Default("default"), users("users"), admins("admins"), next("next"), previous("previous");
-        private String value;
-
-        NotifyType(String value) {
-            this.value = value;
-        }
-
-        @JsonCreator
-        public static NotifyType fromValue(String value) {
-            if (value == null)
-                return NotifyType.Default;
-            for (NotifyType notifyType : values()) {
-                if (notifyType.value().toLowerCase().equals(value.toLowerCase()))
-                    return notifyType;
-            }
-            return NotifyType.Default;
-        }
-
-        @JsonValue
-        public String value() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return value;
-        }
-    }
-
-    public static enum NotifyCondition {
-        IF_NOT_ACKED("if-not-acked"), IF_NOT_CLOSED("if-not-closed");
-        private String value;
-
-        NotifyCondition(String value) {
-            this.value = value;
-        }
-
-        @JsonCreator
-        public static NotifyCondition fromValue(String value) {
-            if (value == null)
-                return NotifyCondition.IF_NOT_ACKED;
-            for (NotifyCondition notifyType : values()) {
-                if (notifyType.value().toLowerCase().equals(value.toLowerCase()))
-                    return notifyType;
-            }
-            return NotifyCondition.IF_NOT_ACKED;
-        }
-
-        @JsonValue
-        public String value() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return value;
-        }
-    }
-
     private String notify;
     private NotifyType notifyType = NotifyType.Default;
-    private NotifyCondition notifyCondition = NotifyCondition.IF_NOT_ACKED;
+    private NotifyCondition notifyCondition;
     private Type type;
     private int delay;
 
@@ -142,9 +78,8 @@ public class EscalationRule extends Bean {
             return false;
         if (type != that.type)
             return false;
-        if (notifyType != that.notifyType)
+        if (that.notifyType != notifyType)
             return false;
-
         return true;
     }
 
@@ -154,5 +89,65 @@ public class EscalationRule extends Bean {
 
     public void setNotifyCondition(NotifyCondition notifyCondition) {
         this.notifyCondition = notifyCondition;
+    }
+
+    public enum Type {
+        user, group, schedule, team
+    }
+
+    public enum NotifyType {
+        Default("default"), users("users"), admins("admins"), next("next"), previous("previous");
+        private String value;
+
+        NotifyType(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static NotifyType fromValue(String value) {
+            for (NotifyType notifyType : values()) {
+                if (notifyType.value().equalsIgnoreCase(value))
+                    return notifyType;
+            }
+            return NotifyType.Default;
+        }
+
+        @JsonValue
+        public String value() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    public enum NotifyCondition {
+        IF_NOT_ACKED("if-not-acked"), IF_NOT_CLOSED("if-not-closed");
+        private String value;
+
+        NotifyCondition(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static NotifyCondition fromValue(String value) {
+            for (NotifyCondition notifyType : values()) {
+                if (notifyType.value().equalsIgnoreCase(value))
+                    return notifyType;
+            }
+            return NotifyCondition.IF_NOT_ACKED;
+        }
+
+        @JsonValue
+        public String value() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
     }
 }

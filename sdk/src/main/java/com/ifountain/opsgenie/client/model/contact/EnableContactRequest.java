@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make an enable contact api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#enableContact(EnableContactRequest)
  */
-public class EnableContactRequest extends BaseUserComponentRequest<EnableContactResponse> {
+public class EnableContactRequest extends BaseUserRequest<EnableContactResponse> {
     private String id;
 
     @Override

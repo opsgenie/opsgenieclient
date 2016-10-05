@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 import com.ifountain.opsgenie.client.model.beans.Condition;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRule(AddNotificationRuleRequest)
  */
-public class AddNotificationRuleRequest extends BaseUserComponentRequest<AddNotificationRuleResponse> {
+public class AddNotificationRuleRequest extends BaseUserRequest<AddNotificationRuleResponse> {
     private String name;
     private ActionType actionType;
     private ConditionMatchType conditionMatchType;
@@ -74,7 +74,7 @@ public class AddNotificationRuleRequest extends BaseUserComponentRequest<AddNoti
     }
 
     @JsonProperty("restrictions")
-    public Object getRestirictionsMap() {
+    public Object getRestrictionsMap() {
         if (getRestrictions() != null) {
             if (getRestrictions().size() == 1 && (getRestrictions().get(0).getEndDay() == null
                     && getRestrictions().get(0).getStartDay() == null)) {

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make an disable notificationRule api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.DisableNotificationRuleRequest)
  */
-public class DisableNotificationRuleRequest extends BaseUserComponentRequest<DisableNotificationRuleResponse> {
+public class DisableNotificationRuleRequest extends BaseUserRequest<DisableNotificationRuleResponse> {
 	private String id;
 
     /**

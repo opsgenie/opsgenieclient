@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model;
 
-public class GetResponseWithId extends BaseResponse {
+public class BaseResponseWithId extends BaseResponse {
     private String id;
 
     public String getId() {

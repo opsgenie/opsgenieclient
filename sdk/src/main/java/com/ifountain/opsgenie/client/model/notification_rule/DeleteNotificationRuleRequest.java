@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make a delete notificationRule api call.
@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRule(DeleteNotificationRuleRequest)
  */
-public class DeleteNotificationRuleRequest extends BaseUserComponentRequest<DeleteNotificationRuleResponse> {
+public class DeleteNotificationRuleRequest extends BaseUserRequest<DeleteNotificationRuleResponse> {
     private String id;
 
     /**

@@ -95,7 +95,7 @@ public interface INotificationRuleOpsGenieClient {
     /**
      * List notificationRule of customer
      *
-     * @param listNotificationRuleRequest Object to construct request parameters.
+     * @param listNotificationRulesRequest Object to construct request parameters.
      * @return <code>ListNotificationRuleResponse</code> object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.notification_rule.ListNotificationRulesRequest
      * @see com.ifountain.opsgenie.client.model.notification_rule.ListNotificationRulesResponse

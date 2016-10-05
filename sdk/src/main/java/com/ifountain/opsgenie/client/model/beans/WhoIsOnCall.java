@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -8,7 +10,8 @@ import java.util.List;
 
 public class WhoIsOnCall extends BaseWhoIsOnCall {
     private List<WhoIsOnCall> participants;
-    private Boolean isEnabled;
+    @JsonProperty("isEnabled")
+    private Boolean enabled;
 
     private Boolean forwarded;
     private WhoIsOnCall forwardedFrom;
@@ -24,12 +27,12 @@ public class WhoIsOnCall extends BaseWhoIsOnCall {
         this.participants = participants;
     }
 
-    public Boolean getIsEnabled() {
-        return isEnabled;
+    public Boolean isEnabled() {
+        return enabled;
     }
 
-    public void setIsEnabled(Boolean isEnabled) {
-        this.isEnabled = isEnabled;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Boolean getForwarded() {

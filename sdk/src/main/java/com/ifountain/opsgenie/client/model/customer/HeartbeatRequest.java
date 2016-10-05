@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
-    String name;
+    private String name;
 
     /*
     * Name of heartbeat monitor

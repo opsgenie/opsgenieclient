@@ -21,7 +21,7 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     private Date startDate;
     private Date endDate;
     @JsonProperty("timezone")
-    private TimeZone timeZone;
+    private TimeZone timeZone = TimeZone.getTimeZone("GMT");
     private List<String> rotationIds;
 
     /**

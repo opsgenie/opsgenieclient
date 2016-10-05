@@ -9,20 +9,10 @@ public class FlatWhoIsOnCall extends BaseWhoIsOnCall {
     private List<String> recipients;
     private Boolean isEnabled;
 
-    /**
-     * OnCall recipients
-     *
-     * @return
-     */
     public List<String> getRecipients() {
         return recipients;
     }
 
-    /**
-     * Sets OnCall recipients
-     *
-     * @param recipients
-     */
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
     }

@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
@@ -13,21 +12,20 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listScheduleOverrides(ListScheduleOverridesRequest)
  */
 public class ListScheduleOverridesResponse extends BaseResponse {
-    @JsonProperty("overrides")
-    private List<ScheduleOverride> scheduleOverides;
+    private List<ScheduleOverride> overrides;
 
     /**
      * Gets override objects.
      */
-    public List<ScheduleOverride> getScheduleOverides() {
-        return scheduleOverides;
+    public List<ScheduleOverride> getOverrides() {
+        return overrides;
     }
 
     /**
      * Sets override objects.
      */
-    public void setScheduleOverides(List<ScheduleOverride> scheduleOverides) {
-        this.scheduleOverides = scheduleOverides;
+    public void setOverrides(List<ScheduleOverride> overrides) {
+        this.overrides = overrides;
     }
 
 }

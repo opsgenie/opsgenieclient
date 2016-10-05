@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseUserComponentRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
 
 /**
@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.beans.Contact.Method;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRuleStep(AddNotificationRuleStepRequest)
  */
-public class AddNotificationRuleStepRequest extends BaseUserComponentRequest<AddNotificationRuleStepResponse> {
+public class AddNotificationRuleStepRequest extends BaseUserRequest<AddNotificationRuleStepResponse> {
     private String ruleId;
     private Method method;
     private String to;
