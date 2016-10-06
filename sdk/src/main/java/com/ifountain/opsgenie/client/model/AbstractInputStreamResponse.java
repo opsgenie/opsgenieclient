@@ -29,6 +29,7 @@ public abstract class AbstractInputStreamResponse extends BaseResponse{
     /**
      * Convert map data to response
      */
+    @Deprecated
     public void deserialize(Map data) throws ParseException {
         throw new UnsupportedOperationException("unsupported method deserialize");
     }

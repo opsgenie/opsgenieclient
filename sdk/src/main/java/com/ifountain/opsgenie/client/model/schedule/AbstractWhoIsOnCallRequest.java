@@ -1,23 +1,24 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 /**
  * Base Container for the parameters to make a who is on call api call.
+ *
+ * @author Mehmet Mustafa Demir
  */
-public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> {
+abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> implements ObjectWithTimeZone {
     private String name;
     private Date time;
-    private TimeZone timezone;
+    @JsonProperty("timezone")
+    private TimeZone timeZone;
     private String id;
-
 
     /**
      * Id of object to be queried.
@@ -31,19 +32,6 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * Target date in string form of WhoIsOnCall request
-     */
-    @JsonProperty("time")
-    public String getTimeString() {
-        if (time != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-            sdf.setTimeZone(timezone != null ? timezone : TimeZone.getTimeZone("UTC"));
-            return sdf.format(time);
-        }
-        return null;
     }
 
     /**
@@ -61,27 +49,17 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
     }
 
     /**
-     * Timezone Id for request
-     */
-    @JsonProperty("timezone")
-    public String getTimeZoneId() {
-        if (timezone != null)
-            return timezone.getID();
-        return null;
-    }
-
-    /**
-     * Timezone for request
+     * TimeZone for request
      */
     public TimeZone getTimeZone() {
-        return timezone;
+        return timeZone;
     }
 
     /**
-     * Sets timezone for request
+     * Sets timeZone for request
      */
-    public void setTimeZone(TimeZone timezone) {
-        this.timezone = timezone;
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 
     /**
@@ -101,5 +79,10 @@ public abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends
     @Override
     public String getEndPoint() {
         return "/v1.1/json/schedule/whoIsOnCall";
+    }
+
+    @Override
+    public TimeZone getObjectTimeZone() {
+        return timeZone;
     }
 }

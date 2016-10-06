@@ -1,18 +1,16 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 import com.ifountain.opsgenie.client.model.beans.Contact;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make an add contact api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#addContact(AddContactRequest)
  */
-public class AddContactRequest extends BaseRequest<AddContactResponse> {
-    private String username;
-    private String userId;
+public class AddContactRequest extends BaseUserRequest<AddContactResponse> {
     private Method method;
     private String to;
 
@@ -29,29 +27,6 @@ public class AddContactRequest extends BaseRequest<AddContactResponse> {
     @Override
     public AddContactResponse createResponse() {
         return new AddContactResponse();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    @JsonProperty("method")
-    public String getMethodValue() {
-        if (method != null)
-            return method.value();
-        return null;
     }
 
     public Contact.Method getMethod() {

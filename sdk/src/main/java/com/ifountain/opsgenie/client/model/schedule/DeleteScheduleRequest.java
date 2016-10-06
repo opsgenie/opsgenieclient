@@ -5,7 +5,8 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a delete schedule api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteSchedule(com.ifountain.opsgenie.client.model.schedule.DeleteScheduleRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteSchedule(DeleteScheduleRequest)
  */
 public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
     private String id;
@@ -47,10 +48,10 @@ public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteScheduleResponse createResponse() {
         return new DeleteScheduleResponse();
     }

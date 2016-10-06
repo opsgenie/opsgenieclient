@@ -3,7 +3,8 @@ package com.ifountain.opsgenie.client.model.schedule;
 /**
  * Container for the parameters to make a flat who is on call api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#flatWhoIsOnCall(com.ifountain.opsgenie.client.model.schedule.FlatWhoIsOnCallRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#flatWhoIsOnCall(FlatWhoIsOnCallRequest)
  */
 public class FlatWhoIsOnCallRequest extends AbstractWhoIsOnCallRequest<FlatWhoIsOnCallResponse> {
     public FlatWhoIsOnCallResponse createResponse() {

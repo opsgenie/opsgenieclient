@@ -8,6 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get escalation api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#getEscalation(GetEscalationRequest)
  */
 public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
@@ -48,10 +49,10 @@ public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetEscalationResponse createResponse() {
         return new GetEscalationResponse();
     }

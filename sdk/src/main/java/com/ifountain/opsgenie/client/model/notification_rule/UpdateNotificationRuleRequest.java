@@ -1,35 +1,33 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
+import com.ifountain.opsgenie.client.model.beans.Condition;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.NotifyBefore;
-import com.ifountain.opsgenie.client.model.beans.NotificationRuleConditions;
-import com.ifountain.opsgenie.client.model.beans.NotificationRuleRestriction;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.ifountain.opsgenie.client.model.beans.Restriction;
+import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an update notificationRule api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRule(UpdateNotificationRuleRequest)
  */
-public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificationRuleResponse> {
-    @JsonSerialize(include = Inclusion.ALWAYS)
+public class UpdateNotificationRuleRequest extends BaseUserRequest<UpdateNotificationRuleResponse> {
     private String id;
-    private String username;
-    private String userId;
     private String name;
     private ActionType actionType;
     private ConditionMatchType conditionMatchType;
-    private List<NotificationRuleConditions> conditions;
+    private List<Condition> conditions;
     private List<NotifyBefore> notifyBefore;
-    private List<NotificationRuleRestriction> restrictions;
+    @JsonSerialize(using = RestrictionsSeriliazer.class)
+    private List<Restriction> restrictions;
     private List<String> schedules;
 
     /**
@@ -40,39 +38,23 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
     }
 
     /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+    }
+
+    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
     @Override
     public UpdateNotificationRuleResponse createResponse() {
         return new UpdateNotificationRuleResponse();
-    }
-
-    /**
-     * UserName of notificationRule
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets userName of notificationRule
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userID of notificationRule
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userID of notificationRule
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     /**
@@ -90,16 +72,6 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
     }
 
     /**
-     * String ActionType of notificationRule
-     */
-    @JsonProperty("actionType")
-    public String getActionTypeValue() {
-        if (actionType != null)
-            return actionType.value();
-        return null;
-    }
-
-    /**
      * ActionType of notificationRule
      */
     public ActionType getActionType() {
@@ -113,16 +85,6 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
         this.actionType = action;
     }
 
-    /**
-     * String conditionMatchType of notificationRule
-     */
-    @JsonProperty("conditionMatchType")
-    public String getConditionMatchTypeString() {
-        if (conditionMatchType != null)
-            return conditionMatchType.value();
-        return null;
-    }
-
     public ConditionMatchType getConditionMatchType() {
         return conditionMatchType;
     }
@@ -131,45 +93,19 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
         this.conditionMatchType = conditionType;
     }
 
-    @JsonProperty("conditions")
-    public List<Map> getConditionsMap() {
-        if (getConditions() != null) {
-            List<Map> conditionMapList = new ArrayList<Map>();
-            for (NotificationRuleConditions cond : getConditions())
-                conditionMapList.add(cond.toMap());
-            return conditionMapList;
-        }
-        return null;
-    }
-
-    public List<NotificationRuleConditions> getConditions() {
+    public List<Condition> getConditions() {
         return conditions;
     }
 
-    public void setConditions(List<NotificationRuleConditions> conditions) {
+    public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
 
-    @JsonProperty("restrictions")
-    public Object getRestirictionsMap() {
-        if (getRestrictions() != null) {
-            if (getRestrictions().size() == 1
-                    && (getRestrictions().get(0).getEndDay() == null && getRestrictions().get(0).getStartDay() == null)) {
-                return getRestrictions().get(0).toMap();
-            }
-            List<Map> restrictionList = new ArrayList<Map>();
-            for (NotificationRuleRestriction rest : getRestrictions())
-                restrictionList.add(rest.toMap());
-            return restrictionList;
-        }
-        return null;
-    }
-
-    public List<NotificationRuleRestriction> getRestrictions() {
+    public List<Restriction> getRestrictions() {
         return restrictions;
     }
 
-    public void setRestrictions(List<NotificationRuleRestriction> restrictions) {
+    public void setRestrictions(List<Restriction> restrictions) {
         this.restrictions = restrictions;
     }
 
@@ -179,17 +115,6 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
 
     public void setSchedules(List<String> schedules) {
         this.schedules = schedules;
-    }
-
-    @JsonProperty("notifyBefore")
-    public List<String> getNotifyBeforeString() {
-        if (getNotifyBefore() != null) {
-            List<String> notifyStringList = new ArrayList<String>();
-            for (NotifyBefore notifyBefore : getNotifyBefore())
-                notifyStringList.add(notifyBefore.value());
-            return notifyStringList;
-        }
-        return null;
     }
 
     public List<NotifyBefore> getNotifyBefore() {
@@ -207,6 +132,5 @@ public class UpdateNotificationRuleRequest extends BaseRequest<UpdateNotificatio
     public void setId(String id) {
         this.id = id;
     }
-
 
 }

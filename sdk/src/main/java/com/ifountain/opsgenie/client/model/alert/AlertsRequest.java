@@ -7,8 +7,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.util.List;
 
 /**
+ * Abstract Container for the alert requests.
+ *
  * @author Mehmet Mustafa Demir
- * @version 18/08/16 1:30 PM
  */
 public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<T>{
 

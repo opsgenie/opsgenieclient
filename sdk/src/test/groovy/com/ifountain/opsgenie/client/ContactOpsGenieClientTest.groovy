@@ -370,22 +370,22 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         request.setUsername("user1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
-        assertEquals(3, response.getContacts().size())
-        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
+        assertEquals(3, response.getUserContacts().size())
+        Contact contact = response.getUserContacts().find { it.id == contact1Content[TestConstants.API.ID] }
         assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
         assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
         assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
         assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
         assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
 
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
+        contact = response.getUserContacts().find { it.id == contact2Content[TestConstants.API.ID] }
         assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
         assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
         assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
         assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
         assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
 
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
+        contact = response.getUserContacts().find { it.id == contact3Content[TestConstants.API.ID] }
         assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
         assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
         assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())
@@ -430,22 +430,22 @@ class ContactOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTe
         request.setUserId("user1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.contact().listContact(request)
-        assertEquals(3, response.getContacts().size())
-        Contact contact = response.getContacts().find { it.id == contact1Content[TestConstants.API.ID] }
+        assertEquals(3, response.getUserContacts().size())
+        Contact contact = response.getUserContacts().find { it.id == contact1Content[TestConstants.API.ID] }
         assertEquals(contact1Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
         assertEquals(contact1Content[TestConstants.API.METHOD], contact.getMethod().value())
         assertEquals(contact1Content[TestConstants.API.TO], contact.getTo())
         assertEquals(contact1Content[TestConstants.API.ID], contact.getId())
         assertEquals(contact1Content[TestConstants.API.ENABLED], contact.getEnabled())
 
-        contact = response.getContacts().find { it.id == contact2Content[TestConstants.API.ID] }
+        contact = response.getUserContacts().find { it.id == contact2Content[TestConstants.API.ID] }
         assertEquals(contact2Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
         assertEquals(contact2Content[TestConstants.API.METHOD], contact.getMethod().value())
         assertEquals(contact2Content[TestConstants.API.TO], contact.getTo())
         assertEquals(contact2Content[TestConstants.API.ID], contact.getId())
         assertEquals(contact2Content[TestConstants.API.ENABLED], contact.getEnabled())
 
-        contact = response.getContacts().find { it.id == contact3Content[TestConstants.API.ID] }
+        contact = response.getUserContacts().find { it.id == contact3Content[TestConstants.API.ID] }
         assertEquals(contact3Content[TestConstants.API.DISABLED_REASON], contact.getDisabledReason())
         assertEquals(contact3Content[TestConstants.API.METHOD], contact.getMethod().value())
         assertEquals(contact3Content[TestConstants.API.TO], contact.getTo())

@@ -78,6 +78,22 @@ public class OpsGenieClient implements IOpsGenieClient {
     private IContactOpsGenieClient innerContactOpsGenieClient;
     
     /**
+     * Api key used for authenticating API requests.
+     */
+    public String getApiKey() {
+        return this.jsonHttpClient != null ? this.jsonHttpClient.getApiKey() : null;
+    }
+
+    /**
+     * Sets the customer key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey) {
+        if (this.jsonHttpClient != null) {
+            this.jsonHttpClient.setApiKey(apiKey);
+        }
+    }
+
+    /**
      * Http client object *
      */
     private JsonOpsgenieHttpClient jsonHttpClient;
@@ -104,6 +120,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     public OpsGenieClient(OpsGenieHttpClient httpClient) {
         this.jsonHttpClient = new JsonOpsgenieHttpClient(httpClient);
         this.streamOpsgenieHttpClient = new StreamOpsgenieHttpClient(httpClient);
+        this.jsonHttpClient.setApiKey(getApiKey());
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);

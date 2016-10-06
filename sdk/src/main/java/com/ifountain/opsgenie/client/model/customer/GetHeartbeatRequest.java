@@ -5,11 +5,10 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import javax.xml.bind.ValidationException;
-
 /**
  * Container for the parameters to make a get heartbeat monitor api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
@@ -19,7 +18,7 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
      * check the parameters for validation.
      * It will be overridden by necessary Requests.
      *
-     * @throws ValidationException when heartbeat name is null!
+     * @throws OpsGenieClientValidationException when heartbeat name is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {

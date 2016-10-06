@@ -3,18 +3,15 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import javax.xml.bind.ValidationException;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make a get contact api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(GetContactRequest)
  */
-public class GetContactRequest extends BaseRequest<GetContactResponse> {
-    private String username;
-    private String userId;
+public class GetContactRequest extends BaseUserRequest<GetContactResponse> {
     private String id;
 
     /**
@@ -28,47 +25,19 @@ public class GetContactRequest extends BaseRequest<GetContactResponse> {
     /**
      * check the parameters for validation.
      *
-     * @throws ValidationException when id is null or both of the username and userId are null
+     * @throws OpsGenieClientValidationException when id is null.
      */
 
     @Override
     public void validate() throws OpsGenieClientValidationException {
+        super.validate();
         if (id == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
-        super.validate();
     }
 
     @Override
     public GetContactResponse createResponse() {
         return new GetContactResponse();
-    }
-
-    /**
-     * Username of contact to be queried.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets Username of contact to be queried.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userId of contact to be queried.
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userId of contact to be queried.
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     /**

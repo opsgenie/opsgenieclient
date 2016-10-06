@@ -1,15 +1,14 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to repeat notificationRule api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRule(ChangeNotificationRuleRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest)
  */
-public class ChangeNotificationRuleOrderRequest extends BaseRequest<ChangeNotificationRuleOrderResponse> {
-    private String username;
-    private String userId;
+public class ChangeNotificationRuleOrderRequest extends BaseUserRequest<ChangeNotificationRuleOrderResponse> {
     private String id;
     private Integer applyOrder;
 
@@ -29,22 +28,6 @@ public class ChangeNotificationRuleOrderRequest extends BaseRequest<ChangeNotifi
         return new ChangeNotificationRuleOrderResponse();
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getId() {
         return id;
     }
@@ -60,6 +43,5 @@ public class ChangeNotificationRuleOrderRequest extends BaseRequest<ChangeNotifi
     public void setApplyOrder(Integer applyOrder) {
         this.applyOrder = applyOrder;
     }
-
 
 }

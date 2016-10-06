@@ -8,8 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get team api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 12:00 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#getTeam(GetTeamRequest)
  */
 public class GetTeamRequest extends BaseRequest<GetTeamResponse> {

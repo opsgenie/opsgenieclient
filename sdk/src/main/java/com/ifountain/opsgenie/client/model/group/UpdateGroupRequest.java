@@ -1,15 +1,15 @@
 package com.ifountain.opsgenie.client.model.group;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
 /**
  * Container for the parameters to make an update group api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(com.ifountain.opsgenie.client.model.group.UpdateGroupRequest)
  */
 public class UpdateGroupRequest extends AddGroupRequest {
-    @JsonSerialize(include = Inclusion.ALWAYS)
     private String id;
 
     /**
@@ -18,6 +18,17 @@ public class UpdateGroupRequest extends AddGroupRequest {
     @Override
     public String getEndPoint() {
         return "/v1/json/group";
+    }
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**
@@ -34,10 +45,10 @@ public class UpdateGroupRequest extends AddGroupRequest {
         this.id = id;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateGroupResponse createResponse() {
         return new UpdateGroupResponse();
     }

@@ -1,16 +1,16 @@
 package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Container for the parameters to make a heartbeat api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 3:06 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
-    String name;
+    private String name;
 
     /*
     * Name of heartbeat monitor
@@ -27,15 +27,16 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     }
 
     /**
-     * @deprecated Source of heartbeat monitor
+     * @deprecated use getName()
      */
     @Deprecated
+    @JsonIgnore
     public String getSource() {
         return getName();
     }
 
     /**
-     * @deprecated Use setName
+     * @deprecated Use setName()
      **/
     @Deprecated
     public void setSource(String source) {

@@ -1,16 +1,14 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
- * Container for the parameters to make an enable notificationRule api
- * call.
+ * Container for the parameters to make an enable notificationRule api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleRequest)
  */
-public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificationRuleResponse> {
-    private String username;
-    private String userId;
+public class EnableNotificationRuleRequest extends BaseUserRequest<EnableNotificationRuleResponse> {
     private String id;
 
     /**
@@ -21,29 +19,12 @@ public class EnableNotificationRuleRequest extends BaseRequest<EnableNotificatio
         return "/v1/json/user/notificationRule/enable";
     }
 
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public EnableNotificationRuleResponse createResponse() {
         return new EnableNotificationRuleResponse();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getId() {

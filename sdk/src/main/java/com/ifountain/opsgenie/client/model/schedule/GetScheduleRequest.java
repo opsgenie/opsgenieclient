@@ -7,7 +7,8 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get schedule api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(GetScheduleRequest)
  */
 public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
     private String name;
@@ -16,7 +17,6 @@ public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
 
     /**
      * check the parameters for validation.
-     * It will be overridden by necessary Requests.
      *
      * @throws OpsGenieClientValidationException when api key is null!
      */
@@ -64,10 +64,10 @@ public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
         this.id = id;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetScheduleResponse createResponse() {
         return new GetScheduleResponse();
     }

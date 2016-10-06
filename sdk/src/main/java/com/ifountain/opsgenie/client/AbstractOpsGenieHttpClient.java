@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -19,10 +18,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by user on 8/5/2014.
+ * @author Mehmet Mustafa Demir
  */
 public abstract class AbstractOpsGenieHttpClient {
     protected Log log;
+    private String apiKey;
+
+    /**
+     * Api key used for authenticating API requests.
+     */
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    /**
+     * Sets the customer key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
 
     /**
      * OpsGenie services endpoint uri. Default is https://api.opsgenie.com *
@@ -33,7 +47,6 @@ public abstract class AbstractOpsGenieHttpClient {
      * Http client object *
      */
     protected OpsGenieHttpClient httpClient;
-    private final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Constructs a new inner client to invoke service methods on OpsGenie using the specified client configuration options.
@@ -50,24 +63,18 @@ public abstract class AbstractOpsGenieHttpClient {
         this.rootUri = rootUri;
     }
 
-    private OpsGenieHttpClient getHttpClient() {
-        return httpClient;
-    }
-
-    private void setHttpClient(OpsGenieHttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
-
     public void close() {
         this.httpClient.close();
     }
 
     protected BaseResponse doPostRequest(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
         request.validate();
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        String json = mapper.writeValueAsString(request);
+        String json = JsonUtils.toJson(request);
         log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers);
         handleResponse(httpResponse);
@@ -75,10 +82,13 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPostRequest(BaseRequestWithHttpParameters request) throws OpsGenieClientException, IOException, ParseException, URISyntaxException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        String json = mapper.writeValueAsString(request);
+        String json = JsonUtils.toJson(request);
         log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers, request.getHttpParameters());
         handleResponse(httpResponse);
@@ -86,6 +96,9 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPostRequest(BaseRequest request, MultipartEntity entity) throws IOException, OpsGenieClientException, ParseException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
         String uri = rootUri + request.getEndPoint();
         log.info("Executing OpsGenie request to [" + uri + "] with multipart data");
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, entity);
@@ -95,9 +108,11 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doDeleteRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
+            if (request.getApiKey() == null)
+                request.setApiKey(getApiKey());
             request.validate();
             String uri = rootUri + request.getEndPoint();
-            Map parameters = mapper.convertValue(request, Map.class);
+            Map parameters = JsonUtils.toMap(request);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
             handleResponse(httpResponse);
@@ -109,9 +124,11 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doGetRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
+            if (request.getApiKey() == null)
+                request.setApiKey(getApiKey());
             request.validate();
             String uri = rootUri + request.getEndPoint();
-            Map parameters = mapper.convertValue(request, Map.class);
+            Map parameters = JsonUtils.toMap(request);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
             handleResponse(httpResponse);

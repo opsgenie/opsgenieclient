@@ -7,6 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a get user api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
 public class GetUserRequest extends BaseRequest<GetUserResponse> {
@@ -15,9 +16,8 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
 
     /**
      * check the parameters for validation.
-     * It will be overridden by necessary Requests.
      *
-     * @throws OpsGenieClientValidationException when api key is null!
+     * @throws OpsGenieClientValidationException when id and username both null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
@@ -56,10 +56,10 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
         this.username = username;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetUserResponse createResponse() {
         return new GetUserResponse();
     }

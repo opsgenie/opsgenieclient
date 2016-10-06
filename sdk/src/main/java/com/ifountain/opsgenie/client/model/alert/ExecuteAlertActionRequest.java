@@ -3,14 +3,11 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make an execute aler action api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 10/30/12 4:59 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
  */
-public class ExecuteAlertActionRequest extends BaseAlertRequestWithSource<ExecuteAlertActionResponse> {
+public class ExecuteAlertActionRequest extends AddNoteRequest {
     private String action;
-    private String user;
-    private String note;
 
     /**
      * Rest api uri of execute alert action operation.
@@ -19,7 +16,6 @@ public class ExecuteAlertActionRequest extends BaseAlertRequestWithSource<Execut
     public String getEndPoint() {
         return "/v1/json/alert/executeAction";
     }
-
 
     /**
      * The action to be executed.
@@ -33,34 +29,6 @@ public class ExecuteAlertActionRequest extends BaseAlertRequestWithSource<Execut
      */
     public void setAction(String action) {
         this.action = action;
-    }
-
-    /**
-     * The user who is performing the add note operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the add note operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
     }
 
     /**

@@ -3,8 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make an add note api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 3:00 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addNote(AddNoteRequest)
  */
 public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> {

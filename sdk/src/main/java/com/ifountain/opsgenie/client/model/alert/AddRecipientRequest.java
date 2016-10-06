@@ -3,14 +3,11 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make an add recipient call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 1/9/13 4:03 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
  */
-public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipientResponse> {
-    private String user;
+public class AddRecipientRequest extends AddNoteRequest {
     private String recipient;
-    private String note;
 
     /**
      * Rest api uri of add recipient operation.
@@ -18,20 +15,6 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/recipient";
-    }
-
-    /**
-     * The user who is performing the add recipient operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the add recipient operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
     }
 
     /**
@@ -46,20 +29,6 @@ public class AddRecipientRequest extends BaseAlertRequestWithSource<AddRecipient
      */
     public void setRecipient(String recipient) {
         this.recipient = recipient;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
     }
 
     /**

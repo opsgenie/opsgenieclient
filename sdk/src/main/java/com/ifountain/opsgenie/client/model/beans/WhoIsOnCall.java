@@ -1,40 +1,69 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import java.text.ParseException;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * WhoIsOnCall bean
  */
-public class WhoIsOnCall extends BaseWhoIsOnCall{
-    private List<WhoIsOnCallScheduleParticipant> participants;
-    /**
-     * OnCall participants
-     * @return
-     */
-    public List<WhoIsOnCallScheduleParticipant> getParticipants() {
+
+public class WhoIsOnCall extends BaseWhoIsOnCall {
+    private List<WhoIsOnCall> participants;
+    @JsonProperty("isEnabled")
+    private Boolean enabled;
+
+    private Boolean forwarded;
+    private WhoIsOnCall forwardedFrom;
+
+    private Integer escalationTime;
+    private String notifyType;
+
+    public List<WhoIsOnCall> getParticipants() {
         return participants;
     }
 
-    /**
-     * Sets OnCall participants
-     * @param participants
-     */
-    public void setParticipants(List<WhoIsOnCallScheduleParticipant> participants) {
+    public void setParticipants(List<WhoIsOnCall> participants) {
         this.participants = participants;
     }
 
-    @Override
-    public Map toMap() {
-        Map<String, Object> json = super.toMap();
-        WhoIsOnCallScheduleParticipant.participantsToMap(json, participants);
-        return json;
+    public Boolean isEnabled() {
+        return enabled;
     }
 
-    @Override
-    public void fromMap(Map map) throws ParseException {
-        super.fromMap(map);
-        participants = WhoIsOnCallScheduleParticipant.participantsFromMap(map);
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Boolean getForwarded() {
+        return forwarded;
+    }
+
+    public void setForwarded(Boolean forwarded) {
+        this.forwarded = forwarded;
+    }
+
+    public WhoIsOnCall getForwardedFrom() {
+        return forwardedFrom;
+    }
+
+    public void setForwardedFrom(WhoIsOnCall forwardedFrom) {
+        this.forwardedFrom = forwardedFrom;
+    }
+
+    public Integer getEscalationTime() {
+        return escalationTime;
+    }
+
+    public void setEscalationTime(Integer escalationTime) {
+        this.escalationTime = escalationTime;
+    }
+
+    public String getNotifyType() {
+        return notifyType;
+    }
+
+    public void setNotifyType(String notifyType) {
+        this.notifyType = notifyType;
     }
 }

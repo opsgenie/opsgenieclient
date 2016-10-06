@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Container for the parameters to make an add group api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroupMember(AddGroupMemberRequest)
  */
 public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
@@ -18,7 +19,7 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
 
 
     /**
-     * Rest api uri of addding group member operation.
+     * Rest api uri of adding group member operation.
      */
     @Override
     public String getEndPoint() {
@@ -77,10 +78,10 @@ public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
         this.users = users;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddGroupMemberResponse createResponse() {
         return new AddGroupMemberResponse();
     }

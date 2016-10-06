@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a delete user api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteUser(DeleteUserRequest)
  */
 public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
@@ -48,10 +49,10 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
     }
 
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteUserResponse createResponse() {
         return new DeleteUserResponse();
     }

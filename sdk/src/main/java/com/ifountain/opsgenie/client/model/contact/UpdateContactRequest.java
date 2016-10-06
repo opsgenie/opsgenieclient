@@ -1,21 +1,17 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
- * TODO: validation
- * <p>
  * Container for the parameters to make an update contact api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#updateContact(UpdateContactRequest)
  */
-public class UpdateContactRequest extends BaseRequest<UpdateContactResponse> {
-    @JsonSerialize(include = Inclusion.ALWAYS)
+public class UpdateContactRequest extends BaseUserRequest<UpdateContactResponse> {
     private String id;
-    private String username;
-    private String userId;
     private String to;
 
     /**
@@ -24,6 +20,18 @@ public class UpdateContactRequest extends BaseRequest<UpdateContactResponse> {
     @Override
     public String getEndPoint() {
         return "/v1/json/user/contact";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**
@@ -46,34 +54,6 @@ public class UpdateContactRequest extends BaseRequest<UpdateContactResponse> {
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * UserName of contact to be updated
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets UserName of contact to be updated
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * userId of contact to be updated
-     */
-    public String getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets userId of contact to be updated
-     */
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     /**

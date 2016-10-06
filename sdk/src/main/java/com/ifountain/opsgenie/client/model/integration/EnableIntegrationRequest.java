@@ -1,15 +1,17 @@
 package com.ifountain.opsgenie.client.model.integration;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Container for the parameters to make an enable/disable integration api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#enableIntegration(com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest)
  */
 public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {
     private String name;
+    @JsonIgnore
     private Boolean enabled = true;
     private String id;
 
@@ -20,7 +22,6 @@ public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationRespo
     public void setId(String id) {
         this.id = id;
     }
-
 
     /**
      * Rest api uri of enable/disable integration operation.
@@ -57,10 +58,10 @@ public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationRespo
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public EnableIntegrationResponse createResponse() {
         return new EnableIntegrationResponse();
     }

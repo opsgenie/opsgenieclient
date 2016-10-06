@@ -1,65 +1,47 @@
 package com.ifountain.opsgenie.client.model.notification_rule;
 
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
- * Container for the parameters to make an enable/disable notificationRuleStep
- * api call.
+ * Container for the parameters to make an disable notificationRuleStep api call.
  *
- * @see com.ifountain.opsgenie.client.INotificationRuleStepOpsGenieClient#enableNotificationRuleStep(com.ifountain.opsgenie.client.model.notificationRuleStep.DisableNotificationRuleStepRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRuleStep(DisableNotificationRuleStepRequest)
  */
-public class DisableNotificationRuleStepRequest extends BaseRequest<DisableNotificationRuleStepResponse> {
-	private String username;
-	private String userId;
-	private String ruleId;
-	private String id;
+public class DisableNotificationRuleStepRequest extends BaseUserRequest<DisableNotificationRuleStepResponse> {
+    private String ruleId;
+    private String id;
 
-	/**
-	 * Rest api uri of enable/disable notificationRuleStep operation.
-	 */
-	@Override
-	public String getEndPoint() {
-		return "/v1/json/user/notificationRule/step/disable";
-	}
+    /**
+     * Rest api uri of enable/disable notificationRuleStep operation.
+     */
+    @Override
+    public String getEndPoint() {
+        return "/v1/json/user/notificationRule/step/disable";
+    }
 
-	@Override
-	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-	 */
-	public DisableNotificationRuleStepResponse createResponse() {
-		return new DisableNotificationRuleStepResponse();
-	}
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    @Override
+    public DisableNotificationRuleStepResponse createResponse() {
+        return new DisableNotificationRuleStepResponse();
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public String getRuleId() {
+        return ruleId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getRuleId() {
-		return ruleId;
-	}
-
-	public void setRuleId(String ruleId) {
-		this.ruleId = ruleId;
-	}
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
 
 }

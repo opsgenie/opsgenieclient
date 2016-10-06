@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Container for the parameters to make a copy notification rules api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#copyNotificationRules(com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest)
  */
 public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRulesResponse> {

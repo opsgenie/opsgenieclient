@@ -15,5 +15,5 @@ public interface Request {
      * Returns the request's rest api uri.
      */
     @JsonIgnore
-    public String getEndPoint();
+    String getEndPoint();
 }

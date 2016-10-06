@@ -1,10 +1,11 @@
-package com.ifountain.opsgenie.client.test.util;
+package com.ifountain.opsgenie.client.test.util
 
-import com.ifountain.opsgenie.client.ITeamOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClientException;
+import com.ifountain.opsgenie.client.ITeamOpsGenieClient
+import com.ifountain.opsgenie.client.OpsGenieClientException
 import com.ifountain.opsgenie.client.model.team.*
+import com.ifountain.opsgenie.client.model.team.routing_rule.*
 
-import java.text.ParseException;
+import java.text.ParseException
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -66,6 +67,36 @@ public class InnerTeamOpsGenieClientMock implements ITeamOpsGenieClient{
 
     @Override
     DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    AddTeamRoutingRuleResponse addTeamRoutingRule(AddTeamRoutingRuleRequest addTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    UpdateTeamRoutingRuleResponse updateTeamRoutingRule(UpdateTeamRoutingRuleRequest updateTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    ChangeTeamRoutingRuleOrderResponse changeTeamRoutingRuleOrder(ChangeTeamRoutingRuleOrderRequest changeTeamRoutingRuleOrderRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    DeleteTeamRoutingRuleResponse deleteTeamRoutingRule(DeleteTeamRoutingRuleRequest deleteTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    GetTeamRoutingRuleResponse getTeamRoutingRule(GetTeamRoutingRuleRequest getTeamRoutingRuleRequest) throws IOException, OpsGenieClientException, ParseException {
+        return null
+    }
+
+    @Override
+    ListTeamRoutingRulesResponse listTeamRoutingRules(ListTeamRoutingRulesRequest listTeamRoutingRulesRequest) throws IOException, OpsGenieClientException, ParseException {
         return null
     }
 

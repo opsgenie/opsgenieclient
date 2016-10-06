@@ -1,7 +1,11 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.model.BaseResponse;
-
-public class RemoveDetailsResponse extends BaseResponse {
+/**
+ * Represents the OpsGenie service response for remove details request.
+ *
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
+ */
+public class RemoveDetailsResponse extends AddNoteResponse {
 
 }

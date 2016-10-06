@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make an update forwarding api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends AddForwardingRequest {
@@ -22,7 +23,6 @@ public class UpdateForwardingRequest extends AddForwardingRequest {
 
     /**
      * check the parameters for validation.
-     * It will be overridden by necessary Requests.
      *
      * @throws OpsGenieClientValidationException when alias and id both null!
      */
@@ -47,10 +47,10 @@ public class UpdateForwardingRequest extends AddForwardingRequest {
         this.id = id;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateForwardingResponse createResponse() {
         return new UpdateForwardingResponse();
     }

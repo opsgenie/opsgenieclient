@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a delete group api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroup(com.ifountain.opsgenie.client.model.group.DeleteGroupRequest)
  */
 public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {
@@ -46,10 +47,10 @@ public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {
         this.name = name;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteGroupResponse createResponse() {
         return new DeleteGroupResponse();
     }

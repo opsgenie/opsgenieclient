@@ -33,16 +33,16 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setActionType(NotificationRule.ActionType.NEW_ALERT);
         request.setConditionMatchType(NotificationRule.ConditionMatchType.MATCH_ALL_CONDITIONS)
 
-        NotificationRuleConditions condition1 = new NotificationRuleConditions();
+        Condition condition1 = new Condition();
         condition1.setNot(false);
-        condition1.setField(NotificationRuleConditions.Field.MESSAGE);
-        condition1.setOperation(NotificationRuleConditions.Operation.CONTAINS);
+        condition1.setField(Condition.Field.MESSAGE);
+        condition1.setOperation(Condition.Operation.CONTAINS);
         condition1.setExpectedValue("night");
 
-        NotificationRuleConditions condition2 = new NotificationRuleConditions();
+        Condition condition2 = new Condition();
         condition2.setNot(true);
-        condition2.setField(NotificationRuleConditions.Field.EXTRA_PROPERTIES);
-        condition2.setOperation(NotificationRuleConditions.Operation.CONTAINS_KEY);
+        condition2.setField(Condition.Field.EXTRA_PROPERTIES);
+        condition2.setOperation(Condition.Operation.CONTAINS_KEY);
         condition2.setExpectedValue("prop1");
 
         request.setConditions([condition1, condition2]);
@@ -50,7 +50,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setNotifyBefore([NotificationRule.NotifyBefore.FIFTEEN_MINUTES, NotificationRule.NotifyBefore.JUST_BEFORE]);
         request.setApplyOrder(2);
 
-        NotificationRuleRestriction restriction = new NotificationRuleRestriction();
+        Restriction restriction = new Restriction();
         restriction.setStartHour(15);
         restriction.setStartMinute(04);
         restriction.setEndHour(18);
@@ -99,7 +99,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(notifyBefores, ["15 mins", "Just Before"]);
         assertEquals(request.getApplyOrder(), jsonContent[TestConstants.API.APPLY_ORDER])
 
-        NotificationRuleRestriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
+        Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
         assertEquals(restriction1.getStartMinute(), 4);
@@ -120,16 +120,16 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setActionType(NotificationRule.ActionType.NEW_ALERT);
         request.setConditionMatchType(NotificationRule.ConditionMatchType.MATCH_ALL_CONDITIONS)
 
-        NotificationRuleConditions condition1 = new NotificationRuleConditions();
+        Condition condition1 = new Condition();
         condition1.setNot(false);
-        condition1.setField(NotificationRuleConditions.Field.MESSAGE);
-        condition1.setOperation(NotificationRuleConditions.Operation.CONTAINS);
+        condition1.setField(Condition.Field.MESSAGE);
+        condition1.setOperation(Condition.Operation.CONTAINS);
         condition1.setExpectedValue("night");
 
-        NotificationRuleConditions condition2 = new NotificationRuleConditions();
+        Condition condition2 = new Condition();
         condition2.setNot(true);
-        condition2.setField(NotificationRuleConditions.Field.EXTRA_PROPERTIES);
-        condition2.setOperation(NotificationRuleConditions.Operation.CONTAINS_KEY);
+        condition2.setField(Condition.Field.EXTRA_PROPERTIES);
+        condition2.setOperation(Condition.Operation.CONTAINS_KEY);
         condition2.setExpectedValue("prop1");
 
         request.setConditions([condition1, condition2]);
@@ -137,7 +137,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setNotifyBefore([NotificationRule.NotifyBefore.FIFTEEN_MINUTES, NotificationRule.NotifyBefore.JUST_BEFORE]);
         request.setApplyOrder(2);
 
-        NotificationRuleRestriction restriction = new NotificationRuleRestriction();
+        Restriction restriction = new Restriction();
         restriction.setStartHour(15);
         restriction.setStartMinute(04);
         restriction.setEndHour(18);
@@ -186,7 +186,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(notifyBefores, ["15 mins", "Just Before"]);
         assertEquals(request.getApplyOrder(), jsonContent[TestConstants.API.APPLY_ORDER])
 
-        NotificationRuleRestriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
+        Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
         assertEquals(restriction1.getStartMinute(), 4);
@@ -208,23 +208,23 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setName("notificationRule1")
         request.setConditionMatchType(NotificationRule.ConditionMatchType.MATCH_ALL_CONDITIONS)
 
-        NotificationRuleConditions condition1 = new NotificationRuleConditions();
+        Condition condition1 = new Condition();
         condition1.setNot(false);
-        condition1.setField(NotificationRuleConditions.Field.MESSAGE);
-        condition1.setOperation(NotificationRuleConditions.Operation.CONTAINS);
+        condition1.setField(Condition.Field.MESSAGE);
+        condition1.setOperation(Condition.Operation.CONTAINS);
         condition1.setExpectedValue("night");
 
-        NotificationRuleConditions condition2 = new NotificationRuleConditions();
+        Condition condition2 = new Condition();
         condition2.setNot(true);
-        condition2.setField(NotificationRuleConditions.Field.EXTRA_PROPERTIES);
-        condition2.setOperation(NotificationRuleConditions.Operation.CONTAINS_KEY);
+        condition2.setField(Condition.Field.EXTRA_PROPERTIES);
+        condition2.setOperation(Condition.Operation.CONTAINS_KEY);
         condition2.setExpectedValue("prop1");
 
         request.setConditions([condition1, condition2]);
 
         request.setNotifyBefore([NotificationRule.NotifyBefore.FIFTEEN_MINUTES, NotificationRule.NotifyBefore.JUST_BEFORE]);
 
-        NotificationRuleRestriction restriction = new NotificationRuleRestriction();
+        Restriction restriction = new Restriction();
         restriction.setStartHour(15);
         restriction.setStartMinute(04);
         restriction.setEndHour(18);
@@ -256,23 +256,23 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         def con1 = conditions.find { it.expectedValue == "night" }
         assertNotNull(con1)
         assertEquals(false, con1[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.MESSAGE.value(), con1[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS.value(), con1[TestConstants.API.OPERATION])
+        assertEquals(Condition.Field.MESSAGE.value(), con1[TestConstants.API.FIELD])
+        assertEquals(Condition.Operation.CONTAINS.value(), con1[TestConstants.API.OPERATION])
         assertEquals("night", con1[TestConstants.API.EXPECTED_VALUE])
 
 
         def con2 = conditions.find { it.expectedValue == "prop1" }
         assertNotNull(con2)
         assertEquals(true, con2[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.EXTRA_PROPERTIES.value(), con2[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS_KEY.value(), con2[TestConstants.API.OPERATION])
+        assertEquals(Condition.Field.EXTRA_PROPERTIES.value(), con2[TestConstants.API.FIELD])
+        assertEquals(Condition.Operation.CONTAINS_KEY.value(), con2[TestConstants.API.OPERATION])
         assertEquals("prop1", con2[TestConstants.API.EXPECTED_VALUE])
 
         def notifyBefores = jsonContent[TestConstants.API.NOTIFY_BEFORE]
         assertNotNull(notifyBefores);
         assertEquals(notifyBefores, ["15 mins", "Just Before"]);
 
-        NotificationRuleRestriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
+        Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
         assertEquals(restriction1.getStartMinute(), 4);
@@ -294,23 +294,23 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setName("notificationRule1")
         request.setConditionMatchType(NotificationRule.ConditionMatchType.MATCH_ALL_CONDITIONS)
 
-        NotificationRuleConditions condition1 = new NotificationRuleConditions();
+        Condition condition1 = new Condition();
         condition1.setNot(false);
-        condition1.setField(NotificationRuleConditions.Field.MESSAGE);
-        condition1.setOperation(NotificationRuleConditions.Operation.CONTAINS);
+        condition1.setField(Condition.Field.MESSAGE);
+        condition1.setOperation(Condition.Operation.CONTAINS);
         condition1.setExpectedValue("night");
 
-        NotificationRuleConditions condition2 = new NotificationRuleConditions();
+        Condition condition2 = new Condition();
         condition2.setNot(true);
-        condition2.setField(NotificationRuleConditions.Field.EXTRA_PROPERTIES);
-        condition2.setOperation(NotificationRuleConditions.Operation.CONTAINS_KEY);
+        condition2.setField(Condition.Field.EXTRA_PROPERTIES);
+        condition2.setOperation(Condition.Operation.CONTAINS_KEY);
         condition2.setExpectedValue("prop1");
 
         request.setConditions([condition1, condition2]);
 
         request.setNotifyBefore([NotificationRule.NotifyBefore.FIFTEEN_MINUTES, NotificationRule.NotifyBefore.JUST_BEFORE]);
 
-        NotificationRuleRestriction restriction = new NotificationRuleRestriction();
+        Restriction restriction = new Restriction();
         restriction.setStartHour(15);
         restriction.setStartMinute(04);
         restriction.setEndHour(18);
@@ -342,23 +342,23 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         def con1 = conditions.find { it.expectedValue == "night" }
         assertNotNull(con1)
         assertEquals(false, con1[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.MESSAGE.value(), con1[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS.value(), con1[TestConstants.API.OPERATION])
+        assertEquals(Condition.Field.MESSAGE.value(), con1[TestConstants.API.FIELD])
+        assertEquals(Condition.Operation.CONTAINS.value(), con1[TestConstants.API.OPERATION])
         assertEquals("night", con1[TestConstants.API.EXPECTED_VALUE])
 
 
         def con2 = conditions.find { it.expectedValue == "prop1" }
         assertNotNull(con2)
         assertEquals(true, con2[TestConstants.API.NOT])
-        assertEquals(NotificationRuleConditions.Field.EXTRA_PROPERTIES.value(), con2[TestConstants.API.FIELD])
-        assertEquals(NotificationRuleConditions.Operation.CONTAINS_KEY.value(), con2[TestConstants.API.OPERATION])
+        assertEquals(Condition.Field.EXTRA_PROPERTIES.value(), con2[TestConstants.API.FIELD])
+        assertEquals(Condition.Operation.CONTAINS_KEY.value(), con2[TestConstants.API.OPERATION])
         assertEquals("prop1", con2[TestConstants.API.EXPECTED_VALUE])
 
         def notifyBefores = jsonContent[TestConstants.API.NOTIFY_BEFORE]
         assertNotNull(notifyBefores);
         assertEquals(notifyBefores, ["15 mins", "Just Before"]);
 
-        NotificationRuleRestriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
+        Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
         assertEquals(restriction1.getStartMinute(), 4);
@@ -675,19 +675,19 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
         assertEquals(jsonResponse[TestConstants.API.SCHEDULES], response.getNotificationRule().getSchedules())
         assertEquals(jsonResponse[TestConstants.API.NAME], response.getNotificationRule().getName())
-        assertEquals(1, response.getNotificationRule().getRestirictions().size());
+        assertEquals(1, response.getNotificationRule().getRestrictions().size());
 
-        NotificationRuleRestriction restriction = response.getNotificationRule().getRestirictions().get(0);
+        Restriction restriction = response.getNotificationRule().getRestrictions().get(0);
         assertEquals(1, restriction.getEndHour());
-        assertEquals("MONDAY", restriction.getStartDay().value());
+        assertEquals("monday", restriction.getStartDay().name());
         assertEquals(2, restriction.getStartHour());
-        assertEquals("TUESDAY", restriction.getEndDay().value());
+        assertEquals("tuesday", restriction.getEndDay().name());
         assertEquals(3, restriction.getStartMinute());
         assertEquals(4, restriction.getEndMinute());
 
         assertEquals(jsonResponse[TestConstants.API.ID], response.getNotificationRule().getId());
         assertEquals(2, response.getNotificationRule().getConditions().size());
-        NotificationRuleConditions condition = response.getNotificationRule().getConditions().find {
+        Condition condition = response.getNotificationRule().getConditions().find {
             it.expectedValue == condition1.expectedValue
         }
         assertEquals(condition1.field, condition.getField().value())
@@ -779,19 +779,19 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
         assertEquals(jsonResponse[TestConstants.API.SCHEDULES], response.getNotificationRule().getSchedules())
         assertEquals(jsonResponse[TestConstants.API.NAME], response.getNotificationRule().getName())
-        assertEquals(1, response.getNotificationRule().getRestirictions().size());
+        assertEquals(1, response.getNotificationRule().getRestrictions().size());
 
-        NotificationRuleRestriction restriction = response.getNotificationRule().getRestirictions().get(0);
+        Restriction restriction = response.getNotificationRule().getRestrictions().get(0);
         assertEquals(1, restriction.getEndHour());
-        assertEquals("MONDAY", restriction.getStartDay().value());
+        assertEquals("monday", restriction.getStartDay().name());
         assertEquals(2, restriction.getStartHour());
-        assertEquals("TUESDAY", restriction.getEndDay().value());
+        assertEquals("tuesday", restriction.getEndDay().name());
         assertEquals(3, restriction.getStartMinute());
         assertEquals(4, restriction.getEndMinute());
 
         assertEquals(jsonResponse[TestConstants.API.ID], response.getNotificationRule().getId());
         assertEquals(2, response.getNotificationRule().getConditions().size());
-        NotificationRuleConditions condition = response.getNotificationRule().getConditions().find {
+        Condition condition = response.getNotificationRule().getConditions().find {
             it.expectedValue == condition1.expectedValue
         }
         assertEquals(condition1.field, condition.getField().value())
@@ -838,7 +838,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
                 schedules   : ["network_team_schedule"],
                 name        : "Schedule Start Name",
                 notifyBefore: ["Just Before", "15 mins"],
-                restrictions: [[endHour: 0, startDay: "SUNDAY", startHour: 0, endDay: "MONDAY", startMinute: 0, endMinute: 0]],
+                restrictions: [[endHour: 0, startDay: "sunday", startHour: 0, endDay: "monday", startMinute: 0, endMinute: 0]],
                 id          : "5ef5cc7f-23f4-4168-9f0f-d543d0c325b4",
                 steps       : [
                         [
@@ -937,20 +937,20 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setUsername("user1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().listNotificationRule(request)
-        assertEquals(3, response.getNotificationRules().size())
-        NotificationRule inputRule1 = response.getNotificationRules().find { it.name == rule1.name }
+        assertEquals(3, response.getRules().size())
+        NotificationRule inputRule1 = response.getRules().find { it.name == rule1.name }
         assertEquals(inputRule1.getActionType().value(), rule1.actionType);
         assertEquals(inputRule1.getApplyOrder(), rule1.applyOrder);
         assertEquals(inputRule1.getSchedules(), rule1.schedules);
         assertEquals(inputRule1.getName(), rule1.name);
         assertEquals(inputRule1.getNotifyBefore().get(0).value(), rule1.notifyBefore.get(0));
         assertEquals(inputRule1.getNotifyBefore().get(1).value(), rule1.notifyBefore.get(1));
-        assertEquals(1, inputRule1.getRestirictions().size())
-        def inputRestriction = inputRule1.getRestirictions().get(0);
+        assertEquals(1, inputRule1.getRestrictions().size())
+        def inputRestriction = inputRule1.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule1.restrictions[0].endHour);
-        assertEquals(inputRestriction.getStartDay().value(), rule1.restrictions[0].startDay);
+        assertEquals(inputRestriction.getStartDay().name(), rule1.restrictions[0].startDay);
         assertEquals(inputRestriction.getStartHour(), rule1.restrictions[0].startHour);
-        assertEquals(inputRestriction.getEndDay().value(), rule1.restrictions[0].endDay);
+        assertEquals(inputRestriction.getEndDay().name(), rule1.restrictions[0].endDay);
         assertEquals(inputRestriction.getStartMinute(), rule1.restrictions[0].startMinute);
         assertEquals(inputRestriction.getEndMinute(), rule1.restrictions[0].endMinute);
         assertEquals(inputRule1.getId(), rule1.id);
@@ -962,11 +962,11 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule1.getSteps().get(0).getEnabled(), rule1.steps.get(0).enabled);
         assertEquals(inputRule1.getEnabled(), rule1.enabled);
 
-        NotificationRule inputRule2 = response.getNotificationRules().find { it.name == rule2.name }
+        NotificationRule inputRule2 = response.getRules().find { it.name == rule2.name }
         assertEquals(inputRule2.getActionType().value(), rule2.actionType);
         assertEquals(inputRule2.getApplyOrder(), rule2.applyOrder);
         assertEquals(inputRule2.getName(), rule2.name);
-        inputRestriction = inputRule2.getRestirictions().get(0);
+        inputRestriction = inputRule2.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule2.restrictions.endHour);
         assertEquals(inputRestriction.getStartHour(), rule2.restrictions.startHour);
         assertEquals(inputRestriction.getStartMinute(), rule2.restrictions.startMinute);
@@ -994,12 +994,12 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule2.getConditionMatchType().value(), rule2.conditionMatchType);
         assertEquals(inputRule2.getLoopAfter(), rule2.loopAfter);
 
-        NotificationRule inputRule3 = response.getNotificationRules().find { it.name == rule3.name }
+        NotificationRule inputRule3 = response.getRules().find { it.name == rule3.name }
         assertEquals(inputRule3.getActionType().value(), rule3.actionType);
         assertEquals(inputRule3.getApplyOrder(), rule3.applyOrder);
         assertEquals(inputRule3.getName(), rule3.name);
-        assertEquals(1, inputRule3.getRestirictions().size())
-        inputRestriction = inputRule3.getRestirictions().get(0);
+        assertEquals(1, inputRule3.getRestrictions().size())
+        inputRestriction = inputRule3.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule3.restrictions.endHour);
         assertEquals(inputRestriction.getStartHour(), rule3.restrictions.startHour);
         assertEquals(inputRestriction.getStartMinute(), rule3.restrictions.startMinute);
@@ -1043,7 +1043,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
                 schedules   : ["network_team_schedule"],
                 name        : "Schedule Start Name",
                 notifyBefore: ["Just Before", "15 mins"],
-                restrictions: [[endHour: 0, startDay: "SUNDAY", startHour: 0, endDay: "MONDAY", startMinute: 0, endMinute: 0]],
+                restrictions: [[endHour: 0, startDay: "sunday", startHour: 0, endDay: "monday", startMinute: 0, endMinute: 0]],
                 id          : "5ef5cc7f-23f4-4168-9f0f-d543d0c325b4",
                 steps       : [
                         [
@@ -1142,20 +1142,20 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         request.setUserId("user1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.notificationRule().listNotificationRule(request)
-        assertEquals(3, response.getNotificationRules().size())
-        NotificationRule inputRule1 = response.getNotificationRules().find { it.name == rule1.name }
+        assertEquals(3, response.getRules().size())
+        NotificationRule inputRule1 = response.getRules().find { it.name == rule1.name }
         assertEquals(inputRule1.getActionType().value(), rule1.actionType);
         assertEquals(inputRule1.getApplyOrder(), rule1.applyOrder);
         assertEquals(inputRule1.getSchedules(), rule1.schedules);
         assertEquals(inputRule1.getName(), rule1.name);
         assertEquals(inputRule1.getNotifyBefore().get(0).value(), rule1.notifyBefore.get(0));
         assertEquals(inputRule1.getNotifyBefore().get(1).value(), rule1.notifyBefore.get(1));
-        assertEquals(1, inputRule1.getRestirictions().size())
-        def inputRestriction = inputRule1.getRestirictions().get(0);
+        assertEquals(1, inputRule1.getRestrictions().size())
+        def inputRestriction = inputRule1.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule1.restrictions[0].endHour);
-        assertEquals(inputRestriction.getStartDay().value(), rule1.restrictions[0].startDay);
+        assertEquals(inputRestriction.getStartDay().name(), rule1.restrictions[0].startDay);
         assertEquals(inputRestriction.getStartHour(), rule1.restrictions[0].startHour);
-        assertEquals(inputRestriction.getEndDay().value(), rule1.restrictions[0].endDay);
+        assertEquals(inputRestriction.getEndDay().name(), rule1.restrictions[0].endDay);
         assertEquals(inputRestriction.getStartMinute(), rule1.restrictions[0].startMinute);
         assertEquals(inputRestriction.getEndMinute(), rule1.restrictions[0].endMinute);
         assertEquals(inputRule1.getId(), rule1.id);
@@ -1167,11 +1167,11 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule1.getSteps().get(0).getEnabled(), rule1.steps.get(0).enabled);
         assertEquals(inputRule1.getEnabled(), rule1.enabled);
 
-        NotificationRule inputRule2 = response.getNotificationRules().find { it.name == rule2.name }
+        NotificationRule inputRule2 = response.getRules().find { it.name == rule2.name }
         assertEquals(inputRule2.getActionType().value(), rule2.actionType);
         assertEquals(inputRule2.getApplyOrder(), rule2.applyOrder);
         assertEquals(inputRule2.getName(), rule2.name);
-        inputRestriction = inputRule2.getRestirictions().get(0);
+        inputRestriction = inputRule2.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule2.restrictions.endHour);
         assertEquals(inputRestriction.getStartHour(), rule2.restrictions.startHour);
         assertEquals(inputRestriction.getStartMinute(), rule2.restrictions.startMinute);
@@ -1199,12 +1199,12 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule2.getConditionMatchType().value(), rule2.conditionMatchType);
         assertEquals(inputRule2.getLoopAfter(), rule2.loopAfter);
 
-        NotificationRule inputRule3 = response.getNotificationRules().find { it.name == rule3.name }
+        NotificationRule inputRule3 = response.getRules().find { it.name == rule3.name }
         assertEquals(inputRule3.getActionType().value(), rule3.actionType);
         assertEquals(inputRule3.getApplyOrder(), rule3.applyOrder);
         assertEquals(inputRule3.getName(), rule3.name);
-        assertEquals(1, inputRule3.getRestirictions().size())
-        inputRestriction = inputRule3.getRestirictions().get(0);
+        assertEquals(1, inputRule3.getRestrictions().size())
+        inputRestriction = inputRule3.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule3.restrictions.endHour);
         assertEquals(inputRestriction.getStartHour(), rule3.restrictions.startHour);
         assertEquals(inputRestriction.getStartMinute(), rule3.restrictions.startMinute);
