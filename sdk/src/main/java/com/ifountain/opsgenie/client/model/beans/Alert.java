@@ -37,7 +37,7 @@ public class Alert extends Bean {
     /**
      * Returns type of integration which created alert.
      *
-     * @return
+     * @return Map<String, String>
      */
     public Map<String, String> getSystemData() {
         return systemData;

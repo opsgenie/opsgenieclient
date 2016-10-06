@@ -239,7 +239,7 @@ public interface IAlertOpsGenieClient {
     public AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
-     * Adds details to an alert.
+     * Removes details to an alert.
      *
      * @param removeDetailsRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
