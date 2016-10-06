@@ -1,11 +1,12 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
+import com.ifountain.opsgenie.client.util.RestrictionDeserializer;
+import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Contact bean
@@ -16,9 +17,19 @@ public class TeamRoutingRule extends Bean {
     private ConditionMatchType conditionMatchType;
     private List<Condition> conditions;
     private Integer applyOrder;
-    private Object restrictions;
     private Boolean isDefault;
     private TeamRoutingRuleNotify notify;
+    @JsonDeserialize(using = RestrictionDeserializer.class)
+    @JsonSerialize(using = RestrictionsSeriliazer.class)
+    private List<Restriction> restrictions;
+
+    public List<Restriction> getRestrictions() {
+        return restrictions;
+    }
+
+    public void setRestriction(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+    }
 
     public String getName() {
         return name;
@@ -74,44 +85,6 @@ public class TeamRoutingRule extends Bean {
 
     public void setNotify(TeamRoutingRuleNotify notify) {
         this.notify = notify;
-    }
-
-    public Object getRestirictionsMap() {
-        if (getRestrictions() != null) {
-            if (getRestrictions().size() == 1 && (getRestrictions().get(0).getEndDay() == null
-                    && getRestrictions().get(0).getStartDay() == null)) {
-                return getRestrictions().get(0);
-            }
-            return getRestrictions();
-        }
-        return null;
-    }
-
-    public List<Restriction> getRestrictions() {
-        if (this.restrictions == null)
-            return null;
-        return (List<Restriction>) this.restrictions;
-    }
-
-    public void setRestrictions(Object restrictions) throws ParseException {
-        List<Restriction> restrictionList = new ArrayList<Restriction>();
-        if (restrictions instanceof List) {
-            List<Map> list = (List) restrictions;
-            for (Object object : list) {
-                Restriction newRestiriction = new Restriction();
-                newRestiriction.fromMap((Map) object);
-                restrictionList.add(newRestiriction);
-            }
-        } else {
-            Restriction newRestiriction = new Restriction();
-            newRestiriction.fromMap((Map) restrictions);
-            restrictionList.add(newRestiriction);
-        }
-        this.restrictions = restrictionList;
-    }
-
-    public void setRestrictionList(List<Restriction> restrictions) {
-        this.restrictions = restrictions;
     }
 
     public static class TeamRoutingRuleNotify extends Bean {

@@ -15,6 +15,7 @@ import java.util.Map;
 public abstract class Bean implements IBean {
 
     @Override
+    @Deprecated
     public Map toMap() {
         try {
             return JsonUtils.toMap(this);
@@ -24,6 +25,7 @@ public abstract class Bean implements IBean {
         }
     }
 
+    @Deprecated
     public void fromMap(Map map) throws ParseException {
         try {
             JsonUtils.fromMap(this, map);
@@ -35,7 +37,12 @@ public abstract class Bean implements IBean {
 
 
     public String toString() {
-        return toMap().toString();
+        try {
+            return JsonUtils.toJson(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

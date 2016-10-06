@@ -1,13 +1,14 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.util.RestrictionDeserializer;
+import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * NotificationRule bean
@@ -24,8 +25,18 @@ public class NotificationRule extends Bean {
     private List<NotificationRuleStep> steps;
     private List<Condition> conditions;
     private List<String> schedules;
-    private Object restrictions;
     private List<NotifyBefore> notifyBefore;
+    @JsonDeserialize(using = RestrictionDeserializer.class)
+    @JsonSerialize(using = RestrictionsSeriliazer.class)
+    private List<Restriction> restrictions;
+
+    public List<Restriction> getRestrictions() {
+        return restrictions;
+    }
+
+    public void setRestriction(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+    }
 
 
     public Boolean getEnabled() {
@@ -101,35 +112,6 @@ public class NotificationRule extends Bean {
         this.schedules = schedules;
     }
 
-    public List<Restriction> getRestrictions() {
-        if (this.restrictions == null)
-            return null;
-        return (List<Restriction>) this.restrictions;
-    }
-
-    public void setRestrictions(Object restrictions) throws ParseException {
-        List<Restriction> restrictionList = new ArrayList<Restriction>();
-        if (restrictions instanceof List) {
-            List<Map> list = (List) restrictions;
-            for (Object object : list) {
-                Restriction newRestiriction = new Restriction();
-                newRestiriction.fromMap((Map) object);
-                restrictionList.add(newRestiriction);
-            }
-
-        } else {
-            Restriction newRestiriction = new Restriction();
-            newRestiriction.fromMap((Map) restrictions);
-            restrictionList.add(newRestiriction);
-        }
-        this.restrictions = restrictionList;
-    }
-
-    public void setRestrictionList(List<Restriction> restrictions) {
-        this.restrictions = restrictions;
-    }
-
-
     public List<NotifyBefore> getNotifyBefore() {
         return notifyBefore;
     }
@@ -146,7 +128,7 @@ public class NotificationRule extends Bean {
         this.id = id;
     }
 
-    public static enum ActionType {
+    public enum ActionType {
         NEW_ALERT(OpsGenieClientConstants.API.NEW_ALERT),
         ACKNOWLEDGED_ALERT(OpsGenieClientConstants.API.ACKNOWLEDGED_ALERT),
         CLOSED_ALERT(OpsGenieClientConstants.API.CLOSED_ALERT),

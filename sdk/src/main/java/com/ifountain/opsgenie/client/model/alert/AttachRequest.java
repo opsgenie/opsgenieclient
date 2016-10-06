@@ -2,6 +2,8 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
+import java.util.Map;
+
 /**
  * Container for the parameters to make an attach api call.
  *
@@ -29,7 +31,8 @@ public abstract class AttachRequest extends AddNoteRequest {
     }
 
     @Override
-    public void validate() throws OpsGenieClientValidationException {
+    @Deprecated
+    public Map serialize() throws OpsGenieClientValidationException {
         throw new UnsupportedOperationException("unsupported method serialize");
     }
 

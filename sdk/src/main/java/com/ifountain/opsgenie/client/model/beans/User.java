@@ -1,11 +1,11 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonValue;
 
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -199,8 +199,13 @@ public class User extends Bean {
         if (contacts == null)
             return null;
         List<Map<String, String>> contactMapList = new ArrayList();
-        for (Contact contact : contacts)
-            contactMapList.add(contact.toMap());
+        for (Contact contact : contacts) {
+            try {
+                contactMapList.add(JsonUtils.toMap(contact));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return contactMapList;
     }
 
@@ -209,17 +214,19 @@ public class User extends Bean {
      */
     @Deprecated
     public void setContacts(List<Map<String, String>> contacts) {
-        if (contacts == null)
-            this.contacts = null;
-        this.contacts = new ArrayList<Contact>();
-        for (Map<String, String> map : contacts) {
-            Contact contact = new Contact();
-            try {
-                contact.fromMap(map);
-            } catch (ParseException e) {
-                e.printStackTrace();
+        if (contacts != null) {
+            this.contacts = new ArrayList<Contact>();
+            for (Map<String, String> map : contacts) {
+                Contact contact = new Contact();
+                try {
+                    JsonUtils.fromMap(contact, map);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                this.contacts.add(contact);
             }
-            this.contacts.add(contact);
+        } else {
+            this.contacts = null;
         }
     }
 

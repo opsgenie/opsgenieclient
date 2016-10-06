@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.util;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -62,12 +63,36 @@ public class JsonUtils {
             ((ConvertFromTimeZone) object).setTime();
     }
 
+    public static void fromJsonWithoutParsing(Object object, String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.readerForUpdating(object).readValue(json);
+    }
+
+    public static void fromJson(Object object, JsonParser parser) throws IOException, ParseException {
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        mapper.setDateFormat(sdf);
+        mapper.readerForUpdating(object).readValue(parser);
+        if (object instanceof ConvertFromTimeZone)
+            ((ConvertFromTimeZone) object).setTime();
+    }
+
+    public static void fromJsonWithoutParsing(Object object, JsonParser parser) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.readerForUpdating(object).readValue(parser);
+    }
+
     public static String toJson(Object object) throws ParseException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
         if (object instanceof ObjectWithTimeZone && ((ObjectWithTimeZone) object).getObjectTimeZone() != null)
             sdf.setTimeZone(((ObjectWithTimeZone) object).getObjectTimeZone());
         mapper.setDateFormat(sdf);
+        return mapper.writeValueAsString(object);
+    }
+
+    public static String toJsonWithoutParsing(Object object) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(object);
     }
 }

@@ -10,8 +10,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
-import org.apache.http.client.utils.URIUtils;
-import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.Scheme;
@@ -19,8 +18,8 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.impl.conn.BasicClientConnectionManager;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -120,7 +119,7 @@ public class OpsGenieHttpClient {
     }
 
     public HttpPost preparePostMethod(String uri, String content, Map<String, String> headers, Map<String, Object> parameters) throws URISyntaxException, UnsupportedEncodingException {
-        HttpPost postMethod = new HttpPost(prepareGetUri(uri, parameters));
+        HttpPost postMethod = new HttpPost(generateURI(uri, parameters));
         StringEntity entity = new StringEntity(content, "UTF-8");
         entity.setChunked(true);
         postMethod.setEntity(entity);
@@ -134,7 +133,7 @@ public class OpsGenieHttpClient {
     }
 
     public HttpPut preparePutMethod(String uri, Map<String, Object> contentMap, Map<String, Object> parameters) throws URISyntaxException, IOException {
-        HttpPut putMethod = new HttpPut(prepareGetUri(uri, parameters));
+        HttpPut putMethod = new HttpPut(generateURI(uri, parameters));
         StringEntity entity = new StringEntity(JsonUtils.toJson(contentMap), "UTF-8");
         entity.setChunked(true);
         putMethod.setEntity(entity);
@@ -146,68 +145,47 @@ public class OpsGenieHttpClient {
     }
 
     public OpsGenieHttpResponse get(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
-        HttpGet get = new HttpGet(prepareGetUri(uri, parameters));
+        HttpGet get = new HttpGet(generateURI(uri, parameters));
         configureHeaders(get, headers);
         return executeHttpMethod(get);
     }
 
-    public URI prepareGetUri(String uri, Map<String, Object> parameters) throws URISyntaxException {
-        URI uriObj = new URI(uri);
-        List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(uriObj, null);
-        List<NameValuePair> queryParams = generateNameValuePairsFrom(parameters);
-
-        for (NameValuePair nvp : optionsInQuery) {
-            if (!parameters.containsKey(nvp.getName())) {
-                queryParams.add(nvp);
-            }
-        }
-
-        return URIUtils.createURI(uriObj.getScheme(), uriObj.getHost(), uriObj.getPort(), uriObj.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), uriObj.getFragment());
-    }
-
-    public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters) throws URISyntaxException, IOException {
-        return delete(uri, parameters, new HashMap<String, String>());
+    public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpDelete delete = new HttpDelete(generateURI(uri, parameters));
+        configureHeaders(delete, new HashMap<String, String>());
+        return executeHttpMethod(delete);
     }
 
     public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
-        URI uriObj = new URI(uri);
-        List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(uriObj, null);
-        List<NameValuePair> queryParams = generateNameValuePairsFrom(parameters);
-
-        for (NameValuePair nvp : optionsInQuery) {
-            if (!parameters.containsKey(nvp.getName())) {
-                queryParams.add(nvp);
-            }
-        }
-        URI newUri = URIUtils.createURI(uriObj.getScheme(), uriObj.getHost(), uriObj.getPort(), uriObj.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), uriObj.getFragment());
-        HttpDelete delete = new HttpDelete(newUri);
+        HttpDelete delete = new HttpDelete(generateURI(uri, parameters));
         configureHeaders(delete, headers);
         return executeHttpMethod(delete);
     }
 
-    private List<NameValuePair> generateNameValuePairsFrom(Map<String, Object> params) {
-        List<NameValuePair> formParams = new ArrayList<NameValuePair>();
-        if (params != null) {
-            for (Map.Entry<String, Object> o : params.entrySet()) {
+    private URI generateURI(String uri, Map<String, Object> parameters) throws URISyntaxException {
+        URIBuilder builder = new URIBuilder();
+        builder.setPath(uri);
+        if (parameters != null) {
+            for (Map.Entry<String, Object> o : parameters.entrySet()) {
                 if (o.getValue() != null) {
                     if (o.getValue() instanceof Collection) {
                         Collection col = (Collection) o.getValue();
                         for (Object content : col) {
-                            formParams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+                            builder.addParameter(o.getKey(), String.valueOf(content));
                         }
                     } else if (o.getValue().getClass().isArray()) {
                         int length = Array.getLength(o.getValue());
                         for (int i = 0; i < length; i++) {
                             Object content = Array.get(o.getValue(), i);
-                            formParams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+                            builder.addParameter(o.getKey(), String.valueOf(content));
                         }
                     } else {
-                        formParams.add(new BasicNameValuePair(o.getKey(), String.valueOf(o.getValue())));
+                        builder.addParameter(o.getKey(), String.valueOf(o.getValue()));
                     }
                 }
             }
         }
-        return formParams;
+        return builder.build();
     }
 
     public OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
@@ -248,12 +226,12 @@ public class OpsGenieHttpClient {
         }
         ClientConnectionManager connectionManager;
         if (config.getMaxConnections() > 1) {
-            ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager();
-            threadSafeClientConnManager.setDefaultMaxPerRoute(config.getMaxConnections());
-            threadSafeClientConnManager.setMaxTotal(config.getMaxConnections());
-            connectionManager = threadSafeClientConnManager;
+            PoolingClientConnectionManager poolingClientConnectionManager = new PoolingClientConnectionManager();
+            poolingClientConnectionManager.setDefaultMaxPerRoute(config.getMaxConnections());
+            poolingClientConnectionManager.setMaxTotal(config.getMaxConnections());
+            connectionManager = poolingClientConnectionManager;
         } else {
-            connectionManager = new SingleClientConnManager();
+            connectionManager = new BasicClientConnectionManager();
         }
         httpClient = new DefaultHttpClient(connectionManager, httpClientParams);
         if (config.getCredentials() != null) {
