@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list groups api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
 public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {
@@ -16,10 +17,10 @@ public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {
         return "/v1/json/group";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListGroupsResponse createResponse() {
         return new ListGroupsResponse();
     }

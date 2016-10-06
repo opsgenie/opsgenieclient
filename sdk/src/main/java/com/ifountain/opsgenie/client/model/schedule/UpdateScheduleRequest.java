@@ -3,21 +3,33 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
-
 /**
  * Container for the parameters to make an update schedule api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateSchedule(UpdateScheduleRequest)
  */
 public class UpdateScheduleRequest extends AddScheduleRequest {
     private String id;
+
     /**
      * Rest api uri of updating schedule operation.
      */
     @Override
     public String getEndPoint() {
         return "/v1/json/schedule";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**
@@ -34,22 +46,10 @@ public class UpdateScheduleRequest extends AddScheduleRequest {
         this.id = id;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(id != null){
-            json.put(OpsGenieClientConstants.API.ID, id);
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateScheduleResponse createResponse() {
         return new UpdateScheduleResponse();
     }

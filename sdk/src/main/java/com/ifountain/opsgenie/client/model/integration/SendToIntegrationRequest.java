@@ -1,19 +1,21 @@
 package com.ifountain.opsgenie.client.model.integration;
 
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequestWithHttpParameters;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
 
 import java.util.Map;
 
 /**
  * Container for the parameters to send integration webhook call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#sendToIntegration(com.ifountain.opsgenie.client.model.integration.SendToIntegrationRequest)
  */
 public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<SendToIntegrationResponse> {
     private String endPoint;
     private Map<String, Object> contentParameters;
 
+    @JsonAnyGetter
     public Map<String, Object> getContentParameters() {
         return contentParameters;
     }
@@ -34,19 +36,11 @@ public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<Send
         return endPoint;
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public SendToIntegrationResponse createResponse() {
         return new SendToIntegrationResponse();
-    }
-
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map contentParameters = super.serialize();
-        // apiKey in contentParameters will override BaseRequest.apiKey
-        contentParameters.putAll(getContentParameters());
-        return contentParameters;
     }
 }

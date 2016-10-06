@@ -73,6 +73,26 @@ public class OpsGenieClient implements IOpsGenieClient {
     private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
     private InnerAlertPolicyOpsGenieClient innerAlertPolicyOpsGenieClient;
     private IIntegrationOpsGenieClient innerIntegrationOpsGenieClient;
+    private INotificationRuleOpsGenieClient innerNotificationRuleOpsGenieClient;
+    private IAccountOpsGenieClient innerAccountOpsGenieClient;
+    private IContactOpsGenieClient innerContactOpsGenieClient;
+    
+    /**
+     * Api key used for authenticating API requests.
+     */
+    public String getApiKey() {
+        return this.jsonHttpClient != null ? this.jsonHttpClient.getApiKey() : null;
+    }
+
+    /**
+     * Sets the customer key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey) {
+        if (this.jsonHttpClient != null) {
+            this.jsonHttpClient.setApiKey(apiKey);
+        }
+    }
+
     /**
      * Http client object *
      */
@@ -100,6 +120,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     public OpsGenieClient(OpsGenieHttpClient httpClient) {
         this.jsonHttpClient = new JsonOpsgenieHttpClient(httpClient);
         this.streamOpsgenieHttpClient = new StreamOpsgenieHttpClient(httpClient);
+        this.jsonHttpClient.setApiKey(getApiKey());
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);
@@ -108,6 +129,9 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient, this.streamOpsgenieHttpClient);
         innerAlertPolicyOpsGenieClient = new InnerAlertPolicyOpsGenieClient(this.jsonHttpClient);
         innerIntegrationOpsGenieClient = new InnerIntegrationOpsGenieClient(this.jsonHttpClient);
+        innerContactOpsGenieClient = new InnerContactOpsGenieClient(this.jsonHttpClient);
+        innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
+        innerAccountOpsGenieClient = new InnerAccountOpsGenieClient(this.jsonHttpClient);
     }
 
     /**
@@ -167,6 +191,14 @@ public class OpsGenieClient implements IOpsGenieClient {
         return innerIntegrationOpsGenieClient;
     }
 
+    
+    /**
+     * @see IOpsGenieClient#notificationRule() ()
+     */
+    public INotificationRuleOpsGenieClient notificationRule() {
+        return innerNotificationRuleOpsGenieClient;
+    }
+    
     /**
      * @see IOpsGenieClient#heartbeat(com.ifountain.opsgenie.client.model.customer.HeartbeatRequest)
      */
@@ -250,4 +282,18 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.jsonHttpClient.close();
         this.streamOpsgenieHttpClient.close();
     }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#contact()
+     */
+	public IContactOpsGenieClient contact() {
+		return innerContactOpsGenieClient;
+	}
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#account()
+     */
+	@Override
+	public IAccountOpsGenieClient account() {
+		return innerAccountOpsGenieClient;
+	}
 }

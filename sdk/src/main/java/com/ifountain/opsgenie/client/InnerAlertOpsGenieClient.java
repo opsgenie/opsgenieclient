@@ -14,8 +14,9 @@ import java.text.ParseException;
 /**
  * Abstract Inner Client
  */
-public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
+public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     private JsonOpsgenieHttpClient httpClient;
+
     /**
      * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
      */
@@ -67,7 +68,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
      * @see IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
      */
     @Override
-    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException{
+    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException {
         return (CountAlertsResponse) httpClient.doGetRequest(countAlertsRequest);
     }
 
@@ -192,6 +193,30 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient{
     @Override
     public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException {
         return (ListAlertNotesResponse) httpClient.doGetRequest(listAlertNotesRequest);
+    }
+
+    /**
+     * @see IAlertOpsGenieClient#addDetails(AddDetailsRequest))
+     */
+    @Override
+    public AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (AddDetailsResponse) httpClient.doPostRequest(addDetailsRequest);
+    }
+
+    /**
+     * @see IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest))
+     */
+    @Override
+    public RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (RemoveDetailsResponse) httpClient.doDeleteRequest(removeDetailsRequest);
+    }
+
+    /**
+     * @see IAlertOpsGenieClient#snooze(SnoozeRequest))
+     */
+    @Override
+    public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (SnoozeResponse) httpClient.doPostRequest(snoozeRequest);
     }
 
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException, ParseException {

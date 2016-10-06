@@ -3,8 +3,6 @@ package com.ifountain.opsgenie.client.util;
 import com.ifountain.opsgenie.client.http.DefaultOpsgenieRequestRetryHandler;
 import com.ifountain.opsgenie.client.http.OpsgenieRequestRetryHandler;
 import org.apache.http.auth.Credentials;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
 import java.util.List;
 import java.util.jar.Manifest;

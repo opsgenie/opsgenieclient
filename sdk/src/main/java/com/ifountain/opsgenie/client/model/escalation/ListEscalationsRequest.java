@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list escalations api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
 public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse> {
@@ -16,10 +17,10 @@ public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse>
         return "/v1/json/escalation";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListEscalationsResponse createResponse() {
         return new ListEscalationsResponse();
     }

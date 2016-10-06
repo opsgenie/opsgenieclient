@@ -25,7 +25,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         AddScheduleRequest request = new AddScheduleRequest();
         request.setApiKey("customer1");
         request.setName("schedule1");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+8"));
+        request.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         request.setEnabled(true);
         request.setRotations([
                 new ScheduleRotation(name:"rule1", startDate: new Date(10000000000l), rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
@@ -114,7 +114,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setApiKey("customer1");
         request.setId("schedule1Id");
         request.setName("schedule1");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+5"));
+        request.setTimeZone(TimeZone.getTimeZone("GMT+5"));
         request.setEnabled(false);
         request.setRotations([
                 new ScheduleRotation(name:"updatedRule",startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
@@ -220,7 +220,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request = new UpdateScheduleRequest();
         request.setApiKey("customer1");
         request.setId("schedule1Id");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT-7"))
+        request.setTimeZone(TimeZone.getTimeZone("GMT-7"))
 
         response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
         assertEquals("schedule1Id", response.getId())
@@ -314,7 +314,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent.put(TestConstants.API.ID, "schedule1id");
         jsonContent.put(TestConstants.API.NAME, "schedule1");
         jsonContent.put(TestConstants.API.TEAM, "team1");
-        jsonContent.put(TestConstants.API.TIMEZONE, "Etc/GMT+2");
+        jsonContent.put(TestConstants.API.TIMEZONE, "GMT+2");
         jsonContent.put(TestConstants.API.ENABLED, false);
         jsonContent.put(TestConstants.API.RULES, [
                 [
@@ -448,8 +448,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         int index = 0;
         jsonContent[TestConstants.API.PARTICIPANTS].each {
-            assertEquals(it.name, response.whoIsOnCall.participants[index].participant)
-            assertEquals(it.type, response.whoIsOnCall.participants[index].type.name())
+            assertEquals(it.name, response.whoIsOnCall.participants[index].name)
+            assertEquals(it.type, response.whoIsOnCall.participants[index].type)
             assertEquals(it.id, response.whoIsOnCall.participants[index].id)
             if (it.type == "user") {
                 assertEquals(it.forwarded, response.whoIsOnCall.participants[index].forwarded)
@@ -457,51 +457,51 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
             index++;
         }
 
-        WhoIsOnCallUserParticipant forwardedUserData = response.whoIsOnCall.participants.find {
-            it.participant == "user2@xyz.com"
-        };
+        WhoIsOnCall forwardedUserData = response.whoIsOnCall.participants.find {
+            it.name == "user2@xyz.com"
+        }
         assertNotNull(forwardedUserData);
 
         assertEquals(true, forwardedUserData.forwarded);
 
-        WhoIsOnCallUserParticipant forwardedFromData = forwardedUserData.forwardedFrom;
+        WhoIsOnCall forwardedFromData = forwardedUserData.forwardedFrom;
         assertNotNull(forwardedFromData);
 
-        assertEquals("user7@xyz.com", forwardedFromData.participant)
-        assertEquals("user", forwardedFromData.type.name())
+        assertEquals("user7@xyz.com", forwardedFromData.name)
+        assertEquals("user", forwardedFromData.type)
         assertEquals("id_user7", forwardedFromData.id)
 
-        WhoIsOnCallScheduleParticipant groupData = response.whoIsOnCall.participants.find {
-            it.participant == "group1"
+        WhoIsOnCall groupData = response.whoIsOnCall.participants.find {
+            it.name == "group1"
         };
         assertNotNull(groupData);
 
         assertEquals(2, groupData.participants.size())
-        assertEquals("user3@xyz.com", groupData.participants[0].participant)
-        assertEquals("user4@xyz.com", groupData.participants[1].participant)
+        assertEquals("user3@xyz.com", groupData.participants[0].name)
+        assertEquals("user4@xyz.com", groupData.participants[1].name)
 
-        WhoIsOnCallScheduleParticipant escalationData = response.whoIsOnCall.participants.find {
-            it.participant == "escalation1"
+        WhoIsOnCall escalationData = response.whoIsOnCall.participants.find {
+            it.name == "escalation1"
         };
         assertNotNull(escalationData);
 
         assertEquals(3, escalationData.participants.size())
 
-        assertEquals("user5@xyz.com", escalationData.participants[0].participant)
+        assertEquals("user5@xyz.com", escalationData.participants[0].name)
         assertEquals(2, escalationData.participants[0].escalationTime)
         assertEquals("default", escalationData.participants[0].notifyType)
 
-        WhoIsOnCallScheduleParticipant escGroupData = escalationData.participants.find { it.participant == "group2" };
+        WhoIsOnCall escGroupData = escalationData.participants.find { it.name == "group2" };
         assertNotNull(escGroupData);
 
-        assertEquals("group2", escGroupData.participant)
+        assertEquals("group2", escGroupData.name)
         assertEquals(4, escGroupData.escalationTime)
         assertEquals("default", escGroupData.notifyType)
 
         assertEquals(1, escGroupData.participants.size())
-        assertEquals("user6@xyz.com", escGroupData.participants[0].participant)
+        assertEquals("user6@xyz.com", escGroupData.participants[0].name)
 
-        def scheduleData = escalationData.participants.find { it.participant == "schedule2" }
+        def scheduleData = escalationData.participants.find { it.name == "schedule2" }
         assertNotNull(scheduleData)
         assertEquals(54, scheduleData.escalationTime)
         assertEquals("next", scheduleData.notifyType)
@@ -574,7 +574,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         WhoIsOnCallRequest request = new WhoIsOnCallRequest();
         request.setId(jsonContent[TestConstants.API.ID]);
         request.setName(jsonContent[TestConstants.API.NAME]);
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
         request.setTime(new Date(System.currentTimeMillis()));
         request.setApiKey("customer1");
 
@@ -585,8 +585,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         int index = 0;
         jsonContent[TestConstants.API.PARTICIPANTS].each {
-            assertEquals(it.name, response.whoIsOnCall.participants[index].participant)
-            assertEquals(it.type, response.whoIsOnCall.participants[index].type.name())
+            assertEquals(it.name, response.whoIsOnCall.participants[index].name)
+            assertEquals(it.type, response.whoIsOnCall.participants[index].type)
             if (it.type == "user") {
                 assertEquals(it.forwarded, response.whoIsOnCall.participants[index].forwarded)
             }
@@ -619,16 +619,16 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         Map oncall1Content = new HashMap();
         oncall1Content.put(TestConstants.API.NAME, "schedule1");
         oncall1Content.put(TestConstants.API.PARTICIPANTS, [
-                [participant: "group1", type: "group"],
-                [participant: "user1@xyz.com", type: "user", forwarded: false],
-                [participant: "user2@xyz.com", type: "user", forwarded: true],
-                [participant: "escalation1", type: "escalation", participants: [[participant: "schedule2", type: "schedule"]]],
-                [participant: "tim", type: "team"]
+                [name: "group1", type: "group"],
+                [name: "user1@xyz.com", type: "user", forwarded: false],
+                [name: "user2@xyz.com", type: "user", forwarded: true],
+                [name: "escalation1", type: "escalation", participants: [[name: "schedule2", type: "schedule"]]],
+                [name: "tim", type: "team"]
         ]);
         Map oncall2Content = new HashMap();
         oncall2Content.put(TestConstants.API.NAME, "schedule2");
         oncall2Content.put(TestConstants.API.PARTICIPANTS, [
-                [participant: "group2", type: "group"],
+                [name: "group2", type: "group"],
         ]);
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson([oncalls: [oncall1Content, oncall2Content]]).getBytes(), 200, "application/json; charset=utf-8"))
 
@@ -638,27 +638,27 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         def response = OpsGenieClientTestCase.opsgenieClient.schedule().listWhoIsOnCall(request)
 
         def whoIsOnCall = response.whoIsOnCallList.find { it.name == "schedule1" }
-        assertEquals(5, whoIsOnCall.participants.size())
 
-        def escalationData = whoIsOnCall.participants.find { it.participant == "escalation1" }
+        assertEquals(5, whoIsOnCall.getParticipants().size())
+        def escalationData = whoIsOnCall.getParticipants().find { it.name == "escalation1" }
         assertNotNull(escalationData)
         assertEquals(1, escalationData.participants.size())
-        assertEquals("schedule2", escalationData.participants[0].participant)
+        assertEquals("schedule2", escalationData.participants[0].name)
 
         int index = 0;
-        oncall1Content[TestConstants.API.ON_CALLS].each {
-            assertEquals(it.getParticipant, whoIsOnCall.participants[index].participant)
-            assertEquals(it.type, whoIsOnCall.participants[index].type)
-            if (it.type == "user") {
-                assertEquals(it.forwarded, whoIsOnCall.participants[index].forwarded)
+        oncall1Content[TestConstants.API.PARTICIPANTS].each {
+            assertEquals(it.getAt("name"), whoIsOnCall.participants[index].name)
+            assertEquals(it.getAt("type"), whoIsOnCall.participants[index].type)
+            if (it.getAt("type") == "user") {
+                assertEquals(it.getAt("forwarded"), whoIsOnCall.participants[index].forwarded)
             }
             index++;
         }
 
         whoIsOnCall = response.whoIsOnCallList.find { it.name == "schedule2" }
         assertEquals(1, whoIsOnCall.participants.size())
-        assertEquals("group2", whoIsOnCall.participants[0].participant)
-        assertEquals("group", whoIsOnCall.participants[0].type.name())
+        assertEquals("group2", whoIsOnCall.participants[0].name)
+        assertEquals("group", whoIsOnCall.participants[0].type)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
@@ -805,7 +805,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setSchedule("schedule1");
         request.setStartDate(new Date());
         request.setUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
         request.setRotationIds(["rotation1"])
 
@@ -848,7 +848,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setSchedule("schedule1");
         request.setStartDate(new Date());
         request.setUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
+        request.setTimeZone(TimeZone.getTimeZone("GMT+2"));
         request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
         request.setRotationIds(["rot1"])
 
@@ -912,7 +912,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
     @Test
     public void testGetScheduleOverrideSuccessfully() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5"));
 
         def startDate = new Date()
         def endDate = new Date(System.currentTimeMillis() + 1000000)
@@ -958,7 +958,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
     @Test
     public void testListScheduleOverridesSuccessfully() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5"));
 
         def startDate1 = new Date()
         def endDate1 = new Date(System.currentTimeMillis() + 1000000)
@@ -971,7 +971,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         jsonContent1.put(TestConstants.API.USER, "user1");
         jsonContent1.put(TestConstants.API.ALIAS, "alias1");
         jsonContent1.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
-        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-3"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-3"));
         Map jsonContent2 = new HashMap();
         jsonContent2.put(TestConstants.API.START_DATE, sdf.format(startDate2));
         jsonContent2.put(TestConstants.API.END_DATE, sdf.format(endDate2));
@@ -992,13 +992,13 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(jsonContent1[TestConstants.API.USER], override.user)
         assertEquals(sdf.format(startDate1), sdf.format(override.startDate))
         assertEquals(sdf.format(endDate1), sdf.format(override.endDate))
-        assertEquals(TimeZone.getTimeZone("Etc/GMT-5"), override.timeZone)
+        assertEquals(TimeZone.getTimeZone("GMT-5"), override.timeZone)
 
         override = overrides.find { it.alias == jsonContent2[TestConstants.API.ALIAS] }
         assertEquals(jsonContent2[TestConstants.API.USER], override.user)
         assertEquals(sdf.format(startDate2), sdf.format(override.startDate))
         assertEquals(sdf.format(endDate2), sdf.format(override.endDate))
-        assertEquals(TimeZone.getTimeZone("Etc/GMT-3"), override.timeZone)
+        assertEquals(TimeZone.getTimeZone("GMT-3"), override.timeZone)
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]

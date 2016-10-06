@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list schedules api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
 public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse> {
@@ -16,10 +17,10 @@ public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse> {
         return "/v1/json/schedule";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListSchedulesResponse createResponse() {
         return new ListSchedulesResponse();
     }

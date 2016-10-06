@@ -1,20 +1,12 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Map;
-
 /**
  * Container for the parameters to make a close alert api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 2:05 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#closeAlert(CloseAlertRequest)
  */
-public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResponse> {
-    private String user;
-    private String note;
+public class CloseAlertRequest extends AddNoteRequest {
 
     /**
      * Rest api uri of close alert operation.
@@ -25,50 +17,9 @@ public class CloseAlertRequest extends BaseAlertRequestWithSource<CloseAlertResp
     }
 
     /**
-     * The user who is performing the close alert operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the close alert operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * Additional alert note.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets additional alert note.
-     */
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json  = super.serialize();
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        return json;
-    }
-
-    @Override
-    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public CloseAlertResponse createResponse() {
         return new CloseAlertResponse();
     }

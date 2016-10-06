@@ -1,20 +1,17 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Container for the parameters to make a heartbeat api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 3:06 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
-    String name;
+    private String name;
+
     /*
     * Name of heartbeat monitor
      */
@@ -23,34 +20,27 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
     }
 
     /**
-    * Sets name of heartbeat monitor
+     * Sets name of heartbeat monitor
      **/
     public void setName(String name) {
         this.name = name;
     }
+
     /**
-     * @deprecated
-    * Source of heartbeat monitor
+     * @deprecated use getName()
      */
+    @Deprecated
+    @JsonIgnore
     public String getSource() {
         return getName();
     }
 
     /**
-     * @deprecated
-    * Use setName
+     * @deprecated Use setName()
      **/
+    @Deprecated
     public void setSource(String source) {
         setName(source);
-    }
-
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map res = super.serialize();
-        if(name != null){
-            res.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        return res;
     }
 
     /**
@@ -61,10 +51,10 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
         return "/v1/json/heartbeat/send";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public HeartbeatResponse createResponse() {
         return new HeartbeatResponse();
     }

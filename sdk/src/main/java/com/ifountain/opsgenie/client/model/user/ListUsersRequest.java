@@ -5,6 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list users api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
 public class ListUsersRequest extends BaseRequest<ListUsersResponse> {
@@ -16,10 +17,10 @@ public class ListUsersRequest extends BaseRequest<ListUsersResponse> {
         return "/v1/json/user";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListUsersResponse createResponse() {
         return new ListUsersResponse();
     }

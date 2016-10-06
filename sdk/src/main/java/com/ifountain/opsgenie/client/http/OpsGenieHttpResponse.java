@@ -21,9 +21,6 @@ public class OpsGenieHttpResponse {
         return new String(content);
     }
 
-
-
-
     public void setContent(byte[] content) {
         this.content = content;
     }

@@ -3,6 +3,9 @@ package com.ifountain.opsgenie.client
 import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
+import com.ifountain.opsgenie.client.model.beans.User
+import com.ifountain.opsgenie.client.model.user.*
+import com.ifountain.opsgenie.client.model.user.forward.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.http.HttpHeaders
@@ -13,15 +16,8 @@ import org.junit.Test
 
 import java.text.SimpleDateFormat
 
-import com.ifountain.opsgenie.client.model.user.forward.*
-import com.ifountain.opsgenie.client.model.user.AddUserRequest
-import com.ifountain.opsgenie.client.model.beans.User
-import com.ifountain.opsgenie.client.model.user.UpdateUserRequest
-
-import com.ifountain.opsgenie.client.model.user.DeleteUserRequest
-import com.ifountain.opsgenie.client.model.user.GetUserRequest
-import com.ifountain.opsgenie.client.model.user.ListUsersRequest
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -347,7 +343,6 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         UpdateUserRequest request = new UpdateUserRequest();
         request.setApiKey("customer1");
         request.setId("user1Id");
-        request.setUsername("user1@xyz.com");
         request.setRole(User.Role.user);
         request.setFullname("user1 user1");
         request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -366,7 +361,6 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
         assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
         assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
         assertEquals(request.getRole().name(), jsonContent[TestConstants.API.ROLE])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])

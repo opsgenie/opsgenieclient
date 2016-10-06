@@ -1,15 +1,13 @@
 package com.ifountain.opsgenie.client.model.group;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an add group api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroup(com.ifountain.opsgenie.client.model.group.AddGroupRequest)
  */
 public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
@@ -18,7 +16,7 @@ public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
 
 
     /**
-     * Rest api uri of addding group operation.
+     * Rest api uri of adding group operation.
      */
     @Override
     public String getEndPoint() {
@@ -53,26 +51,10 @@ public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
         this.users = users;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getName() != null)
-        {
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getUsers() != null){
-            json.put(OpsGenieClientConstants.API.USERS, getUsers());
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddGroupResponse createResponse() {
         return new AddGroupResponse();
     }

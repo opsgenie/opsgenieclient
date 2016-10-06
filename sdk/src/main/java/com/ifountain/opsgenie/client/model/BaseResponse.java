@@ -1,17 +1,21 @@
 package com.ifountain.opsgenie.client.model;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.util.JsonUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
 
 /**
- * @author Sezgin Kucukkaraaslan
- * @version 12/14/12 4:08 PM
+ * @author Mehmet Mustafa Demir
  */
-public abstract class BaseResponse implements Response{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class BaseResponse implements Response {
     private boolean success = true;
     private long took = 0;
+    @JsonIgnore
     private String json;
 
     /**
@@ -57,11 +61,25 @@ public abstract class BaseResponse implements Response{
     }
 
     /**
-     * Convert map data to response
+     * @deprecated Use fromJson
+     *
      */
+
+    @Deprecated
     public void deserialize(Map data) throws ParseException {
-        if(data.containsKey(OpsGenieClientConstants.API.TOOK)){
-            took = ((Number)data.get(OpsGenieClientConstants.API.TOOK)).longValue();
+        try {
+            fromJson(JsonUtils.toJson(data));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ParseException(e.getMessage(), -1);
         }
+    }
+
+    /**
+     * Convert json data to response
+     */
+    public void fromJson(String json) throws IOException, ParseException {
+        JsonUtils.fromJson(this, json);
+        this.json = json;
     }
 }

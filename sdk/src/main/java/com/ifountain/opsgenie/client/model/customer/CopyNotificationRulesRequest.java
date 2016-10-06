@@ -1,15 +1,13 @@
 package com.ifountain.opsgenie.client.model.customer;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make a copy notification rules api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#copyNotificationRules(com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest)
  */
 public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRulesResponse> {
@@ -75,26 +73,11 @@ public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRu
         return "/v1/json/copyNotificationRules";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public CopyNotificationRulesResponse createResponse() {
         return new CopyNotificationRulesResponse();
-    }
-
-    @Override
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map res = super.serialize();
-        if(fromUser != null){
-            res.put(OpsGenieClientConstants.API.FROM_USER, fromUser);
-        }
-        if(toUsers != null){
-            res.put(OpsGenieClientConstants.API.TO_USERS, toUsers);
-        }
-        if(ruleTypes != null){
-            res.put(OpsGenieClientConstants.API.RULE_TYPES, ruleTypes);
-        }
-        return res;
     }
 }

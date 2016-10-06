@@ -1,9 +1,6 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.util.Strings;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +8,7 @@ import java.util.Map;
 /**
  * Container for the parameters to make an create alert api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 5/30/12 9:41 AM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
 public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
@@ -209,42 +205,10 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
         this.note = note;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
-        if (getRecipients() != null)
-            json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
-        if (getTeams() != null)
-            json.put(OpsGenieClientConstants.API.TEAMS, getTeams());
-        if (getAlias() != null)
-            json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        if (getSource() != null)
-            json.put(OpsGenieClientConstants.API.SOURCE, getSource());
-        if (getEntity() != null)
-            json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
-        if (getNote() != null)
-            json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        if (getUser() != null)
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        if (getDescription() != null)
-            json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
-        if (getTags() != null && getTags().size() > 0)
-            json.put(OpsGenieClientConstants.API.TAGS, getTags());
-        if (getActions() != null && getActions().size() > 0)
-            json.put(OpsGenieClientConstants.API.ACTIONS, getActions());
-        if (getDetails() != null && getDetails().size() > 0)
-            json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public CreateAlertResponse createResponse() {
         return new CreateAlertResponse();
     }

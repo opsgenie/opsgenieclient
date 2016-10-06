@@ -1,21 +1,17 @@
 package com.ifountain.opsgenie.client.model.team;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a delete team api call.
  *
- * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 12:00 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeam(DeleteTeamRequest)
  */
-public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse>{
+public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse> {
     private String id;
     private String name;
+
     /**
      * Rest api uri of deleting team operation.
      */
@@ -50,21 +46,6 @@ public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse>{
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
-        if(getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        return json;
     }
 
     @Override

@@ -1,19 +1,12 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Alert bean
  */
-public class AlertNote implements IBean {
+public class AlertNote extends Bean {
     private String owner;
     private String note;
     private long createdAt;
-
 
     /**
      * @return Owner of the comment
@@ -57,19 +50,4 @@ public class AlertNote implements IBean {
         this.createdAt = createdAt;
     }
 
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.CREATED_AT, getCreatedAt());
-        json.put(OpsGenieClientConstants.API.OWNER, getOwner());
-        json.put(OpsGenieClientConstants.API.NOTE, getNote());
-        return json;
-    }
-
-    @Override
-    public void fromMap(Map map) throws ParseException {
-        setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
-        setNote((String) map.get(OpsGenieClientConstants.API.NOTE));
-        setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
-    }
 }

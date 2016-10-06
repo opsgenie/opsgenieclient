@@ -1,45 +1,12 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonValue;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class EscalationRule implements IBean {
-    public static enum Type {
-        user,
-        group,
-        schedule,
-        team
-    }
-
-    public static enum NotifyType {
-        Default("default"), users("users"), admins("admins"), next("next"), previous("previous");
-        private String value;
-
-        NotifyType(String value) {
-            this.value = value;
-        }
-
-        public static NotifyType fromValue(String value) {
-            for (NotifyType notifyType : values()) {
-                if (notifyType.value().equals(value)) return notifyType;
-            }
-            return NotifyType.Default;
-        }
-
-        public String value() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return value;
-        }
-    }
-
+public class EscalationRule extends Bean {
     private String notify;
     private NotifyType notifyType = NotifyType.Default;
+    private NotifyCondition notifyCondition;
     private Type type;
     private int delay;
 
@@ -65,24 +32,22 @@ public class EscalationRule implements IBean {
     }
 
     /**
-     * Sets the notification type of team or schedule in escalation.
-     * Possible values for schedule are: default, next, previous.
-     * Possible values for team are: default, users, admins.
+     * Sets the notification type of team or schedule in escalation. Possible
+     * values for schedule are: default, next, previous. Possible values for
+     * team are: default, users, admins.
      */
     public void setNotifyType(NotifyType notifyType) {
         this.notifyType = notifyType;
     }
 
     /**
-     * Type of escalation rule member
-     * One of user, group
+     * Type of escalation rule member One of user, group
      *
      * @see Type
      */
     public Type getType() {
         return type;
     }
-
 
     /**
      * Delay of escalation rule
@@ -99,43 +64,90 @@ public class EscalationRule implements IBean {
     }
 
     @Override
-    public Map toMap() {
-        Map<String, Object> ruleMap = new HashMap<String, Object>();
-        ruleMap.put(OpsGenieClientConstants.API.NOTIFY, notify);
-        if (type != null) {
-            ruleMap.put(OpsGenieClientConstants.API.TYPE, type.name());
-        }
-        if (notifyType != null) {
-            ruleMap.put(OpsGenieClientConstants.API.NOTIFY_TYPE, notifyType.toString());
-        }
-        ruleMap.put(OpsGenieClientConstants.API.DELAY, delay);
-        return ruleMap;
-    }
-
-    @Override
-    public void fromMap(Map map) {
-        notify = (String) map.get(OpsGenieClientConstants.API.NOTIFY);
-        if (map.containsKey(OpsGenieClientConstants.API.TYPE)) {
-            type = Type.valueOf(((String) map.get(OpsGenieClientConstants.API.TYPE)).toLowerCase());
-        }
-        if (map.containsKey(OpsGenieClientConstants.API.NOTIFY_TYPE)) {
-            notifyType = NotifyType.fromValue((String) map.get(OpsGenieClientConstants.API.NOTIFY_TYPE));
-        }
-        delay = ((Number) map.get(OpsGenieClientConstants.API.DELAY)).intValue();
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         EscalationRule that = (EscalationRule) o;
 
-        if (delay != that.delay) return false;
-        if (notify != null ? !notify.equals(that.notify) : that.notify != null) return false;
-        if (type != that.type) return false;
-        if (notifyType != that.notifyType) return false;
-
+        if (delay != that.delay)
+            return false;
+        if (notify != null ? !notify.equals(that.notify) : that.notify != null)
+            return false;
+        if (type != that.type)
+            return false;
+        if (that.notifyType != notifyType)
+            return false;
         return true;
+    }
+
+    public NotifyCondition getNotifyCondition() {
+        return notifyCondition;
+    }
+
+    public void setNotifyCondition(NotifyCondition notifyCondition) {
+        this.notifyCondition = notifyCondition;
+    }
+
+    public enum Type {
+        user, group, schedule, team
+    }
+
+    public enum NotifyType {
+        Default("default"), users("users"), admins("admins"), next("next"), previous("previous");
+        private String value;
+
+        NotifyType(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static NotifyType fromValue(String value) {
+            for (NotifyType notifyType : values()) {
+                if (notifyType.value().equalsIgnoreCase(value))
+                    return notifyType;
+            }
+            return NotifyType.Default;
+        }
+
+        @JsonValue
+        public String value() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    public enum NotifyCondition {
+        IF_NOT_ACKED("if-not-acked"), IF_NOT_CLOSED("if-not-closed");
+        private String value;
+
+        NotifyCondition(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static NotifyCondition fromValue(String value) {
+            for (NotifyCondition notifyType : values()) {
+                if (notifyType.value().equalsIgnoreCase(value))
+                    return notifyType;
+            }
+            return NotifyCondition.IF_NOT_ACKED;
+        }
+
+        @JsonValue
+        public String value() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
     }
 }

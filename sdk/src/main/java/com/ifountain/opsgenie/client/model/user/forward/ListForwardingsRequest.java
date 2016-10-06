@@ -1,14 +1,11 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make a list forwarding api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
  */
 public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse> {
@@ -23,8 +20,8 @@ public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse>
     }
 
     /**
-     * Username of user who forwarding is created for.
-     * If not specified all forwardings belongs to customer will be returned
+     * Username of user who forwarding is created for. If not specified all
+     * forwardings belongs to customer will be returned
      */
     public String getUser() {
         return user;
@@ -37,23 +34,10 @@ public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse>
         this.user = user;
     }
 
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getUser() != null){
-            json.put(OpsGenieClientConstants.API.USER, getUser());
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListForwardingsResponse createResponse() {
         return new ListForwardingsResponse();
     }

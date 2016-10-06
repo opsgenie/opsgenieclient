@@ -1,20 +1,18 @@
 package com.ifountain.opsgenie.client.model.alertpolicy;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Container for the parameters to enable/disable  alert policy.
  *
- * @version 11/26/12 4:17 PM
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertPolicyOpsGenieClient#enableAlertPolicy(EnableAlertPolicyRequest)
  */
 public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyResponse> {
     private String id;
     private String name;
+    @JsonIgnore
     private Boolean enabled = true;
     /**
      * Rest api uri of enable/disable  alert policy operation.
@@ -71,25 +69,10 @@ public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyRespo
         this.name = name;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
-        if(getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public EnableAlertPolicyResponse createResponse() {
         return new EnableAlertPolicyResponse();
     }

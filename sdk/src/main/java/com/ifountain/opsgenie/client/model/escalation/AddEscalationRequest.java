@@ -1,23 +1,22 @@
 package com.ifountain.opsgenie.client.model.escalation;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.EscalationRule;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an add escalation api call.
  *
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#addEscalation(AddEscalationRequest)
  */
 public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
     private String name;
     private List<EscalationRule> rules;
-
+    private String team;
+    private String description;
+    private Integer repeatInterval;
 
     /**
      * Rest api uri of addding escalation operation.
@@ -55,30 +54,41 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
         this.rules = rules;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getRules() != null){
-            List<Map> ruleMaps = new ArrayList<Map>();
-            for(EscalationRule rule:rules){
-                ruleMaps.add(rule.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddEscalationResponse createResponse() {
         return new AddEscalationResponse();
+    }
+
+    /**
+     * Name of team
+     */
+    public String getTeam() {
+        return team;
+    }
+
+    /**
+     * Sets Name of team
+     */
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    public Integer getRepeatInterval() {
+        return repeatInterval;
+    }
+
+    public void setRepeatInterval(Integer repeatInterval) {
+        this.repeatInterval = repeatInterval;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

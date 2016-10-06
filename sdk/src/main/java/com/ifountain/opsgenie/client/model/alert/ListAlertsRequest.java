@@ -1,29 +1,25 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.apache.commons.codec.binary.StringUtils;
-
-import java.util.List;
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list alerts api call.
  *
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(com.ifountain.opsgenie.client.model.alert.ListAlertsRequest)
+ * @author Mehmet Mustafa Demir
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
  */
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
-    public enum SortBy{
-        createdAt,
-        updatedAt
+    public enum SortBy {
+        createdAt, updatedAt
     }
-    public enum SortOrder{
-        asc,
-        desc
+
+    public enum SortOrder {
+        asc, desc
     }
 
     private SortBy sortBy;
+    @JsonIgnore
     private SortOrder sortOrder;
 
     /**
@@ -34,12 +30,26 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
         return "/v1/json/alert";
     }
 
+    @JsonProperty("sortBy")
+    public String getSortByName() {
+        if (sortBy != null)
+            return sortBy.name();
+        return null;
+    }
+
     public SortBy getSortBy() {
         return sortBy;
     }
 
     public void setSortBy(SortBy sortBy) {
         this.sortBy = sortBy;
+    }
+
+    @JsonProperty("order")
+    public String getSortOrderName() {
+        if (sortOrder != null)
+            return sortOrder.name();
+        return null;
     }
 
     public SortOrder getSortOrder() {
@@ -51,23 +61,9 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     }
 
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
-
-        if (sortBy != null)
-            parameters.put(OpsGenieClientConstants.API.SORT_BY, sortBy.name());
-        if (sortOrder != null)
-            parameters.put(OpsGenieClientConstants.API.ORDER, sortOrder.name());
-
-        return parameters;
-    }
-
-    @Override
-    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListAlertsResponse createResponse() {
         return new ListAlertsResponse();
     }
