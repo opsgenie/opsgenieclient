@@ -16,7 +16,7 @@ public interface IAccountOpsGenieClient {
 	/**
      * Get Account details
      *
-     * @param getAccountInfoRequest() Object to construct request parameters.
+     * @param getAccountInfoRequest Object to construct request parameters.
      * @return <code>GetAccountInfoResponse</code> object containing OpsGenie response information.
      * @see GetAccountInfoRequest
      * @see GetAccountInfoResponse

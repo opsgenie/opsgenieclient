@@ -196,7 +196,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     }
 
     /**
-     * @see IAlertOpsGenieClient#addDetails(AddDetailsRequest))
+     * @see IAlertOpsGenieClient#addDetails(AddDetailsRequest)
      */
     @Override
     public AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
@@ -204,7 +204,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     }
 
     /**
-     * @see IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest))
+     * @see IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
      */
     @Override
     public RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
@@ -212,7 +212,7 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     }
 
     /**
-     * @see IAlertOpsGenieClient#snooze(SnoozeRequest))
+     * @see IAlertOpsGenieClient#snooze(SnoozeRequest)
      */
     @Override
     public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
