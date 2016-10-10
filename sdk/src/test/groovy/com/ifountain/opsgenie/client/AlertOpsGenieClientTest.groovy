@@ -274,7 +274,7 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
         assertEquals("someuser", jsonContent[TestConstants.API.USER])
         assertEquals("comment", jsonContent[TestConstants.API.NOTE])
         assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
-        def expectedRecipients = request.recipients*.recipient
+        def expectedRecipients = request.getRecipients()
         assertEquals(expectedRecipients.size(), jsonContent[TestConstants.API.RECIPIENTS].size())
         assertTrue(expectedRecipients.containsAll(jsonContent[TestConstants.API.RECIPIENTS]))
     }

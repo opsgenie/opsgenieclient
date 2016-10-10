@@ -986,7 +986,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         def response = OpsGenieClientTestCase.opsgenieClient.schedule().listScheduleOverrides(request)
         assertEquals(1, response.getTook())
-        def overrides = response.getScheduleOverides();
+        def overrides = response.getOverrides();
         assertEquals(2, overrides.size())
         def override = overrides.find { it.alias == jsonContent1[TestConstants.API.ALIAS] }
         assertEquals(jsonContent1[TestConstants.API.USER], override.user)
