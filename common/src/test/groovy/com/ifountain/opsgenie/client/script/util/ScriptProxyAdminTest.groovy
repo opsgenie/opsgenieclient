@@ -1,27 +1,15 @@
 package com.ifountain.opsgenie.client.script.util
 
-
 import com.ifountain.opsgenie.client.TestConstants
 import com.ifountain.opsgenie.client.model.BaseRequest
 import com.ifountain.opsgenie.client.model.beans.Heartbeat
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import org.junit.Before
 import org.junit.Test
+
 import static org.junit.Assert.*
+
 /**
  * Created by Sezgin Kucukkaraaslan
  * Date: 6/1/12
@@ -277,9 +265,8 @@ class ScriptProxyAdminTest {
         } else {
             assertEquals("customer1", request.getApiKey())
         }
-
-        assertEquals(response.getHeartbeat().getSource(), responseMap[TestConstants.API.SOURCE])
-        assertEquals(response.getHeartbeat().getLastHeartbeat(), responseMap[TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeat().getName(), responseMap[TestConstants.API.NAME])
+        assertEquals(response.getHeartbeat().getLastHeartbeat().toString(), responseMap[TestConstants.API.LAST_HEARTBEAT])
         assertEquals(response.getHeartbeat().isExpired(), responseMap[TestConstants.API.EXPIRED])
     }
 
@@ -318,8 +305,8 @@ class ScriptProxyAdminTest {
             assertEquals("customer1", request.getApiKey())
         }
 
-        assertEquals(response.getHeartbeats()[0].getSource(), responseMap[0][TestConstants.API.SOURCE])
-        assertEquals(response.getHeartbeats()[0].getLastHeartbeat(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeats()[0].getName(), responseMap[0][TestConstants.API.NAME])
+        assertEquals(response.getHeartbeats()[0].getLastHeartbeat().toString(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
         assertEquals(response.getHeartbeats()[0].isExpired(), responseMap[0][TestConstants.API.EXPIRED])
     }
 

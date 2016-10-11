@@ -1,28 +1,20 @@
 package com.ifountain.opsgenie.client.script.util
 
-
 import com.ifountain.opsgenie.client.TestConstants
 import com.ifountain.opsgenie.client.model.BaseRequest
+import com.ifountain.opsgenie.client.model.beans.Forwarding
 import com.ifountain.opsgenie.client.model.beans.User
+import com.ifountain.opsgenie.client.model.user.*
+import com.ifountain.opsgenie.client.model.user.forward.*
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
-import com.ifountain.opsgenie.client.model.user.*
-import com.ifountain.opsgenie.client.model.user.forward.AddForwardingResponse
-import com.ifountain.opsgenie.client.model.user.forward.AddForwardingRequest
-import com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingResponse
-import com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest
-import com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingResponse
-import com.ifountain.opsgenie.client.model.user.forward.DeleteForwardingRequest
-import com.ifountain.opsgenie.client.model.user.forward.GetForwardingResponse
-import com.ifountain.opsgenie.client.model.beans.Forwarding
-import com.ifountain.opsgenie.client.model.user.forward.GetForwardingRequest
-import com.ifountain.opsgenie.client.model.user.forward.ListForwardingsResponse
-import com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest
 import org.junit.Before
 import org.junit.Test
 
 import java.text.SimpleDateFormat
-import static org.junit.Assert.*
+
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.fail
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -104,7 +96,6 @@ class ScriptProxyUserTest {
         UpdateUserRequest request = executedRequests[0] as UpdateUserRequest;
 
         assertEquals("user1Id", request.getId())
-        assertEquals("user1@xyz.com", request.getUsername())
         assertEquals("user1", request.getFullname())
         assertEquals("user", request.getRole().name())
         assertEquals(Locale.CHINA, request.getLocale())
