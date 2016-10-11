@@ -3,163 +3,159 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * ScheduleRotation bean
  */
-public class ScheduleRotation extends Bean implements ObjectWithTimeZone {
-	public enum RotationType {
-		weekly, daily, hourly
-	}
+public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
+    private Date startDate;
+    private Date endDate;
+    private RotationType rotationType;
+    private int rotationLength;
+    private List<ScheduleParticipant> participants;
+    private List<ScheduleRotationRestriction> restrictions;
+    private TimeZone scheduleTimeZone;
+    private String name;
 
-	private Date startDate;
-	private Date endDate;
-	private RotationType rotationType;
-	private int rotationLength;
-	private List<ScheduleParticipant> participants;
-	private List<ScheduleRotationRestriction> restrictions;
-	private TimeZone scheduleTimeZone;
-	private String name;
-	private String id;
+    public String getName() {
+        return name;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Returns the optional end date of schedule rotation
+     */
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    /**
+     * Sets end date of schedule rotation. Optional.
+     */
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    /**
+     * Rotation type of schedule rotation Could be one of hourly, daily, weekly
+     *
+     * @see RotationType
+     */
+    public RotationType getRotationType() {
+        return rotationType;
+    }
 
-	/**
-	 * Returns the optional end date of schedule rotation
-	 */
-	public Date getEndDate() {
-		return endDate;
-	}
+    /**
+     * Sets rotation type of schedule rotation Could be one of hourly, daily,
+     * weekly
+     *
+     * @see RotationType
+     */
+    public void setRotationType(RotationType rotationType) {
+        this.rotationType = rotationType;
+    }
 
-	/**
-	 * Sets end date of schedule rotation. Optional.
-	 */
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    /**
+     * Rotation length of schedule rotation
+     */
+    public int getRotationLength() {
+        return rotationLength;
+    }
 
-	/**
-	 * Rotation type of schedule rotation Could be one of hourly, daily, weekly
-	 *
-	 * @see RotationType
-	 */
-	public RotationType getRotationType() {
-		return rotationType;
-	}
+    /**
+     * Sets rotation length of schedule rotation
+     */
+    public void setRotationLength(int rotationLength) {
+        this.rotationLength = rotationLength;
+    }
 
-	/**
-	 * Sets rotation type of schedule rotation Could be one of hourly, daily,
-	 * weekly
-	 *
-	 * @see RotationType
-	 */
-	public void setRotationType(RotationType rotationType) {
-		this.rotationType = rotationType;
-	}
+    /**
+     * Participants of schedule rotation
+     *
+     * @see ScheduleParticipant
+     */
+    @JsonProperty("participants")
+    public List<String> getParticipantsNames() {
+        if (participants == null)
+            return null;
+        List<String> participantList = new ArrayList<String>();
+        for (ScheduleParticipant participant : participants)
+            participantList.add(participant.getParticipant());
+        return participantList;
+    }
 
-	/**
-	 * Rotation length of schedule rotation
-	 */
-	public int getRotationLength() {
-		return rotationLength;
-	}
+    /**
+     * Participants of schedule rotation
+     *
+     * @see ScheduleParticipant
+     */
+    public List<ScheduleParticipant> getParticipants() {
+        return participants;
+    }
 
-	/**
-	 * Sets rotation length of schedule rotation
-	 */
-	public void setRotationLength(int rotationLength) {
-		this.rotationLength = rotationLength;
-	}
+    /**
+     * Sets participants of schedule rotation
+     *
+     * @see ScheduleParticipant
+     */
+    public void setParticipants(List<ScheduleParticipant> participants) {
+        this.participants = participants;
+    }
 
-	/**
-	 * Participants of schedule rotation
-	 *
-	 * @see ScheduleParticipant
-	 */
-	@JsonProperty("participants")
-	public List<String> getParticipantsNames() {
-		if (participants == null)
-			return null;
-		List<String> participantList = new ArrayList<String>();
-		for (ScheduleParticipant participant : participants)
-			participantList.add(participant.getParticipant());
-		return participantList;
-	}
+    /**
+     * Restriction list of schedule rotation
+     *
+     * @see ScheduleRotationRestriction
+     */
+    public List<ScheduleRotationRestriction> getRestrictions() {
+        if (restrictions != null && restrictions.size() > 0) {
+            Collections.sort(restrictions, new Comparator<ScheduleRotationRestriction>() {
+                @Override
+                public int compare(ScheduleRotationRestriction o1, ScheduleRotationRestriction o2) {
+                    return o1.toString().compareTo(o2.toString());
+                }
+            });
+        }
+        return restrictions;
+    }
 
-	/**
-	 * Participants of schedule rotation
-	 *
-	 * @see ScheduleParticipant
-	 */
-	public List<ScheduleParticipant> getParticipants() {
-		return participants;
-	}
+    /**
+     * Sets restriction list of schedule rotation
+     *
+     * @see ScheduleRotationRestriction
+     */
+    public void setRestrictions(List<ScheduleRotationRestriction> restrictions) {
+        this.restrictions = restrictions;
+    }
 
-	/**
-	 * Sets participants of schedule rotation
-	 *
-	 * @see ScheduleParticipant
-	 */
-	public void setParticipants(List<ScheduleParticipant> participants) {
-		this.participants = participants;
-	}
+    /**
+     * Will be set by schedule
+     *
+     * @param scheduleTimeZone -schedule time zone
+     */
+    public void setScheduleTimeZone(TimeZone scheduleTimeZone) {
+        this.scheduleTimeZone = scheduleTimeZone;
+    }
 
-	/**
-	 * Restriction list of schedule rotation
-	 *
-	 * @see ScheduleRotationRestriction
-	 */
-	public List<ScheduleRotationRestriction> getRestrictions() {
-		return restrictions;
-	}
+    @Override
+    public TimeZone getObjectTimeZone() {
+        return scheduleTimeZone;
+    }
 
-	/**
-	 * Sets restriction list of schedule rotation
-	 *
-	 * @see ScheduleRotationRestriction
-	 */
-	public void setRestrictions(List<ScheduleRotationRestriction> restrictions) {
-		this.restrictions = restrictions;
-	}
-
-	/**
-	 * Will be set by schedule
-	 *
-	 * @param scheduleTimeZone -schedule time zone
-	 */
-	public void setScheduleTimeZone(TimeZone scheduleTimeZone) {
-		this.scheduleTimeZone = scheduleTimeZone;
-	}
-
-	@Override
-	public TimeZone getObjectTimeZone() {
-		return scheduleTimeZone;
-	}
+    public enum RotationType {
+        weekly, daily, hourly
+    }
 
 }
