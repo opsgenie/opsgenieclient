@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -25,6 +26,25 @@ public class ListScheduleOverridesResponse extends BaseResponse {
      * Sets override objects.
      */
     public void setOverrides(List<ScheduleOverride> overrides) {
+        this.overrides = overrides;
+    }
+
+
+    /**
+     * @deprecated use getOverrides
+     */
+    @Deprecated
+    @JsonIgnore
+    public List<ScheduleOverride> getScheduleOverides() {
+        return overrides;
+    }
+
+    /**
+     * @deprecated use setOverrides
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setScheduleOverides(List<ScheduleOverride> overrides) {
         this.overrides = overrides;
     }
 
