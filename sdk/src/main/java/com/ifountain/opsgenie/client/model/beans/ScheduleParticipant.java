@@ -8,6 +8,13 @@ public class ScheduleParticipant extends Bean {
         user, group, escalation, schedule, team
     }
 
+    public ScheduleParticipant() {
+
+    }
+
+    public ScheduleParticipant(String participant) {
+        this.participant = participant;
+    }
     private String participant;
     private Type type;
 
