@@ -12,8 +12,7 @@ import java.util.TimeZone;
 /**
  * Schedule bean
  */
-public class Schedule extends Bean implements ConvertFromTimeZone {
-    private String id;
+public class Schedule extends BeanWithId implements ConvertFromTimeZone {
     private String name;
     private String team;
     private String description;
@@ -22,20 +21,6 @@ public class Schedule extends Bean implements ConvertFromTimeZone {
     private Boolean enabled;
     @JsonProperty("rules")
     private List<ScheduleRotation> rotations;
-
-    /**
-     * Id of schedule
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of schedule
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Name of schedule

@@ -5,51 +5,42 @@ import com.ifountain.opsgenie.client.model.beans.Contact.Method;
 /**
  * Contact bean
  */
-public class NotificationRuleStep extends Bean {
+public class NotificationRuleStep extends BeanWithId {
     private Method method;
     private String to;
-	private String id;
-	private Integer sendAfter;
-	private Boolean enabled;
+    private Integer sendAfter;
+    private Boolean enabled;
 
-	public String getTo() {
-		return to;
-	}
+    public String getTo() {
+        return to;
+    }
 
-	public void setTo(String to) {
-		this.to = to;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
+    public Method getMethod() {
+        return method;
+    }
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
+    public void setMethod(Method method) {
+        this.method = method;
+    }
 
-	public Method getMethod() {
-		return method;
-	}
+    public Integer getSendAfter() {
+        return sendAfter;
+    }
 
-	public void setMethod(Method method) {
-		this.method = method;
-	}
-
-	public Integer getSendAfter() {
-		return sendAfter;
-	}
-
-	public void setSendAfter(Integer sendAfter) {
-		this.sendAfter = sendAfter;
-	}
+    public void setSendAfter(Integer sendAfter) {
+        this.sendAfter = sendAfter;
+    }
 
 }

@@ -12,8 +12,7 @@ import java.util.TimeZone;
 /**
  * Forwarding bean
  */
-public class Forwarding extends Bean implements ConvertFromTimeZone {
-    private String id;
+public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     private String alias;
     private String fromUser;
     private String toUser;
@@ -21,20 +20,6 @@ public class Forwarding extends Bean implements ConvertFromTimeZone {
     private Date endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone;
-
-    /**
-     * Id of forwarding setting
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of forwarding setting
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * A user defined identifier for the Provides ability to assign a known id

@@ -11,9 +11,8 @@ import java.util.List;
 /**
  * Contact bean
  */
-public class TeamRoutingRule extends Bean {
+public class TeamRoutingRule extends BeanWithId {
     private String name;
-    private String id;
     private ConditionMatchType conditionMatchType;
     private List<Condition> conditions;
     private Integer applyOrder;
@@ -69,14 +68,6 @@ public class TeamRoutingRule extends Bean {
 
     public void setIsDefault(Boolean isDefault) {
         this.isDefault = isDefault;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public TeamRoutingRuleNotify getNotify() {

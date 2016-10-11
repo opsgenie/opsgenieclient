@@ -6,27 +6,12 @@ import java.util.List;
  * Team Bean
  * @author Mehmet Mustafa Demir
  */
-public class Team extends Bean {
-    private String id;
+public class Team extends BeanWithId {
     private String name;
     private String description;
     private List<TeamMember> members;
     private List<String> escalations;
     private List<String> schedules;
-
-    /**
-     * Id of the team.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of the team.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Name of the team.

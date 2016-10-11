@@ -7,9 +7,8 @@ import org.codehaus.jackson.annotate.JsonValue;
 /**
  * Contact bean
  */
-public class Contact extends Bean {
+public class Contact extends BeanWithId {
 
-    private String id;
     private Method method;
     private String to;
     private Boolean enabled;
@@ -29,14 +28,6 @@ public class Contact extends Bean {
 
     public void setTo(String to) {
         this.to = to;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Boolean getEnabled() {

@@ -5,24 +5,9 @@ import java.util.List;
 /**
  * Group bean
  */
-public class Group extends Bean {
-    private String id;
+public class Group extends BeanWithId {
     private String name;
     private List<String> users;
-
-    /**
-     * Id of group
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of group
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Name of group

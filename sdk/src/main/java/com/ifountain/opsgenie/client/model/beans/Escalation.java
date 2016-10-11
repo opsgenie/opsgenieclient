@@ -5,27 +5,12 @@ import java.util.List;
 /**
  * Escalation bean
  */
-public class Escalation extends Bean {
-    private String id;
+public class Escalation extends BeanWithId {
     private String name;
     private String team;
     private String description;
     private List<EscalationRule> rules;
     private Integer repeatInterval;
-
-    /**
-     * Id of escalation
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of escalation
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Name of escalation

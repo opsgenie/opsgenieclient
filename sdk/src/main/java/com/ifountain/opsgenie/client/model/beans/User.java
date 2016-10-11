@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * User bean
  */
-public class User extends Bean {
+public class User extends BeanWithId {
     private static final Map<String, Locale> LOCALES = new HashMap<String, Locale>();
 
     static {
@@ -20,7 +20,6 @@ public class User extends Bean {
         }
     }
 
-    private String id;
     private String username;
     private State state;
     private String fullname;
@@ -40,20 +39,6 @@ public class User extends Bean {
 
     public static Locale getLocale(String localeId) {
         return LOCALES.get(localeId);
-    }
-
-    /**
-     * Id of user
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of user
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**

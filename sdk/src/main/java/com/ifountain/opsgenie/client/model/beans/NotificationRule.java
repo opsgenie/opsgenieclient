@@ -13,9 +13,8 @@ import java.util.List;
 /**
  * NotificationRule bean
  */
-public class NotificationRule extends Bean {
+public class NotificationRule extends BeanWithId {
 
-    private String id;
     private String name;
     private Integer applyOrder;
     private ActionType actionType;
@@ -118,14 +117,6 @@ public class NotificationRule extends Bean {
 
     public void setNotifyBefore(List<NotifyBefore> notifyBefore) {
         this.notifyBefore = notifyBefore;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public enum ActionType {

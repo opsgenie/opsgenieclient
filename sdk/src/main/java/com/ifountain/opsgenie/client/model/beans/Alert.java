@@ -8,12 +8,11 @@ import java.util.Map;
 /**
  * Alert bean
  */
-public class Alert extends Bean {
+public class Alert extends BeanWithId {
     public enum Status {
         open, closed
     }
 
-    private String id;
     private String alias;
     private String message;
     private String description;
@@ -64,20 +63,6 @@ public class Alert extends Bean {
      */
     public void setTinyId(String tinyId) {
         this.tinyId = tinyId;
-    }
-
-    /**
-     * The id of the alert.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of the alert.
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
