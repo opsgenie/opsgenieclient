@@ -229,7 +229,13 @@ class ScriptProxyUserTest {
     }
 
     public void _testAddForwarding(boolean useConfig) throws Exception {
-        def params = [alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: "2013-01-22 22:00", endDate: new Date(), timezone: "Etc/GMT+7"];
+        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"))
+        Date dateobject = new Date();
+        String dateString = sdf.format(dateobject);
+        Date dateobjectWithoutSeconds = sdf.parse(dateString);
+
+        def params = [alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: "2013-01-22 22:00", endDate: dateString, timezone: "Etc/GMT+7"];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -241,14 +247,11 @@ class ScriptProxyUserTest {
         def executedRequests = opsGenieClient.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         AddForwardingRequest request = executedRequests[0] as AddForwardingRequest;
-
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone(params.timezone))
         assertEquals("user1@xyz.com", request.getFromUser())
         assertEquals("user2@xyz.com", request.getToUser())
         assertEquals("forwarding1", request.getAlias())
         assertEquals(sdf.parse(params.startDate), request.getStartDate())
-        assertEquals(params.endDate, request.getEndDate())
+        assertEquals(dateobjectWithoutSeconds, request.getEndDate())
         assertEquals(TimeZone.getTimeZone(params.timezone).getID(), request.getTimeZone().getID())
         if (useConfig) {
             assertEquals(apiKey, request.getApiKey())
@@ -271,7 +274,13 @@ class ScriptProxyUserTest {
     }
 
     public void _testUpdateForwarding(boolean useConfig) throws Exception {
-        def params = [id: "forwarding1Id", alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: new Date(), endDate: "2013-01-22 22:00", timezone: TimeZone.getTimeZone("Etc/GMT+7")];
+        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
+        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"))
+        Date dateobject = new Date();
+        String dateString = sdf.format(dateobject);
+        Date dateobjectWithoutSeconds = sdf.parse(dateString);
+
+        def params = [id: "forwarding1Id", alias: "forwarding1", fromUser: "user1@xyz.com", toUser: "user2@xyz.com", startDate: dateString, endDate: "2013-01-22 22:00", timezone: TimeZone.getTimeZone("Etc/GMT+7")];
         if (!useConfig) {
             params.apiKey = "customer1";
         }
@@ -283,14 +292,12 @@ class ScriptProxyUserTest {
         def executedRequests = opsGenieClient.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         UpdateForwardingRequest request = executedRequests[0] as UpdateForwardingRequest;
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(params.timezone)
 
         assertEquals("forwarding1Id", request.getId())
         assertEquals("user1@xyz.com", request.getFromUser())
         assertEquals("user2@xyz.com", request.getToUser())
         assertEquals("forwarding1", request.getAlias())
-        assertEquals(params.startDate, request.getStartDate())
+        assertEquals(dateobjectWithoutSeconds, request.getStartDate())
         assertEquals(sdf.parse(params.endDate), request.getEndDate())
         assertEquals(params.timezone.getID(), request.getTimeZone().getID())
         if (useConfig) {

@@ -266,7 +266,7 @@ class ScriptProxyAdminTest {
             assertEquals("customer1", request.getApiKey())
         }
         assertEquals(response.getHeartbeat().getName(), responseMap[TestConstants.API.NAME])
-        assertEquals(response.getHeartbeat().getLastHeartbeat().toString(), responseMap[TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeat().getLastHeartbeatTime(), responseMap[TestConstants.API.LAST_HEARTBEAT])
         assertEquals(response.getHeartbeat().isExpired(), responseMap[TestConstants.API.EXPIRED])
     }
 
@@ -306,7 +306,7 @@ class ScriptProxyAdminTest {
         }
 
         assertEquals(response.getHeartbeats()[0].getName(), responseMap[0][TestConstants.API.NAME])
-        assertEquals(response.getHeartbeats()[0].getLastHeartbeat().toString(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeats()[0].getLastHeartbeatTime(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
         assertEquals(response.getHeartbeats()[0].isExpired(), responseMap[0][TestConstants.API.EXPIRED])
     }
 

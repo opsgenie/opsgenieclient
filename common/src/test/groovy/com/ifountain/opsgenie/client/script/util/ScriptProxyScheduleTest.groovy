@@ -9,6 +9,8 @@ import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import org.junit.Before
 import org.junit.Test
 
+import java.text.SimpleDateFormat
+
 import static org.junit.Assert.*
 
 /**
@@ -20,11 +22,16 @@ class ScriptProxyScheduleTest {
     OpsGenieClientMock opsGenieClient;
     String apiKey = "key1"
     ScriptProxy proxy;
+    private SimpleDateFormat sdf;
+    private TimeZone scheduleTimezone;
 
     @Before
     public void setUp() {
         opsGenieClient = new OpsGenieClientMock();
         proxy = new ScriptProxy(opsGenieClient, apiKey);
+        scheduleTimezone = TimeZone.getTimeZone("Etc/GMT+7");
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+        sdf.setTimeZone(scheduleTimezone)
     }
 
     @Test
@@ -37,11 +44,13 @@ class ScriptProxyScheduleTest {
 
     public void _testAddSchedule(boolean useConfig) throws Exception {
         Date dateobject = new Date();
+        String dateString = sdf.format(dateobject);
+        Date dateobjectWithoutSeconds = sdf.parse(dateString);
         Map params = new HashMap();
         params.put(TestConstants.API.NAME, "schedule1");
         params.put(TestConstants.API.TIMEZONE, "Etc/GMT+7");
         params.put(TestConstants.API.ENABLED, false);
-        params.put(TestConstants.API.ROTATIONS, [
+        params.put(TestConstants.API.RULES, [
                 [
                         startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: ["group1"],
@@ -50,7 +59,7 @@ class ScriptProxyScheduleTest {
                         ]
                 ],
                 [
-                        startDate   : dateobject, rotationType: "weekly",
+                        startDate   : dateString, rotationType: "weekly",
                         participants: ["group3"],
                 ]
         ]);
@@ -83,7 +92,7 @@ class ScriptProxyScheduleTest {
         assertEquals(24, scheduleRule.getRestrictions()[0].getEndHour())
         assertEquals(30, scheduleRule.getRestrictions()[0].getEndMin())
 
-        scheduleRule = request.getRotations().find { it.startDate.equals(dateobject) }
+        scheduleRule = request.getRotations().find { it.startDate.equals(dateobjectWithoutSeconds) }
         assertEquals(ScheduleRotation.RotationType.weekly, scheduleRule.getRotationType())
         assertEquals(1, scheduleRule.getParticipants().size())
         assertEquals("group3", scheduleRule.getParticipants()[0].participant)
@@ -109,12 +118,14 @@ class ScriptProxyScheduleTest {
 
     public void _testUpdateSchedule(boolean useConfig) throws Exception {
         Date dateobject = new Date();
+        String dateString = sdf.format(dateobject);
+        Date dateobjectWithoutSeconds = sdf.parse(dateString);
         Map params = new HashMap();
         params.put(TestConstants.API.ID, "schedule1Id");
         params.put(TestConstants.API.NAME, "schedule1");
-        params.put(TestConstants.API.TIMEZONE, TimeZone.getTimeZone("Etc/GMT+7"));
+        params.put(TestConstants.API.TIMEZONE, scheduleTimezone.getID());
         params.put(TestConstants.API.ENABLED, false);
-        params.put(TestConstants.API.ROTATIONS, [
+        params.put(TestConstants.API.RULES, [
                 [
                         startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
                         participants: ["group1"],
@@ -123,7 +134,7 @@ class ScriptProxyScheduleTest {
                         ]
                 ],
                 [
-                        startDate   : dateobject, rotationType: "weekly",
+                        startDate   : dateString, rotationType: "weekly",
                         participants: ["group3"],
                 ]
         ]);
@@ -141,7 +152,7 @@ class ScriptProxyScheduleTest {
 
         assertEquals("schedule1Id", request.getId())
         assertEquals("schedule1", request.getName())
-        assertEquals(TimeZone.getTimeZone("Etc/GMT+7").getID(), request.getTimeZone().getID())
+        assertEquals(scheduleTimezone.getID(), request.getTimeZone().getID())
         assertFalse(request.isEnabled())
         assertEquals(2, request.getRotations().size())
 
@@ -157,7 +168,7 @@ class ScriptProxyScheduleTest {
         assertEquals(24, scheduleRule.getRestrictions()[0].getEndHour())
         assertEquals(30, scheduleRule.getRestrictions()[0].getEndMin())
 
-        scheduleRule = request.getRotations().find { it.startDate.equals(dateobject) }
+        scheduleRule = request.getRotations().find { it.startDate.equals(dateobjectWithoutSeconds) }
         assertEquals(ScheduleRotation.RotationType.weekly, scheduleRule.getRotationType())
         assertEquals(1, scheduleRule.getParticipants().size())
         assertEquals("group3", scheduleRule.getParticipants()[0].participant)

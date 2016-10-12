@@ -1,5 +1,8 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Date;
 
 /**
@@ -7,7 +10,8 @@ import java.util.Date;
  */
 public class Heartbeat extends Bean {
     private String name;
-    private Date lastHeartbeat;
+    @JsonProperty("lastHeartbeat")
+    private Long lastHeartbeat;
     private Boolean expired;
     private Boolean enabled;
     private String status;
@@ -44,16 +48,41 @@ public class Heartbeat extends Bean {
     }
 
     /**
+     * @deprecated use getLastHeartbeatTime
+     */
+    @Deprecated
+    @JsonIgnore
+    public Date getLastHeartbeat() {
+        if (lastHeartbeat == null)
+            return null;
+        return new Date(lastHeartbeat);
+    }
+
+    /**
+     * @deprecated use setLastHeartbeatTime
+     */
+    @Deprecated
+    @JsonIgnore
+    public void setLastHeartbeat(Date lastHeartbeat) {
+        if (lastHeartbeat == null) {
+            this.lastHeartbeat = null;
+        } else {
+            this.lastHeartbeat = lastHeartbeat.getTime();
+        }
+    }
+
+    /**
      * Last heartbeat recieve time
      */
-    public Date getLastHeartbeat() {
+    @JsonIgnore
+    public Long getLastHeartbeatTime() {
         return lastHeartbeat;
     }
 
     /**
      * Sets last heartbeat receieve time
      */
-    public void setLastHeartbeat(Date lastHeartbeat) {
+    public void setLastHeartbeat(Long lastHeartbeat) {
         this.lastHeartbeat = lastHeartbeat;
     }
 
