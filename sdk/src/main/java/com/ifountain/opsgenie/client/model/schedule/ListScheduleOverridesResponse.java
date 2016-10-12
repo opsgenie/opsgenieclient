@@ -4,6 +4,8 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -46,6 +48,14 @@ public class ListScheduleOverridesResponse extends BaseResponse {
     @JsonIgnore
     public void setScheduleOverides(List<ScheduleOverride> overrides) {
         this.overrides = overrides;
+    }
+
+    @Override
+    public void fromJson(String json) throws IOException, ParseException {
+        super.fromJson(json);
+        if (overrides != null)
+            for (ScheduleOverride override : overrides)
+                override.setTime();
     }
 
 }
