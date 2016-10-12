@@ -360,13 +360,12 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
         assertEquals(1, receivedRequests.size())
         HttpTestRequest request = receivedRequests[0];
         assertEquals(HttpGet.METHOD_NAME, request.getMethod());
-        assertEquals("/dummy", request.getUrl())
+        assertEquals("/dummy%3Fparam1=value1&param2=value2", request.getUrl())
         assertEquals(0, request.getContentAsByte().length)
 
         def params = request.getParameters();
-        assertEquals(3, params.size())
+        assertEquals(2, params.size())
         assertEquals("updatedValue1", params.param1)
-        assertEquals("value2", params.param2)
         assertEquals("value3", params.param3)
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCode())
@@ -381,13 +380,12 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
         assertEquals(1, receivedRequests.size())
         HttpTestRequest request = receivedRequests[0];
         assertEquals(HttpDelete.METHOD_NAME, request.getMethod());
-        assertEquals("/dummy", request.getUrl())
+        assertEquals("/dummy%3Fparam1=value1&param2=value2", request.getUrl())
         assertEquals(0, request.getContentAsByte().length)
 
         def params = request.getParameters();
-        assertEquals(3, params.size())
+        assertEquals(2, params.size())
         assertEquals("updatedValue1", params.param1)
-        assertEquals("value2", params.param2)
         assertEquals("value3", params.param3)
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCode())
