@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addDetails(AddDetailsRequest)
  */
-public class AddDetailsRequest extends BaseAlertRequestWithSource<AddDetailsResponse> {
+public class AddDetailsRequest extends AddNoteRequest {
 	private Map<String, Object> details;
 
     @Override
