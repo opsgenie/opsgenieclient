@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Represents the OpsGenie service response for a list alert recipients request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertRecipients(ListAlertRecipientsRequest)
  */
 public class ListAlertRecipientsResponse extends BaseResponse {

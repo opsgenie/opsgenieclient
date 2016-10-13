@@ -11,7 +11,7 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add schedule override api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addScheduleOverride(AddScheduleOverrideRequest)
  */
 public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideResponse> implements ObjectWithTimeZone {

@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a list teams api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeams(ListTeamsRequest)
  */
 public class ListTeamsRequest extends BaseRequest<ListTeamsResponse> {

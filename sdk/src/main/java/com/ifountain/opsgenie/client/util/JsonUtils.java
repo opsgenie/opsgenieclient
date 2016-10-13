@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 public class JsonUtils {
     public static Map parse(String json) throws IOException {

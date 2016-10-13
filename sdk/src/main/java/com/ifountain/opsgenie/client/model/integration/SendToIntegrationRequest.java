@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Container for the parameters to send integration webhook call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#sendToIntegration(com.ifountain.opsgenie.client.model.integration.SendToIntegrationRequest)
  */
 public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<SendToIntegrationResponse> {

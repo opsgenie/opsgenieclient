@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 /**
  * Represents OpsGenie service response for add team request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
 public class AddTeamResponse extends BaseResponseWithId {

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Container for the parameters to make an add escalation api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#addEscalation(AddEscalationRequest)
  */
 public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {

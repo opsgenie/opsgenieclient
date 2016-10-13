@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make an acknowledge alert api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#acknowledge(AcknowledgeRequest)
  */
 public class AcknowledgeRequest extends AddNoteRequest {

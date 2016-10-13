@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Container for the parameters to make an file based attach api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  */
 public class FileAttachRequest extends AttachRequest {

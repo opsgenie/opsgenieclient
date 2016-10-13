@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Represents the OpsGenie service response for an execute alert action request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
  */
 public class ExecuteAlertActionResponse extends AddNoteResponse {

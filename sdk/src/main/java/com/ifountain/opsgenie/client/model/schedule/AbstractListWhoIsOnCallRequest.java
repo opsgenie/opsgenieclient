@@ -6,7 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Base Container for the parameters to make a list flat who is on call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 public abstract class AbstractListWhoIsOnCallRequest <T extends BaseResponse> extends BaseRequest<T> {
     /**

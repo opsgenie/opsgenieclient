@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make a take ownership api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#takeOwnership(TakeOwnershipRequest)
  */
 public class TakeOwnershipRequest extends AddNoteRequest {

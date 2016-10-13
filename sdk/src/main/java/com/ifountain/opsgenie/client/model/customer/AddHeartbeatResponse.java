@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents OpsGenie service response for creating heartbeat request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#addHeartbeat(AddHeartbeatRequest)
  */
 public class AddHeartbeatResponse extends BaseResponse {

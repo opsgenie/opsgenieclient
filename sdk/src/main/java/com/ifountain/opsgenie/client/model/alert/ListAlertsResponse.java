@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents the OpsGenie service response for list alert request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
  */
 public class ListAlertsResponse extends BaseResponse {

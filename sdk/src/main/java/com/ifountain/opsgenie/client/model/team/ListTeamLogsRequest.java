@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Container for the parameters to make a list team logs api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamLogs(ListTeamLogsRequest)
  */
 public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse> {

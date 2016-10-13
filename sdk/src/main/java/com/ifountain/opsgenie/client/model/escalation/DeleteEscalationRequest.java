@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make a delete escalation api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#deleteEscalation(DeleteEscalationRequest)
  */
 public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationResponse> {

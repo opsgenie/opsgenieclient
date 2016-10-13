@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Team Bean
- * @author Mehmet Mustafa Demir
  */
 public class Team extends BeanWithId {
     private String name;

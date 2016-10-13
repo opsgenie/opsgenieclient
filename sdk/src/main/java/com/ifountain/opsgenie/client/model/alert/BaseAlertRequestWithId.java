@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 /**
  * Abstract Container for the alert requests.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends BaseRequest<T> {
     private String id;

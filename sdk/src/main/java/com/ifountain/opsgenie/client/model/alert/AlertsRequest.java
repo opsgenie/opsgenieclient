@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Abstract Container for the alert requests.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<T>{
 

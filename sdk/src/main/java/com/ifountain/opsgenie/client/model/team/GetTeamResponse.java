@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 /**
  * Represents OpsGenie service response for get team request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#getTeam(GetTeamRequest)
  */
 public class GetTeamResponse extends BaseResponse {

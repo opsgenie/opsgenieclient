@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list schedule overrides request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listScheduleOverrides(ListScheduleOverridesRequest)
  */
 public class ListScheduleOverridesResponse extends BaseResponse {

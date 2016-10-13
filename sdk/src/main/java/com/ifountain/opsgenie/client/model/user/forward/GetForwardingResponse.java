@@ -10,7 +10,7 @@ import java.text.ParseException;
 /**
  * Represents OpsGenie service response for get forwarding request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getForwarding(GetForwardingRequest)
  */
 public class GetForwardingResponse extends BaseResponse {

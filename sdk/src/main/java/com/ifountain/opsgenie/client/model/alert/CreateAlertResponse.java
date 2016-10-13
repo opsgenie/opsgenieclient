@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents OpsGenie service response for a create alert request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
 public class CreateAlertResponse extends BaseResponse {

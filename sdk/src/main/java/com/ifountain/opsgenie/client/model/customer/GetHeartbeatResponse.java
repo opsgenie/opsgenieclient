@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 /**
  * Represents OpsGenie service response for get heartbeat request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatResponse extends BaseResponse {

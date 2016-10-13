@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 /**
  * Represents OpsGenie service response for who is on call request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(WhoIsOnCallRequest)
  */
 public class WhoIsOnCallResponse extends BaseResponse {

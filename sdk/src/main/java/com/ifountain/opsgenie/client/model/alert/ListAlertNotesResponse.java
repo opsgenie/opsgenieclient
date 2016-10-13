@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Represents the OpsGenie service response for list alert notes request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertNotes(ListAlertNotesRequest)
  */
 public class ListAlertNotesResponse extends BaseResponse {

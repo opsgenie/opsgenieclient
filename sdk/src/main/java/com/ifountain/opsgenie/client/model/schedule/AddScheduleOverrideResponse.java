@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents OpsGenie service response for add forwarding request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addScheduleOverride(AddScheduleOverrideRequest)
  */
 public class AddScheduleOverrideResponse extends BaseResponse {

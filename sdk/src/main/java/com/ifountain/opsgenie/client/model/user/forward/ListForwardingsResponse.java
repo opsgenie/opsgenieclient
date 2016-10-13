@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list forwardings request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(ListForwardingsRequest)
  */
 public class ListForwardingsResponse extends BaseResponse {

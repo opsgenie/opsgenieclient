@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Container for the parameters to make an create alert api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
 public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {

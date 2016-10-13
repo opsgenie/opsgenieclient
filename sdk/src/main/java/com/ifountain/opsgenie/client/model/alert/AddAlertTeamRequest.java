@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make an add team call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTeam(AddAlertTeamRequest)
  */
 public class AddAlertTeamRequest extends AddNoteRequest {

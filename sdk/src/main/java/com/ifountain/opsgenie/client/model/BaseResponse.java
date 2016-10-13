@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 /**
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseResponse implements Response {

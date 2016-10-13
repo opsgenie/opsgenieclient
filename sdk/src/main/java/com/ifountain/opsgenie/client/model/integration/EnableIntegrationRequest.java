@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 /**
  * Container for the parameters to make an enable/disable integration api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#enableIntegration(com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest)
  */
 public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {

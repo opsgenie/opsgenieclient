@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 /**
  * Represents OpsGenie service response for flat who is on call request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#flatWhoIsOnCall(FlatWhoIsOnCallRequest)
  */
 public class FlatWhoIsOnCallResponse extends BaseResponse {

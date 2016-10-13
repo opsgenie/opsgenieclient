@@ -14,7 +14,7 @@ import java.util.Map;
  * Base class for container objects which provides content parameters for
  * OpsGenie service calls.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 @JsonSerialize(include = Inclusion.NON_NULL)
 @JsonPropertyOrder(alphabetic = true)

@@ -6,7 +6,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make an update schedule override api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateScheduleOverride(UpdateScheduleOverrideRequest)
  */
 public class UpdateScheduleOverrideRequest extends AddScheduleOverrideRequest{

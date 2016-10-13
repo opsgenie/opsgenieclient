@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list heartbeat request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#listHeartbeats(ListHeartbeatsRequest)
  */
 public class ListHeartbeatsResponse extends BaseResponse {

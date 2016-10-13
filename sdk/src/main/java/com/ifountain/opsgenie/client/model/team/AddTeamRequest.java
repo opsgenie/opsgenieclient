@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Container for the parameters to make an add team api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
 public class AddTeamRequest extends BaseRequest<AddTeamResponse> {

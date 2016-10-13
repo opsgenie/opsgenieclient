@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 public abstract class AbstractOpsGenieHttpClient {
     protected Log log;

@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Container for the parameters to make an add detail call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addDetails(AddDetailsRequest)
  */
 public class AddDetailsRequest extends AddNoteRequest {

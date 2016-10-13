@@ -11,7 +11,7 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add schedule api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addSchedule(AddScheduleRequest)
  */
 public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> implements ObjectWithTimeZone {

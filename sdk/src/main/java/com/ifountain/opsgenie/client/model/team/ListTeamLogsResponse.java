@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Represents the OpsGenie service response for list team logs request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamLogs(ListTeamLogsRequest)
  */
 public class ListTeamLogsResponse extends BaseResponse {

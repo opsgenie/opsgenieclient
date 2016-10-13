@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponseWithId;
 /**
  * Represents OpsGenie service response for add forwarding request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
 public class AddForwardingResponse extends BaseResponseWithId {

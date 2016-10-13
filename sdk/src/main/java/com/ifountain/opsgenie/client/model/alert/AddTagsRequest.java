@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Container for the parameters to make an add tag api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTags(AddTagsRequest)
  */
 public class AddTagsRequest extends AddNoteRequest {

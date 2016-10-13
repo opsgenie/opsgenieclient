@@ -6,7 +6,7 @@ import com.ifountain.opsgenie.client.model.beans.Heartbeat;
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#addHeartbeat(AddHeartbeatRequest)
  */
 public class AddHeartbeatRequest extends BaseRequest<AddHeartbeatResponse> {

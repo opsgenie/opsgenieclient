@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Container for the parameters to remove details from alert api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
  */
 public class RemoveDetailsRequest extends AddNoteRequest {

@@ -10,7 +10,7 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add forwarding api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
 public class AddForwardingRequest extends BaseRequest<AddForwardingResponse> implements ObjectWithTimeZone {

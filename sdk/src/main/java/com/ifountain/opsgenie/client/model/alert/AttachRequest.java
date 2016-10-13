@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Container for the parameters to make an attach api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
  */

@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 /**
  * Represents OpsGenie service response for get escalation request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#getEscalation(GetEscalationRequest)
  */
 public class GetEscalationResponse extends BaseResponse {

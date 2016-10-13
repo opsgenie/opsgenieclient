@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list teams request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeams(ListTeamsRequest)
  */
 public class ListTeamsResponse extends BaseResponse {

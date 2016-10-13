@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 /**
  * Container for the parameters to make a enable/disable heartbeat monitor api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#enableHeartbeat(com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest)
  */
 public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse> {

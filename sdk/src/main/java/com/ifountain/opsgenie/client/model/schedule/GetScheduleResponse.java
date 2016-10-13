@@ -10,7 +10,7 @@ import java.text.ParseException;
 /**
  * Represents OpsGenie service response for get schedule request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(GetScheduleRequest)
  */
 public class GetScheduleResponse extends BaseResponse {

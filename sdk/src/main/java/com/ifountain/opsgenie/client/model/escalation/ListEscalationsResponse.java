@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list escalations request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
 public class ListEscalationsResponse extends BaseResponse {

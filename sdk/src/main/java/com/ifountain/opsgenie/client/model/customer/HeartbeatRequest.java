@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 /**
  * Container for the parameters to make a heartbeat api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
 public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {

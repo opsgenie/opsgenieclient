@@ -8,7 +8,7 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make a schedule export api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#exportSchedule(ExportScheduleRequest)
  */
 public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list schedules request.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
 public class ListSchedulesResponse extends BaseResponse {

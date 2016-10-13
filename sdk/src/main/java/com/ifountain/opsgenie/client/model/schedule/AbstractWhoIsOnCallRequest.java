@@ -11,7 +11,7 @@ import java.util.TimeZone;
 /**
  * Base Container for the parameters to make a who is on call api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  */
 abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> implements ObjectWithTimeZone {
     private String name;
