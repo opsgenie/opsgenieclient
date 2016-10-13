@@ -71,7 +71,7 @@ public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends Bas
     }
 
     /**
-     * Sets the user defined identifier of the alert. Either this or alertId
+     * Sets the user defined identifier of the alert. Either this, alertId or tinyId
      * should be set.
      */
     public void setAlias(String alias) {

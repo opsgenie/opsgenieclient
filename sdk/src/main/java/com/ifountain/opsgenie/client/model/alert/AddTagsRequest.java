@@ -3,10 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 import java.util.List;
 
 /**
- * Container for the parameters to make an add tag api call.
- *
- * @author Sezgin Kucukkaraaslan
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTags(AddTagsRequest)
+ * @author Tuba Ozturk
  */
 public class AddTagsRequest extends AddNoteRequest {
     private List<String> tags;

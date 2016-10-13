@@ -5,7 +5,6 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to remove a team member api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeamMember(DeleteTeamMemberRequest)
  */
 public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberResponse> {

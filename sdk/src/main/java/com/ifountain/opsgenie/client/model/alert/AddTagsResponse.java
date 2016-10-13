@@ -1,10 +1,9 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 /**
- * Represents the OpsGenie service response for an add tag request.
+ * Represents the OpsGenie service response for an add tags request.
  *
- * @author Sezgin Kucukkaraaslan
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTags(AddTagsRequest)
+ * @author Tuba Ozturk
  */
 public class AddTagsResponse extends AddNoteResponse {
 }

@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list who is on call request.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listWhoIsOnCall(ListWhoIsOnCallRequest)
  */
 public class ListWhoIsOnCallResponse extends BaseResponse {

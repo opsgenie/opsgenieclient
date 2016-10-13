@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list user request.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
 public class ListUsersResponse extends BaseResponse {

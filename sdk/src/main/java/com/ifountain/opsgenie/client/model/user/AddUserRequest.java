@@ -10,7 +10,6 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an add user api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addUser(AddUserRequest)
  */
 public class AddUserRequest extends BaseRequest<AddUserResponse> {

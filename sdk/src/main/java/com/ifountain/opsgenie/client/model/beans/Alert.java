@@ -44,8 +44,6 @@ public class Alert extends BeanWithId {
     /**
      * Sets alert system data. System data contains system parameters such as
      * ackTime, closeTime, integrationType, etc...
-     *
-     * @param systemData
      */
     public void setSystemData(Map<String, String> systemData) {
         this.systemData = systemData;

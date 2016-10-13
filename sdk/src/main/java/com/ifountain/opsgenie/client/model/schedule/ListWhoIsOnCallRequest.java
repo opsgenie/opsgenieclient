@@ -3,7 +3,6 @@ package com.ifountain.opsgenie.client.model.schedule;
 /**
  * Container for the parameters to make a list who is on call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listWhoIsOnCall(ListWhoIsOnCallRequest)
  */
 public class ListWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<ListWhoIsOnCallResponse> {

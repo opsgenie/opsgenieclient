@@ -6,7 +6,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make a create heartbeat monitor api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#updateHeartbeat(UpdateHeartbeatRequest)
  */
 public class UpdateHeartbeatRequest extends AddHeartbeatRequest {

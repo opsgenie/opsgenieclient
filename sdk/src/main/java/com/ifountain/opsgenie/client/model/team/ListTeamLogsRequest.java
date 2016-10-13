@@ -10,10 +10,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamLogs(ListTeamLogsRequest)
  */
 public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse> {
-    public enum SortOrder {
-        asc, desc
-    }
-
     private String id;
     private String name;
     @JsonProperty("order")
@@ -84,6 +80,10 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse> {
     @Override
     public ListTeamLogsResponse createResponse() {
         return new ListTeamLogsResponse();
+    }
+
+    public enum SortOrder {
+        asc, desc
     }
 
 }

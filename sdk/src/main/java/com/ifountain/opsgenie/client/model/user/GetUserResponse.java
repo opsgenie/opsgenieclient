@@ -7,7 +7,6 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 /**
  * Represents OpsGenie service response for get user request.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
 public class GetUserResponse extends BaseResponse {

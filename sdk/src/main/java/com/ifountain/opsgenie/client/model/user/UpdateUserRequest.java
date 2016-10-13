@@ -12,7 +12,6 @@ import java.util.TimeZone;
 /**
  * Container for the parameters to make an update user api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateUser(UpdateUserRequest)
  */
 public class UpdateUserRequest extends BaseRequest<UpdateUserResponse> {

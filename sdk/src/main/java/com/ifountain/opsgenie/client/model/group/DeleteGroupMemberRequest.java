@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.group;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroupMember(DeleteGroupMemberRequest)
  */
-public class DeleteGroupMemberRequest extends AddGroupMemberRequest{
+public class DeleteGroupMemberRequest extends AddGroupMemberRequest {
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */

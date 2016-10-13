@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Container for the parameters to make an renotify alert api call.
  *
- * @author Mehmet Mustafa Demir
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(RenotifyRequest)
  */
 public class RenotifyRequest extends AddNoteRequest {

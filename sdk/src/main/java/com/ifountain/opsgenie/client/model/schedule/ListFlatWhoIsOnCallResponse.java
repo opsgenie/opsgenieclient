@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list flat who is on call request.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listFlatWhoIsOnCall(ListFlatWhoIsOnCallRequest)
  */
 public class ListFlatWhoIsOnCallResponse extends BaseResponse{

@@ -6,7 +6,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 /**
  * Container for the parameters to make an update forwarding api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends AddForwardingRequest {
@@ -19,7 +18,6 @@ public class UpdateForwardingRequest extends AddForwardingRequest {
     public String getEndPoint() {
         return "/v1/json/user/forward";
     }
-
 
     /**
      * check the parameters for validation.

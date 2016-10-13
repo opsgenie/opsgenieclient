@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Represents OpsGenie service response for list group request.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
 public class ListGroupsResponse extends BaseResponse {

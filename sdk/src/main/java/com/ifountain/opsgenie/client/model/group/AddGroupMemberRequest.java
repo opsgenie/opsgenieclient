@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Container for the parameters to make an add group api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroupMember(AddGroupMemberRequest)
  */
 public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {

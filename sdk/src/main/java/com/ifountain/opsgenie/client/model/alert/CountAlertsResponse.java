@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * Represents the OpsGenie service response for an count alerts request.
  *
- * @author Sezgin Kucukkaraaslan
+ * @author Veli Burak Celen
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
  */
 public class CountAlertsResponse extends BaseResponse {

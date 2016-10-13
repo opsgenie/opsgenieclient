@@ -3,36 +3,36 @@ package com.ifountain.opsgenie.client.model.beans;
 /**
  * BaseWhoIsOnCall Bean
  */
-abstract class BaseWhoIsOnCall extends Bean {
-	private String name;
-	private String id;
-	private String type;
+public abstract class BaseWhoIsOnCall extends Bean {
+    private String name;
+    private String id;
+    private String type;
 
-	/**
-	 * Name of schedule
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Name of schedule
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Sets name of schedule
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Sets name of schedule
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Id of schedule
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * Id of schedule
+     */
+    public String getId() {
+        return id;
+    }
 
-	/**
-	 * Type of WhoIsOnCall
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * Type of WhoIsOnCall
+     */
+    public String getType() {
+        return type;
+    }
 }

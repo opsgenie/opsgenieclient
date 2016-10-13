@@ -80,6 +80,8 @@ public class EscalationRule extends Bean {
             return false;
         if (that.notifyType != notifyType)
             return false;
+        if (that.notifyCondition != notifyCondition)
+            return false;
         return true;
     }
 

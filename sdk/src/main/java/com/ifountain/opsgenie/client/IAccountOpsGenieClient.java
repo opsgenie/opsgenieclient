@@ -13,7 +13,7 @@ import java.text.ParseException;
  * @see OpsGenieClient
  */
 public interface IAccountOpsGenieClient {
-	/**
+    /**
      * Get Account details
      *
      * @param getAccountInfoRequest Object to construct request parameters.

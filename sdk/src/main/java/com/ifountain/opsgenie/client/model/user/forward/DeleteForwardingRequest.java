@@ -5,7 +5,6 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 /**
  * Container for the parameters to make an delete forwarding api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteForwarding(DeleteForwardingRequest)
  */
 public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingResponse> {

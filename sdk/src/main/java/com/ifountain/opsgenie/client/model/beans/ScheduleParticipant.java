@@ -4,9 +4,8 @@ package com.ifountain.opsgenie.client.model.beans;
  * ScheduleParticipant bean
  */
 public class ScheduleParticipant extends Bean {
-    public enum Type {
-        user, group, escalation, schedule, team
-    }
+    private String participant;
+    private Type type;
 
     public ScheduleParticipant() {
 
@@ -15,8 +14,6 @@ public class ScheduleParticipant extends Bean {
     public ScheduleParticipant(String participant) {
         this.participant = participant;
     }
-    private String participant;
-    private Type type;
 
     /**
      * Name of participant
@@ -40,6 +37,10 @@ public class ScheduleParticipant extends Bean {
      */
     public Type getType() {
         return type;
+    }
+
+    public enum Type {
+        user, group, escalation, schedule, team
     }
 
 }

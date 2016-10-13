@@ -3,13 +3,13 @@ package com.ifountain.opsgenie.client.model.alert;
 import java.util.Map;
 
 /**
- * Container for the parameters to make an add detail call.
+ * Container for the parameters to make an add detail request call.
  *
- * @author Sezgin Kucukkaraaslan
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addDetails(AddDetailsRequest)
  */
-public class AddDetailsRequest extends AddNoteRequest {
-    private Map<String, Object> details;
+public class AddDetailsRequest extends BaseAlertRequestWithSource<AddDetailsResponse> {
+	private Map<String, Object> details;
 
     @Override
 	public String getEndPoint() {

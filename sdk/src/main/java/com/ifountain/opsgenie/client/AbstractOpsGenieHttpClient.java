@@ -22,7 +22,22 @@ import java.util.Map;
  */
 public abstract class AbstractOpsGenieHttpClient {
     protected Log log;
+    /**
+     * Http client object *
+     */
+    protected OpsGenieHttpClient httpClient;
     private String apiKey;
+    /**
+     * OpsGenie services endpoint uri. Default is https://api.opsgenie.com *
+     */
+    private String rootUri = OpsGenieClientConstants.OPSGENIE_API_URI;
+
+    /**
+     * Constructs a new inner client to invoke service methods on OpsGenie using the specified client configuration options.
+     */
+    public AbstractOpsGenieHttpClient(OpsGenieHttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
 
     /**
      * Api key used for authenticating API requests.
@@ -36,23 +51,6 @@ public abstract class AbstractOpsGenieHttpClient {
      */
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
-    }
-
-    /**
-     * OpsGenie services endpoint uri. Default is https://api.opsgenie.com *
-     */
-    private String rootUri = OpsGenieClientConstants.OPSGENIE_API_URI;
-
-    /**
-     * Http client object *
-     */
-    protected OpsGenieHttpClient httpClient;
-
-    /**
-     * Constructs a new inner client to invoke service methods on OpsGenie using the specified client configuration options.
-     */
-    public AbstractOpsGenieHttpClient(OpsGenieHttpClient httpClient) {
-        this.httpClient = httpClient;
     }
 
     protected String getRootUri() {
