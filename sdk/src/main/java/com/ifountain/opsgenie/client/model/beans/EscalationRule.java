@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 public class EscalationRule extends Bean {
     private String notify;
     private NotifyType notifyType = NotifyType.Default;
-    private NotifyCondition notifyCondition;
+    private NotifyCondition notifyCondition = NotifyCondition.IF_NOT_ACKED;
     private Type type;
     private int delay;
 
