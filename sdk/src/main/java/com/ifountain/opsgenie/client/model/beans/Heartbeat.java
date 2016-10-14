@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
 
@@ -10,7 +9,6 @@ import java.util.Date;
  */
 public class Heartbeat extends Bean {
     private String name;
-    @JsonProperty("lastHeartbeat")
     private Long lastHeartbeat;
     private Boolean expired;
     private Boolean enabled;
@@ -74,7 +72,6 @@ public class Heartbeat extends Bean {
     /**
      * Last heartbeat recieve time
      */
-    @JsonIgnore
     public Long getLastHeartbeatTime() {
         return lastHeartbeat;
     }
