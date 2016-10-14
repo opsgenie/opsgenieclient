@@ -8,6 +8,8 @@ import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import org.junit.Before
 import org.junit.Test
 
+import java.text.SimpleDateFormat
+
 import static org.junit.Assert.*
 
 /**
@@ -244,7 +246,9 @@ class ScriptProxyAdminTest {
 
     public void _testGetHearbeat(boolean useConfig) throws Exception {
         GetHeartbeatResponse response = new GetHeartbeatResponse();
-        response.setHeartbeat(new Heartbeat(name: "source1", lastHeartbeat: new Date(), expired: false))
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        response.setHeartbeat(new Heartbeat(name: "source1", lastHeartbeat: date, expired: false))
         opsGenieClient.setGetHeartbeatResponse(response);
 
         def params = [name: "source1"]
@@ -266,7 +270,8 @@ class ScriptProxyAdminTest {
             assertEquals("customer1", request.getApiKey())
         }
         assertEquals(response.getHeartbeat().getName(), responseMap[TestConstants.API.NAME])
-        assertEquals(response.getHeartbeat().getLastHeartbeatTime(), responseMap[TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(sdf.format(response.getHeartbeat().getLastHeartbeat()), sdf.format(date))
+        assertEquals(response.getHeartbeat().getLastHeartbeat().getTime(), (date.getTime()))
         assertEquals(response.getHeartbeat().isExpired(), responseMap[TestConstants.API.EXPIRED])
     }
 
@@ -284,7 +289,9 @@ class ScriptProxyAdminTest {
 
     public void _testListHearbeat(boolean useConfig) throws Exception {
         ListHeartbeatsResponse response = new ListHeartbeatsResponse();
-        response.setHeartbeats([new Heartbeat(name: "source1", lastHeartbeat: new Date(), expired: false)])
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        response.setHeartbeats([new Heartbeat(name: "source1", lastHeartbeat: date, expired: false)])
         opsGenieClient.setListHeartbeatsResponse(response);
 
         def params = [:]
@@ -306,7 +313,8 @@ class ScriptProxyAdminTest {
         }
 
         assertEquals(response.getHeartbeats()[0].getName(), responseMap[0][TestConstants.API.NAME])
-        assertEquals(response.getHeartbeats()[0].getLastHeartbeatTime(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(sdf.format(response.getHeartbeats()[0].getLastHeartbeat()), sdf.format(date))
+        assertEquals(response.getHeartbeats()[0].getLastHeartbeat().getTime(), (date.getTime()))
         assertEquals(response.getHeartbeats()[0].isExpired(), responseMap[0][TestConstants.API.EXPIRED])
     }
 
