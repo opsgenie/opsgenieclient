@@ -1,57 +1,43 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Forwarding bean
  */
-public class Forwarding  implements IBean{
-    private String id;
+public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     private String alias;
     private String fromUser;
     private String toUser;
     private Date startDate;
     private Date endDate;
+    @JsonProperty("timezone")
     private TimeZone timeZone;
 
     /**
-     * Id of forwarding setting
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of forwarding setting
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * A user defined identifier for the 
-     * Provides ability to assign a known id and later use this id to get forwarding details.
+     * A user defined identifier for the Provides ability to assign a known id
+     * and later use this id to get forwarding details.
      */
     public String getAlias() {
         return alias;
     }
 
     /**
-     * Sets a user defined identifier for the 
+     * Sets a user defined identifier for the
      */
     public void setAlias(String alias) {
         this.alias = alias;
     }
 
     /**
-     * Username of user  which forwarding is created for
+     * Username of user which forwarding is created for
      */
     public String getFromUser() {
         return fromUser;
@@ -121,62 +107,25 @@ public class Forwarding  implements IBean{
     }
 
     @Override
-    public Map toMap() {
-        Map<String, String> json = new HashMap<String, String>();
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-        if (timeZone != null) {
-            sdf.setTimeZone(timeZone);
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
+    public void setTime() throws ParseException {
+        if (getObjectTimeZone() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+            String endDateString = null, startDateString = null;
+            if (endDate != null)
+                endDateString = sdf.format(endDate);
+            if (startDate != null)
+                startDateString = sdf.format(startDate);
+            sdf.setTimeZone(getObjectTimeZone());
+            if (endDateString != null)
+                endDate = sdf.parse(endDateString);
+            if (startDateString != null)
+                startDate = sdf.parse(startDateString);
         }
-        if (endDate != null) {
-            json.put(OpsGenieClientConstants.API.END_DATE, sdf.format(endDate));
-        }
-        if (startDate != null) {
-            json.put(OpsGenieClientConstants.API.START_DATE, sdf.format(startDate));
-        }
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.FROM_USER, getFromUser());
-        json.put(OpsGenieClientConstants.API.TO_USER, getToUser());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
+
     }
 
     @Override
-    public void fromMap(Map map) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-        if(map.containsKey(OpsGenieClientConstants.API.TIMEZONE)){
-
-            Object timezoneObj = map.get(OpsGenieClientConstants.API.TIMEZONE);
-            if(timezoneObj instanceof TimeZone){
-                timeZone = (TimeZone) timezoneObj;
-            }
-            else{
-                timeZone = TimeZone.getTimeZone(String.valueOf(timezoneObj));
-            }
-            sdf.setTimeZone(timeZone);
-        }
-        setId((String) map.get(OpsGenieClientConstants.API.ID));
-        setAlias((String) map.get(OpsGenieClientConstants.API.ALIAS));
-        setFromUser((String) map.get(OpsGenieClientConstants.API.FROM_USER));
-        setToUser((String) map.get(OpsGenieClientConstants.API.TO_USER));
-        Object dateObj = map.get(OpsGenieClientConstants.API.START_DATE);
-        if(dateObj != null){
-            if(dateObj instanceof Date){
-                setStartDate((Date) dateObj);
-            }
-            else{
-                setStartDate(sdf.parse(String.valueOf(dateObj)));
-            }
-        }
-
-        dateObj = map.get(OpsGenieClientConstants.API.END_DATE);
-        if(dateObj != null){
-            if(dateObj instanceof Date){
-                setEndDate((Date) dateObj);
-            }
-            else{
-                setEndDate(sdf.parse(String.valueOf(dateObj)));
-            }
-        }
+    public TimeZone getObjectTimeZone() {
+        return timeZone;
     }
 }

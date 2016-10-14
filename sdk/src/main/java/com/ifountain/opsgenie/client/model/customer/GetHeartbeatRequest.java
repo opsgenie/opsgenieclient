@@ -1,18 +1,31 @@
 package com.ifountain.opsgenie.client.model.customer;
 
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import java.util.Map;
-
 /**
  * Container for the parameters to make a get heartbeat monitor api call.
  *
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     private String name;
+
+    /**
+     * check the parameters for validation.
+     * It will be overridden by necessary Requests.
+     *
+     * @throws OpsGenieClientValidationException when heartbeat name is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (name == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.NAME);
+    }
 
     /**
      * Rest api uri of get heartbeat monitor operation.
@@ -50,23 +63,10 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
         setName(source);
     }
 
-
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetHeartbeatResponse createResponse() {
         return new GetHeartbeatResponse();
     }

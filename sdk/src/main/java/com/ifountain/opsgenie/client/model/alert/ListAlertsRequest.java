@@ -1,29 +1,16 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.apache.commons.codec.binary.StringUtils;
-
-import java.util.List;
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list alerts api call.
  *
- * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(com.ifountain.opsgenie.client.model.alert.ListAlertsRequest)
+ * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
  */
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
-    public enum SortBy{
-        createdAt,
-        updatedAt
-    }
-    public enum SortOrder{
-        asc,
-        desc
-    }
-
+    @JsonProperty("sortBy")
     private SortBy sortBy;
+    @JsonProperty("order")
     private SortOrder sortOrder;
 
     /**
@@ -33,6 +20,7 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     public String getEndPoint() {
         return "/v1/json/alert";
     }
+
 
     public SortBy getSortBy() {
         return sortBy;
@@ -51,24 +39,18 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
     }
 
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
-
-        if (sortBy != null)
-            parameters.put(OpsGenieClientConstants.API.SORT_BY, sortBy.name());
-        if (sortOrder != null)
-            parameters.put(OpsGenieClientConstants.API.ORDER, sortOrder.name());
-
-        return parameters;
-    }
-
-    @Override
-    /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListAlertsResponse createResponse() {
         return new ListAlertsResponse();
+    }
+
+    public enum SortBy {
+        createdAt, updatedAt
+    }
+
+    public enum SortOrder {
+        asc, desc
     }
 }

@@ -1,10 +1,7 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import java.util.Map;
+import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a delete user api call.
@@ -50,25 +47,11 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
         this.username = username;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getId() != null){
-            json.put(OpsGenieClientConstants.API.ID, getId());
-        }
-        if(getUsername() != null){
-            json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        }
-        return json;
-    }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteUserResponse createResponse() {
         return new DeleteUserResponse();
     }

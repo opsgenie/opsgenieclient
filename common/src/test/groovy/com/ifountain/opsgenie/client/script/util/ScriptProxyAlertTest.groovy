@@ -200,7 +200,7 @@ class ScriptProxyAlertTest {
         assertEquals("someuser", request.getUser());
         assertEquals("source1", request.getSource());
         assertEquals(2, request.getRecipients().size());
-        assertTrue(request.getRecipients()*.recipient.containsAll(params.recipients));
+        assertTrue(request.getRecipients().containsAll(params.recipients));
 
     }
 

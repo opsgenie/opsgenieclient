@@ -5,5 +5,5 @@ package com.ifountain.opsgenie.client.model.group;
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#updateGroup(com.ifountain.opsgenie.client.model.group.UpdateGroupRequest)
  */
-public class UpdateGroupResponse extends AddGroupResponse{
+public class UpdateGroupResponse extends AddGroupResponse {
 }

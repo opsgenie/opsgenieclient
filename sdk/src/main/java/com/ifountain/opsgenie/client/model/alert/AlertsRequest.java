@@ -1,15 +1,15 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by burak on 5/11/2015.
+ * Abstract Container for the alert requests.
+ *
+ * @author Burak Celen
  */
 public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<T>{
 
@@ -34,30 +34,6 @@ public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<
     private Status status;
     private List<String> tags;
     private Operator tagsOperator;
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map parameters = super.serialize();
-        if (getCreatedAfter() != null)
-            parameters.put(OpsGenieClientConstants.API.CREATED_AFTER, getCreatedAfter());
-        if (getCreatedBefore() != null)
-            parameters.put(OpsGenieClientConstants.API.CREATED_BEFORE, getCreatedBefore());
-        if (getUpdatedAfter() != null)
-            parameters.put(OpsGenieClientConstants.API.UPDATED_AFTER, getUpdatedAfter());
-        if (getUpdatedBefore() != null)
-            parameters.put(OpsGenieClientConstants.API.UPDATED_BEFORE, getUpdatedBefore());
-        if (getLimit() != null)
-            parameters.put(OpsGenieClientConstants.API.LIMIT, getLimit());
-        if (getStatus() != null)
-            parameters.put(OpsGenieClientConstants.API.STATUS, getStatus().name());
-        if (getTags() != null)
-            parameters.put(OpsGenieClientConstants.API.TAGS, getTags());
-        if (getTagsOperator() != null)
-            parameters.put(OpsGenieClientConstants.API.TAGS_OPERATOR, getTagsOperator().name());
-        return parameters;
-    }
 
 
     public Long getCreatedAfter() {
@@ -100,6 +76,13 @@ public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<
         this.limit = limit;
     }
 
+	@JsonProperty("status")
+    public String getStatusName() {
+    	if(status != null)
+    		return status.name();
+    	return null;
+    }
+    
     public Status getStatus() {
         return status;
     }
@@ -116,6 +99,13 @@ public abstract class AlertsRequest<T extends BaseResponse> extends BaseRequest<
         this.tags = tags;
     }
 
+	@JsonProperty("tagsOperator")
+    public String getTagsOperatorName() {
+    	if(tagsOperator != null)
+    		return tagsOperator.name();
+    	return null;
+    }
+    
     public Operator getTagsOperator() {
         return tagsOperator;
     }

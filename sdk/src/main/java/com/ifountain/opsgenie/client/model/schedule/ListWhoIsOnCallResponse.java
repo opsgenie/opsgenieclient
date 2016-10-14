@@ -1,24 +1,23 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.WhoIsOnCall;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents OpsGenie service response for list who is on call request.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listWhoIsOnCall(com.ifountain.opsgenie.client.model.schedule.ListWhoIsOnCallRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listWhoIsOnCall(ListWhoIsOnCallRequest)
  */
-public class ListWhoIsOnCallResponse extends BaseResponse{
+public class ListWhoIsOnCallResponse extends BaseResponse {
+    @JsonProperty("oncalls")
     private List<WhoIsOnCall> whoIsOnCallList;
 
     /**
      * List of on calls
+     *
      * @see com.ifountain.opsgenie.client.model.beans.WhoIsOnCall
      */
     public List<WhoIsOnCall> getWhoIsOnCallList() {
@@ -27,23 +26,11 @@ public class ListWhoIsOnCallResponse extends BaseResponse{
 
     /**
      * Sets list of on calls
+     *
      * @see com.ifountain.opsgenie.client.model.beans.WhoIsOnCall
      */
     public void setWhoIsOnCallList(List<WhoIsOnCall> whoIsOnCallList) {
         this.whoIsOnCallList = whoIsOnCallList;
     }
 
-    @Override
-    public void deserialize(Map data) throws ParseException {
-        super.deserialize(data);
-        List<Map> oncallMaps = (List<Map>) data.get(OpsGenieClientConstants.API.ON_CALLS);
-        if(oncallMaps != null){
-            whoIsOnCallList = new ArrayList<WhoIsOnCall>();
-            for(Map oncallMap:oncallMaps) {
-                WhoIsOnCall whoIsOnCall = new WhoIsOnCall();
-                whoIsOnCall.fromMap(oncallMap);
-                whoIsOnCallList.add(whoIsOnCall);
-            }
-        }
-    }
 }

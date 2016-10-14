@@ -1,26 +1,27 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * Container for the parameters to make an add schedule api call.
  *
+ * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addSchedule(AddScheduleRequest)
  */
-public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
+public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> implements ObjectWithTimeZone {
     private String name;
-    private Boolean enabled = null;
+    private Boolean enabled;
+    @JsonProperty("timezone")
     private TimeZone timeZone;
     private List<ScheduleRotation> rotations;
-
+    private String team;
+    private String description;
 
     /**
      * Rest api uri of addding schedule operation.
@@ -48,6 +49,9 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
      * Rotations of schedule
      */
     public List<ScheduleRotation> getRotations() {
+        if (getTimeZone() != null && rotations != null)
+            for (ScheduleRotation scheduleRotation : rotations)
+                scheduleRotation.setScheduleTimeZone(getTimeZone());
         return rotations;
     }
 
@@ -86,37 +90,43 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> {
         this.timeZone = timeZone;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
-        if(enabled != null){
-            json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        }
-        if(timeZone != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, timeZone.getID());
-        }
-        if(rotations != null){
-            List<Map> rotationMaps = new ArrayList<Map>();
-            for(ScheduleRotation rotation: rotations){
-                rotation.setScheduleTimeZone(getTimeZone());
-                rotationMaps.add(rotation.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.ROTATIONS, rotationMaps);
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddScheduleResponse createResponse() {
         return new AddScheduleResponse();
+    }
+
+    /**
+     * Get Name of the team that the schedule will be assigned to. If left empty, the schedule will be global and not belong to any team.
+     *
+     * @return String team Name
+     */
+    public String getTeam() {
+        return team;
+
+    }
+
+    /**
+     * Sets Name of the team that the schedule will be assigned to. If left empty, the schedule will be global and not belong to any team.
+     *
+     * @param team String team Name
+     */
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public TimeZone getObjectTimeZone() {
+        return timeZone;
     }
 }

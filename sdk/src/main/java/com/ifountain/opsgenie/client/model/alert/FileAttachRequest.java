@@ -9,7 +9,6 @@ import java.util.Map;
  * Container for the parameters to make an file based attach api call.
  *
  * @author Sezgin Kucukkaraaslan
- * @version 5/31/12 3:38 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  */
 public class FileAttachRequest extends AttachRequest {
@@ -32,10 +31,11 @@ public class FileAttachRequest extends AttachRequest {
         this.file = file;
     }
 
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
+    @Deprecated
+    @Override
     public Map serialize() throws OpsGenieClientValidationException {
         throw new UnsupportedOperationException("unsupported method serialize");
     }
+
+
 }

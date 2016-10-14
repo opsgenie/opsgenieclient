@@ -16,10 +16,10 @@ public class ListUsersRequest extends BaseRequest<ListUsersResponse> {
         return "/v1/json/user";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListUsersResponse createResponse() {
         return new ListUsersResponse();
     }

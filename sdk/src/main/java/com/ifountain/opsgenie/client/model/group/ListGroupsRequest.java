@@ -16,10 +16,10 @@ public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {
         return "/v1/json/group";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListGroupsResponse createResponse() {
         return new ListGroupsResponse();
     }

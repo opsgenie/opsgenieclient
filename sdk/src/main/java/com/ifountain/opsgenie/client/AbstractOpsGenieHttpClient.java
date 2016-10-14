@@ -17,27 +17,37 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by user on 8/5/2014.
- */
 public abstract class AbstractOpsGenieHttpClient {
     protected Log log;
-
+    /**
+     * Http client object *
+     */
+    protected OpsGenieHttpClient httpClient;
+    private String apiKey;
     /**
      * OpsGenie services endpoint uri. Default is https://api.opsgenie.com *
      */
     private String rootUri = OpsGenieClientConstants.OPSGENIE_API_URI;
 
     /**
-     * Http client object *
-     */
-    protected OpsGenieHttpClient httpClient;
-
-    /**
      * Constructs a new inner client to invoke service methods on OpsGenie using the specified client configuration options.
      */
     public AbstractOpsGenieHttpClient(OpsGenieHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    /**
+     * Api key used for authenticating API requests.
+     */
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    /**
+     * Sets the customer key used for authenticating API requests.
+     */
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     protected String getRootUri() {
@@ -48,41 +58,42 @@ public abstract class AbstractOpsGenieHttpClient {
         this.rootUri = rootUri;
     }
 
-    private OpsGenieHttpClient getHttpClient() {
-        return httpClient;
-    }
-
-    private void setHttpClient(OpsGenieHttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
-
-    public void close(){
+    public void close() {
         this.httpClient.close();
     }
 
     protected BaseResponse doPostRequest(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        Map contentParameters = request.serialize();
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + contentParameters);
-        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJsonAsBytes(contentParameters), headers);
+        String json = JsonUtils.toJson(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers);
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }
 
     protected BaseResponse doPostRequest(BaseRequestWithHttpParameters request) throws OpsGenieClientException, IOException, ParseException, URISyntaxException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
         Map<String, String> headers = new HashMap<String, String>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
-        Map contentParameters = request.serialize();
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + contentParameters);
-        OpsGenieHttpResponse httpResponse = httpClient.post(uri, JsonUtils.toJson(contentParameters), headers, request.getHttpParameters());
+        String json = JsonUtils.toJson(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers, request.getHttpParameters());
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }
 
     protected BaseResponse doPostRequest(BaseRequest request, MultipartEntity entity) throws IOException, OpsGenieClientException, ParseException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
         String uri = rootUri + request.getEndPoint();
         log.info("Executing OpsGenie request to [" + uri + "] with multipart data");
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, entity);
@@ -92,8 +103,11 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doDeleteRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
+            if (request.getApiKey() == null)
+                request.setApiKey(getApiKey());
+            request.validate();
             String uri = rootUri + request.getEndPoint();
-            Map parameters = request.serialize();
+            Map parameters = JsonUtils.toMap(request);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
             handleResponse(httpResponse);
@@ -105,8 +119,11 @@ public abstract class AbstractOpsGenieHttpClient {
 
     protected BaseResponse doGetRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
         try {
+            if (request.getApiKey() == null)
+                request.setApiKey(getApiKey());
+            request.validate();
             String uri = rootUri + request.getEndPoint();
-            Map parameters = request.serialize();
+            Map parameters = JsonUtils.toMap(request);
             log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
             OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
             handleResponse(httpResponse);
@@ -129,7 +146,7 @@ public abstract class AbstractOpsGenieHttpClient {
         }
     }
 
-    protected BaseResponse populateResponse(BaseRequest request, OpsGenieHttpResponse httpResponse) throws ParseException, IOException{
+    protected BaseResponse populateResponse(BaseRequest request, OpsGenieHttpResponse httpResponse) throws ParseException, IOException {
         return request.createResponse();
     }
 }

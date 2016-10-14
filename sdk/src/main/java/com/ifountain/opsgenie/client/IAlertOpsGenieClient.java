@@ -226,4 +226,37 @@ public interface IAlertOpsGenieClient {
      * @see ListAlertNotesResponse
      */
     public ListAlertNotesResponse listAlertNotes(ListAlertNotesRequest listAlertNotesRequest) throws ParseException, OpsGenieClientException, IOException;
+
+
+    /**
+     * Adds details to an alert.
+     *
+     * @param addDetailsRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.AddDetailsRequest
+     * @see com.ifountain.opsgenie.client.model.alert.AddDetailsResponse
+     */
+    public AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * Removes details to an alert.
+     *
+     * @param removeDetailsRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.RemoveDetailsRequest
+     * @see com.ifountain.opsgenie.client.model.alert.RemoveDetailsResponse
+     */
+    public RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
+     * snooze an alert.
+     *
+     * @param snoozeRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.SnoozeRequest
+     * @see com.ifountain.opsgenie.client.model.alert.SnoozeResponse
+     */
+    public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException;
+
+
 }

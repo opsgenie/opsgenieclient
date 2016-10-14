@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.util.Map;
 
 /**
@@ -8,7 +10,8 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:03 PM
  */
-public abstract class BaseRequestWithHttpParameters<T extends BaseResponse> extends BaseRequest implements Request {
+public abstract class BaseRequestWithHttpParameters<T extends BaseResponse> extends BaseRequest<T> implements Request {
+    @JsonIgnore
     private Map<String, Object> httpParameters;
 
     /**

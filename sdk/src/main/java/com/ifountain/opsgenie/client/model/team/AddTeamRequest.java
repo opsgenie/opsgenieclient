@@ -1,25 +1,20 @@
 package com.ifountain.opsgenie.client.model.team;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.Team;
+import com.ifountain.opsgenie.client.model.beans.Team.TeamMember;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Container for the parameters to make an add team api call.
  *
  * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 11:59 AM
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
-public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
+public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
     private String name;
-    private List<Team.TeamMember> members;
-
+    private String description;
+    private List<TeamMember> members;
 
     /**
      * Rest api uri of addding team operation.
@@ -46,42 +41,30 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse>{
     /**
      * Members of team
      */
-    public List<Team.TeamMember> getMembers() {
+    public List<TeamMember> getMembers() {
         return members;
     }
 
     /**
      * Sets the members of team.
      */
-    public void setMembers(List<Team.TeamMember> members) {
+    public void setMembers(List<TeamMember> members) {
         this.members = members;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getName() != null)
-        {
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-        if(getMembers() != null){
-            List<Map> memberMaps = new ArrayList<Map>();
-            for(Team.TeamMember member:getMembers()){
-                memberMaps.add(member.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.MEMBERS, memberMaps);
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddTeamResponse createResponse() {
         return new AddTeamResponse();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

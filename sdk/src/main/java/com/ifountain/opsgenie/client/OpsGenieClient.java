@@ -30,10 +30,10 @@ import java.text.ParseException;
  * CreateAlertResponse response = client.createAlert(request);
  * String alertId = response.getAlertId();
  * </pre></blockquote>
- *
+ * <p>
  * <p><strong>Adding Notes</strong></p>
  * <p>Construct a <code>AddNoteRequest</code> object with preferred options and call <code>addNote</code> method on client.</p>
- *
+ * <p>
  * <p>
  * <blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
@@ -45,8 +45,8 @@ import java.text.ParseException;
  * AddNoteResponse response = client.addNote(request);
  * assert response.isSuccess();
  * </pre></blockquote>
- *
- *
+ * <p>
+ * <p>
  * <p><strong>Attaching Files</strong></p>
  * <p>Construct a <code>FileAttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
  * <p><blockquote><pre>
@@ -73,6 +73,10 @@ public class OpsGenieClient implements IOpsGenieClient {
     private InnerScheduleOpsGenieClient innerScheduleOpsGenieClient;
     private InnerAlertPolicyOpsGenieClient innerAlertPolicyOpsGenieClient;
     private IIntegrationOpsGenieClient innerIntegrationOpsGenieClient;
+    private INotificationRuleOpsGenieClient innerNotificationRuleOpsGenieClient;
+    private IAccountOpsGenieClient innerAccountOpsGenieClient;
+    private IContactOpsGenieClient innerContactOpsGenieClient;
+
     /**
      * Http client object *
      */
@@ -100,6 +104,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     public OpsGenieClient(OpsGenieHttpClient httpClient) {
         this.jsonHttpClient = new JsonOpsgenieHttpClient(httpClient);
         this.streamOpsgenieHttpClient = new StreamOpsgenieHttpClient(httpClient);
+        this.jsonHttpClient.setApiKey(getApiKey());
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);
@@ -108,6 +113,9 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerScheduleOpsGenieClient = new InnerScheduleOpsGenieClient(this.jsonHttpClient, this.streamOpsgenieHttpClient);
         innerAlertPolicyOpsGenieClient = new InnerAlertPolicyOpsGenieClient(this.jsonHttpClient);
         innerIntegrationOpsGenieClient = new InnerIntegrationOpsGenieClient(this.jsonHttpClient);
+        innerContactOpsGenieClient = new InnerContactOpsGenieClient(this.jsonHttpClient);
+        innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
+        innerAccountOpsGenieClient = new InnerAccountOpsGenieClient(this.jsonHttpClient);
     }
 
     /**
@@ -165,6 +173,14 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     public IIntegrationOpsGenieClient integration() {
         return innerIntegrationOpsGenieClient;
+    }
+
+
+    /**
+     * @see IOpsGenieClient#notificationRule() ()
+     */
+    public INotificationRuleOpsGenieClient notificationRule() {
+        return innerNotificationRuleOpsGenieClient;
     }
 
     /**
@@ -243,11 +259,45 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * Api key used for authenticating API requests.
+     */
+    public String getApiKey() {
+        return this.jsonHttpClient != null ? this.jsonHttpClient.getApiKey() : null;
+    }
+
+
+    /**
+     * Sets the customer key used for authenticating API requests.
+     *
+     * @param apiKey
+     */
+    public void setApiKey(String apiKey) {
+        if (this.jsonHttpClient != null) {
+            this.jsonHttpClient.setApiKey(apiKey);
+        }
+    }
+
+    /**
      * Closes client
      */
     @Override
     public void close() {
         this.jsonHttpClient.close();
         this.streamOpsgenieHttpClient.close();
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#contact()
+     */
+    public IContactOpsGenieClient contact() {
+        return innerContactOpsGenieClient;
+    }
+
+    /**
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#account()
+     */
+    @Override
+    public IAccountOpsGenieClient account() {
+        return innerAccountOpsGenieClient;
     }
 }

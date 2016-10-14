@@ -4,8 +4,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import java.util.Map;
-
 /**
  * Container for the parameters to make a get forwarding api call.
  *
@@ -14,6 +12,20 @@ import java.util.Map;
 public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
     private String id;
     private String alias;
+
+    /**
+     * check the parameters for validation. It will be overridden by necessary
+     * Requests.
+     *
+     * @throws OpsGenieClientValidationException when alias and id both null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null && alias == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS,
+                    OpsGenieClientConstants.API.ID);
+    }
 
     /**
      * Rest api uri of get forwarding operation.
@@ -38,8 +50,9 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
     }
 
     /**
-     * A user defined identifier for the forwarding.
-     * Provides ability to assign a known identifier and later use this identifier to get forwarding details.
+     * A user defined identifier for the forwarding. Provides ability to assign
+     * a known identifier and later use this identifier to get forwarding
+     * details.
      */
     public String getAlias() {
         return alias;
@@ -52,22 +65,10 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
         this.alias = alias;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
-    }
-
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetForwardingResponse createResponse() {
         return new GetForwardingResponse();
     }

@@ -1,27 +1,17 @@
 package com.ifountain.opsgenie.client.script.util
 
-
 import com.ifountain.opsgenie.client.TestConstants
 import com.ifountain.opsgenie.client.model.BaseRequest
 import com.ifountain.opsgenie.client.model.beans.Heartbeat
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse
+import com.ifountain.opsgenie.client.model.customer.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import org.junit.Before
 import org.junit.Test
+
+import java.text.SimpleDateFormat
+
 import static org.junit.Assert.*
+
 /**
  * Created by Sezgin Kucukkaraaslan
  * Date: 6/1/12
@@ -256,7 +246,9 @@ class ScriptProxyAdminTest {
 
     public void _testGetHearbeat(boolean useConfig) throws Exception {
         GetHeartbeatResponse response = new GetHeartbeatResponse();
-        response.setHeartbeat(new Heartbeat(name: "source1", lastHeartbeat: new Date(), expired: false))
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        response.setHeartbeat(new Heartbeat(name: "source1", lastHeartbeat: date, expired: false))
         opsGenieClient.setGetHeartbeatResponse(response);
 
         def params = [name: "source1"]
@@ -277,9 +269,9 @@ class ScriptProxyAdminTest {
         } else {
             assertEquals("customer1", request.getApiKey())
         }
-
-        assertEquals(response.getHeartbeat().getSource(), responseMap[TestConstants.API.SOURCE])
-        assertEquals(response.getHeartbeat().getLastHeartbeat(), responseMap[TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeat().getName(), responseMap[TestConstants.API.NAME])
+        assertEquals(sdf.format(response.getHeartbeat().getLastHeartbeat()), sdf.format(date))
+        assertEquals(response.getHeartbeat().getLastHeartbeat().getTime(), (date.getTime()))
         assertEquals(response.getHeartbeat().isExpired(), responseMap[TestConstants.API.EXPIRED])
     }
 
@@ -297,7 +289,9 @@ class ScriptProxyAdminTest {
 
     public void _testListHearbeat(boolean useConfig) throws Exception {
         ListHeartbeatsResponse response = new ListHeartbeatsResponse();
-        response.setHeartbeats([new Heartbeat(name: "source1", lastHeartbeat: new Date(), expired: false)])
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        response.setHeartbeats([new Heartbeat(name: "source1", lastHeartbeat: date, expired: false)])
         opsGenieClient.setListHeartbeatsResponse(response);
 
         def params = [:]
@@ -318,8 +312,9 @@ class ScriptProxyAdminTest {
             assertEquals("customer1", request.getApiKey())
         }
 
-        assertEquals(response.getHeartbeats()[0].getSource(), responseMap[0][TestConstants.API.SOURCE])
-        assertEquals(response.getHeartbeats()[0].getLastHeartbeat(), responseMap[0][TestConstants.API.LAST_HEARTBEAT])
+        assertEquals(response.getHeartbeats()[0].getName(), responseMap[0][TestConstants.API.NAME])
+        assertEquals(sdf.format(response.getHeartbeats()[0].getLastHeartbeat()), sdf.format(date))
+        assertEquals(response.getHeartbeats()[0].getLastHeartbeat().getTime(), (date.getTime()))
         assertEquals(response.getHeartbeats()[0].isExpired(), responseMap[0][TestConstants.API.EXPIRED])
     }
 

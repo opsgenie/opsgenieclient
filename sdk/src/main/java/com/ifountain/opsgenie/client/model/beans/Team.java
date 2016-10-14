@@ -1,35 +1,17 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Sezgin Kucukkaraaslan
  * @version 12/3/2014 12:15 PM
  */
-public class Team implements IBean {
-    private String id;
+public class Team extends BeanWithId {
     private String name;
+    private String description;
     private List<TeamMember> members;
-
-    /**
-     * Id of the team.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of the team.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+    private List<String> escalations;
+    private List<String> schedules;
 
     /**
      * Name of the team.
@@ -59,36 +41,31 @@ public class Team implements IBean {
         this.members = members;
     }
 
-    @Override
-    public Map toMap() {
-        Map<String, Object> json = new HashMap<String, Object>();
-        json.put(OpsGenieClientConstants.API.NAME, name);
-        json.put(OpsGenieClientConstants.API.ID, id);
-        if (members != null) {
-            List<Map> memberList = new ArrayList<Map>();
-            for (TeamMember member : members) {
-                memberList.add(member.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.MEMBERS, memberList);
-        }
-        return json;
+    public List<String> getEscalations() {
+        return escalations;
     }
 
-    @Override
-    public void fromMap(Map resp) throws ParseException {
-        setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        List<TeamMember> members = new ArrayList<TeamMember>();
-        List<Map> memberList = (List<Map>) resp.get(OpsGenieClientConstants.API.MEMBERS);
-        for (Map map : memberList) {
-            TeamMember member = new TeamMember();
-            member.fromMap(map);
-            members.add(member);
-        }
-        setMembers(members);
+    public void setEscalations(List<String> escalations) {
+        this.escalations = escalations;
     }
 
-    public static class TeamMember implements IBean {
+    public List<String> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<String> schedules) {
+        this.schedules = schedules;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public static class TeamMember extends Bean {
         private String user;
         private Role role;
 
@@ -132,33 +109,23 @@ public class Team implements IBean {
             this.role = role;
         }
 
-        public static enum Role {
+        public enum Role {
             admin, user
         }
 
         @Override
-        public Map toMap() {
-            Map result = new HashMap();
-            result.put(OpsGenieClientConstants.API.ROLE, getRole().toString());
-            result.put(OpsGenieClientConstants.API.USER, getUser());
-            return result;
-        }
-
-        @Override
-        public void fromMap(Map map) throws ParseException {
-            setUser((String) map.get(OpsGenieClientConstants.API.USER));
-            setRole(Role.valueOf((String) map.get(OpsGenieClientConstants.API.ROLE)));
-        }
-
-        @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
 
             TeamMember that = (TeamMember) o;
 
-            if (role != that.role) return false;
-            if (user != null ? !user.equals(that.user) : that.user != null) return false;
+            if (role != that.role)
+                return false;
+            if (user != null ? !user.equals(that.user) : that.user != null)
+                return false;
 
             return true;
         }
@@ -170,6 +137,4 @@ public class Team implements IBean {
             return result;
         }
     }
-
-
 }

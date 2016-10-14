@@ -3,8 +3,6 @@ package com.ifountain.opsgenie.client.model.group;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import java.util.Map;
-
 /**
  * Container for the parameters to make an update group api call.
  *
@@ -12,12 +10,24 @@ import java.util.Map;
  */
 public class UpdateGroupRequest extends AddGroupRequest {
     private String id;
+
     /**
      * Rest api uri of updating group operation.
      */
     @Override
     public String getEndPoint() {
         return "/v1/json/group";
+    }
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (id == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**
@@ -34,20 +44,10 @@ public class UpdateGroupRequest extends AddGroupRequest {
         this.id = id;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public UpdateGroupResponse createResponse() {
         return new UpdateGroupResponse();
     }

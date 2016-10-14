@@ -1,17 +1,39 @@
 package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseGetRequest;
-
-import java.util.Map;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a get group api call.
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#getGroup(GetGroupRequest)
  */
-public class GetGroupRequest extends BaseGetRequest<GetGroupResponse> {
+public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
     private String name;
+    private String id;
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when name and id are both null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (name == null && id == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME,
+                    OpsGenieClientConstants.API.ID);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /**
      * Rest api uri of getting group operation.
      */
@@ -34,20 +56,10 @@ public class GetGroupRequest extends BaseGetRequest<GetGroupResponse> {
         this.name = name;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public void _serialize(Map json) {
-        if(getName() != null){
-            json.put(OpsGenieClientConstants.API.NAME, getName());
-        }
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetGroupResponse createResponse() {
         return new GetGroupResponse();
     }

@@ -1,18 +1,11 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
-import java.util.*;
+import java.util.Date;
 
 /**
  * Heartbeat bean
  */
-public class Heartbeat implements IBean{
-    public static enum IntervalUnit {
-        minutes,
-        hours,
-        days
-    }
+public class Heartbeat extends Bean {
     private String name;
     private Date lastHeartbeat;
     private Boolean expired;
@@ -36,59 +29,43 @@ public class Heartbeat implements IBean{
         this.status = status;
     }
 
-    /*
-        * Name of heartbeat monitor
-         */
+    /**
+     * Name of heartbeat monitor
+     */
     public String getName() {
         return name;
     }
 
-    /*
-    * Sets the name of heartbeat monitor
+    /**
+     * Sets the name of heartbeat monitor
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * @deprecated
-    * User getName
-    **/
-    public String getSource() {
-        return getName();
-    }
-
-    /**
-     * @deprecated
-    * Use setName
-     **/
-    public void setSource(String source) {
-        setName(source);
-    }
-
-    /*
-    * Last heartbeat recieve time
+     * Last heartbeat recieve time
      */
     public Date getLastHeartbeat() {
         return lastHeartbeat;
     }
 
-    /*
-    * Sets last heartbeat receieve time
+    /**
+     * Sets last heartbeat receieve time
      */
     public void setLastHeartbeat(Date lastHeartbeat) {
         this.lastHeartbeat = lastHeartbeat;
     }
 
-    /*
-    * Returns true if heartbeat is expired
+    /**
+     * Returns true if heartbeat is expired
      */
-    public boolean isExpired() {
+    public Boolean isExpired() {
         return expired;
     }
 
-    /*
-    * Set expired state of heartbeat
+    /**
+     * Set expired state of heartbeat
      */
     public void setExpired(boolean expired) {
         this.expired = expired;
@@ -150,34 +127,8 @@ public class Heartbeat implements IBean{
         this.description = description;
     }
 
-
-
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.SOURCE, name);
-        json.put(OpsGenieClientConstants.API.LAST_HEARTBEAT, lastHeartbeat);
-        json.put(OpsGenieClientConstants.API.EXPIRED, expired);
-        json.put(OpsGenieClientConstants.API.ENABLED, enabled);
-        json.put(OpsGenieClientConstants.API.DESCRIPTION, description);
-        json.put(OpsGenieClientConstants.API.STATUS, status);
-        json.put(OpsGenieClientConstants.API.INTERVAL, interval);
-        json.put(OpsGenieClientConstants.API.INTERVAL_UNIT, intervalUnit != null? intervalUnit.name():null);
-        return json;
-    }
-
-    @Override
-    public void fromMap(Map resp) {
-        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        setLastHeartbeat(new Date(((Number) resp.get(OpsGenieClientConstants.API.LAST_HEARTBEAT)).longValue()));
-        setEnabled((Boolean) resp.get(OpsGenieClientConstants.API.ENABLED));
-        setDescription((String) resp.get(OpsGenieClientConstants.API.DESCRIPTION));
-        setStatus((String) resp.get(OpsGenieClientConstants.API.STATUS));
-        setExpired("Expired".equals(getStatus()));
-        setInterval(((Number) resp.get(OpsGenieClientConstants.API.INTERVAL)).intValue());
-        if(resp.containsKey(OpsGenieClientConstants.API.INTERVAL_UNIT)){
-            setIntervalUnit(IntervalUnit.valueOf((String) resp.get(OpsGenieClientConstants.API.INTERVAL_UNIT)));
-        }
+    public enum IntervalUnit {
+        minutes, hours, days
     }
 
 }

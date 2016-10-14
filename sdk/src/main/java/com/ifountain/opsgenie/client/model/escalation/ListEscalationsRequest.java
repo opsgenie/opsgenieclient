@@ -16,10 +16,10 @@ public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse>
         return "/v1/json/escalation";
     }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public ListEscalationsResponse createResponse() {
         return new ListEscalationsResponse();
     }

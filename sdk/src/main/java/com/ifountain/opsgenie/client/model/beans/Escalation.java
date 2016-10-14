@@ -1,34 +1,16 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Escalation bean
  */
-public class Escalation  implements IBean{
-    private String id;
+public class Escalation extends BeanWithId {
     private String name;
     private String team;
+    private String description;
     private List<EscalationRule> rules;
-
-    /**
-     * Id of escalation
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of escalation
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+    private Integer repeatInterval;
 
     /**
      * Name of escalation
@@ -46,6 +28,7 @@ public class Escalation  implements IBean{
 
     /**
      * Rules of escalation
+     *
      * @see EscalationRule
      */
     public List<EscalationRule> getRules() {
@@ -54,6 +37,7 @@ public class Escalation  implements IBean{
 
     /**
      * Sets the rules of escalation
+     *
      * @see EscalationRule
      */
     public void setRules(List<EscalationRule> rules) {
@@ -74,35 +58,20 @@ public class Escalation  implements IBean{
         this.team = team;
     }
 
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ID, id);
-        json.put(OpsGenieClientConstants.API.NAME, name);
-        json.put(OpsGenieClientConstants.API.TEAM, team);
-        if(rules != null){
-            List<Map> ruleMaps = new ArrayList<Map>();
-            for(EscalationRule escalationRule:rules){
-                ruleMaps.add(escalationRule.toMap());
-            }
-            json.put(OpsGenieClientConstants.API.RULES, ruleMaps);
-        }
-        return json;
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public void fromMap(Map resp) {
-        setId((String) resp.get(OpsGenieClientConstants.API.ID));
-        setName((String) resp.get(OpsGenieClientConstants.API.NAME));
-        setTeam((String) resp.get(OpsGenieClientConstants.API.TEAM));
-        List<Map> ruleMaps = (List<Map>) resp.get(OpsGenieClientConstants.API.RULES);
-        if(ruleMaps != null){
-            rules = new ArrayList<EscalationRule>();
-            for(Map ruleMap:ruleMaps){
-                EscalationRule escalationRule = new EscalationRule();
-                escalationRule.fromMap(ruleMap);
-                rules.add(escalationRule);
-            }
-        }
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public Integer getRepeatInterval() {
+        return repeatInterval;
+    }
+
+    public void setRepeatInterval(Integer repeatInterval) {
+        this.repeatInterval = repeatInterval;
+    }
+
 }

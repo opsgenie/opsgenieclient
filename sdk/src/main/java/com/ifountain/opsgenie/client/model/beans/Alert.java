@@ -1,20 +1,18 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Alert bean
  */
-public class Alert implements IBean{
-    public enum Status{
-        open,
-        closed
+public class Alert extends BeanWithId {
+    public enum Status {
+        open, closed
     }
-    private String id;
+
     private String alias;
     private String message;
     private String description;
@@ -37,15 +35,15 @@ public class Alert implements IBean{
 
     /**
      * Returns type of integration which created alert.
-     * @return
+     *
      */
     public Map<String, String> getSystemData() {
         return systemData;
     }
 
     /**
-     * Sets alert system data. System data contains system parameters such as ackTime, closeTime, integrationType, etc...
-     * @param systemData
+     * Sets alert system data. System data contains system parameters such as
+     * ackTime, closeTime, integrationType, etc...
      */
     public void setSystemData(Map<String, String> systemData) {
         this.systemData = systemData;
@@ -63,20 +61,6 @@ public class Alert implements IBean{
      */
     public void setTinyId(String tinyId) {
         this.tinyId = tinyId;
-    }
-
-    /**
-     * The id of the alert.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id of the alert.
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -222,6 +206,7 @@ public class Alert implements IBean{
     /**
      * Indicates whether the alert is seen by any recipient.
      */
+    @JsonProperty("isSeen")
     public boolean isSeen() {
         return isSeen;
     }
@@ -248,19 +233,20 @@ public class Alert implements IBean{
     }
 
     /**
-     * The user names of individuval users or group names that will receive the alert.
+     * The user names of individuval users or group names that will receive the
+     * alert.
      */
     public List<String> getRecipients() {
         return recipients;
     }
 
     /**
-     * Sets the user names of individuval users or group names that will receive the alert.
+     * Sets the user names of individuval users or group names that will receive
+     * the alert.
      */
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
     }
-
 
     /**
      * The teams names that will receive the alert.
@@ -318,55 +304,4 @@ public class Alert implements IBean{
         this.details = details;
     }
 
-    @Override
-    public Map toMap() {
-        Map json = new HashMap();
-        json.put(OpsGenieClientConstants.API.ID, getId());
-        json.put(OpsGenieClientConstants.API.RECIPIENTS, getRecipients());
-        json.put(OpsGenieClientConstants.API.TEAMS, getTeams());
-        json.put(OpsGenieClientConstants.API.MESSAGE, getMessage());
-        json.put(OpsGenieClientConstants.API.SYSTEM_DATA, getSystemData());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        json.put(OpsGenieClientConstants.API.SOURCE, getSource());
-        json.put(OpsGenieClientConstants.API.ENTITY, getEntity());
-        json.put(OpsGenieClientConstants.API.DESCRIPTION, getDescription());
-        json.put(OpsGenieClientConstants.API.TAGS, getTags());
-        json.put(OpsGenieClientConstants.API.ACTIONS, getActions());
-        json.put(OpsGenieClientConstants.API.DETAILS, getDetails());
-        json.put(OpsGenieClientConstants.API.CREATED_AT, getCreatedAt());
-        json.put(OpsGenieClientConstants.API.UPDATED_AT, getUpdatedAt());
-        json.put(OpsGenieClientConstants.API.COUNT, getCount());
-        json.put(OpsGenieClientConstants.API.IS_SEEN, isSeen());
-        json.put(OpsGenieClientConstants.API.TINY_ID, getTinyId());
-        json.put(OpsGenieClientConstants.API.STATUS, getStatus().name());
-        json.put(OpsGenieClientConstants.API.OWNER, getOwner());
-        json.put(OpsGenieClientConstants.API.ACKNOWLEDGED, isAcknowledged());
-        return json;
-    }
-
-    @Override
-    public void fromMap(Map map) {
-        setId((String) map.get(OpsGenieClientConstants.API.ID));
-        setMessage((String) map.get(OpsGenieClientConstants.API.MESSAGE));
-        setAlias((String) map.get(OpsGenieClientConstants.API.ALIAS));
-        setDescription((String) map.get(OpsGenieClientConstants.API.DESCRIPTION));
-        setSource((String) map.get(OpsGenieClientConstants.API.SOURCE));
-        setEntity((String) map.get(OpsGenieClientConstants.API.ENTITY));
-        status = Status.valueOf(((String) map.get(OpsGenieClientConstants.API.STATUS)).toLowerCase());
-        setOwner((String) map.get(OpsGenieClientConstants.API.OWNER));
-        setSystemData((Map<String, String>) map.get(OpsGenieClientConstants.API.SYSTEM_DATA));
-        setTinyId((String) map.get(OpsGenieClientConstants.API.TINY_ID));
-        setSeen((Boolean) map.get(OpsGenieClientConstants.API.IS_SEEN));
-        setAcknowledged((Boolean) map.get(OpsGenieClientConstants.API.ACKNOWLEDGED));
-        setTags((List<String>) map.get(OpsGenieClientConstants.API.TAGS));
-        setActions((List<String>) map.get(OpsGenieClientConstants.API.ACTIONS));
-        setRecipients((List<String>) map.get(OpsGenieClientConstants.API.RECIPIENTS));
-        setTeams((List<String>) map.get(OpsGenieClientConstants.API.TEAMS));
-        setDetails((Map<String, String>) map.get(OpsGenieClientConstants.API.DETAILS));
-        setCreatedAt(((Number) map.get(OpsGenieClientConstants.API.CREATED_AT)).longValue());
-        setUpdatedAt(((Number) map.get(OpsGenieClientConstants.API.UPDATED_AT)).longValue());
-        if(map.containsKey(OpsGenieClientConstants.API.COUNT)){
-            setCount(((Number) map.get(OpsGenieClientConstants.API.COUNT)).intValue());
-        }
-    }
 }

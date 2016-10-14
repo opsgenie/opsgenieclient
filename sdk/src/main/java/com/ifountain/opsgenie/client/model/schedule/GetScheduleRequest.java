@@ -1,17 +1,31 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseGetRequest;
-
-import java.util.Map;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a get schedule api call.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(GetScheduleRequest)
  */
-public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
+public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
     private String name;
+    private String id;
+
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (name == null && id == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+    }
+
     /**
      * Rest api uri of getting schedule operation.
      */
@@ -35,21 +49,26 @@ public class GetScheduleRequest extends BaseGetRequest<GetScheduleResponse> {
         this.name = name;
     }
 
-    @Override
     /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
+     * Id of object to be queried.
      */
-    public void _serialize(Map json) {
-        if(name != null){
-            json.put(OpsGenieClientConstants.API.NAME, name);
-        }
+    public String getId() {
+        return id;
     }
 
-    @Override
+    /**
+     * Sets id of object to be queried.
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public GetScheduleResponse createResponse() {
         return new GetScheduleResponse();
     }
+
 }

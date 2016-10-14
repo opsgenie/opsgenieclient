@@ -1,16 +1,11 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import java.util.Map;
 
 /**
  * Container for the parameters to make an delete schedule override api call.
  *
  * @author Sezgin Kucukkaraaslan
- * @version 12/3/2014 9:02 AM
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteScheduleOverride(DeleteScheduleOverrideRequest)
  */
 public class DeleteScheduleOverrideRequest extends BaseRequest<DeleteScheduleOverrideResponse> {
@@ -53,21 +48,11 @@ public class DeleteScheduleOverrideRequest extends BaseRequest<DeleteScheduleOve
         this.schedule = schedule;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        json.put(OpsGenieClientConstants.API.SCHEDULE, getSchedule());
-        json.put(OpsGenieClientConstants.API.ALIAS, getAlias());
-        return json;
-    }
 
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public DeleteScheduleOverrideResponse createResponse() {
         return new DeleteScheduleOverrideResponse();
     }

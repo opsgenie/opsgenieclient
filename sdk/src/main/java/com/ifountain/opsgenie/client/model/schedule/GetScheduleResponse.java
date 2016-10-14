@@ -2,20 +2,23 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Schedule;
+import org.codehaus.jackson.annotate.JsonUnwrapped;
 
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.Map;
 
 /**
  * Represents OpsGenie service response for get schedule request.
  *
- * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(com.ifountain.opsgenie.client.model.schedule.GetScheduleRequest)
+ * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(GetScheduleRequest)
  */
-public class GetScheduleResponse extends BaseResponse{
+public class GetScheduleResponse extends BaseResponse {
+    @JsonUnwrapped
     private Schedule schedule;
 
     /**
      * Details of schedule
+     *
      * @see com.ifountain.opsgenie.client.model.beans.Schedule
      */
     public Schedule getSchedule() {
@@ -24,6 +27,7 @@ public class GetScheduleResponse extends BaseResponse{
 
     /**
      * Sets details of schedule
+     *
      * @see com.ifountain.opsgenie.client.model.beans.Schedule
      */
     public void setSchedule(Schedule schedule) {
@@ -31,9 +35,8 @@ public class GetScheduleResponse extends BaseResponse{
     }
 
     @Override
-    public void deserialize(Map data) throws ParseException {
-        super.deserialize(data);
-        schedule = new Schedule();
-        schedule.fromMap(data);
+    public void fromJson(String json) throws IOException, ParseException {
+        super.fromJson(json);
+        schedule.setTime();
     }
 }

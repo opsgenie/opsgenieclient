@@ -1,12 +1,10 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.User;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -17,10 +15,11 @@ import java.util.TimeZone;
 public class AddUserRequest extends BaseRequest<AddUserResponse> {
     private String username;
     private String fullname;
+    private String skypeUsername;
+    @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
     private User.Role role;
-
 
     /**
      * Rest api uri of addding user operation.
@@ -88,6 +87,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
 
     /**
      * Role of user
+     *
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
     public User.Role getRole() {
@@ -96,41 +96,26 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
 
     /**
      * Sets role of user
+     *
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
     public void setRole(User.Role role) {
         this.role = role;
     }
 
-    @Override
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#serialize()
-     */
-    public Map serialize() throws OpsGenieClientValidationException {
-        Map json = super.serialize();
-        if(getUsername() != null){
-            json.put(OpsGenieClientConstants.API.USERNAME, getUsername());
-        }
-        if(getFullname() != null){
-            json.put(OpsGenieClientConstants.API.FULLNAME, getFullname());
-        }
-        if(getRole() != null){
-            json.put(OpsGenieClientConstants.API.ROLE, getRole().name());
-        }
-        if(getTimeZone() != null){
-            json.put(OpsGenieClientConstants.API.TIMEZONE, getTimeZone().getID());
-        }
-        if(getLocale() != null){
-            json.put(OpsGenieClientConstants.API.LOCALE, User.getLocaleId(getLocale()));
-        }
-        return json;
-    }
-
-    @Override
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
+    @Override
     public AddUserResponse createResponse() {
         return new AddUserResponse();
+    }
+
+    public String getSkypeUsername() {
+        return skypeUsername;
+    }
+
+    public void setSkypeUsername(String skypeUsername) {
+        this.skypeUsername = skypeUsername;
     }
 }
