@@ -17,9 +17,6 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Sezgin Kucukkaraaslan
- */
 public abstract class AbstractOpsGenieHttpClient {
     protected Log log;
     /**

@@ -3,7 +3,8 @@ package com.ifountain.opsgenie.client.model.beans;
 import java.util.List;
 
 /**
- * Team Bean
+ * @author Sezgin Kucukkaraaslan
+ * @version 12/3/2014 12:15 PM
  */
 public class Team extends BeanWithId {
     private String name;

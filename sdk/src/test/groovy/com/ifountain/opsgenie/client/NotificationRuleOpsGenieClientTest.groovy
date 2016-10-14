@@ -16,9 +16,7 @@ import org.junit.Test
 import static org.junit.Assert.*
 
 /**
- * Created by MEHMET MUSTAFA DEMİR
- * Date: 7/29/16
- * Time: 11:49 AM
+ * @author Mehmet Mustafa Demir
  */
 class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 

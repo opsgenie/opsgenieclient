@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make a count alerts api call.
  *
- * @author Sezgin Kucukkaraaslan
+ * @author Veli Burak Celen
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
  */
 public class CountAlertsRequest extends AlertsRequest<CountAlertsResponse> {

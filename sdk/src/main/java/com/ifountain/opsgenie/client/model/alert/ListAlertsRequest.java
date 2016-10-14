@@ -5,7 +5,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Container for the parameters to make a list alerts api call.
  *
- * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
  */
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {

@@ -18,9 +18,7 @@ import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/31/12
- * Time: 11:09 AM
+ * @author Sezgin Kucukkaraaslan
  */
 public class OpsGenieClientTestCase implements HttpTestRequestListener {
     static host = "localhost"

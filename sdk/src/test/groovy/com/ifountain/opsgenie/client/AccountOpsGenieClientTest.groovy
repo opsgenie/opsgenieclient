@@ -11,9 +11,7 @@ import org.junit.Test
 import static org.junit.Assert.assertEquals
 
 /**
- * Created by MEHMET MUSTAFA DEMİR
- * Date: 7/29/16
- * Time: 10:39 AM
+ * @author Mehmet Mustafa Demir
  */
 class AccountOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 

@@ -17,6 +17,7 @@ public class OpsGenieHttpResponse {
     public byte[] getContent() {
         return content;
     }
+
     public String getContentAsString() {
         return new String(content);
     }

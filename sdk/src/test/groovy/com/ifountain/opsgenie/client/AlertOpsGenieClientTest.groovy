@@ -25,9 +25,7 @@ import java.text.SimpleDateFormat
 import static org.junit.Assert.*
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/31/12
- * Time: 11:09 AM
+ * @author Sezgin Kucukkaraaslan
  */
 class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
     @Test
