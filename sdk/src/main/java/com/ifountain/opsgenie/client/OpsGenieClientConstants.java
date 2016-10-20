@@ -183,7 +183,7 @@ public interface OpsGenieClientConstants {
         String EMAIL = "email";
         String VOICE = "voice";
         String SMS = "sms";
-        String MOBILE_APP = "Mobile App";
+        String MOBILE_APP = "mobile";
 
         //Day of Week Enum
         String SUNDAY = "SUNDAY";
