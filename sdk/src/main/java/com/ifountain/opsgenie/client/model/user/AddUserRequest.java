@@ -39,9 +39,8 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     /**
      * Sets username of user
      */
-    public AddUserRequest setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
 
     /**
@@ -54,9 +53,8 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     /**
      * Sets fullname of user
      */
-    public AddUserRequest setFullname(String fullname) {
+    public void setFullname(String fullname) {
         this.fullname = fullname;
-        return this;
     }
 
     /**
@@ -69,9 +67,8 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     /**
      * Sets timezone of user
      */
-    public AddUserRequest setTimeZone(TimeZone timeZone) {
+    public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
-        return this;
     }
 
     /**
@@ -84,9 +81,8 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     /**
      * Sets locale of user
      */
-    public AddUserRequest setLocale(Locale locale) {
+    public void setLocale(Locale locale) {
         this.locale = locale;
-        return this;
     }
 
     /**
@@ -103,9 +99,8 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
      *
      * @see com.ifountain.opsgenie.client.model.beans.User.Role
      */
-    public AddUserRequest setRole(User.Role role) {
+    public void setRole(User.Role role) {
         this.role = role;
-        return this;
     }
 
     /**
@@ -120,8 +115,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
         return skypeUsername;
     }
 
-    public AddUserRequest setSkypeUsername(String skypeUsername) {
+    public void setSkypeUsername(String skypeUsername) {
         this.skypeUsername = skypeUsername;
-        return this;
     }
 }
