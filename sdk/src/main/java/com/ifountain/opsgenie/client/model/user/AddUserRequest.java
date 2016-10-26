@@ -2,6 +2,9 @@ package com.ifountain.opsgenie.client.model.user;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.User;
+import com.ifountain.opsgenie.client.model.beans.UserRole;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Locale;
@@ -19,7 +22,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
-    private User.Role role;
+    private UserRole role;
 
     /**
      * Rest api uri of addding user operation.
@@ -86,20 +89,57 @@ public class AddUserRequest extends BaseRequest<AddUserResponse> {
     }
 
     /**
+     * @deprecated Use getUserRole
+     */
+    @JsonIgnore
+    @Deprecated
+    public User.Role getRole() {
+
+        if (role == null) {
+            return null;
+        }
+        return User.Role.fromName(role.getName());
+    }
+
+    /**
+     * @throws UnsupportedOperationException when role is custom. Please use setUserRole() for
+     *                                       custom roles.
+     * @deprecated Use setUserRole
+     */
+    @JsonIgnore
+    @Deprecated
+    public void setRole(User.Role role) {
+        if (role != null) {
+            if (role == User.Role.admin) {
+                this.role = UserRole.ADMIN;
+            } else if (role == User.Role.owner) {
+                this.role = UserRole.OWNER;
+            } else if (role == User.Role.user) {
+                this.role = UserRole.USER;
+            } else {
+                throw new UnsupportedOperationException("custom role does not supported by Role enum. Use setUserRole() for custom roles.");
+            }
+        } else {
+            this.role = null;
+        }
+    }
+
+    /**
      * Role of user
      *
-     * @see com.ifountain.opsgenie.client.model.beans.User.Role
+     * @see com.ifountain.opsgenie.client.model.beans.UserRole
      */
-    public User.Role getRole() {
+    @JsonProperty("role")
+    public UserRole getUserRole() {
         return role;
     }
 
     /**
      * Sets role of user
      *
-     * @see com.ifountain.opsgenie.client.model.beans.User.Role
+     * @see com.ifountain.opsgenie.client.model.beans.UserRole
      */
-    public void setRole(User.Role role) {
+    public void setUserRole(UserRole role) {
         this.role = role;
     }
 

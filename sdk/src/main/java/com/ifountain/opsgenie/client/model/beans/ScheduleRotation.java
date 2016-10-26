@@ -12,7 +12,7 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
     private Date startDate;
     private Date endDate;
     private RotationType rotationType;
-    private int rotationLength;
+    private Integer rotationLength;
     private List<ScheduleParticipant> participants;
     private List<ScheduleRotationRestriction> restrictions;
     private TimeZone scheduleTimeZone;
@@ -70,14 +70,14 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
     /**
      * Rotation length of schedule rotation
      */
-    public int getRotationLength() {
+    public Integer getRotationLength() {
         return rotationLength;
     }
 
     /**
      * Sets rotation length of schedule rotation
      */
-    public void setRotationLength(int rotationLength) {
+    public void setRotationLength(Integer rotationLength) {
         this.rotationLength = rotationLength;
     }
 
