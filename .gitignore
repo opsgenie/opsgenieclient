@@ -8,7 +8,6 @@ gradle-app.setting
 .classpath
 .project
 .settings
-Test.properties
 
 testlogfile
 log.txt
