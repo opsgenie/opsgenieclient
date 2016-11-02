@@ -1,9 +1,15 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * ScheduleRotation bean
@@ -152,6 +158,46 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
     @Override
     public TimeZone getObjectTimeZone() {
         return scheduleTimeZone;
+    }
+
+    public ScheduleRotation withStartDate(Date startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public ScheduleRotation withEndDate(Date endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public ScheduleRotation withRotationType(RotationType rotationType) {
+        this.rotationType = rotationType;
+        return this;
+    }
+
+    public ScheduleRotation withRotationLength(Integer rotationLength) {
+        this.rotationLength = rotationLength;
+        return this;
+    }
+
+    public ScheduleRotation withParticipants(List<ScheduleParticipant> participants) {
+        this.participants = participants;
+        return this;
+    }
+
+    public ScheduleRotation withRestrictions(List<ScheduleRotationRestriction> restrictions) {
+        this.restrictions = restrictions;
+        return this;
+    }
+
+    public ScheduleRotation withScheduleTimeZone(TimeZone scheduleTimeZone) {
+        this.scheduleTimeZone = scheduleTimeZone;
+        return this;
+    }
+
+    public ScheduleRotation withName(String name) {
+        this.name = name;
+        return this;
     }
 
     public enum RotationType {

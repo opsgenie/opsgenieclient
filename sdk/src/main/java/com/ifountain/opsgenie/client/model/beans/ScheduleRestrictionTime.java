@@ -50,4 +50,16 @@ public class ScheduleRestrictionTime {
         this.minute = minute;
     }
 
+
+    public ScheduleRestrictionTime withHour(int hour) {
+        this.hour = hour;
+        return this;
+    }
+
+    public ScheduleRestrictionTime withMinute(int minute) {
+        this.minute = minute;
+        return this;
+    }
+
+
 }

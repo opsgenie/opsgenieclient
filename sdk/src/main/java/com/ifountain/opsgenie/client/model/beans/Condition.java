@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
@@ -44,6 +45,26 @@ public class Condition extends Bean {
 
     public void setOperation(Operation operation) {
         this.operation = operation;
+    }
+
+    public Condition withNot(Boolean not) {
+        this.not = not;
+        return this;
+    }
+
+    public Condition withField(Field field) {
+        this.field = field;
+        return this;
+    }
+
+    public Condition withExpectedValue(String expectedValue) {
+        this.expectedValue = expectedValue;
+        return this;
+    }
+
+    public Condition withOperation(Operation operation) {
+        this.operation = operation;
+        return this;
     }
 
     public enum Field {

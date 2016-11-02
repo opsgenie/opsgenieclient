@@ -93,6 +93,31 @@ public class EscalationRule extends Bean {
         this.notifyCondition = notifyCondition;
     }
 
+    public EscalationRule withNotify(String notify) {
+        this.notify = notify;
+        return this;
+    }
+
+    public EscalationRule withNotifyType(NotifyType notifyType) {
+        this.notifyType = notifyType;
+        return this;
+    }
+
+    public EscalationRule withNotifyCondition(NotifyCondition notifyCondition) {
+        this.notifyCondition = notifyCondition;
+        return this;
+    }
+
+    public EscalationRule withType(Type type) {
+        this.type = type;
+        return this;
+    }
+
+    public EscalationRule withDelay(int delay) {
+        this.delay = delay;
+        return this;
+    }
+
     public enum Type {
         user, group, schedule, team
     }
@@ -152,4 +177,5 @@ public class EscalationRule extends Bean {
             return value;
         }
     }
+
 }

@@ -50,4 +50,21 @@ public class TeamLog extends Bean {
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
+
+
+    public TeamLog withLog(String log) {
+        this.log = log;
+        return this;
+    }
+
+    public TeamLog withOwner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    public TeamLog withCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
 }

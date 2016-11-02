@@ -9,10 +9,6 @@ import java.util.Map;
  * Alert bean
  */
 public class Alert extends BeanWithId {
-    public enum Status {
-        open, closed
-    }
-
     private String alias;
     private String message;
     private String description;
@@ -35,7 +31,6 @@ public class Alert extends BeanWithId {
 
     /**
      * Returns type of integration which created alert.
-     *
      */
     public Map<String, String> getSystemData() {
         return systemData;
@@ -304,4 +299,97 @@ public class Alert extends BeanWithId {
         this.details = details;
     }
 
+    public Alert withAlias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    public Alert withMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public Alert withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Alert withSource(String source) {
+        this.source = source;
+        return this;
+    }
+
+    public Alert withEntity(String entity) {
+        this.entity = entity;
+        return this;
+    }
+
+    public Alert withSystemData(Map<String, String> systemData) {
+        this.systemData = systemData;
+        return this;
+    }
+
+    public Alert withTinyId(String tinyId) {
+        this.tinyId = tinyId;
+        return this;
+    }
+
+    public Alert withStatus(Alert.Status status) {
+        this.status = status;
+        return this;
+    }
+
+    public Alert withOwner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    public Alert withCount(int count) {
+        this.count = count;
+        return this;
+    }
+
+    public Alert withCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Alert withUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
+    public Alert withAcknowledged(boolean acknowledged) {
+        this.acknowledged = acknowledged;
+        return this;
+    }
+
+    public Alert withRecipients(List<String> recipients) {
+        this.recipients = recipients;
+        return this;
+    }
+
+    public Alert withTeams(List<String> teams) {
+        this.teams = teams;
+        return this;
+    }
+
+    public Alert withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public Alert withActions(List<String> actions) {
+        this.actions = actions;
+        return this;
+    }
+
+    public Alert withDetails(Map<String, String> details) {
+        this.details = details;
+        return this;
+    }
+
+    public enum Status {
+        open, closed
+    }
 }

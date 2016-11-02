@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.text.ParseException;
@@ -130,4 +131,36 @@ public class ScheduleOverride extends Bean implements ConvertFromTimeZone {
     public TimeZone getObjectTimeZone() {
         return timeZone;
     }
+
+
+    public ScheduleOverride withAlias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    public ScheduleOverride withUser(String user) {
+        this.user = user;
+        return this;
+    }
+
+    public ScheduleOverride withStartDate(Date startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public ScheduleOverride withEndDate(Date endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public ScheduleOverride withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public ScheduleOverride withRotationIds(List<String> rotationIds) {
+        this.rotationIds = rotationIds;
+        return this;
+    }
+
 }

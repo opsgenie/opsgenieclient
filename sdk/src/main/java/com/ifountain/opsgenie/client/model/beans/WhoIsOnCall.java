@@ -66,4 +66,35 @@ public class WhoIsOnCall extends BaseWhoIsOnCall {
     public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
+
+    public WhoIsOnCall withParticipants(List<WhoIsOnCall> participants) {
+        this.participants = participants;
+        return this;
+    }
+
+    public WhoIsOnCall withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public WhoIsOnCall withForwarded(Boolean forwarded) {
+        this.forwarded = forwarded;
+        return this;
+    }
+
+    public WhoIsOnCall withForwardedFrom(WhoIsOnCall forwardedFrom) {
+        this.forwardedFrom = forwardedFrom;
+        return this;
+    }
+
+    public WhoIsOnCall withEscalationTime(Integer escalationTime) {
+        this.escalationTime = escalationTime;
+        return this;
+    }
+
+    public WhoIsOnCall withNotifyType(String notifyType) {
+        this.notifyType = notifyType;
+        return this;
+    }
+
 }

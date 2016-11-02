@@ -97,4 +97,35 @@ public class Restriction extends Bean {
         this.endDay = endDay;
     }
 
+
+    public Restriction withEndHour(Integer endHour) {
+        this.endHour = endHour;
+        return this;
+    }
+
+    public Restriction withEndMinute(Integer endMinute) {
+        this.endMinute = endMinute;
+        return this;
+    }
+
+    public Restriction withStartHour(Integer startHour) {
+        this.startHour = startHour;
+        return this;
+    }
+
+    public Restriction withStartMinute(Integer startMinute) {
+        this.startMinute = startMinute;
+        return this;
+    }
+
+    public Restriction withStartDay(DAY startDay) {
+        this.startDay = startDay;
+        return this;
+    }
+
+    public Restriction withEndDay(DAY endDay) {
+        this.endDay = endDay;
+        return this;
+    }
+
 }

@@ -74,4 +74,29 @@ public class Escalation extends BeanWithId {
         this.repeatInterval = repeatInterval;
     }
 
+    public Escalation withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Escalation withTeam(String team) {
+        this.team = team;
+        return this;
+    }
+
+    public Escalation withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Escalation withRules(List<EscalationRule> rules) {
+        this.rules = rules;
+        return this;
+    }
+
+    public Escalation withRepeatInterval(Integer repeatInterval) {
+        this.repeatInterval = repeatInterval;
+        return this;
+    }
+
 }

@@ -8,21 +8,21 @@ public class Account extends Bean {
     private String name;
     private Plan plan;
 
-	public Integer getUserCount() {
-		return userCount;
-	}
+    public Integer getUserCount() {
+        return userCount;
+    }
 
-	public void setUserCount(Integer userCount) {
-		this.userCount = userCount;
-	}
+    public void setUserCount(Integer userCount) {
+        this.userCount = userCount;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Plan getPlan() {
         return plan;
@@ -30,5 +30,20 @@ public class Account extends Bean {
 
     public void setPlan(Plan plan) {
         this.plan = plan;
+    }
+
+    public Account withUserCount(Integer userCount) {
+        this.userCount = userCount;
+        return this;
+    }
+
+    public Account withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Account withPlan(Plan plan) {
+        this.plan = plan;
+        return this;
     }
 }

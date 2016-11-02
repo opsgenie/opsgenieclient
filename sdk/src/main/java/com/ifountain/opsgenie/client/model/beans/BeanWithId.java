@@ -19,4 +19,9 @@ public abstract class BeanWithId extends Bean {
     public void setId(String id) {
         this.id = id;
     }
+
+    public BeanWithId withId(String id) {
+        this.id = id;
+        return this;
+    }
 }

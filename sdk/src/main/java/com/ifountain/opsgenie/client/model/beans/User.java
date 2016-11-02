@@ -277,6 +277,61 @@ public class User extends BeanWithId {
         this.skypeUsername = skypeUsername;
     }
 
+    public User withUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public User withState(State state) {
+        this.state = state;
+        return this;
+    }
+
+    public User withFullname(String fullname) {
+        this.fullname = fullname;
+        return this;
+    }
+
+    public User withSkypeUsername(String skypeUsername) {
+        this.skypeUsername = skypeUsername;
+        return this;
+    }
+
+    public User withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public User withLocale(Locale locale) {
+        this.locale = locale;
+        return this;
+    }
+
+    public User withRole(UserRole role) {
+        this.role = role;
+        return this;
+    }
+
+    public User withGroups(List<String> groups) {
+        this.groups = groups;
+        return this;
+    }
+
+    public User withEscalations(List<String> escalations) {
+        this.escalations = escalations;
+        return this;
+    }
+
+    public User withSchedules(List<String> schedules) {
+        this.schedules = schedules;
+        return this;
+    }
+
+    public User withContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+        return this;
+    }
+
     /**
      * Role enum is deprecated in order to give support to custom roles
      * Please use UserRole class

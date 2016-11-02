@@ -8,6 +8,10 @@ public class AlertNote extends Bean {
     private String note;
     private long createdAt;
 
+    public static com.ifountain.opsgenie.client.model.beans.AlertNote anAlertNote() {
+        return new com.ifountain.opsgenie.client.model.beans.AlertNote();
+    }
+
     /**
      * @return Owner of the comment
      */
@@ -50,4 +54,18 @@ public class AlertNote extends Bean {
         this.createdAt = createdAt;
     }
 
+    public AlertNote withOwner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    public AlertNote withNote(String note) {
+        this.note = note;
+        return this;
+    }
+
+    public AlertNote withCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
 }

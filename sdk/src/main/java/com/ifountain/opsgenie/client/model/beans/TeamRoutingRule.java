@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.util.RestrictionDeserializer;
 import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
+
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -76,6 +77,41 @@ public class TeamRoutingRule extends BeanWithId {
 
     public void setNotify(TeamRoutingRuleNotify notify) {
         this.notify = notify;
+    }
+
+    public TeamRoutingRule withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public TeamRoutingRule withConditionMatchType(ConditionMatchType conditionMatchType) {
+        this.conditionMatchType = conditionMatchType;
+        return this;
+    }
+
+    public TeamRoutingRule withConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public TeamRoutingRule withApplyOrder(Integer applyOrder) {
+        this.applyOrder = applyOrder;
+        return this;
+    }
+
+    public TeamRoutingRule withIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+        return this;
+    }
+
+    public TeamRoutingRule withNotify(TeamRoutingRuleNotify notify) {
+        this.notify = notify;
+        return this;
+    }
+
+    public TeamRoutingRule withRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+        return this;
     }
 
     public static class TeamRoutingRuleNotify extends Bean {

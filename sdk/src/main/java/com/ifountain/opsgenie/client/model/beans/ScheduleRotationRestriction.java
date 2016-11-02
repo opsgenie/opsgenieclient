@@ -12,6 +12,7 @@ public class ScheduleRotationRestriction extends Bean {
     private DAY endDay;
     private ScheduleRestrictionTime startTime;
     private ScheduleRestrictionTime endTime;
+
     public ScheduleRotationRestriction() {
         super();
         startTime = new ScheduleRestrictionTime();
@@ -152,6 +153,26 @@ public class ScheduleRotationRestriction extends Bean {
 
     public void setEndTime(ScheduleRestrictionTime endTime) {
         this.endTime = endTime;
+    }
+
+    public ScheduleRotationRestriction withStartDay(DAY startDay) {
+        this.startDay = startDay;
+        return this;
+    }
+
+    public ScheduleRotationRestriction withEndDay(DAY endDay) {
+        this.endDay = endDay;
+        return this;
+    }
+
+    public ScheduleRotationRestriction withStartTime(ScheduleRestrictionTime startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public ScheduleRotationRestriction withEndTime(ScheduleRestrictionTime endTime) {
+        this.endTime = endTime;
+        return this;
     }
 
     public enum DAY {

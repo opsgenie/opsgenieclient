@@ -43,4 +43,25 @@ public class NotificationRuleStep extends BeanWithId {
         this.sendAfter = sendAfter;
     }
 
+
+    public NotificationRuleStep withMethod(Method method) {
+        this.method = method;
+        return this;
+    }
+
+    public NotificationRuleStep withTo(String to) {
+        this.to = to;
+        return this;
+    }
+
+    public NotificationRuleStep withSendAfter(Integer sendAfter) {
+        this.sendAfter = sendAfter;
+        return this;
+    }
+
+    public NotificationRuleStep withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
 }

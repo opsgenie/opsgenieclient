@@ -65,4 +65,23 @@ public class AlertLog extends Bean {
         this.createdAt = createdAt;
     }
 
+    public AlertLog withLog(String log) {
+        this.log = log;
+        return this;
+    }
+
+    public AlertLog withOwner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    public AlertLog withLogType(String logType) {
+        this.logType = logType;
+        return this;
+    }
+
+    public AlertLog withCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
 }

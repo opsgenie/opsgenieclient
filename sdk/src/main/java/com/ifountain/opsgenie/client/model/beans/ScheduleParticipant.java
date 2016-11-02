@@ -39,6 +39,16 @@ public class ScheduleParticipant extends Bean {
         return type;
     }
 
+    public ScheduleParticipant withParticipant(String participant) {
+        this.participant = participant;
+        return this;
+    }
+
+    public ScheduleParticipant withType(Type type) {
+        this.type = type;
+        return this;
+    }
+
     public enum Type {
         user, group, escalation, schedule, team
     }

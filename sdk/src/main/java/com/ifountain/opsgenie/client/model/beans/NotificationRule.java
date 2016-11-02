@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.util.RestrictionDeserializer;
 import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -117,6 +118,61 @@ public class NotificationRule extends BeanWithId {
 
     public void setNotifyBefore(List<NotifyBefore> notifyBefore) {
         this.notifyBefore = notifyBefore;
+    }
+
+    public NotificationRule withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public NotificationRule withApplyOrder(Integer applyOrder) {
+        this.applyOrder = applyOrder;
+        return this;
+    }
+
+    public NotificationRule withActionType(ActionType actionType) {
+        this.actionType = actionType;
+        return this;
+    }
+
+    public NotificationRule withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public NotificationRule withConditionMatchType(ConditionMatchType conditionMatchType) {
+        this.conditionMatchType = conditionMatchType;
+        return this;
+    }
+
+    public NotificationRule withLoopAfter(Integer loopAfter) {
+        this.loopAfter = loopAfter;
+        return this;
+    }
+
+    public NotificationRule withSteps(List<NotificationRuleStep> steps) {
+        this.steps = steps;
+        return this;
+    }
+
+    public NotificationRule withConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public NotificationRule withSchedules(List<String> schedules) {
+        this.schedules = schedules;
+        return this;
+    }
+
+    public NotificationRule withNotifyBefore(List<NotifyBefore> notifyBefore) {
+        this.notifyBefore = notifyBefore;
+        return this;
+    }
+
+    public NotificationRule withRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+        return this;
     }
 
     public enum ActionType {

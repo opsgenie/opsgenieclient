@@ -65,6 +65,31 @@ public class Team extends BeanWithId {
         this.description = description;
     }
 
+    public Team withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Team withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Team withMembers(List<TeamMember> members) {
+        this.members = members;
+        return this;
+    }
+
+    public Team withEscalations(List<String> escalations) {
+        this.escalations = escalations;
+        return this;
+    }
+
+    public Team withSchedules(List<String> schedules) {
+        this.schedules = schedules;
+        return this;
+    }
+
     public static class TeamMember extends Bean {
         private String user;
         private Role role;
@@ -109,10 +134,6 @@ public class Team extends BeanWithId {
             this.role = role;
         }
 
-        public enum Role {
-            admin, user
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o)
@@ -136,5 +157,10 @@ public class Team extends BeanWithId {
             result = 31 * result + (role != null ? role.hashCode() : 0);
             return result;
         }
+
+        public enum Role {
+            admin, user
+        }
     }
+
 }

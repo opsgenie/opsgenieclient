@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
@@ -46,6 +47,26 @@ public class Contact extends BeanWithId {
         this.disabledReason = disabledReason;
     }
 
+    public Contact withMethod(Method method) {
+        this.method = method;
+        return this;
+    }
+
+    public Contact withTo(String to) {
+        this.to = to;
+        return this;
+    }
+
+    public Contact withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public Contact withDisabledReason(String disabledReason) {
+        this.disabledReason = disabledReason;
+        return this;
+    }
+
     public enum Method {
         EMAIL(OpsGenieClientConstants.API.EMAIL), SMS(OpsGenieClientConstants.API.SMS),
         VOICE(OpsGenieClientConstants.API.VOICE),
@@ -70,5 +91,4 @@ public class Contact extends BeanWithId {
             return value;
         }
     }
-
 }

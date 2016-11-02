@@ -35,4 +35,21 @@ public abstract class BaseWhoIsOnCall extends Bean {
     public String getType() {
         return type;
     }
+
+
+    public BaseWhoIsOnCall withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public BaseWhoIsOnCall withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public BaseWhoIsOnCall withType(String type) {
+        this.type = type;
+        return this;
+    }
+
 }

@@ -65,4 +65,24 @@ public class AlertRecipient extends Bean {
         this.method = method;
     }
 
+    public AlertRecipient withUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public AlertRecipient withState(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public AlertRecipient withStateChangedAt(long stateChangedAt) {
+        this.stateChangedAt = stateChangedAt;
+        return this;
+    }
+
+    public AlertRecipient withMethod(String method) {
+        this.method = method;
+        return this;
+    }
+
 }

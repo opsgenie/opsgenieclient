@@ -22,4 +22,9 @@ public class FlatWhoIsOnCall extends BaseWhoIsOnCall {
         this.recipients = recipients;
     }
 
+    public FlatWhoIsOnCall withRecipients(List<String> recipients) {
+        this.recipients = recipients;
+        return this;
+    }
+
 }

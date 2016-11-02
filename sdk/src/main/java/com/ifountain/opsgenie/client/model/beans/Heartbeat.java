@@ -127,6 +127,46 @@ public class Heartbeat extends Bean {
         this.description = description;
     }
 
+    public Heartbeat withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Heartbeat withLastHeartbeat(Date lastHeartbeat) {
+        this.lastHeartbeat = lastHeartbeat;
+        return this;
+    }
+
+    public Heartbeat withExpired(Boolean expired) {
+        this.expired = expired;
+        return this;
+    }
+
+    public Heartbeat withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public Heartbeat withStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public Heartbeat withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Heartbeat withInterval(Integer interval) {
+        this.interval = interval;
+        return this;
+    }
+
+    public Heartbeat withIntervalUnit(IntervalUnit intervalUnit) {
+        this.intervalUnit = intervalUnit;
+        return this;
+    }
+
     public enum IntervalUnit {
         minutes, hours, days
     }

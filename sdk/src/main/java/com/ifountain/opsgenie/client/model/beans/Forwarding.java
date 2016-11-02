@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.text.ParseException;
@@ -128,4 +129,35 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     public TimeZone getObjectTimeZone() {
         return timeZone;
     }
+
+    public Forwarding withAlias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    public Forwarding withFromUser(String fromUser) {
+        this.fromUser = fromUser;
+        return this;
+    }
+
+    public Forwarding withToUser(String toUser) {
+        this.toUser = toUser;
+        return this;
+    }
+
+    public Forwarding withStartDate(Date startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public Forwarding withEndDate(Date endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public Forwarding withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
 }

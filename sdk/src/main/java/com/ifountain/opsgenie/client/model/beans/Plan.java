@@ -28,5 +28,20 @@ public class Plan extends Bean {
     public void setMaxUserCount(Integer maxUserCount) {
         this.maxUserCount = maxUserCount;
     }
+    
+    public Plan withIsYearly(Boolean isYearly) {
+        this.isYearly = isYearly;
+        return this;
+    }
+
+    public Plan withMaxUserCount(Integer maxUserCount) {
+        this.maxUserCount = maxUserCount;
+        return this;
+    }
+
+    public Plan withName(String name) {
+        this.name = name;
+        return this;
+    }
 
 }
