@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonValue;
  * UserRole bean Users can use standard roles (admin-owner-user) or they can create their own custom
  * roles with constructor
  *
- * @author Mehmet Mustafa Demir <mehmetdemircs@gmail.com>
+ * @author Mehmet Mustafa Demir
  */
 public final class UserRole extends Bean {
     public static final UserRole ADMIN = new UserRole("admin");
