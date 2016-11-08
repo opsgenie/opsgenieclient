@@ -9,9 +9,9 @@ import org.codehaus.jackson.annotate.JsonValue;
  * @author Mehmet Mustafa Demir
  */
 public final class UserRole extends Bean {
-    public static final UserRole ADMIN = new UserRole("admin");
-    public static final UserRole OWNER = new UserRole("owner");
-    public static final UserRole USER = new UserRole("user");
+    public static final UserRole ADMIN = new UserRole("Admin");
+    public static final UserRole OWNER = new UserRole("Owner");
+    public static final UserRole USER = new UserRole("User");
 
     private String name;
 

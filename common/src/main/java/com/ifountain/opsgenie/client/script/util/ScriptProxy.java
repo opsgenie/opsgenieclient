@@ -549,7 +549,7 @@ public class ScriptProxy {
         JsonUtils.fromMap(user, params);
         request.setUsername(user.getUsername());
         request.setFullname(user.getFullname());
-        request.setRole(user.getRole());
+        request.setUserRole(user.getUserRole());
         request.setTimeZone(user.getTimeZone());
         request.setLocale(user.getLocale());
 
@@ -591,7 +591,7 @@ public class ScriptProxy {
         JsonUtils.fromMap(user, params);
         request.setId(user.getId());
         request.setFullname(user.getFullname());
-        request.setRole(user.getRole());
+        request.setUserRole(user.getUserRole());
         request.setTimeZone(user.getTimeZone());
         request.setLocale(user.getLocale());
 

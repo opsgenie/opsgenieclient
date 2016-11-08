@@ -38,6 +38,7 @@ public class User extends BeanWithId {
     private List<String> escalations;
     private List<String> schedules;
     private List<Contact> contacts;
+    private Long createdAt;
 
     public static String getLocaleId(Locale locale) {
         return locale.toString();
@@ -330,6 +331,14 @@ public class User extends BeanWithId {
     public User withContacts(List<Contact> contacts) {
         this.contacts = contacts;
         return this;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 
     /**
