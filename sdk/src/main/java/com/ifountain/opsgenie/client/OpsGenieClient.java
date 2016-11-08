@@ -127,7 +127,9 @@ public class OpsGenieClient implements IOpsGenieClient {
 
     /**
      * @see com.ifountain.opsgenie.client.IOpsGenieClient#group()
+     * groups are deprecated
      */
+    @Deprecated
     public IGroupOpsGenieClient group() {
         return innerGroupOpsGenieClient;
     }

@@ -6,9 +6,11 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for get group request.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#getGroup(com.ifountain.opsgenie.client.model.group.GetGroupRequest)
  */
+@Deprecated
 public class GetGroupResponse extends BaseResponse {
     @JsonUnwrapped
     private Group group;

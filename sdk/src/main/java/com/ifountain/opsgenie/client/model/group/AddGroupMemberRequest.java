@@ -2,15 +2,18 @@ package com.ifountain.opsgenie.client.model.group;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.util.Strings;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
 /**
  * Container for the parameters to make an add group api call.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroupMember(AddGroupMemberRequest)
  */
+@Deprecated
 public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
     private String id;
     private String name;

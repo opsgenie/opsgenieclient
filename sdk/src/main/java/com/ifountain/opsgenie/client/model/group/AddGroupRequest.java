@@ -6,9 +6,11 @@ import java.util.List;
 
 /**
  * Container for the parameters to make an add group api call.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroup(com.ifountain.opsgenie.client.model.group.AddGroupRequest)
  */
+@Deprecated
 public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
     private String name;
     private List<String> users;

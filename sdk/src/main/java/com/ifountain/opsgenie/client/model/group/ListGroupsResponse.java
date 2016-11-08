@@ -7,9 +7,11 @@ import java.util.List;
 
 /**
  * Represents OpsGenie service response for list group request.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
+@Deprecated
 public class ListGroupsResponse extends BaseResponse {
     private List<Group> groups;
 

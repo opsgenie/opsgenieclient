@@ -4,9 +4,11 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a delete group api call.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroup(com.ifountain.opsgenie.client.model.group.DeleteGroupRequest)
  */
+@Deprecated
 public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {
     private String id;
     private String name;

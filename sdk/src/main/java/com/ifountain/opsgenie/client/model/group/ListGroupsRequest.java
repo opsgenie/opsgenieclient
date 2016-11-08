@@ -4,9 +4,11 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a list groups api call.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
+@Deprecated
 public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {
     /**
      * Rest api uri of listing groups operation.

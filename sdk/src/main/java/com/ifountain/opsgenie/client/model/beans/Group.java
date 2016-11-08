@@ -4,7 +4,9 @@ import java.util.List;
 
 /**
  * Group bean
+ * groups are deprecated
  */
+@Deprecated
 public class Group extends BeanWithId {
     private String name;
     private List<String> users;

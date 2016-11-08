@@ -6,9 +6,11 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
  * Container for the parameters to make a get group api call.
+ * groups are deprecated
  *
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#getGroup(GetGroupRequest)
  */
+@Deprecated
 public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
     private String name;
     private String id;

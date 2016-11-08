@@ -8,10 +8,12 @@ import java.text.ParseException;
 /**
  * Interface for accessing OpsGenie for group related operations
  *
+ * groups are deprecated
  * @author Sezgin Kucukkaraaslan
  * @version 6/1/12 10:09 AM
  * @see OpsGenieClient
  */
+@Deprecated
 public interface IGroupOpsGenieClient {
     /**
      * Adds a group at OpsGenie.

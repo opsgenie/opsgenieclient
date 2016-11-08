@@ -7,7 +7,9 @@ import java.text.ParseException;
 
 /**
  * Inner Group Client
+ * groups are deprecated
  */
+@Deprecated
 public class InnerGroupOpsGenieClient implements IGroupOpsGenieClient{
     private JsonOpsgenieHttpClient httpClient;
     /**
