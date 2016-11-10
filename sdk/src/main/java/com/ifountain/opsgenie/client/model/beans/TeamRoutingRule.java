@@ -1,11 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
-import com.ifountain.opsgenie.client.util.RestrictionDeserializer;
-import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
-
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.List;
 
@@ -19,8 +14,6 @@ public class TeamRoutingRule extends BeanWithId {
     private Integer applyOrder;
     private Boolean isDefault;
     private TeamRoutingRuleNotify notify;
-    @JsonDeserialize(using = RestrictionDeserializer.class)
-    @JsonSerialize(using = RestrictionsSeriliazer.class)
     private List<Restriction> restrictions;
 
     public List<Restriction> getRestrictions() {

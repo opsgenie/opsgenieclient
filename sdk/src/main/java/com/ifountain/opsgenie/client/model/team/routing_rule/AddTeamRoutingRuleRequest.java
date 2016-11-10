@@ -4,8 +4,6 @@ import com.ifountain.opsgenie.client.model.beans.Condition;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.Restriction;
 import com.ifountain.opsgenie.client.model.beans.TeamRoutingRule;
-import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.List;
 
@@ -21,12 +19,11 @@ public class AddTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<AddTea
     private ConditionMatchType conditionMatchType;
     private List<Condition> conditions;
     private Integer applyOrder;
-    @JsonSerialize(using = RestrictionsSeriliazer.class)
     private List<Restriction> restrictions;
 
     @Override
     public String getEndPoint() {
-        return "/v1/json/team/routingRule";
+        return "/v1.1/json/team/routingRule";
     }
 
     @Override

@@ -6,8 +6,6 @@ import com.ifountain.opsgenie.client.model.beans.NotificationRule.ActionType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.NotifyBefore;
 import com.ifountain.opsgenie.client.model.beans.Restriction;
-import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.List;
 
@@ -24,7 +22,6 @@ public class AddNotificationRuleRequest extends BaseUserRequest<AddNotificationR
     private List<Condition> conditions;
     private List<NotifyBefore> notifyBefore;
     private Integer applyOrder;
-    @JsonSerialize(using = RestrictionsSeriliazer.class)
     private List<Restriction> restrictions;
     private List<String> schedules;
 
@@ -32,7 +29,7 @@ public class AddNotificationRuleRequest extends BaseUserRequest<AddNotificationR
      * Rest api uri of adding notificationRule operation.
      */
     public String getEndPoint() {
-        return "/v1/json/user/notificationRule";
+        return "/v1.1/json/user/notificationRule";
     }
 
     /**

@@ -29,7 +29,7 @@ public class GetTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<GetTea
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/team/routingRule";
+        return "/v1.1/json/team/routingRule";
     }
 
     /**

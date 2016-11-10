@@ -15,7 +15,7 @@ public class ListNotificationRulesRequest extends BaseUserRequest<ListNotificati
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/notificationRule";
+        return "/v1.1/json/user/notificationRule";
     }
 
     /**

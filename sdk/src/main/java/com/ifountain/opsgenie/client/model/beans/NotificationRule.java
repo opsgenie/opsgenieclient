@@ -1,13 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.util.RestrictionDeserializer;
-import com.ifountain.opsgenie.client.util.RestrictionsSeriliazer;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.List;
 
@@ -26,8 +22,6 @@ public class NotificationRule extends BeanWithId {
     private List<Condition> conditions;
     private List<String> schedules;
     private List<NotifyBefore> notifyBefore;
-    @JsonDeserialize(using = RestrictionDeserializer.class)
-    @JsonSerialize(using = RestrictionsSeriliazer.class)
     private List<Restriction> restrictions;
 
     public List<Restriction> getRestrictions() {
