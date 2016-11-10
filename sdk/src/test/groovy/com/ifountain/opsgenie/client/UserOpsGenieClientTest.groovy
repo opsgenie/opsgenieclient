@@ -297,7 +297,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
         assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
-        assertEquals(request.getRole().name(), jsonContent[TestConstants.API.ROLE])
+        assertEquals(request.getUserRole().getName(), jsonContent[TestConstants.API.ROLE])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
         assertEquals(User.getLocaleId(request.getLocale()), jsonContent[TestConstants.API.LOCALE])
     }
@@ -326,7 +326,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
         assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
-        assertEquals(request.getRole().name(), jsonContent[TestConstants.API.ROLE])
+        assertEquals(request.getUserRole().getName(), jsonContent[TestConstants.API.ROLE])
         assertFalse(jsonContent.containsKey(TestConstants.API.TIMEZONE))
         assertFalse(jsonContent.containsKey(TestConstants.API.LOCALE))
     }
@@ -362,7 +362,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
-        assertEquals(request.getRole().name(), jsonContent[TestConstants.API.ROLE])
+        assertEquals(request.getUserRole().getName(), jsonContent[TestConstants.API.ROLE])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
         assertEquals(User.getLocaleId(request.getLocale()), jsonContent[TestConstants.API.LOCALE])
     }
