@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#deleteEscalation(DeleteEscalationRequest)
  */
-public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationResponse> {
+public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationResponse, DeleteEscalationRequest> {
     private String id;
     private String name;
 
@@ -53,5 +53,15 @@ public class DeleteEscalationRequest extends BaseRequest<DeleteEscalationRespons
     @Override
     public DeleteEscalationResponse createResponse() {
         return new DeleteEscalationResponse();
+    }
+
+    public DeleteEscalationRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public DeleteEscalationRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 }

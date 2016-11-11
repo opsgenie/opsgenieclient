@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#getEscalation(GetEscalationRequest)
  */
-public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
+public class GetEscalationRequest extends BaseRequest<GetEscalationResponse, GetEscalationRequest> {
     private String name;
     private String id;
 
@@ -54,5 +54,15 @@ public class GetEscalationRequest extends BaseRequest<GetEscalationResponse> {
     @Override
     public GetEscalationResponse createResponse() {
         return new GetEscalationResponse();
+    }
+
+    public GetEscalationRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public GetEscalationRequest withId(String id) {
+        this.id = id;
+        return this;
     }
 }

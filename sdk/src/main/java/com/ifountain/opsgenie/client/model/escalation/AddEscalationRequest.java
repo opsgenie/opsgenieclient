@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#addEscalation(AddEscalationRequest)
  */
-public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
+public class AddEscalationRequest extends BaseRequest<AddEscalationResponse, AddEscalationRequest> {
     private String name;
     private List<EscalationRule> rules;
     private String team;
@@ -90,4 +90,30 @@ public class AddEscalationRequest extends BaseRequest<AddEscalationResponse> {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public AddEscalationRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AddEscalationRequest withRules(List<EscalationRule> rules) {
+        this.rules = rules;
+        return this;
+    }
+
+    public AddEscalationRequest withTeam(String team) {
+        this.team = team;
+        return this;
+    }
+
+    public AddEscalationRequest withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public AddEscalationRequest withRepeatInterval(Integer repeatInterval) {
+        this.repeatInterval = repeatInterval;
+        return this;
+    }
+
 }

@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IEscalationOpsGenieClient#listEscalations(ListEscalationsRequest)
  */
-public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse> {
+public class ListEscalationsRequest extends BaseRequest<ListEscalationsResponse, ListEscalationsRequest> {
     /**
      * Rest api uri of listing escalations operation.
      */
