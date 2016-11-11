@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertRecipients(ListAlertRecipientsRequest)
  */
-public class ListAlertRecipientsRequest extends BaseAlertRequestWithId<ListAlertRecipientsResponse> {
+public class ListAlertRecipientsRequest extends BaseAlertRequestWithId<ListAlertRecipientsResponse, ListAlertRecipientsRequest> {
     /**
      * Rest api uri of get alert operation.
      */

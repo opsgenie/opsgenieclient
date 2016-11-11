@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Tuba Ozturk
  */
-public class AddTagsRequest extends AddNoteRequest {
+public class AddTagsRequest extends BaseAlertRequestWithNoteAndUser<AddTagsResponse, AddTagsRequest> {
     private List<String> tags;
 
     /**
@@ -22,6 +22,11 @@ public class AddTagsRequest extends AddNoteRequest {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public AddTagsRequest withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
     }
 
     /**

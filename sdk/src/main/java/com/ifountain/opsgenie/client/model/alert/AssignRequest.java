@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#assign(AssignRequest)
  */
-public class AssignRequest extends AddNoteRequest {
+public class AssignRequest extends BaseAlertRequestWithNoteAndUser<AssignResponse, AssignRequest> {
     private String owner;
 
     /**
@@ -29,6 +29,11 @@ public class AssignRequest extends AddNoteRequest {
      */
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public AssignRequest withOwner(String owner) {
+        this.owner = owner;
+        return this;
     }
 
     /**

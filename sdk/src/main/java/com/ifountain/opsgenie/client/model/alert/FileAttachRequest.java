@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  */
-public class FileAttachRequest extends AttachRequest {
+public class FileAttachRequest extends AttachRequest<FileAttachRequest> {
     private File file;
 
     public FileAttachRequest() {
@@ -29,6 +29,11 @@ public class FileAttachRequest extends AttachRequest {
      */
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public FileAttachRequest withFile(File file) {
+        this.file = file;
+        return this;
     }
 
     @Deprecated

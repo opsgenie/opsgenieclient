@@ -6,9 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addNote(AddNoteRequest)
  */
-public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> {
-    private String note;
-    private String user;
+public class AddNoteRequest extends BaseAlertRequestWithNoteAndUser<AddNoteResponse, AddNoteRequest> {
 
     /**
      * Rest api uri of add note operation.
@@ -16,34 +14,6 @@ public class AddNoteRequest extends BaseAlertRequestWithSource<AddNoteResponse> 
     @Override
     public String getEndPoint() {
         return "/v1/json/alert/note";
-    }
-
-    /**
-     * The note that will be added to alert.
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Sets the note that will be added to alert.
-     */
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    /**
-     * The user who is performing the add note operation.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who is performing the add note operation.
-     */
-    public void setUser(String user) {
-        this.user = user;
     }
 
     /**

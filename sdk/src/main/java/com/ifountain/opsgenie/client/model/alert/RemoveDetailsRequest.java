@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.util.Strings;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
  */
-public class RemoveDetailsRequest extends AddNoteRequest {
+public class RemoveDetailsRequest extends BaseAlertRequestWithNoteAndUser<RemoveDetailsResponse, RemoveDetailsRequest> {
 
     private List<String> keys;
 
@@ -31,6 +32,11 @@ public class RemoveDetailsRequest extends AddNoteRequest {
 
     public void setKeys(List<String> keys) {
         this.keys = keys;
+    }
+
+    public RemoveDetailsRequest withKeys(List<String> keys) {
+        this.keys = keys;
+        return this;
     }
 
     @Override

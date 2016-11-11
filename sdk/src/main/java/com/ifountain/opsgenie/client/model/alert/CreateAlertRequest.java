@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
  */
-public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
+public class CreateAlertRequest extends BaseRequest<CreateAlertResponse, CreateAlertRequest> {
     private String message;
     private String source;
     private String entity;
@@ -76,9 +76,9 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     }
 
     /**
-     * A user defined identifier for the alert and there can be only one alert with open status with the same alias.
-     * Provides ability to assign a known id and later use this id to perform additional actions such as log, close,
-     * attach for the same alert.
+     * A user defined identifier for the alert and there can be only one alert with open status with
+     * the same alias. Provides ability to assign a known id and later use this id to perform
+     * additional actions such as log, close, attach for the same alert.
      */
     public String getAlias() {
         return alias;
@@ -148,9 +148,9 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     }
 
     /**
-     * List of actions that can be executed. Custom actions can be defined to enable users to execute
-     * actions for each alert. If action callback URL is specified on Settings page of customer, that
-     * callback URL will be called when action is executed.
+     * List of actions that can be executed. Custom actions can be defined to enable users to
+     * execute actions for each alert. If action callback URL is specified on Settings page of
+     * customer, that callback URL will be called when action is executed.
      */
     public List<String> getActions() {
         return actions;
@@ -212,4 +212,66 @@ public class CreateAlertRequest extends BaseRequest<CreateAlertResponse> {
     public CreateAlertResponse createResponse() {
         return new CreateAlertResponse();
     }
+
+
+    public CreateAlertRequest withMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public CreateAlertRequest withSource(String source) {
+        this.source = source;
+        return this;
+    }
+
+    public CreateAlertRequest withEntity(String entity) {
+        this.entity = entity;
+        return this;
+    }
+
+    public CreateAlertRequest withAlias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    public CreateAlertRequest withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public CreateAlertRequest withRecipients(List<String> recipients) {
+        this.recipients = recipients;
+        return this;
+    }
+
+    public CreateAlertRequest withTeams(List<String> teams) {
+        this.teams = teams;
+        return this;
+    }
+
+    public CreateAlertRequest withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public CreateAlertRequest withActions(List<String> actions) {
+        this.actions = actions;
+        return this;
+    }
+
+    public CreateAlertRequest withDetails(Map<String, String> details) {
+        this.details = details;
+        return this;
+    }
+
+    public CreateAlertRequest withUser(String user) {
+        this.user = user;
+        return this;
+    }
+
+    public CreateAlertRequest withNote(String note) {
+        this.note = note;
+        return this;
+    }
+
 }

@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IAccountOpsGenieClient#getAccount(GetAccountInfoRequest)
  */
-public class GetAccountInfoRequest extends BaseRequest<GetAccountInfoResponse> {
+public class GetAccountInfoRequest extends BaseRequest<GetAccountInfoResponse,GetAccountInfoRequest> {
     /**
      * Rest api uri of getting account operation.
      */

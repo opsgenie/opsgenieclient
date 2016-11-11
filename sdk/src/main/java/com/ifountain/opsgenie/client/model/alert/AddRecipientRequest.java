@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
  */
-public class AddRecipientRequest extends AddNoteRequest {
+public class AddRecipientRequest extends BaseAlertRequestWithNoteAndUser<AddRecipientResponse, AddRecipientRequest> {
     private String recipient;
 
     /**
@@ -29,6 +29,11 @@ public class AddRecipientRequest extends AddNoteRequest {
      */
     public void setRecipient(String recipient) {
         this.recipient = recipient;
+    }
+
+    public AddRecipientRequest withRecipient(String recipient) {
+        this.recipient = recipient;
+        return this;
     }
 
     /**

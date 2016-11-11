@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#executeAlertAction(ExecuteAlertActionRequest)
  */
-public class ExecuteAlertActionRequest extends AddNoteRequest {
+public class ExecuteAlertActionRequest extends BaseAlertRequestWithNoteAndUser<ExecuteAlertActionResponse, ExecuteAlertActionRequest> {
     private String action;
 
     /**
@@ -29,6 +29,11 @@ public class ExecuteAlertActionRequest extends AddNoteRequest {
      */
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public ExecuteAlertActionRequest withAction(String action) {
+        this.action = action;
+        return this;
     }
 
     /**

@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Veli Burak Celen
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
  */
-public class CountAlertsRequest extends AlertsRequest<CountAlertsResponse> {
+public class CountAlertsRequest extends AlertsRequest<CountAlertsResponse, CountAlertsRequest> {
 
     @Override
     public String getEndPoint() {

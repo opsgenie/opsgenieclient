@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#takeOwnership(TakeOwnershipRequest)
  */
-public class TakeOwnershipRequest extends AddNoteRequest {
+public class TakeOwnershipRequest extends BaseAlertRequestWithNoteAndUser<TakeOwnershipResponse, TakeOwnershipRequest> {
 
     /**
      * Rest api uri of take ownership operation.

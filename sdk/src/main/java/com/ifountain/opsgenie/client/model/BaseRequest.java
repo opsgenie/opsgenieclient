@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @JsonSerialize(include = Inclusion.NON_NULL)
 @JsonPropertyOrder(alphabetic = true)
-public abstract class BaseRequest<T extends BaseResponse> implements Request {
+public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> implements Request {
     private String apiKey;
 
     /**
@@ -38,9 +38,9 @@ public abstract class BaseRequest<T extends BaseResponse> implements Request {
     /**
      * Sets the customer key used for authenticating API requests.
      */
-    public BaseRequest withApiKey(String apiKey) {
+    public K withApiKey(String apiKey) {
         this.apiKey = apiKey;
-        return this;
+        return (K) this;
     }
 
     /**

@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#acknowledge(AcknowledgeRequest)
  */
-public class AcknowledgeRequest extends AddNoteRequest {
+public class AcknowledgeRequest extends BaseAlertRequestWithNoteAndUser<AcknowledgeResponse, AcknowledgeRequest> {
 
     /**
      * Rest api uri of acknowledge alert operation.

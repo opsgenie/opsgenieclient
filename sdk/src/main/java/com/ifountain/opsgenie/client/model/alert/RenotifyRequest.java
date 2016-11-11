@@ -8,30 +8,35 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(RenotifyRequest)
  */
-public class RenotifyRequest extends AddNoteRequest {
-	private List<String> recipients;
+public class RenotifyRequest extends BaseAlertRequestWithNoteAndUser<RenotifyResponse, RenotifyRequest> {
+    private List<String> recipients;
 
-	/**
-	 * Rest api uri of renotify alert operation.
-	 */
-	@Override
-	public String getEndPoint() {
-		return "/v1/json/alert/renotify";
-	}
+    /**
+     * Rest api uri of renotify alert operation.
+     */
+    @Override
+    public String getEndPoint() {
+        return "/v1/json/alert/renotify";
+    }
 
-	/**
-	 * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-	 */
-	@Override
-	public RenotifyResponse createResponse() {
-		return new RenotifyResponse();
-	}
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    @Override
+    public RenotifyResponse createResponse() {
+        return new RenotifyResponse();
+    }
 
-	public List<String> getRecipients() {
-		return recipients;
-	}
+    public List<String> getRecipients() {
+        return recipients;
+    }
 
-	public void setRecipients(List<String> recipients) {
-		this.recipients = recipients;
-	}
+    public void setRecipients(List<String> recipients) {
+        this.recipients = recipients;
+    }
+
+    public RenotifyRequest withRecipients(List<String> recipients) {
+        this.recipients = recipients;
+        return this;
+    }
 }

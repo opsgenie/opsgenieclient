@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#getAlert(GetAlertRequest)
  */
-public class GetAlertRequest extends BaseAlertRequestWithId<GetAlertResponse> {
+public class GetAlertRequest extends BaseAlertRequestWithId<GetAlertResponse, GetAlertRequest> {
     /**
      * Rest api uri of get alert operation.
      */

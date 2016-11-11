@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -9,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  *
  * @author Sezgin Kucukkaraaslan
  */
-public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends BaseRequest<T> {
+public abstract class BaseAlertRequestWithId<T extends BaseResponse, K extends BaseAlertRequestWithId> extends BaseRequest<T, K> {
     private String id;
     private String alias;
     private String tinyId;
@@ -77,5 +78,21 @@ public abstract class BaseAlertRequestWithId<T extends BaseResponse> extends Bas
     public void setAlias(String alias) {
         this.alias = alias;
     }
+
+    public K withId(String id) {
+        this.id = id;
+        return (K) this;
+    }
+
+    public K withAlias(String alias) {
+        this.alias = alias;
+        return (K) this;
+    }
+
+    public K withTinyId(String tinyId) {
+        this.tinyId = tinyId;
+        return (K) this;
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -10,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertLogs(ListAlertLogsRequest)
  */
-public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsResponse> {
+public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsResponse, ListAlertLogsRequest> {
     @JsonProperty("order")
     private SortOrder sortOrder = SortOrder.asc;
     private Integer limit = 100;
@@ -62,6 +63,21 @@ public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsRe
     @Override
     public ListAlertLogsResponse createResponse() {
         return new ListAlertLogsResponse();
+    }
+
+    public ListAlertLogsRequest withSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+        return this;
+    }
+
+    public ListAlertLogsRequest withLimit(Integer limit) {
+        this.limit = limit;
+        return this;
+    }
+
+    public ListAlertLogsRequest withLastKey(String lastKey) {
+        this.lastKey = lastKey;
+        return this;
     }
 
     public enum SortOrder {

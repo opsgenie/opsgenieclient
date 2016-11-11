@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#deleteAlert(DeleteAlertRequest)
  */
-public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertResponse> {
+public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertResponse, DeleteAlertRequest> {
     private String user;
 
     /**
@@ -29,6 +29,11 @@ public class DeleteAlertRequest extends BaseAlertRequestWithSource<DeleteAlertRe
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public DeleteAlertRequest withUser(String user) {
+        this.user = user;
+        return this;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.TimeZone;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#snooze(SnoozeRequest)
  */
-public class SnoozeRequest extends AddNoteRequest implements ObjectWithTimeZone {
+public class SnoozeRequest extends BaseAlertRequestWithNoteAndUser<SnoozeResponse, SnoozeRequest> implements ObjectWithTimeZone {
     private Date endDate;
     @JsonIgnore
     private TimeZone timeZone;
@@ -48,6 +49,16 @@ public class SnoozeRequest extends AddNoteRequest implements ObjectWithTimeZone 
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public SnoozeRequest withEndDate(Date endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public SnoozeRequest withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
     }
 
     @Override

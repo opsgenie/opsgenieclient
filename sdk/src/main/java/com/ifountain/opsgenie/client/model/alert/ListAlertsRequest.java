@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
  */
-public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
+public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse, ListAlertsRequest> {
     @JsonProperty("sortBy")
     private SortBy sortBy;
     @JsonProperty("order")
@@ -36,6 +36,16 @@ public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse> {
 
     public void setSortOrder(SortOrder sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public ListAlertsRequest withSortBy(SortBy sortBy) {
+        this.sortBy = sortBy;
+        return this;
+    }
+
+    public ListAlertsRequest withSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+        return this;
     }
 
     /**

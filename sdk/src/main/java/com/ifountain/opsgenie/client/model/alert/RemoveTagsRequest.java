@@ -1,11 +1,12 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.util.Strings;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
-public class RemoveTagsRequest extends AddNoteRequest {
+public class RemoveTagsRequest extends BaseAlertRequestWithNoteAndUser<RemoveTagsResponse, RemoveTagsRequest> {
     private List<String> tags;
 
     /**
@@ -27,6 +28,11 @@ public class RemoveTagsRequest extends AddNoteRequest {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public RemoveTagsRequest withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
     }
 
     /**
