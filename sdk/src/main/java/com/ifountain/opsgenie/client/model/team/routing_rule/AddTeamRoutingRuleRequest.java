@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.team.routing_rule;
 import com.ifountain.opsgenie.client.model.beans.Condition;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.Restriction;
-import com.ifountain.opsgenie.client.model.beans.TeamRoutingRule;
+import com.ifountain.opsgenie.client.model.beans.TeamRoutingRule.TeamRoutingRuleNotify;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeamRoutingRule(AddTeamRoutingRuleRequest)
  */
-public class AddTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<AddTeamRoutingRuleResponse> {
-    private TeamRoutingRule.TeamRoutingRuleNotify notify;
+public class AddTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<AddTeamRoutingRuleResponse, AddTeamRoutingRuleRequest> {
+    private TeamRoutingRuleNotify notify;
     private String name;
     private ConditionMatchType conditionMatchType;
     private List<Condition> conditions;
@@ -31,11 +31,11 @@ public class AddTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<AddTea
         return new AddTeamRoutingRuleResponse();
     }
 
-    public TeamRoutingRule.TeamRoutingRuleNotify getNotify() {
+    public TeamRoutingRuleNotify getNotify() {
         return notify;
     }
 
-    public void setNotify(TeamRoutingRule.TeamRoutingRuleNotify notify) {
+    public void setNotify(TeamRoutingRuleNotify notify) {
         this.notify = notify;
     }
 
@@ -77,6 +77,37 @@ public class AddTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<AddTea
 
     public void setRestrictions(List<Restriction> restrictions) {
         this.restrictions = restrictions;
+    }
+
+
+    public AddTeamRoutingRuleRequest withNotify(TeamRoutingRuleNotify notify) {
+        this.notify = notify;
+        return this;
+    }
+
+    public AddTeamRoutingRuleRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AddTeamRoutingRuleRequest withConditionMatchType(ConditionMatchType conditionMatchType) {
+        this.conditionMatchType = conditionMatchType;
+        return this;
+    }
+
+    public AddTeamRoutingRuleRequest withConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public AddTeamRoutingRuleRequest withApplyOrder(Integer applyOrder) {
+        this.applyOrder = applyOrder;
+        return this;
+    }
+
+    public AddTeamRoutingRuleRequest withRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+        return this;
     }
 
 }

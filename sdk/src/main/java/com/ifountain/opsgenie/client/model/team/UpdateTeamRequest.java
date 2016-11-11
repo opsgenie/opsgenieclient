@@ -13,7 +13,7 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#updateTeam(UpdateTeamRequest)
  */
-public class UpdateTeamRequest extends BaseRequest<AddTeamResponse, UpdateTeamRequest> {
+public class UpdateTeamRequest extends BaseRequest<UpdateTeamResponse, UpdateTeamRequest> {
     private String id;
     private String name;
     private String description;

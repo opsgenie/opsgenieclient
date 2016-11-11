@@ -65,7 +65,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
@@ -152,7 +152,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
@@ -239,7 +239,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
@@ -325,7 +325,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
@@ -693,7 +693,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(condition1.operation, condition.getOperation().value())
         assertEquals(condition1.not, condition.getNot())
 
-        condition = response.getNotificationRule().getConditions().find { it.expectedValue == condition2.expectedValue }
+        condition = response.getNotificationRule().getConditions().find {
+            it.expectedValue == condition2.expectedValue
+        }
         assertEquals(condition2.field, condition.getField().value())
         assertEquals(condition2.expectedValue, condition.getExpectedValue())
         assertEquals(condition2.operation, condition.getOperation().value())
@@ -720,7 +722,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
         assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
 
     }
 
@@ -797,7 +799,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(condition1.operation, condition.getOperation().value())
         assertEquals(condition1.not, condition.getNot())
 
-        condition = response.getNotificationRule().getConditions().find { it.expectedValue == condition2.expectedValue }
+        condition = response.getNotificationRule().getConditions().find {
+            it.expectedValue == condition2.expectedValue
+        }
         assertEquals(condition2.field, condition.getField().value())
         assertEquals(condition2.expectedValue, condition.getExpectedValue())
         assertEquals(condition2.operation, condition.getOperation().value())
@@ -824,7 +828,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
         assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
     }
 
 
@@ -853,12 +857,12 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
                 actionType        : "New Alert",
                 applyOrder        : 0,
                 name              : "New Alert",
-                restrictions      : [
-                        endHour    : 18,
-                        startHour  : 0,
-                        startMinute: 0,
-                        endMinute  : 0
-                ],
+                restrictions      : [[
+                                             endHour    : 18,
+                                             startHour  : 0,
+                                             startMinute: 0,
+                                             endMinute  : 0
+                                     ]],
                 id                : "67c4855a-4c1b-4cbf-9be2-87eb212760e9",
                 conditions        : [
                         [
@@ -892,12 +896,12 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
                 actionType        : "New Alert",
                 applyOrder        : 1,
                 name              : "New Alert Night",
-                restrictions      : [
-                        endHour    : 18,
-                        startHour  : 15,
-                        startMinute: 4,
-                        endMinute  : 58
-                ],
+                restrictions      : [[
+                                             endHour    : 18,
+                                             startHour  : 15,
+                                             startMinute: 4,
+                                             endMinute  : 58
+                                     ]],
                 id                : "d609c2d4-c7e0-4c3c-b339-40bb58f89963",
                 conditions        : [
                         [
@@ -965,10 +969,10 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule2.getApplyOrder(), rule2.applyOrder);
         assertEquals(inputRule2.getName(), rule2.name);
         inputRestriction = inputRule2.getRestrictions().get(0);
-        assertEquals(inputRestriction.getEndHour(), rule2.restrictions.endHour);
-        assertEquals(inputRestriction.getStartHour(), rule2.restrictions.startHour);
-        assertEquals(inputRestriction.getStartMinute(), rule2.restrictions.startMinute);
-        assertEquals(inputRestriction.getEndMinute(), rule2.restrictions.endMinute);
+        assertEquals(inputRestriction.getEndHour(), rule2.restrictions[0].endHour);
+        assertEquals(inputRestriction.getStartHour(), rule2.restrictions[0].startHour);
+        assertEquals(inputRestriction.getStartMinute(), rule2.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule2.restrictions[0].endMinute);
         assertEquals(inputRule2.getId(), rule2.id);
         assertEquals(inputRule2.getConditions().size(), rule2.conditions.size());
 
@@ -998,10 +1002,10 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule3.getName(), rule3.name);
         assertEquals(1, inputRule3.getRestrictions().size())
         inputRestriction = inputRule3.getRestrictions().get(0);
-        assertEquals(inputRestriction.getEndHour(), rule3.restrictions.endHour);
-        assertEquals(inputRestriction.getStartHour(), rule3.restrictions.startHour);
-        assertEquals(inputRestriction.getStartMinute(), rule3.restrictions.startMinute);
-        assertEquals(inputRestriction.getEndMinute(), rule3.restrictions.endMinute);
+        assertEquals(inputRestriction.getEndHour(), rule3.restrictions[0].endHour);
+        assertEquals(inputRestriction.getStartHour(), rule3.restrictions[0].startHour);
+        assertEquals(inputRestriction.getStartMinute(), rule3.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule3.restrictions[0].endMinute);
         assertEquals(inputRule3.getId(), rule3.id);
         assertEquals(inputRule3.getConditions().size(), rule3.conditions.size());
 
@@ -1030,7 +1034,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
         assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME]);
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
     }
 
     @Test
@@ -1058,12 +1062,12 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
                 actionType        : "New Alert",
                 applyOrder        : 0,
                 name              : "New Alert",
-                restrictions      : [
-                        endHour    : 18,
-                        startHour  : 0,
-                        startMinute: 0,
-                        endMinute  : 0
-                ],
+                restrictions      : [[
+                                             endHour    : 18,
+                                             startHour  : 0,
+                                             startMinute: 0,
+                                             endMinute  : 0
+                                     ]],
                 id                : "67c4855a-4c1b-4cbf-9be2-87eb212760e9",
                 conditions        : [
                         [
@@ -1097,12 +1101,12 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
                 actionType        : "New Alert",
                 applyOrder        : 1,
                 name              : "New Alert Night",
-                restrictions      : [
-                        endHour    : 18,
-                        startHour  : 15,
-                        startMinute: 4,
-                        endMinute  : 58
-                ],
+                restrictions      : [[
+                                             endHour    : 18,
+                                             startHour  : 15,
+                                             startMinute: 4,
+                                             endMinute  : 58
+                                     ]],
                 id                : "d609c2d4-c7e0-4c3c-b339-40bb58f89963",
                 conditions        : [
                         [
@@ -1170,10 +1174,10 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule2.getApplyOrder(), rule2.applyOrder);
         assertEquals(inputRule2.getName(), rule2.name);
         inputRestriction = inputRule2.getRestrictions().get(0);
-        assertEquals(inputRestriction.getEndHour(), rule2.restrictions.endHour);
-        assertEquals(inputRestriction.getStartHour(), rule2.restrictions.startHour);
-        assertEquals(inputRestriction.getStartMinute(), rule2.restrictions.startMinute);
-        assertEquals(inputRestriction.getEndMinute(), rule2.restrictions.endMinute);
+        assertEquals(inputRestriction.getEndHour(), rule2.restrictions.get(0).endHour);
+        assertEquals(inputRestriction.getStartHour(), rule2.restrictions.get(0).startHour);
+        assertEquals(inputRestriction.getStartMinute(), rule2.restrictions.get(0).startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule2.restrictions.get(0).endMinute);
         assertEquals(inputRule2.getId(), rule2.id);
         assertEquals(inputRule2.getConditions().size(), rule2.conditions.size());
 
@@ -1203,10 +1207,10 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRule3.getName(), rule3.name);
         assertEquals(1, inputRule3.getRestrictions().size())
         inputRestriction = inputRule3.getRestrictions().get(0);
-        assertEquals(inputRestriction.getEndHour(), rule3.restrictions.endHour);
-        assertEquals(inputRestriction.getStartHour(), rule3.restrictions.startHour);
-        assertEquals(inputRestriction.getStartMinute(), rule3.restrictions.startMinute);
-        assertEquals(inputRestriction.getEndMinute(), rule3.restrictions.endMinute);
+        assertEquals(inputRestriction.getEndHour(), rule3.restrictions.get(0).endHour);
+        assertEquals(inputRestriction.getStartHour(), rule3.restrictions.get(0).startHour);
+        assertEquals(inputRestriction.getStartMinute(), rule3.restrictions.get(0).startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule3.restrictions.get(0).endMinute);
         assertEquals(inputRule3.getId(), rule3.id);
         assertEquals(inputRule3.getConditions().size(), rule3.conditions.size());
 
@@ -1235,7 +1239,7 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
         assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID]);
-        assertEquals("/v1/json/user/notificationRule", requestSent.getUrl())
+        assertEquals("/v1.1/json/user/notificationRule", requestSent.getUrl())
     }
 
 
