@@ -11,7 +11,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
-public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
+public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse, GetHeartbeatRequest> {
     private String name;
 
     /**
@@ -49,9 +49,15 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
         this.name = name;
     }
 
+    public GetHeartbeatRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
     /**
      * @deprecated Use getName
      */
+    @Deprecated
     public String getSource() {
         return getName();
     }
@@ -59,6 +65,7 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse> {
     /**
      * @deprecated Use setSource
      */
+    @Deprecated
     public void setSource(String source) {
         setName(source);
     }

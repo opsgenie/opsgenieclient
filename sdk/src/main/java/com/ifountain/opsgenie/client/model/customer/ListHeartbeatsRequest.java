@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#listHeartbeats(ListHeartbeatsRequest)
  */
-public class ListHeartbeatsRequest extends BaseRequest<ListHeartbeatsResponse> {
+public class ListHeartbeatsRequest extends BaseRequest<ListHeartbeatsResponse, ListHeartbeatsRequest> {
     /**
      * Rest api uri of get heartbeat monitor operation.
      */

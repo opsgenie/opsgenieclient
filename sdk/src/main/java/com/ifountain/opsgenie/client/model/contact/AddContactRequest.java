@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.beans.Contact.Method;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#addContact(AddContactRequest)
  */
-public class AddContactRequest extends BaseUserRequest<AddContactResponse> {
+public class AddContactRequest extends BaseUserRequest<AddContactResponse, AddContactRequest> {
     private Method method;
     private String to;
 
@@ -43,6 +43,16 @@ public class AddContactRequest extends BaseUserRequest<AddContactResponse> {
 
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public AddContactRequest withMethod(Method method) {
+        this.method = method;
+        return this;
+    }
+
+    public AddContactRequest withTo(String to) {
+        this.to = to;
+        return this;
     }
 
 }

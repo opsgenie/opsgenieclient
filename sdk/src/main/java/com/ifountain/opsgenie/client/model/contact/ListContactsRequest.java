@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#listContact(ListContactsRequest)
  */
-public class ListContactsRequest extends BaseUserRequest<ListContactsResponse> {
+public class ListContactsRequest extends BaseUserRequest<ListContactsResponse, ListContactsRequest> {
 
     /**
      * Rest api uri of listing contact operation.

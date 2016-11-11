@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-import com.ifountain.opsgenie.client.model.BaseUserRequest;
 
 /**
  * Container for the parameters to make an update contact api call.
@@ -10,8 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#updateContact(UpdateContactRequest)
  */
-public class UpdateContactRequest extends BaseUserRequest<UpdateContactResponse> {
-    private String id;
+public class UpdateContactRequest extends BaseContactRequestWithId<UpdateContactResponse, UpdateContactRequest> {
     private String to;
 
     /**
@@ -30,7 +28,7 @@ public class UpdateContactRequest extends BaseUserRequest<UpdateContactResponse>
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (id == null)
+        if (getId() == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
@@ -40,20 +38,6 @@ public class UpdateContactRequest extends BaseUserRequest<UpdateContactResponse>
     @Override
     public UpdateContactResponse createResponse() {
         return new UpdateContactResponse();
-    }
-
-    /**
-     * Id of contact to be updated
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets Id of contact to be updated
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -68,6 +52,11 @@ public class UpdateContactRequest extends BaseUserRequest<UpdateContactResponse>
      */
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public UpdateContactRequest withTo(String to) {
+        this.to = to;
+        return this;
     }
 
 

@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -9,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#heartbeat(HeartbeatRequest)
  */
-public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
+public class HeartbeatRequest extends BaseRequest<HeartbeatResponse, HeartbeatRequest> {
     private String name;
 
     /*
@@ -24,6 +25,11 @@ public class HeartbeatRequest extends BaseRequest<HeartbeatResponse> {
      **/
     public void setName(String name) {
         this.name = name;
+    }
+
+    public HeartbeatRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 
     /**

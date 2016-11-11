@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#deleteHeartbeat(DeleteHeartbeatRequest)
  */
-public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse> {
+public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse, DeleteHeartbeatRequest> {
     private String name;
 
     /**
@@ -32,9 +32,15 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse>
         this.name = name;
     }
 
+    public DeleteHeartbeatRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
     /**
      * @deprecated Use getName
      */
+    @Deprecated
     public String getSource() {
         return getName();
     }
@@ -42,6 +48,7 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse>
     /**
      * @deprecated Use setName
      */
+    @Deprecated
     public void setSource(String source) {
         setName(source);
     }

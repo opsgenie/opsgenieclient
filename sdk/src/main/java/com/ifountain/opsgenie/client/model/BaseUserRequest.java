@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model;
 
-public abstract class BaseUserRequest<T extends BaseResponse> extends BaseRequest<T> {
+public abstract class BaseUserRequest<T extends BaseResponse, K extends BaseUserRequest> extends BaseRequest<T, K> {
     private String username;
     private String userId;
 
@@ -18,5 +18,15 @@ public abstract class BaseUserRequest<T extends BaseResponse> extends BaseReques
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public K withUsername(String username) {
+        this.username = username;
+        return (K) this;
+    }
+
+    public K withUserId(String userId) {
+        this.userId = userId;
+        return (K) this;
     }
 }

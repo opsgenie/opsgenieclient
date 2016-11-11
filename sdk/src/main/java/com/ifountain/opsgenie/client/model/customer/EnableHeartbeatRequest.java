@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.customer;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -8,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  *
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#enableHeartbeat(com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest)
  */
-public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse> {
+public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse, EnableHeartbeatRequest> {
     private String name;
     @JsonIgnore
     private boolean enable;
@@ -37,6 +38,11 @@ public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse>
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public EnableHeartbeatRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#copyNotificationRules(com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest)
  */
-public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRulesResponse> {
+public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRulesResponse, CopyNotificationRulesRequest> {
     private String fromUser;
     private List<String> toUsers;
     private List<String> ruleTypes;
@@ -36,7 +36,8 @@ public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRu
     }
 
     /**
-     * Sets the user list to copy to. Specify a list of the users which you want to copy the rules to. You can use the username of a user, the name of a group, or to copy to all users, "all".
+     * Sets the user list to copy to. Specify a list of the users which you want to copy the rules
+     * to. You can use the username of a user, the name of a group, or to copy to all users, "all".
      */
     public void setToUsers(List<String> toUsers) {
         this.toUsers = toUsers;
@@ -50,15 +51,10 @@ public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRu
     }
 
     /**
-     *  Sets the list of rule types. Specify a list of the action types you want to copy the rules of. It can contain "New Alert", "Acknowledged Alert" or for all types of notification rules, "all". The total list of valid types are:
-     *  "all",
-     *  "New Alert",
-     *  "Acknowledged Alert",
-     *  "Closed Alert",
-     *  "Schedule Start",
-     *  "Renotified Alert",
-     *  "Assigned Alert",
-     *  "Add Note"
+     * Sets the list of rule types. Specify a list of the action types you want to copy the rules
+     * of. It can contain "New Alert", "Acknowledged Alert" or for all types of notification rules,
+     * "all". The total list of valid types are: "all", "New Alert", "Acknowledged Alert", "Closed
+     * Alert", "Schedule Start", "Renotified Alert", "Assigned Alert", "Add Note"
      */
     public void setRuleTypes(List<String> ruleTypes) {
         this.ruleTypes = ruleTypes;
@@ -78,5 +74,20 @@ public class CopyNotificationRulesRequest extends BaseRequest<CopyNotificationRu
     @Override
     public CopyNotificationRulesResponse createResponse() {
         return new CopyNotificationRulesResponse();
+    }
+
+    public CopyNotificationRulesRequest withFromUser(String fromUser) {
+        this.fromUser = fromUser;
+        return this;
+    }
+
+    public CopyNotificationRulesRequest withToUsers(List<String> toUsers) {
+        this.toUsers = toUsers;
+        return this;
+    }
+
+    public CopyNotificationRulesRequest withRuleTypes(List<String> ruleTypes) {
+        this.ruleTypes = ruleTypes;
+        return this;
     }
 }
