@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.integration;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -8,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  *
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#enableIntegration(com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest)
  */
-public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse> {
+public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationResponse, EnableIntegrationRequest> {
     private String name;
     @JsonIgnore
     private Boolean enabled = true;
@@ -63,6 +64,21 @@ public class EnableIntegrationRequest extends BaseRequest<EnableIntegrationRespo
     @Override
     public EnableIntegrationResponse createResponse() {
         return new EnableIntegrationResponse();
+    }
+
+    public EnableIntegrationRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public EnableIntegrationRequest withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public EnableIntegrationRequest withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

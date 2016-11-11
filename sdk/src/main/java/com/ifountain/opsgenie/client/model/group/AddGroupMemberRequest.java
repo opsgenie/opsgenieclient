@@ -14,7 +14,7 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroupMember(AddGroupMemberRequest)
  */
 @Deprecated
-public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse> {
+public class AddGroupMemberRequest extends BaseRequest<AddGroupMemberResponse, AddGroupMemberRequest> {
     private String id;
     private String name;
     private List<String> users;

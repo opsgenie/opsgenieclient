@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @version 5/31/12 2:03 PM
  */
-public abstract class BaseRequestWithHttpParameters<T extends BaseResponse> extends BaseRequest<T> implements Request {
+public abstract class BaseRequestWithHttpParameters<T extends BaseResponse, K extends BaseRequestWithHttpParameters> extends BaseRequest<T, K> implements Request {
     @JsonIgnore
     private Map<String, Object> httpParameters;
 
@@ -26,5 +26,10 @@ public abstract class BaseRequestWithHttpParameters<T extends BaseResponse> exte
      */
     public void setHttpParameters(Map<String, Object> httpParameters) {
         this.httpParameters = httpParameters;
+    }
+
+    public K withHttpParameters(Map<String, Object> httpParameters) {
+        this.httpParameters = httpParameters;
+        return (K) this;
     }
 }

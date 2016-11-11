@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#listGroups(ListGroupsRequest)
  */
 @Deprecated
-public class ListGroupsRequest extends BaseRequest<ListGroupsResponse> {
+public class ListGroupsRequest extends BaseRequest<ListGroupsResponse, ListGroupsRequest> {
     /**
      * Rest api uri of listing groups operation.
      */

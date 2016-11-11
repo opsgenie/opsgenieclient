@@ -11,7 +11,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#getGroup(GetGroupRequest)
  */
 @Deprecated
-public class GetGroupRequest extends BaseRequest<GetGroupResponse> {
+public class GetGroupRequest extends BaseRequest<GetGroupResponse, GetGroupRequest> {
     private String name;
     private String id;
 

@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.integration;
 
 import com.ifountain.opsgenie.client.model.BaseRequestWithHttpParameters;
+
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  *
  * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient#sendToIntegration(com.ifountain.opsgenie.client.model.integration.SendToIntegrationRequest)
  */
-public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<SendToIntegrationResponse> {
+public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<SendToIntegrationResponse, SendToIntegrationRequest> {
     private String endPoint;
     private Map<String, Object> contentParameters;
 
@@ -23,10 +24,6 @@ public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<Send
         this.contentParameters = contentParameters;
     }
 
-    public void setEndPoint(String endPoint) {
-        this.endPoint = endPoint;
-    }
-
     /**
      * Rest api uri of send to integration operation.
      */
@@ -35,11 +32,25 @@ public class SendToIntegrationRequest extends BaseRequestWithHttpParameters<Send
         return endPoint;
     }
 
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+    }
+
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
      */
     @Override
     public SendToIntegrationResponse createResponse() {
         return new SendToIntegrationResponse();
+    }
+
+    public SendToIntegrationRequest withEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+        return this;
+    }
+
+    public SendToIntegrationRequest withContentParameters(Map<String, Object> contentParameters) {
+        this.contentParameters = contentParameters;
+        return this;
     }
 }

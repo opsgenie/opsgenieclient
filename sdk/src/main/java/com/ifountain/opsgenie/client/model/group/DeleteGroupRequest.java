@@ -9,9 +9,10 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#deleteGroup(com.ifountain.opsgenie.client.model.group.DeleteGroupRequest)
  */
 @Deprecated
-public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse> {
+public class DeleteGroupRequest extends BaseRequest<DeleteGroupResponse, DeleteGroupRequest> {
     private String id;
     private String name;
+
     /**
      * Rest api uri of deleting group operation.
      */

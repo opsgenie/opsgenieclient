@@ -11,7 +11,7 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IGroupOpsGenieClient#addGroup(com.ifountain.opsgenie.client.model.group.AddGroupRequest)
  */
 @Deprecated
-public class AddGroupRequest extends BaseRequest<AddGroupResponse> {
+public class AddGroupRequest extends BaseRequest<AddGroupResponse, AddGroupRequest> {
     private String name;
     private List<String> users;
 
