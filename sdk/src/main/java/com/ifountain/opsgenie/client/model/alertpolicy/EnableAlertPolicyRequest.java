@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alertpolicy;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -9,20 +10,20 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertPolicyOpsGenieClient#enableAlertPolicy(EnableAlertPolicyRequest)
  */
-public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyResponse> {
+public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyResponse, EnableAlertPolicyRequest> {
     private String id;
     private String name;
     @JsonIgnore
     private Boolean enabled = true;
+
     /**
      * Rest api uri of enable/disable  alert policy operation.
      */
     @Override
     public String getEndPoint() {
-        if(enabled == null || enabled){
+        if (enabled == null || enabled) {
             return "/v1/json/alert/policy/enable";
-        }
-        else{
+        } else {
             return "/v1/json/alert/policy/disable";
         }
     }
@@ -76,4 +77,22 @@ public class EnableAlertPolicyRequest extends BaseRequest<EnableAlertPolicyRespo
     public EnableAlertPolicyResponse createResponse() {
         return new EnableAlertPolicyResponse();
     }
+
+
+    public EnableAlertPolicyRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public EnableAlertPolicyRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public EnableAlertPolicyRequest withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+
 }
