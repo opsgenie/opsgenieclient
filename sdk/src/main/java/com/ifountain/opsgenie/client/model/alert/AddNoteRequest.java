@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addNote(AddNoteRequest)
  */
-public class AddNoteRequest extends BaseAlertRequestWithNoteAndUser<AddNoteResponse, AddNoteRequest> {
+public class AddNoteRequest extends BaseAlertRequestWithNoteAndUserAndSource<AddNoteResponse, AddNoteRequest> {
 
     /**
      * Rest api uri of add note operation.

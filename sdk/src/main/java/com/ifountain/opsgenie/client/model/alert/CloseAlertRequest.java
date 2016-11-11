@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#closeAlert(CloseAlertRequest)
  */
-public class CloseAlertRequest extends BaseAlertRequestWithNoteAndUser<CloseAlertResponse, CloseAlertRequest> {
+public class CloseAlertRequest extends BaseAlertRequestWithNoteAndUserAndSource<CloseAlertResponse, CloseAlertRequest> {
 
     /**
      * Rest api uri of close alert operation.

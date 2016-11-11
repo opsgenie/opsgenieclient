@@ -8,7 +8,7 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(RenotifyRequest)
  */
-public class RenotifyRequest extends BaseAlertRequestWithNoteAndUser<RenotifyResponse, RenotifyRequest> {
+public class RenotifyRequest extends BaseAlertRequestWithNoteAndUserAndSource<RenotifyResponse, RenotifyRequest> {
     private List<String> recipients;
 
     /**

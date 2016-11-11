@@ -169,7 +169,10 @@ public class ScriptProxy {
 
     public Map deleteAlert(Map params) throws Exception {
         DeleteAlertRequest request = new DeleteAlertRequest();
-        populateAlertRequestWithSource(request, params);
+        populateAlertRequestWithId(request, params);
+        if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
+            request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        }
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
 
         return successToMap(this.opsGenieClient.alert().deleteAlert(request));
@@ -863,7 +866,7 @@ public class ScriptProxy {
         return beanMaps;
     }
 
-    private void populateAlertRequestWithSource(BaseAlertRequestWithSource request, Map params) {
+    private void populateAlertRequestWithSource(BaseAlertRequestWithNoteAndUserAndSource request, Map params) {
         populateAlertRequestWithId(request, params);
         if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
             request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));

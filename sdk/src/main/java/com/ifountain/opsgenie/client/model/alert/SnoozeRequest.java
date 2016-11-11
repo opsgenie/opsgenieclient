@@ -13,7 +13,7 @@ import java.util.TimeZone;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#snooze(SnoozeRequest)
  */
-public class SnoozeRequest extends BaseAlertRequestWithNoteAndUser<SnoozeResponse, SnoozeRequest> implements ObjectWithTimeZone {
+public class SnoozeRequest extends BaseAlertRequestWithNoteAndUserAndSource<SnoozeResponse, SnoozeRequest> implements ObjectWithTimeZone {
     private Date endDate;
     @JsonIgnore
     private TimeZone timeZone;

@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
  */
-public class AddRecipientRequest extends BaseAlertRequestWithNoteAndUser<AddRecipientResponse, AddRecipientRequest> {
+public class AddRecipientRequest extends BaseAlertRequestWithNoteAndUserAndSource<AddRecipientResponse, AddRecipientRequest> {
     private String recipient;
 
     /**
