@@ -17,7 +17,7 @@ import java.util.TimeZone;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateUser(UpdateUserRequest)
  */
-public class UpdateUserRequest extends BaseRequest<UpdateUserResponse> {
+public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUserRequest> {
     private String id;
     private String fullname;
     private String skypeUsername;
@@ -168,5 +168,35 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse> {
     @Override
     public UpdateUserResponse createResponse() {
         return new UpdateUserResponse();
+    }
+
+    public UpdateUserRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public UpdateUserRequest withFullname(String fullname) {
+        this.fullname = fullname;
+        return this;
+    }
+
+    public UpdateUserRequest withSkypeUsername(String skypeUsername) {
+        this.skypeUsername = skypeUsername;
+        return this;
+    }
+
+    public UpdateUserRequest withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public UpdateUserRequest withLocale(Locale locale) {
+        this.locale = locale;
+        return this;
+    }
+
+    public UpdateUserRequest withRole(UserRole role) {
+        this.role = role;
+        return this;
     }
 }

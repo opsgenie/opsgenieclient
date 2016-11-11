@@ -8,9 +8,10 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteUser(DeleteUserRequest)
  */
-public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
+public class DeleteUserRequest extends BaseRequest<DeleteUserResponse, DeleteUserRequest> {
     private String id;
     private String username;
+
     /**
      * Rest api uri of deleting user operation.
      */
@@ -54,5 +55,15 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse> {
     @Override
     public DeleteUserResponse createResponse() {
         return new DeleteUserResponse();
+    }
+
+    public DeleteUserRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public DeleteUserRequest withUsername(String username) {
+        this.username = username;
+        return this;
     }
 }

@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
-public class GetUserRequest extends BaseRequest<GetUserResponse> {
+public class GetUserRequest extends BaseRequest<GetUserResponse, GetUserRequest> {
     private String username;
     private String id;
 
@@ -61,5 +61,15 @@ public class GetUserRequest extends BaseRequest<GetUserResponse> {
     @Override
     public GetUserResponse createResponse() {
         return new GetUserResponse();
+    }
+
+    public GetUserRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public GetUserRequest withUsername(String username) {
+        this.username = username;
+        return this;
     }
 }

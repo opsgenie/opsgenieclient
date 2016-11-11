@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteForwarding(DeleteForwardingRequest)
  */
-public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingResponse> {
+public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingResponse, DeleteForwardingRequest> {
     private String id;
     private String alias;
 
@@ -34,8 +34,8 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
     }
 
     /**
-     * A user defined identifier for the forwarding.
-     * Provides ability to assign a known identifier and later use this identifier to get forwarding details.
+     * A user defined identifier for the forwarding. Provides ability to assign a known identifier
+     * and later use this identifier to get forwarding details.
      */
     public String getAlias() {
         return alias;
@@ -54,5 +54,15 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
     @Override
     public DeleteForwardingResponse createResponse() {
         return new DeleteForwardingResponse();
+    }
+
+    public DeleteForwardingRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public DeleteForwardingRequest withAlias(String alias) {
+        this.alias = alias;
+        return this;
     }
 }

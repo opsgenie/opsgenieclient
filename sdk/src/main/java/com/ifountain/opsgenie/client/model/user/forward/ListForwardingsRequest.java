@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
  */
-public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse> {
+public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse, ListForwardingsRequest> {
     private String user;
 
     /**
@@ -31,6 +31,11 @@ public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse>
      */
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public ListForwardingsRequest withUser(String user) {
+        this.user = user;
+        return this;
     }
 
     /**

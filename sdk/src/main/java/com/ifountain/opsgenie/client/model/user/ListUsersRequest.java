@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
-public class ListUsersRequest extends BaseRequest<ListUsersResponse> {
+public class ListUsersRequest extends BaseRequest<ListUsersResponse, ListUsersRequest> {
     /**
      * Rest api uri of listing user operation.
      */

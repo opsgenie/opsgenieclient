@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getForwarding(GetForwardingRequest)
  */
-public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
+public class GetForwardingRequest extends BaseRequest<GetForwardingResponse, GetForwardingRequest> {
     private String id;
     private String alias;
 
@@ -71,5 +71,15 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse> {
     @Override
     public GetForwardingResponse createResponse() {
         return new GetForwardingResponse();
+    }
+
+    public GetForwardingRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public GetForwardingRequest withAlias(String alias) {
+        this.alias = alias;
+        return this;
     }
 }
