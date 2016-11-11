@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateScheduleOverride(UpdateScheduleOverrideRequest)
  */
-public class UpdateScheduleOverrideRequest extends AddScheduleOverrideRequest{
+public class UpdateScheduleOverrideRequest extends AddScheduleOverrideRequest {
     @Override
     public UpdateScheduleOverrideResponse createResponse() {
         return new UpdateScheduleOverrideResponse();

@@ -5,7 +5,7 @@ package com.ifountain.opsgenie.client.model.schedule;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#whoIsOnCall(WhoIsOnCallRequest)
  */
-public class WhoIsOnCallRequest extends AbstractWhoIsOnCallRequest<WhoIsOnCallResponse> {
+public class WhoIsOnCallRequest extends AbstractWhoIsOnCallRequest<WhoIsOnCallResponse, WhoIsOnCallRequest> {
     public WhoIsOnCallResponse createResponse() {
         return new WhoIsOnCallResponse();
     }

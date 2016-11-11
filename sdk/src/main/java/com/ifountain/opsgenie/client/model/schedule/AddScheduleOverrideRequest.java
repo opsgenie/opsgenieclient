@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ import java.util.TimeZone;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addScheduleOverride(AddScheduleOverrideRequest)
  */
-public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideResponse> implements ObjectWithTimeZone {
+public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideResponse, AddScheduleOverrideRequest> implements ObjectWithTimeZone {
     private String alias;
     private String schedule;
     private String user;
@@ -147,4 +148,40 @@ public class AddScheduleOverrideRequest extends BaseRequest<AddScheduleOverrideR
     public TimeZone getObjectTimeZone() {
         return timeZone;
     }
+
+    public AddScheduleOverrideRequest withAlias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    public AddScheduleOverrideRequest withSchedule(String schedule) {
+        this.schedule = schedule;
+        return this;
+    }
+
+    public AddScheduleOverrideRequest withUser(String user) {
+        this.user = user;
+        return this;
+    }
+
+    public AddScheduleOverrideRequest withStartDate(Date startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public AddScheduleOverrideRequest withEndDate(Date endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public AddScheduleOverrideRequest withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public AddScheduleOverrideRequest withRotationIds(List<String> rotationIds) {
+        this.rotationIds = rotationIds;
+        return this;
+    }
+
 }

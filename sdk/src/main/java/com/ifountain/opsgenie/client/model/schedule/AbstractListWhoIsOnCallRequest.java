@@ -5,9 +5,8 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 
 /**
  * Base Container for the parameters to make a list flat who is on call.
- *
  */
-public abstract class AbstractListWhoIsOnCallRequest <T extends BaseResponse> extends BaseRequest<T> {
+public abstract class AbstractListWhoIsOnCallRequest<T extends BaseResponse, K extends AbstractListWhoIsOnCallRequest> extends BaseRequest<T, K> {
     /**
      * Rest api uri of lsiting on calls of schedules operation.
      */

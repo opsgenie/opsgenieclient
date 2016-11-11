@@ -7,9 +7,10 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteSchedule(DeleteScheduleRequest)
  */
-public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
+public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse, DeleteScheduleRequest> {
     private String id;
     private String name;
+
     /**
      * Rest api uri of deleting schedule operation.
      */
@@ -53,5 +54,15 @@ public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse> {
     @Override
     public DeleteScheduleResponse createResponse() {
         return new DeleteScheduleResponse();
+    }
+
+    public DeleteScheduleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public DeleteScheduleRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 }

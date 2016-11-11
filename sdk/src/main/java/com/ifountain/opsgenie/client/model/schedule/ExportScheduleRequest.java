@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.TimeZone;
@@ -10,7 +11,7 @@ import java.util.TimeZone;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#exportSchedule(ExportScheduleRequest)
  */
-public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
+public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse, ExportScheduleRequest> {
     private String name;
     private String id;
     @JsonProperty("timezone")
@@ -70,4 +71,18 @@ public class ExportScheduleRequest extends BaseRequest<ExportScheduleResponse> {
         this.timeZone = timeZone;
     }
 
+    public ExportScheduleRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public ExportScheduleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public ExportScheduleRequest withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
 }

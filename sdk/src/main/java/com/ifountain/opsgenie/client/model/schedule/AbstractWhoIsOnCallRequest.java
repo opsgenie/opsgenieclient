@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
@@ -10,9 +11,8 @@ import java.util.TimeZone;
 
 /**
  * Base Container for the parameters to make a who is on call api call.
- *
  */
-abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRequest<T> implements ObjectWithTimeZone {
+abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse, K extends AbstractWhoIsOnCallRequest> extends BaseRequest<T, K> implements ObjectWithTimeZone {
     private String name;
     private Date time;
     @JsonProperty("timezone")
@@ -84,4 +84,25 @@ abstract class AbstractWhoIsOnCallRequest<T extends BaseResponse> extends BaseRe
     public TimeZone getObjectTimeZone() {
         return timeZone;
     }
+
+    public K withName(String name) {
+        this.name = name;
+        return (K) this;
+    }
+
+    public K withTime(Date time) {
+        this.time = time;
+        return (K) this;
+    }
+
+    public K withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return (K) this;
+    }
+
+    public K withId(String id) {
+        this.id = id;
+        return (K) this;
+    }
+
 }

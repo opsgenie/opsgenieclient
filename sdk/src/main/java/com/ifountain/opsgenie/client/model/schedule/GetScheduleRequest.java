@@ -9,10 +9,9 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(GetScheduleRequest)
  */
-public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
+public class GetScheduleRequest extends BaseRequest<GetScheduleResponse, GetScheduleRequest> {
     private String name;
     private String id;
-
 
     /**
      * check the parameters for validation.
@@ -69,6 +68,16 @@ public class GetScheduleRequest extends BaseRequest<GetScheduleResponse> {
     @Override
     public GetScheduleResponse createResponse() {
         return new GetScheduleResponse();
+    }
+
+    public GetScheduleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public GetScheduleRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 
 }

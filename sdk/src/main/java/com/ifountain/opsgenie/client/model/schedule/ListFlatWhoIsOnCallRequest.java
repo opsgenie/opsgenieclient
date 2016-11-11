@@ -5,7 +5,7 @@ package com.ifountain.opsgenie.client.model.schedule;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listFlatWhoIsOnCall(ListFlatWhoIsOnCallRequest)
  */
-public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<ListFlatWhoIsOnCallResponse> {
+public class ListFlatWhoIsOnCallRequest extends AbstractListWhoIsOnCallRequest<ListFlatWhoIsOnCallResponse, ListFlatWhoIsOnCallRequest> {
 
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()

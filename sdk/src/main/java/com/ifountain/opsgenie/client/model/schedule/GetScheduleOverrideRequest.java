@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getScheduleOverride(GetScheduleOverrideRequest)
  */
-public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse> {
+public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideResponse, GetScheduleOverrideRequest> {
     private String alias;
     private String schedule;
 
@@ -69,5 +69,15 @@ public class GetScheduleOverrideRequest extends BaseRequest<GetScheduleOverrideR
     @Override
     public GetScheduleOverrideResponse createResponse() {
         return new GetScheduleOverrideResponse();
+    }
+
+    public GetScheduleOverrideRequest withAlias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    public GetScheduleOverrideRequest withSchedule(String schedule) {
+        this.schedule = schedule;
+        return this;
     }
 }

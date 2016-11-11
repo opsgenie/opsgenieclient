@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  *
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
-public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse> {
+public class ListSchedulesRequest extends BaseRequest<ListSchedulesResponse, ListSchedulesRequest> {
     /**
      * Rest api uri of listing schedules operation.
      */

@@ -3,6 +3,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.TimeZone;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#addSchedule(AddScheduleRequest)
  */
-public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> implements ObjectWithTimeZone {
+public class AddScheduleRequest extends BaseRequest<AddScheduleResponse, AddScheduleRequest> implements ObjectWithTimeZone {
     private String name;
     private Boolean enabled;
     @JsonProperty("timezone")
@@ -99,7 +100,8 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> impleme
     }
 
     /**
-     * Get Name of the team that the schedule will be assigned to. If left empty, the schedule will be global and not belong to any team.
+     * Get Name of the team that the schedule will be assigned to. If left empty, the schedule will
+     * be global and not belong to any team.
      *
      * @return String team Name
      */
@@ -109,7 +111,8 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> impleme
     }
 
     /**
-     * Sets Name of the team that the schedule will be assigned to. If left empty, the schedule will be global and not belong to any team.
+     * Sets Name of the team that the schedule will be assigned to. If left empty, the schedule will
+     * be global and not belong to any team.
      *
      * @param team String team Name
      */
@@ -129,4 +132,35 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse> impleme
     public TimeZone getObjectTimeZone() {
         return timeZone;
     }
+
+    public AddScheduleRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AddScheduleRequest withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public AddScheduleRequest withTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public AddScheduleRequest withRotations(List<ScheduleRotation> rotations) {
+        this.rotations = rotations;
+        return this;
+    }
+
+    public AddScheduleRequest withTeam(String team) {
+        this.team = team;
+        return this;
+    }
+
+    public AddScheduleRequest withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
 }
