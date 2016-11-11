@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.beans.Condition;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule.ConditionMatchType;
 import com.ifountain.opsgenie.client.model.beans.Restriction;
-import com.ifountain.opsgenie.client.model.beans.TeamRoutingRule;
+import com.ifountain.opsgenie.client.model.beans.TeamRoutingRule.TeamRoutingRuleNotify;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import java.util.List;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#updateTeamRoutingRule(UpdateTeamRoutingRuleRequest)
  */
-public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<UpdateTeamRoutingRuleResponse> {
+public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<UpdateTeamRoutingRuleResponse, UpdateTeamRoutingRuleRequest> {
     private String id;
-    private TeamRoutingRule.TeamRoutingRuleNotify notify;
+    private TeamRoutingRuleNotify notify;
     private String name;
     private ConditionMatchType conditionMatchType;
     private List<Condition> conditions;
@@ -45,11 +45,11 @@ public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<Upd
         return new UpdateTeamRoutingRuleResponse();
     }
 
-    public TeamRoutingRule.TeamRoutingRuleNotify getNotify() {
+    public TeamRoutingRuleNotify getNotify() {
         return notify;
     }
 
-    public void setNotify(TeamRoutingRule.TeamRoutingRuleNotify notify) {
+    public void setNotify(TeamRoutingRuleNotify notify) {
         this.notify = notify;
     }
 
@@ -91,6 +91,37 @@ public class UpdateTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<Upd
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    public UpdateTeamRoutingRuleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public UpdateTeamRoutingRuleRequest withNotify(TeamRoutingRuleNotify notify) {
+        this.notify = notify;
+        return this;
+    }
+
+    public UpdateTeamRoutingRuleRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public UpdateTeamRoutingRuleRequest withConditionMatchType(ConditionMatchType conditionMatchType) {
+        this.conditionMatchType = conditionMatchType;
+        return this;
+    }
+
+    public UpdateTeamRoutingRuleRequest withConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public UpdateTeamRoutingRuleRequest withRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+        return this;
     }
 
 }

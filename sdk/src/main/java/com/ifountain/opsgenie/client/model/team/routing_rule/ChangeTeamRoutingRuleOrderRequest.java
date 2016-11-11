@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.team.routing_rule;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#changeTeamRoutingRuleOrder(ChangeTeamRoutingRuleOrderRequest)
  */
-public class ChangeTeamRoutingRuleOrderRequest extends BaseTeamRoutingRuleRequest<ChangeTeamRoutingRuleOrderResponse> {
+public class ChangeTeamRoutingRuleOrderRequest extends BaseTeamRoutingRuleRequest<ChangeTeamRoutingRuleOrderResponse, ChangeTeamRoutingRuleOrderRequest> {
     private String id;
     private Integer applyOrder;
 
@@ -42,4 +42,13 @@ public class ChangeTeamRoutingRuleOrderRequest extends BaseTeamRoutingRuleReques
         this.applyOrder = applyOrder;
     }
 
+    public ChangeTeamRoutingRuleOrderRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public ChangeTeamRoutingRuleOrderRequest withApplyOrder(Integer applyOrder) {
+        this.applyOrder = applyOrder;
+        return this;
+    }
 }

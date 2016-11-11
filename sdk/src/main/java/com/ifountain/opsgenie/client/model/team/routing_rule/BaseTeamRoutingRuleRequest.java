@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @author Mehmet Mustafa Demir
  */
-public abstract class BaseTeamRoutingRuleRequest<T extends BaseResponse> extends BaseRequest<T> {
+public abstract class BaseTeamRoutingRuleRequest<T extends BaseResponse, K extends BaseTeamRoutingRuleRequest> extends BaseRequest<T, K> {
     private String teamId;
     private String teamName;
 
@@ -26,6 +26,16 @@ public abstract class BaseTeamRoutingRuleRequest<T extends BaseResponse> extends
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public K withTeamId(String teamId) {
+        this.teamId = teamId;
+        return (K) this;
+    }
+
+    public K withTeamName(String teamName) {
+        this.teamName = teamName;
+        return (K) this;
     }
 
 }

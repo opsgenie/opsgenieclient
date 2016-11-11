@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#getTeamRoutingRule(GetTeamRoutingRuleRequest)
  */
-public class GetTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<GetTeamRoutingRuleResponse> {
+public class GetTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<GetTeamRoutingRuleResponse, GetTeamRoutingRuleRequest> {
     private String id;
 
     /**
@@ -46,6 +46,11 @@ public class GetTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<GetTea
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public GetTeamRoutingRuleRequest withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

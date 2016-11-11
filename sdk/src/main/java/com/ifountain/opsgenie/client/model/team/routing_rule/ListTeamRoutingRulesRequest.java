@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.team.routing_rule;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamRoutingRules(ListTeamRoutingRulesRequest)
  */
-public class ListTeamRoutingRulesRequest extends BaseTeamRoutingRuleRequest<ListTeamRoutingRulesResponse> {
+public class ListTeamRoutingRulesRequest extends BaseTeamRoutingRuleRequest<ListTeamRoutingRulesResponse, ListTeamRoutingRulesRequest> {
 
     /**
      * Rest api uri of listing teamRoutingRule operation.

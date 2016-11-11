@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeam(DeleteTeamRequest)
  */
-public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse> {
+public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse, DeleteTeamRequest> {
     private String id;
     private String name;
 
@@ -51,5 +51,15 @@ public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse> {
     @Override
     public DeleteTeamResponse createResponse() {
         return new DeleteTeamResponse();
+    }
+
+    public DeleteTeamRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public DeleteTeamRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 }

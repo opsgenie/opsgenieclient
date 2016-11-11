@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamLogs(ListTeamLogsRequest)
  */
-public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse> {
+public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse, ListTeamLogsRequest> {
     private String id;
     private String name;
     @JsonProperty("order")
@@ -80,6 +80,31 @@ public class ListTeamLogsRequest extends BaseRequest<ListTeamLogsResponse> {
     @Override
     public ListTeamLogsResponse createResponse() {
         return new ListTeamLogsResponse();
+    }
+
+    public ListTeamLogsRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public ListTeamLogsRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public ListTeamLogsRequest withSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+        return this;
+    }
+
+    public ListTeamLogsRequest withLimit(Integer limit) {
+        this.limit = limit;
+        return this;
+    }
+
+    public ListTeamLogsRequest withLastKey(String lastKey) {
+        this.lastKey = lastKey;
+        return this;
     }
 
     public enum SortOrder {

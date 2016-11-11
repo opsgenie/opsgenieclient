@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#getTeam(GetTeamRequest)
  */
-public class GetTeamRequest extends BaseRequest<GetTeamResponse> {
+public class GetTeamRequest extends BaseRequest<GetTeamResponse, GetTeamRequest> {
     private String name;
     private String id;
 
@@ -59,6 +59,16 @@ public class GetTeamRequest extends BaseRequest<GetTeamResponse> {
     @Override
     public GetTeamResponse createResponse() {
         return new GetTeamResponse();
+    }
+
+    public GetTeamRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public GetTeamRequest withName(String name) {
+        this.name = name;
+        return this;
     }
 
 }

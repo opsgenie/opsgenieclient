@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeams(ListTeamsRequest)
  */
-public class ListTeamsRequest extends BaseRequest<ListTeamsResponse> {
+public class ListTeamsRequest extends BaseRequest<ListTeamsResponse, ListTeamsRequest> {
     @Override
     public ListTeamsResponse createResponse() {
         return new ListTeamsResponse();

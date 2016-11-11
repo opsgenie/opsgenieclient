@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.team.routing_rule;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeamRoutingRule(DeleteTeamRoutingRuleRequest)
  */
-public class DeleteTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<DeleteTeamRoutingRuleResponse> {
+public class DeleteTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<DeleteTeamRoutingRuleResponse, DeleteTeamRoutingRuleRequest> {
     private String id;
 
     /**
@@ -33,4 +33,8 @@ public class DeleteTeamRoutingRuleRequest extends BaseTeamRoutingRuleRequest<Del
         this.id = id;
     }
 
+    public DeleteTeamRoutingRuleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeam(AddTeamRequest)
  */
-public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
+public class AddTeamRequest extends BaseRequest<AddTeamResponse, AddTeamRequest> {
     private String name;
     private String description;
     private List<TeamMember> members;
@@ -66,5 +66,20 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public AddTeamRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AddTeamRequest withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public AddTeamRequest withMembers(List<TeamMember> members) {
+        this.members = members;
+        return this;
     }
 }

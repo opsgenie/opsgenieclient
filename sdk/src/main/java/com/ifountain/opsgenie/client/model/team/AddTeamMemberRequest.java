@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.beans.Team.TeamMember.Role;
  *
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeamMember(AddTeamMemberRequest)
  */
-public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse> {
+public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse, AddTeamMemberRequest> {
     private String id;
     private String name;
     private String userId;
@@ -83,4 +83,28 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse> {
         this.role = role;
     }
 
+    public AddTeamMemberRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public AddTeamMemberRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AddTeamMemberRequest withUserId(String userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public AddTeamMemberRequest withUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public AddTeamMemberRequest withRole(Role role) {
+        this.role = role;
+        return this;
+    }
 }
