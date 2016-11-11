@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#changeNotificationRuleOrder(ChangeNotificationRuleOrderRequest)
  */
-public class ChangeNotificationRuleOrderRequest extends BaseUserRequest<ChangeNotificationRuleOrderResponse> {
+public class ChangeNotificationRuleOrderRequest extends BaseUserRequest<ChangeNotificationRuleOrderResponse, ChangeNotificationRuleOrderRequest> {
     private String id;
     private Integer applyOrder;
 
@@ -44,4 +44,13 @@ public class ChangeNotificationRuleOrderRequest extends BaseUserRequest<ChangeNo
         this.applyOrder = applyOrder;
     }
 
+    public ChangeNotificationRuleOrderRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public ChangeNotificationRuleOrderRequest withApplyOrder(Integer applyOrder) {
+        this.applyOrder = applyOrder;
+        return this;
+    }
 }

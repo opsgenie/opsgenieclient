@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#getNotificationRule(GetNotificationRuleRequest)
  */
-public class GetNotificationRuleRequest extends BaseUserRequest<GetNotificationRuleResponse> {
+public class GetNotificationRuleRequest extends BaseUserRequest<GetNotificationRuleResponse, GetNotificationRuleRequest> {
     private String id;
 
     /**
@@ -45,6 +45,11 @@ public class GetNotificationRuleRequest extends BaseUserRequest<GetNotificationR
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    public GetNotificationRuleRequest withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

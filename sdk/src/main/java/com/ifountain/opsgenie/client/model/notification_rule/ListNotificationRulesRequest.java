@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#listNotificationRule(ListNotificationRulesRequest)
  */
-public class ListNotificationRulesRequest extends BaseUserRequest<ListNotificationRulesResponse> {
+public class ListNotificationRulesRequest extends BaseUserRequest<ListNotificationRulesResponse, ListNotificationRulesRequest> {
 
     /**
      * Rest api uri of listing notificationRule operation.

@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#updateNotificationRule(UpdateNotificationRuleRequest)
  */
-public class UpdateNotificationRuleRequest extends BaseUserRequest<UpdateNotificationRuleResponse> {
+public class UpdateNotificationRuleRequest extends BaseUserRequest<UpdateNotificationRuleResponse, UpdateNotificationRuleRequest> {
     private String id;
     private String name;
     private ActionType actionType;
@@ -130,4 +130,43 @@ public class UpdateNotificationRuleRequest extends BaseUserRequest<UpdateNotific
         this.id = id;
     }
 
+    public UpdateNotificationRuleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withActionType(ActionType actionType) {
+        this.actionType = actionType;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withConditionMatchType(ConditionMatchType conditionMatchType) {
+        this.conditionMatchType = conditionMatchType;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withNotifyBefore(List<NotifyBefore> notifyBefore) {
+        this.notifyBefore = notifyBefore;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+        return this;
+    }
+
+    public UpdateNotificationRuleRequest withSchedules(List<String> schedules) {
+        this.schedules = schedules;
+        return this;
+    }
 }

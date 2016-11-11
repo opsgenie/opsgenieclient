@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#deleteNotificationRule(DeleteNotificationRuleRequest)
  */
-public class DeleteNotificationRuleRequest extends BaseUserRequest<DeleteNotificationRuleResponse> {
+public class DeleteNotificationRuleRequest extends BaseUserRequest<DeleteNotificationRuleResponse, DeleteNotificationRuleStepRequest> {
     private String id;
 
     /**
@@ -39,6 +39,11 @@ public class DeleteNotificationRuleRequest extends BaseUserRequest<DeleteNotific
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    public DeleteNotificationRuleRequest withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

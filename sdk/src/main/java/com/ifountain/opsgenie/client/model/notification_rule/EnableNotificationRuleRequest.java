@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#enableNotificationRule(com.ifountain.opsgenie.client.model.notification_rule.EnableNotificationRuleRequest)
  */
-public class EnableNotificationRuleRequest extends BaseUserRequest<EnableNotificationRuleResponse> {
+public class EnableNotificationRuleRequest extends BaseUserRequest<EnableNotificationRuleResponse, EnableNotificationRuleRequest> {
     private String id;
 
     /**
@@ -33,6 +33,11 @@ public class EnableNotificationRuleRequest extends BaseUserRequest<EnableNotific
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public EnableNotificationRuleRequest withId(String id) {
+        this.id = id;
+        return this;
     }
 
 }

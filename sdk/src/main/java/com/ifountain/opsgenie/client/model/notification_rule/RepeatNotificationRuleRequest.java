@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#repeatNotificationRule(RepeatNotificationRuleRequest)
  */
-public class RepeatNotificationRuleRequest extends BaseUserRequest<RepeatNotificationRuleResponse> {
+public class RepeatNotificationRuleRequest extends BaseUserRequest<RepeatNotificationRuleResponse, RepeatNotificationRuleRequest> {
     private String id;
     private Boolean enabled;
     private Integer loopAfter;
@@ -57,6 +57,21 @@ public class RepeatNotificationRuleRequest extends BaseUserRequest<RepeatNotific
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public RepeatNotificationRuleRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public RepeatNotificationRuleRequest withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public RepeatNotificationRuleRequest withLoopAfter(Integer loopAfter) {
+        this.loopAfter = loopAfter;
+        return this;
     }
 
 }

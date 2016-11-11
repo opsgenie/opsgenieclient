@@ -8,7 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseUserRequest;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#disableNotificationRuleStep(DisableNotificationRuleStepRequest)
  */
-public class DisableNotificationRuleStepRequest extends BaseUserRequest<DisableNotificationRuleStepResponse> {
+public class DisableNotificationRuleStepRequest extends BaseUserRequest<DisableNotificationRuleStepResponse, DisableNotificationRuleStepRequest> {
     private String ruleId;
     private String id;
 
@@ -44,4 +44,13 @@ public class DisableNotificationRuleStepRequest extends BaseUserRequest<DisableN
         this.ruleId = ruleId;
     }
 
+    public DisableNotificationRuleStepRequest withRuleId(String ruleId) {
+        this.ruleId = ruleId;
+        return this;
+    }
+
+    public DisableNotificationRuleStepRequest withId(String id) {
+        this.id = id;
+        return this;
+    }
 }

@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.model.beans.Contact.Method;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.INotificationRuleOpsGenieClient#addNotificationRuleStep(AddNotificationRuleStepRequest)
  */
-public class AddNotificationRuleStepRequest extends BaseUserRequest<AddNotificationRuleStepResponse> {
+public class AddNotificationRuleStepRequest extends BaseUserRequest<AddNotificationRuleStepResponse, AddNotificationRuleStepRequest> {
     private String ruleId;
     private Method method;
     private String to;
@@ -66,6 +66,26 @@ public class AddNotificationRuleStepRequest extends BaseUserRequest<AddNotificat
 
     public void setSendAfter(Integer sendAfter) {
         this.sendAfter = sendAfter;
+    }
+
+    public AddNotificationRuleStepRequest withRuleId(String ruleId) {
+        this.ruleId = ruleId;
+        return this;
+    }
+
+    public AddNotificationRuleStepRequest withMethod(Method method) {
+        this.method = method;
+        return this;
+    }
+
+    public AddNotificationRuleStepRequest withTo(String to) {
+        this.to = to;
+        return this;
+    }
+
+    public AddNotificationRuleStepRequest withSendAfter(Integer sendAfter) {
+        this.sendAfter = sendAfter;
+        return this;
     }
 
 }
