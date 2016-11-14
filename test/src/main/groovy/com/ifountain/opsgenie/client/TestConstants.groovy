@@ -177,6 +177,10 @@ public interface TestConstants {
         public static final String SMS = "sms";
         public static final String KEYS = "keys";
 
+        public static final String TEAM_NAME = "teamName";
+        public static final String TEAM_ID = "teamId";
+        public static final String IS_DEFAULT = "isDefault";
+
     }
 
     public interface AWS {
