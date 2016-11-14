@@ -25,7 +25,7 @@ import static org.junit.Assert.*
 class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 
     @Test
-    public void testAddNotificationRuleSuccessfullyWithTeamName() throws Exception {
+    public void addNotificationRuleSuccessfullyWithTeamName() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"routingRule1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         AddTeamRoutingRuleRequest request = new AddTeamRoutingRuleRequest();
@@ -66,7 +66,7 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         assertEquals("routingRule1Id", response.getId())
         assertEquals(1, response.getTook())
 
-        def jsonContent = testPostRequestMethodParametersAndReturnJsonContent("/v1.1/json/team/routingRule");
+        def jsonContent = assertPostRequestMethodParametersAndReturnJsonContent("/v1.1/json/team/routingRule");
         assertEquals("routingRule", jsonContent[TestConstants.API.NAME])
         assertEquals("Match All Conditions", jsonContent[TestConstants.API.CONDITION_MATCH_TYPE])
 
@@ -105,7 +105,7 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
     }
 
     @Test
-    public void testUpdateRoutingnRuleSuccessfully() throws Exception {
+    public void updateRoutingnRuleSuccessfully() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"routingRule1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 
         UpdateTeamRoutingRuleRequest request = new UpdateTeamRoutingRuleRequest();
@@ -146,7 +146,7 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         assertEquals(1, response.getTook())
 
 
-        def jsonContent = testPostRequestMethodParametersAndReturnJsonContent("/v1.1/json/team/routingRule");
+        def jsonContent = assertPostRequestMethodParametersAndReturnJsonContent("/v1.1/json/team/routingRule");
         assertEquals("routingRule", jsonContent[TestConstants.API.NAME])
         assertEquals("routingRuleId", jsonContent[TestConstants.API.ID])
         assertEquals("Match All Conditions", jsonContent[TestConstants.API.CONDITION_MATCH_TYPE])
@@ -183,7 +183,7 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
     }
 
     @Test
-    public void testDeleteRoutingRuleSuccessfully() throws Exception {
+    public void deleteRoutingRuleSuccessfully() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
         DeleteTeamRoutingRuleRequest request = new DeleteTeamRoutingRuleRequest();
         setBaseTeamParameters(request);
@@ -192,14 +192,14 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         def response = OpsGenieClientTestCase.opsgenieClient.team().deleteTeamRoutingRule(request)
         assertEquals(1, response.getTook())
 
-        HttpTestRequest requestSent = testRequestMethodParameters(HttpDelete.METHOD_NAME, "/v1/json/team/routingRule")
-        testBaseTeamParameters(requestSent.getParameters());
+        HttpTestRequest requestSent = assertRequestMethodParameters(HttpDelete.METHOD_NAME, "/v1/json/team/routingRule")
+        assertBaseTeamParameters(requestSent.getParameters());
         assertEquals("routingRuleId", requestSent.getParameters()[TestConstants.API.ID]);
     }
 
 
     @Test
-    public void testChangeRoutingRuleOrder() throws Exception {
+    public void changeRoutingRuleOrder() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"success\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
         ChangeTeamRoutingRuleOrderRequest request = new ChangeTeamRoutingRuleOrderRequest();
         setBaseTeamParameters(request);
@@ -210,14 +210,14 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         assertTrue(response.success)
         assertEquals(1, response.getTook())
 
-        def jsonContent = testPostRequestMethodParametersAndReturnJsonContent("/v1/json/team/routingRule/changeOrder");
+        def jsonContent = assertPostRequestMethodParametersAndReturnJsonContent("/v1/json/team/routingRule/changeOrder");
         assertEquals("routingRuleId", jsonContent[TestConstants.API.ID])
         assertEquals(1, jsonContent[TestConstants.API.APPLY_ORDER])
     }
 
 
     @Test
-    public void testGetRoutingRuleSuccessfully() throws Exception {
+    public void getRoutingRuleSuccessfully() throws Exception {
         String teamRoutingRuleId = "67c4855a-4c1b-4cbf-9be2-87eb212760e9";
         def condition1 = [
                 not          : false,
@@ -277,14 +277,14 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
 
         //testing restrictions
         assertEquals(1, teamRoutingRule.getRestrictions().size());
-        testRestriction(restrictionMap, teamRoutingRule.getRestrictions().get(0))
+        assertRestriction(restrictionMap, teamRoutingRule.getRestrictions().get(0))
 
         //testing conditions
         assertEquals(jsonResponse[TestConstants.API.CONDITION_MATCH_TYPE], teamRoutingRule.getConditionMatchType().value())
 
         assertEquals(2, teamRoutingRule.getConditions().size());
-        testCondition(condition1,teamRoutingRule.getConditions().find { it.expectedValue == "new" });
-        testCondition(condition2,teamRoutingRule.getConditions().find { it.expectedValue == "ping" });
+        assertCondition(condition1,teamRoutingRule.getConditions().find { it.expectedValue == "new" });
+        assertCondition(condition2,teamRoutingRule.getConditions().find { it.expectedValue == "ping" });
 
         //testing notify
         TeamRoutingRuleNotify ruleNotify = teamRoutingRule.getNotify();
@@ -294,14 +294,14 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         assertEquals(notify[TestConstants.API.ID], ruleNotify.getId())
 
         //testing get request parameters
-        HttpTestRequest requestSent = testRequestMethodParameters(HttpGet.METHOD_NAME, "/v1.1/json/team/routingRule")
-        testBaseTeamParameters(requestSent.getParameters());
+        HttpTestRequest requestSent = assertRequestMethodParameters(HttpGet.METHOD_NAME, "/v1.1/json/team/routingRule")
+        assertBaseTeamParameters(requestSent.getParameters());
         assertEquals(teamRoutingRuleId, requestSent.getParameters()[TestConstants.API.ID])
     }
 
 
     @Test
-    public void testListRoutingRuleSuccessfully() throws Exception {
+    public void listRoutingRuleSuccessfully() throws Exception {
         def rule1 = [
                 applyOrder        : 0,
                 name              : "rule1Name",
@@ -395,13 +395,13 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         assertEquals("scheduleId", notify1.getId())
 
         assertEquals(1, inputRule1.getRestrictions().size())
-        testRestriction(rule1.restrictions[0], inputRule1.getRestrictions().get(0))
+        assertRestriction(rule1.restrictions[0], inputRule1.getRestrictions().get(0))
 
 
         assertEquals(rule1.conditionMatchType, inputRule1.getConditionMatchType().value());
         assertEquals(2, inputRule1.getConditions().size());
-        testCondition(rule1.conditions[0],inputRule1.getConditions().find { it.expectedValue == "night" });
-        testCondition(rule1.conditions[1],inputRule1.getConditions().find { it.expectedValue == "prop1" });
+        assertCondition(rule1.conditions[0],inputRule1.getConditions().find { it.expectedValue == "night" });
+        assertCondition(rule1.conditions[1],inputRule1.getConditions().find { it.expectedValue == "prop1" });
 
         //test rule2
         TeamRoutingRule inputRule2 = response.getRules().find { it.name == rule2.name }
@@ -418,13 +418,13 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
 
 
         assertEquals(2, inputRule2.getRestrictions().size())
-        testRestriction(rule2.restrictions[0], inputRule2.getRestrictions().find { it.startDay.name() == "sunday" })
-        testRestriction(rule2.restrictions[1], inputRule2.getRestrictions().find { it.startDay.name() == "tuesday" })
+        assertRestriction(rule2.restrictions[0], inputRule2.getRestrictions().find { it.startDay.name() == "sunday" })
+        assertRestriction(rule2.restrictions[1], inputRule2.getRestrictions().find { it.startDay.name() == "tuesday" })
 
         assertEquals(rule2.conditionMatchType, inputRule2.getConditionMatchType().value());
         assertEquals(2, inputRule2.getConditions().size());
-        testCondition(rule2.conditions[0],inputRule2.getConditions().find { it.expectedValue == "new" });
-        testCondition(rule2.conditions[1],inputRule2.getConditions().find { it.expectedValue == "ping" });
+        assertCondition(rule2.conditions[0],inputRule2.getConditions().find { it.expectedValue == "new" });
+        assertCondition(rule2.conditions[1],inputRule2.getConditions().find { it.expectedValue == "ping" });
 
 
         //test rule3
@@ -440,19 +440,19 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         assertNotNull(defaultNotify)
         assertEquals("none", defaultNotify.getName())
 
-        HttpTestRequest requestSent = testRequestMethodParameters(HttpGet.METHOD_NAME, "/v1.1/json/team/routingRule")
-        testBaseTeamParameters(requestSent.getParameters());
+        HttpTestRequest requestSent = assertRequestMethodParameters(HttpGet.METHOD_NAME, "/v1.1/json/team/routingRule")
+        assertBaseTeamParameters(requestSent.getParameters());
 
     }
 
-    private void testCondition(Map conditionMap, Condition condition) {
+    private void assertCondition(Map conditionMap, Condition condition) {
         assertEquals( conditionMap.not, condition.getNot());
         assertEquals( conditionMap.field, condition.getField().value());
         assertEquals( conditionMap.operation, condition.getOperation().value());
         assertEquals( conditionMap.expectedValue, condition.getExpectedValue());
     }
 
-    private void testRestriction(Map restrictionMap, Restriction restriction) {
+    private void assertRestriction(Map restrictionMap, Restriction restriction) {
         assertEquals(restrictionMap.endHour, restriction.getEndHour());
         assertEquals(restrictionMap.startHour, restriction.getStartHour());
         assertEquals(restrictionMap.startMinute, restriction.getStartMinute());
@@ -463,15 +463,15 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
             assertEquals(restrictionMap.endDay, restriction.getEndDay().name());
     }
 
-    private Map testPostRequestMethodParametersAndReturnJsonContent(String link) {
-        HttpTestRequest requestSent = testRequestMethodParameters(HttpPost.METHOD_NAME, link)
+    private Map assertPostRequestMethodParametersAndReturnJsonContent(String link) {
+        HttpTestRequest requestSent = assertRequestMethodParameters(HttpPost.METHOD_NAME, link)
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        testBaseTeamParameters(jsonContent);
+        assertBaseTeamParameters(jsonContent);
         return jsonContent;
     }
 
-    private HttpTestRequest testRequestMethodParameters(String methodName, String link) {
+    private HttpTestRequest assertRequestMethodParameters(String methodName, String link) {
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(methodName, requestSent.getMethod());
@@ -479,7 +479,7 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         return requestSent;
     }
 
-    private void testBaseTeamParameters(Map requestMap) {
+    private void assertBaseTeamParameters(Map requestMap) {
         assertEquals("customer1", requestMap[TestConstants.API.API_KEY])
         assertEquals("teamName", requestMap[TestConstants.API.TEAM_NAME]);
         assertEquals("teamId", requestMap[TestConstants.API.TEAM_ID]);

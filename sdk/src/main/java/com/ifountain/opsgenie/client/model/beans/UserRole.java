@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
 /**
@@ -15,8 +16,20 @@ public final class UserRole extends Bean {
 
     private String name;
 
-    public UserRole(String name) {
+    private UserRole(String name) {
         this.name = name;
+    }
+
+    @JsonCreator
+    public static UserRole valueOf(String name) {
+        if (ADMIN.getName().equalsIgnoreCase(name)) {
+            return ADMIN;
+        } else if (OWNER.getName().equalsIgnoreCase(name)) {
+            return OWNER;
+        } else if (USER.getName().equalsIgnoreCase(name)) {
+            return USER;
+        }
+        return new UserRole(name);
     }
 
     @JsonValue
