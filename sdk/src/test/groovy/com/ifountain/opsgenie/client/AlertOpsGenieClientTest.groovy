@@ -210,6 +210,44 @@ class AlertOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTest
     }
 
     @Test
+    public void testUnAcknowledgeSuccessfully() throws Exception {
+        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+
+        UnAcknowledgeRequest request = new UnAcknowledgeRequest();
+        request.setId("alert1")
+        request.setAlias("alias")
+        request.setTinyId("tinyId")
+        request.setUser("someuser")
+        request.setNote("comment")
+        request.setSource("source1")
+        request.setApiKey("customer1")
+
+        def response = OpsGenieClientTestCase.opsgenieClient.alert().unAcknowledge(request)
+        assertTrue(response.isSuccess())
+        assertEquals(1, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v1/json/alert/unacknowledge", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals("customer1", jsonContent[TestConstants.API.API_KEY])
+        assertEquals("alert1", jsonContent[TestConstants.API.ID])
+        assertEquals("alias", jsonContent[TestConstants.API.ALIAS])
+        assertEquals("tinyId", jsonContent[TestConstants.API.TINY_ID])
+        assertEquals("someuser", jsonContent[TestConstants.API.USER])
+        assertEquals("comment", jsonContent[TestConstants.API.NOTE])
+        assertEquals("source1", jsonContent[TestConstants.API.SOURCE])
+    }
+
+    @Test
+    public void testUnAcknowledgeThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.alert(), "unAcknowledge", new UnAcknowledgeRequest())
+    }
+
+    @Test
     public void testRenotifySuccessfully() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"status\":\"successful\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
 

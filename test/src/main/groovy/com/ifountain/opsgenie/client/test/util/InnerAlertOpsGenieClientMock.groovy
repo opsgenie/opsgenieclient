@@ -19,6 +19,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     private DeleteAlertResponse deleteAlertResponse;
     private AddNoteResponse addNoteResponse;
     private AcknowledgeResponse acknowledgeResponse;
+    private UnAcknowledgeResponse unAcknowledgeResponse;
     private RenotifyResponse renotifyResponse;
     private TakeOwnershipResponse takeOwnershipResponse;
     private AssignResponse assignResponse;
@@ -68,6 +69,12 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     public AcknowledgeResponse acknowledge(AcknowledgeRequest request) throws OpsGenieClientException, IOException {
         requestProcessor.processRequest(request);
         return acknowledgeResponse;
+    }
+
+    @Override
+    UnAcknowledgeResponse unAcknowledge(UnAcknowledgeRequest request) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(request);
+        return unAcknowledgeResponse;
     }
 
     @Override

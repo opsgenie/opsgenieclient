@@ -12,7 +12,7 @@ import java.util.List;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
  */
-public class RemoveDetailsRequest extends BaseAlertRequestWithNoteAndUserAndSource<RemoveDetailsResponse, RemoveDetailsRequest> {
+public class RemoveDetailsRequest extends BaseAlertRequestWithParameters<RemoveDetailsResponse, RemoveDetailsRequest> {
 
     private List<String> keys;
 

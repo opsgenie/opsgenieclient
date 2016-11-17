@@ -96,6 +96,18 @@ public interface IAlertOpsGenieClient {
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**
+     * UnAcknowledges alerts in OpsGenie.
+     *
+     *
+     * @param unAcknowledgeRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.UnAcknowledgeRequest
+     * @see com.ifountain.opsgenie.client.model.alert.UnAcknowledgeResponse
+     */
+    public UnAcknowledgeResponse unAcknowledge(UnAcknowledgeRequest unAcknowledgeRequest) throws OpsGenieClientException, IOException, ParseException;
+
+
+    /**
      * Renotifies recipients in OpsGenie.
      *
      *
