@@ -4,10 +4,14 @@ import com.ifountain.opsgenie.client.model.alert.AddDetailsRequest
 import com.ifountain.opsgenie.client.model.alert.AddDetailsResponse
 import com.ifountain.opsgenie.client.model.alert.AddNoteRequest
 import com.ifountain.opsgenie.client.model.alert.AddNoteResponse
+import com.ifountain.opsgenie.client.model.alert.EscalateToNextRequest
+import com.ifountain.opsgenie.client.model.alert.EscalateToNextResponse
 import com.ifountain.opsgenie.client.model.alert.RemoveDetailsRequest
 import com.ifountain.opsgenie.client.model.alert.RemoveDetailsResponse
 import com.ifountain.opsgenie.client.model.alert.SnoozeRequest
 import com.ifountain.opsgenie.client.model.alert.SnoozeResponse
+import com.ifountain.opsgenie.client.model.alert.UnAcknowledgeRequest
+import com.ifountain.opsgenie.client.model.alert.UnAcknowledgeResponse
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import org.junit.Before
 import org.junit.Test
@@ -119,7 +123,7 @@ class ScriptProxyTest  {
     @Test
     public void testEscalateToNext() throws Exception {
         opsGenieClient.alert().setEscalateToNextResponse(new EscalateToNextResponse());
-        Map response = proxy.unAcknowledge(["id" : "aydi", "escalationId" : "eskaleysinAydi"]);
+        Map response = proxy.escalateToNext(["id" : "aydi", "escalationId" : "eskaleysinAydi"]);
 
         assertTrue(response.success);
 

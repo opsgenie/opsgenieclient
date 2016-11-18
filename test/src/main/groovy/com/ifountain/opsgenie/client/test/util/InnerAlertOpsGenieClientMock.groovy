@@ -195,7 +195,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     }
 
     @Override
-    EscalateToNextResponse escalateToNext(EscalateToNextReqeust escalateToNextReqeust) throws OpsGenieClientException, IOException, ParseException {
+    EscalateToNextResponse escalateToNext(EscalateToNextRequest escalateToNextReqeust) throws OpsGenieClientException, IOException, ParseException {
         requestProcessor.processRequest(escalateToNextReqeust);
         return escalateToNextResponse;
     }
