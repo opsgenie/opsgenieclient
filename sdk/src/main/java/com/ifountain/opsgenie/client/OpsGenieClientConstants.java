@@ -119,6 +119,9 @@ public interface OpsGenieClientConstants {
         String TO_USERS = "toUsers";
         String RULE_TYPES = "ruleTypes";
         String FLAT = "flat";
+        String ESCALATION_ID = "escalationId";
+        String ESCALATION_NAME = "escalationName";
+        String KEYS = "keys";
         //contact constants
         String USER_ID = "userId";
         String USER_CONTACTS = "userContacts";

@@ -34,7 +34,11 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     private ListAlertLogsResponse listAlertLogsResponse;
     private ListAlertRecipientsResponse listAlertRecipientsResponse;
     private ListAlertNotesResponse listAlertNotesResponse;
-
+    private SnoozeResponse snoozeResponse;
+    private AddDetailsResponse addDetailsResponse;
+    private RemoveDetailsResponse removeDetailsResponse;
+    private UnAcknowledgeResponse unAcknowledgeResponse;
+    private EscalateToNextResponse escalateToNextResponse;
 
     public InnerAlertOpsGenieClientMock(OpsGenieClientMockRequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
@@ -168,17 +172,32 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
 
     @Override
     AddDetailsResponse addDetails(AddDetailsRequest addDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
-        return null
+        requestProcessor.processRequest(addDetailsRequest);
+        return addDetailsResponse;
     }
 
     @Override
     RemoveDetailsResponse removeDetails(RemoveDetailsRequest removeDetailsRequest) throws OpsGenieClientException, IOException, ParseException {
-        return null
+        requestProcessor.processRequest(removeDetailsRequest);
+        return removeDetailsResponse;
     }
 
     @Override
     SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
-        return null
+        requestProcessor.processRequest(snoozeRequest);
+        return snoozeResponse;
+    }
+
+    @Override
+    UnAcknowledgeResponse unAcknowledge(UnAcknowledgeRequest unAcknowledgeRequest) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(unAcknowledgeRequest);
+        return unAcknowledgeResponse;
+    }
+
+    @Override
+    EscalateToNextResponse escalateToNext(EscalateToNextReqeust escalateToNextReqeust) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(escalateToNextReqeust);
+        return escalateToNextResponse;
     }
 
     public void setCreateAlertResponse(CreateAlertResponse createAlertResponse) {
@@ -259,5 +278,25 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
 
     public void setRemoveTagsResponse(RemoveTagsResponse removeTagsResponse) {
         this.removeTagsResponse = removeTagsResponse;
+    }
+
+    public void setSnoozeResponse(SnoozeResponse snoozeResponse) {
+        this.snoozeResponse = snoozeResponse;
+    }
+
+    public void setAddDetailsResponse(AddDetailsResponse addDetailsResponse) {
+        this.addDetailsResponse = addDetailsResponse;
+    }
+
+    public void setRemoveDetailsResponse(RemoveDetailsResponse removeDetailsResponse) {
+        this.removeDetailsResponse = removeDetailsResponse;
+    }
+
+    public void setUnAcknowledgeResponse(UnAcknowledgeResponse unAcknowledgeResponse) {
+        this.unAcknowledgeResponse = unAcknowledgeResponse;
+    }
+
+    public void setEscalateToNextResponse(EscalateToNextResponse escalateToNextResponse) {
+        this.escalateToNextResponse = escalateToNextResponse;
     }
 }
