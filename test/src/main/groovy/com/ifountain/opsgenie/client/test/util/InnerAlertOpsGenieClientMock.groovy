@@ -159,7 +159,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     }
 
     @Override
-    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException{
+    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException {
         requestProcessor.processRequest(countAlertsRequest);
         return countAlertsResponse;
     }

@@ -18,7 +18,8 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     private JsonOpsgenieHttpClient httpClient;
 
     /**
-     * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the specified client and root URI.
+     * Constructs a new alert client to invoke service methods on OpsGenie for alerts using the
+     * specified client and root URI.
      */
     public InnerAlertOpsGenieClient(JsonOpsgenieHttpClient httpClient) {
         this.httpClient = httpClient;
@@ -86,6 +87,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     @Override
     public AcknowledgeResponse acknowledge(AcknowledgeRequest acknowledgeRequest) throws OpsGenieClientException, IOException, ParseException {
         return (AcknowledgeResponse) httpClient.doPostRequest(acknowledgeRequest);
+    }
+
+    /**
+     * @see IAlertOpsGenieClient#unAcknowledge(UnAcknowledgeRequest)
+     */
+    @Override
+    public UnAcknowledgeResponse unAcknowledge(UnAcknowledgeRequest unAcknowledgeRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (UnAcknowledgeResponse) httpClient.doPostRequest(unAcknowledgeRequest);
     }
 
     /**
@@ -217,6 +226,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
     @Override
     public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
         return (SnoozeResponse) httpClient.doPostRequest(snoozeRequest);
+    }
+
+    /**
+     * @see IAlertOpsGenieClient#escalateToNext(EscalateToNextRequest)
+     */
+    @Override
+    public EscalateToNextResponse escalateToNext(EscalateToNextRequest escalateToNextRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (EscalateToNextResponse) httpClient.doPostRequest(escalateToNextRequest);
     }
 
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException, ParseException {

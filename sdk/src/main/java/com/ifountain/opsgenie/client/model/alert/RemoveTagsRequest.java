@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
-public class RemoveTagsRequest extends BaseAlertRequestWithNoteAndUserAndSource<RemoveTagsResponse, RemoveTagsRequest> {
+public class RemoveTagsRequest extends BaseAlertRequestWithParameters<RemoveTagsResponse, RemoveTagsRequest> {
     private List<String> tags;
 
     /**

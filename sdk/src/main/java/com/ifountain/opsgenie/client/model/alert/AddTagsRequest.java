@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Tuba Ozturk
  */
-public class AddTagsRequest extends BaseAlertRequestWithNoteAndUserAndSource<AddTagsResponse, AddTagsRequest> {
+public class AddTagsRequest extends BaseAlertRequestWithParameters<AddTagsResponse, AddTagsRequest> {
     private List<String> tags;
 
     /**

@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#assign(AssignRequest)
  */
-public class AssignRequest extends BaseAlertRequestWithNoteAndUserAndSource<AssignResponse, AssignRequest> {
+public class AssignRequest extends BaseAlertRequestWithParameters<AssignResponse, AssignRequest> {
     private String owner;
 
     /**

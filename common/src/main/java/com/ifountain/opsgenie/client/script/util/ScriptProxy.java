@@ -935,7 +935,7 @@ public class ScriptProxy {
         return beanMaps;
     }
 
-    private void populateAlertRequestWithSource(BaseAlertRequestWithNoteAndUserAndSource request, Map params) {
+    private void populateAlertRequestWithSource(BaseAlertRequestWithParameters request, Map params) {
         populateAlertRequestWithId(request, params);
         if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
             request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));

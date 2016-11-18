@@ -5,7 +5,7 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 /**
  * @author Mehmet Mustafa Demir
  */
-public abstract class BaseAlertRequestWithNoteAndUserAndSource<T extends BaseResponse, K extends BaseAlertRequestWithNoteAndUserAndSource> extends BaseAlertRequestWithId<T, K> {
+public abstract class BaseAlertRequestWithParameters<T extends BaseResponse, K extends BaseAlertRequestWithParameters> extends BaseAlertRequestWithId<T, K> {
     private String note;
     private String user;
     private String source;

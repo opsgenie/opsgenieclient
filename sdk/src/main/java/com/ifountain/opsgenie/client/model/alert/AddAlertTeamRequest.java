@@ -6,7 +6,7 @@ package com.ifountain.opsgenie.client.model.alert;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTeam(AddAlertTeamRequest)
  */
-public class AddAlertTeamRequest extends BaseAlertRequestWithNoteAndUserAndSource<AddAlertTeamResponse, AddAlertTeamRequest> {
+public class AddAlertTeamRequest extends BaseAlertRequestWithParameters<AddAlertTeamResponse, AddAlertTeamRequest> {
     private String team;
 
     /**
