@@ -35,6 +35,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     private ListAlertLogsResponse listAlertLogsResponse;
     private ListAlertRecipientsResponse listAlertRecipientsResponse;
     private ListAlertNotesResponse listAlertNotesResponse;
+    private EscalateToNextResponse escalateToNextResponse;
 
 
     public InnerAlertOpsGenieClientMock(OpsGenieClientMockRequestProcessor requestProcessor) {
@@ -162,7 +163,7 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     }
 
     @Override
-    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException{
+    public CountAlertsResponse countAlerts(CountAlertsRequest countAlertsRequest) throws OpsGenieClientException, IOException, ParseException {
         requestProcessor.processRequest(countAlertsRequest);
         return countAlertsResponse;
     }
@@ -186,6 +187,12 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
     @Override
     SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException {
         return null
+    }
+
+    @Override
+    EscalateToNextResponse escalateToNext(EscalateToNextRequest escalateToNextRequest) throws OpsGenieClientException, IOException, ParseException {
+        requestProcessor.processRequest(escalateToNextRequest);
+        return escalateToNextResponse;
     }
 
     public void setCreateAlertResponse(CreateAlertResponse createAlertResponse) {
@@ -266,5 +273,13 @@ public class InnerAlertOpsGenieClientMock implements IAlertOpsGenieClient {
 
     public void setRemoveTagsResponse(RemoveTagsResponse removeTagsResponse) {
         this.removeTagsResponse = removeTagsResponse;
+    }
+
+    void setUnAcknowledgeResponse(UnAcknowledgeResponse unAcknowledgeResponse) {
+        this.unAcknowledgeResponse = unAcknowledgeResponse
+    }
+
+    void setEscalateToNextResponse(EscalateToNextResponse escalateToNextResponse) {
+        this.escalateToNextResponse = escalateToNextResponse
     }
 }

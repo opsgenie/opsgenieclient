@@ -180,6 +180,8 @@ public interface TestConstants {
         public static final String TEAM_NAME = "teamName";
         public static final String TEAM_ID = "teamId";
         public static final String IS_DEFAULT = "isDefault";
+        public static final String ESCALATION_NAME = "escalationName";
+        public static final String ESCALATION_ID = "escalationId";
 
     }
 

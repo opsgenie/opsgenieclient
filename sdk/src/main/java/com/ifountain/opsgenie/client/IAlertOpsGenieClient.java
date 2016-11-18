@@ -271,4 +271,15 @@ public interface IAlertOpsGenieClient {
     public SnoozeResponse snooze(SnoozeRequest snoozeRequest) throws OpsGenieClientException, IOException, ParseException;
 
 
+    /**
+     * Escalate to Next request is used to immediately process the next available rule in the specified escalation.
+     *
+     * @param escalateToNextRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @see com.ifountain.opsgenie.client.model.alert.EscalateToNextRequest
+     * @see com.ifountain.opsgenie.client.model.alert.EscalateToNextResponse
+     */
+    public EscalateToNextResponse escalateToNext(EscalateToNextRequest escalateToNextRequest) throws OpsGenieClientException, IOException, ParseException;
+
+
 }

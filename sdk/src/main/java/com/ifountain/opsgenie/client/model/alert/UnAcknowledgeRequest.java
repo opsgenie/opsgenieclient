@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.alert;
 /**
  * Container for the parameters to make an acknowledge alert api call.
  *
- * @author Sezgin Kucukkaraaslan
+ * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#unAcknowledge(UnAcknowledgeRequest)
  */
 public class UnAcknowledgeRequest extends BaseAlertRequestWithParameters<UnAcknowledgeResponse, UnAcknowledgeRequest> {

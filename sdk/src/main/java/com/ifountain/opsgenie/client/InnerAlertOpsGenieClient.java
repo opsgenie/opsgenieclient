@@ -228,6 +228,14 @@ public class InnerAlertOpsGenieClient implements IAlertOpsGenieClient {
         return (SnoozeResponse) httpClient.doPostRequest(snoozeRequest);
     }
 
+    /**
+     * @see IAlertOpsGenieClient#escalateToNext(EscalateToNextRequest)
+     */
+    @Override
+    public EscalateToNextResponse escalateToNext(EscalateToNextRequest escalateToNextRequest) throws OpsGenieClientException, IOException, ParseException {
+        return (EscalateToNextResponse) httpClient.doPostRequest(escalateToNextRequest);
+    }
+
     private AttachResponse _attach(AttachRequest attachRequest, InputStream inputStream, String fileName) throws IOException, OpsGenieClientException, ParseException {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (inputStream != null && fileName != null)
