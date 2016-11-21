@@ -64,7 +64,6 @@ public class ScriptProxy {
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
 
         return successToMap(this.opsGenieClient.alert().snooze(request));
     }
