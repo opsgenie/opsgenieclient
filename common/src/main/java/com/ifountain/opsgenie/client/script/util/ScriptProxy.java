@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.script.util;
 
 import com.ifountain.opsgenie.client.IOpsGenieClient;
+import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
@@ -64,6 +65,7 @@ public class ScriptProxy {
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
 
         return successToMap(this.opsGenieClient.alert().snooze(request));
     }
