@@ -38,7 +38,7 @@ public abstract class Bean implements IBean {
 
     public String toString() {
         try {
-            return JsonUtils.toJson(this);
+            return JsonUtils.toJsonWithoutParsing(this);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

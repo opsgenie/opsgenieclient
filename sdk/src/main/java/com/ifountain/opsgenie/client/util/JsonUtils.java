@@ -79,6 +79,8 @@ public class JsonUtils {
 
     public static void fromJsonWithoutParsing(Object object, JsonParser parser) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        mapper.setDateFormat(sdf);
         mapper.readerForUpdating(object).readValue(parser);
     }
 
@@ -93,6 +95,8 @@ public class JsonUtils {
 
     public static String toJsonWithoutParsing(Object object) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
+        mapper.setDateFormat(sdf);
         return mapper.writeValueAsString(object);
     }
 }
