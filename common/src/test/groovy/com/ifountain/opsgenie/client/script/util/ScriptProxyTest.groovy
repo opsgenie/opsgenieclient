@@ -63,7 +63,7 @@ class ScriptProxyTest  {
     @Test
     public void testSnooze() throws Exception {
         opsGenieClient.alert().setSnoozeResponse(new SnoozeResponse());
-        Map response = proxy.snooze(["id":"aydi", "endDate": new Date(2016, 11, 16), "timezone" : "GMT+3"])
+        Map response = proxy.snooze(["id":"aydi", "endDate": new Date("11/24/2016 11:45"), "timezone" : "GMT+3"])
 
         assertTrue(response.success)
 
@@ -72,7 +72,7 @@ class ScriptProxyTest  {
         SnoozeRequest request = executedRequests[0] as SnoozeRequest;
 
         assertEquals("aydi", request.getId())
-        assertEquals(new Date(2016, 11, 16), request.getEndDate())
+        assertEquals(new Date("11/24/2016 11:45"), request.getEndDate())
         assertEquals(TimeZone.getTimeZone("GMT+3"), request.getTimeZone())
     }
 
