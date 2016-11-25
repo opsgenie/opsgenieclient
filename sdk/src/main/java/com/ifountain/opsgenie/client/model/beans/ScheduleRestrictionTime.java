@@ -3,7 +3,7 @@ package com.ifountain.opsgenie.client.model.beans;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
 
-
+@Deprecated
 public class ScheduleRestrictionTime {
     private int hour;
     private int minute;

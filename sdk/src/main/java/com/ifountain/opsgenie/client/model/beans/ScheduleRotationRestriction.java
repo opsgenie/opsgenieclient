@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 /**
  * ScheduleRotationRestriction bean
  */
+@Deprecated
 public class ScheduleRotationRestriction extends Bean {
     private DAY startDay;
     private DAY endDay;
