@@ -1,2 +1,15 @@
 /etc/opsgenie/conf/opsgenie-integration.conf
 /etc/opsgenie/marid/log.properties
+/var/opsgenie/marid/scripts/Acknowledge.groovy
+/var/opsgenie/marid/scripts/AddNote.groovy
+/var/opsgenie/marid/scripts/AddRecipient.groovy
+/var/opsgenie/marid/scripts/AddTags.groovy
+/var/opsgenie/marid/scripts/AssignOwnership.groovy
+/var/opsgenie/marid/scripts/Close.groovy
+/var/opsgenie/marid/scripts/Create.groovy
+/var/opsgenie/marid/scripts/Delete.groovy
+/var/opsgenie/marid/scripts/HelloWorld.groovy
+/var/opsgenie/marid/scripts/RemoveTags.groovy
+/var/opsgenie/marid/scripts/SendHeartbeat.groovy
+/var/opsgenie/marid/scripts/TakeOwnership.groovy
+/var/opsgenie/marid/scripts/UnAcknowledge.groovy

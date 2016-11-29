@@ -157,6 +157,7 @@ task packageMaridRpm(type: Rpm, dependsOn: ['jar']) {
     }
 
     from("${projectDir}/scripts") {
+        fileType CONFIG | NOREPLACE
         into 'var/opsgenie/marid/scripts'
     }
 
