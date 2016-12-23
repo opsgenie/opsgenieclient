@@ -471,6 +471,7 @@ public class ScriptProxy {
 
     public Map sendToIntegration(String endPoint, Map contentParams, Map httpParams) throws Exception {
         SendToIntegrationRequest request = new SendToIntegrationRequest();
+        populateCommonProps(request, contentParams);
         request.setEndPoint(endPoint);
         request.setContentParameters(contentParams);
         request.setHttpParameters(httpParams);
