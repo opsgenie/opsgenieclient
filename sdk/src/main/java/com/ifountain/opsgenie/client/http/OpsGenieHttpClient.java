@@ -11,6 +11,8 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URIUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.Scheme;
@@ -161,31 +163,18 @@ public class OpsGenieHttpClient {
         configureHeaders(delete, headers);
         return executeHttpMethod(delete);
     }
-
     private URI generateURI(String uri, Map<String, Object> parameters) throws URISyntaxException {
-        URIBuilder builder = new URIBuilder();
-        builder.setPath(uri);
-        if (parameters != null) {
-            for (Map.Entry<String, Object> o : parameters.entrySet()) {
-                if (o.getValue() != null) {
-                    if (o.getValue() instanceof Collection) {
-                        Collection col = (Collection) o.getValue();
-                        for (Object content : col) {
-                            builder.addParameter(o.getKey(), String.valueOf(content));
-                        }
-                    } else if (o.getValue().getClass().isArray()) {
-                        int length = Array.getLength(o.getValue());
-                        for (int i = 0; i < length; i++) {
-                            Object content = Array.get(o.getValue(), i);
-                            builder.addParameter(o.getKey(), String.valueOf(content));
-                        }
-                    } else {
-                        builder.addParameter(o.getKey(), String.valueOf(o.getValue()));
-                    }
-                }
+        URI url = new URI(uri);
+        List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(url, "UTF-8");
+        List<NameValuePair> queryParams = getNameValuePairsFromMap(parameters);
+
+        for (NameValuePair nvp : optionsInQuery) {
+            if (!parameters.containsKey(nvp.getName())) {
+                queryParams.add(nvp);
             }
         }
-        return builder.build();
+        URI newUri = URIUtils.createURI(url.getScheme(), url.getHost(), url.getPort(), url.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), url.getFragment());
+        return newUri;
     }
 
     public OpsGenieHttpResponse executeHttpMethod(final HttpRequestBase method) throws IOException {
@@ -276,6 +265,29 @@ public class OpsGenieHttpClient {
                 }
             }
         }
+    }
+    private List<NameValuePair> getNameValuePairsFromMap(Map<String, Object> params) {
+        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+        for (Map.Entry<String, Object> o : params.entrySet()) {
+            if (o.getValue() != null) {
+                if (o.getValue() instanceof Collection) {
+                    Collection col = (Collection) o.getValue();
+                    for (Object content : col) {
+                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+                    }
+                } else if (o.getValue().getClass().isArray()) {
+                    int length = Array.getLength(o.getValue());
+                    for (int i = 0; i < length; i++) {
+                        Object content = Array.get(o.getValue(), i);
+                        formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(content)));
+                    }
+                } else {
+                    formparams.add(new BasicNameValuePair(o.getKey(), String.valueOf(o.getValue())));
+                }
+            }
+
+        }
+        return formparams;
     }
 
     private SSLSocketFactory createSocketFactory() throws Exception {

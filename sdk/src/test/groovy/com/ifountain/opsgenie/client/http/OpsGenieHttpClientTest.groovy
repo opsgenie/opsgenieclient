@@ -329,7 +329,7 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
     public void testPostWithParametersAndStringContentAndHeaders() {
         httpServer.setResponseToReturn("success");
 
-        def response = httpClient.post(url, "content", ["header1": "head1"], ["param1": "par1"])
+        def response = httpClient.post(url + "?param1=value", "content", ["header1": "head1"], ["param1": "par1"])
         assertEquals(1, receivedRequests.size())
         HttpTestRequest request = receivedRequests[0];
 
@@ -356,17 +356,63 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
     public void testGet() throws Exception {
         httpServer.setResponseToReturn("success");
 
-        def response = httpClient.get(url + "?param1=value1&param2=value2", [param1: "updatedValue1", param3: "value3"])
+        def response = httpClient.get(url + "?param1=value1&param2=", [param1: "updatedValue1", param4: "value4", param3: "updatedValue3"])
         assertEquals(1, receivedRequests.size())
         HttpTestRequest request = receivedRequests[0];
         assertEquals(HttpGet.METHOD_NAME, request.getMethod());
-        assertEquals("/dummy%3Fparam1=value1&param2=value2", request.getUrl())
+        assertEquals("/dummy", request.getUrl())
         assertEquals(0, request.getContentAsByte().length)
 
         def params = request.getParameters();
-        assertEquals(2, params.size())
-        assertEquals("updatedValue1", params.param1)
+        assertEquals(4, params.size())
+        assertEquals("updatedValue1",params.param1)
+        assertEquals("", params.param2)
+        assertEquals("updatedValue3", params.param3)
+        assertEquals("value4", params.param4)
+
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode())
+        assertEquals("success", new String(response.getContent()))
+    }
+    @Test
+    public void testGetWithOnlyParameterKeyOnURL() throws Exception {
+        httpServer.setResponseToReturn("success");
+
+        def response = httpClient.get(url + "?cem", [param1: "updatedValue1", param2: "value2", param3: "updatedValue3"])
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest request = receivedRequests[0];
+        assertEquals(HttpGet.METHOD_NAME, request.getMethod());
+        assertEquals("/dummy", request.getUrl())
+        assertEquals(0, request.getContentAsByte().length)
+
+        def params = request.getParameters();
+        assertEquals(4, params.size())
+        assertEquals("updatedValue1",params.param1)
+        assertEquals("updatedValue3", params.param3)
+        assertEquals("value2", params.param2)
+
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode())
+        assertEquals("success", new String(response.getContent()))
+    }
+
+    @Test
+    public void testGetWithOnlyQuestionMarkOnURL() throws Exception {
+        httpServer.setResponseToReturn("success");
+
+        def response = httpClient.get(url + "?", [param1: "value1", param2: "value2", param3: "value3"])
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest request = receivedRequests[0];
+        assertEquals(HttpGet.METHOD_NAME, request.getMethod());
+        assertEquals("/dummy", request.getUrl())
+        assertEquals(0, request.getContentAsByte().length)
+
+        def params = request.getParameters();
+        assertEquals(3, params.size())
+        assertEquals("value1",params.param1)
         assertEquals("value3", params.param3)
+        assertEquals("value2", params.param2)
+
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCode())
         assertEquals("success", new String(response.getContent()))
@@ -380,13 +426,14 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
         assertEquals(1, receivedRequests.size())
         HttpTestRequest request = receivedRequests[0];
         assertEquals(HttpDelete.METHOD_NAME, request.getMethod());
-        assertEquals("/dummy%3Fparam1=value1&param2=value2", request.getUrl())
+        assertEquals("/dummy", request.getUrl())
         assertEquals(0, request.getContentAsByte().length)
 
         def params = request.getParameters();
-        assertEquals(2, params.size())
+        assertEquals(3, params.size())
         assertEquals("updatedValue1", params.param1)
         assertEquals("value3", params.param3)
+        assertEquals("value2", params.param2)
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCode())
         assertEquals("success", new String(response.getContent()))
