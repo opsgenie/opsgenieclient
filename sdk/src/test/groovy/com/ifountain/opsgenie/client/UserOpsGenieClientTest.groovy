@@ -24,7 +24,7 @@ import static org.junit.Assert.assertFalse
  * Date: 5/31/12
  * Time: 11:09 AM
  */
-class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
+public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 
     @Test
     public void testAddForwardingSuccessfully() throws Exception {
@@ -577,7 +577,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user", requestSent.getUrl())
+        assertEquals("/v1.1/json/user", requestSent.getUrl())
     }
 
     @Test

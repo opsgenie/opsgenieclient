@@ -13,7 +13,7 @@ public class ListUsersRequest extends BaseRequest<ListUsersResponse, ListUsersRe
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user";
+        return "/v1.1/json/user";
     }
 
     /**
