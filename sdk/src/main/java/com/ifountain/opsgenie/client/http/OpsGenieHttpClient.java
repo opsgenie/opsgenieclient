@@ -279,7 +279,8 @@ public class OpsGenieHttpClient {
     }
 
     private SSLSocketFactory createSocketFactory() throws Exception {
-        SSLContext sslContext = SSLContext.getInstance("TLS");
+        SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+
         TrustManager tm = new X509TrustManager() {
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
