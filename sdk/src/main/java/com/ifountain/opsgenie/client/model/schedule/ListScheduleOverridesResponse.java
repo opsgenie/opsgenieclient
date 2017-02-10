@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.io.IOException;
 import java.text.ParseException;

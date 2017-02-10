@@ -2,10 +2,11 @@ apply plugin: 'signing'
 apply from: 'pom.gradle'
 
 dependencies {
-    compile 'org.apache.httpcomponents:httpcore:4.2.5'
-    compile 'org.apache.httpcomponents:httpmime:4.2.5'
-    compile 'org.apache.httpcomponents:httpclient:4.2.5'
-    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.3'
+    compile 'org.apache.httpcomponents:httpcore:4.4.6'
+    compile 'org.apache.httpcomponents:httpmime:4.5.2'
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.6'
+
 
     testCompile project(':test')
 }

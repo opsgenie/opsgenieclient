@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.WhoIsOnCall;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for who is on call request.

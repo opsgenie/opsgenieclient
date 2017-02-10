@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list alert logs api call.

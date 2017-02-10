@@ -1,8 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.util.Strings;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 

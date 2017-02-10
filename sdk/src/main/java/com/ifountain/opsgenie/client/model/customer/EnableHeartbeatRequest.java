@@ -1,9 +1,7 @@
 package com.ifountain.opsgenie.client.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 /**
  * Container for the parameters to make a enable/disable heartbeat monitor api call.
  *

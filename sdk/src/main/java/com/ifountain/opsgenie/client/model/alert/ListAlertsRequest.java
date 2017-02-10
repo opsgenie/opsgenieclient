@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Container for the parameters to make a list alerts api call.
