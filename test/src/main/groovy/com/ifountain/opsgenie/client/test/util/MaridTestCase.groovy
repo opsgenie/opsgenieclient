@@ -15,6 +15,7 @@ class MaridTestCase {
     public static void beforeClass() {
         if (!isSetupCompleted) {
             isSetupCompleted = true;
+            println "CURRENT DIRECTORY : " + new File(".").getCanonicalPath() + " !!!!!!!"
             CommonTestUtils.initializeFromFile("Test.properties");
         }
     }
