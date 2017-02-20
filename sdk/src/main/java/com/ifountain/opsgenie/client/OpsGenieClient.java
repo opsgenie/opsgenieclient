@@ -1,21 +1,41 @@
 package com.ifountain.opsgenie.client;
 
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
-import com.ifountain.opsgenie.client.model.customer.*;
+import com.ifountain.opsgenie.client.model.BaseResponse;
+import com.ifountain.opsgenie.client.model.beans.Heartbeat;
+import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest;
+import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesResponse;
+import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatPingRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatPingResponse;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest;
+import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse;
+import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse;
+import com.ifountain.opsgenie.client.rest.RestApiClient;
+import com.ifountain.opsgenie.client.rest.response.RestSuccessResult;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
 import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * Provides the client for accessing the OpsGenie web service.
- * <p></p>
- * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations like creating, closing and getting alerts,
- * adding comments, attaching files, etc. All service calls made using this client are blocking, and will not return until the service call completes.</p>
- * <p></p>
- * <p><strong>Creating an Alerts</strong></p>
- * <p>Construct a <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code> method on client.</p>
- * <p>
+ * Provides the client for accessing the OpsGenie web service. <p></p>
+ * <p><code>OpsGenieClient</code> class provides the implementation APIs for OpsGenie operations
+ * like creating, closing and getting alerts, adding comments, attaching files, etc. All service
+ * calls made using this client are blocking, and will not return until the service call
+ * completes.</p> <p></p> <p><strong>Creating an Alerts</strong></p> <p>Construct a
+ * <code>CreateAlertRequest</code> object with preferred options and call <code>createAlert</code>
+ * method on client.</p> <p>
  * <blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
  * CreateAlertRequest request = new CreateAlertRequest();
@@ -30,11 +50,8 @@ import java.text.ParseException;
  * CreateAlertResponse response = client.createAlert(request);
  * String alertId = response.getAlertId();
  * </pre></blockquote>
- * <p>
- * <p><strong>Adding Notes</strong></p>
- * <p>Construct a <code>AddNoteRequest</code> object with preferred options and call <code>addNote</code> method on client.</p>
- * <p>
- * <p>
+ * <p> <p><strong>Adding Notes</strong></p> <p>Construct a <code>AddNoteRequest</code> object with
+ * preferred options and call <code>addNote</code> method on client.</p> <p> <p>
  * <blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
  * AddNoteRequest request = new AddNoteRequest();
@@ -45,10 +62,8 @@ import java.text.ParseException;
  * AddNoteResponse response = client.addNote(request);
  * assert response.isSuccess();
  * </pre></blockquote>
- * <p>
- * <p>
- * <p><strong>Attaching Files</strong></p>
- * <p>Construct a <code>FileAttachRequest</code> object with preferred options and call <code>attach</code> method on client.</p>
+ * <p> <p> <p><strong>Attaching Files</strong></p> <p>Construct a <code>FileAttachRequest</code>
+ * object with preferred options and call <code>attach</code> method on client.</p>
  * <p><blockquote><pre>
  * OpsGenieClient client = new OpsGenieClient();
  * FileAttachRequest request = new FileAttachRequest();
@@ -84,7 +99,13 @@ public class OpsGenieClient implements IOpsGenieClient {
     private StreamOpsgenieHttpClient streamOpsgenieHttpClient;
 
     /**
-     * Constructs a new client to invoke service methods on OpsGenie using the specified client configuration options.
+     * New Rest Api Client helper
+     */
+    private RestApiClient restApiClient;
+
+    /**
+     * Constructs a new client to invoke service methods on OpsGenie using the specified client
+     * configuration options.
      */
     public OpsGenieClient(ClientConfiguration config) {
         this(new OpsGenieHttpClient(config));
@@ -105,6 +126,8 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.jsonHttpClient = new JsonOpsgenieHttpClient(httpClient);
         this.streamOpsgenieHttpClient = new StreamOpsgenieHttpClient(httpClient);
         this.jsonHttpClient.setApiKey(getApiKey());
+        this.restApiClient = new RestApiClient(httpClient);
+        this.restApiClient.setApiKey(getApiKey());
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);
@@ -116,6 +139,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerContactOpsGenieClient = new InnerContactOpsGenieClient(this.jsonHttpClient);
         innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
         innerAccountOpsGenieClient = new InnerAccountOpsGenieClient(this.jsonHttpClient);
+
     }
 
     /**
@@ -126,8 +150,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
-     * @see com.ifountain.opsgenie.client.IOpsGenieClient#group()
-     * groups are deprecated
+     * @see com.ifountain.opsgenie.client.IOpsGenieClient#group() groups are deprecated
      */
     @Deprecated
     public IGroupOpsGenieClient group() {
@@ -185,12 +208,37 @@ public class OpsGenieClient implements IOpsGenieClient {
         return innerNotificationRuleOpsGenieClient;
     }
 
+    //TODO will be deprecated
+
     /**
+     * @deprecated Use {@link OpsGenieClient#pingHeartbeat(HeartbeatPingRequest)}
      * @see IOpsGenieClient#heartbeat(com.ifountain.opsgenie.client.model.customer.HeartbeatRequest)
      */
     @Override
+    @Deprecated
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
         return (HeartbeatResponse) jsonHttpClient.doPostRequest(heartbeatRequest);
+    }
+
+    @Override
+    public HeartbeatPingResponse pingHeartbeat(HeartbeatPingRequest pingRequest) throws OpsGenieClientException, IOException, ParseException {
+        RestSuccessResult<Object> result = restApiClient.post(pingRequest.getEndPoint())
+                .apiKey(pingRequest.getApiKey())
+                .getResponse(Object.class);
+
+        HeartbeatPingResponse response = new HeartbeatPingResponse();
+        populateMetaData(response, result);
+        return response;
+    }
+
+    private void populateMetaData(BaseResponse response, RestSuccessResult<?> result) {
+        response.setSuccess(true);
+
+        if(result.getTook() != null ) {
+            response.setTook(result.getTook().intValue());
+        }
+
+        response.setJson(result.getRawData());
     }
 
     /**
@@ -198,7 +246,15 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     @Override
     public DeleteHeartbeatResponse deleteHeartbeat(DeleteHeartbeatRequest deleteHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
-        return (DeleteHeartbeatResponse) jsonHttpClient.doDeleteRequest(deleteHeartbeatRequest);
+        RestSuccessResult<Object> result = restApiClient.delete(deleteHeartbeatRequest.getEndPoint())
+                .apiKey(deleteHeartbeatRequest.getApiKey())
+                .getResponse(Object.class);
+
+
+        DeleteHeartbeatResponse response = new DeleteHeartbeatResponse();
+        populateMetaData(response, result);
+
+        return response;
     }
 
     /**
@@ -206,7 +262,15 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     @Override
     public AddHeartbeatResponse addHeartbeat(AddHeartbeatRequest addHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
-        return (AddHeartbeatResponse) jsonHttpClient.doPostRequest(addHeartbeatRequest);
+        RestSuccessResult<Heartbeat> result = restApiClient.post(addHeartbeatRequest.getEndPoint())
+                .apiKey(addHeartbeatRequest.getApiKey())
+                .json(addHeartbeatRequest)
+                .getResponse(Heartbeat.class);
+
+        AddHeartbeatResponse response = new AddHeartbeatResponse();
+        populateMetaData(response, result);
+        response.setName(result.getData().getName());
+        return response;
     }
 
     /**
@@ -214,7 +278,16 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     @Override
     public UpdateHeartbeatResponse updateHeartbeat(UpdateHeartbeatRequest updateHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
-        return (UpdateHeartbeatResponse) jsonHttpClient.doPostRequest(updateHeartbeatRequest);
+        RestSuccessResult<Heartbeat> result = restApiClient.patch(updateHeartbeatRequest.getEndPoint())
+                .json(updateHeartbeatRequest)
+                .apiKey(updateHeartbeatRequest.getApiKey())
+                .getResponse(Heartbeat.class);
+
+        UpdateHeartbeatResponse response = new UpdateHeartbeatResponse();
+        populateMetaData(response, result);
+        response.setName(result.getData().getName());
+
+        return response;
     }
 
     /**
@@ -222,21 +295,35 @@ public class OpsGenieClient implements IOpsGenieClient {
      */
     @Override
     public EnableHeartbeatResponse enableHeartbeat(EnableHeartbeatRequest enableHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
-        return (EnableHeartbeatResponse) jsonHttpClient.doPostRequest(enableHeartbeatRequest);
+        RestSuccessResult<Object> result = restApiClient.post(enableHeartbeatRequest.getEndPoint())
+                .apiKey(enableHeartbeatRequest.getApiKey())
+                .getResponse(Object.class);
+        EnableHeartbeatResponse response = new EnableHeartbeatResponse();
+        populateMetaData(response, result);
+        return response;
     }
 
     /**
      * @see IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
      */
     @Override
-    public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException {
-        return (GetHeartbeatResponse) jsonHttpClient.doGetRequest(getHeartbeatRequest);
+    public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest request) throws OpsGenieClientException, IOException, ParseException {
+        RestSuccessResult<Heartbeat> result = restApiClient.get(request.getEndPoint())
+                .apiKey(request.getApiKey())
+                .getResponse(Heartbeat.class);
+
+        GetHeartbeatResponse response = new GetHeartbeatResponse();
+        populateMetaData(response, result);
+        response.setHeartbeat(result.getData());
+        return response;
     }
 
     /**
+     * @deprecated Deprecated for removal
      * @see IOpsGenieClient#listHeartbeats(com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest)
      */
     @Override
+    @Deprecated
     public ListHeartbeatsResponse listHeartbeats(ListHeartbeatsRequest listHeartbeatsRequest) throws OpsGenieClientException, IOException, ParseException {
         return (ListHeartbeatsResponse) jsonHttpClient.doGetRequest(listHeartbeatsRequest);
     }
@@ -250,7 +337,8 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
-     * Set root endpoint uri that the client uses to send http requests. Default is https://api.opsgenie.com. Mostly used for testing.
+     * Set root endpoint uri that the client uses to send http requests. Default is
+     * https://api.opsgenie.com. Mostly used for testing.
      *
      * @param rootUri Uri to set.
      */
@@ -258,6 +346,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     public void setRootUri(String rootUri) {
         this.jsonHttpClient.setRootUri(rootUri);
         this.streamOpsgenieHttpClient.setRootUri(rootUri);
+        this.restApiClient.setRootUrl(rootUri);
     }
 
     /**
@@ -270,12 +359,13 @@ public class OpsGenieClient implements IOpsGenieClient {
 
     /**
      * Sets the customer key used for authenticating API requests.
-     *
-     * @param apiKey
      */
     public void setApiKey(String apiKey) {
         if (this.jsonHttpClient != null) {
             this.jsonHttpClient.setApiKey(apiKey);
+        }
+        if (this.restApiClient != null) {
+            this.restApiClient.setApiKey(apiKey);
         }
     }
 

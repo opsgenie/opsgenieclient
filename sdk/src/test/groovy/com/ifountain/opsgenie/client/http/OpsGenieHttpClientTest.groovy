@@ -11,6 +11,7 @@ import org.apache.http.HttpRequest
 import org.apache.http.HttpStatus
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPatch
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
 import org.apache.http.conn.HttpHostConnectException
@@ -447,6 +448,28 @@ class OpsGenieHttpClientTest implements HttpTestRequestListener {
         assertEquals(1, receivedRequests.size())
         HttpTestRequest request = receivedRequests[0];
         assertEquals(HttpPut.METHOD_NAME, request.getMethod());
+        assertEquals("/dummy", request.getUrl())
+
+        def contentMap = JsonUtils.parse(request.content)
+        assertEquals("22", contentMap.contentParam1)
+
+        def params = request.getParameters();
+        assertEquals(2, params.size())
+        assertEquals("updatedValue1", params.param1)
+        assertEquals("value3", params.param3)
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode())
+        assertEquals("success", new String(response.getContent()))
+    }
+
+    @Test
+    public void testPatch() throws Exception {
+        httpServer.setResponseToReturn("success");
+
+        def response = httpClient.patch(url, JsonUtils.toJson(["contentParam1": "22"]), [param1: "updatedValue1", param3: "value3"], [:])
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest request = receivedRequests[0];
+        assertEquals(HttpPatch.METHOD_NAME, request.getMethod());
         assertEquals("/dummy", request.getUrl())
 
         def contentMap = JsonUtils.parse(request.content)

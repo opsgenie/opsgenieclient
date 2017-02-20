@@ -1,8 +1,8 @@
-package com.ifountain.opsgenie.client.test.util;
+package com.ifountain.opsgenie.client.test.util
 
-import com.ifountain.opsgenie.client.*;
-import com.ifountain.opsgenie.client.model.*;
-import com.ifountain.opsgenie.client.model.customer.*;
+import com.ifountain.opsgenie.client.*
+import com.ifountain.opsgenie.client.model.Request
+import com.ifountain.opsgenie.client.model.customer.*
 import com.ifountain.opsgenie.client.util.ClientConfiguration
 
 import java.text.ParseException
@@ -32,6 +32,7 @@ public class OpsGenieClientMock implements IOpsGenieClient {
     private UpdateHeartbeatResponse updateHeartbeatResponse;
     private EnableHeartbeatResponse enableHeartbeatResponse;
     private CopyNotificationRulesResponse copyNotificationRulesResponse;
+    private HeartbeatPingResponse heartbeatPingResponse;
 
     /**
      * @see com.ifountain.opsgenie.client.IOpsGenieClient#contact()
@@ -101,6 +102,12 @@ public class OpsGenieClientMock implements IOpsGenieClient {
     public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException {
         requestProcessor.processRequest(heartbeatRequest);
         return heartbeatResponse;
+    }
+
+    @Override
+    HeartbeatPingResponse pingHeartbeat(HeartbeatPingRequest heartbeatRequest) throws ParseException, OpsGenieClientException, IOException {
+        requestProcessor.processRequest(heartbeatRequest);
+        return heartbeatPingResponse;
     }
 
     @Override
@@ -175,6 +182,10 @@ public class OpsGenieClientMock implements IOpsGenieClient {
 
     public void setCopyNotificationRulesResponse(CopyNotificationRulesResponse copyNotificationRulesResponse) {
         this.copyNotificationRulesResponse = copyNotificationRulesResponse;
+    }
+
+    void setHeartbeatPingResponse(HeartbeatPingResponse heartbeatPingResponse) {
+        this.heartbeatPingResponse = heartbeatPingResponse
     }
 
     public String getRootUri() {

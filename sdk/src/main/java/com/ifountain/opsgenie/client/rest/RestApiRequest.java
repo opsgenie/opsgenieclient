@@ -22,6 +22,8 @@ import java.util.Map;
 
 public class RestApiRequest {
     private static final String AUTHENTICATION_TOKEN_TYPE = "GenieKey";
+    private static final String REQUEST_ID_HEADER = "X-Request-ID";
+    private static final String RESPONSE_TIME_HEADER = "X-Response-Time";
 
     private final Log logger;
     private final OpsGenieHttpClient httpClient;
@@ -100,7 +102,7 @@ public class RestApiRequest {
 
     public <T> RestSuccessResult<T> getResponse(Class<T> claz) throws OpsGenieClientException, IOException, ParseException {
         validate();
-        logger.info("Executing OpsGenie " + httpMethod + " request to [" + uri + "] with Parameters " + parameters);
+        logger.info("Executing OpsGenie " + httpMethod + " request to [" + uri + "] with Parameters " + parameters + ", Headers " + headers);
 
         if (parameters == null) {
             parameters = new HashMap<String, Object>();
@@ -136,7 +138,21 @@ public class RestApiRequest {
 
         T data = convertObject(response.getContent(), claz);
         RestSuccessResult<T> result = new RestSuccessResult<T>();
-        result.setData(data).setRawData(response.getContentAsString()).setStatusCode(response.getStatusCode());
+        result.setData(data)
+                .setRawData(response.getContentAsString())
+                .setStatusCode(response.getStatusCode());
+
+        if (response.getHeaders().containsKey(REQUEST_ID_HEADER)) {
+            result.setRequestId(response.getHeaders().get(REQUEST_ID_HEADER));
+        }
+
+        if (response.getHeaders().containsKey(RESPONSE_TIME_HEADER)) {
+            try {
+                result.setTook(Double.valueOf(response.getHeaders().get(RESPONSE_TIME_HEADER)));
+            } catch (NumberFormatException e) {
+                logger.debug("Number format exception while parsing Response Time header", e);
+            }
+        }
         return result;
     }
 

@@ -74,6 +74,34 @@ public class OpsGenieClientTestCase implements HttpTestRequestListener {
         }
     }
 
+    public void testThrowsExceptionWithNewRestApiIfRequestCannotBeValidated(client, methodName, request) throws Exception {
+        def errorResponse = [message: "Could not authenticate."]
+        httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJsonAsBytes(errorResponse), HttpStatus.SC_UNAUTHORIZED, "application/json; charset=utf-8"))
+
+        try {
+            client."${methodName}"(request)
+            fail("should throw exception")
+        } catch (OpsGenieClientValidationException e) {
+            assertEquals(4000, e.getCode())
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
+
+        } catch (OpsGenieClientException e) {
+            assertEquals(401, e.getCode())
+            assertEquals("Could not authenticate.", e.getMessage())
+        }
+
+        //unexpected responses will be thrown as ioexception
+        httpServer.setResponseToReturn(new HttpTestResponse("No handler found.".getBytes(), HttpStatus.SC_BAD_REQUEST, "text/plain; charset=utf-8"))
+        try {
+            client."${methodName}"(request)
+            fail("should throw exception")
+        } catch (OpsGenieClientValidationException e) {
+            assertEquals("Missing mandatory property [apiKey]", e.getMessage())
+        } catch (IOException e) {
+            assertEquals("No handler found.", e.getMessage())
+        }
+    }
+
     @Override
     void requestRecieved(HttpTestRequest request) {
         receivedRequests.add(request);

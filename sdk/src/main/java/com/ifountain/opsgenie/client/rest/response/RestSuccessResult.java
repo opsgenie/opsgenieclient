@@ -12,7 +12,7 @@ public class RestSuccessResult<T> {
     private String requestId;
 
     @JsonProperty
-    private long took;
+    private Double took;
 
     @JsonProperty("code")
     private int code;
@@ -44,11 +44,11 @@ public class RestSuccessResult<T> {
         return this;
     }
 
-    public long getTook() {
+    public Double getTook() {
         return took;
     }
 
-    public RestSuccessResult setTook(long took) {
+    public RestSuccessResult setTook(Double took) {
         this.took = took;
         return this;
     }

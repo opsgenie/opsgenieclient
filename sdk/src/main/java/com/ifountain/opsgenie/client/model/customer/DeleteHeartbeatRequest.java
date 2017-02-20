@@ -15,7 +15,7 @@ public class DeleteHeartbeatRequest extends BaseRequest<DeleteHeartbeatResponse,
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/heartbeat";
+        return "/v2/heartbeats/" + name;
     }
 
     /**

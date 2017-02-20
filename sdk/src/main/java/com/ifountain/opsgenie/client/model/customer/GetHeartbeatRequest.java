@@ -32,7 +32,7 @@ public class GetHeartbeatRequest extends BaseRequest<GetHeartbeatResponse, GetHe
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/heartbeat";
+        return "/v2/heartbeats/" + name;
     }
 
     /**

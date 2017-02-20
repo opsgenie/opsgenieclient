@@ -1,6 +1,23 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.customer.*;
+import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest;
+import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesResponse;
+import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatPingRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatPingResponse;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest;
+import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse;
+import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest;
+import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -92,6 +109,12 @@ public interface IOpsGenieClient {
     IIntegrationOpsGenieClient integration();
 
     /**
+     * @deprecated Use {@link IOpsGenieClient#pingHeartbeat(HeartbeatPingRequest)}
+     */
+    @Deprecated
+    HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+
+    /**
      * Sends heartbeat messages to OpsGenie. If heartbeat monitoring is enabled and OpsGenie does not get a heartbeat message within 10 minutes,
      * OpsGenie creates an alert to notify the specified people.
      *
@@ -100,7 +123,7 @@ public interface IOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.customer.HeartbeatRequest
      * @see com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
      */
-    public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
+    HeartbeatPingResponse pingHeartbeat(HeartbeatPingRequest heartbeatRequest) throws ParseException, OpsGenieClientException, IOException;
 
     /**
      * Deletes heartbeat monitor on OpsGenie. If heartbeat monitor is deleted, OpsGenie will not create alert for expired heartbeat.
@@ -157,11 +180,13 @@ public interface IOpsGenieClient {
     /**
      * List all heartbeat monitor details on OpsGenie.
      *
+     * @deprecated Deprecated for removal
      * @param listHeartbeatsRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
      * @see com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse
      */
+    @Deprecated
     public ListHeartbeatsResponse listHeartbeats(ListHeartbeatsRequest listHeartbeatsRequest) throws OpsGenieClientException, IOException, ParseException;
 
     /**

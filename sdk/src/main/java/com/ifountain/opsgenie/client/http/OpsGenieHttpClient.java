@@ -3,14 +3,25 @@ package com.ifountain.opsgenie.client.http;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
-import org.apache.http.*;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ClientConnectionManager;
@@ -29,9 +40,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
@@ -39,7 +47,16 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -140,6 +157,20 @@ public class OpsGenieHttpClient {
         entity.setChunked(true);
         putMethod.setEntity(entity);
         return putMethod;
+    }
+
+    public OpsGenieHttpResponse patch(String uri, String content, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
+        HttpPatch patchMethod = preparePatchMethod(uri, content, parameters, headers);
+        return executeHttpMethod(patchMethod);
+    }
+
+    public HttpPatch preparePatchMethod(String uri, String content, Map<String, Object> parameters, Map<String, String> headers) throws URISyntaxException, IOException {
+        HttpPatch patchMethod = new HttpPatch(generateURI(uri, parameters));
+        StringEntity entity = new StringEntity(content, "UTF-8");
+        entity.setChunked(true);
+        patchMethod.setEntity(entity);
+        configureHeaders(patchMethod, headers);
+        return patchMethod;
     }
 
     public OpsGenieHttpResponse get(String uri, Map<String, Object> parameters) throws URISyntaxException, IOException {
