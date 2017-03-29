@@ -23,6 +23,10 @@ import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest;
 import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse;
 import com.ifountain.opsgenie.client.rest.RestApiClient;
 import com.ifountain.opsgenie.client.rest.response.RestSuccessResult;
+import com.ifountain.opsgenie.client.swagger.ApiClient;
+import com.ifountain.opsgenie.client.swagger.Configuration;
+import com.ifountain.opsgenie.client.swagger.api.AlertApi;
+import com.ifountain.opsgenie.client.swagger.auth.ApiKeyAuth;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 
 import java.io.IOException;
@@ -334,6 +338,18 @@ public class OpsGenieClient implements IOpsGenieClient {
     @Override
     public CopyNotificationRulesResponse copyNotificationRules(CopyNotificationRulesRequest copyNotificationRulesRequest) throws OpsGenieClientException, IOException, ParseException {
         return (CopyNotificationRulesResponse) jsonHttpClient.doPostRequest(copyNotificationRulesRequest);
+    }
+
+    public AlertApi alertV2() {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setDebugging(true);
+
+        // Configure API key authorization: GenieKey
+        ApiKeyAuth genieKey = (ApiKeyAuth) defaultClient.getAuthentication("GenieKey");
+        genieKey.setApiKey(getApiKey());
+        genieKey.setApiKeyPrefix("GenieKey");
+
+        return new AlertApi();
     }
 
     /**

@@ -1,0 +1,53 @@
+ext.populatePom = { pom ->
+    pom.project {
+        name 'OpsGenie Java Swagger SDK'
+        packaging 'jar'
+        description "OpsGenie Java Swagger SDK"
+
+        url "https://www.opsgenie.com"
+
+        scm {
+            connection 'scm:git:git@github.com:opsgenie/opsgenieclient.git'
+            url 'https://github.com/opsgenie/opsgenieclient'
+        }
+
+        licenses {
+            license {
+                name 'The Apache License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+
+        developers {
+            developer {
+                id 'alp'
+                name 'Alp Gurtan'
+                email 'alp@opsgenie.com'
+            }
+
+            developer {
+                id 'baris.kalkar'
+                name 'Baris Kalkar'
+                email 'baris.kalkar@opsgenie.com'
+            }
+
+            developer {
+                id 'mustafa'
+                name 'Mustafa Nacar'
+                email 'mustafa@opsgenie.com'
+            }
+
+            developer {
+                id 'omer'
+                name 'Omer Ozkan'
+                email 'omer@opsgenie.com'
+            }
+
+            developer {
+                id 'zafer'
+                name 'Zafer Genckaya'
+                email 'zafer@opsgenie.com'
+            }
+        }
+    }
+}
