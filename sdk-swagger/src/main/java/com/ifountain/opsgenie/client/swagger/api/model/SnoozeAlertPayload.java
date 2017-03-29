@@ -18,10 +18,12 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * SnoozeAlertPayload
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class SnoozeAlertPayload {
     @JsonProperty("user")
     private String user = null;
@@ -102,6 +104,7 @@ public class SnoozeAlertPayload {
      *
      * @return endTime
      **/
+    @NotNull
     @ApiModelProperty(example = "null", required = true, value = "")
     public DateTime getEndTime() {
         return endTime;
@@ -154,8 +157,8 @@ public class SnoozeAlertPayload {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
-    }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

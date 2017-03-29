@@ -9,6 +9,8 @@ ext {
     junit_version = "4.12"
     commons_lang3_version = "3.5"
     commons_io_version = "2.5"
+    migbase64_version = "2.2"
+    javax_validation_api_version = "1.1.0.Final"
 }
 
 dependencies {
@@ -21,9 +23,10 @@ dependencies {
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
-    compile "com.brsanthu:migbase64:2.2"
+    compile "com.brsanthu:migbase64:$migbase64_version"
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
     compile "commons-io:commons-io:$commons_io_version"
+    compile "javax.validation:validation-api:$javax_validation_api_version"
 
     testCompile "junit:junit:$junit_version"
 }

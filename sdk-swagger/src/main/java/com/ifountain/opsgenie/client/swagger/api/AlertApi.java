@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class AlertApi {
     private ApiClient apiClient;
 
@@ -761,22 +761,21 @@ public class AlertApi {
     /**
      * List alerts
      * Returns list of alerts.
-     *
-     * @param pageField         Determines alert field. Possible values are &#39;createdAt&#39; or &#39;updatedAt&#39; (optional, default to createdAt)
-     * @param pageValue         Takes a date formatted as &#39;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&#39; (e.g. 2011-12-03T10:15:30+01:00) (optional)
-     * @param pageDirection     Determines pagination direction with &#39;next&#39; and &#39;prev&#39; (optional, default to next)
-     * @param limit             Pagination limit (optional)
-     * @param sortField         Sorts alerts according to given field (optional, default to createdAt)
-     * @param order             Sorting order (optional, default to desc)
-     * @param status            Status of the alerts. Possible values are &#39;open&#39; or &#39;closed&#39; with default as ALL (optional)
-     * @param acked             Acked (optional)
-     * @param seen              Seen (optional)
-     * @param teamIds           Team IDs as comma seperated values (e.g. &#39;team1,team2&#39;) (optional)
-     * @param teamIdsRelation   Relation of team IDs. Possible values are &#39;and&#39; or &#39;or&#39; with default as &#39;and&#39; (optional, default to and)
-     * @param teamNames         Team names as comma seperated values (e.g. &#39;teamName1,teamName2&#39;) (optional)
+     * @param pageField Determines alert field. Possible values are &#39;createdAt&#39; or &#39;updatedAt&#39; (optional, default to createdAt)
+     * @param pageValue Takes a date formatted as &#39;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&#39; (e.g. 2011-12-03T10:15:30+01:00) (optional)
+     * @param pageDirection Determines pagination direction with &#39;next&#39; and &#39;prev&#39; (optional, default to next)
+     * @param limit Pagination limit (optional)
+     * @param sortField Sorts alerts according to given field (optional, default to createdAt)
+     * @param order Sorting order (optional, default to desc)
+     * @param status Status of the alerts. Possible values are &#39;open&#39; or &#39;closed&#39; with default as ALL (optional)
+     * @param acked Acked (optional)
+     * @param seen Seen (optional)
+     * @param teamIds Team IDs as comma seperated values (e.g. &#39;team1,team2&#39;) (optional)
+     * @param teamIdsRelation Relation of team IDs. Possible values are &#39;and&#39; or &#39;or&#39; with default as &#39;and&#39; (optional, default to and)
+     * @param teamNames Team names as comma seperated values (e.g. &#39;teamName1,teamName2&#39;) (optional)
      * @param teamNamesRelation Relation of team names. Possible values are &#39;and&#39; or &#39;or&#39; with default as &#39;and&#39;. (optional, default to and)
-     * @param tags              Tags (optional)
-     * @param tagsRelation      Relation of tags. Possible values are &#39;and&#39; or &#39;or&#39; with default as &#39;and&#39;. (optional, default to and)
+     * @param tags Tags (optional)
+     * @param tagsRelation Relation of tags. Possible values are &#39;and&#39; or &#39;or&#39; with default as &#39;and&#39;. (optional, default to and)
      * @return ListAlertResponse
      * @throws ApiException if fails to make API call
      */
@@ -909,18 +908,17 @@ public class AlertApi {
 
         final String[] localVarAccepts = {
                 "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        final String[] localVarContentTypes = {
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    String[] localVarAuthNames = new String[] { "GenieKey" };
 
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    }
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
 }

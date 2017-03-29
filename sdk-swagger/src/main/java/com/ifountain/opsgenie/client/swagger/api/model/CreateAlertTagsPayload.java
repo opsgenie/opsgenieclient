@@ -17,13 +17,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * CreateAlertTagsPayload
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class CreateAlertTagsPayload {
     @JsonProperty("user")
     private String user = null;
@@ -109,6 +110,7 @@ public class CreateAlertTagsPayload {
      *
      * @return tags
      **/
+    @NotNull
     @ApiModelProperty(example = "null", required = true, value = "")
     public List<String> getTags() {
         return tags;
@@ -161,8 +163,8 @@ public class CreateAlertTagsPayload {
         if (o == null) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
-    }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

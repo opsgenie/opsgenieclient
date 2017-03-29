@@ -20,7 +20,7 @@ import org.apache.commons.lang3.ObjectUtils;
  * No recipient
  */
 @ApiModel(description = "No recipient")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class NoRecipientDto extends RecipientDto {
 
     @Override
@@ -59,6 +59,6 @@ public class NoRecipientDto extends RecipientDto {
         }
         return o.toString().replace("\n", "\n    ");
     }
-
+  
 }
 

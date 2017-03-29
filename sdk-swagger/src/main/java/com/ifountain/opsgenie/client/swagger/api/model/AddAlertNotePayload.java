@@ -20,117 +20,117 @@ import org.apache.commons.lang3.ObjectUtils;
 /**
  * AddAlertNotePayload
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class AddAlertNotePayload {
-    @JsonProperty("user")
-    private String user = null;
+  @JsonProperty("user")
+  private String user = null;
 
-    @JsonProperty("note")
-    private String note = null;
+  @JsonProperty("note")
+  private String note = null;
 
-    @JsonProperty("source")
-    private String source = null;
+  @JsonProperty("source")
+  private String source = null;
 
-    public AddAlertNotePayload user(String user) {
-        this.user = user;
-        return this;
+  public AddAlertNotePayload user(String user) {
+    this.user = user;
+    return this;
+  }
+
+  /**
+   * Get user
+   *
+   * @return user
+   **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getUser() {
+    return user;
+  }
+
+  public void setUser(String user) {
+    this.user = user;
+  }
+
+  public AddAlertNotePayload note(String note) {
+    this.note = note;
+    return this;
+  }
+
+  /**
+   * Get note
+   *
+   * @return note
+   **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getNote() {
+    return note;
+  }
+
+  public void setNote(String note) {
+    this.note = note;
+  }
+
+  public AddAlertNotePayload source(String source) {
+    this.source = source;
+    return this;
+  }
+
+  /**
+   * Get source
+   *
+   * @return source
+   **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Get user
-     *
-     * @return user
-     **/
-    @ApiModelProperty(example = "null", value = "")
-    public String getUser() {
-        return user;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    AddAlertNotePayload addAlertNotePayload = (AddAlertNotePayload) o;
+    return ObjectUtils.equals(this.user, addAlertNotePayload.user) &&
+            ObjectUtils.equals(this.note, addAlertNotePayload.note) &&
+            ObjectUtils.equals(this.source, addAlertNotePayload.source);
+  }
 
-    public void setUser(String user) {
-        this.user = user;
+  @Override
+  public int hashCode() {
+    return ObjectUtils.hashCodeMulti(user, note, source);
+  }
+
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class AddAlertNotePayload {\n");
+
+    sb.append("    user: ").append(toIndentedString(user)).append("\n");
+    sb.append("    note: ").append(toIndentedString(note)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public AddAlertNotePayload note(String note) {
-        this.note = note;
-        return this;
-    }
-
-    /**
-     * Get note
-     *
-     * @return note
-     **/
-    @ApiModelProperty(example = "null", value = "")
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public AddAlertNotePayload source(String source) {
-        this.source = source;
-        return this;
-    }
-
-    /**
-     * Get source
-     *
-     * @return source
-     **/
-    @ApiModelProperty(example = "null", value = "")
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        AddAlertNotePayload addAlertNotePayload = (AddAlertNotePayload) o;
-        return ObjectUtils.equals(this.user, addAlertNotePayload.user) &&
-                ObjectUtils.equals(this.note, addAlertNotePayload.note) &&
-                ObjectUtils.equals(this.source, addAlertNotePayload.source);
-    }
-
-    @Override
-    public int hashCode() {
-        return ObjectUtils.hashCodeMulti(user, note, source);
-    }
-
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class AddAlertNotePayload {\n");
-
-        sb.append("    user: ").append(toIndentedString(user)).append("\n");
-        sb.append("    note: ").append(toIndentedString(note)).append("\n");
-        sb.append("    source: ").append(toIndentedString(source)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

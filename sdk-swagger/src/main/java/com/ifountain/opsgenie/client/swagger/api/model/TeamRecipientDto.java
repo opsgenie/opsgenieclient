@@ -22,7 +22,7 @@ import org.apache.commons.lang3.ObjectUtils;
  * Team recipient
  */
 @ApiModel(description = "Team recipient")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class TeamRecipientDto extends RecipientDto {
     @JsonProperty("name")
     private String name = null;
@@ -85,7 +85,7 @@ public class TeamRecipientDto extends RecipientDto {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
+  }
+  
 }
 

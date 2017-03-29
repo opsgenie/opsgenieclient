@@ -18,13 +18,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * ListedAlertDto
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class ListedAlertDto {
     @JsonProperty("id")
     private String id = null;
@@ -102,6 +103,7 @@ public class ListedAlertDto {
      *
      * @return id
      **/
+    @NotNull
     @ApiModelProperty(example = "null", required = true, value = "")
     public String getId() {
         return id;
@@ -256,7 +258,6 @@ public class ListedAlertDto {
 
     /**
      * Get snoozed
-     *
      * @return snoozed
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -294,7 +295,6 @@ public class ListedAlertDto {
 
     /**
      * Get count
-     *
      * @return count
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -313,7 +313,6 @@ public class ListedAlertDto {
 
     /**
      * Get lastReceivedAt
-     *
      * @return lastReceivedAt
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -332,7 +331,6 @@ public class ListedAlertDto {
 
     /**
      * Get createdAt
-     *
      * @return createdAt
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -351,7 +349,6 @@ public class ListedAlertDto {
 
     /**
      * Get updatedAt
-     *
      * @return updatedAt
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -370,7 +367,6 @@ public class ListedAlertDto {
 
     /**
      * Get source
-     *
      * @return source
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -389,7 +385,6 @@ public class ListedAlertDto {
 
     /**
      * Get owner
-     *
      * @return owner
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -408,7 +403,6 @@ public class ListedAlertDto {
 
     /**
      * Get urgency
-     *
      * @return urgency
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -427,7 +421,6 @@ public class ListedAlertDto {
 
     /**
      * Get impact
-     *
      * @return impact
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -446,7 +439,6 @@ public class ListedAlertDto {
 
     /**
      * Get priority
-     *
      * @return priority
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -470,7 +462,6 @@ public class ListedAlertDto {
 
     /**
      * Get teams
-     *
      * @return teams
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -508,7 +499,6 @@ public class ListedAlertDto {
 
     /**
      * Get report
-     *
      * @return report
      **/
     @ApiModelProperty(example = "null", value = "")
@@ -596,11 +586,11 @@ public class ListedAlertDto {
      * (except the first line).
      */
     private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+    if (o == null) {
+      return "null";
     }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

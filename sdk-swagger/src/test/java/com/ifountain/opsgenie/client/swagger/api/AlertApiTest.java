@@ -31,10 +31,11 @@ public class AlertApiTest {
 
     /**
      * Acknowledge Alert
-     * <p>
+     *
      * Acknowledges alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void acknowledgeAlertTest() throws ApiException {
@@ -48,10 +49,11 @@ public class AlertApiTest {
 
     /**
      * Add Alert Details
-     * <p>
+     *
      * Add details to the alert
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void addDetailsTest() throws ApiException {
@@ -65,10 +67,11 @@ public class AlertApiTest {
 
     /**
      * Add Alert Note
-     * <p>
+     *
      * Adds note to alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void addNoteTest() throws ApiException {
@@ -82,10 +85,11 @@ public class AlertApiTest {
 
     /**
      * Add Alert Recipient
-     * <p>
+     *
      * Add recipient to alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void addRecipientTest() throws ApiException {
@@ -99,10 +103,11 @@ public class AlertApiTest {
 
     /**
      * Add Alert Tags
-     * <p>
+     *
      * Add tags to the alert
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void addTagsTest() throws ApiException {
@@ -116,10 +121,11 @@ public class AlertApiTest {
 
     /**
      * Assign Alert
-     * <p>
+     *
      * Assign alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void assignAlertTest() throws ApiException {
@@ -133,10 +139,11 @@ public class AlertApiTest {
 
     /**
      * Close Alert
-     * <p>
+     *
      * Closes alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void closeAlertTest() throws ApiException {
@@ -150,10 +157,11 @@ public class AlertApiTest {
 
     /**
      * Create Alert
-     * <p>
+     *
      * Creates a new alert
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void createAlertTest() throws ApiException {
@@ -165,10 +173,11 @@ public class AlertApiTest {
 
     /**
      * Delete Alert
-     * <p>
+     *
      * Deletes an alert using alert id, tiny id or alias
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void deleteAlertTest() throws ApiException {
@@ -183,10 +192,11 @@ public class AlertApiTest {
 
     /**
      * Delete Alert Details
-     * <p>
+     *
      * Delete the details of an alert using alert id, tiny id or alias
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void deleteDetailsTest() throws ApiException {
@@ -203,10 +213,11 @@ public class AlertApiTest {
 
     /**
      * Delete Alert Tags
-     * <p>
+     *
      * Delete tags of the alert
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void deleteTagsTest() throws ApiException {
@@ -223,10 +234,11 @@ public class AlertApiTest {
 
     /**
      * Escalate Alert
-     * <p>
+     *
      * Escalate alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void escalateAlertTest() throws ApiException {
@@ -240,10 +252,11 @@ public class AlertApiTest {
 
     /**
      * Custom Alert Action
-     * <p>
+     *
      * Custom actions for the alert
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void executeCustomActionTest() throws ApiException {
@@ -257,10 +270,11 @@ public class AlertApiTest {
 
     /**
      * Get Alert
-     * <p>
+     *
      * Returns alert with given id, tiny id or alias
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void getAlertTest() throws ApiException {
@@ -273,10 +287,11 @@ public class AlertApiTest {
 
     /**
      * List alerts
-     * <p>
+     *
      * Returns list of alerts.
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void listAlertsTest() throws ApiException {
@@ -302,10 +317,11 @@ public class AlertApiTest {
 
     /**
      * Snooze Alert
-     * <p>
+     *
      * Snooze alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void snoozeAlertTest() throws ApiException {
@@ -319,10 +335,11 @@ public class AlertApiTest {
 
     /**
      * Unacknowledge Alert
-     * <p>
+     *
      * Unacknowledge alert with given identifier
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void unacknowledgeAlertTest() throws ApiException {

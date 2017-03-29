@@ -17,80 +17,82 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * CreateAlertDetailsPayload
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 public class CreateAlertDetailsPayload {
-    @JsonProperty("details")
-    private Map<String, String> details = new HashMap<String, String>();
+  @JsonProperty("details")
+  private Map<String, String> details = new HashMap<String, String>();
 
-    public CreateAlertDetailsPayload details(Map<String, String> details) {
-        this.details = details;
-        return this;
+  public CreateAlertDetailsPayload details(Map<String, String> details) {
+    this.details = details;
+    return this;
+  }
+
+  public CreateAlertDetailsPayload putDetailsItem(String key, String detailsItem) {
+    this.details.put(key, detailsItem);
+    return this;
+  }
+
+  /**
+   * Get details
+   *
+   * @return details
+   **/
+  @NotNull
+  @ApiModelProperty(example = "null", required = true, value = "")
+  public Map<String, String> getDetails() {
+    return details;
+  }
+
+  public void setDetails(Map<String, String> details) {
+    this.details = details;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public CreateAlertDetailsPayload putDetailsItem(String key, String detailsItem) {
-        this.details.put(key, detailsItem);
-        return this;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    CreateAlertDetailsPayload createAlertDetailsPayload = (CreateAlertDetailsPayload) o;
+    return ObjectUtils.equals(this.details, createAlertDetailsPayload.details);
+  }
 
-    /**
-     * Get details
-     *
-     * @return details
-     **/
-    @ApiModelProperty(example = "null", required = true, value = "")
-    public Map<String, String> getDetails() {
-        return details;
+  @Override
+  public int hashCode() {
+    return ObjectUtils.hashCodeMulti(details);
+  }
+
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class CreateAlertDetailsPayload {\n");
+
+    sb.append("    details: ").append(toIndentedString(details)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setDetails(Map<String, String> details) {
-        this.details = details;
-    }
-
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        CreateAlertDetailsPayload createAlertDetailsPayload = (CreateAlertDetailsPayload) o;
-        return ObjectUtils.equals(this.details, createAlertDetailsPayload.details);
-    }
-
-    @Override
-    public int hashCode() {
-        return ObjectUtils.hashCodeMulti(details);
-    }
-
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class CreateAlertDetailsPayload {\n");
-
-        sb.append("    details: ").append(toIndentedString(details)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

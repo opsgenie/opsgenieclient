@@ -20,10 +20,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * RecipientDto
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:03:15.758+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = GroupRecipientDto.class, name = "group"),
@@ -92,6 +94,7 @@ public class RecipientDto {
      *
      * @return type
      **/
+    @NotNull
     @ApiModelProperty(example = "null", required = true, value = "")
     public TypeEnum getType() {
         return type;
@@ -160,7 +163,7 @@ public class RecipientDto {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
+  }
+  
 }
 
