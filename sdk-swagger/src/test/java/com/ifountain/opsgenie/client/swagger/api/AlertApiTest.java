@@ -14,11 +14,9 @@
 package com.ifountain.opsgenie.client.swagger.api;
 
 import com.ifountain.opsgenie.client.swagger.ApiException;
-import com.ifountain.opsgenie.client.swagger.api.model.*;
+import com.ifountain.opsgenie.client.swagger.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * API tests for AlertApi
@@ -28,7 +26,7 @@ public class AlertApiTest {
 
     private final AlertApi api = new AlertApi();
 
-
+    
     /**
      * Acknowledge Alert
      *
@@ -39,14 +37,20 @@ public class AlertApiTest {
      */
     @Test
     public void acknowledgeAlertTest() throws ApiException {
-        String identifier = null;
-        String identifierType = null;
-        AlertActionPayload body = null;
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
+            AcknowledgeAlertRequest body = null;
+        
+
         SuccessResponse response = api.acknowledgeAlert(identifier, identifierType, body);
 
         // TODO: test validations
     }
-
+    
     /**
      * Add Alert Details
      *
@@ -57,14 +61,20 @@ public class AlertApiTest {
      */
     @Test
     public void addDetailsTest() throws ApiException {
-        String identifier = null;
-        CreateAlertDetailsPayload body = null;
-        String identifierType = null;
+        
+        
+            String identifier = null;
+        
+            AddAlertDetailsRequest body = null;
+        
+            String identifierType = null;
+        
+
         SuccessResponse response = api.addDetails(identifier, body, identifierType);
 
         // TODO: test validations
     }
-
+    
     /**
      * Add Alert Note
      *
@@ -75,32 +85,40 @@ public class AlertApiTest {
      */
     @Test
     public void addNoteTest() throws ApiException {
-        String identifier = null;
-        AddAlertNotePayload body = null;
-        String identifierType = null;
+        
+        
+            String identifier = null;
+        
+            AddAlertNoteRequest body = null;
+        
+            String identifierType = null;
+        
+
         SuccessResponse response = api.addNote(identifier, body, identifierType);
 
         // TODO: test validations
     }
-
+    
     /**
-     * Add Alert Recipient
+     * Add Saved Search
      *
-     * Add recipient to alert with given identifier
+     * Create saved search with given fields
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void addRecipientTest() throws ApiException {
-        String identifier = null;
-        AddAlertRecipientPayload body = null;
-        String identifierType = null;
-        SuccessResponse response = api.addRecipient(identifier, body, identifierType);
+    public void addSavedSearchesTest() throws ApiException {
+        
+        
+            AddSavedSearchRequest body = null;
+        
+
+        AddSavedSearchResponse response = api.addSavedSearches(body);
 
         // TODO: test validations
     }
-
+    
     /**
      * Add Alert Tags
      *
@@ -111,14 +129,44 @@ public class AlertApiTest {
      */
     @Test
     public void addTagsTest() throws ApiException {
-        String identifier = null;
-        CreateAlertTagsPayload body = null;
-        String identifierType = null;
+        
+        
+            String identifier = null;
+        
+            AddAlertTagsRequest body = null;
+        
+            String identifierType = null;
+        
+
         SuccessResponse response = api.addTags(identifier, body, identifierType);
 
         // TODO: test validations
     }
+    
+    /**
+     * Add Team
+     *
+     * Add team to alert with given identifier
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void addTeamTest() throws ApiException {
+        
+        
+            String identifier = null;
+        
+            AddAlertTeamRequest body = null;
+        
+            String identifierType = null;
+        
 
+        SuccessResponse response = api.addTeam(identifier, body, identifierType);
+
+        // TODO: test validations
+    }
+    
     /**
      * Assign Alert
      *
@@ -129,14 +177,20 @@ public class AlertApiTest {
      */
     @Test
     public void assignAlertTest() throws ApiException {
-        String identifier = null;
-        AssignAlertPayload body = null;
-        String identifierType = null;
+        
+        
+            String identifier = null;
+        
+            AssignAlertRequest body = null;
+        
+            String identifierType = null;
+        
+
         SuccessResponse response = api.assignAlert(identifier, body, identifierType);
 
         // TODO: test validations
     }
-
+    
     /**
      * Close Alert
      *
@@ -147,14 +201,20 @@ public class AlertApiTest {
      */
     @Test
     public void closeAlertTest() throws ApiException {
-        String identifier = null;
-        String identifierType = null;
-        AlertActionPayload body = null;
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
+            CloseAlertRequest body = null;
+        
+
         SuccessResponse response = api.closeAlert(identifier, identifierType, body);
 
         // TODO: test validations
     }
-
+    
     /**
      * Create Alert
      *
@@ -165,12 +225,16 @@ public class AlertApiTest {
      */
     @Test
     public void createAlertTest() throws ApiException {
-        CreateAlertPayload body = null;
+        
+        
+            CreateAlertRequest body = null;
+        
+
         SuccessResponse response = api.createAlert(body);
 
         // TODO: test validations
     }
-
+    
     /**
      * Delete Alert
      *
@@ -181,15 +245,14 @@ public class AlertApiTest {
      */
     @Test
     public void deleteAlertTest() throws ApiException {
-        String identifier = null;
-        String identifierType = null;
-        String source = null;
-        String user = null;
-        SuccessResponse response = api.deleteAlert(identifier, identifierType, source, user);
+        DeleteAlertRequest params = null;
+        
+
+        SuccessResponse response = api.deleteAlert(params);
 
         // TODO: test validations
     }
-
+    
     /**
      * Delete Alert Details
      *
@@ -200,17 +263,36 @@ public class AlertApiTest {
      */
     @Test
     public void deleteDetailsTest() throws ApiException {
-        String identifier = null;
-        List<String> keys = null;
-        String identifierType = null;
-        String user = null;
-        String note = null;
-        String source = null;
-        SuccessResponse response = api.deleteDetails(identifier, keys, identifierType, user, note, source);
+        DeleteAlertDetailsRequest params = null;
+        
+
+        SuccessResponse response = api.deleteDetails(params);
 
         // TODO: test validations
     }
+    
+    /**
+     * Delete Saved Search
+     *
+     * Deletes saved search using given search identifier
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void deleteSavedSearchTest() throws ApiException {
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
 
+        SuccessResponse response = api.deleteSavedSearch(identifier, identifierType);
+
+        // TODO: test validations
+    }
+    
     /**
      * Delete Alert Tags
      *
@@ -221,17 +303,14 @@ public class AlertApiTest {
      */
     @Test
     public void deleteTagsTest() throws ApiException {
-        String identifier = null;
-        List<String> tags = null;
-        String identifierType = null;
-        String user = null;
-        String note = null;
-        String source = null;
-        SuccessResponse response = api.deleteTags(identifier, tags, identifierType, user, note, source);
+        DeleteAlertTagsRequest params = null;
+        
+
+        SuccessResponse response = api.deleteTags(params);
 
         // TODO: test validations
     }
-
+    
     /**
      * Escalate Alert
      *
@@ -242,14 +321,20 @@ public class AlertApiTest {
      */
     @Test
     public void escalateAlertTest() throws ApiException {
-        String identifier = null;
-        EscalateAlertToNextPayload body = null;
-        String identifierType = null;
+        
+        
+            String identifier = null;
+        
+            EscalateAlertToNextRequest body = null;
+        
+            String identifierType = null;
+        
+
         SuccessResponse response = api.escalateAlert(identifier, body, identifierType);
 
         // TODO: test validations
     }
-
+    
     /**
      * Custom Alert Action
      *
@@ -260,14 +345,22 @@ public class AlertApiTest {
      */
     @Test
     public void executeCustomActionTest() throws ApiException {
-        String identifier = null;
-        CustomActionPayload body = null;
-        String identifierType = null;
-        SuccessResponse response = api.executeCustomAction(identifier, body, identifierType);
+        
+        
+            String identifier = null;
+        
+            String actionName = null;
+        
+            String identifierType = null;
+        
+            ExecuteCustomAlertActionRequest body = null;
+        
+
+        SuccessResponse response = api.executeCustomAction(identifier, actionName, identifierType, body);
 
         // TODO: test validations
     }
-
+    
     /**
      * Get Alert
      *
@@ -278,43 +371,154 @@ public class AlertApiTest {
      */
     @Test
     public void getAlertTest() throws ApiException {
-        String identifier = null;
-        String identifierType = null;
-        DetailedAlertDto response = api.getAlert(identifier, identifierType);
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
+
+        GetAlertResponse response = api.getAlert(identifier, identifierType);
 
         // TODO: test validations
     }
-
+    
     /**
-     * List alerts
+     * Get Request Status of Alert
      *
-     * Returns list of alerts.
+     * Returns status of alert request
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getRequestStatusTest() throws ApiException {
+        
+        
+            String requestId = null;
+        
+
+        GetRequestStatusResponse response = api.getRequestStatus(requestId);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * Get Saved Search
+     *
+     * Get saved search for the given search identifier
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getSavedSearchTest() throws ApiException {
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
+
+        GetSavedSearchResponse response = api.getSavedSearch(identifier, identifierType);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * List Alerts
+     *
+     * Returns list of alerts
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void listAlertsTest() throws ApiException {
-        String pageField = null;
-        String pageValue = null;
-        String pageDirection = null;
-        Integer limit = null;
-        String sortField = null;
-        String order = null;
-        String status = null;
-        Boolean acked = null;
-        Boolean seen = null;
-        List<String> teamIds = null;
-        String teamIdsRelation = null;
-        List<String> teamNames = null;
-        String teamNamesRelation = null;
-        List<String> tags = null;
-        String tagsRelation = null;
-        ListAlertResponse response = api.listAlerts(pageField, pageValue, pageDirection, limit, sortField, order, status, acked, seen, teamIds, teamIdsRelation, teamNames, teamNamesRelation, tags, tagsRelation);
+        ListAlertsRequest params = null;
+        
+
+        ListAlertsResponse response = api.listAlerts(params);
 
         // TODO: test validations
     }
+    
+    /**
+     * List Alert Logs
+     *
+     * List alert logs for the given alert identifier
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void listLogsTest() throws ApiException {
+        ListAlertLogsRequest params = null;
+        
 
+        ListAlertLogsResponse response = api.listLogs(params);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * List Alert Notes
+     *
+     * List alert notes for the given alert identifier
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void listNotesTest() throws ApiException {
+        ListAlertNotesRequest params = null;
+        
+
+        ListAlertNotesResponse response = api.listNotes(params);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * List Alert Recipients
+     *
+     * List alert recipients for the given alert identifier
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void listRecipientsTest() throws ApiException {
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
+
+        ListAlertRecipientsResponse response = api.listRecipients(identifier, identifierType);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * Lists Saved Searches
+     *
+     * List all saved searches
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void listSavedSearchesTest() throws ApiException {
+        
+        
+
+        ListSavedSearchResponse response = api.listSavedSearches();
+
+        // TODO: test validations
+    }
+    
     /**
      * Snooze Alert
      *
@@ -325,30 +529,42 @@ public class AlertApiTest {
      */
     @Test
     public void snoozeAlertTest() throws ApiException {
-        String identifier = null;
-        SnoozeAlertPayload body = null;
-        String identifierType = null;
+        
+        
+            String identifier = null;
+        
+            SnoozeAlertRequest body = null;
+        
+            String identifierType = null;
+        
+
         SuccessResponse response = api.snoozeAlert(identifier, body, identifierType);
 
         // TODO: test validations
     }
-
+    
     /**
-     * Unacknowledge Alert
+     * UnAcknowledge Alert
      *
-     * Unacknowledge alert with given identifier
+     * UnAcknowledge alert with given identifier
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void unacknowledgeAlertTest() throws ApiException {
-        String identifier = null;
-        String identifierType = null;
-        AlertActionPayload body = null;
-        SuccessResponse response = api.unacknowledgeAlert(identifier, identifierType, body);
+    public void unAcknowledgeAlertTest() throws ApiException {
+        
+        
+            String identifier = null;
+        
+            String identifierType = null;
+        
+            UnAcknowledgeAlertRequest body = null;
+        
+
+        SuccessResponse response = api.unAcknowledgeAlert(identifier, identifierType, body);
 
         // TODO: test validations
     }
-
+    
 }

@@ -20,37 +20,37 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
 public class HttpBasicAuth implements Authentication {
-    private String username;
-    private String password;
+  private String username;
+  private String password;
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    @Override
-    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
-        if (username == null && password == null) {
-            return;
-        }
-        String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
-        try {
-            headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.getBytes("UTF-8"), false));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+  @Override
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+    if (username == null && password == null) {
+      return;
     }
+    String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
+    try {
+      headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.getBytes("UTF-8"), false));
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

@@ -13,14 +13,18 @@
 
 package com.ifountain.opsgenie.client.swagger;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-29T15:24:56.545+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
 public class Pair {
     private String name = "";
     private String value = "";
 
-    public Pair(String name, String value) {
+    public Pair (String name, String value) {
         setName(name);
         setValue(value);
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     private void setName(String name) {
@@ -29,18 +33,14 @@ public class Pair {
         this.name = name;
     }
 
+    public String getValue() {
+        return this.value;
+    }
+
     private void setValue(String value) {
         if (!isValidString(value)) return;
 
         this.value = value;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getValue() {
-        return this.value;
     }
 
     private boolean isValidString(String arg) {
