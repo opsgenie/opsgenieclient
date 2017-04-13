@@ -248,7 +248,7 @@ class ScriptProxyAdminTest {
         GetHeartbeatResponse response = new GetHeartbeatResponse();
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        response.setHeartbeat(new Heartbeat(name: "source1", lastHeartbeat: date, expired: false))
+        response.setHeartbeat(new Heartbeat(name: "source1", lastPingTime: date, expired: false))
         opsGenieClient.setGetHeartbeatResponse(response);
 
         def params = [name: "source1"]
@@ -270,8 +270,8 @@ class ScriptProxyAdminTest {
             assertEquals("customer1", request.getApiKey())
         }
         assertEquals(response.getHeartbeat().getName(), responseMap[TestConstants.API.NAME])
-        assertEquals(sdf.format(response.getHeartbeat().getLastHeartbeat()), sdf.format(date))
-        assertEquals(response.getHeartbeat().getLastHeartbeat().getTime(), (date.getTime()))
+        assertEquals(sdf.format(response.getHeartbeat().getLastPingTime()), sdf.format(date))
+        assertEquals(response.getHeartbeat().getLastPingTime().getTime(), (date.getTime()))
         assertEquals(response.getHeartbeat().isExpired(), responseMap[TestConstants.API.EXPIRED])
     }
 
@@ -291,7 +291,7 @@ class ScriptProxyAdminTest {
         ListHeartbeatsResponse response = new ListHeartbeatsResponse();
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        response.setHeartbeats([new Heartbeat(name: "source1", lastHeartbeat: date, expired: false)])
+        response.setHeartbeats([new Heartbeat(name: "source1", lastPingTime: date, expired: false)])
         opsGenieClient.setListHeartbeatsResponse(response);
 
         def params = [:]
@@ -313,8 +313,8 @@ class ScriptProxyAdminTest {
         }
 
         assertEquals(response.getHeartbeats()[0].getName(), responseMap[0][TestConstants.API.NAME])
-        assertEquals(sdf.format(response.getHeartbeats()[0].getLastHeartbeat()), sdf.format(date))
-        assertEquals(response.getHeartbeats()[0].getLastHeartbeat().getTime(), (date.getTime()))
+        assertEquals(sdf.format(response.getHeartbeats()[0].getLastPingTime()), sdf.format(date))
+        assertEquals(response.getHeartbeats()[0].getLastPingTime().getTime(), (date.getTime()))
         assertEquals(response.getHeartbeats()[0].isExpired(), responseMap[0][TestConstants.API.EXPIRED])
     }
 

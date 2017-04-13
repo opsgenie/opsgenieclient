@@ -6,11 +6,13 @@ import java.util.Date;
  * Heartbeat bean
  */
 public class Heartbeat extends Bean {
+    private static final String STATUS_EXPIRED = "Expired";
+    private static final String STATUS_ACTIVE = "Active";
+
     private String name;
-    private Date lastHeartbeat;
+    private Date lastPingTime;
     private Boolean expired;
     private Boolean enabled;
-    private String status;
     private String description;
     private Integer interval;
     private IntervalUnit intervalUnit;
@@ -19,14 +21,15 @@ public class Heartbeat extends Bean {
      * Status of heartbeat
      */
     public String getStatus() {
-        return status;
+        return Boolean.TRUE.equals(expired) ? STATUS_EXPIRED : STATUS_ACTIVE;
     }
 
     /**
      * Sets the status of heartbeat
+     * @deprecated Deprecated for removal
      */
+    @Deprecated
     public void setStatus(String status) {
-        this.status = status;
     }
 
     /**
@@ -47,14 +50,28 @@ public class Heartbeat extends Bean {
      * Last heartbeat recieve time
      */
     public Date getLastHeartbeat() {
-        return lastHeartbeat;
+        return lastPingTime;
+    }
+
+    /**
+     * Last heartbeat recieve time
+     */
+    public Date getLastPingTime() {
+        return lastPingTime;
+    }
+
+    /**
+     * Sets last heartbeat receieve time
+     */
+    public void setLastPingTime(Date lastPingTime) {
+        this.lastPingTime = lastPingTime;
     }
 
     /**
      * Sets last heartbeat receieve time
      */
     public void setLastHeartbeat(Date lastHeartbeat) {
-        this.lastHeartbeat = lastHeartbeat;
+        this.lastPingTime = lastHeartbeat;
     }
 
     /**
@@ -133,7 +150,7 @@ public class Heartbeat extends Bean {
     }
 
     public Heartbeat withLastHeartbeat(Date lastHeartbeat) {
-        this.lastHeartbeat = lastHeartbeat;
+        this.lastPingTime = lastHeartbeat;
         return this;
     }
 
@@ -147,8 +164,11 @@ public class Heartbeat extends Bean {
         return this;
     }
 
+    /**
+     * @deprecated  Deprecated for removal
+     */
+    @Deprecated
     public Heartbeat withStatus(String status) {
-        this.status = status;
         return this;
     }
 

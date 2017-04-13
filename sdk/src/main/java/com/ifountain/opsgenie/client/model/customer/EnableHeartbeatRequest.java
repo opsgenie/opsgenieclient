@@ -10,7 +10,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#enableHeartbeat(com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest)
  */
 public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse, EnableHeartbeatRequest> {
+
     private String name;
+
     @JsonIgnore
     private boolean enable;
 
@@ -20,9 +22,9 @@ public class EnableHeartbeatRequest extends BaseRequest<EnableHeartbeatResponse,
     @Override
     public String getEndPoint() {
         if (enable) {
-            return "/v1/json/heartbeat/enable";
+            return "/v2/heartbeats/" + name + "/enable";
         } else {
-            return "/v1/json/heartbeat/disable";
+            return "/v2/heartbeats/" + name + "/disable";
         }
     }
 

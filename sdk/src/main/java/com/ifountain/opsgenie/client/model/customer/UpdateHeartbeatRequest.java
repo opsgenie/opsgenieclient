@@ -29,4 +29,9 @@ public class UpdateHeartbeatRequest extends AddHeartbeatRequest {
     public AddHeartbeatResponse createResponse() {
         return new UpdateHeartbeatResponse();
     }
+
+    @Override
+    public String getEndPoint() {
+        return "/v2/heartbeats/" + super.getName();
+    }
 }
