@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -159,13 +160,13 @@ public class PubnubAlertActionListener {
                 AlertActionUtils.AlertActionBean actionBean = AlertActionUtils.AlertActionBean.createAlertAction(jsonMessage);
                 try {
                     AlertActionUtils.executeActionScript(actionBean);
-                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.username, null);
+                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.username, actionBean.params, null);
                 } catch (Exception e) {
                     logger.warn(getLogPrefix() + "Could not process message " + jsonMessage + "Reason: " + e.getMessage());
-                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.username, e.getMessage());
+                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.username, actionBean.params, e.getMessage());
                 }
             } catch (Exception ex) {
-                logger.warn(getLogPrefix() + ex.getMessage());
+                logger.error(getLogPrefix() + ex.getMessage(), ex);
             }
 
         } else {
@@ -173,11 +174,18 @@ public class PubnubAlertActionListener {
         }
     }
 
-    private void sendResultToOpsGenie(String action, String alertId, String username, String failureMessage) {
-        logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
+    private void sendResultToOpsGenie(String action, String alertId, String username, Map params, String failureMessage) {
+
         List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+        String mappedAction = (String) params.get("mappedAction");
+        if (mappedAction != null) {
+            logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + mappedAction);
+            parameters.add(new BasicNameValuePair("mappedAction", mappedAction));
+        } else {
+            logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
+            parameters.add(new BasicNameValuePair("alertAction", action));
+        }
         parameters.add(new BasicNameValuePair("apiKey", MaridConfig.getInstance().getApiKey()));
-        parameters.add(new BasicNameValuePair("alertAction", action));
         boolean success = failureMessage == null;
         parameters.add(new BasicNameValuePair("success", String.valueOf(success)));
         if (alertId != null) parameters.add(new BasicNameValuePair("alertId", alertId));

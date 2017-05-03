@@ -81,11 +81,13 @@ class AlertActionUtilsTest {
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[4])
         assertSame(sources, scriptCalls[5])
 
+
         //script file name convention
         alertmap = new HashMap();
         alertmap.put("alertId", "alert2")
         alertmap.put("username", "user2")
         action = "re START /:; ";
+
         scriptCalls.clear();
         AlertActionUtils.executeActionScript(new AlertActionUtils.AlertActionBean(action, alertmap, sources));
         assertEquals(6, scriptCalls.size());
@@ -99,7 +101,59 @@ class AlertActionUtilsTest {
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[3])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[4])
         assertSame(sources, scriptCalls[5])
+
     }
+
+    @Test
+    public void testActionScriptExecutionWithMappedAction() throws Exception {
+        def scriptFile = new File(scriptsDir, "restart.groovy");
+        scriptFile.setText("""
+           ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT});
+           ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF});
+           ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_LOGGER});
+           ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS}); 
+
+        """)
+
+
+        Map params = new HashMap()
+        params.put("mappedAction", "restart")
+        params.put("alertId", "id")
+        params.put("action", "ack")
+
+
+
+        AlertActionUtils.executeActionScript(new AlertActionUtils.AlertActionBean(params));
+        assertEquals(4, scriptCalls.size());
+
+        assertTrue(scriptCalls[0] instanceof ScriptProxy)
+        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[0].opsGenieClient)
+        assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[1])
+        assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[2])
+        def integrationParams = scriptCalls[3]
+        assertEquals("restart", integrationParams.mappedAction)
+        assertEquals("id", integrationParams.alertId)
+        assertEquals("ack", integrationParams.action)
+
+        //script file name convention
+
+        params = new HashMap()
+        params.put("mappedAction", "re START /:; ")
+        params.put("alertId", "id1")
+
+        scriptCalls.clear();
+        AlertActionUtils.executeActionScript(new AlertActionUtils.AlertActionBean(params));
+        assertEquals(4, scriptCalls.size());
+
+        assertTrue(scriptCalls[0] instanceof ScriptProxy)
+        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[0].opsGenieClient)
+        assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[1])
+        assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[2])
+        integrationParams = scriptCalls[3]
+        assertEquals("re START /:; ", integrationParams.mappedAction)
+        assertEquals("id1", integrationParams.alertId)
+    }
+
 
     @Test
     public void testActionScriptExecutionWithMapping() throws Exception {
