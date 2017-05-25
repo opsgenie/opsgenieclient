@@ -12,18 +12,18 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 public class AlertActionUtils {
+    public static final String MAPPED_ACTION_V2 = "mappedActionV2";
     private static Logger logger = Logger.getLogger(AlertActionUtils.class);
 
     public static void executeActionScript(AlertActionBean actionBean) throws Exception {
         Map params = actionBean.params;
         String mappedAction = "";
         if (params != null) {
-            mappedAction = (String) actionBean.params.get("mappedAction");
+            mappedAction = (String) ((Map) params.get(MAPPED_ACTION_V2)).get("name");
         }
 
         File scriptFile = getScriptFile(actionBean.action, mappedAction);
@@ -33,6 +33,7 @@ public class AlertActionUtils {
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_SOURCE, actionBean.source);
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_ACTION, actionBean.action);
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, actionBean.params);
+            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_MAPPED_ACTION, mappedAction);
             Properties  maridConfProps = new Properties();
             if(MaridConfig.getInstance().getConfiguration() != null){
                 maridConfProps.putAll(MaridConfig.getInstance().getConfiguration());
@@ -172,7 +173,7 @@ public class AlertActionUtils {
                         }
                     }
                 } catch (IOException e) {
-                    throw new IllegalArgumentException("Could not parse alert content.");
+                    throw new IllegalArgumentException("Could not parse alert content.", e);
                 }
                 return new AlertActionBean(action, alertMap, sourceMap);
             } else {

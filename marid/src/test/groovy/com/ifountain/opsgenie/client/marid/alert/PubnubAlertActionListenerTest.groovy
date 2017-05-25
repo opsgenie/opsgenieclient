@@ -1,12 +1,9 @@
 package com.ifountain.opsgenie.client.marid.alert
 
-import com.ifountain.opsgenie.client.http.HttpTestRequest
-import com.ifountain.opsgenie.client.http.HttpTestRequestListener
-import com.ifountain.opsgenie.client.http.HttpTestResponse
-import com.ifountain.opsgenie.client.http.HttpTestServer
-import com.ifountain.opsgenie.client.http.OpsGenieHttpClient
+import com.ifountain.opsgenie.client.http.*
 import com.ifountain.opsgenie.client.marid.MaridConfig
 import com.ifountain.opsgenie.client.misc.SmartWait
+import com.ifountain.opsgenie.client.pubnub.PubnubTestUtils
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.script.ScriptManager
 import com.ifountain.opsgenie.client.script.util.ScriptProxy
@@ -14,7 +11,6 @@ import com.ifountain.opsgenie.client.test.util.CommonTestUtils
 import com.ifountain.opsgenie.client.test.util.JSON
 import com.ifountain.opsgenie.client.test.util.MaridTestCase
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
-import com.ifountain.opsgenie.client.pubnub.PubnubTestUtils
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.test.util.logging.MockAppender
 import com.ifountain.opsgenie.client.test.util.logging.TestLogUtils
@@ -147,7 +143,6 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         def requestParams = request.getParameters();
         assertEquals("true", requestParams.success)
         assertEquals("alert1", requestParams.alertId)
-        assertEquals("user1", requestParams.username)
         assertEquals("restart", requestParams.alertAction)
         assertEquals(MaridConfig.getInstance().getApiKey(), requestParams.apiKey)
 
@@ -181,11 +176,43 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         requestParams = request.getParameters();
         assertEquals("true", requestParams.success)
         assertEquals("alert1", requestParams.alertId)
-        assertEquals("user1", requestParams.username)
         assertEquals("restart", requestParams.alertAction)
         assertEquals(MaridConfig.getInstance().getApiKey(), requestParams.apiKey)
     }
 
+    @Test
+    public void testScriptExecutionWithMappedAction() throws Exception {
+        def scriptFile = new File(scriptsDir, "restart.groovy");
+        scriptFile.setText("""
+           ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_MAPPED_ACTION});
+        """)
+
+        JSONObject json = new JSONObject();
+        JSONObject params = new JSONObject();
+        params.put("mappedActionV2", ["name": "restart"])
+        params.put("action", "Create")
+        params.put("entity", "router1")
+        params.put("alertId", "alert1")
+        json.put("params", params.toString())
+        json.put("source", JSON.toJson([type: "api"]))
+
+        channel.publish(channelName, json)
+
+        SmartWait.waitForClosure {
+            assertEquals(1, scriptCalls.size());
+            assertEquals(1, receivedRequests.size());
+        }
+
+        assertEquals("restart", scriptCalls[0])
+
+        HttpTestRequest request = receivedRequests[0]
+        assertEquals("/v1/json/marid/actionExecutionResult", request.getUrl())
+        def requestParams = request.getParameters();
+        assertEquals("true", requestParams.success)
+        assertEquals("alert1", requestParams.alertId)
+        assertEquals("restart", requestParams.mappedAction)
+        assertEquals(MaridConfig.getInstance().getApiKey(), requestParams.apiKey)
+    }
 
     @Test
     public void testActionScriptExecutionWillNotBlockOtherScriptExecutions() throws Exception {
@@ -474,7 +501,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         channel.publish(channelName, json)
 
         SmartWait.waitForClosure {
-            def logMessages = logAppender.getMessages(Level.WARN.toString())
+            def logMessages = logAppender.getMessages(Level.ERROR.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("No action specified") > -1);
         }
@@ -502,7 +529,6 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         def requestParams = request.getParameters()
         assertEquals("false", requestParams.success)
         assertEquals("alert1", requestParams.alertId)
-        assertEquals("user1", requestParams.username)
         assertEquals("restart", requestParams.alertAction)
         assertEquals("No script file found for action [restart]", requestParams.failureMessage)
         assertEquals(MaridConfig.getInstance().getApiKey(), requestParams.apiKey)
@@ -520,7 +546,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         channel.publish(channelName, json)
 
         SmartWait.waitForClosure {
-            def logMessages = logAppender.getMessages(Level.WARN.toString())
+            def logMessages = logAppender.getMessages(Level.ERROR.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("No alert specified") > -1);
         }
@@ -554,7 +580,6 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         def requestParams = request.getParameters()
         assertEquals("false", requestParams.success)
         assertEquals("alert1", requestParams.alertId)
-        assertEquals("user1", requestParams.username)
         assertEquals("restart", requestParams.alertAction)
         assertTrue(requestParams.failureMessage.indexOf("script exception") > -1)
         assertEquals(MaridConfig.getInstance().getApiKey(), requestParams.apiKey)
@@ -573,7 +598,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         channel.publish(channelName, json)
 
         SmartWait.waitForClosure {
-            def logMessages = logAppender.getMessages(Level.WARN.toString())
+            def logMessages = logAppender.getMessages(Level.ERROR.toString())
             assertTrue(logMessages.size() > 0)
             assertTrue(logMessages.toString(), logMessages[logMessages.size() - 1].indexOf("Could not parse alert content") > -1);
         }

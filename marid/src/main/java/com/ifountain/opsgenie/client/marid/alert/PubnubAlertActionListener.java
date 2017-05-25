@@ -160,10 +160,10 @@ public class PubnubAlertActionListener {
                 AlertActionUtils.AlertActionBean actionBean = AlertActionUtils.AlertActionBean.createAlertAction(jsonMessage);
                 try {
                     AlertActionUtils.executeActionScript(actionBean);
-                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.username, actionBean.params, null);
+                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.params, null);
                 } catch (Exception e) {
                     logger.warn(getLogPrefix() + "Could not process message " + jsonMessage + "Reason: " + e.getMessage());
-                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.username, actionBean.params, e.getMessage());
+                    sendResultToOpsGenie(actionBean.action, actionBean.alertId, actionBean.params, e.getMessage());
                 }
             } catch (Exception ex) {
                 logger.error(getLogPrefix() + ex.getMessage(), ex);
@@ -174,13 +174,14 @@ public class PubnubAlertActionListener {
         }
     }
 
-    private void sendResultToOpsGenie(String action, String alertId, String username, Map params, String failureMessage) {
-
+    private void sendResultToOpsGenie(String action, String alertId, Map params, String failureMessage) {
         List<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-        String mappedAction = (String) params.get("mappedAction");
-        if (mappedAction != null) {
+        if (params != null) {
+            String mappedAction = (String) ((Map) params.get("mappedActionV2")).get("name");
             logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + mappedAction);
             parameters.add(new BasicNameValuePair("mappedAction", mappedAction));
+
+            alertId = (String) params.get("alertId");
         } else {
             logger.debug(getLogPrefix() + "Sending result to OpsGenie for action: " + action);
             parameters.add(new BasicNameValuePair("alertAction", action));
@@ -188,8 +189,7 @@ public class PubnubAlertActionListener {
         parameters.add(new BasicNameValuePair("apiKey", MaridConfig.getInstance().getApiKey()));
         boolean success = failureMessage == null;
         parameters.add(new BasicNameValuePair("success", String.valueOf(success)));
-        if (alertId != null) parameters.add(new BasicNameValuePair("alertId", alertId));
-        if (username != null) parameters.add(new BasicNameValuePair("username", username));
+        parameters.add(new BasicNameValuePair("alertId", alertId));
         if (!success) parameters.add(new BasicNameValuePair("failureMessage", failureMessage));
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");

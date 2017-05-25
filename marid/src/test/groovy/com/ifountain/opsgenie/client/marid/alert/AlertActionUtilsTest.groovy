@@ -112,46 +112,49 @@ class AlertActionUtilsTest {
            ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF});
            ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_LOGGER});
            ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS}); 
+           ${this.class.getName()}.scriptCall(${OpsgenieClientApplicationConstants.ScriptProxy.BINDING_MAPPED_ACTION});
 
         """)
 
 
         Map params = new HashMap()
-        params.put("mappedAction", "restart")
+        Map<String, Object> mappedAction = new HashMap<>();
+        mappedAction.put("name", "restart")
+        params.put(AlertActionUtils.MAPPED_ACTION_V2, mappedAction)
         params.put("alertId", "id")
         params.put("action", "ack")
 
 
-
         AlertActionUtils.executeActionScript(new AlertActionUtils.AlertActionBean(params));
-        assertEquals(4, scriptCalls.size());
+        assertEquals(5, scriptCalls.size());
 
         assertTrue(scriptCalls[0] instanceof ScriptProxy)
         assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[0].opsGenieClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[1])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[2])
         def integrationParams = scriptCalls[3]
-        assertEquals("restart", integrationParams.mappedAction)
         assertEquals("id", integrationParams.alertId)
         assertEquals("ack", integrationParams.action)
+        assertEquals("restart", scriptCalls[4])
 
         //script file name convention
 
         params = new HashMap()
-        params.put("mappedAction", "re START /:; ")
+        mappedAction.put("name", "re START /:; ")
+        params.put(AlertActionUtils.MAPPED_ACTION_V2, mappedAction)
         params.put("alertId", "id1")
 
         scriptCalls.clear();
         AlertActionUtils.executeActionScript(new AlertActionUtils.AlertActionBean(params));
-        assertEquals(4, scriptCalls.size());
+        assertEquals(5, scriptCalls.size());
 
         assertTrue(scriptCalls[0] instanceof ScriptProxy)
         assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[0].opsGenieClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[1])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[2])
         integrationParams = scriptCalls[3]
-        assertEquals("re START /:; ", integrationParams.mappedAction)
         assertEquals("id1", integrationParams.alertId)
+        assertEquals("re START /:; ", scriptCalls[4])
     }
 
 

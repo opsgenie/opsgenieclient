@@ -4,6 +4,7 @@ public interface OpsgenieClientApplicationConstants {
     interface ScriptProxy {
         String BINDING_CONF = "conf";
         String BINDING_PARAMS = "params";
+        String BINDING_MAPPED_ACTION = "mappedAction";
         String BINDING_ALERT = "alert";
         String BINDING_ACTION = "action";
         String BINDING_RESPONSE = "response";
