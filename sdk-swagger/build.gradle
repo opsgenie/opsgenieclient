@@ -1,0 +1,84 @@
+apply plugin: 'signing'
+apply from: 'pom.gradle'
+
+ext {
+    swagger_annotations_version = "1.5.8"
+    jackson_version = "2.7.5"
+    jersey_version = "1.19.1"
+    jodatime_version = "2.9.4"
+    junit_version = "4.12"
+    commons_lang3_version = "3.5"
+    commons_io_version = "2.5"
+    migbase64_version = "2.2"
+    javax_validation_api_version = "1.1.0.Final"
+}
+
+dependencies {
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.sun.jersey:jersey-client:$jersey_version"
+    compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    compile "joda-time:joda-time:$jodatime_version"
+    compile "com.brsanthu:migbase64:$migbase64_version"
+    compile "org.apache.commons:commons-lang3:$commons_lang3_version"
+    compile "commons-io:commons-io:$commons_io_version"
+    compile "javax.validation:validation-api:$javax_validation_api_version"
+
+    testCompile "junit:junit:$junit_version"
+}
+
+
+jar {
+    manifest {
+        attributes("Built-By": "http://www.opsgenie.com",
+                "Specification-Title": "OpsGenie Java Swagger SDK",
+                "Specification-Product": "opsgenie-java-swagger-sdk",
+                "Specification-Version": project.version,
+                "Specification-Vendor": "http://www.opsgenie.com",
+                "Implementation-Title": "OpsGenie Java Swagger SDK",
+                "Implementation-Product": "opsgenie-java-swagger-sdk",
+                "Implementation-Vendor": "http://www.opsgenie.com",
+                "Implementation-Version": project.version,
+        )
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: 'javadoc') {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: project.hasProperty('ossrhUsername') ? ossrhUsername : '', password: project.hasProperty('ossrhPassword') ? ossrhPassword : '')
+            }
+
+            populatePom(pom)
+        }
+    }
+}

@@ -2,6 +2,7 @@ apply plugin: 'signing'
 apply from: 'pom.gradle'
 
 dependencies {
+    compile project(':sdk-swagger')
     compile 'org.apache.httpcomponents:httpcore:4.2.5'
     compile 'org.apache.httpcomponents:httpmime:4.2.5'
     compile 'org.apache.httpcomponents:httpclient:4.2.5'
