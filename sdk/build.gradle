@@ -32,6 +32,11 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+task generateAllDocs(type: Javadoc) {
+    source = sourceSets.main.allJava + project(":sdk-swagger").sourceSets.main.allJava
+    destinationDir = file("${buildDir}/docs/all")
+}
+
 task javadocJar(type: Jar, dependsOn: 'javadoc') {
     classifier 'javadoc'
     from javadoc.destinationDir
@@ -46,8 +51,6 @@ signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
-
-
 
 uploadArchives {
     repositories {

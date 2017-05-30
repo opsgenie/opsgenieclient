@@ -16,8 +16,12 @@ dependencies {
 
 shadowJar {
     classifier = null
-    relocate 'org.apache', 'com.opsgenie.apache'
-    relocate 'org.codehaus', 'com.opsgenie.codehaus'
+    relocate 'org', 'com.opsgenie.lib.org'
+    relocate 'io', 'com.opsgenie.lib.io'
+    relocate 'javax', 'com.opsgenie.lib.javax'
+    relocate 'com.fasterxml', 'com.opsgenie.lib.com.fasterxml'
+    relocate 'com.migcomponents', 'com.opsgenie.lib.com.migcomponents'
+    relocate 'com.sun', 'com.opsgenie.lib.com.sun'
 
     configurations = [project.configurations.shadow]
 }
