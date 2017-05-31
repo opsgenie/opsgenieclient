@@ -2,14 +2,15 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list alert notes api call.
  *
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertNotes(ListAlertNotesRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.ListAlertNotesRequest}
  */
+@Deprecated
 public class ListAlertNotesRequest extends BaseAlertRequestWithId<ListAlertNotesResponse, ListAlertNotesRequest> {
     @JsonProperty("order")
     private SortOrder sortOrder = SortOrder.asc;

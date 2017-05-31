@@ -178,7 +178,9 @@ public class OpsGenieClient implements IOpsGenieClient {
 
     /**
      * @see com.ifountain.opsgenie.client.IOpsGenieClient#alert()
+     * @deprecated Use {@link OpsGenieClient#alertV2()}
      */
+    @Deprecated
     public IAlertOpsGenieClient alert() {
         return innerAlertOpsGenieClient;
     }

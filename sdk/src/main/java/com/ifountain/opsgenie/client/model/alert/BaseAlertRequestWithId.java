@@ -2,14 +2,15 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Abstract Container for the alert requests.
  *
  * @author Sezgin Kucukkaraaslan
+ * @deprecated As of release 2.8.0, will not be supoprted
  */
+@Deprecated
 public abstract class BaseAlertRequestWithId<T extends BaseResponse, K extends BaseAlertRequestWithId> extends BaseRequest<T, K> {
     private String id;
     private String alias;

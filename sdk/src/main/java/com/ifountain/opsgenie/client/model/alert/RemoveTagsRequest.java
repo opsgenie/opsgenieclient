@@ -1,11 +1,14 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.util.Strings;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
+/**
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.DeleteAlertTagsRequest}
+ */
+@Deprecated
 public class RemoveTagsRequest extends BaseAlertRequestWithParameters<RemoveTagsResponse, RemoveTagsRequest> {
     private List<String> tags;
 

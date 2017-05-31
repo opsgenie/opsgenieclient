@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#assign(AssignRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.AssignAlertRequest}
  */
+@Deprecated
 public class AssignRequest extends BaseAlertRequestWithParameters<AssignResponse, AssignRequest> {
     private String owner;
 

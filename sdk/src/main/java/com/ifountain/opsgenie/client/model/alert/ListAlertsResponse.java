@@ -10,7 +10,9 @@ import java.util.List;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.ListAlertsResponse}
  */
+@Deprecated
 public class ListAlertsResponse extends BaseResponse {
     private List<Alert> alerts;
 

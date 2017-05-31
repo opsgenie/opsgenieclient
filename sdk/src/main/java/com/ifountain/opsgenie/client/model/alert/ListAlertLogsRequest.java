@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -10,7 +9,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertLogs(ListAlertLogsRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.ListAlertLogsRequest}
  */
+@Deprecated
 public class ListAlertLogsRequest extends BaseAlertRequestWithId<ListAlertLogsResponse, ListAlertLogsRequest> {
     @JsonProperty("order")
     private SortOrder sortOrder = SortOrder.asc;

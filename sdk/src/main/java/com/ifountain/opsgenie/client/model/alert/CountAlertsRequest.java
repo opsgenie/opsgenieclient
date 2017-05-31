@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Veli Burak Celen
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class CountAlertsRequest extends AlertsRequest<CountAlertsResponse, CountAlertsRequest> {
 
     @Override

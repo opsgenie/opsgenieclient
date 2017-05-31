@@ -8,7 +8,9 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertRecipients(ListAlertRecipientsRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class ListAlertRecipientsRequest extends BaseAlertRequestWithId<ListAlertRecipientsResponse, ListAlertRecipientsRequest> {
     /**
      * Rest api uri of get alert operation.

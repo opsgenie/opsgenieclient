@@ -4,7 +4,9 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
 
 /**
  * @author Mehmet Mustafa Demir
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public abstract class BaseAlertRequestWithParameters<T extends BaseResponse, K extends BaseAlertRequestWithParameters> extends BaseAlertRequestWithId<T, K> {
     private String note;
     private String user;

@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#escalateToNext(EscalateToNextRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.EscalateAlertToNextRequest}
  */
+@Deprecated
 public class EscalateToNextRequest extends BaseAlertRequestWithParameters<EscalateToNextResponse, EscalateToNextRequest> {
     private String escalationName;
     private String escalationId;

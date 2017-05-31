@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.util.Strings;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
@@ -11,7 +10,9 @@ import java.util.List;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#removeDetails(RemoveDetailsRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.DeleteAlertDetailsRequest}
  */
+@Deprecated
 public class RemoveDetailsRequest extends BaseAlertRequestWithParameters<RemoveDetailsResponse, RemoveDetailsRequest> {
 
     private List<String> keys;

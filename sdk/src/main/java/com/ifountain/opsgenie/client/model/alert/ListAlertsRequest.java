@@ -6,7 +6,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Container for the parameters to make a list alerts api call.
  *
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlerts(ListAlertsRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.ListAlertsRequest}
  */
+@Deprecated
 public class ListAlertsRequest extends AlertsRequest<ListAlertsResponse, ListAlertsRequest> {
     @JsonProperty("sortBy")
     private SortBy sortBy;

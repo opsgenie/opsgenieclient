@@ -11,7 +11,9 @@ import java.util.Map;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertRecipients(ListAlertRecipientsRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class ListAlertRecipientsResponse extends BaseResponse {
     private List<AlertRecipient> users;
     private Map<String, List<AlertRecipient>> groups;

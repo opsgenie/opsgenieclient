@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#deleteAlert(DeleteAlertRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.DeleteAlertRequest}
  */
+@Deprecated
 public class DeleteAlertRequest extends BaseAlertRequestWithId<DeleteAlertResponse, DeleteAlertRequest> {
     private String source;
     private String user;

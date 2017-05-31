@@ -7,7 +7,9 @@ import java.util.List;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#renotify(RenotifyRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class RenotifyRequest extends BaseAlertRequestWithParameters<RenotifyResponse, RenotifyRequest> {
     private List<String> recipients;
 
