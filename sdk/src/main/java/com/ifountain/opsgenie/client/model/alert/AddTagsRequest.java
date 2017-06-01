@@ -4,7 +4,9 @@ import java.util.List;
 
 /**
  * @author Tuba Ozturk
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.AddAlertTagsRequest}
  */
+@Deprecated
 public class AddTagsRequest extends BaseAlertRequestWithParameters<AddTagsResponse, AddTagsRequest> {
     private List<String> tags;
 

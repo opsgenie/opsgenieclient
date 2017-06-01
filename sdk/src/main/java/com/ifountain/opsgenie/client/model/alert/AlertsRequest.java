@@ -2,7 +2,6 @@ package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
@@ -11,7 +10,9 @@ import java.util.List;
  * Abstract Container for the alert requests.
  *
  * @author Burak Celen
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public abstract class AlertsRequest<T extends BaseResponse, K extends AlertsRequest> extends BaseRequest<T, K> {
 
     private Long createdAfter;

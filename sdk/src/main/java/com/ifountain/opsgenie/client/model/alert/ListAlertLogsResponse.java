@@ -11,7 +11,9 @@ import java.util.List;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertLogs(ListAlertLogsRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.ListAlertLogsResponse}
  */
+@Deprecated
 public class ListAlertLogsResponse extends BaseResponse {
     private String lastKey;
     @JsonProperty("logs")

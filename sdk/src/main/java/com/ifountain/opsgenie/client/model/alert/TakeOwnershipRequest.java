@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#takeOwnership(TakeOwnershipRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class TakeOwnershipRequest extends BaseAlertRequestWithParameters<TakeOwnershipResponse, TakeOwnershipRequest> {
 
     /**

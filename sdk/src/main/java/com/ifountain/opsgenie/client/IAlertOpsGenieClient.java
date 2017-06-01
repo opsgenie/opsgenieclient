@@ -12,7 +12,9 @@ import java.text.ParseException;
  * @author Sezgin Kucukkaraaslan
  * @version 6/1/12 10:09 AM
  * @see com.ifountain.opsgenie.client.OpsGenieClient
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.api.AlertApi}
  */
+@Deprecated
 public interface IAlertOpsGenieClient {
     /**
      * Creates alerts at OpsGenie.

@@ -10,7 +10,9 @@ import java.util.Map;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class FileAttachRequest extends AttachRequest<FileAttachRequest> {
     private File file;
 

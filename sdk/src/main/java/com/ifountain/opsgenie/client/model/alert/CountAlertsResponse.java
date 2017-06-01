@@ -7,7 +7,9 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  *
  * @author Veli Burak Celen
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#countAlerts(com.ifountain.opsgenie.client.model.alert.CountAlertsRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public class CountAlertsResponse extends BaseResponse {
 
     private int count;

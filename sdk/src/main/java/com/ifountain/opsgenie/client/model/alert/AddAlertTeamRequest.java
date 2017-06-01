@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addTeam(AddAlertTeamRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.AddAlertTeamRequest}
  */
+@Deprecated
 public class AddAlertTeamRequest extends BaseAlertRequestWithParameters<AddAlertTeamResponse, AddAlertTeamRequest> {
     private String team;
 

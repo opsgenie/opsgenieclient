@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#closeAlert(CloseAlertRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.CloseAlertRequest}
  */
+@Deprecated
 public class CloseAlertRequest extends BaseAlertRequestWithParameters<CloseAlertResponse, CloseAlertRequest> {
 
     /**

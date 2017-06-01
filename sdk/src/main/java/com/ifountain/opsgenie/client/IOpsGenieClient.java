@@ -97,8 +97,11 @@ public interface IOpsGenieClient {
     /**
      * Opsgenie Alert Client
      * @see IAlertOpsGenieClient
+     * @deprecated Use {@link OpsGenieClient#alertV2()}
+     *
      * @return IAlertOpsGenieClient
      */
+    @Deprecated
     IAlertOpsGenieClient alert();
 
     /**

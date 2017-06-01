@@ -7,7 +7,9 @@ import java.util.Map;
  *
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addDetails(AddDetailsRequest)
+ *  @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.AddAlertDetailsRequest}
  */
+@Deprecated
 public class AddDetailsRequest extends BaseAlertRequestWithParameters<AddDetailsResponse, AddDetailsRequest> {
     private Map<String, Object> details;
 

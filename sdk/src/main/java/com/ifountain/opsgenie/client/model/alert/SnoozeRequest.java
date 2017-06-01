@@ -1,8 +1,6 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
@@ -13,7 +11,9 @@ import java.util.TimeZone;
  *
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#snooze(SnoozeRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.SnoozeAlertRequest}
  */
+@Deprecated
 public class SnoozeRequest extends BaseAlertRequestWithParameters<SnoozeResponse, SnoozeRequest> implements ObjectWithTimeZone {
     private Date endDate;
     @JsonProperty("timezone")

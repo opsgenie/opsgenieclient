@@ -10,7 +10,9 @@ import java.util.Map;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#createAlert(CreateAlertRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.CreateAlertRequest}
  */
+@Deprecated
 public class CreateAlertRequest extends BaseRequest<CreateAlertResponse, CreateAlertRequest> {
     private String message;
     private String source;

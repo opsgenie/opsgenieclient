@@ -12,7 +12,9 @@ import java.util.List;
  * @author Halit Okumus
  * @version 9/16/14 4:30 PM
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#listAlertNotes(ListAlertNotesRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.ListAlertNotesResponse}
  */
+@Deprecated
 public class ListAlertNotesResponse extends BaseResponse {
     private String lastKey;
     @JsonProperty("notes")

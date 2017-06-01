@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addNote(AddNoteRequest)
+ * @deprecated As of release 2.8.0, replaced by {@link com.ifountain.opsgenie.client.swagger.model.AddAlertNoteRequest}
  */
+@Deprecated
 public class AddNoteRequest extends BaseAlertRequestWithParameters<AddNoteResponse, AddNoteRequest> {
 
     /**

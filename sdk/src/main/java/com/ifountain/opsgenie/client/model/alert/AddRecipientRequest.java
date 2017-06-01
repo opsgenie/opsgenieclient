@@ -5,7 +5,9 @@ package com.ifountain.opsgenie.client.model.alert;
  *
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#addRecipient(AddRecipientRequest)
+ * @deprecated As of release 2.8.0, will not be supported}
  */
+@Deprecated
 public class AddRecipientRequest extends BaseAlertRequestWithParameters<AddRecipientResponse, AddRecipientRequest> {
     private String recipient;
 

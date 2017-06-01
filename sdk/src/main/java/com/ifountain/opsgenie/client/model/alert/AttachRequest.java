@@ -10,7 +10,9 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(FileAttachRequest)
  * @see com.ifountain.opsgenie.client.IAlertOpsGenieClient#attach(com.ifountain.opsgenie.client.model.InputStreamAttachRequest)
+ * @deprecated As of release 2.8.0, will not be supported
  */
+@Deprecated
 public abstract class AttachRequest<T extends AttachRequest> extends BaseAlertRequestWithParameters<AttachResponse, T> {
     private String indexFile;
 
