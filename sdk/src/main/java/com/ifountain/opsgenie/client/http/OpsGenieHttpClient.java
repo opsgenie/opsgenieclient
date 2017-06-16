@@ -159,6 +159,20 @@ public class OpsGenieHttpClient {
         return putMethod;
     }
 
+
+    public OpsGenieHttpResponse put(String uri, String content, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpPut putMethod = preparePutMethod(uri, content, parameters);
+        return executeHttpMethod(putMethod);
+    }
+
+    public HttpPut preparePutMethod(String uri, String content, Map<String, Object> parameters) throws URISyntaxException, IOException {
+        HttpPut putMethod = new HttpPut(generateURI(uri, parameters));
+        StringEntity entity = new StringEntity(content, "UTF-8");
+        entity.setChunked(true);
+        putMethod.setEntity(entity);
+        return putMethod;
+    }
+
     public OpsGenieHttpResponse patch(String uri, String content, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
         HttpPatch patchMethod = preparePatchMethod(uri, content, parameters, headers);
         return executeHttpMethod(patchMethod);
