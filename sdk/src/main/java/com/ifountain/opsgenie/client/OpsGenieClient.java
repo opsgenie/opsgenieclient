@@ -3,24 +3,7 @@ package com.ifountain.opsgenie.client;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Heartbeat;
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest;
-import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesResponse;
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatPingRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatPingResponse;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest;
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse;
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.rest.RestApiClient;
 import com.ifountain.opsgenie.client.rest.response.RestSuccessResult;
 import com.ifountain.opsgenie.client.swagger.ApiClient;
@@ -108,6 +91,11 @@ public class OpsGenieClient implements IOpsGenieClient {
     private RestApiClient restApiClient;
 
     /**
+     * New Swagger Api Client helper
+     */
+    private ApiClient swaggerApiClient;
+
+    /**
      * Constructs a new client to invoke service methods on OpsGenie using the specified client
      * configuration options.
      */
@@ -132,6 +120,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.jsonHttpClient.setApiKey(getApiKey());
         this.restApiClient = new RestApiClient(httpClient);
         this.restApiClient.setApiKey(getApiKey());
+        this.swaggerApiClient = Configuration.getDefaultApiClient();
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);
@@ -343,11 +332,9 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     public AlertApi alertV2() {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setDebugging(true);
-
+        swaggerApiClient.setBasePath(jsonHttpClient.getRootUri());
         // Configure API key authorization: GenieKey
-        ApiKeyAuth genieKey = (ApiKeyAuth) defaultClient.getAuthentication("GenieKey");
+        ApiKeyAuth genieKey = (ApiKeyAuth) swaggerApiClient.getAuthentication("GenieKey");
         genieKey.setApiKey(getApiKey());
         genieKey.setApiKeyPrefix("GenieKey");
 
@@ -365,6 +352,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.jsonHttpClient.setRootUri(rootUri);
         this.streamOpsgenieHttpClient.setRootUri(rootUri);
         this.restApiClient.setRootUrl(rootUri);
+        this.swaggerApiClient.setBasePath(rootUri);
     }
 
     /**
@@ -384,6 +372,11 @@ public class OpsGenieClient implements IOpsGenieClient {
         }
         if (this.restApiClient != null) {
             this.restApiClient.setApiKey(apiKey);
+        }
+        if (this.swaggerApiClient != null) {
+            ApiKeyAuth genieKey = (ApiKeyAuth) this.swaggerApiClient.getAuthentication("GenieKey");
+            genieKey.setApiKeyPrefix("GenieKey");
+            genieKey.setApiKey(apiKey);
         }
     }
 
