@@ -16,13 +16,14 @@ package com.ifountain.opsgenie.client.swagger;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class ApiException extends Exception {
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
 
-    public ApiException() {}
+    public ApiException() {
+    }
 
     public ApiException(Throwable throwable) {
         super(throwable);

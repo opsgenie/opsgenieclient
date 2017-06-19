@@ -13,7 +13,7 @@
 
 package com.ifountain.opsgenie.client.swagger;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class Configuration {
     private static ApiClient defaultApiClient = new ApiClient();
 

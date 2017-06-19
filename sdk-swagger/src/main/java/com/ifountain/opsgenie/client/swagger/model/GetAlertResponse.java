@@ -22,116 +22,119 @@ import javax.validation.constraints.NotNull;
 /**
  * GetAlertResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class GetAlertResponse {
-  @JsonProperty("requestId")
-  private String requestId = null;
+    @JsonProperty("requestId")
+    private String requestId = null;
 
-  @JsonProperty("took")
-  private Float took = 0.0f;
+    @JsonProperty("took")
+    private Float took = 0.0f;
 
-  @JsonProperty("data")
-  private Alert data = null;
+    @JsonProperty("data")
+    private Alert data = null;
 
-  public GetAlertResponse requestId(String requestId) {
-    this.requestId = requestId;
-    return this;
-  }
-
-   /**
-   * Get requestId
-   * @return requestId
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "")
-  public String getRequestId() {
-    return requestId;
-  }
-
-  public void setRequestId(String requestId) {
-    this.requestId = requestId;
-  }
-
-  public GetAlertResponse took(Float took) {
-    this.took = took;
-    return this;
-  }
-
-   /**
-   * Get took
-   * @return took
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "")
-  public Float getTook() {
-    return took;
-  }
-
-  public void setTook(Float took) {
-    this.took = took;
-  }
-
-  public GetAlertResponse data(Alert data) {
-    this.data = data;
-    return this;
-  }
-
-   /**
-   * Get data
-   * @return data
-  **/
-  @ApiModelProperty(value = "")
-  public Alert getData() {
-    return data;
-  }
-
-  public void setData(Alert data) {
-    this.data = data;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    GetAlertResponse getAlertResponse = (GetAlertResponse) o;
-    return ObjectUtils.equals(this.requestId, getAlertResponse.requestId) &&
-    ObjectUtils.equals(this.took, getAlertResponse.took) &&
-    ObjectUtils.equals(this.data, getAlertResponse.data);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(requestId, took, data);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class GetAlertResponse {\n");
-    
-    sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
-    sb.append("    took: ").append(toIndentedString(took)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public GetAlertResponse requestId(String requestId) {
+        this.requestId = requestId;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Get requestId
+     *
+     * @return requestId
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "")
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public GetAlertResponse took(Float took) {
+        this.took = took;
+        return this;
+    }
+
+    /**
+     * Get took
+     *
+     * @return took
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "")
+    public Float getTook() {
+        return took;
+    }
+
+    public void setTook(Float took) {
+        this.took = took;
+    }
+
+    public GetAlertResponse data(Alert data) {
+        this.data = data;
+        return this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return data
+     **/
+    @ApiModelProperty(value = "")
+    public Alert getData() {
+        return data;
+    }
+
+    public void setData(Alert data) {
+        this.data = data;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GetAlertResponse getAlertResponse = (GetAlertResponse) o;
+        return ObjectUtils.equals(this.requestId, getAlertResponse.requestId) &&
+                ObjectUtils.equals(this.took, getAlertResponse.took) &&
+                ObjectUtils.equals(this.data, getAlertResponse.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(requestId, took, data);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class GetAlertResponse {\n");
+
+        sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
+        sb.append("    took: ").append(toIndentedString(took)).append("\n");
+        sb.append("    data: ").append(toIndentedString(data)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

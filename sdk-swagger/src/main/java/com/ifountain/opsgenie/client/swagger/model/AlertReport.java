@@ -20,137 +20,141 @@ import org.apache.commons.lang3.ObjectUtils;
 /**
  * AlertReport
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class AlertReport {
-  @JsonProperty("ackTime")
-  private Long ackTime = null;
+    @JsonProperty("ackTime")
+    private Long ackTime = null;
 
-  @JsonProperty("closeTime")
-  private Long closeTime = null;
+    @JsonProperty("closeTime")
+    private Long closeTime = null;
 
-  @JsonProperty("acknowledgedBy")
-  private String acknowledgedBy = null;
+    @JsonProperty("acknowledgedBy")
+    private String acknowledgedBy = null;
 
-  @JsonProperty("closedBy")
-  private String closedBy = null;
+    @JsonProperty("closedBy")
+    private String closedBy = null;
 
-  public AlertReport ackTime(Long ackTime) {
-    this.ackTime = ackTime;
-    return this;
-  }
-
-   /**
-   * Get ackTime
-   * @return ackTime
-  **/
-  @ApiModelProperty(value = "")
-  public Long getAckTime() {
-    return ackTime;
-  }
-
-  public void setAckTime(Long ackTime) {
-    this.ackTime = ackTime;
-  }
-
-  public AlertReport closeTime(Long closeTime) {
-    this.closeTime = closeTime;
-    return this;
-  }
-
-   /**
-   * Get closeTime
-   * @return closeTime
-  **/
-  @ApiModelProperty(value = "")
-  public Long getCloseTime() {
-    return closeTime;
-  }
-
-  public void setCloseTime(Long closeTime) {
-    this.closeTime = closeTime;
-  }
-
-  public AlertReport acknowledgedBy(String acknowledgedBy) {
-    this.acknowledgedBy = acknowledgedBy;
-    return this;
-  }
-
-   /**
-   * Get acknowledgedBy
-   * @return acknowledgedBy
-  **/
-  @ApiModelProperty(value = "")
-  public String getAcknowledgedBy() {
-    return acknowledgedBy;
-  }
-
-  public void setAcknowledgedBy(String acknowledgedBy) {
-    this.acknowledgedBy = acknowledgedBy;
-  }
-
-  public AlertReport closedBy(String closedBy) {
-    this.closedBy = closedBy;
-    return this;
-  }
-
-   /**
-   * Get closedBy
-   * @return closedBy
-  **/
-  @ApiModelProperty(value = "")
-  public String getClosedBy() {
-    return closedBy;
-  }
-
-  public void setClosedBy(String closedBy) {
-    this.closedBy = closedBy;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    AlertReport alertReport = (AlertReport) o;
-    return ObjectUtils.equals(this.ackTime, alertReport.ackTime) &&
-    ObjectUtils.equals(this.closeTime, alertReport.closeTime) &&
-    ObjectUtils.equals(this.acknowledgedBy, alertReport.acknowledgedBy) &&
-    ObjectUtils.equals(this.closedBy, alertReport.closedBy);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(ackTime, closeTime, acknowledgedBy, closedBy);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AlertReport {\n");
-    
-    sb.append("    ackTime: ").append(toIndentedString(ackTime)).append("\n");
-    sb.append("    closeTime: ").append(toIndentedString(closeTime)).append("\n");
-    sb.append("    acknowledgedBy: ").append(toIndentedString(acknowledgedBy)).append("\n");
-    sb.append("    closedBy: ").append(toIndentedString(closedBy)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public AlertReport ackTime(Long ackTime) {
+        this.ackTime = ackTime;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Get ackTime
+     *
+     * @return ackTime
+     **/
+    @ApiModelProperty(value = "")
+    public Long getAckTime() {
+        return ackTime;
+    }
+
+    public void setAckTime(Long ackTime) {
+        this.ackTime = ackTime;
+    }
+
+    public AlertReport closeTime(Long closeTime) {
+        this.closeTime = closeTime;
+        return this;
+    }
+
+    /**
+     * Get closeTime
+     *
+     * @return closeTime
+     **/
+    @ApiModelProperty(value = "")
+    public Long getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(Long closeTime) {
+        this.closeTime = closeTime;
+    }
+
+    public AlertReport acknowledgedBy(String acknowledgedBy) {
+        this.acknowledgedBy = acknowledgedBy;
+        return this;
+    }
+
+    /**
+     * Get acknowledgedBy
+     *
+     * @return acknowledgedBy
+     **/
+    @ApiModelProperty(value = "")
+    public String getAcknowledgedBy() {
+        return acknowledgedBy;
+    }
+
+    public void setAcknowledgedBy(String acknowledgedBy) {
+        this.acknowledgedBy = acknowledgedBy;
+    }
+
+    public AlertReport closedBy(String closedBy) {
+        this.closedBy = closedBy;
+        return this;
+    }
+
+    /**
+     * Get closedBy
+     *
+     * @return closedBy
+     **/
+    @ApiModelProperty(value = "")
+    public String getClosedBy() {
+        return closedBy;
+    }
+
+    public void setClosedBy(String closedBy) {
+        this.closedBy = closedBy;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AlertReport alertReport = (AlertReport) o;
+        return ObjectUtils.equals(this.ackTime, alertReport.ackTime) &&
+                ObjectUtils.equals(this.closeTime, alertReport.closeTime) &&
+                ObjectUtils.equals(this.acknowledgedBy, alertReport.acknowledgedBy) &&
+                ObjectUtils.equals(this.closedBy, alertReport.closedBy);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(ackTime, closeTime, acknowledgedBy, closedBy);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class AlertReport {\n");
+
+        sb.append("    ackTime: ").append(toIndentedString(ackTime)).append("\n");
+        sb.append("    closeTime: ").append(toIndentedString(closeTime)).append("\n");
+        sb.append("    acknowledgedBy: ").append(toIndentedString(acknowledgedBy)).append("\n");
+        sb.append("    closedBy: ").append(toIndentedString(closedBy)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

@@ -27,220 +27,226 @@ import java.util.List;
  * Delete the details of an alert using alert id, tiny id or alias
  */
 @ApiModel(description = "Delete the details of an alert using alert id, tiny id or alias")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class DeleteAlertDetailsRequest {
-  @JsonProperty("identifier")
-  private String identifier = null;
+    @JsonProperty("identifier")
+    private String identifier = null;
 
-  @JsonProperty("note")
-  private String note = null;
-  @JsonProperty("identifierType")
-  private IdentifierTypeEnum identifierType = IdentifierTypeEnum.ID;
-  @JsonProperty("source")
-  private String source = null;
-  @JsonProperty("user")
-  private String user = null;
-  @JsonProperty("keys")
-  private List<String> keys = new ArrayList<String>();
+    @JsonProperty("note")
+    private String note = null;
+    @JsonProperty("identifierType")
+    private IdentifierTypeEnum identifierType = IdentifierTypeEnum.ID;
+    @JsonProperty("source")
+    private String source = null;
+    @JsonProperty("user")
+    private String user = null;
+    @JsonProperty("keys")
+    private List<String> keys = new ArrayList<String>();
 
-  public DeleteAlertDetailsRequest identifier(String identifier) {
-    this.identifier = identifier;
-    return this;
-  }
-
-   /**
-   * Identifier of alert which could be alert id, tiny id or alert alias
-   * @return identifier
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "Identifier of alert which could be alert id, tiny id or alert alias")
-  public String getIdentifier() {
-    return identifier;
-  }
-
-  public void setIdentifier(String identifier) {
-    this.identifier = identifier;
-  }
-
-  public DeleteAlertDetailsRequest note(String note) {
-    this.note = note;
-    return this;
-  }
-
-   /**
-   * Additional alert note to add
-   * @return note
-  **/
-  @ApiModelProperty(value = "Additional alert note to add")
-  public String getNote() {
-    return note;
-  }
-
-  public void setNote(String note) {
-    this.note = note;
-  }
-
-  public DeleteAlertDetailsRequest identifierType(IdentifierTypeEnum identifierType) {
-    this.identifierType = identifierType;
-    return this;
-  }
-
-   /**
-   * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
-   * @return identifierType
-  **/
-  @ApiModelProperty(value = "Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'")
-  public IdentifierTypeEnum getIdentifierType() {
-    return identifierType;
-  }
-
-  public void setIdentifierType(IdentifierTypeEnum identifierType) {
-    this.identifierType = identifierType;
-  }
-
-  public DeleteAlertDetailsRequest source(String source) {
-    this.source = source;
-    return this;
-  }
-
-   /**
-   * Display name of the request source
-   * @return source
-  **/
-  @ApiModelProperty(value = "Display name of the request source")
-  public String getSource() {
-    return source;
-  }
-
-  public void setSource(String source) {
-    this.source = source;
-  }
-
-  public DeleteAlertDetailsRequest user(String user) {
-    this.user = user;
-    return this;
-  }
-
-   /**
-   * Display name of the request owner
-   * @return user
-  **/
-  @ApiModelProperty(value = "Display name of the request owner")
-  public String getUser() {
-    return user;
-  }
-
-  public void setUser(String user) {
-    this.user = user;
-  }
-
-  public DeleteAlertDetailsRequest keys(List<String> keys) {
-    this.keys = keys;
-    return this;
-  }
-
-  public DeleteAlertDetailsRequest addKeysItem(String keysItem) {
-    this.keys.add(keysItem);
-    return this;
-  }
-
-   /**
-   * Comma separated list of keys to remove from the custom properties of the alert (e.g. 'key1,key2')
-   * @return keys
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "Comma separated list of keys to remove from the custom properties of the alert (e.g. 'key1,key2')")
-  public List<String> getKeys() {
-    return keys;
-  }
-
-  public void setKeys(List<String> keys) {
-    this.keys = keys;
-  }
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    DeleteAlertDetailsRequest deleteAlertDetailsRequest = (DeleteAlertDetailsRequest) o;
-    return ObjectUtils.equals(this.identifier, deleteAlertDetailsRequest.identifier) &&
-    ObjectUtils.equals(this.note, deleteAlertDetailsRequest.note) &&
-    ObjectUtils.equals(this.identifierType, deleteAlertDetailsRequest.identifierType) &&
-    ObjectUtils.equals(this.source, deleteAlertDetailsRequest.source) &&
-    ObjectUtils.equals(this.user, deleteAlertDetailsRequest.user) &&
-    ObjectUtils.equals(this.keys, deleteAlertDetailsRequest.keys);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(identifier, note, identifierType, source, user, keys);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeleteAlertDetailsRequest {\n");
-
-    sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
-    sb.append("    note: ").append(toIndentedString(note)).append("\n");
-    sb.append("    identifierType: ").append(toIndentedString(identifierType)).append("\n");
-    sb.append("    source: ").append(toIndentedString(source)).append("\n");
-    sb.append("    user: ").append(toIndentedString(user)).append("\n");
-    sb.append("    keys: ").append(toIndentedString(keys)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
-   */
-  public enum IdentifierTypeEnum {
-    ID("id"),
-
-    ALIAS("alias"),
-
-    TINY("tiny");
-
-    private String value;
-
-    IdentifierTypeEnum(String value) {
-      this.value = value;
+    public DeleteAlertDetailsRequest identifier(String identifier) {
+        this.identifier = identifier;
+        return this;
     }
 
-    @JsonCreator
-    public static IdentifierTypeEnum fromValue(String text) {
-      for (IdentifierTypeEnum b : IdentifierTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
+    /**
+     * Identifier of alert which could be alert id, tiny id or alert alias
+     *
+     * @return identifier
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "Identifier of alert which could be alert id, tiny id or alert alias")
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public DeleteAlertDetailsRequest note(String note) {
+        this.note = note;
+        return this;
+    }
+
+    /**
+     * Additional alert note to add
+     *
+     * @return note
+     **/
+    @ApiModelProperty(value = "Additional alert note to add")
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public DeleteAlertDetailsRequest identifierType(IdentifierTypeEnum identifierType) {
+        this.identifierType = identifierType;
+        return this;
+    }
+
+    /**
+     * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
+     *
+     * @return identifierType
+     **/
+    @ApiModelProperty(value = "Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'")
+    public IdentifierTypeEnum getIdentifierType() {
+        return identifierType;
+    }
+
+    public void setIdentifierType(IdentifierTypeEnum identifierType) {
+        this.identifierType = identifierType;
+    }
+
+    public DeleteAlertDetailsRequest source(String source) {
+        this.source = source;
+        return this;
+    }
+
+    /**
+     * Display name of the request source
+     *
+     * @return source
+     **/
+    @ApiModelProperty(value = "Display name of the request source")
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public DeleteAlertDetailsRequest user(String user) {
+        this.user = user;
+        return this;
+    }
+
+    /**
+     * Display name of the request owner
+     *
+     * @return user
+     **/
+    @ApiModelProperty(value = "Display name of the request owner")
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public DeleteAlertDetailsRequest keys(List<String> keys) {
+        this.keys = keys;
+        return this;
+    }
+
+    public DeleteAlertDetailsRequest addKeysItem(String keysItem) {
+        this.keys.add(keysItem);
+        return this;
+    }
+
+    /**
+     * Comma separated list of keys to remove from the custom properties of the alert (e.g. 'key1,key2')
+     *
+     * @return keys
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "Comma separated list of keys to remove from the custom properties of the alert (e.g. 'key1,key2')")
+    public List<String> getKeys() {
+        return keys;
+    }
+
+    public void setKeys(List<String> keys) {
+        this.keys = keys;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
         }
-      }
-      return null;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        DeleteAlertDetailsRequest deleteAlertDetailsRequest = (DeleteAlertDetailsRequest) o;
+        return ObjectUtils.equals(this.identifier, deleteAlertDetailsRequest.identifier) &&
+                ObjectUtils.equals(this.note, deleteAlertDetailsRequest.note) &&
+                ObjectUtils.equals(this.identifierType, deleteAlertDetailsRequest.identifierType) &&
+                ObjectUtils.equals(this.source, deleteAlertDetailsRequest.source) &&
+                ObjectUtils.equals(this.user, deleteAlertDetailsRequest.user) &&
+                ObjectUtils.equals(this.keys, deleteAlertDetailsRequest.keys);
     }
 
-    public String getValue() {
-      return this.value;
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(identifier, note, identifierType, source, user, keys);
     }
 
     @Override
     public String toString() {
-      return String.valueOf(value);
+        StringBuilder sb = new StringBuilder();
+        sb.append("class DeleteAlertDetailsRequest {\n");
+
+        sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
+        sb.append("    note: ").append(toIndentedString(note)).append("\n");
+        sb.append("    identifierType: ").append(toIndentedString(identifierType)).append("\n");
+        sb.append("    source: ").append(toIndentedString(source)).append("\n");
+        sb.append("    user: ").append(toIndentedString(user)).append("\n");
+        sb.append("    keys: ").append(toIndentedString(keys)).append("\n");
+        sb.append("}");
+        return sb.toString();
     }
-  }
-  
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
+     */
+    public enum IdentifierTypeEnum {
+        ID("id"),
+
+        ALIAS("alias"),
+
+        TINY("tiny");
+
+        private String value;
+
+        IdentifierTypeEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static IdentifierTypeEnum fromValue(String text) {
+            for (IdentifierTypeEnum b : IdentifierTypeEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+    }
+
 }
 

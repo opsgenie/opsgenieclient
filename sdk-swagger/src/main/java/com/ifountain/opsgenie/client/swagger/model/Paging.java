@@ -20,91 +20,93 @@ import org.apache.commons.lang3.ObjectUtils;
 /**
  * Paging
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class Paging {
-  @JsonProperty("first")
-  private String first = null;
+    @JsonProperty("first")
+    private String first = null;
 
-  @JsonProperty("next")
-  private String next = null;
+    @JsonProperty("next")
+    private String next = null;
 
-  public Paging first(String first) {
-    this.first = first;
-    return this;
-  }
-
-   /**
-   * Get first
-   * @return first
-  **/
-  @ApiModelProperty(value = "")
-  public String getFirst() {
-    return first;
-  }
-
-  public void setFirst(String first) {
-    this.first = first;
-  }
-
-  public Paging next(String next) {
-    this.next = next;
-    return this;
-  }
-
-   /**
-   * Get next
-   * @return next
-  **/
-  @ApiModelProperty(value = "")
-  public String getNext() {
-    return next;
-  }
-
-  public void setNext(String next) {
-    this.next = next;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    Paging paging = (Paging) o;
-    return ObjectUtils.equals(this.first, paging.first) &&
-    ObjectUtils.equals(this.next, paging.next);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(first, next);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Paging {\n");
-    
-    sb.append("    first: ").append(toIndentedString(first)).append("\n");
-    sb.append("    next: ").append(toIndentedString(next)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public Paging first(String first) {
+        this.first = first;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Get first
+     *
+     * @return first
+     **/
+    @ApiModelProperty(value = "")
+    public String getFirst() {
+        return first;
+    }
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
+    public Paging next(String next) {
+        this.next = next;
+        return this;
+    }
+
+    /**
+     * Get next
+     *
+     * @return next
+     **/
+    @ApiModelProperty(value = "")
+    public String getNext() {
+        return next;
+    }
+
+    public void setNext(String next) {
+        this.next = next;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Paging paging = (Paging) o;
+        return ObjectUtils.equals(this.first, paging.first) &&
+                ObjectUtils.equals(this.next, paging.next);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(first, next);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Paging {\n");
+
+        sb.append("    first: ").append(toIndentedString(first)).append("\n");
+        sb.append("    next: ").append(toIndentedString(next)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

@@ -18,58 +18,58 @@ import com.ifountain.opsgenie.client.swagger.Pair;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class ApiKeyAuth implements Authentication {
-  private final String location;
-  private final String paramName;
+    private final String location;
+    private final String paramName;
 
-  private String apiKey;
-  private String apiKeyPrefix;
+    private String apiKey;
+    private String apiKeyPrefix;
 
-  public ApiKeyAuth(String location, String paramName) {
-    this.location = location;
-    this.paramName = paramName;
-  }
-
-  public String getLocation() {
-    return location;
-  }
-
-  public String getParamName() {
-    return paramName;
-  }
-
-  public String getApiKey() {
-    return apiKey;
-  }
-
-  public void setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-  }
-
-  public String getApiKeyPrefix() {
-    return apiKeyPrefix;
-  }
-
-  public void setApiKeyPrefix(String apiKeyPrefix) {
-    this.apiKeyPrefix = apiKeyPrefix;
-  }
-
-  @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
-    if (apiKey == null) {
-      return;
+    public ApiKeyAuth(String location, String paramName) {
+        this.location = location;
+        this.paramName = paramName;
     }
-    String value;
-    if (apiKeyPrefix != null) {
-      value = apiKeyPrefix + " " + apiKey;
-    } else {
-      value = apiKey;
+
+    public String getLocation() {
+        return location;
     }
-    if ("query".equals(location)) {
-      queryParams.add(new Pair(paramName, value));
-    } else if ("header".equals(location)) {
-      headerParams.put(paramName, value);
+
+    public String getParamName() {
+        return paramName;
     }
-  }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public String getApiKeyPrefix() {
+        return apiKeyPrefix;
+    }
+
+    public void setApiKeyPrefix(String apiKeyPrefix) {
+        this.apiKeyPrefix = apiKeyPrefix;
+    }
+
+    @Override
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+        if (apiKey == null) {
+            return;
+        }
+        String value;
+        if (apiKeyPrefix != null) {
+            value = apiKeyPrefix + " " + apiKey;
+        } else {
+            value = apiKey;
+        }
+        if ("query".equals(location)) {
+            queryParams.add(new Pair(paramName, value));
+        } else if ("header".equals(location)) {
+            headerParams.put(paramName, value);
+        }
+    }
 }

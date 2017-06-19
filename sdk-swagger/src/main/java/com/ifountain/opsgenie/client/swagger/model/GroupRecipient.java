@@ -22,69 +22,70 @@ import org.apache.commons.lang3.ObjectUtils;
  * Group recipient
  */
 @ApiModel(description = "Group recipient")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class GroupRecipient extends Recipient {
-  @JsonProperty("name")
-  private String name = null;
+    @JsonProperty("name")
+    private String name = null;
 
-  public GroupRecipient name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    GroupRecipient groupRecipient = (GroupRecipient) o;
-    return ObjectUtils.equals(this.name, groupRecipient.name) &&
-    super.equals(o);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(name, super.hashCode());
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class GroupRecipient {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public GroupRecipient name(String name) {
+        this.name = name;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Get name
+     *
+     * @return name
+     **/
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GroupRecipient groupRecipient = (GroupRecipient) o;
+        return ObjectUtils.equals(this.name, groupRecipient.name) &&
+                super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(name, super.hashCode());
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class GroupRecipient {\n");
+        sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

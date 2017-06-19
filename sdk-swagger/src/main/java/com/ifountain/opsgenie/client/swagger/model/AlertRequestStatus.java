@@ -21,206 +21,213 @@ import org.joda.time.DateTime;
 /**
  * AlertRequestStatus
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class AlertRequestStatus {
-  @JsonProperty("action")
-  private String action = null;
+    @JsonProperty("action")
+    private String action = null;
 
-  @JsonProperty("processedAt")
-  private DateTime processedAt = null;
+    @JsonProperty("processedAt")
+    private DateTime processedAt = null;
 
-  @JsonProperty("integrationId")
-  private String integrationId = null;
+    @JsonProperty("integrationId")
+    private String integrationId = null;
 
-  @JsonProperty("isSuccess")
-  private Boolean isSuccess = null;
+    @JsonProperty("isSuccess")
+    private Boolean isSuccess = null;
 
-  @JsonProperty("status")
-  private String status = null;
+    @JsonProperty("status")
+    private String status = null;
 
-  @JsonProperty("alertId")
-  private String alertId = null;
+    @JsonProperty("alertId")
+    private String alertId = null;
 
-  @JsonProperty("alias")
-  private String alias = null;
+    @JsonProperty("alias")
+    private String alias = null;
 
-  public AlertRequestStatus action(String action) {
-    this.action = action;
-    return this;
-  }
-
-   /**
-   * Get action
-   * @return action
-  **/
-  @ApiModelProperty(value = "")
-  public String getAction() {
-    return action;
-  }
-
-  public void setAction(String action) {
-    this.action = action;
-  }
-
-  public AlertRequestStatus processedAt(DateTime processedAt) {
-    this.processedAt = processedAt;
-    return this;
-  }
-
-   /**
-   * Get processedAt
-   * @return processedAt
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getProcessedAt() {
-    return processedAt;
-  }
-
-  public void setProcessedAt(DateTime processedAt) {
-    this.processedAt = processedAt;
-  }
-
-  public AlertRequestStatus integrationId(String integrationId) {
-    this.integrationId = integrationId;
-    return this;
-  }
-
-   /**
-   * Get integrationId
-   * @return integrationId
-  **/
-  @ApiModelProperty(value = "")
-  public String getIntegrationId() {
-    return integrationId;
-  }
-
-  public void setIntegrationId(String integrationId) {
-    this.integrationId = integrationId;
-  }
-
-  public AlertRequestStatus isSuccess(Boolean isSuccess) {
-    this.isSuccess = isSuccess;
-    return this;
-  }
-
-   /**
-   * Get isSuccess
-   * @return isSuccess
-  **/
-  @ApiModelProperty(value = "")
-  public Boolean getIsSuccess() {
-    return isSuccess;
-  }
-
-  public void setIsSuccess(Boolean isSuccess) {
-    this.isSuccess = isSuccess;
-  }
-
-  public AlertRequestStatus status(String status) {
-    this.status = status;
-    return this;
-  }
-
-   /**
-   * Get status
-   * @return status
-  **/
-  @ApiModelProperty(value = "")
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public AlertRequestStatus alertId(String alertId) {
-    this.alertId = alertId;
-    return this;
-  }
-
-   /**
-   * Get alertId
-   * @return alertId
-  **/
-  @ApiModelProperty(value = "")
-  public String getAlertId() {
-    return alertId;
-  }
-
-  public void setAlertId(String alertId) {
-    this.alertId = alertId;
-  }
-
-  public AlertRequestStatus alias(String alias) {
-    this.alias = alias;
-    return this;
-  }
-
-   /**
-   * Get alias
-   * @return alias
-  **/
-  @ApiModelProperty(value = "")
-  public String getAlias() {
-    return alias;
-  }
-
-  public void setAlias(String alias) {
-    this.alias = alias;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    AlertRequestStatus alertRequestStatus = (AlertRequestStatus) o;
-    return ObjectUtils.equals(this.action, alertRequestStatus.action) &&
-    ObjectUtils.equals(this.processedAt, alertRequestStatus.processedAt) &&
-    ObjectUtils.equals(this.integrationId, alertRequestStatus.integrationId) &&
-    ObjectUtils.equals(this.isSuccess, alertRequestStatus.isSuccess) &&
-    ObjectUtils.equals(this.status, alertRequestStatus.status) &&
-    ObjectUtils.equals(this.alertId, alertRequestStatus.alertId) &&
-    ObjectUtils.equals(this.alias, alertRequestStatus.alias);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(action, processedAt, integrationId, isSuccess, status, alertId, alias);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AlertRequestStatus {\n");
-    
-    sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    processedAt: ").append(toIndentedString(processedAt)).append("\n");
-    sb.append("    integrationId: ").append(toIndentedString(integrationId)).append("\n");
-    sb.append("    isSuccess: ").append(toIndentedString(isSuccess)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    alertId: ").append(toIndentedString(alertId)).append("\n");
-    sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public AlertRequestStatus action(String action) {
+        this.action = action;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Get action
+     *
+     * @return action
+     **/
+    @ApiModelProperty(value = "")
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public AlertRequestStatus processedAt(DateTime processedAt) {
+        this.processedAt = processedAt;
+        return this;
+    }
+
+    /**
+     * Get processedAt
+     *
+     * @return processedAt
+     **/
+    @ApiModelProperty(value = "")
+    public DateTime getProcessedAt() {
+        return processedAt;
+    }
+
+    public void setProcessedAt(DateTime processedAt) {
+        this.processedAt = processedAt;
+    }
+
+    public AlertRequestStatus integrationId(String integrationId) {
+        this.integrationId = integrationId;
+        return this;
+    }
+
+    /**
+     * Get integrationId
+     *
+     * @return integrationId
+     **/
+    @ApiModelProperty(value = "")
+    public String getIntegrationId() {
+        return integrationId;
+    }
+
+    public void setIntegrationId(String integrationId) {
+        this.integrationId = integrationId;
+    }
+
+    public AlertRequestStatus isSuccess(Boolean isSuccess) {
+        this.isSuccess = isSuccess;
+        return this;
+    }
+
+    /**
+     * Get isSuccess
+     *
+     * @return isSuccess
+     **/
+    @ApiModelProperty(value = "")
+    public Boolean getIsSuccess() {
+        return isSuccess;
+    }
+
+    public void setIsSuccess(Boolean isSuccess) {
+        this.isSuccess = isSuccess;
+    }
+
+    public AlertRequestStatus status(String status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return status
+     **/
+    @ApiModelProperty(value = "")
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public AlertRequestStatus alertId(String alertId) {
+        this.alertId = alertId;
+        return this;
+    }
+
+    /**
+     * Get alertId
+     *
+     * @return alertId
+     **/
+    @ApiModelProperty(value = "")
+    public String getAlertId() {
+        return alertId;
+    }
+
+    public void setAlertId(String alertId) {
+        this.alertId = alertId;
+    }
+
+    public AlertRequestStatus alias(String alias) {
+        this.alias = alias;
+        return this;
+    }
+
+    /**
+     * Get alias
+     *
+     * @return alias
+     **/
+    @ApiModelProperty(value = "")
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AlertRequestStatus alertRequestStatus = (AlertRequestStatus) o;
+        return ObjectUtils.equals(this.action, alertRequestStatus.action) &&
+                ObjectUtils.equals(this.processedAt, alertRequestStatus.processedAt) &&
+                ObjectUtils.equals(this.integrationId, alertRequestStatus.integrationId) &&
+                ObjectUtils.equals(this.isSuccess, alertRequestStatus.isSuccess) &&
+                ObjectUtils.equals(this.status, alertRequestStatus.status) &&
+                ObjectUtils.equals(this.alertId, alertRequestStatus.alertId) &&
+                ObjectUtils.equals(this.alias, alertRequestStatus.alias);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(action, processedAt, integrationId, isSuccess, status, alertId, alias);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class AlertRequestStatus {\n");
+
+        sb.append("    action: ").append(toIndentedString(action)).append("\n");
+        sb.append("    processedAt: ").append(toIndentedString(processedAt)).append("\n");
+        sb.append("    integrationId: ").append(toIndentedString(integrationId)).append("\n");
+        sb.append("    isSuccess: ").append(toIndentedString(isSuccess)).append("\n");
+        sb.append("    status: ").append(toIndentedString(status)).append("\n");
+        sb.append("    alertId: ").append(toIndentedString(alertId)).append("\n");
+        sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

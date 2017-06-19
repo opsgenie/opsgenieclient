@@ -25,283 +25,289 @@ import javax.validation.constraints.NotNull;
  * List alert logs for the given alert identifier
  */
 @ApiModel(description = "List alert logs for the given alert identifier")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class ListAlertLogsRequest {
-  @JsonProperty("limit")
-  private Integer limit = null;
+    @JsonProperty("limit")
+    private Integer limit = null;
 
-  @JsonProperty("identifier")
-  private String identifier = null;
-  @JsonProperty("identifierType")
-  private IdentifierTypeEnum identifierType = IdentifierTypeEnum.ID;
-  @JsonProperty("offset")
-  private String offset = null;
-  @JsonProperty("direction")
-  private DirectionEnum direction = DirectionEnum.NEXT;
-  @JsonProperty("order")
-  private OrderEnum order = OrderEnum.DESC;
+    @JsonProperty("identifier")
+    private String identifier = null;
+    @JsonProperty("identifierType")
+    private IdentifierTypeEnum identifierType = IdentifierTypeEnum.ID;
+    @JsonProperty("offset")
+    private String offset = null;
+    @JsonProperty("direction")
+    private DirectionEnum direction = DirectionEnum.NEXT;
+    @JsonProperty("order")
+    private OrderEnum order = OrderEnum.DESC;
 
-  public ListAlertLogsRequest limit(Integer limit) {
-    this.limit = limit;
-    return this;
-  }
-
-   /**
-   * Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100
-   * @return limit
-  **/
-  @ApiModelProperty(value = "Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100")
-  public Integer getLimit() {
-    return limit;
-  }
-
-  public void setLimit(Integer limit) {
-    this.limit = limit;
-  }
-
-  public ListAlertLogsRequest identifier(String identifier) {
-    this.identifier = identifier;
-    return this;
-  }
-
-   /**
-   * Identifier of alert which could be alert id, tiny id or alert alias
-   * @return identifier
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "Identifier of alert which could be alert id, tiny id or alert alias")
-  public String getIdentifier() {
-    return identifier;
-  }
-
-  public void setIdentifier(String identifier) {
-    this.identifier = identifier;
-  }
-
-  public ListAlertLogsRequest identifierType(IdentifierTypeEnum identifierType) {
-    this.identifierType = identifierType;
-    return this;
-  }
-
-   /**
-   * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
-   * @return identifierType
-  **/
-  @ApiModelProperty(value = "Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'")
-  public IdentifierTypeEnum getIdentifierType() {
-    return identifierType;
-  }
-
-  public void setIdentifierType(IdentifierTypeEnum identifierType) {
-    this.identifierType = identifierType;
-  }
-
-  public ListAlertLogsRequest offset(String offset) {
-    this.offset = offset;
-    return this;
-  }
-
-   /**
-   * Starting value of the offset property
-   * @return offset
-  **/
-  @ApiModelProperty(value = "Starting value of the offset property")
-  public String getOffset() {
-    return offset;
-  }
-
-  public void setOffset(String offset) {
-    this.offset = offset;
-  }
-
-  public ListAlertLogsRequest direction(DirectionEnum direction) {
-    this.direction = direction;
-    return this;
-  }
-
-   /**
-   * Page direction to apply for the given offset with 'next' and 'prev'
-   * @return direction
-  **/
-  @ApiModelProperty(value = "Page direction to apply for the given offset with 'next' and 'prev'")
-  public DirectionEnum getDirection() {
-    return direction;
-  }
-
-  public void setDirection(DirectionEnum direction) {
-    this.direction = direction;
-  }
-
-  public ListAlertLogsRequest order(OrderEnum order) {
-    this.order = order;
-    return this;
-  }
-
-   /**
-   * Sorting order of the result set
-   * @return order
-  **/
-  @ApiModelProperty(value = "Sorting order of the result set")
-  public OrderEnum getOrder() {
-    return order;
-  }
-
-  public void setOrder(OrderEnum order) {
-    this.order = order;
-  }
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    ListAlertLogsRequest listAlertLogsRequest = (ListAlertLogsRequest) o;
-    return ObjectUtils.equals(this.limit, listAlertLogsRequest.limit) &&
-    ObjectUtils.equals(this.identifier, listAlertLogsRequest.identifier) &&
-    ObjectUtils.equals(this.identifierType, listAlertLogsRequest.identifierType) &&
-    ObjectUtils.equals(this.offset, listAlertLogsRequest.offset) &&
-    ObjectUtils.equals(this.direction, listAlertLogsRequest.direction) &&
-    ObjectUtils.equals(this.order, listAlertLogsRequest.order);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(limit, identifier, identifierType, offset, direction, order);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ListAlertLogsRequest {\n");
-
-    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
-    sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
-    sb.append("    identifierType: ").append(toIndentedString(identifierType)).append("\n");
-    sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
-    sb.append("    direction: ").append(toIndentedString(direction)).append("\n");
-    sb.append("    order: ").append(toIndentedString(order)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
-   */
-  public enum IdentifierTypeEnum {
-    ID("id"),
-
-    ALIAS("alias"),
-
-    TINY("tiny");
-
-    private String value;
-
-    IdentifierTypeEnum(String value) {
-      this.value = value;
+    public ListAlertLogsRequest limit(Integer limit) {
+        this.limit = limit;
+        return this;
     }
 
-    @JsonCreator
-    public static IdentifierTypeEnum fromValue(String text) {
-      for (IdentifierTypeEnum b : IdentifierTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
+    /**
+     * Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100
+     *
+     * @return limit
+     **/
+    @ApiModelProperty(value = "Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100")
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public ListAlertLogsRequest identifier(String identifier) {
+        this.identifier = identifier;
+        return this;
+    }
+
+    /**
+     * Identifier of alert which could be alert id, tiny id or alert alias
+     *
+     * @return identifier
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "Identifier of alert which could be alert id, tiny id or alert alias")
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public ListAlertLogsRequest identifierType(IdentifierTypeEnum identifierType) {
+        this.identifierType = identifierType;
+        return this;
+    }
+
+    /**
+     * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
+     *
+     * @return identifierType
+     **/
+    @ApiModelProperty(value = "Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'")
+    public IdentifierTypeEnum getIdentifierType() {
+        return identifierType;
+    }
+
+    public void setIdentifierType(IdentifierTypeEnum identifierType) {
+        this.identifierType = identifierType;
+    }
+
+    public ListAlertLogsRequest offset(String offset) {
+        this.offset = offset;
+        return this;
+    }
+
+    /**
+     * Starting value of the offset property
+     *
+     * @return offset
+     **/
+    @ApiModelProperty(value = "Starting value of the offset property")
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+
+    public ListAlertLogsRequest direction(DirectionEnum direction) {
+        this.direction = direction;
+        return this;
+    }
+
+    /**
+     * Page direction to apply for the given offset with 'next' and 'prev'
+     *
+     * @return direction
+     **/
+    @ApiModelProperty(value = "Page direction to apply for the given offset with 'next' and 'prev'")
+    public DirectionEnum getDirection() {
+        return direction;
+    }
+
+    public void setDirection(DirectionEnum direction) {
+        this.direction = direction;
+    }
+
+    public ListAlertLogsRequest order(OrderEnum order) {
+        this.order = order;
+        return this;
+    }
+
+    /**
+     * Sorting order of the result set
+     *
+     * @return order
+     **/
+    @ApiModelProperty(value = "Sorting order of the result set")
+    public OrderEnum getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEnum order) {
+        this.order = order;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
         }
-      }
-      return null;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ListAlertLogsRequest listAlertLogsRequest = (ListAlertLogsRequest) o;
+        return ObjectUtils.equals(this.limit, listAlertLogsRequest.limit) &&
+                ObjectUtils.equals(this.identifier, listAlertLogsRequest.identifier) &&
+                ObjectUtils.equals(this.identifierType, listAlertLogsRequest.identifierType) &&
+                ObjectUtils.equals(this.offset, listAlertLogsRequest.offset) &&
+                ObjectUtils.equals(this.direction, listAlertLogsRequest.direction) &&
+                ObjectUtils.equals(this.order, listAlertLogsRequest.order);
     }
 
-    public String getValue() {
-      return this.value;
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(limit, identifier, identifierType, offset, direction, order);
     }
 
     @Override
     public String toString() {
-      return String.valueOf(value);
-    }
-  }
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ListAlertLogsRequest {\n");
 
-
-  /**
-   * Page direction to apply for the given offset with 'next' and 'prev'
-   */
-  public enum DirectionEnum {
-    NEXT("next"),
-
-    PREV("prev");
-
-    private String value;
-
-    DirectionEnum(String value) {
-      this.value = value;
+        sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
+        sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
+        sb.append("    identifierType: ").append(toIndentedString(identifierType)).append("\n");
+        sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
+        sb.append("    direction: ").append(toIndentedString(direction)).append("\n");
+        sb.append("    order: ").append(toIndentedString(order)).append("\n");
+        sb.append("}");
+        return sb.toString();
     }
 
-    @JsonCreator
-    public static DirectionEnum fromValue(String text) {
-      for (DirectionEnum b : DirectionEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
         }
-      }
-      return null;
+        return o.toString().replace("\n", "\n    ");
     }
 
-    public String getValue() {
-      return this.value;
-    }
+    /**
+     * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
+     */
+    public enum IdentifierTypeEnum {
+        ID("id"),
 
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
+        ALIAS("alias"),
 
-  /**
-   * Sorting order of the result set
-   */
-  public enum OrderEnum {
-    ASC("asc"),
+        TINY("tiny");
 
-    DESC("desc");
+        private String value;
 
-    private String value;
-
-    OrderEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonCreator
-    public static OrderEnum fromValue(String text) {
-      for (OrderEnum b : OrderEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
+        IdentifierTypeEnum(String value) {
+            this.value = value;
         }
-      }
-      return null;
+
+        @JsonCreator
+        public static IdentifierTypeEnum fromValue(String text) {
+            for (IdentifierTypeEnum b : IdentifierTypeEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 
-    public String getValue() {
-      return this.value;
+
+    /**
+     * Page direction to apply for the given offset with 'next' and 'prev'
+     */
+    public enum DirectionEnum {
+        NEXT("next"),
+
+        PREV("prev");
+
+        private String value;
+
+        DirectionEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static DirectionEnum fromValue(String text) {
+            for (DirectionEnum b : DirectionEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 
-    @Override
-    public String toString() {
-      return String.valueOf(value);
+    /**
+     * Sorting order of the result set
+     */
+    public enum OrderEnum {
+        ASC("asc"),
+
+        DESC("desc");
+
+        private String value;
+
+        OrderEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static OrderEnum fromValue(String text) {
+            for (OrderEnum b : OrderEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
-  }
-  
+
 }
 

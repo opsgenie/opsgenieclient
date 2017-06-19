@@ -24,143 +24,147 @@ import java.util.List;
 /**
  * AddAlertTagsRequest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class AddAlertTagsRequest {
-  @JsonProperty("user")
-  private String user = null;
+    @JsonProperty("user")
+    private String user = null;
 
-  @JsonProperty("note")
-  private String note = null;
+    @JsonProperty("note")
+    private String note = null;
 
-  @JsonProperty("source")
-  private String source = null;
+    @JsonProperty("source")
+    private String source = null;
 
-  @JsonProperty("tags")
-  private List<String> tags = new ArrayList<String>();
+    @JsonProperty("tags")
+    private List<String> tags = new ArrayList<String>();
 
-  public AddAlertTagsRequest user(String user) {
-    this.user = user;
-    return this;
-  }
-
-   /**
-   * Display name of the request owner
-   * @return user
-  **/
-  @ApiModelProperty(value = "Display name of the request owner")
-  public String getUser() {
-    return user;
-  }
-
-  public void setUser(String user) {
-    this.user = user;
-  }
-
-  public AddAlertTagsRequest note(String note) {
-    this.note = note;
-    return this;
-  }
-
-   /**
-   * Additional note that will be added while creating the alert
-   * @return note
-  **/
-  @ApiModelProperty(value = "Additional note that will be added while creating the alert")
-  public String getNote() {
-    return note;
-  }
-
-  public void setNote(String note) {
-    this.note = note;
-  }
-
-  public AddAlertTagsRequest source(String source) {
-    this.source = source;
-    return this;
-  }
-
-   /**
-   * Source field of the alert. Default value is IP address of the incoming request
-   * @return source
-  **/
-  @ApiModelProperty(value = "Source field of the alert. Default value is IP address of the incoming request")
-  public String getSource() {
-    return source;
-  }
-
-  public void setSource(String source) {
-    this.source = source;
-  }
-
-  public AddAlertTagsRequest tags(List<String> tags) {
-    this.tags = tags;
-    return this;
-  }
-
-  public AddAlertTagsRequest addTagsItem(String tagsItem) {
-    this.tags.add(tagsItem);
-    return this;
-  }
-
-   /**
-   * Get tags
-   * @return tags
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "")
-  public List<String> getTags() {
-    return tags;
-  }
-
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    AddAlertTagsRequest addAlertTagsRequest = (AddAlertTagsRequest) o;
-    return ObjectUtils.equals(this.user, addAlertTagsRequest.user) &&
-    ObjectUtils.equals(this.note, addAlertTagsRequest.note) &&
-    ObjectUtils.equals(this.source, addAlertTagsRequest.source) &&
-    ObjectUtils.equals(this.tags, addAlertTagsRequest.tags);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(user, note, source, tags);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AddAlertTagsRequest {\n");
-    
-    sb.append("    user: ").append(toIndentedString(user)).append("\n");
-    sb.append("    note: ").append(toIndentedString(note)).append("\n");
-    sb.append("    source: ").append(toIndentedString(source)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public AddAlertTagsRequest user(String user) {
+        this.user = user;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Display name of the request owner
+     *
+     * @return user
+     **/
+    @ApiModelProperty(value = "Display name of the request owner")
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public AddAlertTagsRequest note(String note) {
+        this.note = note;
+        return this;
+    }
+
+    /**
+     * Additional note that will be added while creating the alert
+     *
+     * @return note
+     **/
+    @ApiModelProperty(value = "Additional note that will be added while creating the alert")
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public AddAlertTagsRequest source(String source) {
+        this.source = source;
+        return this;
+    }
+
+    /**
+     * Source field of the alert. Default value is IP address of the incoming request
+     *
+     * @return source
+     **/
+    @ApiModelProperty(value = "Source field of the alert. Default value is IP address of the incoming request")
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public AddAlertTagsRequest tags(List<String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public AddAlertTagsRequest addTagsItem(String tagsItem) {
+        this.tags.add(tagsItem);
+        return this;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return tags
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "")
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AddAlertTagsRequest addAlertTagsRequest = (AddAlertTagsRequest) o;
+        return ObjectUtils.equals(this.user, addAlertTagsRequest.user) &&
+                ObjectUtils.equals(this.note, addAlertTagsRequest.note) &&
+                ObjectUtils.equals(this.source, addAlertTagsRequest.source) &&
+                ObjectUtils.equals(this.tags, addAlertTagsRequest.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(user, note, source, tags);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class AddAlertTagsRequest {\n");
+
+        sb.append("    user: ").append(toIndentedString(user)).append("\n");
+        sb.append("    note: ").append(toIndentedString(note)).append("\n");
+        sb.append("    source: ").append(toIndentedString(source)).append("\n");
+        sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

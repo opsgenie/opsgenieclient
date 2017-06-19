@@ -21,160 +21,165 @@ import org.joda.time.DateTime;
 /**
  * AlertLog
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
 public class AlertLog {
-  @JsonProperty("log")
-  private String log = null;
+    @JsonProperty("log")
+    private String log = null;
 
-  @JsonProperty("type")
-  private String type = null;
+    @JsonProperty("type")
+    private String type = null;
 
-  @JsonProperty("owner")
-  private String owner = null;
+    @JsonProperty("owner")
+    private String owner = null;
 
-  @JsonProperty("createdAt")
-  private DateTime createdAt = null;
+    @JsonProperty("createdAt")
+    private DateTime createdAt = null;
 
-  @JsonProperty("offset")
-  private String offset = null;
+    @JsonProperty("offset")
+    private String offset = null;
 
-  public AlertLog log(String log) {
-    this.log = log;
-    return this;
-  }
-
-   /**
-   * Get log
-   * @return log
-  **/
-  @ApiModelProperty(value = "")
-  public String getLog() {
-    return log;
-  }
-
-  public void setLog(String log) {
-    this.log = log;
-  }
-
-  public AlertLog type(String type) {
-    this.type = type;
-    return this;
-  }
-
-   /**
-   * Get type
-   * @return type
-  **/
-  @ApiModelProperty(value = "")
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public AlertLog owner(String owner) {
-    this.owner = owner;
-    return this;
-  }
-
-   /**
-   * Get owner
-   * @return owner
-  **/
-  @ApiModelProperty(value = "")
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
-  public AlertLog createdAt(DateTime createdAt) {
-    this.createdAt = createdAt;
-    return this;
-  }
-
-   /**
-   * Get createdAt
-   * @return createdAt
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(DateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public AlertLog offset(String offset) {
-    this.offset = offset;
-    return this;
-  }
-
-   /**
-   * Get offset
-   * @return offset
-  **/
-  @ApiModelProperty(value = "")
-  public String getOffset() {
-    return offset;
-  }
-
-  public void setOffset(String offset) {
-    this.offset = offset;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    AlertLog alertLog = (AlertLog) o;
-    return ObjectUtils.equals(this.log, alertLog.log) &&
-    ObjectUtils.equals(this.type, alertLog.type) &&
-    ObjectUtils.equals(this.owner, alertLog.owner) &&
-    ObjectUtils.equals(this.createdAt, alertLog.createdAt) &&
-    ObjectUtils.equals(this.offset, alertLog.offset);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(log, type, owner, createdAt, offset);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AlertLog {\n");
-    
-    sb.append("    log: ").append(toIndentedString(log)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
-    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
+    public AlertLog log(String log) {
+        this.log = log;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
+
+    /**
+     * Get log
+     *
+     * @return log
+     **/
+    @ApiModelProperty(value = "")
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
+    }
+
+    public AlertLog type(String type) {
+        this.type = type;
+        return this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return type
+     **/
+    @ApiModelProperty(value = "")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public AlertLog owner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return owner
+     **/
+    @ApiModelProperty(value = "")
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public AlertLog createdAt(DateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return createdAt
+     **/
+    @ApiModelProperty(value = "")
+    public DateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(DateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public AlertLog offset(String offset) {
+        this.offset = offset;
+        return this;
+    }
+
+    /**
+     * Get offset
+     *
+     * @return offset
+     **/
+    @ApiModelProperty(value = "")
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AlertLog alertLog = (AlertLog) o;
+        return ObjectUtils.equals(this.log, alertLog.log) &&
+                ObjectUtils.equals(this.type, alertLog.type) &&
+                ObjectUtils.equals(this.owner, alertLog.owner) &&
+                ObjectUtils.equals(this.createdAt, alertLog.createdAt) &&
+                ObjectUtils.equals(this.offset, alertLog.offset);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(log, type, owner, createdAt, offset);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class AlertLog {\n");
+
+        sb.append("    log: ").append(toIndentedString(log)).append("\n");
+        sb.append("    type: ").append(toIndentedString(type)).append("\n");
+        sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
+        sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+        sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
 }
 

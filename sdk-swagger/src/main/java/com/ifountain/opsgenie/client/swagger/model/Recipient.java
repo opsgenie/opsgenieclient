@@ -25,143 +25,146 @@ import javax.validation.constraints.NotNull;
 /**
  * Recipient
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-05-25T18:12:50.652+03:00")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = GroupRecipient.class, name = "group"),
-  @JsonSubTypes.Type(value = EscalationRecipient.class, name = "escalation"),
-  @JsonSubTypes.Type(value = TeamRecipient.class, name = "team"),
-  @JsonSubTypes.Type(value = NoRecipient.class, name = "none"),
-  @JsonSubTypes.Type(value = ScheduleRecipient.class, name = "schedule"),
-  @JsonSubTypes.Type(value = AllRecipient.class, name = "all"),
-  @JsonSubTypes.Type(value = UserRecipient.class, name = "user"),
+        @JsonSubTypes.Type(value = GroupRecipient.class, name = "group"),
+        @JsonSubTypes.Type(value = EscalationRecipient.class, name = "escalation"),
+        @JsonSubTypes.Type(value = TeamRecipient.class, name = "team"),
+        @JsonSubTypes.Type(value = NoRecipient.class, name = "none"),
+        @JsonSubTypes.Type(value = ScheduleRecipient.class, name = "schedule"),
+        @JsonSubTypes.Type(value = AllRecipient.class, name = "all"),
+        @JsonSubTypes.Type(value = UserRecipient.class, name = "user"),
 })
 
 public class Recipient {
-  @JsonProperty("type")
-  private TypeEnum type = null;
-  @JsonProperty("id")
-  private String id = null;
+    @JsonProperty("type")
+    private TypeEnum type = null;
+    @JsonProperty("id")
+    private String id = null;
 
-  public Recipient type(TypeEnum type) {
-    this.type = type;
-    return this;
-  }
-
-   /**
-   * Get type
-   * @return type
-  **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "")
-  public TypeEnum getType() {
-    return type;
-  }
-
-  public void setType(TypeEnum type) {
-    this.type = type;
-  }
-
-  public Recipient id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-    Recipient recipient = (Recipient) o;
-    return ObjectUtils.equals(this.type, recipient.type) &&
-    ObjectUtils.equals(this.id, recipient.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti(type, id);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Recipient {\n");
-
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Gets or Sets type
-   */
-  public enum TypeEnum {
-    ALL("all"),
-
-    NONE("none"),
-
-    USER("user"),
-
-    ESCALATION("escalation"),
-
-    SCHEDULE("schedule"),
-
-    TEAM("team"),
-
-    GROUP("group");
-
-    private String value;
-
-    TypeEnum(String value) {
-      this.value = value;
+    public Recipient type(TypeEnum type) {
+        this.type = type;
+        return this;
     }
 
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
+    /**
+     * Get type
+     *
+     * @return type
+     **/
+    @NotNull
+    @ApiModelProperty(required = true, value = "")
+    public TypeEnum getType() {
+        return type;
+    }
+
+    public void setType(TypeEnum type) {
+        this.type = type;
+    }
+
+    public Recipient id(String id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return id
+     **/
+    @ApiModelProperty(value = "")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
         }
-      }
-      return null;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Recipient recipient = (Recipient) o;
+        return ObjectUtils.equals(this.type, recipient.type) &&
+                ObjectUtils.equals(this.id, recipient.id);
     }
 
-    public String getValue() {
-      return this.value;
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCodeMulti(type, id);
     }
 
     @Override
     public String toString() {
-      return String.valueOf(value);
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Recipient {\n");
+
+        sb.append("    type: ").append(toIndentedString(type)).append("\n");
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
+        sb.append("}");
+        return sb.toString();
     }
-  }
-  
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
+     * Gets or Sets type
+     */
+    public enum TypeEnum {
+        ALL("all"),
+
+        NONE("none"),
+
+        USER("user"),
+
+        ESCALATION("escalation"),
+
+        SCHEDULE("schedule"),
+
+        TEAM("team"),
+
+        GROUP("group");
+
+        private String value;
+
+        TypeEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static TypeEnum fromValue(String text) {
+            for (TypeEnum b : TypeEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+    }
+
 }
 
