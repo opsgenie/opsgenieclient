@@ -203,11 +203,9 @@ public class OpsGenieClient implements IOpsGenieClient {
         return innerNotificationRuleOpsGenieClient;
     }
 
-    //TODO will be deprecated
-
     /**
-     * @deprecated Use {@link OpsGenieClient#pingHeartbeat(HeartbeatPingRequest)}
      * @see IOpsGenieClient#heartbeat(com.ifountain.opsgenie.client.model.customer.HeartbeatRequest)
+     * @deprecated Use {@link OpsGenieClient#pingHeartbeat(HeartbeatPingRequest)}
      */
     @Override
     @Deprecated
@@ -229,7 +227,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     private void populateMetaData(BaseResponse response, RestSuccessResult<?> result) {
         response.setSuccess(true);
 
-        if(result.getTook() != null ) {
+        if (result.getTook() != null) {
             response.setTook(result.getTook().intValue());
         }
 
@@ -314,8 +312,8 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
-     * @deprecated Deprecated for removal
      * @see IOpsGenieClient#listHeartbeats(com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest)
+     * @deprecated Deprecated for removal
      */
     @Override
     @Deprecated
@@ -332,7 +330,6 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     public AlertApi alertV2() {
-        swaggerApiClient.setBasePath(jsonHttpClient.getRootUri());
         // Configure API key authorization: GenieKey
         ApiKeyAuth genieKey = (ApiKeyAuth) swaggerApiClient.getAuthentication("GenieKey");
         genieKey.setApiKey(getApiKey());
