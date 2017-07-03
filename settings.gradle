@@ -1,5 +1,4 @@
 include 'sdk'
-include 'sdk-shaded'
 include 'sdk-swagger'
 include 'common'
 include 'marid'
