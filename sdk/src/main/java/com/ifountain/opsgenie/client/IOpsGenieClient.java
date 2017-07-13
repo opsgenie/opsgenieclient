@@ -1,23 +1,6 @@
 package com.ifountain.opsgenie.client;
 
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.AddHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest;
-import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesResponse;
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.EnableHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.GetHeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatPingRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatPingResponse;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.HeartbeatResponse;
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest;
-import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse;
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest;
-import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse;
+import com.ifountain.opsgenie.client.model.customer.*;
 import com.ifountain.opsgenie.client.swagger.api.AlertApi;
 
 import java.io.IOException;
@@ -33,74 +16,83 @@ import java.text.ParseException;
 public interface IOpsGenieClient {
     /**
      * Opsgenie User Client
-     * @see IUserOpsGenieClient
+     *
      * @return IUserOpsGenieClient
+     * @see IUserOpsGenieClient
      */
     IUserOpsGenieClient user();
-    
+
 
     /**
      * Opsgenie Contact Client
-     * @see IContactOpsGenieClient
+     *
      * @return IContactOpsGenieClient
+     * @see IContactOpsGenieClient
      */
     IContactOpsGenieClient contact();
-    
+
     /**
      * Opsgenie Account Client
-     * @see IAccountOpsGenieClient
+     *
      * @return IAccountOpsGenieClient
+     * @see IAccountOpsGenieClient
      */
     IAccountOpsGenieClient account();
-    
+
     /**
      * Opsgenie Notification Client
-     * @see INotificationRuleOpsGenieClient
+     *
      * @return INotificationRuleOpsGenieClient
+     * @see INotificationRuleOpsGenieClient
      */
     INotificationRuleOpsGenieClient notificationRule();
 
     /**
      * Opsgenie Group Client
-     * @see IGroupOpsGenieClient
+     *
      * @return IGroupOpsGenieClient
+     * @see IGroupOpsGenieClient
      */
     IGroupOpsGenieClient group();
 
     /**
      * Opsgenie Team Client
-     * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient
+     *
      * @return ITeamOpsGenieClient
+     * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient
      */
     ITeamOpsGenieClient team();
 
     /**
      * Opsgenie Escalation Client
-     * @see IGroupOpsGenieClient
+     *
      * @return IGroupOpsGenieClient
+     * @see IGroupOpsGenieClient
      */
     IEscalationOpsGenieClient escalation();
 
     /**
      * Opsgenie Schedule Client
-     * @see IScheduleOpsGenieClient
+     *
      * @return IScheduleOpsGenieClient
+     * @see IScheduleOpsGenieClient
      */
     IScheduleOpsGenieClient schedule();
 
     /**
      * Opsgenie Alert Policy Client
-     * @see IAlertPolicyOpsGenieClient
+     *
      * @return IAlertPolicyOpsGenieClient
+     * @see IAlertPolicyOpsGenieClient
      */
     IAlertPolicyOpsGenieClient alertPolicy();
 
     /**
      * Opsgenie Alert Client
-     * @see IAlertOpsGenieClient
-     * @deprecated Use {@link OpsGenieClient#alertV2()}
      *
      * @return IAlertOpsGenieClient
+     * @see IAlertOpsGenieClient
+     * @deprecated Use {@link OpsGenieClient#alertV2()}
      */
     @Deprecated
     IAlertOpsGenieClient alert();
@@ -115,8 +107,9 @@ public interface IOpsGenieClient {
 
     /**
      * Opsgenie Integration Client
-     * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient
+     *
      * @return IIntegrationOpsGenieClient
+     * @see com.ifountain.opsgenie.client.IIntegrationOpsGenieClient
      */
     IIntegrationOpsGenieClient integration();
 
@@ -136,6 +129,19 @@ public interface IOpsGenieClient {
      * @see com.ifountain.opsgenie.client.model.customer.HeartbeatResponse
      */
     HeartbeatPingResponse pingHeartbeat(HeartbeatPingRequest heartbeatRequest) throws ParseException, OpsGenieClientException, IOException;
+
+    /**
+     * Attaches files to the alerts in OpsGenie
+     *
+     * @param addAlertAttachmentRequest Object to construct request parameters.
+     * @return Object containing OpsGenie response information.
+     * @throws ParseException
+     * @throws OpsGenieClientException
+     * @throws IOException
+     * @see com.ifountain.opsgenie.client.model.customer.AddAlertAttachmentRequest
+     * @see com.ifountain.opsgenie.client.model.customer.AddAlertAttachmentResponse
+     */
+    AddAlertAttachmentResponse addAlertAttachment(AddAlertAttachmentRequest addAlertAttachmentRequest) throws ParseException, OpsGenieClientException, IOException;
 
     /**
      * Deletes heartbeat monitor on OpsGenie. If heartbeat monitor is deleted, OpsGenie will not create alert for expired heartbeat.
@@ -188,15 +194,15 @@ public interface IOpsGenieClient {
      */
     public GetHeartbeatResponse getHeartbeat(GetHeartbeatRequest getHeartbeatRequest) throws OpsGenieClientException, IOException, ParseException;
 
-    
+
     /**
      * List all heartbeat monitor details on OpsGenie.
      *
-     * @deprecated Deprecated for removal
      * @param listHeartbeatsRequest Object to construct request parameters.
      * @return Object containing OpsGenie response information.
      * @see com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest
      * @see com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse
+     * @deprecated Deprecated for removal
      */
     @Deprecated
     public ListHeartbeatsResponse listHeartbeats(ListHeartbeatsRequest listHeartbeatsRequest) throws OpsGenieClientException, IOException, ParseException;
@@ -222,5 +228,5 @@ public interface IOpsGenieClient {
      * Closes client
      */
     public void close();
-    
+
 }

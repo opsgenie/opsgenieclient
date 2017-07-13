@@ -11,8 +11,14 @@ import com.ifountain.opsgenie.client.swagger.Configuration;
 import com.ifountain.opsgenie.client.swagger.api.AlertApi;
 import com.ifountain.opsgenie.client.swagger.auth.ApiKeyAuth;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 
 /**
@@ -235,6 +241,35 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     /**
+     * @see IOpsGenieClient#addAlertAttachment(com.ifountain.opsgenie.client.model.customer.AddAlertAttachmentRequest)
+     */
+    @Override
+    public AddAlertAttachmentResponse addAlertAttachment(AddAlertAttachmentRequest request) throws ParseException, OpsGenieClientException, IOException {
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        if (request.getFile() != null) {
+            entity.addPart(OpsGenieClientConstants.API.FILE, new FileBody(request.getFile()));
+        }
+        if (request.getIndexFile() != null) {
+            entity.addPart(OpsGenieClientConstants.API.INDEX_FILE, new StringBody(request.getIndexFile(), "text/plain", Charset.forName("utf-8")));
+        }
+        if (request.getUser() != null) {
+            entity.addPart(OpsGenieClientConstants.API.USER, new StringBody(request.getUser(), "text/plain", Charset.forName("utf-8")));
+        }
+
+        RestSuccessResult<Object> result = restApiClient.post(request.getEndPoint())
+                .addParameter(OpsGenieClientConstants.API.ALERT_IDENTIFIER_TYPE, request.getAlertIdentifierType().getValue())
+                .httpEntity(entity)
+                .apiKey(request.getApiKey())
+                .getResponse(Object.class);
+
+        AddAlertAttachmentResponse response = new AddAlertAttachmentResponse();
+        populateMetaData(response, result);
+
+        return response;
+    }
+
+    /**
      * @see IOpsGenieClient#deleteHeartbeat(com.ifountain.opsgenie.client.model.customer.DeleteHeartbeatRequest)
      */
     @Override
@@ -332,7 +367,10 @@ public class OpsGenieClient implements IOpsGenieClient {
     public AlertApi alertV2() {
         // Configure API key authorization: GenieKey
         ApiKeyAuth genieKey = (ApiKeyAuth) swaggerApiClient.getAuthentication("GenieKey");
-        genieKey.setApiKey(getApiKey());
+
+        if (StringUtils.isNotEmpty(getApiKey())) {
+            genieKey.setApiKey(getApiKey());
+        }
         genieKey.setApiKeyPrefix("GenieKey");
 
         return new AlertApi();
