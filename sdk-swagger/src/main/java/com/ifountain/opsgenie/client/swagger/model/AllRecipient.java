@@ -20,7 +20,7 @@ import org.apache.commons.lang3.ObjectUtils;
  * All recipient
  */
 @ApiModel(description = "All recipient")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class AllRecipient extends Recipient {
 
     @Override
@@ -59,6 +59,6 @@ public class AllRecipient extends Recipient {
         }
         return o.toString().replace("\n", "\n    ");
     }
-
+  
 }
 

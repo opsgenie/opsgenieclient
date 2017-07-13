@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * CreateAlertRequest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class CreateAlertRequest {
     @JsonProperty("user")
     private String user = null;
@@ -266,7 +266,6 @@ public class CreateAlertRequest {
 
     /**
      * Tags of the alert
-     *
      * @return tags
      **/
     @ApiModelProperty(value = "Tags of the alert")
@@ -328,7 +327,6 @@ public class CreateAlertRequest {
 
     /**
      * Priority level of the alert
-     *
      * @return priority
      **/
     @ApiModelProperty(value = "Priority level of the alert")
@@ -425,22 +423,22 @@ public class CreateAlertRequest {
         @JsonCreator
         public static PriorityEnum fromValue(String text) {
             for (PriorityEnum b : PriorityEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
         }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
+      }
+      return null;
     }
 
+    public String getValue() {
+      return this.value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+  
 }
 

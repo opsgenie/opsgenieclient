@@ -24,1341 +24,1505 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class AlertApi {
-    private ApiClient apiClient;
+  private ApiClient apiClient;
 
-    public AlertApi() {
-        this(Configuration.getDefaultApiClient());
+  public AlertApi() {
+    this(Configuration.getDefaultApiClient());
+  }
+
+  public AlertApi(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  /**
+   * Acknowledge Alert
+   * Acknowledges alert with given identifier
+   *
+   * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param body           Request payload of acknowledging alert action (optional)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse acknowledgeAlert(String identifier, String identifierType, AcknowledgeAlertRequest body) throws ApiException {
+
+
+    Object localVarPostBody = body;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling acknowledgeAlert");
     }
 
-    public AlertApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/acknowledge"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Add Alert Details
+   * Add details to the alert
+   *
+   * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body           Request payload of adding alert details action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse addDetails(String identifier, AddAlertDetailsRequest body, String identifierType) throws ApiException {
+
+
+    Object localVarPostBody = body;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling addDetails");
     }
 
-    public ApiClient getApiClient() {
-        return apiClient;
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addDetails");
     }
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/details"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Add Alert Note
+   * Adds note to alert with given identifier
+   *
+   * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body           Request payload of adding note to alert action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse addNote(String identifier, AddAlertNoteRequest body, String identifierType) throws ApiException {
+
+
+    Object localVarPostBody = body;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling addNote");
     }
 
-    /**
-     * Acknowledge Alert
-     * Acknowledges alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param body           Request payload of acknowledging alert action (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse acknowledgeAlert(String identifier, String identifierType, AcknowledgeAlertRequest body) throws ApiException {
-
-
-        Object localVarPostBody = body;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling acknowledgeAlert");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/acknowledge"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addNote");
     }
 
-    /**
-     * Add Alert Details
-     * Add details to the alert
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of adding alert details action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse addDetails(String identifier, AddAlertDetailsRequest body, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/notes"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling addDetails");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling addDetails");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/details"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+  /**
+   * Add Saved Search
+   * Create saved search with given fields
+   *
+   * @param body Request payload of creating saved search (required)
+   * @return AddSavedSearchResponse
+   * @throws ApiException if fails to make API call
+   */
+  public AddSavedSearchResponse addSavedSearches(AddSavedSearchRequest body) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addSavedSearches");
     }
 
-    /**
-     * Add Alert Note
-     * Adds note to alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of adding note to alert action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse addNote(String identifier, AddAlertNoteRequest body, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/saved-searches";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling addNote");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling addNote");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/notes"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<AddSavedSearchResponse> localVarReturnType = new GenericType<AddSavedSearchResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+  /**
+   * Add Alert Tags
+   * Add tags to the alert
+   *
+   * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body           Request payload of creating alert tags action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse addTags(String identifier, AddAlertTagsRequest body, String identifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling addTags");
     }
 
-    /**
-     * Add Saved Search
-     * Create saved search with given fields
-     *
-     * @param body Request payload of creating saved search (required)
-     * @return AddSavedSearchResponse
-     * @throws ApiException if fails to make API call
-     */
-    public AddSavedSearchResponse addSavedSearches(AddSavedSearchRequest body) throws ApiException {
-
-
-        Object localVarPostBody = body;
-
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling addSavedSearches");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/saved-searches";
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<AddSavedSearchResponse> localVarReturnType = new GenericType<AddSavedSearchResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addTags");
     }
 
-    /**
-     * Add Alert Tags
-     * Add tags to the alert
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of creating alert tags action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse addTags(String identifier, AddAlertTagsRequest body, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/tags"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling addTags");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling addTags");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/tags"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+  /**
+   * Add Team
+   * Add team to alert with given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body Request payload of adding team to alert action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse addTeam(String identifier, AddAlertTeamRequest body, String identifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling addTeam");
     }
 
-    /**
-     * Add Team
-     * Add team to alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of adding team to alert action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse addTeam(String identifier, AddAlertTeamRequest body, String identifierType) throws ApiException {
-
-
-        Object localVarPostBody = body;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling addTeam");
-        }
-
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling addTeam");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/teams"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addTeam");
     }
 
-    /**
-     * Assign Alert
-     * Assign alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of assigning alert action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse assignAlert(String identifier, AssignAlertRequest body, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/teams"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling assignAlert");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling assignAlert");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/assign"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+  /**
+   * Assign Alert
+   * Assign alert with given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body Request payload of assigning alert action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse assignAlert(String identifier, AssignAlertRequest body, String identifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling assignAlert");
     }
 
-    /**
-     * Close Alert
-     * Closes alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param body           Request payload of closing alert action (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse closeAlert(String identifier, String identifierType, CloseAlertRequest body) throws ApiException {
-
-
-        Object localVarPostBody = body;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling closeAlert");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/close"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling assignAlert");
     }
 
-    /**
-     * Create Alert
-     * Creates a new alert
-     *
-     * @param body Request payload of created alert (required)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse createAlert(CreateAlertRequest body) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/assign"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling createAlert");
-        }
+    final String[] localVarContentTypes = {
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts";
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Close Alert
+   * Closes alert with given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param body Request payload of closing alert action (optional)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse closeAlert(String identifier, String identifierType, CloseAlertRequest body) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling closeAlert");
     }
 
-    /**
-     * Delete Alert
-     * Deletes an alert using alert id, tiny id or alias
-     *
-     * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param params.source         Display name of the request source (optional)
-     * @param params.user           Display name of the request owner (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse deleteAlert(DeleteAlertRequest params) throws ApiException {
-        String identifier = params.getIdentifier();
-        String identifierType = params.getIdentifierType().getValue();
-        String source = params.getSource();
-        String user = params.getUser();
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/close"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteAlert");
-        }
+    final String[] localVarContentTypes = {
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "source", source));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Create Alert
+   * Creates a new alert
+   * @param body Request payload of created alert (required)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse createAlert(CreateAlertRequest body) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createAlert");
     }
 
-    /**
-     * Delete Alert Details
-     * Delete the details of an alert using alert id, tiny id or alias
-     *
-     * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param params.keys           Comma separated list of keys to remove from the custom properties of the alert (e.g. &#39;key1,key2&#39;) (required)
-     * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param params.user           Display name of the request owner (optional)
-     * @param params.note           Additional alert note to add (optional)
-     * @param params.source         Display name of the request source (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse deleteDetails(DeleteAlertDetailsRequest params) throws ApiException {
-        String identifier = params.getIdentifier();
-        List<String> keys = params.getKeys();
-        String identifierType = params.getIdentifierType().getValue();
-        String user = params.getUser();
-        String note = params.getNote();
-        String source = params.getSource();
+    // create path and map variables
+    String localVarPath = "/v2/alerts";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteDetails");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'keys' is set
-        if (keys == null) {
-            throw new ApiException(400, "Missing the required parameter 'keys' when calling deleteDetails");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/details"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "note", note));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "source", source));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "keys", keys));
+  /**
+   * Delete Alert
+   * Deletes an alert using alert id, tiny id or alias
+   *
+   * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param params.source         Display name of the request source (optional)
+   * @param params.user           Display name of the request owner (optional)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse deleteAlert(DeleteAlertRequest params) throws ApiException {
+    String identifier = params.getIdentifier();
+    String identifierType = params.getIdentifierType().getValue();
+    String source = params.getSource();
+    String user = params.getUser();
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteAlert");
     }
 
-    /**
-     * Delete Saved Search
-     * Deletes saved search using given search identifier
-     *
-     * @param identifier     Identifier of the saved search which could be &#39;id&#39; or &#39;name&#39; (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, or &#39;name&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse deleteSavedSearch(String identifier, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "source", source));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteSavedSearch");
-        }
+    final String[] localVarContentTypes = {
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/saved-searches/{identifier}"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Delete Alert Attachment
+   * Delete alert attachment for the given identifier
+   *
+   * @param params.identifier          Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param params.attachmentId        Identifier of alert attachment (required)
+   * @param params.alertIdentifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param params.user                Display name of the request owner (optional)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse deleteAttachment(DeleteAlertAttachmentRequest params) throws ApiException {
+    String identifier = params.getIdentifier();
+    Long attachmentId = params.getAttachmentId();
+    String alertIdentifierType = params.getAlertIdentifierType().getValue();
+    String user = params.getUser();
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteAttachment");
     }
 
-    /**
-     * Delete Alert Tags
-     * Delete tags of the alert
-     *
-     * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param params.tags           Tags field of the given alert as comma seperated values (e.g. &#39;tag1,tag2&#39;) (required)
-     * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param params.user           Display name of the request owner (optional)
-     * @param params.note           Additional alert note to add (optional)
-     * @param params.source         Display name of the request source (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse deleteTags(DeleteAlertTagsRequest params) throws ApiException {
-        String identifier = params.getIdentifier();
-        List<String> tags = params.getTags();
-        String identifierType = params.getIdentifierType().getValue();
-        String user = params.getUser();
-        String note = params.getNote();
-        String source = params.getSource();
-
-
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteTags");
-        }
-
-        // verify the required parameter 'tags' is set
-        if (tags == null) {
-            throw new ApiException(400, "Missing the required parameter 'tags' when calling deleteTags");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/tags"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "note", note));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "source", source));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "tags", tags));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'attachmentId' is set
+    if (attachmentId == null) {
+      throw new ApiException(400, "Missing the required parameter 'attachmentId' when calling deleteAttachment");
     }
 
-    /**
-     * Escalate Alert
-     * Escalate alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of escalating alert action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse escalateAlert(String identifier, EscalateAlertToNextRequest body, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/attachments/{attachmentId}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()))
+            .replaceAll("\\{" + "attachmentId" + "\\}", apiClient.escapeString(attachmentId.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "alertIdentifierType", alertIdentifierType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling escalateAlert");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling escalateAlert");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/escalate"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+  /**
+   * Delete Alert Details
+   * Delete the details of an alert using alert id, tiny id or alias
+   *
+   * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param params.keys           Comma separated list of keys to remove from the custom properties of the alert (e.g. &#39;key1,key2&#39;) (required)
+   * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param params.user           Display name of the request owner (optional)
+   * @param params.note           Additional alert note to add (optional)
+   * @param params.source         Display name of the request source (optional)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse deleteDetails(DeleteAlertDetailsRequest params) throws ApiException {
+    String identifier = params.getIdentifier();
+    List<String> keys = params.getKeys();
+    String identifierType = params.getIdentifierType().getValue();
+    String user = params.getUser();
+    String note = params.getNote();
+    String source = params.getSource();
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteDetails");
     }
 
-    /**
-     * Custom Alert Action
-     * Custom actions for the alert
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param actionName     Name of the action to execute (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param body           Request payload of executing custom alert action (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse executeCustomAction(String identifier, String actionName, String identifierType, ExecuteCustomAlertActionRequest body) throws ApiException {
-
-
-        Object localVarPostBody = body;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling executeCustomAction");
-        }
-
-        // verify the required parameter 'actionName' is set
-        if (actionName == null) {
-            throw new ApiException(400, "Missing the required parameter 'actionName' when calling executeCustomAction");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/actions/{actionName}"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()))
-                .replaceAll("\\{" + "actionName" + "\\}", apiClient.escapeString(actionName.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'keys' is set
+    if (keys == null) {
+      throw new ApiException(400, "Missing the required parameter 'keys' when calling deleteDetails");
     }
 
-    /**
-     * Get Alert
-     * Returns alert with given id, tiny id or alias
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return GetAlertResponse
-     * @throws ApiException if fails to make API call
-     */
-    public GetAlertResponse getAlert(String identifier, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/details"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "note", note));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "source", source));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "keys", keys));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling getAlert");
-        }
+    final String[] localVarContentTypes = {
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Delete Saved Search
+   * Deletes saved search using given search identifier
+   * @param identifier Identifier of the saved search which could be &#39;id&#39; or &#39;name&#39; (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, or &#39;name&#39; (optional, default to id)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse deleteSavedSearch(String identifier, String identifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<GetAlertResponse> localVarReturnType = new GenericType<GetAlertResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteSavedSearch");
     }
 
-    /**
-     * Get Request Status of Alert
-     * Returns status of alert request
-     *
-     * @param requestId Id of the request for its status (required)
-     * @return GetRequestStatusResponse
-     * @throws ApiException if fails to make API call
-     */
-    public GetRequestStatusResponse getRequestStatus(String requestId) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/saved-searches/{identifier}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'requestId' is set
-        if (requestId == null) {
-            throw new ApiException(400, "Missing the required parameter 'requestId' when calling getRequestStatus");
-        }
+    final String[] localVarContentTypes = {
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/requests/{requestId}"
-                .replaceAll("\\{" + "requestId" + "\\}", apiClient.escapeString(requestId.toString()));
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Delete Alert Tags
+   * Delete tags of the alert
+   *
+   * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param params.tags           Tags field of the given alert as comma seperated values (e.g. &#39;tag1,tag2&#39;) (required)
+   * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param params.user           Display name of the request owner (optional)
+   * @param params.note           Additional alert note to add (optional)
+   * @param params.source         Display name of the request source (optional)
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse deleteTags(DeleteAlertTagsRequest params) throws ApiException {
+    String identifier = params.getIdentifier();
+    List<String> tags = params.getTags();
+    String identifierType = params.getIdentifierType().getValue();
+    String user = params.getUser();
+    String note = params.getNote();
+    String source = params.getSource();
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<GetRequestStatusResponse> localVarReturnType = new GenericType<GetRequestStatusResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling deleteTags");
     }
 
-    /**
-     * Get Saved Search
-     * Get saved search for the given search identifier
-     *
-     * @param identifier     Identifier of the saved search which could be &#39;id&#39; or &#39;name&#39; (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, or &#39;name&#39; (optional, default to id)
-     * @return GetSavedSearchResponse
-     * @throws ApiException if fails to make API call
-     */
-    public GetSavedSearchResponse getSavedSearch(String identifier, String identifierType) throws ApiException {
-
-
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling getSavedSearch");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/saved-searches/{identifier}"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<GetSavedSearchResponse> localVarReturnType = new GenericType<GetSavedSearchResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'tags' is set
+    if (tags == null) {
+      throw new ApiException(400, "Missing the required parameter 'tags' when calling deleteTags");
     }
 
-    /**
-     * List Alerts
-     * Returns list of alerts
-     *
-     * @param params.limit                Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100 (optional)
-     * @param params.sort                 Name of the field that result set will be sorted by (optional, default to createdAt)
-     * @param params.offset               Start index of the result set (to apply pagination). Minimum value (and also default value) is 0 (optional)
-     * @param params.order                Sorting order of the result set (optional, default to desc)
-     * @param params.query                Search query to apply while filtering the alerts (optional)
-     * @param params.searchIdentifier     Identifier of the saved search query to apply while filtering the alerts (optional)
-     * @param params.searchIdentifierType Identifier type of the saved search query. Possible values are &#39;id&#39;, or &#39;name&#39; (optional, default to id)
-     * @return ListAlertsResponse
-     * @throws ApiException if fails to make API call
-     */
-    public ListAlertsResponse listAlerts(ListAlertsRequest params) throws ApiException {
-        Integer limit = params.getLimit();
-        String sort = params.getSort().getValue();
-        Integer offset = params.getOffset();
-        String order = params.getOrder().getValue();
-        String query = params.getQuery();
-        String searchIdentifier = params.getSearchIdentifier();
-        String searchIdentifierType = params.getSearchIdentifierType().getValue();
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/tags"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "user", user));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "note", note));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "source", source));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "tags", tags));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts";
+    final String[] localVarContentTypes = {
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "sort", sort));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "order", order));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "query", query));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "searchIdentifier", searchIdentifier));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "searchIdentifierType", searchIdentifierType));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Escalate Alert
+   * Escalate alert with given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body Request payload of escalating alert action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse escalateAlert(String identifier, EscalateAlertToNextRequest body, String identifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<ListAlertsResponse> localVarReturnType = new GenericType<ListAlertsResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling escalateAlert");
     }
 
-    /**
-     * List Alert Logs
-     * List alert logs for the given alert identifier
-     *
-     * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param params.offset         Starting value of the offset property (optional)
-     * @param params.direction      Page direction to apply for the given offset with &#39;next&#39; and &#39;prev&#39; (optional, default to next)
-     * @param params.limit          Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100 (optional)
-     * @param params.order          Sorting order of the result set (optional, default to desc)
-     * @return ListAlertLogsResponse
-     * @throws ApiException if fails to make API call
-     */
-    public ListAlertLogsResponse listLogs(ListAlertLogsRequest params) throws ApiException {
-        String identifier = params.getIdentifier();
-        String identifierType = params.getIdentifierType().getValue();
-        String offset = params.getOffset();
-        String direction = params.getDirection().getValue();
-        Integer limit = params.getLimit();
-        String order = params.getOrder().getValue();
-
-
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling listLogs");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/logs"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "direction", direction));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "order", order));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<ListAlertLogsResponse> localVarReturnType = new GenericType<ListAlertLogsResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling escalateAlert");
     }
 
-    /**
-     * List Alert Notes
-     * List alert notes for the given alert identifier
-     *
-     * @param params.identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param params.offset         Starting value of the offset property (optional)
-     * @param params.direction      Page direction to apply for the given offset with &#39;next&#39; and &#39;prev&#39; (optional, default to next)
-     * @param params.limit          Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100 (optional)
-     * @param params.order          Sorting order of the result set (optional, default to desc)
-     * @return ListAlertNotesResponse
-     * @throws ApiException if fails to make API call
-     */
-    public ListAlertNotesResponse listNotes(ListAlertNotesRequest params) throws ApiException {
-        String identifier = params.getIdentifier();
-        String identifierType = params.getIdentifierType().getValue();
-        String offset = params.getOffset();
-        String direction = params.getDirection().getValue();
-        Integer limit = params.getLimit();
-        String order = params.getOrder().getValue();
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/escalate"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling listNotes");
-        }
+    final String[] localVarContentTypes = {
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/notes"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "direction", direction));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "order", order));
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Custom Alert Action
+   * Custom actions for the alert
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param actionName Name of the action to execute (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param body Request payload of executing custom alert action (optional)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse executeCustomAction(String identifier, String actionName, String identifierType, ExecuteCustomAlertActionRequest body) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = body;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<ListAlertNotesResponse> localVarReturnType = new GenericType<ListAlertNotesResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling executeCustomAction");
     }
 
-    /**
-     * List Alert Recipients
-     * List alert recipients for the given alert identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return ListAlertRecipientsResponse
-     * @throws ApiException if fails to make API call
-     */
-    public ListAlertRecipientsResponse listRecipients(String identifier, String identifierType) throws ApiException {
-
-
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling listRecipients");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/recipients"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<ListAlertRecipientsResponse> localVarReturnType = new GenericType<ListAlertRecipientsResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'actionName' is set
+    if (actionName == null) {
+      throw new ApiException(400, "Missing the required parameter 'actionName' when calling executeCustomAction");
     }
 
-    /**
-     * Lists Saved Searches
-     * List all saved searches
-     *
-     * @return ListSavedSearchResponse
-     * @throws ApiException if fails to make API call
-     */
-    public ListSavedSearchResponse listSavedSearches() throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/actions/{actionName}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()))
+            .replaceAll("\\{" + "actionName" + "\\}", apiClient.escapeString(actionName.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = null;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/saved-searches";
+    final String[] localVarContentTypes = {
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Get Alert
+   * Returns alert with given id, tiny id or alias
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return GetAlertResponse
+   * @throws ApiException if fails to make API call
+   */
+  public GetAlertResponse getAlert(String identifier, String identifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<ListSavedSearchResponse> localVarReturnType = new GenericType<ListSavedSearchResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling getAlert");
     }
 
-    /**
-     * Snooze Alert
-     * Snooze alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param body           Request payload of snoozing alert action (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse snoozeAlert(String identifier, SnoozeAlertRequest body, String identifierType) throws ApiException {
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
 
 
-        Object localVarPostBody = body;
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling snoozeAlert");
-        }
+    final String[] localVarContentTypes = {
 
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException(400, "Missing the required parameter 'body' when calling snoozeAlert");
-        }
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/snooze"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+    String[] localVarAuthNames = new String[]{"GenieKey"};
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    GenericType<GetAlertResponse> localVarReturnType = new GenericType<GetAlertResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+  /**
+   * Get Alert Attachment
+   * Get alert attachment name and url for the given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param attachmentId Identifier of alert attachment (required)
+   * @param alertIdentifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return GetAlertAttachmentResponse
+   * @throws ApiException if fails to make API call
+   */
+  public GetAlertAttachmentResponse getAttachment(String identifier, Long attachmentId, String alertIdentifierType) throws ApiException {
 
 
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    Object localVarPostBody = null;
 
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling getAttachment");
     }
 
-    /**
-     * UnAcknowledge Alert
-     * UnAcknowledge alert with given identifier
-     *
-     * @param identifier     Identifier of alert which could be alert id, tiny id or alert alias (required)
-     * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
-     * @param body           Request payload of unacknowledging alert action (optional)
-     * @return SuccessResponse
-     * @throws ApiException if fails to make API call
-     */
-    public SuccessResponse unAcknowledgeAlert(String identifier, String identifierType, UnAcknowledgeAlertRequest body) throws ApiException {
-
-
-        Object localVarPostBody = body;
-
-        // verify the required parameter 'identifier' is set
-        if (identifier == null) {
-            throw new ApiException(400, "Missing the required parameter 'identifier' when calling unAcknowledgeAlert");
-        }
-
-        // create path and map variables
-        String localVarPath = "/v2/alerts/{identifier}/unacknowledge"
-                .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
-
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
-
-
-        final String[] localVarAccepts = {
-                "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{"GenieKey"};
-
-        GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
-        };
-        return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    // verify the required parameter 'attachmentId' is set
+    if (attachmentId == null) {
+      throw new ApiException(400, "Missing the required parameter 'attachmentId' when calling getAttachment");
     }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/attachments/{attachmentId}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()))
+            .replaceAll("\\{" + "attachmentId" + "\\}", apiClient.escapeString(attachmentId.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "alertIdentifierType", alertIdentifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<GetAlertAttachmentResponse> localVarReturnType = new GenericType<GetAlertAttachmentResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Get Request Status of Alert
+   * Returns status of alert request
+   *
+   * @param requestId Id of the request for its status (required)
+   * @return GetRequestStatusResponse
+   * @throws ApiException if fails to make API call
+   */
+  public GetRequestStatusResponse getRequestStatus(String requestId) throws ApiException {
+
+
+    Object localVarPostBody = null;
+
+    // verify the required parameter 'requestId' is set
+    if (requestId == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestId' when calling getRequestStatus");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/requests/{requestId}"
+            .replaceAll("\\{" + "requestId" + "\\}", apiClient.escapeString(requestId.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<GetRequestStatusResponse> localVarReturnType = new GenericType<GetRequestStatusResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Get Saved Search
+   * Get saved search for the given search identifier
+   * @param identifier Identifier of the saved search which could be &#39;id&#39; or &#39;name&#39; (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, or &#39;name&#39; (optional, default to id)
+
+   * @return GetSavedSearchResponse
+   * @throws ApiException if fails to make API call
+   */
+  public GetSavedSearchResponse getSavedSearch(String identifier, String identifierType) throws ApiException {
+
+
+    Object localVarPostBody = null;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling getSavedSearch");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/saved-searches/{identifier}"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<GetSavedSearchResponse> localVarReturnType = new GenericType<GetSavedSearchResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * List Alerts
+   * Returns list of alerts
+   *
+   * @param params.limit                Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100 (optional)
+   * @param params.sort                 Name of the field that result set will be sorted by (optional, default to createdAt)
+   * @param params.offset               Start index of the result set (to apply pagination). Minimum value (and also default value) is 0 (optional)
+   * @param params.order                Sorting order of the result set (optional, default to desc)
+   * @param params.query                Search query to apply while filtering the alerts (optional)
+   * @param params.searchIdentifier     Identifier of the saved search query to apply while filtering the alerts (optional)
+   * @param params.searchIdentifierType Identifier type of the saved search query. Possible values are &#39;id&#39;, or &#39;name&#39; (optional, default to id)
+   * @return ListAlertsResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ListAlertsResponse listAlerts(ListAlertsRequest params) throws ApiException {
+    Integer limit = params.getLimit();
+    String sort = params.getSort().getValue();
+    Integer offset = params.getOffset();
+    String order = params.getOrder().getValue();
+    String query = params.getQuery();
+    String searchIdentifier = params.getSearchIdentifier();
+    String searchIdentifierType = params.getSearchIdentifierType().getValue();
+
+
+    Object localVarPostBody = null;
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "sort", sort));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "order", order));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "query", query));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "searchIdentifier", searchIdentifier));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "searchIdentifierType", searchIdentifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<ListAlertsResponse> localVarReturnType = new GenericType<ListAlertsResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * List Alert Attachment
+   * List alert attachment names and urls for related alert
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param alertIdentifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return ListAlertAttachmentResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ListAlertAttachmentResponse listAttachments(String identifier, String alertIdentifierType) throws ApiException {
+
+
+    Object localVarPostBody = null;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling listAttachments");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/attachments"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "alertIdentifierType", alertIdentifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<ListAlertAttachmentResponse> localVarReturnType = new GenericType<ListAlertAttachmentResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * List Alert Logs
+   * List alert logs for the given alert identifier
+
+   * @param params.identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param params.offset Starting value of the offset property (optional)
+   * @param params.direction Page direction to apply for the given offset with &#39;next&#39; and &#39;prev&#39; (optional, default to next)
+   * @param params.limit Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100 (optional)
+   * @param params.order Sorting order of the result set (optional, default to desc)
+   * @return ListAlertLogsResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ListAlertLogsResponse listLogs(ListAlertLogsRequest params) throws ApiException {
+    String identifier = params.getIdentifier();
+    String identifierType = params.getIdentifierType().getValue();
+    String offset = params.getOffset();
+    String direction = params.getDirection().getValue();
+    Integer limit = params.getLimit();
+    String order = params.getOrder().getValue();
+
+
+    Object localVarPostBody = null;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling listLogs");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/logs"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "direction", direction));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "order", order));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<ListAlertLogsResponse> localVarReturnType = new GenericType<ListAlertLogsResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * List Alert Notes
+   * List alert notes for the given alert identifier
+
+   * @param params.identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param params.identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param params.offset Starting value of the offset property (optional)
+   * @param params.direction Page direction to apply for the given offset with &#39;next&#39; and &#39;prev&#39; (optional, default to next)
+   * @param params.limit Maximum number of items to provide in the result. Must be a positive integer value. Default value is 20 and maximum value is 100 (optional)
+   * @param params.order Sorting order of the result set (optional, default to desc)
+   * @return ListAlertNotesResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ListAlertNotesResponse listNotes(ListAlertNotesRequest params) throws ApiException {
+    String identifier = params.getIdentifier();
+    String identifierType = params.getIdentifierType().getValue();
+    String offset = params.getOffset();
+    String direction = params.getDirection().getValue();
+    Integer limit = params.getLimit();
+    String order = params.getOrder().getValue();
+
+
+    Object localVarPostBody = null;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling listNotes");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/notes"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "direction", direction));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "order", order));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<ListAlertNotesResponse> localVarReturnType = new GenericType<ListAlertNotesResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * List Alert Recipients
+   * List alert recipients for the given alert identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return ListAlertRecipientsResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ListAlertRecipientsResponse listRecipients(String identifier, String identifierType) throws ApiException {
+
+
+    Object localVarPostBody = null;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling listRecipients");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/recipients"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<ListAlertRecipientsResponse> localVarReturnType = new GenericType<ListAlertRecipientsResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Lists Saved Searches
+   * List all saved searches
+
+   * @return ListSavedSearchResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ListSavedSearchResponse listSavedSearches() throws ApiException {
+
+
+    Object localVarPostBody = null;
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/saved-searches";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<ListSavedSearchResponse> localVarReturnType = new GenericType<ListSavedSearchResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * Snooze Alert
+   * Snooze alert with given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param body Request payload of snoozing alert action (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse snoozeAlert(String identifier, SnoozeAlertRequest body, String identifierType) throws ApiException {
+
+
+    Object localVarPostBody = body;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling snoozeAlert");
+    }
+
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling snoozeAlert");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/snooze"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+
+
+    final String[] localVarAccepts = {
+            "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[]{"GenieKey"};
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
+    };
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+  }
+
+  /**
+   * UnAcknowledge Alert
+   * UnAcknowledge alert with given identifier
+   * @param identifier Identifier of alert which could be alert id, tiny id or alert alias (required)
+   * @param identifierType Type of the identifier that is provided as an in-line parameter. Possible values are &#39;id&#39;, &#39;alias&#39; or &#39;tiny&#39; (optional, default to id)
+   * @param body Request payload of unacknowledging alert action (optional)
+
+   * @return SuccessResponse
+   * @throws ApiException if fails to make API call
+   */
+  public SuccessResponse unAcknowledgeAlert(String identifier, String identifierType, UnAcknowledgeAlertRequest body) throws ApiException {
+
+
+    Object localVarPostBody = body;
+
+    // verify the required parameter 'identifier' is set
+    if (identifier == null) {
+      throw new ApiException(400, "Missing the required parameter 'identifier' when calling unAcknowledgeAlert");
+    }
+
+    // create path and map variables
+    String localVarPath = "/v2/alerts/{identifier}/unacknowledge"
+            .replaceAll("\\{" + "identifier" + "\\}", apiClient.escapeString(identifier.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "identifierType", identifierType));
+
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "GenieKey" };
+
+    GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
 }

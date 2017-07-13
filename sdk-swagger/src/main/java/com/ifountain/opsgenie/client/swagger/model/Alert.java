@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Alert
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class Alert {
     @JsonProperty("id")
     private String id = null;
@@ -247,7 +247,6 @@ public class Alert {
 
     /**
      * Get tags
-     *
      * @return tags
      **/
     @ApiModelProperty(value = "")
@@ -266,7 +265,6 @@ public class Alert {
 
     /**
      * Get snoozed
-     *
      * @return snoozed
      **/
     @ApiModelProperty(value = "")
@@ -304,7 +302,6 @@ public class Alert {
 
     /**
      * Get count
-     *
      * @return count
      **/
     @ApiModelProperty(value = "")
@@ -323,7 +320,6 @@ public class Alert {
 
     /**
      * Get lastOccurredAt
-     *
      * @return lastOccurredAt
      **/
     @ApiModelProperty(value = "")
@@ -342,7 +338,6 @@ public class Alert {
 
     /**
      * Get createdAt
-     *
      * @return createdAt
      **/
     @ApiModelProperty(value = "")
@@ -361,7 +356,6 @@ public class Alert {
 
     /**
      * Get updatedAt
-     *
      * @return updatedAt
      **/
     @ApiModelProperty(value = "")
@@ -380,7 +374,6 @@ public class Alert {
 
     /**
      * Get source
-     *
      * @return source
      **/
     @ApiModelProperty(value = "")
@@ -399,7 +392,6 @@ public class Alert {
 
     /**
      * Get owner
-     *
      * @return owner
      **/
     @ApiModelProperty(value = "")
@@ -418,7 +410,6 @@ public class Alert {
 
     /**
      * Get priority
-     *
      * @return priority
      **/
     @ApiModelProperty(value = "")
@@ -442,7 +433,6 @@ public class Alert {
 
     /**
      * Get teams
-     *
      * @return teams
      **/
     @ApiModelProperty(value = "")
@@ -461,7 +451,6 @@ public class Alert {
 
     /**
      * Get integration
-     *
      * @return integration
      **/
     @ApiModelProperty(value = "")
@@ -480,7 +469,6 @@ public class Alert {
 
     /**
      * Get report
-     *
      * @return report
      **/
     @ApiModelProperty(value = "")
@@ -504,7 +492,6 @@ public class Alert {
 
     /**
      * Get actions
-     *
      * @return actions
      **/
     @ApiModelProperty(value = "")
@@ -523,7 +510,6 @@ public class Alert {
 
     /**
      * Get entity
-     *
      * @return entity
      **/
     @ApiModelProperty(value = "")
@@ -542,7 +528,6 @@ public class Alert {
 
     /**
      * Get description
-     *
      * @return description
      **/
     @ApiModelProperty(value = "")
@@ -566,7 +551,6 @@ public class Alert {
 
     /**
      * Get details
-     *
      * @return details
      **/
     @ApiModelProperty(value = "")
@@ -655,14 +639,14 @@ public class Alert {
 
     /**
      * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

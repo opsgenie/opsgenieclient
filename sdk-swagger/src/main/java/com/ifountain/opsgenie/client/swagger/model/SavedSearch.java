@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * SavedSearch
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class SavedSearch {
     @JsonProperty("id")
     private String id = null;
@@ -195,7 +195,6 @@ public class SavedSearch {
 
     /**
      * Get query
-     *
      * @return query
      **/
     @ApiModelProperty(value = "")
@@ -253,13 +252,13 @@ public class SavedSearch {
     /**
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

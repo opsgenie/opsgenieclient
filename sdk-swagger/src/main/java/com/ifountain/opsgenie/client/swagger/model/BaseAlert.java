@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * BaseAlert
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class BaseAlert {
     @JsonProperty("id")
     private String id = null;
@@ -233,7 +233,6 @@ public class BaseAlert {
 
     /**
      * Get tags
-     *
      * @return tags
      **/
     @ApiModelProperty(value = "")
@@ -252,7 +251,6 @@ public class BaseAlert {
 
     /**
      * Get snoozed
-     *
      * @return snoozed
      **/
     @ApiModelProperty(value = "")
@@ -290,7 +288,6 @@ public class BaseAlert {
 
     /**
      * Get count
-     *
      * @return count
      **/
     @ApiModelProperty(value = "")
@@ -309,7 +306,6 @@ public class BaseAlert {
 
     /**
      * Get lastOccurredAt
-     *
      * @return lastOccurredAt
      **/
     @ApiModelProperty(value = "")
@@ -328,7 +324,6 @@ public class BaseAlert {
 
     /**
      * Get createdAt
-     *
      * @return createdAt
      **/
     @ApiModelProperty(value = "")
@@ -347,7 +342,6 @@ public class BaseAlert {
 
     /**
      * Get updatedAt
-     *
      * @return updatedAt
      **/
     @ApiModelProperty(value = "")
@@ -366,7 +360,6 @@ public class BaseAlert {
 
     /**
      * Get source
-     *
      * @return source
      **/
     @ApiModelProperty(value = "")
@@ -385,7 +378,6 @@ public class BaseAlert {
 
     /**
      * Get owner
-     *
      * @return owner
      **/
     @ApiModelProperty(value = "")
@@ -404,7 +396,6 @@ public class BaseAlert {
 
     /**
      * Get priority
-     *
      * @return priority
      **/
     @ApiModelProperty(value = "")
@@ -428,7 +419,6 @@ public class BaseAlert {
 
     /**
      * Get teams
-     *
      * @return teams
      **/
     @ApiModelProperty(value = "")
@@ -447,7 +437,6 @@ public class BaseAlert {
 
     /**
      * Get integration
-     *
      * @return integration
      **/
     @ApiModelProperty(value = "")
@@ -466,7 +455,6 @@ public class BaseAlert {
 
     /**
      * Get report
-     *
      * @return report
      **/
     @ApiModelProperty(value = "")
@@ -547,14 +535,14 @@ public class BaseAlert {
 
     /**
      * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 
