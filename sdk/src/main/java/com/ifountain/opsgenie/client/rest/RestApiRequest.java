@@ -8,8 +8,8 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.rest.response.RestFailureResult;
 import com.ifountain.opsgenie.client.rest.response.RestSuccessResult;
 import com.ifountain.opsgenie.client.util.JsonUtils;
-
 import org.apache.commons.logging.Log;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -24,10 +24,9 @@ public class RestApiRequest {
     private static final String AUTHENTICATION_TOKEN_TYPE = "GenieKey";
     private static final String REQUEST_ID_HEADER = "X-Request-ID";
     private static final String RESPONSE_TIME_HEADER = "X-Response-Time";
-
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     private final Log logger;
     private final OpsGenieHttpClient httpClient;
-
     private Object body;
     private String uri;
     private String rootUri;
@@ -35,16 +34,18 @@ public class RestApiRequest {
     private Map<String, String> headers = new HashMap<String, String>();
     private HttpMethod httpMethod;
     private String rootApiKey;
-
     private Map<String, Object> parameters = new HashMap<String, Object>();
-
-    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     RestApiRequest(HttpMethod httpMethod, OpsGenieHttpClient httpClient, Log logger, String rootUri) {
         this.httpMethod = httpMethod;
         this.httpClient = httpClient;
         this.logger = logger;
         this.rootUri = rootUri;
+    }
+
+    public RestApiRequest httpEntity(HttpEntity entity) {
+        this.body = entity;
+        return this;
     }
 
     public RestApiRequest content(String content) {
@@ -74,6 +75,11 @@ public class RestApiRequest {
 
     public RestApiRequest responseHandler(ResponseHandler responseHandler) {
         this.responseHandler = responseHandler;
+        return this;
+    }
+
+    public RestApiRequest addParameter(String key, String value) {
+        this.parameters.put(key, value);
         return this;
     }
 
@@ -156,29 +162,27 @@ public class RestApiRequest {
         return result;
     }
 
-
-    /**
-     * Map is used for generic deserialization (jackson returns LinkedHashMap by default when
-     * generic type is used)
-     */
-    private <T> T convertObject(byte[] json, Class<T> claz) throws IOException {
-        TypeReference<RestSuccessResult<Map<?, ?>>> typeReference = new TypeReference<RestSuccessResult<Map<?, ?>>>() {
-        };
-        RestSuccessResult<T> successResponse = MAPPER.readValue(json, typeReference);
-        Map<?, ?> data = (Map<?, ?>) successResponse.getData();
-        return MAPPER.convertValue(data, claz);
-    }
-
     private OpsGenieHttpResponse get() throws IOException, URISyntaxException, OpsGenieClientException {
         return httpClient.get(generateUrl(), parameters, headers);
     }
 
-    private String generateUrl() {
-        return rootUri + uri;
+    private OpsGenieHttpResponse post() throws IOException, URISyntaxException, ParseException {
+        return body != null && body instanceof HttpEntity ?
+                postWithBodyAsHttpEntity()
+                : postWithBodyAsJson();
     }
 
-    private OpsGenieHttpResponse post() throws IOException, OpsGenieClientException, URISyntaxException, ParseException {
+    private OpsGenieHttpResponse postWithBodyAsHttpEntity() throws IOException, URISyntaxException {
+        if (parameters != null && !parameters.isEmpty()) {
+            return httpClient.post(generateUrl(), (HttpEntity) body, headers, parameters);
+        } else {
+            return httpClient.post(generateUrl(), (HttpEntity) body, headers);
+        }
+    }
+
+    private OpsGenieHttpResponse postWithBodyAsJson() throws IOException, URISyntaxException, ParseException {
         String json = JsonUtils.toJson(body);
+
         if (parameters != null && !parameters.isEmpty()) {
             return httpClient.post(generateUrl(), json, headers, parameters);
         } else {
@@ -193,6 +197,22 @@ public class RestApiRequest {
     private OpsGenieHttpResponse patch() throws IOException, ParseException, URISyntaxException {
         String json = JsonUtils.toJson(body);
         return httpClient.patch(generateUrl(), json, parameters, headers);
+    }
+
+    /**
+     * Map is used for generic deserialization (jackson returns LinkedHashMap by default when
+     * generic type is used)
+     */
+    private <T> T convertObject(byte[] json, Class<T> claz) throws IOException {
+        TypeReference<RestSuccessResult<Map<?, ?>>> typeReference = new TypeReference<RestSuccessResult<Map<?, ?>>>() {
+        };
+        RestSuccessResult<T> successResponse = MAPPER.readValue(json, typeReference);
+        Map<?, ?> data = (Map<?, ?>) successResponse.getData();
+        return MAPPER.convertValue(data, claz);
+    }
+
+    private String generateUrl() {
+        return rootUri + uri;
     }
 
     private static class DefaultResponseHandler implements ResponseHandler {
@@ -213,5 +233,4 @@ public class RestApiRequest {
             }
         }
     }
-
 }
