@@ -1,18 +1,13 @@
 package com.ifountain.opsgenie.client.script.util
 
-import com.ifountain.opsgenie.client.model.alert.AddDetailsRequest
-import com.ifountain.opsgenie.client.model.alert.AddDetailsResponse
-import com.ifountain.opsgenie.client.model.alert.AddNoteRequest
-import com.ifountain.opsgenie.client.model.alert.AddNoteResponse
-import com.ifountain.opsgenie.client.model.alert.EscalateToNextRequest
-import com.ifountain.opsgenie.client.model.alert.EscalateToNextResponse
-import com.ifountain.opsgenie.client.model.alert.RemoveDetailsRequest
-import com.ifountain.opsgenie.client.model.alert.RemoveDetailsResponse
-import com.ifountain.opsgenie.client.model.alert.SnoozeRequest
-import com.ifountain.opsgenie.client.model.alert.SnoozeResponse
-import com.ifountain.opsgenie.client.model.alert.UnAcknowledgeRequest
-import com.ifountain.opsgenie.client.model.alert.UnAcknowledgeResponse
+import com.ifountain.opsgenie.client.swagger.model.AddAlertDetailsRequest
+import com.ifountain.opsgenie.client.swagger.model.DeleteAlertDetailsRequest
+import com.ifountain.opsgenie.client.swagger.model.SnoozeAlertRequest
+import com.ifountain.opsgenie.client.swagger.model.SuccessResponse
+import com.ifountain.opsgenie.client.swagger.model.UnAcknowledgeAlertRequest
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
+import com.ifountain.opsgenie.client.test.util.CommonTestUtils
+import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
 import static  org.junit.Assert.*
@@ -25,113 +20,85 @@ class ScriptProxyTest  {
     OpsGenieClientMock opsGenieClient;
     String apiKey = "key1"
     ScriptProxy proxy;
+
     @Before
     public void setUp() {
         opsGenieClient = new OpsGenieClientMock();
         proxy = new ScriptProxy(opsGenieClient, apiKey);
     }
 
-    @Test public void testApiKeyFromConfFile() throws Exception {
-        opsGenieClient.alert().setAddNoteResponse(new AddNoteResponse());
-        Map response = proxy.addNote([alias:"alias1", alertId:"alertId1", note: "mynote"])
-        assertTrue(response.success)
-
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size())
-        AddNoteRequest request = executedRequests[0] as AddNoteRequest;
-
-        assertEquals(apiKey, request.getApiKey())
-        assertEquals("alias1", request.getAlias())
-        assertEquals("alertId1", request.getAlertId());
-        assertEquals("mynote", request.getNote());
-        //option overriding
-
-        response = proxy.addNote([apiKey:"requestApiKey", user: "requestUser", alias:"alias1", alertId:"alertId1", note: "mynote"])
-        assertTrue(response.success)
-
-        executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(2, executedRequests.size())
-        request = executedRequests[1] as AddNoteRequest;
-
-        assertEquals("requestApiKey", request.getApiKey())
-        assertEquals("requestUser", request.getUser())
-        assertEquals("alias1", request.getAlias())
-        assertEquals("alertId1", request.getAlertId());
-        assertEquals("mynote", request.getNote());
-    }
-
     @Test
     public void testSnooze() throws Exception {
-        opsGenieClient.alert().setSnoozeResponse(new SnoozeResponse());
-        Map response = proxy.snooze(["id":"aydi", "endDate": new Date("11/24/2016 11:45"), "timezone" : "GMT+3"])
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        assertTrue(response.success)
+        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
+        Map response = proxy.snooze(["id":"id1", "endDate": new Date("11/24/2016 11:45"), "user" : "user1", "note" : "note1", "source" : "source1"]);
 
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size())
-        SnoozeRequest request = executedRequests[0] as SnoozeRequest;
+        CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        assertEquals("aydi", request.getId())
-        assertEquals(new Date("11/24/2016 11:45"), request.getEndDate())
-        assertEquals(TimeZone.getTimeZone("GMT+3"), request.getTimeZone())
+        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        assertEquals(1, executedRequests.size());
+        SnoozeAlertRequest request = executedRequests[0] as SnoozeAlertRequest;
+
+        assertEquals(new DateTime(new Date("11/24/2016 11:45")), request.getEndTime());
+        assertEquals("user1", request.getUser());
+        assertEquals("note1", request.getNote());
+        assertEquals("source1", request.getSource());
     }
 
     @Test
     public void testAddDetails() throws Exception {
-        opsGenieClient.alert().setAddDetailsResponse(new AddDetailsResponse());
-        Map response = proxy.addDetails(["id": "aydi", "details": ["k1" : "v1", "k2" : "v2", "k3" : "v3"]])
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        assertTrue(response.success)
+        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
+        Map response = proxy.addDetails(["id": "id1", "details": ["k1" : "v1", "k2" : "v2", "k3" : "v3"], "user" : "user1", "note" : "note1", "source" : "source1"]);
 
-        def executedRequests = opsGenieClient.getExecutedRequests();
+        CommonTestUtils.assertGenericResponseWithoutData(response);
+
+        def executedRequests = opsGenieClient.getExecutedRequestsV2();
         assertEquals(1, executedRequests.size())
-        AddDetailsRequest request = executedRequests[0] as AddDetailsRequest;
+        AddAlertDetailsRequest request = executedRequests[0] as AddAlertDetailsRequest;
 
-        assertEquals("aydi", request.getId())
         assertEquals(["k1" : "v1", "k2" : "v2", "k3" : "v3"], request.getDetails())
+        assertEquals("user1", request.getUser());
+        assertEquals("note1", request.getNote());
+        assertEquals("source1", request.getSource());
     }
 
     @Test
     public void testRemoveDetails() throws Exception {
-        opsGenieClient.alert().setRemoveDetailsResponse(new RemoveDetailsResponse());
-        Map response = proxy.removeDetails(["id" : "aydi", "keys" : ["key1", "key2", "key3"]])
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        assertTrue(response.success)
+        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
+        Map response = proxy.removeDetails(["id" : "id1", "keys" : ["key1", "key2", "key3"], "user" : "user1", "note" : "note1", "source" : "source1"]);
 
-        def executedRequests = opsGenieClient.getExecutedRequests();
+        CommonTestUtils.assertGenericResponseWithoutData(response);
+
+        def executedRequests = opsGenieClient.getExecutedRequestsV2();
         assertEquals(1, executedRequests.size())
-        RemoveDetailsRequest request = executedRequests[0] as RemoveDetailsRequest;
+        DeleteAlertDetailsRequest request = executedRequests[0] as DeleteAlertDetailsRequest;
 
-        assertEquals("aydi", request.getId())
-        assertEquals(["key1", "key2", "key3"], request.getKeys())
+        assertEquals(["key1", "key2", "key3"], request.getKeys());
+        assertEquals("user1", request.getUser());
+        assertEquals("note1", request.getNote());
+        assertEquals("source1", request.getSource());
     }
 
     @Test
     public void testUnAcknowledge() throws Exception {
-        opsGenieClient.alert().setUnAcknowledgeResponse(new UnAcknowledgeResponse());
-        Map response = proxy.unAcknowledge(["id" : "aydi"]);
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        assertTrue(response.success);
+        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
+        Map response = proxy.unAcknowledge(["id" : "id1", "user" : "user1", "source" : "source1", "note" : "note1"]);
 
-        def executedRequests = opsGenieClient.getExecutedRequests();
+        CommonTestUtils.assertGenericResponseWithoutData(response);
+
+        def executedRequests = opsGenieClient.getExecutedRequestsV2();
         assertEquals(1, executedRequests.size())
-        UnAcknowledgeRequest request = executedRequests[0] as UnAcknowledgeRequest;
+        UnAcknowledgeAlertRequest request = executedRequests[0] as UnAcknowledgeAlertRequest;
 
-        assertEquals("aydi", request.getId());
-    }
-
-    @Test
-    public void testEscalateToNext() throws Exception {
-        opsGenieClient.alert().setEscalateToNextResponse(new EscalateToNextResponse());
-        Map response = proxy.escalateToNext(["id" : "aydi", "escalationId" : "eskaleysinAydi"]);
-
-        assertTrue(response.success);
-
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size())
-        EscalateToNextRequest request = executedRequests[0] as EscalateToNextRequest;
-
-        assertEquals("aydi", request.getId());
-        assertEquals("eskaleysinAydi", request.getEscalationId());
+        assertEquals("user1", request.getUser());
+        assertEquals("note1", request.getNote());
+        assertEquals("source1", request.getSource());
     }
 }

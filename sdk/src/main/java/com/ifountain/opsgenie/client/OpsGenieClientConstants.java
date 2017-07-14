@@ -19,27 +19,39 @@ public interface OpsGenieClientConstants {
         String CUSTOMER_KEY = "customerKey";
         String MESSAGE = "message";
         String DESCRIPTION = "description";
+        String DIRECTION = "direction";
         String SOURCE = "source";
         String NAME = "name";
         String ENTITY = "entity";
         String ALIAS = "alias";
         String TAGS = "tags";
         String TAGS_OPERATOR = "tagsOperator";
+        String QUERY = "query";
+        String REQUEST_ID = "requestId";
+        String TINY = "tiny";
         String DETAILS = "details";
         String ACTIONS = "actions";
+        String DATA = "data";
+        String SORT = "sort";
         String ACTION = "action";
         String RECIPIENTS = "recipients";
         String TEAM = "team";
         String TEAMS = "teams";
         String RECIPIENT = "recipient";
+        String SEARCH_IDENTIFIER = "searchIdentifier";
+        String SEARCH_IDENTIFIER_TYPE = "searchIdentifierType";
         String STATUS = "status";
         String CREATED_AT = "createdAt";
         String COUNT = "count";
+        String OFFSET = "offset";
         String ALERT_ID = "alertId";
         String NOTE = "note";
         String NOTIFY = "notify";
         String ATTACHMENT = "attachment";
         String INDEX_FILE = "indexFile";
+        String PAGING = "paging";
+        String FIRST = "first";
+        String NEXT = "next";
         String HELP = "help";
         String USER = "user";
         String OWNER = "owner";
@@ -57,6 +69,7 @@ public interface OpsGenieClientConstants {
         String STATE = "state";
         String GROUPS = "groups";
         String GROUP = "group";
+        String ESCALATION = "escalation";
         String ESCALATIONS = "escalations";
         String SCHEDULES = "schedules";
         String OVERRIDES = "overrides";
@@ -196,6 +209,5 @@ public interface OpsGenieClientConstants {
         String THURSDAY = "THURSDAY";
         String FRIDAY = "FRIDAY";
         String SATURDAY = "SATURDAY";
-        
     }
 }

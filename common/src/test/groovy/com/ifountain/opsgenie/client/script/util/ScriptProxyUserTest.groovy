@@ -4,6 +4,8 @@ import com.ifountain.opsgenie.client.TestConstants
 import com.ifountain.opsgenie.client.model.BaseRequest
 import com.ifountain.opsgenie.client.model.beans.Forwarding
 import com.ifountain.opsgenie.client.model.beans.User
+import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesRequest
+import com.ifountain.opsgenie.client.model.customer.CopyNotificationRulesResponse
 import com.ifountain.opsgenie.client.model.user.*
 import com.ifountain.opsgenie.client.model.user.forward.*
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
@@ -433,5 +435,44 @@ class ScriptProxyUserTest {
         assertEquals(1, executedRequests.size())
         BaseRequest request = executedRequests[0];
         assertEquals("customer1", request.getApiKey())
+    }
+
+    @Test
+    public void testCopyNotificationRules() throws Exception {
+        _testCopyNotificationRules(false);
+        opsGenieClient.getExecutedRequests().clear()
+        _testCopyNotificationRules(true);
+
+    }
+
+    public void _testCopyNotificationRules(boolean useConfig) throws Exception {
+        def params = [fromUser: "user1", toUsers: ["user2", "user3"], ruleTypes: ["New Alert", "Alert Closed"]];
+
+        if (!useConfig) {
+            params.apiKey = "customer1";
+        }
+
+        CopyNotificationRulesResponse expectedResponse = new CopyNotificationRulesResponse();
+        expectedResponse.setJson("{\"status\" : \"process started\", \"code\" : 200}");
+
+        opsGenieClient.setCopyNotificationRulesResponse(expectedResponse);
+        Map response = proxy.copyNotificationRules(params);
+
+        assertEquals("process started", response.status);
+        assertEquals(200, response.code);
+
+        def executedRequests = opsGenieClient.getExecutedRequests();
+        assertEquals(1, executedRequests.size());
+        CopyNotificationRulesRequest request = executedRequests[0] as CopyNotificationRulesRequest;
+
+        if (useConfig) {
+            assertEquals(apiKey, request.getApiKey());
+        } else {
+            assertEquals("customer1", request.getApiKey());
+        }
+
+        assertEquals("user1", request.getFromUser());
+        assertEquals(["user2", "user3"], request.getToUsers());
+        assertEquals(["New Alert", "Alert Closed"], request.getRuleTypes());
     }
 }

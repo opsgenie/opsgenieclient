@@ -3,9 +3,8 @@ package com.ifountain.opsgenie.client.script.util;
 import com.ifountain.opsgenie.client.IOpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClient;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.*;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.InputStreamAttachRequest;
 import com.ifountain.opsgenie.client.model.alert.*;
 import com.ifountain.opsgenie.client.model.alertpolicy.EnableAlertPolicyRequest;
 import com.ifountain.opsgenie.client.model.beans.*;
@@ -18,7 +17,21 @@ import com.ifountain.opsgenie.client.model.schedule.*;
 import com.ifountain.opsgenie.client.model.user.*;
 import com.ifountain.opsgenie.client.model.user.forward.*;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
+import com.ifountain.opsgenie.client.swagger.model.*;
+import com.ifountain.opsgenie.client.swagger.model.AddAlertTeamRequest;
+import com.ifountain.opsgenie.client.swagger.model.CloseAlertRequest;
+import com.ifountain.opsgenie.client.swagger.model.CreateAlertRequest;
+import com.ifountain.opsgenie.client.swagger.model.DeleteAlertRequest;
+import com.ifountain.opsgenie.client.swagger.model.GetAlertResponse;
+import com.ifountain.opsgenie.client.swagger.model.ListAlertLogsRequest;
+import com.ifountain.opsgenie.client.swagger.model.ListAlertLogsResponse;
+import com.ifountain.opsgenie.client.swagger.model.ListAlertNotesRequest;
+import com.ifountain.opsgenie.client.swagger.model.ListAlertNotesResponse;
+import com.ifountain.opsgenie.client.swagger.model.ListAlertRecipientsResponse;
+import com.ifountain.opsgenie.client.swagger.model.ListAlertsRequest;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+
+import groovy.lang.Tuple;
 
 import java.io.File;
 import java.io.InputStream;
@@ -34,45 +47,51 @@ public class ScriptProxy {
     public ScriptProxy(IOpsGenieClient opsGenieClient, String apiKey) {
         this.opsGenieClient = opsGenieClient;
         this.apiKey = apiKey;
+
+        if (opsGenieClient instanceof OpsGenieClient) {
+            ((OpsGenieClient) this.opsGenieClient).setApiKey(this.apiKey);
+        }
     }
 
     public Map acknowledge(Map params) throws Exception {
-        AcknowledgeRequest request = new AcknowledgeRequest();
-        populateAlertRequestWithSource(request, params);
+        AcknowledgeAlertRequest request = new AcknowledgeAlertRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().acknowledge(request));
+        return successToMap(this.opsGenieClient.alertV2().acknowledgeAlert((String) identifierParams.get(0), (String) identifierParams.get(1), request));
     }
 
     public Map unAcknowledge(Map params) throws Exception {
-        UnAcknowledgeRequest request = new UnAcknowledgeRequest();
-
-        populateAlertRequestWithSource(request, params);
+        UnAcknowledgeAlertRequest request = new UnAcknowledgeAlertRequest();
+        Tuple identifierParams = getIdentifierParams(params);
 
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().unAcknowledge(request));
+        return successToMap(this.opsGenieClient.alertV2().unAcknowledgeAlert((String) identifierParams.get(0), (String) identifierParams.get(1), request));
     }
 
     public Map snooze(Map params) throws Exception {
-        SnoozeRequest request = new SnoozeRequest();
+        SnoozeAlertRequest request = new SnoozeAlertRequest();
+        Tuple identifierParams = getIdentifierParams(params);
 
-        populateAlertRequestWithId(request, params);
-
-        request.setEndDate(ScriptBridgeUtils.getAsDate(params, OpsGenieClientConstants.API.END_DATE));
+        request.setEndTime(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.END_DATE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
 
-        return successToMap(this.opsGenieClient.alert().snooze(request));
+        return successToMap(this.opsGenieClient.alertV2().snoozeAlert((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map renotify(Map params) throws Exception {
         RenotifyRequest request = new RenotifyRequest();
-        populateAlertRequestWithSource(request, params);
+
+        populateAlertRequestWithId(request, params);
+
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
 
@@ -80,67 +99,101 @@ public class ScriptProxy {
         if (recipientList != null) {
             request.setRecipients(recipientList);
         }
+
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+
         return successToMap(this.opsGenieClient.alert().renotify(request));
     }
 
     public Map addNote(Map params) throws Exception {
-        AddNoteRequest request = new AddNoteRequest();
-        populateAlertRequestWithSource(request, params);
+        AddAlertNoteRequest request = new AddAlertNoteRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().addNote(request));
+        return successToMap(this.opsGenieClient.alertV2().addNote((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map addRecipient(Map params) throws Exception {
         AddRecipientRequest request = new AddRecipientRequest();
-        populateAlertRequestWithSource(request, params);
+        populateAlertRequestWithId(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setRecipient(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.RECIPIENT));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
         return successToMap(this.opsGenieClient.alert().addRecipient(request));
     }
 
     public Map addTeam(Map params) throws Exception {
         AddAlertTeamRequest request = new AddAlertTeamRequest();
-        populateAlertRequestWithSource(request, params);
+        Tuple identifierParams = getIdentifierParams(params);
+        TeamRecipient teamObj = null;
+
+        if (params.containsKey(OpsGenieClientConstants.API.TEAM)) {
+            teamObj = new TeamRecipient();
+            Object team = params.get(OpsGenieClientConstants.API.TEAM);
+
+            if (team instanceof String) {
+                teamObj.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TEAM));
+            } else if (team instanceof Map) {
+                if (((Map) team).containsKey(OpsGenieClientConstants.API.NAME)) {
+                    teamObj.setName(ScriptBridgeUtils.getAsString((Map) team, OpsGenieClientConstants.API.NAME));
+                }
+                if (((Map) team).containsKey(OpsGenieClientConstants.API.ID)) {
+                    teamObj.setId(ScriptBridgeUtils.getAsString((Map) team, OpsGenieClientConstants.API.ID));
+                }
+            }
+        }
+
+        request.setTeam(teamObj);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setTeam(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TEAM));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().addTeam(request));
+        return successToMap(this.opsGenieClient.alertV2().addTeam((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map addTags(Map params) throws Exception {
-        AddTagsRequest request = new AddTagsRequest();
-        populateAlertRequestWithSource(request, params);
+        AddAlertTagsRequest request = new AddAlertTagsRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().addTags(request));
+        return successToMap(this.opsGenieClient.alertV2().addTags((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map removeTags(Map params) throws Exception {
-        RemoveTagsRequest request = new RemoveTagsRequest();
-        populateAlertRequestWithSource(request, params);
+        DeleteAlertTagsRequest request = new DeleteAlertTagsRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().removeTags(request));
+        request.setIdentifier((String) identifierParams.get(0));
+        request.setIdentifierType(DeleteAlertTagsRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+
+        return successToMap(this.opsGenieClient.alertV2().deleteTags(request));
     }
 
     public Map addDetails(Map params) throws Exception {
-        AddDetailsRequest request = new AddDetailsRequest();
-        populateAlertRequestWithId(request, params);
+        AddAlertDetailsRequest request = new AddAlertDetailsRequest();
+        Tuple identifierParams = getIdentifierParams(params);
 
-        Map<String, Object> objMap = new HashMap<String, Object>();
+        Map<String, String> objMap = new HashMap<String, String>();
         Map<String, String> strMap = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS);
 
-        for(Map.Entry<String, String> entry : strMap.entrySet()) {
-            objMap.put(entry.getKey(), entry.getValue());
+        if (strMap != null) {
+            for(Map.Entry<String, String> entry : strMap.entrySet()) {
+                objMap.put(entry.getKey(), entry.getValue());
+            }
         }
 
         request.setDetails(objMap);
@@ -148,29 +201,53 @@ public class ScriptProxy {
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
 
-        return successToMap(this.opsGenieClient.alert().addDetails(request));
+        return successToMap(this.opsGenieClient.alertV2().addDetails((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map removeDetails(Map params) throws Exception {
-        RemoveDetailsRequest request = new RemoveDetailsRequest();
-        populateAlertRequestWithId(request, params);
+        DeleteAlertDetailsRequest request = new DeleteAlertDetailsRequest();
+        Tuple identifierParams = getIdentifierParams(params);
 
         request.setKeys(ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.KEYS));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
 
-        return  successToMap(this.opsGenieClient.alert().removeDetails(request));
+        request.setIdentifier((String) identifierParams.get(0));
+        request.setIdentifierType(DeleteAlertDetailsRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+
+        return successToMap(this.opsGenieClient.alertV2().deleteDetails(request));
     }
 
     public Map assign(Map params) throws Exception {
-        AssignRequest request = new AssignRequest();
-        populateAlertRequestWithSource(request, params);
+        AssignAlertRequest request = new AssignAlertRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+        UserRecipient ownerObj = null;
+
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setOwner(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OWNER));
 
-        return successToMap(this.opsGenieClient.alert().assign(request));
+
+        if (params.containsKey(OpsGenieClientConstants.API.OWNER)) {
+            ownerObj = new UserRecipient();
+            Object owner = params.get(OpsGenieClientConstants.API.OWNER);
+
+            if (owner instanceof String) {
+                ownerObj.setUsername(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OWNER));
+            } else if (owner instanceof Map) {
+                if (((Map) owner).containsKey(OpsGenieClientConstants.API.USERNAME)) {
+                    ownerObj.setUsername(ScriptBridgeUtils.getAsString((Map) owner, OpsGenieClientConstants.API.USERNAME));
+                }
+                if (((Map) owner).containsKey(OpsGenieClientConstants.API.ID)) {
+                    ownerObj.setId(ScriptBridgeUtils.getAsString((Map) owner, OpsGenieClientConstants.API.ID));
+                }
+            }
+        }
+
+        request.setOwner(ownerObj);
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+
+        return successToMap(this.opsGenieClient.alertV2().assignAlert((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map attach(Map params) throws Exception {
@@ -194,33 +271,71 @@ public class ScriptProxy {
     }
 
     public Map escalateToNext(Map params) throws Exception {
-        EscalateToNextRequest request = new EscalateToNextRequest();
+        EscalateAlertToNextRequest request = new EscalateAlertToNextRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+        EscalationRecipient escalationObj = new EscalationRecipient();
 
-        populateAlertRequestWithSource(request, params);
+        if (params.containsKey(OpsGenieClientConstants.API.ESCALATION)) {
+            Map<String, String> escalationMap = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.ESCALATION);
 
-        request.setEscalationId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_ID));
-        request.setEscalationName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_NAME));
+            if (escalationMap.containsKey(OpsGenieClientConstants.API.ID)) {
+                escalationObj.setId(ScriptBridgeUtils.getAsString(escalationMap, OpsGenieClientConstants.API.ID));
+            } else if (escalationMap.containsKey(OpsGenieClientConstants.API.NAME)) {
+                escalationObj.setName(ScriptBridgeUtils.getAsString(escalationMap, OpsGenieClientConstants.API.NAME));
+            }
+        } else if (params.containsKey(OpsGenieClientConstants.API.ESCALATION_ID)) {
+            escalationObj.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_ID));
+        } else if (params.containsKey(OpsGenieClientConstants.API.ESCALATION_NAME)) {
+            escalationObj.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_NAME));
+        }
+
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        request.setEscalation(escalationObj);
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alert().escalateToNext(request));
+        return successToMap(this.opsGenieClient.alertV2().escalateAlert((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
     }
 
     public Map closeAlert(Map params) throws Exception {
         CloseAlertRequest request = new CloseAlertRequest();
-        populateAlertRequestWithSource(request, params);
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        Tuple identifierParams = getIdentifierParams(params);
 
-        return successToMap(this.opsGenieClient.alert().closeAlert(request));
-    }
+        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+
+        return successToMap(this.opsGenieClient.alertV2().closeAlert((String) identifierParams.get(0), (String) identifierParams.get(1), request));
+}
 
     public Map createAlert(Map params) throws Exception {
         CreateAlertRequest request = new CreateAlertRequest();
-        populateCommonProps(request, params);
+
+        if (params.containsKey(OpsGenieClientConstants.API.TEAMS)) {
+            List<TeamRecipient> teamsObjList = new ArrayList<TeamRecipient>();
+            List<Map> teamsList = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
+
+            if (teamsList != null) {
+                for (Map teamsEntry : teamsList) {
+                    TeamRecipient teamObj = new TeamRecipient();
+
+                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.NAME)) {
+                        teamObj.setName((String) teamsEntry.get(OpsGenieClientConstants.API.NAME));
+                    }
+
+                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.ID)) {
+                        teamObj.setId((String) teamsEntry.get(OpsGenieClientConstants.API.ID));
+                    }
+
+                    teamsObjList.add(teamObj);
+                }
+
+                request.setTeams(teamsObjList);
+            }
+        }
+
         request.setActions(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.ACTIONS));
         request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
-        request.setRecipients(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RECIPIENTS));
-        request.setTeams(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TEAMS));
         request.setDetails(ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS));
         request.setMessage(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.MESSAGE));
         request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
@@ -230,43 +345,40 @@ public class ScriptProxy {
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
 
-        CreateAlertResponse resp = this.opsGenieClient.alert().createAlert(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ALERT_ID, resp.getAlertId());
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getAlertId());
-        return mapResponse;
+        return successToMap(this.opsGenieClient.alertV2().createAlert(request));
     }
 
     public Map deleteAlert(Map params) throws Exception {
         DeleteAlertRequest request = new DeleteAlertRequest();
-        populateAlertRequestWithId(request, params);
-        if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
-            request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        }
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        Tuple identifierParams = getIdentifierParams(params);
 
-        return successToMap(this.opsGenieClient.alert().deleteAlert(request));
+        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+
+        request.setIdentifier((String) identifierParams.get(0));
+        request.setIdentifierType(DeleteAlertRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+
+        return successToMap(this.opsGenieClient.alertV2().deleteAlert(request));
     }
 
     public Map executeAlertAction(Map params) throws Exception {
-        ExecuteAlertActionRequest request = new ExecuteAlertActionRequest();
-        populateAlertRequestWithSource(request, params);
-        request.setAction(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ACTION));
+        ExecuteCustomAlertActionRequest request = new ExecuteCustomAlertActionRequest();
+        Tuple identifierParams = getIdentifierParams(params);
+
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        ExecuteAlertActionResponse response = this.opsGenieClient.alert().executeAlertAction(request);
-        Map respMap = successToMap(response);
-        respMap.put(OpsGenieClientConstants.API.RESULT, response.getResult());
-        return respMap;
+        return successToMap(this.opsGenieClient.alertV2().executeCustomAction(((String) identifierParams.get(0)), ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ACTION), ((String) identifierParams.get(1)), request));
     }
 
     public Map getAlert(Map params) throws Exception {
-        GetAlertRequest request = new GetAlertRequest();
-        populateCommonProps(request, params);
-        populateAlertRequestWithId(request, params);
+        Tuple identifierParams = getIdentifierParams(params);
 
-        Map resp = JsonUtils.toMap(this.opsGenieClient.alert().getAlert(request).getAlert());
+        GetAlertResponse getAlertResponse = this.opsGenieClient.alertV2().getAlert(((String) identifierParams.get(0)), ((String) identifierParams.get(1)));
+
+        Map resp = JsonUtils.toMap(getAlertResponse.getData());
+        resp.put(OpsGenieClientConstants.API.REQUEST_ID, getAlertResponse.getRequestId());
         //for backward compatability
         resp.put(OpsGenieClientConstants.API.ALERT_ID, resp.get(OpsGenieClientConstants.API.ID));
         return resp;
@@ -274,73 +386,113 @@ public class ScriptProxy {
 
     public Map listAlertLogs(Map params) throws Exception {
         ListAlertLogsRequest request = new ListAlertLogsRequest();
-        populateAlertRequestWithId(request, params);
+        Tuple identifierParams = getIdentifierParams(params);
 
-        if (params.containsKey(OpsGenieClientConstants.API.LAST_KEY)) {
-            request.setLastKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.LAST_KEY));
+        if (params.containsKey(OpsGenieClientConstants.API.OFFSET)) {
+            request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
         }
         if (params.containsKey(OpsGenieClientConstants.API.LIMIT)) {
             request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
         }
         if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
-            request.setSortOrder(ListAlertLogsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+            request.setOrder(ListAlertLogsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
         }
-        ListAlertLogsResponse listAlertLogsResponse = this.opsGenieClient.alert().listAlertLogs(request);
+        if (params.containsKey(OpsGenieClientConstants.API.DIRECTION)) {
+            request.setDirection(ListAlertLogsRequest.DirectionEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DIRECTION)));
+        }
+
+        request.setIdentifier((String) identifierParams.get(0));
+        request.setIdentifierType(ListAlertLogsRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+
+        ListAlertLogsResponse listAlertLogsResponse = this.opsGenieClient.alertV2().listLogs(request);
         Map<String, Object> res = new HashMap<String, Object>();
-        res.put(OpsGenieClientConstants.API.LAST_KEY, listAlertLogsResponse.getLastKey());
-        res.put(OpsGenieClientConstants.API.LOGS, beansToMap(listAlertLogsResponse.getAlertLogs()));
+
+        if (listAlertLogsResponse.getPaging() != null) {
+            Map<String, Object> paging = new HashMap<String, Object>();
+            paging.put(OpsGenieClientConstants.API.FIRST, listAlertLogsResponse.getPaging().getFirst());
+            paging.put(OpsGenieClientConstants.API.NEXT, listAlertLogsResponse.getPaging().getNext());
+            res.put(OpsGenieClientConstants.API.PAGING, paging);
+        }
+
+        res.put(OpsGenieClientConstants.API.LOGS, beansToMap(listAlertLogsResponse.getData()));
+        res.put(OpsGenieClientConstants.API.REQUEST_ID, listAlertLogsResponse.getRequestId());
+        res.put(OpsGenieClientConstants.API.TOOK, listAlertLogsResponse.getTook());
         return res;
     }
 
     public Map listAlertRecipients(Map params) throws Exception {
-        ListAlertRecipientsRequest request = new ListAlertRecipientsRequest();
-        populateAlertRequestWithId(request, params);
-
-        ListAlertRecipientsResponse resp = this.opsGenieClient.alert().listAlertRecipients(request);
+        Tuple identifierParams = getIdentifierParams(params);
+        ListAlertRecipientsResponse resp = this.opsGenieClient.alertV2().listRecipients(((String) identifierParams.get(0)), ((String) identifierParams.get(1)));
         Map res = new HashMap();
-        res.put(OpsGenieClientConstants.API.USERS, beansToMap(resp.getUsers()));
-        Map groups = new HashMap();
-        for (Map.Entry<String, List<AlertRecipient>> entry : resp.getGroups().entrySet()) {
-            List<Map> groupRecipients = beansToMap(entry.getValue());
-            groups.put(entry.getKey(), groupRecipients);
-        }
-        res.put(OpsGenieClientConstants.API.GROUPS, groups);
+        res.put(OpsGenieClientConstants.API.USERS, beansToMap(resp.getData()));
+        res.put(OpsGenieClientConstants.API.TOOK, resp.getTook());
+        res.put(OpsGenieClientConstants.API.REQUEST_ID, resp.getRequestId());
         return res;
     }
 
     public Map listAlertNotes(Map params) throws Exception {
         ListAlertNotesRequest request = new ListAlertNotesRequest();
-        populateAlertRequestWithId(request, params);
+        Tuple identifierParams = getIdentifierParams(params);
 
-        if (params.containsKey(OpsGenieClientConstants.API.LAST_KEY)) {
-            request.setLastKey(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.LAST_KEY));
+        if (params.containsKey(OpsGenieClientConstants.API.OFFSET)) {
+            request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
         }
         if (params.containsKey(OpsGenieClientConstants.API.LIMIT)) {
             request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
         }
         if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
-            request.setSortOrder(ListAlertNotesRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+            request.setOrder(ListAlertNotesRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
         }
-        ListAlertNotesResponse listAlertNotesResponse = this.opsGenieClient.alert().listAlertNotes(request);
+        if (params.containsKey(OpsGenieClientConstants.API.DIRECTION)) {
+            request.setDirection(ListAlertNotesRequest.DirectionEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DIRECTION)));
+        }
+
+        request.setIdentifier((String) identifierParams.get(0));
+        request.setIdentifierType(ListAlertNotesRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+
+        ListAlertNotesResponse listAlertNotesResponse = this.opsGenieClient.alertV2().listNotes(request);
         Map<String, Object> res = new HashMap<String, Object>();
-        res.put(OpsGenieClientConstants.API.LAST_KEY, listAlertNotesResponse.getLastKey());
-        res.put(OpsGenieClientConstants.API.NOTES, beansToMap(listAlertNotesResponse.getAlertNotes()));
+
+        if (listAlertNotesResponse.getPaging() != null) {
+            Map<String, Object> paging = new HashMap<String, Object>();
+            paging.put(OpsGenieClientConstants.API.FIRST, listAlertNotesResponse.getPaging().getFirst());
+            paging.put(OpsGenieClientConstants.API.NEXT, listAlertNotesResponse.getPaging().getNext());
+            res.put(OpsGenieClientConstants.API.PAGING, paging);
+        }
+
+        res.put(OpsGenieClientConstants.API.NOTES, beansToMap(listAlertNotesResponse.getData()));
+        res.put(OpsGenieClientConstants.API.REQUEST_ID, listAlertNotesResponse.getRequestId());
+        res.put(OpsGenieClientConstants.API.TOOK, listAlertNotesResponse.getTook());
         return res;
     }
 
     public List<Map> listAlerts(Map params) throws Exception {
         ListAlertsRequest request = new ListAlertsRequest();
-        populateCommonProps(request, params);
-        populateAlertsRequest(request, params);
 
-        if (params.containsKey(OpsGenieClientConstants.API.SORT_BY)) {
-            request.setSortBy(ListAlertsRequest.SortBy.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_BY)));
+        if (params.containsKey(OpsGenieClientConstants.API.LIMIT)) {
+            request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
         }
         if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
-            request.setSortOrder(ListAlertsRequest.SortOrder.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+            request.setOrder(ListAlertsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.SORT)) {
+            request.setSort(ListAlertsRequest.SortEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT)));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.OFFSET)) {
+            request.setOffset(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.OFFSET));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.QUERY)) {
+            request.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
         }
 
-        return beansToMap(this.opsGenieClient.alert().listAlerts(request).getAlerts());
+        if (params.containsKey(OpsGenieClientConstants.API.SEARCH_IDENTIFIER)) {
+            request.setSearchIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SEARCH_IDENTIFIER));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.SEARCH_IDENTIFIER_TYPE)) {
+            request.setSearchIdentifierType(ListAlertsRequest.SearchIdentifierTypeEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SEARCH_IDENTIFIER_TYPE)));
+        }
+
+        return beansToMap(this.opsGenieClient.alertV2().listAlerts(request).getData());
     }
 
     public Map countAlerts(Map params) throws Exception {
@@ -355,18 +507,120 @@ public class ScriptProxy {
 
     public Map takeOwnership(Map params) throws Exception {
         TakeOwnershipRequest request = new TakeOwnershipRequest();
-        populateAlertRequestWithSource(request, params);
+        populateAlertRequestWithId(request, params);
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
         return successToMap(this.opsGenieClient.alert().takeOwnership(request));
+    }
+
+    public Map addSavedSearch(Map params) throws Exception {
+        AddSavedSearchRequest request = new AddSavedSearchRequest();
+
+        if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
+            request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        }
+
+        if (params.containsKey(OpsGenieClientConstants.API.QUERY)) {
+            request.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
+        }
+
+        if (params.containsKey(OpsGenieClientConstants.API.OWNER)) {
+            UserRecipient ownerObj = new UserRecipient();
+
+            Map ownerMap = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.OWNER);
+
+            if (ownerMap.containsKey(OpsGenieClientConstants.API.ID)) {
+                ownerObj.setId(ScriptBridgeUtils.getAsString(ownerMap, OpsGenieClientConstants.API.ID));
+            }
+
+            if (ownerMap.containsKey(OpsGenieClientConstants.API.USERNAME)) {
+                ownerObj.setUsername(ScriptBridgeUtils.getAsString(ownerMap, OpsGenieClientConstants.API.USERNAME));
+            }
+
+            request.setOwner(ownerObj);
+        }
+
+        if (params.containsKey(OpsGenieClientConstants.API.DESCRIPTION)) {
+            request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        }
+
+        if (params.containsKey(OpsGenieClientConstants.API.TEAMS)) {
+            List<TeamRecipient> teamsObjList = new ArrayList<TeamRecipient>();
+            List<Map> teamsList = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
+
+            if (teamsList != null) {
+                for (Map teamsEntry : teamsList) {
+                    TeamRecipient teamObj = new TeamRecipient();
+
+                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.NAME)) {
+                        teamObj.setName((String) teamsEntry.get(OpsGenieClientConstants.API.NAME));
+                    }
+
+                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.ID)) {
+                        teamObj.setId((String) teamsEntry.get(OpsGenieClientConstants.API.ID));
+                    }
+
+                    teamsObjList.add(teamObj);
+                }
+
+                request.setTeams(teamsObjList);
+            }
+        }
+
+        return JsonUtils.toMap(this.opsGenieClient.alertV2().addSavedSearches(request));
+    }
+
+    public Map deleteSavedSearch(Map params) throws Exception {
+        String identifier = null;
+        String identifierType = null;
+
+        if (params.containsKey(OpsGenieClientConstants.API.ID)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID);
+            identifierType = OpsGenieClientConstants.API.ID;
+        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
+            identifierType = OpsGenieClientConstants.API.NAME;
+        }
+
+        return successToMap(this.opsGenieClient.alertV2().deleteSavedSearch(identifier, identifierType));
+    }
+
+    public Map getRequestStatus(Map params) throws Exception {
+        String requestId = null;
+
+        if (params.containsKey(OpsGenieClientConstants.API.REQUEST_ID)) {
+            requestId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.REQUEST_ID);
+        }
+
+        return JsonUtils.toMap(this.opsGenieClient.alertV2().getRequestStatus(requestId));
+    }
+
+    public Map getSavedSearch(Map params) throws Exception {
+        String identifier = null;
+        String identifierType = null;
+
+        if (params.containsKey(OpsGenieClientConstants.API.ID)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID);
+            identifierType = OpsGenieClientConstants.API.ID;
+        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
+            identifierType = OpsGenieClientConstants.API.NAME;
+        }
+
+        return JsonUtils.toMap(this.opsGenieClient.alertV2().getSavedSearch(identifier, identifierType));
+    }
+
+    public Map listSavedSearch() throws Exception {
+        return JsonUtils.toMap(this.opsGenieClient.alertV2().listSavedSearches());
     }
 
     public Map heartbeat(Map params) throws Exception {
         HeartbeatRequest request = new HeartbeatRequest();
         populateCommonProps(request, params);
-
         request.setName(getHeartbeatName(params));
+
         HeartbeatResponse resp = this.opsGenieClient.heartbeat(request);
         Map mapResponse = new HashMap();
         mapResponse.put("heartbeat", resp.getHeartbeat());
@@ -418,7 +672,7 @@ public class ScriptProxy {
             request.setIntervalUnit(Heartbeat.IntervalUnit.valueOf(intervalUnitStr));
         }
         request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
-        return successToMap(this.opsGenieClient.addHeartbeat(request));
+        return successToMap(this.opsGenieClient.updateHeartbeat(request));
     }
 
     public Map getHeartbeat(Map params) throws Exception {
@@ -880,13 +1134,39 @@ public class ScriptProxy {
         return JsonUtils.parse(this.opsGenieClient.copyNotificationRules(request).getJson());
     }
 
+    private void populateAlertRequestWithId(BaseAlertRequestWithId request, Map params) {
+        Tuple identifierParams = getIdentifierParams(params);
+        populateCommonProps(request, params);
+
+        if (OpsGenieClientConstants.API.ALERT_ID.equals(identifierParams.get(1)) || OpsGenieClientConstants.API.ID.equals(identifierParams.get(1))) {
+            request.setId((String) identifierParams.get(0));
+        } else if (OpsGenieClientConstants.API.TINY.equals(identifierParams.get(1))) {
+            request.setTinyId((String) identifierParams.get(0));
+        } else {
+            request.setAlias((String) identifierParams.get(0));
+        }
+    }
+
     private void populateAttachmentRequestCommonProps(AttachRequest request, Map params) {
         populateAlertRequestWithId(request, params);
-        populateCommonProps(request, params);
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
         request.setIndexFile(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INDEX_FILE));
+    }
+
+    protected Tuple getIdentifierParams(Map params) {
+        if (params.containsKey(OpsGenieClientConstants.API.ALERT_ID)) {
+            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID), OpsGenieClientConstants.API.ID});
+        } else if (params.containsKey(OpsGenieClientConstants.API.TINY_ID)) {
+            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TINY_ID), OpsGenieClientConstants.API.TINY});
+        } else if (params.containsKey(OpsGenieClientConstants.API.ID)) {
+            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID), OpsGenieClientConstants.API.ID});
+        } else if (params.containsKey(OpsGenieClientConstants.API.ALIAS)) {
+            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS), OpsGenieClientConstants.API.ALIAS});
+        } else {
+            return new Tuple(new Object[]{null, null});
+        }
     }
 
     protected void populateCommonProps(BaseRequest request, Map params) {
@@ -919,15 +1199,21 @@ public class ScriptProxy {
         }
     }
 
-    protected Map successToMap(BaseResponse response) {
+    protected Map successToMap(Object response) throws Exception {
         Map mapResponse = new HashMap();
-        mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, response.isSuccess());
+
+        if (response instanceof SuccessResponse) {
+            return JsonUtils.toMap(response);
+        } else {
+            mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, ((BaseResponse) response).isSuccess());
+        }
+
         return mapResponse;
     }
 
-    protected List<Map> beansToMap(List<? extends IBean> beans) {
+    protected List<Map> beansToMap(Iterable beans) {
         List<Map> beanMaps = new ArrayList<Map>();
-        for (IBean bean : beans) {
+        for (Object bean : beans) {
             try {
                 beanMaps.add(JsonUtils.toMap(bean));
             } catch (Exception e) {
@@ -935,29 +1221,5 @@ public class ScriptProxy {
             }
         }
         return beanMaps;
-    }
-
-    private void populateAlertRequestWithSource(BaseAlertRequestWithParameters request, Map params) {
-        populateAlertRequestWithId(request, params);
-        if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
-            request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        }
-    }
-
-    private void populateAlertRequestWithId(BaseAlertRequestWithId request, Map params) {
-        populateCommonProps(request, params);
-        if (params.containsKey(OpsGenieClientConstants.API.ALERT_ID)) {
-            request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.TINY_ID)) {
-            request.setTinyId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TINY_ID));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.ID)) {
-            request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.ALIAS)) {
-            request.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
-        }
-
     }
 }

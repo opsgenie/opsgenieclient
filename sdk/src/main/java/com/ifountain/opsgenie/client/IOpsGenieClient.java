@@ -18,6 +18,7 @@ import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsRequest;
 import com.ifountain.opsgenie.client.model.customer.ListHeartbeatsResponse;
 import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatRequest;
 import com.ifountain.opsgenie.client.model.customer.UpdateHeartbeatResponse;
+import com.ifountain.opsgenie.client.swagger.api.AlertApi;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -103,6 +104,14 @@ public interface IOpsGenieClient {
      */
     @Deprecated
     IAlertOpsGenieClient alert();
+
+    /**
+     * Opsgenie Alert Client
+     * @see AlertApi
+     *
+     * @return AlertApi
+     */
+    AlertApi alertV2();
 
     /**
      * Opsgenie Integration Client

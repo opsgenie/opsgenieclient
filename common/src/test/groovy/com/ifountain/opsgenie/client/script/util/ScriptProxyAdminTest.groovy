@@ -188,7 +188,7 @@ class ScriptProxyAdminTest {
     public void _testUpdateHearbeat(boolean useConfig) throws Exception {
         UpdateHeartbeatResponse response = new UpdateHeartbeatResponse();
         response.setName("source1")
-        opsGenieClient.setAddHeartbeatResponse(response);
+        opsGenieClient.setUpdateHeartbeatResponse(response);
 
         def params = [name: "source1", enabled: false, interval: 5, intervalUnit: "days", description: "description1"]
         if (!useConfig) {

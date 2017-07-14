@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.script.util;
 
-import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import org.joda.time.DateTime;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -31,6 +31,19 @@ public class ScriptBridgeUtils {
             }
             else{
                 return new Date(getAsLong(params, propName));
+            }
+        }
+        return null;
+    }
+
+    public static DateTime getAsDateTime(Map params, String propName){
+        if(params.containsKey(propName)){
+            Object dateObj = params.get(propName);
+            if(dateObj instanceof Date){
+                return new DateTime(dateObj);
+            }
+            else{
+                return new DateTime(getAsLong(params, propName));
             }
         }
         return null;

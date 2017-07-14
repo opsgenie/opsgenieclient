@@ -5,6 +5,10 @@
  */
 package com.ifountain.opsgenie.client.test.util
 
+import com.ifountain.opsgenie.client.swagger.model.SuccessResponse
+
+import static org.junit.Assert.assertEquals
+
 public class CommonTestUtils
 {
 
@@ -50,4 +54,27 @@ public class CommonTestUtils
         return Integer.parseInt(CommonTestUtils.getTestProperty("LocalPort"));
     }
 
+    public static SuccessResponse createGenericSuccessResponse() {
+        SuccessResponse successResponse = new SuccessResponse();
+        successResponse.setResult("Request will be processed");
+        successResponse.setTook(0.169f);
+        successResponse.setRequestId("request-id");
+
+        return successResponse;
+    }
+
+    public static SuccessResponseMock createGenericSuccessResponseMock() {
+        SuccessResponseMock successResponseMock = new SuccessResponseMock();
+        successResponseMock.setResult("Request will be processed");
+        successResponseMock.setTook(0.169f);
+        successResponseMock.setRequestId("request-id");
+
+        return successResponseMock;
+    }
+
+    public static void assertGenericResponseWithoutData(Map response) {
+        assertEquals("Request will be processed", response.result);
+        assertEquals(0.169f, (float) response.took, 0.001f);
+        assertEquals("request-id", response.requestId);
+    }
 }
