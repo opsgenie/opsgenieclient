@@ -34,6 +34,7 @@ public class OpsGenieClientMock implements IOpsGenieClient {
     private EnableHeartbeatResponse enableHeartbeatResponse;
     private CopyNotificationRulesResponse copyNotificationRulesResponse;
     private HeartbeatPingResponse heartbeatPingResponse;
+    private AddAlertAttachmentResponse addAlertAttachmentResponse;
 
     /**
      * @see com.ifountain.opsgenie.client.IOpsGenieClient#contact()
@@ -114,6 +115,12 @@ public class OpsGenieClientMock implements IOpsGenieClient {
     HeartbeatPingResponse pingHeartbeat(HeartbeatPingRequest heartbeatRequest) throws ParseException, OpsGenieClientException, IOException {
         requestProcessor.processRequest(heartbeatRequest);
         return heartbeatPingResponse;
+    }
+
+    @Override
+    AddAlertAttachmentResponse addAlertAttachment(AddAlertAttachmentRequest addAlertAttachmentRequest) throws ParseException, OpsGenieClientException, IOException {
+        requestProcessor.processRequest(addAlertAttachmentRequest)
+        this.addAlertAttachmentResponse
     }
 
     @Override
