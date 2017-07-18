@@ -23,7 +23,7 @@ import org.apache.commons.lang3.ObjectUtils;
  * Returns list of alerts
  */
 @ApiModel(description = "Returns list of alerts")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class ListAlertsRequest {
     @JsonProperty("offset")
     private Integer offset = null;
@@ -349,20 +349,20 @@ public class ListAlertsRequest {
             for (OrderEnum b : OrderEnum.values()) {
                 if (String.valueOf(b.value).equals(text)) {
                     return b;
-                }
-            }
-            return null;
         }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
+      }
+      return null;
     }
 
+    public String getValue() {
+      return this.value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+  
 }
 

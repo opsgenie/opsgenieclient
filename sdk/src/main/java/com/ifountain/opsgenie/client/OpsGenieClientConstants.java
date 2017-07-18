@@ -48,6 +48,8 @@ public interface OpsGenieClientConstants {
         String NOTE = "note";
         String NOTIFY = "notify";
         String ATTACHMENT = "attachment";
+        String ALERT_IDENTIFIER_TYPE = "alertIdentifierType";
+        String FILE = "file";
         String INDEX_FILE = "indexFile";
         String PAGING = "paging";
         String FIRST = "first";

@@ -20,7 +20,7 @@ import org.apache.commons.lang3.ObjectUtils;
 /**
  * SavedSearchEntity
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class SavedSearchEntity {
     @JsonProperty("id")
     private String id = null;
@@ -82,7 +82,7 @@ public class SavedSearchEntity {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
-    }
-
+  }
+  
 }
 

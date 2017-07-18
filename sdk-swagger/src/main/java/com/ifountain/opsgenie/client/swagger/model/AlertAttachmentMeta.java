@@ -17,57 +17,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 
-import javax.validation.constraints.NotNull;
-
 /**
- * BaseResponse
+ * AlertAttachmentMeta
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
-public class BaseResponse {
-    @JsonProperty("requestId")
-    private String requestId = null;
+public class AlertAttachmentMeta {
+    @JsonProperty("name")
+    private String name = null;
 
-    @JsonProperty("took")
-    private Float took = 0.0f;
+    @JsonProperty("id")
+    private String id = null;
 
-    public BaseResponse requestId(String requestId) {
-        this.requestId = requestId;
+    public AlertAttachmentMeta name(String name) {
+        this.name = name;
         return this;
     }
 
     /**
-     * Get requestId
+     * Get name
      *
-     * @return requestId
+     * @return name
      **/
-    @NotNull
-    @ApiModelProperty(required = true, value = "")
-    public String getRequestId() {
-        return requestId;
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return name;
     }
 
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public BaseResponse took(Float took) {
-        this.took = took;
+    public AlertAttachmentMeta id(String id) {
+        this.id = id;
         return this;
     }
 
     /**
-     * Get took
+     * Get id
      *
-     * @return took
+     * @return id
      **/
-    @NotNull
-    @ApiModelProperty(required = true, value = "")
-    public Float getTook() {
-        return took;
+    @ApiModelProperty(value = "")
+    public String getId() {
+        return id;
     }
 
-    public void setTook(Float took) {
-        this.took = took;
+    public void setId(String id) {
+        this.id = id;
     }
 
 
@@ -79,24 +75,24 @@ public class BaseResponse {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        BaseResponse baseResponse = (BaseResponse) o;
-        return ObjectUtils.equals(this.requestId, baseResponse.requestId) &&
-                ObjectUtils.equals(this.took, baseResponse.took);
+        AlertAttachmentMeta alertAttachmentMeta = (AlertAttachmentMeta) o;
+        return ObjectUtils.equals(this.name, alertAttachmentMeta.name) &&
+                ObjectUtils.equals(this.id, alertAttachmentMeta.id);
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hashCodeMulti(requestId, took);
+        return ObjectUtils.hashCodeMulti(name, id);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class BaseResponse {\n");
+        sb.append("class AlertAttachmentMeta {\n");
 
-        sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
-        sb.append("    took: ").append(toIndentedString(took)).append("\n");
+        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("}");
         return sb.toString();
     }

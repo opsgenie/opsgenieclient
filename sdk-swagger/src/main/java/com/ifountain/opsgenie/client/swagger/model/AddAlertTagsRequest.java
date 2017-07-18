@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * AddAlertTagsRequest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class AddAlertTagsRequest {
     @JsonProperty("user")
     private String user = null;
@@ -160,11 +160,11 @@ public class AddAlertTagsRequest {
      * (except the first line).
      */
     private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+    if (o == null) {
+      return "null";
     }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

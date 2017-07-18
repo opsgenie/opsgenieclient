@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * List alert logs for the given alert identifier
  */
 @ApiModel(description = "List alert logs for the given alert identifier")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class ListAlertLogsRequest {
     @JsonProperty("limit")
     private Integer limit = null;
@@ -297,17 +297,17 @@ public class ListAlertLogsRequest {
                 }
             }
             return null;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
     }
 
+    public String getValue() {
+      return this.value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+  
 }
 

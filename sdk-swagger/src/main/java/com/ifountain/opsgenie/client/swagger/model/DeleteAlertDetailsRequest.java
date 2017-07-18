@@ -27,7 +27,7 @@ import java.util.List;
  * Delete the details of an alert using alert id, tiny id or alias
  */
 @ApiModel(description = "Delete the details of an alert using alert id, tiny id or alias")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class DeleteAlertDetailsRequest {
     @JsonProperty("identifier")
     private String identifier = null;
@@ -236,17 +236,17 @@ public class DeleteAlertDetailsRequest {
                 }
             }
             return null;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
     }
 
+    public String getValue() {
+      return this.value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+  
 }
 

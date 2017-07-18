@@ -18,19 +18,24 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.ObjectUtils;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * BaseResponse
+ * ListAlertAttachmentResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
-public class BaseResponse {
+public class ListAlertAttachmentResponse {
     @JsonProperty("requestId")
     private String requestId = null;
 
     @JsonProperty("took")
     private Float took = 0.0f;
 
-    public BaseResponse requestId(String requestId) {
+    @JsonProperty("data")
+    private List<AlertAttachmentMeta> data = new ArrayList<AlertAttachmentMeta>();
+
+    public ListAlertAttachmentResponse requestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -50,7 +55,7 @@ public class BaseResponse {
         this.requestId = requestId;
     }
 
-    public BaseResponse took(Float took) {
+    public ListAlertAttachmentResponse took(Float took) {
         this.took = took;
         return this;
     }
@@ -70,6 +75,30 @@ public class BaseResponse {
         this.took = took;
     }
 
+    public ListAlertAttachmentResponse data(List<AlertAttachmentMeta> data) {
+        this.data = data;
+        return this;
+    }
+
+    public ListAlertAttachmentResponse addDataItem(AlertAttachmentMeta dataItem) {
+        this.data.add(dataItem);
+        return this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return data
+     **/
+    @ApiModelProperty(value = "")
+    public List<AlertAttachmentMeta> getData() {
+        return data;
+    }
+
+    public void setData(List<AlertAttachmentMeta> data) {
+        this.data = data;
+    }
+
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -79,24 +108,26 @@ public class BaseResponse {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        BaseResponse baseResponse = (BaseResponse) o;
-        return ObjectUtils.equals(this.requestId, baseResponse.requestId) &&
-                ObjectUtils.equals(this.took, baseResponse.took);
+        ListAlertAttachmentResponse listAlertAttachmentResponse = (ListAlertAttachmentResponse) o;
+        return ObjectUtils.equals(this.requestId, listAlertAttachmentResponse.requestId) &&
+                ObjectUtils.equals(this.took, listAlertAttachmentResponse.took) &&
+                ObjectUtils.equals(this.data, listAlertAttachmentResponse.data);
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hashCodeMulti(requestId, took);
+        return ObjectUtils.hashCodeMulti(requestId, took, data);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class BaseResponse {\n");
+        sb.append("class ListAlertAttachmentResponse {\n");
 
         sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
         sb.append("    took: ").append(toIndentedString(took)).append("\n");
+        sb.append("    data: ").append(toIndentedString(data)).append("\n");
         sb.append("}");
         return sb.toString();
     }

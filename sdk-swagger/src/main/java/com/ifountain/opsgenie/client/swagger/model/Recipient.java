@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Recipient
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = GroupRecipient.class, name = "group"),
@@ -162,9 +162,9 @@ public class Recipient {
 
         @Override
         public String toString() {
-            return String.valueOf(value);
-        }
+      return String.valueOf(value);
     }
-
+  }
+  
 }
 

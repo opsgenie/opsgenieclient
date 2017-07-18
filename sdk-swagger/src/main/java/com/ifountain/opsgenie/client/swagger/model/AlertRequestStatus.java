@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 /**
  * AlertRequestStatus
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class AlertRequestStatus {
     @JsonProperty("action")
     private String action = null;
@@ -165,7 +165,6 @@ public class AlertRequestStatus {
 
     /**
      * Get alias
-     *
      * @return alias
      **/
     @ApiModelProperty(value = "")
@@ -221,13 +220,13 @@ public class AlertRequestStatus {
     /**
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
+    return o.toString().replace("\n", "\n    ");
+  }
+  
 }
 

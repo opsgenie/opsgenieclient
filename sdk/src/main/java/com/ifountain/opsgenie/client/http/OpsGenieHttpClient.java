@@ -3,25 +3,13 @@ package com.ifountain.opsgenie.client.http;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 import com.ifountain.opsgenie.client.util.JsonUtils;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPatch;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ClientConnectionManager;
@@ -40,6 +28,9 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
@@ -47,16 +38,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import java.util.*;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -92,6 +74,7 @@ public class OpsGenieHttpClient {
             formParams.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
         }
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formParams, "UTF-8");
+
         return post(uri, entity);
     }
 
@@ -108,61 +91,92 @@ public class OpsGenieHttpClient {
     }
 
     public OpsGenieHttpResponse post(String uri, String content, Map<String, String> headers) throws IOException {
-        HttpPost postMethod = new HttpPost(uri);
-        StringEntity entity = new StringEntity(content, "UTF-8");
-        entity.setChunked(true);
-        postMethod.setEntity(entity);
-        configureHeaders(postMethod, headers);
+        HttpPost postMethod = preparePostMethod(uri, content, headers);
+
         return executeHttpMethod(postMethod);
     }
 
     public OpsGenieHttpResponse post(String uri, byte[] content, Map<String, String> headers) throws IOException {
-        HttpPost postMethod = new HttpPost(uri);
-        ByteArrayEntity entity = new ByteArrayEntity(content);
-        entity.setChunked(true);
-        postMethod.setEntity(entity);
-        configureHeaders(postMethod, headers);
+        HttpPost postMethod = preparePostMethod(uri, content, headers);
+
         return executeHttpMethod(postMethod);
     }
 
     public OpsGenieHttpResponse post(String uri, HttpEntity entity, Map<String, String> headers) throws IOException {
-        HttpPost postMethod = new HttpPost(uri);
-        postMethod.setEntity(entity);
-        configureHeaders(postMethod, headers);
+        HttpPost postMethod = preparePostMethod(uri, entity, headers);
+
+        return executeHttpMethod(postMethod);
+    }
+
+    public OpsGenieHttpResponse post(String uri, HttpEntity entity, Map<String, String> headers, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpPost postMethod = preparePostMethod(generateURI(uri, parameters), entity, headers);
+
         return executeHttpMethod(postMethod);
     }
 
     public OpsGenieHttpResponse post(String uri, String content, Map<String, String> headers, Map<String, Object> parameters) throws IOException, URISyntaxException {
         HttpPost postMethod = preparePostMethod(uri, content, headers, parameters);
+
         return executeHttpMethod(postMethod);
     }
 
     public HttpPost preparePostMethod(String uri, String content, Map<String, String> headers, Map<String, Object> parameters) throws URISyntaxException, UnsupportedEncodingException {
-        HttpPost postMethod = new HttpPost(generateURI(uri, parameters));
         StringEntity entity = new StringEntity(content, "UTF-8");
         entity.setChunked(true);
+
+        return preparePostMethod(generateURI(uri, parameters), entity, headers);
+    }
+
+    private HttpPost preparePostMethod(String uri, String content, Map<String, String> headers) throws UnsupportedEncodingException {
+        StringEntity entity = new StringEntity(content, "UTF-8");
+        entity.setChunked(true);
+
+        return preparePostMethod(uri, entity, headers);
+    }
+
+    private HttpPost preparePostMethod(String uri, byte[] content, Map<String, String> headers) throws UnsupportedEncodingException {
+        ByteArrayEntity entity = new ByteArrayEntity(content);
+        entity.setChunked(true);
+
+        return preparePostMethod(uri, entity, headers);
+    }
+
+    private HttpPost preparePostMethod(String uri, HttpEntity entity, Map<String, String> headers) {
+        HttpPost postMethod = new HttpPost(uri);
         postMethod.setEntity(entity);
         configureHeaders(postMethod, headers);
+
+        return postMethod;
+    }
+
+    private HttpPost preparePostMethod(URI uri, HttpEntity entity, Map<String, String> headers) throws URISyntaxException {
+        HttpPost postMethod = new HttpPost(uri);
+        postMethod.setEntity(entity);
+        configureHeaders(postMethod, headers);
+
         return postMethod;
     }
 
     public OpsGenieHttpResponse put(String uri, Map<String, Object> contentMap, Map<String, Object> parameters) throws IOException, URISyntaxException {
         HttpPut putMethod = preparePutMethod(uri, contentMap, parameters);
+
         return executeHttpMethod(putMethod);
     }
+
+    public OpsGenieHttpResponse put(String uri, String content, Map<String, Object> parameters) throws IOException, URISyntaxException {
+        HttpPut putMethod = preparePutMethod(uri, content, parameters);
+
+        return executeHttpMethod(putMethod);
+    }
+
 
     public HttpPut preparePutMethod(String uri, Map<String, Object> contentMap, Map<String, Object> parameters) throws URISyntaxException, IOException {
         HttpPut putMethod = new HttpPut(generateURI(uri, parameters));
         StringEntity entity = new StringEntity(JsonUtils.toJson(contentMap), "UTF-8");
         entity.setChunked(true);
         putMethod.setEntity(entity);
+
         return putMethod;
-    }
-
-
-    public OpsGenieHttpResponse put(String uri, String content, Map<String, Object> parameters) throws IOException, URISyntaxException {
-        HttpPut putMethod = preparePutMethod(uri, content, parameters);
-        return executeHttpMethod(putMethod);
     }
 
     public HttpPut preparePutMethod(String uri, String content, Map<String, Object> parameters) throws URISyntaxException, IOException {
@@ -170,11 +184,13 @@ public class OpsGenieHttpClient {
         StringEntity entity = new StringEntity(content, "UTF-8");
         entity.setChunked(true);
         putMethod.setEntity(entity);
+
         return putMethod;
     }
 
     public OpsGenieHttpResponse patch(String uri, String content, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
         HttpPatch patchMethod = preparePatchMethod(uri, content, parameters, headers);
+
         return executeHttpMethod(patchMethod);
     }
 
@@ -184,6 +200,7 @@ public class OpsGenieHttpClient {
         entity.setChunked(true);
         patchMethod.setEntity(entity);
         configureHeaders(patchMethod, headers);
+
         return patchMethod;
     }
 
@@ -194,20 +211,24 @@ public class OpsGenieHttpClient {
     public OpsGenieHttpResponse get(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
         HttpGet get = new HttpGet(generateURI(uri, parameters));
         configureHeaders(get, headers);
+
         return executeHttpMethod(get);
     }
 
     public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters) throws IOException, URISyntaxException {
         HttpDelete delete = new HttpDelete(generateURI(uri, parameters));
         configureHeaders(delete, new HashMap<String, String>());
+
         return executeHttpMethod(delete);
     }
 
     public OpsGenieHttpResponse delete(String uri, Map<String, Object> parameters, Map<String, String> headers) throws IOException, URISyntaxException {
         HttpDelete delete = new HttpDelete(generateURI(uri, parameters));
         configureHeaders(delete, headers);
+
         return executeHttpMethod(delete);
     }
+
     private URI generateURI(String uri, Map<String, Object> parameters) throws URISyntaxException {
         URI url = new URI(uri);
         List<NameValuePair> optionsInQuery = URLEncodedUtils.parse(url, "UTF-8");
@@ -219,6 +240,7 @@ public class OpsGenieHttpClient {
             }
         }
         URI newUri = URIUtils.createURI(url.getScheme(), url.getHost(), url.getPort(), url.getPath(), URLEncodedUtils.format(queryParams, "UTF-8"), url.getFragment());
+
         return newUri;
     }
 
@@ -311,6 +333,7 @@ public class OpsGenieHttpClient {
             }
         }
     }
+
     private List<NameValuePair> getNameValuePairsFromMap(Map<String, Object> params) {
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
         for (Map.Entry<String, Object> o : params.entrySet()) {
@@ -397,7 +420,5 @@ public class OpsGenieHttpClient {
                 }
             }
         }
-
     }
-
 }

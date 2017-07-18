@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class BeanValidationException extends ValidationException {
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = -5294733947409491364L;
     Set<ConstraintViolation<Object>> violations;

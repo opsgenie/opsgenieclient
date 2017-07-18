@@ -13,7 +13,7 @@
 
 package com.ifountain.opsgenie.client.swagger;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class StringUtil {
     /**
      * Check if the given array contains the given value (with case-insensitive comparison).
@@ -49,7 +49,7 @@ public class StringUtil {
         out.append(array[0]);
         for (int i = 1; i < len; i++) {
             out.append(separator).append(array[i]);
-        }
-        return out.toString();
     }
+    return out.toString();
+  }
 }

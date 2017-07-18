@@ -22,21 +22,21 @@ import org.apache.commons.lang3.ObjectUtils;
 import javax.validation.constraints.NotNull;
 
 /**
- * Deletes an alert using alert id, tiny id or alias
+ * Delete alert attachment for the given identifier
  */
-@ApiModel(description = "Deletes an alert using alert id, tiny id or alias")
+@ApiModel(description = "Delete alert attachment for the given identifier")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
-public class DeleteAlertRequest {
+public class DeleteAlertAttachmentRequest {
     @JsonProperty("identifier")
     private String identifier = null;
-    @JsonProperty("identifierType")
-    private IdentifierTypeEnum identifierType = IdentifierTypeEnum.ID;
-    @JsonProperty("source")
-    private String source = null;
+    @JsonProperty("alertIdentifierType")
+    private AlertIdentifierTypeEnum alertIdentifierType = AlertIdentifierTypeEnum.ID;
+    @JsonProperty("attachmentId")
+    private Long attachmentId = null;
     @JsonProperty("user")
     private String user = null;
 
-    public DeleteAlertRequest identifier(String identifier) {
+    public DeleteAlertAttachmentRequest identifier(String identifier) {
         this.identifier = identifier;
         return this;
     }
@@ -56,45 +56,46 @@ public class DeleteAlertRequest {
         this.identifier = identifier;
     }
 
-    public DeleteAlertRequest identifierType(IdentifierTypeEnum identifierType) {
-        this.identifierType = identifierType;
+    public DeleteAlertAttachmentRequest alertIdentifierType(AlertIdentifierTypeEnum alertIdentifierType) {
+        this.alertIdentifierType = alertIdentifierType;
         return this;
     }
 
     /**
      * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
      *
-     * @return identifierType
+     * @return alertIdentifierType
      **/
     @ApiModelProperty(value = "Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'")
-    public IdentifierTypeEnum getIdentifierType() {
-        return identifierType;
+    public AlertIdentifierTypeEnum getAlertIdentifierType() {
+        return alertIdentifierType;
     }
 
-    public void setIdentifierType(IdentifierTypeEnum identifierType) {
-        this.identifierType = identifierType;
+    public void setAlertIdentifierType(AlertIdentifierTypeEnum alertIdentifierType) {
+        this.alertIdentifierType = alertIdentifierType;
     }
 
-    public DeleteAlertRequest source(String source) {
-        this.source = source;
+    public DeleteAlertAttachmentRequest attachmentId(Long attachmentId) {
+        this.attachmentId = attachmentId;
         return this;
     }
 
     /**
-     * Display name of the request source
+     * Identifier of alert attachment
      *
-     * @return source
+     * @return attachmentId
      **/
-    @ApiModelProperty(value = "Display name of the request source")
-    public String getSource() {
-        return source;
+    @NotNull
+    @ApiModelProperty(required = true, value = "Identifier of alert attachment")
+    public Long getAttachmentId() {
+        return attachmentId;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setAttachmentId(Long attachmentId) {
+        this.attachmentId = attachmentId;
     }
 
-    public DeleteAlertRequest user(String user) {
+    public DeleteAlertAttachmentRequest user(String user) {
         this.user = user;
         return this;
     }
@@ -121,26 +122,26 @@ public class DeleteAlertRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        DeleteAlertRequest deleteAlertRequest = (DeleteAlertRequest) o;
-        return ObjectUtils.equals(this.identifier, deleteAlertRequest.identifier) &&
-                ObjectUtils.equals(this.identifierType, deleteAlertRequest.identifierType) &&
-                ObjectUtils.equals(this.source, deleteAlertRequest.source) &&
-                ObjectUtils.equals(this.user, deleteAlertRequest.user);
+        DeleteAlertAttachmentRequest deleteAlertAttachmentRequest = (DeleteAlertAttachmentRequest) o;
+        return ObjectUtils.equals(this.identifier, deleteAlertAttachmentRequest.identifier) &&
+                ObjectUtils.equals(this.alertIdentifierType, deleteAlertAttachmentRequest.alertIdentifierType) &&
+                ObjectUtils.equals(this.attachmentId, deleteAlertAttachmentRequest.attachmentId) &&
+                ObjectUtils.equals(this.user, deleteAlertAttachmentRequest.user);
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hashCodeMulti(identifier, identifierType, source, user);
+        return ObjectUtils.hashCodeMulti(identifier, alertIdentifierType, attachmentId, user);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class DeleteAlertRequest {\n");
+        sb.append("class DeleteAlertAttachmentRequest {\n");
 
         sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
-        sb.append("    identifierType: ").append(toIndentedString(identifierType)).append("\n");
-        sb.append("    source: ").append(toIndentedString(source)).append("\n");
+        sb.append("    alertIdentifierType: ").append(toIndentedString(alertIdentifierType)).append("\n");
+        sb.append("    attachmentId: ").append(toIndentedString(attachmentId)).append("\n");
         sb.append("    user: ").append(toIndentedString(user)).append("\n");
         sb.append("}");
         return sb.toString();
@@ -160,7 +161,7 @@ public class DeleteAlertRequest {
     /**
      * Type of the identifier that is provided as an in-line parameter. Possible values are 'id', 'alias' or 'tiny'
      */
-    public enum IdentifierTypeEnum {
+    public enum AlertIdentifierTypeEnum {
         ID("id"),
 
         ALIAS("alias"),
@@ -169,13 +170,13 @@ public class DeleteAlertRequest {
 
         private String value;
 
-        IdentifierTypeEnum(String value) {
+        AlertIdentifierTypeEnum(String value) {
             this.value = value;
         }
 
         @JsonCreator
-        public static IdentifierTypeEnum fromValue(String text) {
-            for (IdentifierTypeEnum b : IdentifierTypeEnum.values()) {
+        public static AlertIdentifierTypeEnum fromValue(String text) {
+            for (AlertIdentifierTypeEnum b : AlertIdentifierTypeEnum.values()) {
                 if (String.valueOf(b.value).equals(text)) {
                     return b;
                 }

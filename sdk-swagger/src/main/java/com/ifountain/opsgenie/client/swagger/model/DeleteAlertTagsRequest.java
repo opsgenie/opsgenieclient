@@ -27,7 +27,7 @@ import java.util.List;
  * Delete tags of the alert
  */
 @ApiModel(description = "Delete tags of the alert")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-06-19T13:16:01.587+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class DeleteAlertTagsRequest {
     @JsonProperty("identifier")
     private String identifier = null;
@@ -236,17 +236,17 @@ public class DeleteAlertTagsRequest {
                 }
             }
             return null;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
     }
 
+    public String getValue() {
+      return this.value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+  
 }
 
