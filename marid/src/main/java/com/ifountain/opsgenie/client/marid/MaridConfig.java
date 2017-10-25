@@ -6,9 +6,13 @@ import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -85,10 +89,16 @@ public class MaridConfig {
         clientConfiguration.setConnectionTimeout(getInt("opsgenie.connection.timeout", 30)*1000);
         clientConfiguration.setMaxConnections(getInt("opsgenie.connection.maxConnectionCount", 50));
         if(getBoolean("http.proxy.enabled", false)){
-            ClientProxyConfiguration clientProxyConfiguration = new ClientProxyConfiguration(getProperty("http.proxy.host"), getInt("http.proxy.port", 0));
-            clientProxyConfiguration.setProxyUsername(getProperty("http.proxy.username"));
-            clientProxyConfiguration.setProxyPassword(getProperty("http.proxy.password"));
-            clientProxyConfiguration.setProxyProtocol(getProperty("http.proxy.protocol"));
+            final String proxyHost = getProperty("http.proxy.host");
+            final int proxyPort = getInt("http.proxy.port", 0);
+            final String proxyProtocol = getProperty("http.proxy.protocol", "http");
+            final String authUser = getProperty("http.proxy.username");
+            final String authPassword = getProperty("http.proxy.password");
+
+            ClientProxyConfiguration clientProxyConfiguration = new ClientProxyConfiguration(proxyHost, proxyPort);
+            clientProxyConfiguration.setProxyUsername(authUser);
+            clientProxyConfiguration.setProxyPassword(authPassword);
+            clientProxyConfiguration.setProxyProtocol(proxyProtocol);
             String authMethod = getProperty("http.proxy.authMethod", ClientProxyConfiguration.AuthType.NT.name());
             ClientProxyConfiguration.AuthType authTypeEnum;
             try{
@@ -98,6 +108,31 @@ public class MaridConfig {
             }
             clientProxyConfiguration.setAuthType(authTypeEnum);
             clientConfiguration.setClientProxyConfiguration(clientProxyConfiguration);
+
+            System.setProperty("http.proxyHost", proxyHost);
+            System.setProperty("http.proxyPort", String.valueOf(proxyPort));
+            System.setProperty("https.proxyHost", proxyHost);
+            System.setProperty("https.proxyPort", String.valueOf(proxyPort));
+
+            if (StringUtils.isNotBlank(authUser) && StringUtils.isNotBlank(authPassword)) {
+                System.setProperty("http.proxyUser", authUser);
+                System.setProperty("https.proxyUser", authUser);
+                System.setProperty("http.proxyPassword", authPassword);
+                System.setProperty("https.proxyPassword", authPassword);
+                System.setProperty("http.proxyAuth", "basic");
+                System.setProperty("https.proxyAuth", "basic");
+                System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+                System.setProperty("jdk.https.auth.tunneling.disabledSchemes", "");
+
+                Authenticator.setDefault(
+                        new Authenticator() {
+                            @Override
+                            public PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(authUser, authPassword.toCharArray());
+                            }
+                        }
+                );
+            }
         }
 
         clientConfiguration.setUserAgent(ClientConfiguration.createUserAgentFromManifest(MaridConfig.class));
