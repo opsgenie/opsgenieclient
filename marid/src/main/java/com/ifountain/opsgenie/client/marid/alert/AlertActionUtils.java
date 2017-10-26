@@ -39,7 +39,7 @@ public class AlertActionUtils {
                 maridConfProps.putAll(MaridConfig.getInstance().getConfiguration());
             }
             bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_CONF, maridConfProps);
-            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getOpsGenieClient(), MaridConfig.getInstance().getApiKey()));
+            bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getApiKey()));
             ScriptManager.getInstance().runScript(scriptFile.getName(), bindings);
         } else {
             throw new Exception("No script file found for action [" + actionBean.action + "]");

@@ -1,6 +1,9 @@
 package com.ifountain.opsgenie.client.script.util;
 
+import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.opsgenie.oas.sdk.model.TeamRecipient;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -23,6 +26,7 @@ public class ScriptBridgeUtils {
         }
         return null;
     }
+    @Deprecated
     public static Date getAsDate(Map params, String propName){
         if(params.containsKey(propName)){
             Object dateObj = params.get(propName);
@@ -37,13 +41,14 @@ public class ScriptBridgeUtils {
     }
 
     public static DateTime getAsDateTime(Map params, String propName){
-        if(params.containsKey(propName)){
-            Object dateObj = params.get(propName);
-            if(dateObj instanceof Date){
-                return new DateTime(dateObj);
+        String dateString = getAsString(params, propName);
+        if(dateString != null){
+            try{
+                return DateTime.parse(dateString);
             }
-            else{
-                return new DateTime(getAsLong(params, propName));
+            catch(IllegalArgumentException e)
+            {
+                return DateTime.parse(dateString,   DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"));
             }
         }
         return null;
@@ -111,4 +116,19 @@ public class ScriptBridgeUtils {
             throw new Exception("["+propName+"] paramater should be hash");
         }
     }
+    public static <T> List<T> getAsObjectList(Map params, String propName, Class<T> objectType) throws Exception{
+        List<T> listElements = new ArrayList<T>();
+        List<Map> objectList = getAsList(params, propName);
+
+        if (objectList != null ) {
+            for (Map objectEntry : objectList) {
+                T object = objectType.getConstructor().newInstance();
+                JsonUtils.fromMap(object, objectEntry);
+                listElements.add(object);
+            }
+            return listElements;
+        }
+        return null;
+    }
+
 }

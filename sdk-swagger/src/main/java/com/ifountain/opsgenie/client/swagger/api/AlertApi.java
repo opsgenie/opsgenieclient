@@ -198,6 +198,7 @@ public class AlertApi {
 
     GenericType<SuccessResponse> localVarReturnType = new GenericType<SuccessResponse>() {
     };
+
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
   }
 

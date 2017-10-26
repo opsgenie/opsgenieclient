@@ -54,11 +54,11 @@ import java.text.ParseException;
  * request.setNote("We should find another solution.");
  * AddNoteResponse response = client.addNote(request);
  * assert response.isSuccess();
- * </pre></blockquote>
+ * </pre></blockquote>o
  * <p> <p> <p><strong>Attaching Files</strong></p> <p>Construct a <code>FileAttachRequest</code>
- * object with preferred options and call <code>attach</code> method on client.</p>
- * <p><blockquote><pre>
- * OpsGenieClient client = new OpsGenieClient();
+ * object with preferred options and call <code>attach</code> method on client.</p>o
+ * <p><blockquote><pre>o
+ * OpsGenieClient client = new OpsGenieClient();o
  * FileAttachRequest request = new FileAttachRequest();
  * request.setAlertId("29c4d6f6-0919-40ec-8d37-4ab2ed2042c8");
  * request.setApiKey("ab5454992-fabb2-4ba2-ad44f-1af65ds8b5c079");
