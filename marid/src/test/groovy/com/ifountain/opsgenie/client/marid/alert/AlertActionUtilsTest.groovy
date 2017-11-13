@@ -5,9 +5,9 @@ import com.ifountain.opsgenie.client.marid.MaridConfig
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants
 import com.ifountain.opsgenie.client.script.ScriptManager
 import com.ifountain.opsgenie.client.script.util.ScriptProxy
-import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.test.util.logging.MockAppender
+import com.opsgenie.oas.sdk.ApiClient
 import org.apache.commons.io.FileUtils
 import org.apache.log4j.Logger
 import org.junit.After
@@ -34,7 +34,7 @@ class AlertActionUtilsTest {
         MaridConfig.getInstance().setApiKey("customer1")
         MaridConfig.getInstance().setConfiguration(new Properties([prop1: "prop1Value"]))
         MaridConfig.getInstance().setOpsGenieHttpClient(new OpsGenieHttpClient());
-        MaridConfig.getInstance().setOpsGenieClient(new OpsGenieClientMock());
+        MaridConfig.getInstance().setApiClient(new ApiClient());
         scriptCalls.clear();
         FileUtils.deleteDirectory(scriptsDir);
         scriptsDir.mkdirs();
@@ -76,7 +76,7 @@ class AlertActionUtilsTest {
 
         assertEquals(action, scriptCalls[1])
         assertTrue(scriptCalls[2] instanceof ScriptProxy)
-        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[2].opsGenieClient)
+        assertSame(MaridConfig.getInstance().getApiClient(), scriptCalls[2].apiClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[3])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[4])
         assertSame(sources, scriptCalls[5])
@@ -97,7 +97,7 @@ class AlertActionUtilsTest {
         assertEquals("user2", alert.username)
         assertEquals(action, scriptCalls[1])
         assertTrue(scriptCalls[2] instanceof ScriptProxy)
-        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[2].opsGenieClient)
+        assertSame(MaridConfig.getInstance().getApiClient(), scriptCalls[2].apiClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[3])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[4])
         assertSame(sources, scriptCalls[5])
@@ -129,7 +129,7 @@ class AlertActionUtilsTest {
         assertEquals(5, scriptCalls.size());
 
         assertTrue(scriptCalls[0] instanceof ScriptProxy)
-        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[0].opsGenieClient)
+        assertSame(MaridConfig.getInstance().getApiClient(), scriptCalls[0].apiClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[1])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[2])
         def integrationParams = scriptCalls[3]
@@ -149,7 +149,7 @@ class AlertActionUtilsTest {
         assertEquals(5, scriptCalls.size());
 
         assertTrue(scriptCalls[0] instanceof ScriptProxy)
-        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[0].opsGenieClient)
+        assertSame(MaridConfig.getInstance().getApiClient(), scriptCalls[0].apiClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[1])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[2])
         integrationParams = scriptCalls[3]

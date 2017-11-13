@@ -35,7 +35,7 @@ public class ScriptAction extends AbstractMaridKeyAction{
         params.remove(OpsgenieClientApplicationConstants.Marid.MARID_KEY_PARAMETER);
         params.remove(OpsgenieClientApplicationConstants.Marid.ASYNC);
         Map<String, Object> bindings = new HashMap<String, Object>();
-        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getOpsGenieClient(), MaridConfig.getInstance().getApiKey()));
+        bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_OPSGENIE_CLIENT, new ScriptProxy(MaridConfig.getInstance().getApiClient()));
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_PARAMS, params);
         Properties maridConfProps = new Properties();
         if(MaridConfig.getInstance().getConfiguration() != null){

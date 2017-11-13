@@ -1,412 +1,368 @@
 package com.ifountain.opsgenie.client.script.util;
 
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClient;
+
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
-import com.ifountain.opsgenie.client.model.*;
-import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.alert.*;
-import com.ifountain.opsgenie.client.model.alertpolicy.EnableAlertPolicyRequest;
-import com.ifountain.opsgenie.client.model.beans.*;
-import com.ifountain.opsgenie.client.model.customer.*;
-import com.ifountain.opsgenie.client.model.escalation.*;
-import com.ifountain.opsgenie.client.model.group.*;
-import com.ifountain.opsgenie.client.model.integration.EnableIntegrationRequest;
-import com.ifountain.opsgenie.client.model.integration.SendToIntegrationRequest;
-import com.ifountain.opsgenie.client.model.schedule.*;
-import com.ifountain.opsgenie.client.model.user.*;
-import com.ifountain.opsgenie.client.model.user.forward.*;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
-import com.ifountain.opsgenie.client.swagger.model.*;
-import com.ifountain.opsgenie.client.swagger.model.AddAlertTeamRequest;
-import com.ifountain.opsgenie.client.swagger.model.CloseAlertRequest;
-import com.ifountain.opsgenie.client.swagger.model.CreateAlertRequest;
-import com.ifountain.opsgenie.client.swagger.model.DeleteAlertRequest;
-import com.ifountain.opsgenie.client.swagger.model.GetAlertResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertLogsRequest;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertLogsResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertNotesRequest;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertNotesResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertRecipientsResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertsRequest;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.opsgenie.oas.sdk.ApiClient;
+import com.opsgenie.oas.sdk.JSON;
+import com.opsgenie.oas.sdk.Pair;
+import com.opsgenie.oas.sdk.api.*;
+import com.opsgenie.oas.sdk.model.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 
-import groovy.lang.Tuple;
-
+import javax.ws.rs.core.GenericType;
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ScriptProxy {
-    final String apiKey;
-    IOpsGenieClient opsGenieClient;
+    private ApiClient apiClient;
 
-    public ScriptProxy(IOpsGenieClient opsGenieClient, String apiKey) {
-        this.opsGenieClient = opsGenieClient;
-        this.apiKey = apiKey;
+    private AlertApi alertApi;
+    private ScheduleApi scheduleApi;
+    private HeartbeatApi heartbeatApi;
+    private PolicyApi policyApi;
+    private IntegrationApi integrationApi;
+    private EscalationApi escalationApi;
+    private TeamApi teamApi;
+    private UserApi userApi;
+    private ForwardingRuleApi forwardingRuleApi;
+    private WhoIsOnCallApi whoIsOnCallApi;
 
-        if (opsGenieClient instanceof OpsGenieClient) {
-            ((OpsGenieClient) this.opsGenieClient).setApiKey(this.apiKey);
-        }
+    public ScriptProxy(ApiClient apiClient) {
+        this.apiClient = apiClient;
+        alertApi = new AlertApi(apiClient);
+        scheduleApi = new ScheduleApi(apiClient);
+        heartbeatApi = new HeartbeatApi(apiClient);
+        policyApi = new PolicyApi(apiClient);
+        integrationApi = new IntegrationApi(apiClient);
+        escalationApi = new EscalationApi(apiClient);
+        userApi = new UserApi(apiClient);
+        teamApi = new TeamApi(apiClient);
+        forwardingRuleApi = new ForwardingRuleApi(apiClient);
+        whoIsOnCallApi = new WhoIsOnCallApi(apiClient);
     }
+
 
     public Map acknowledge(Map params) throws Exception {
         AcknowledgeAlertRequest request = new AcknowledgeAlertRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        AcknowledgeAlertPayload payload = new AcknowledgeAlertPayload();
 
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        setIdentifierParameters(request, AcknowledgeAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
 
-        return successToMap(this.opsGenieClient.alertV2().acknowledgeAlert((String) identifierParams.get(0), (String) identifierParams.get(1), request));
+        request.setBody(payload);
+        return successToMap(alertApi.acknowledgeAlert(request));
+
     }
+
 
     public Map unAcknowledge(Map params) throws Exception {
         UnAcknowledgeAlertRequest request = new UnAcknowledgeAlertRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        UnAcknowledgeAlertPayload payload = new UnAcknowledgeAlertPayload();
 
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        return successToMap(this.opsGenieClient.alertV2().unAcknowledgeAlert((String) identifierParams.get(0), (String) identifierParams.get(1), request));
+        setIdentifierParameters(request, UnAcknowledgeAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
+
+        request.setBody(payload);
+        return successToMap(alertApi.unAcknowledgeAlert(request));
     }
 
     public Map snooze(Map params) throws Exception {
         SnoozeAlertRequest request = new SnoozeAlertRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        SnoozeAlertPayload payload = new SnoozeAlertPayload();
 
-        request.setEndTime(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.END_DATE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-
-        return successToMap(this.opsGenieClient.alertV2().snoozeAlert((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
-    }
-
-    public Map renotify(Map params) throws Exception {
-        RenotifyRequest request = new RenotifyRequest();
-
-        populateAlertRequestWithId(request, params);
-
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-
-        List<String> recipientList = ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RECIPIENTS);
-        if (recipientList != null) {
-            request.setRecipients(recipientList);
+        setIdentifierParameters(request, SnoozeAlertRequest.IdentifierTypeEnum.class, params);
+        if (params.containsKey(OpsGenieClientConstants.API.END_DATE)) {
+            payload.setEndTime(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.END_DATE));
+        } else if (params.containsKey(OpsGenieClientConstants.API.END_TIME)) {
+            payload.setEndTime(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.END_TIME));
         }
+        populateCommonParameters(payload, params);
 
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-
-        return successToMap(this.opsGenieClient.alert().renotify(request));
+        request.setBody(payload);
+        return successToMap(alertApi.snoozeAlert(request));
     }
 
     public Map addNote(Map params) throws Exception {
-        AddAlertNoteRequest request = new AddAlertNoteRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        AddNoteToAlertRequest request = new AddNoteToAlertRequest();
+        AddNoteToAlertPayload payload = new AddNoteToAlertPayload();
 
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        setIdentifierParameters(request, AddNoteToAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
 
-        return successToMap(this.opsGenieClient.alertV2().addNote((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
-    }
+        request.setBody(payload);
 
-    public Map addRecipient(Map params) throws Exception {
-        AddRecipientRequest request = new AddRecipientRequest();
-        populateAlertRequestWithId(request, params);
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setRecipient(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.RECIPIENT));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-
-        return successToMap(this.opsGenieClient.alert().addRecipient(request));
+        return successToMap(alertApi.addNote(request));
     }
 
     public Map addTeam(Map params) throws Exception {
-        AddAlertTeamRequest request = new AddAlertTeamRequest();
-        Tuple identifierParams = getIdentifierParams(params);
-        TeamRecipient teamObj = null;
+        AddTeamToAlertRequest request = new AddTeamToAlertRequest();
+        AddTeamToAlertPayload payload = new AddTeamToAlertPayload();
+
+        setIdentifierParameters(request, AddTeamToAlertRequest.IdentifierTypeEnum.class, params);
+        TeamRecipient teamRecipient = null;
 
         if (params.containsKey(OpsGenieClientConstants.API.TEAM)) {
-            teamObj = new TeamRecipient();
+            teamRecipient = new TeamRecipient();
             Object team = params.get(OpsGenieClientConstants.API.TEAM);
 
             if (team instanceof String) {
-                teamObj.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TEAM));
+                teamRecipient.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TEAM));
             } else if (team instanceof Map) {
-                if (((Map) team).containsKey(OpsGenieClientConstants.API.NAME)) {
-                    teamObj.setName(ScriptBridgeUtils.getAsString((Map) team, OpsGenieClientConstants.API.NAME));
-                }
-                if (((Map) team).containsKey(OpsGenieClientConstants.API.ID)) {
-                    teamObj.setId(ScriptBridgeUtils.getAsString((Map) team, OpsGenieClientConstants.API.ID));
-                }
+                JsonUtils.fromMap(teamRecipient, (Map) team);
             }
         }
 
-        request.setTeam(teamObj);
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        payload.setTeam(teamRecipient);
 
-        return successToMap(this.opsGenieClient.alertV2().addTeam((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
+
+        populateCommonParameters(payload, params);
+
+        request.setBody(payload);
+        return successToMap(alertApi.addTeam(request));
     }
 
     public Map addTags(Map params) throws Exception {
-        AddAlertTagsRequest request = new AddAlertTagsRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        AddTagsToAlertRequest request = new AddTagsToAlertRequest();
+        AddTagsToAlertPayload payload = new AddTagsToAlertPayload();
 
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        setIdentifierParameters(request, AddTagsToAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
 
-        return successToMap(this.opsGenieClient.alertV2().addTags((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
+        payload.setTags(parseTags(params));
+        request.setBody(payload);
+
+        return successToMap(alertApi.addTags(request));
     }
 
     public Map removeTags(Map params) throws Exception {
-        DeleteAlertTagsRequest request = new DeleteAlertTagsRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        RemoveTagsFromAlertRequest request = new RemoveTagsFromAlertRequest();
 
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        setIdentifierParameters(request, RemoveTagsFromAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(request, params);
 
-        request.setIdentifier((String) identifierParams.get(0));
-        request.setIdentifierType(DeleteAlertTagsRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+        request.setTags(parseTags(params));
 
-        return successToMap(this.opsGenieClient.alertV2().deleteTags(request));
+        return successToMap(alertApi.removeTags(request));
     }
 
     public Map addDetails(Map params) throws Exception {
-        AddAlertDetailsRequest request = new AddAlertDetailsRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        AddDetailsToAlertRequest request = new AddDetailsToAlertRequest();
+        AddDetailsToAlertPayload payload = new AddDetailsToAlertPayload();
 
-        Map<String, String> objMap = new HashMap<String, String>();
-        Map<String, String> strMap = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS);
+        setIdentifierParameters(request, AddDetailsToAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
 
-        if (strMap != null) {
-            for(Map.Entry<String, String> entry : strMap.entrySet()) {
-                objMap.put(entry.getKey(), entry.getValue());
-            }
-        }
+        payload.setDetails(ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS));
 
-        request.setDetails(objMap);
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        request.setBody(payload);
 
-        return successToMap(this.opsGenieClient.alertV2().addDetails((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
+        return successToMap(alertApi.addDetails(request));
     }
 
     public Map removeDetails(Map params) throws Exception {
-        DeleteAlertDetailsRequest request = new DeleteAlertDetailsRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        RemoveDetailsFromAlertRequest request = new RemoveDetailsFromAlertRequest();
 
-        request.setKeys(ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.KEYS));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        setIdentifierParameters(request, RemoveDetailsFromAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(request, params);
 
-        request.setIdentifier((String) identifierParams.get(0));
-        request.setIdentifierType(DeleteAlertDetailsRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
+        request.setKeys(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.KEYS));
 
-        return successToMap(this.opsGenieClient.alertV2().deleteDetails(request));
+        return successToMap(alertApi.removeDetails(request));
     }
 
     public Map assign(Map params) throws Exception {
         AssignAlertRequest request = new AssignAlertRequest();
-        Tuple identifierParams = getIdentifierParams(params);
-        UserRecipient ownerObj = null;
+        AssignAlertPayload payload = new AssignAlertPayload();
 
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-
-
+        setIdentifierParameters(request, AssignAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
+        UserRecipient userRecipient = null;
         if (params.containsKey(OpsGenieClientConstants.API.OWNER)) {
-            ownerObj = new UserRecipient();
+            userRecipient = new UserRecipient();
             Object owner = params.get(OpsGenieClientConstants.API.OWNER);
 
             if (owner instanceof String) {
-                ownerObj.setUsername(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OWNER));
+                userRecipient.setUsername(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OWNER));
             } else if (owner instanceof Map) {
-                if (((Map) owner).containsKey(OpsGenieClientConstants.API.USERNAME)) {
-                    ownerObj.setUsername(ScriptBridgeUtils.getAsString((Map) owner, OpsGenieClientConstants.API.USERNAME));
-                }
-                if (((Map) owner).containsKey(OpsGenieClientConstants.API.ID)) {
-                    ownerObj.setId(ScriptBridgeUtils.getAsString((Map) owner, OpsGenieClientConstants.API.ID));
-                }
+                JsonUtils.fromMap(userRecipient, (Map) owner);
             }
         }
 
-        request.setOwner(ownerObj);
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-
-        return successToMap(this.opsGenieClient.alertV2().assignAlert((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
+        payload.setOwner(userRecipient);
+        request.setBody(payload);
+        return successToMap(alertApi.assignAlert(request));
     }
 
     public Map attach(Map params) throws Exception {
-        AttachResponse resp;
+        AddAttachmentToAlertRequest request = new AddAttachmentToAlertRequest();
+
+        Map identifierParams = generateIdentifierParamsForDeprecatedAPIRequests(params);
+
+        request.setAlertIdentifierType(getEnumFromValue(AddAttachmentToAlertRequest.AlertIdentifierTypeEnum.class, (String) identifierParams.get(OpsGenieClientConstants.API.IDENTIFIER_TYPE)));
+        request.setIdentifier((String) identifierParams.get(OpsGenieClientConstants.API.IDENTIFIER));
+        request.setIndexFile(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INDEX_FILE));
+        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+
         if (ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT) != null) {
-            FileAttachRequest fileAttachRequest = new FileAttachRequest();
-            String attachmentFilePath = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT);
-            fileAttachRequest.setFile(new File(attachmentFilePath));
-            populateAttachmentRequestCommonProps(fileAttachRequest, params);
-            resp = this.opsGenieClient.alert().attach(fileAttachRequest);
-        } else {
-            InputStreamAttachRequest inputStreamAttachRequest = new InputStreamAttachRequest();
+            request.setFile(new File(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ATTACHMENT)));
+        } else if (params.containsKey(OpsgenieClientApplicationConstants.ScriptProxy.INPUT_STREAM) && params.containsKey(OpsgenieClientApplicationConstants.ScriptProxy.FILE_NAME)) {
             InputStream inputStream = (InputStream) params.get(OpsgenieClientApplicationConstants.ScriptProxy.INPUT_STREAM);
             String fileName = ScriptBridgeUtils.getAsString(params, OpsgenieClientApplicationConstants.ScriptProxy.FILE_NAME);
-            inputStreamAttachRequest.setInputStream(inputStream);
-            inputStreamAttachRequest.setFileName(fileName);
-            populateAttachmentRequestCommonProps(inputStreamAttachRequest, params);
-            resp = this.opsGenieClient.alert().attach(inputStreamAttachRequest);
+            if (fileName != null) {
+                String tempDir = System.getProperty("java.io.tmpdir");
+                File file;
+                if (tempDir != null) {
+                    if (StringUtils.endsWith(tempDir, File.separator)) {
+                        file = new File(tempDir + fileName);
+                    } else {
+                        file = new File(tempDir + File.separator + fileName);
+                    }
+                    FileUtils.copyInputStreamToFile(inputStream, file);
+                    file.deleteOnExit();
+                    request.setFile(file);
+                }
+            }
         }
-        return successToMap(resp);
+
+        return successToMap(alertApi.addAttachment(request));
+
     }
 
+
     public Map escalateToNext(Map params) throws Exception {
-        EscalateAlertToNextRequest request = new EscalateAlertToNextRequest();
-        Tuple identifierParams = getIdentifierParams(params);
-        EscalationRecipient escalationObj = new EscalationRecipient();
+        EscalateAlertRequest request = new EscalateAlertRequest();
+        EscalateAlertToNextPayload payload = new EscalateAlertToNextPayload();
+
+        setIdentifierParameters(request, EscalateAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
+
+        EscalationRecipient escalationRecipient = new EscalationRecipient();
 
         if (params.containsKey(OpsGenieClientConstants.API.ESCALATION)) {
             Map<String, String> escalationMap = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.ESCALATION);
+            JsonUtils.fromMap(escalationRecipient, escalationMap);
 
-            if (escalationMap.containsKey(OpsGenieClientConstants.API.ID)) {
-                escalationObj.setId(ScriptBridgeUtils.getAsString(escalationMap, OpsGenieClientConstants.API.ID));
-            } else if (escalationMap.containsKey(OpsGenieClientConstants.API.NAME)) {
-                escalationObj.setName(ScriptBridgeUtils.getAsString(escalationMap, OpsGenieClientConstants.API.NAME));
-            }
         } else if (params.containsKey(OpsGenieClientConstants.API.ESCALATION_ID)) {
-            escalationObj.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_ID));
+            escalationRecipient.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_ID));
         } else if (params.containsKey(OpsGenieClientConstants.API.ESCALATION_NAME)) {
-            escalationObj.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_NAME));
+            escalationRecipient.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ESCALATION_NAME));
         }
 
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setEscalation(escalationObj);
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        payload.setEscalation(escalationRecipient);
 
-        return successToMap(this.opsGenieClient.alertV2().escalateAlert((String) identifierParams.get(0), request, (String) identifierParams.get(1)));
+        request.setBody(payload);
+        return successToMap(alertApi.escalateAlert(request));
     }
 
     public Map closeAlert(Map params) throws Exception {
         CloseAlertRequest request = new CloseAlertRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        CloseAlertPayload payload = new CloseAlertPayload();
 
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        setIdentifierParameters(request, CloseAlertRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
 
-        return successToMap(this.opsGenieClient.alertV2().closeAlert((String) identifierParams.get(0), (String) identifierParams.get(1), request));
-}
+        request.setBody(payload);
+
+        return successToMap(alertApi.closeAlert(request));
+    }
 
     public Map createAlert(Map params) throws Exception {
-        CreateAlertRequest request = new CreateAlertRequest();
+        CreateAlertPayload payload = new CreateAlertPayload();
 
-        if (params.containsKey(OpsGenieClientConstants.API.TEAMS)) {
-            List<TeamRecipient> teamsObjList = new ArrayList<TeamRecipient>();
-            List<Map> teamsList = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
 
-            if (teamsList != null) {
-                for (Map teamsEntry : teamsList) {
-                    TeamRecipient teamObj = new TeamRecipient();
-
-                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.NAME)) {
-                        teamObj.setName((String) teamsEntry.get(OpsGenieClientConstants.API.NAME));
-                    }
-
-                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.ID)) {
-                        teamObj.setId((String) teamsEntry.get(OpsGenieClientConstants.API.ID));
-                    }
-
-                    teamsObjList.add(teamObj);
-                }
-
-                request.setTeams(teamsObjList);
+        payload.setActions(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.ACTIONS));
+        payload.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setDetails(ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS));
+        payload.setEntity(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ENTITY));
+        payload.setMessage(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.MESSAGE));
+        payload.setPriority(ObjectUtils.defaultIfNull(CreateAlertPayload.PriorityEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.PRIORITY)), payload.getPriority()));
+        payload.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
+        List<TeamRecipient> teamRecipients;
+        List teamEntries = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
+        if (teamEntries != null && !teamEntries.isEmpty() && teamEntries.get(0) instanceof String) {
+            teamRecipients = new ArrayList<TeamRecipient>();
+            for (Object teamName : teamEntries) {
+                TeamRecipient teamRecipient = new TeamRecipient();
+                teamRecipient.setName((String) teamName);
+                teamRecipients.add(teamRecipient);
             }
+        } else {
+            teamRecipients = ScriptBridgeUtils.getAsObjectList(params, OpsGenieClientConstants.API.TEAMS, TeamRecipient.class);
         }
+        payload.setTeams(teamRecipients);
+        List<Recipient> visibleToRecipients = ScriptBridgeUtils.getAsRecipientList(params, OpsGenieClientConstants.API.VISIBLE_TO);
+        payload.setVisibleTo(visibleToRecipients);
 
-        request.setActions(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.ACTIONS));
-        request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
-        request.setDetails(ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.DETAILS));
-        request.setMessage(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.MESSAGE));
-        request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
-        request.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
-        request.setEntity(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ENTITY));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        populateCommonParameters(payload, params);
 
-        return successToMap(this.opsGenieClient.alertV2().createAlert(request));
+        return successToMap(alertApi.createAlert(payload));
     }
+
 
     public Map deleteAlert(Map params) throws Exception {
         DeleteAlertRequest request = new DeleteAlertRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        setIdentifierParameters(request, DeleteAlertRequest.IdentifierTypeEnum.class, params);
 
         request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
         request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
 
-        request.setIdentifier((String) identifierParams.get(0));
-        request.setIdentifierType(DeleteAlertRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
-
-        return successToMap(this.opsGenieClient.alertV2().deleteAlert(request));
+        return successToMap(alertApi.deleteAlert(request));
     }
 
     public Map executeAlertAction(Map params) throws Exception {
         ExecuteCustomAlertActionRequest request = new ExecuteCustomAlertActionRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        ExecuteCustomAlertActionPayload payload = new ExecuteCustomAlertActionPayload();
 
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+        setIdentifierParameters(request, ExecuteCustomAlertActionRequest.IdentifierTypeEnum.class, params);
+        populateCommonParameters(payload, params);
 
-        return successToMap(this.opsGenieClient.alertV2().executeCustomAction(((String) identifierParams.get(0)), ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ACTION), ((String) identifierParams.get(1)), request));
+        request.setActionName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ACTION));
+        request.setBody(payload);
+
+        return successToMap(alertApi.executeCustomAlertAction(request));
     }
 
     public Map getAlert(Map params) throws Exception {
-        Tuple identifierParams = getIdentifierParams(params);
+        GetAlertRequest request = new GetAlertRequest();
+        setIdentifierParameters(request, GetAlertRequest.IdentifierTypeEnum.class, params);
 
-        GetAlertResponse getAlertResponse = this.opsGenieClient.alertV2().getAlert(((String) identifierParams.get(0)), ((String) identifierParams.get(1)));
+        GetAlertResponse getAlertResponse = alertApi.getAlert(request);
 
         Map resp = JsonUtils.toMap(getAlertResponse.getData());
         resp.put(OpsGenieClientConstants.API.REQUEST_ID, getAlertResponse.getRequestId());
         //for backward compatability
         resp.put(OpsGenieClientConstants.API.ALERT_ID, resp.get(OpsGenieClientConstants.API.ID));
         return resp;
+
     }
 
     public Map listAlertLogs(Map params) throws Exception {
         ListAlertLogsRequest request = new ListAlertLogsRequest();
-        Tuple identifierParams = getIdentifierParams(params);
 
-        if (params.containsKey(OpsGenieClientConstants.API.OFFSET)) {
-            request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
+        setIdentifierParameters(request, ListAlertLogsRequest.IdentifierTypeEnum.class, params);
+
+
+        ListAlertLogsRequest.DirectionEnum direction = ListAlertLogsRequest.DirectionEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DIRECTION));
+        if (direction != null) {
+            request.setDirection(direction);
         }
-        if (params.containsKey(OpsGenieClientConstants.API.LIMIT)) {
-            request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
-            request.setOrder(ListAlertLogsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.DIRECTION)) {
-            request.setDirection(ListAlertLogsRequest.DirectionEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DIRECTION)));
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
+        ListAlertLogsRequest.OrderEnum order = ListAlertLogsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER));
+        if (order != null) {
+            request.setOrder(order);
         }
 
-        request.setIdentifier((String) identifierParams.get(0));
-        request.setIdentifierType(ListAlertLogsRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
-
-        ListAlertLogsResponse listAlertLogsResponse = this.opsGenieClient.alertV2().listLogs(request);
+        ListAlertLogsResponse listAlertLogsResponse = alertApi.listLogs(request);
         Map<String, Object> res = new HashMap<String, Object>();
-
         if (listAlertLogsResponse.getPaging() != null) {
             Map<String, Object> paging = new HashMap<String, Object>();
             paging.put(OpsGenieClientConstants.API.FIRST, listAlertLogsResponse.getPaging().getFirst());
@@ -418,11 +374,16 @@ public class ScriptProxy {
         res.put(OpsGenieClientConstants.API.REQUEST_ID, listAlertLogsResponse.getRequestId());
         res.put(OpsGenieClientConstants.API.TOOK, listAlertLogsResponse.getTook());
         return res;
+
     }
 
+
     public Map listAlertRecipients(Map params) throws Exception {
-        Tuple identifierParams = getIdentifierParams(params);
-        ListAlertRecipientsResponse resp = this.opsGenieClient.alertV2().listRecipients(((String) identifierParams.get(0)), ((String) identifierParams.get(1)));
+        ListAlertRecipientsRequest request = new ListAlertRecipientsRequest();
+        setIdentifierParameters(request, ListAlertRecipientsRequest.IdentifierTypeEnum.class, params);
+
+
+        ListAlertRecipientsResponse resp = alertApi.listRecipients(request);
         Map res = new HashMap();
         res.put(OpsGenieClientConstants.API.USERS, beansToMap(resp.getData()));
         res.put(OpsGenieClientConstants.API.TOOK, resp.getTook());
@@ -432,25 +393,22 @@ public class ScriptProxy {
 
     public Map listAlertNotes(Map params) throws Exception {
         ListAlertNotesRequest request = new ListAlertNotesRequest();
-        Tuple identifierParams = getIdentifierParams(params);
+        setIdentifierParameters(request, ListAlertNotesRequest.IdentifierTypeEnum.class, params);
 
-        if (params.containsKey(OpsGenieClientConstants.API.OFFSET)) {
-            request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
+
+        ListAlertNotesRequest.DirectionEnum direction = ListAlertNotesRequest.DirectionEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DIRECTION));
+        if (direction != null) {
+            request.setDirection(direction);
         }
-        if (params.containsKey(OpsGenieClientConstants.API.LIMIT)) {
-            request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
-            request.setOrder(ListAlertNotesRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.DIRECTION)) {
-            request.setDirection(ListAlertNotesRequest.DirectionEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DIRECTION)));
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
+        ListAlertNotesRequest.OrderEnum order = ListAlertNotesRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER));
+        if (order != null) {
+            request.setOrder(order);
         }
 
-        request.setIdentifier((String) identifierParams.get(0));
-        request.setIdentifierType(ListAlertNotesRequest.IdentifierTypeEnum.fromValue((String) identifierParams.get(1)));
 
-        ListAlertNotesResponse listAlertNotesResponse = this.opsGenieClient.alertV2().listNotes(request);
+        ListAlertNotesResponse listAlertNotesResponse = alertApi.listNotes(request);
         Map<String, Object> res = new HashMap<String, Object>();
 
         if (listAlertNotesResponse.getPaging() != null) {
@@ -466,236 +424,127 @@ public class ScriptProxy {
         return res;
     }
 
+
     public List<Map> listAlerts(Map params) throws Exception {
         ListAlertsRequest request = new ListAlertsRequest();
 
-        if (params.containsKey(OpsGenieClientConstants.API.LIMIT)) {
-            request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        request.setOffset(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.OFFSET));
+        ListAlertsRequest.OrderEnum order = ListAlertsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER));
+        if (order != null) {
+            request.setOrder(order);
         }
-        if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
-            request.setOrder(ListAlertsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER)));
+        request.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
+        request.setSearchIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SEARCH_IDENTIFIER));
+        ListAlertsRequest.SearchIdentifierTypeEnum searchIdentifierType = ListAlertsRequest.SearchIdentifierTypeEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SEARCH_IDENTIFIER_TYPE));
+        if (searchIdentifierType != null) {
+            request.setSearchIdentifierType(searchIdentifierType);
         }
-        if (params.containsKey(OpsGenieClientConstants.API.SORT)) {
-            request.setSort(ListAlertsRequest.SortEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT)));
+        ListAlertsRequest.SortEnum sort = ObjectUtils.defaultIfNull(ListAlertsRequest.SortEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT)), ListAlertsRequest.SortEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_BY)));
+        if (sort != null) {
+            request.setSort(sort);
         }
-        if (params.containsKey(OpsGenieClientConstants.API.OFFSET)) {
-            request.setOffset(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.OFFSET));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.QUERY)) {
-            request.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
-        }
-
-        if (params.containsKey(OpsGenieClientConstants.API.SEARCH_IDENTIFIER)) {
-            request.setSearchIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SEARCH_IDENTIFIER));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.SEARCH_IDENTIFIER_TYPE)) {
-            request.setSearchIdentifierType(ListAlertsRequest.SearchIdentifierTypeEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SEARCH_IDENTIFIER_TYPE)));
-        }
-
-        return beansToMap(this.opsGenieClient.alertV2().listAlerts(request).getData());
-    }
-
-    public Map countAlerts(Map params) throws Exception {
-        CountAlertsRequest request = new CountAlertsRequest();
-        populateCommonProps(request, params);
-        populateAlertsRequest(request, params);
-
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.COUNT, this.opsGenieClient.alert().countAlerts(request).getCount());
-        return mapResponse;
-    }
-
-    public Map takeOwnership(Map params) throws Exception {
-        TakeOwnershipRequest request = new TakeOwnershipRequest();
-        populateAlertRequestWithId(request, params);
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-
-        return successToMap(this.opsGenieClient.alert().takeOwnership(request));
+        return beansToMap(alertApi.listAlerts(request).getData());
     }
 
     public Map addSavedSearch(Map params) throws Exception {
-        AddSavedSearchRequest request = new AddSavedSearchRequest();
+        CreateSavedSearchPayload payload = new CreateSavedSearchPayload();
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
+        UserRecipient owner = new UserRecipient();
+        JsonUtils.fromMap(owner, ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.OWNER));
+        payload.setOwner(owner);
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setTeams(ScriptBridgeUtils.getAsObjectList(params, OpsGenieClientConstants.API.TEAMS, TeamRecipient.class));
 
-        if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
-            request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-        }
-
-        if (params.containsKey(OpsGenieClientConstants.API.QUERY)) {
-            request.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
-        }
-
-        if (params.containsKey(OpsGenieClientConstants.API.OWNER)) {
-            UserRecipient ownerObj = new UserRecipient();
-
-            Map ownerMap = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.OWNER);
-
-            if (ownerMap.containsKey(OpsGenieClientConstants.API.ID)) {
-                ownerObj.setId(ScriptBridgeUtils.getAsString(ownerMap, OpsGenieClientConstants.API.ID));
-            }
-
-            if (ownerMap.containsKey(OpsGenieClientConstants.API.USERNAME)) {
-                ownerObj.setUsername(ScriptBridgeUtils.getAsString(ownerMap, OpsGenieClientConstants.API.USERNAME));
-            }
-
-            request.setOwner(ownerObj);
-        }
-
-        if (params.containsKey(OpsGenieClientConstants.API.DESCRIPTION)) {
-            request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
-        }
-
-        if (params.containsKey(OpsGenieClientConstants.API.TEAMS)) {
-            List<TeamRecipient> teamsObjList = new ArrayList<TeamRecipient>();
-            List<Map> teamsList = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
-
-            if (teamsList != null) {
-                for (Map teamsEntry : teamsList) {
-                    TeamRecipient teamObj = new TeamRecipient();
-
-                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.NAME)) {
-                        teamObj.setName((String) teamsEntry.get(OpsGenieClientConstants.API.NAME));
-                    }
-
-                    if (teamsEntry.containsKey(OpsGenieClientConstants.API.ID)) {
-                        teamObj.setId((String) teamsEntry.get(OpsGenieClientConstants.API.ID));
-                    }
-
-                    teamsObjList.add(teamObj);
-                }
-
-                request.setTeams(teamsObjList);
-            }
-        }
-
-        return JsonUtils.toMap(this.opsGenieClient.alertV2().addSavedSearches(request));
+        return JsonUtils.toMap(alertApi.createSavedSearches(payload));
     }
 
     public Map deleteSavedSearch(Map params) throws Exception {
-        String identifier = null;
-        String identifierType = null;
-
-        if (params.containsKey(OpsGenieClientConstants.API.ID)) {
-            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID);
-            identifierType = OpsGenieClientConstants.API.ID;
-        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
-            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
-            identifierType = OpsGenieClientConstants.API.NAME;
-        }
-
-        return successToMap(this.opsGenieClient.alertV2().deleteSavedSearch(identifier, identifierType));
+        DeleteSavedSearchRequest request = new DeleteSavedSearchRequest();
+        setIdentifierParameters(request, DeleteSavedSearchRequest.IdentifierTypeEnum.class, params);
+        return successToMap(alertApi.deleteSavedSearch(request));
     }
 
     public Map getRequestStatus(Map params) throws Exception {
-        String requestId = null;
+        String requestId = ObjectUtils.defaultIfNull(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.REQUEST_ID), ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
 
-        if (params.containsKey(OpsGenieClientConstants.API.REQUEST_ID)) {
-            requestId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.REQUEST_ID);
-        }
-
-        return JsonUtils.toMap(this.opsGenieClient.alertV2().getRequestStatus(requestId));
+        return JsonUtils.toMap(alertApi.getRequestStatus(requestId));
     }
 
     public Map getSavedSearch(Map params) throws Exception {
-        String identifier = null;
-        String identifierType = null;
-
-        if (params.containsKey(OpsGenieClientConstants.API.ID)) {
-            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID);
-            identifierType = OpsGenieClientConstants.API.ID;
-        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
-            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
-            identifierType = OpsGenieClientConstants.API.NAME;
-        }
-
-        return JsonUtils.toMap(this.opsGenieClient.alertV2().getSavedSearch(identifier, identifierType));
+        GetSavedSearchRequest request = new GetSavedSearchRequest();
+        setIdentifierParameters(request, GetSavedSearchRequest.IdentifierTypeEnum.class, params);
+        return JsonUtils.toMap(alertApi.getSavedSearch(request));
     }
 
     public Map listSavedSearch() throws Exception {
-        return JsonUtils.toMap(this.opsGenieClient.alertV2().listSavedSearches());
+        return JsonUtils.toMap(alertApi.listSavedSearches());
     }
 
     public Map heartbeat(Map params) throws Exception {
-        HeartbeatRequest request = new HeartbeatRequest();
-        populateCommonProps(request, params);
-        request.setName(getHeartbeatName(params));
-
-        HeartbeatResponse resp = this.opsGenieClient.heartbeat(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put("heartbeat", resp.getHeartbeat());
-        return mapResponse;
+        String heartbeatName = getHeartbeatName(params);
+        return successToMap(heartbeatApi.ping(heartbeatName));
     }
 
     public Map deleteHeartbeat(Map params) throws Exception {
-        DeleteHeartbeatRequest request = new DeleteHeartbeatRequest();
-        populateCommonProps(request, params);
-
-        request.setName(getHeartbeatName(params));
-        return successToMap(this.opsGenieClient.deleteHeartbeat(request));
+        String heartbeatName = getHeartbeatName(params);
+        return successToMap(heartbeatApi.deleteHeartbeat(heartbeatName));
     }
 
     public Map enableHeartbeat(Map params) throws Exception {
-        EnableHeartbeatRequest request = new EnableHeartbeatRequest();
-        populateCommonProps(request, params);
+        Boolean enabled = ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLE);
+        if (enabled != null && !enabled) {
+            return disableHeartbeat(params);
+        }
+        String heartbeatName = getHeartbeatName(params);
 
-        request.setName(getHeartbeatName(params));
-        request.setEnable(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLE));
-        EnableHeartbeatResponse response = this.opsGenieClient.enableHeartbeat(request);
-        return successToMap(response);
+        return JsonUtils.toMap(heartbeatApi.enableHeartbeat(heartbeatName));
+    }
+
+
+    public Map disableHeartbeat(Map params) throws Exception {
+        String heartbeatName = getHeartbeatName(params);
+
+        return JsonUtils.toMap(heartbeatApi.disableHeartbeat(heartbeatName));
     }
 
     public Map addHeartbeat(Map params) throws Exception {
-        AddHeartbeatRequest request = new AddHeartbeatRequest();
-        populateCommonProps(request, params);
+        CreateHeartbeatPayload payload = new CreateHeartbeatPayload();
 
-        request.setName(getHeartbeatName(params));
-        request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
-        request.setInterval(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.INTERVAL));
-        String intervalUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INTERVAL_UNIT);
-        if (intervalUnitStr != null) {
-            request.setIntervalUnit(Heartbeat.IntervalUnit.valueOf(intervalUnitStr));
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
+        payload.setInterval(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.INTERVAL));
+        CreateHeartbeatPayload.IntervalUnitEnum intervalUnit = CreateHeartbeatPayload.IntervalUnitEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INTERVAL_UNIT));
+        if (intervalUnit != null) {
+            payload.setIntervalUnit(intervalUnit);
         }
-        request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
-        return successToMap(this.opsGenieClient.addHeartbeat(request));
+        payload.setName(getHeartbeatName(params));
+
+        return JsonUtils.toMap(heartbeatApi.createHeartbeat(payload));
     }
 
     public Map updateHeartbeat(Map params) throws Exception {
         UpdateHeartbeatRequest request = new UpdateHeartbeatRequest();
-        populateCommonProps(request, params);
+        UpdateHeartbeatPayload payload = new UpdateHeartbeatPayload();
 
         request.setName(getHeartbeatName(params));
-        request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
-        request.setInterval(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.INTERVAL));
-        String intervalUnitStr = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INTERVAL_UNIT);
-        if (intervalUnitStr != null) {
-            request.setIntervalUnit(Heartbeat.IntervalUnit.valueOf(intervalUnitStr));
+        payload.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
+        payload.setInterval(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.INTERVAL));
+        UpdateHeartbeatPayload.IntervalUnitEnum intervalUnit = UpdateHeartbeatPayload.IntervalUnitEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INTERVAL_UNIT));
+        if (intervalUnit != null) {
+            payload.setIntervalUnit(intervalUnit);
         }
-        request.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
-        return successToMap(this.opsGenieClient.updateHeartbeat(request));
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        request.setBody(payload);
+
+        return JsonUtils.toMap(heartbeatApi.updateHeartbeat(request));
     }
+
 
     public Map getHeartbeat(Map params) throws Exception {
-        GetHeartbeatRequest request = new GetHeartbeatRequest();
-        populateCommonProps(request, params);
-
-        request.setName(getHeartbeatName(params));
-        return JsonUtils.toMap(this.opsGenieClient.getHeartbeat(request).getHeartbeat());
-    }
-
-    private String getHeartbeatName(Map params) {
-        if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
-            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE);
-        } else {
-            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
-        }
-    }
-
-    public List<Map> listHeartbeats(Map params) throws Exception {
-        ListHeartbeatsRequest request = new ListHeartbeatsRequest();
-        populateCommonProps(request, params);
-
-        return beansToMap(this.opsGenieClient.listHeartbeats(request).getHeartbeats());
+        String heartbeatName = getHeartbeatName(params);
+        return JsonUtils.toMap(heartbeatApi.getHeartbeat(heartbeatName));
     }
 
     @Deprecated
@@ -704,514 +553,375 @@ public class ScriptProxy {
     }
 
     public Map enableAlertPolicy(Map params) throws Exception {
-        EnableAlertPolicyRequest request = new EnableAlertPolicyRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
         Boolean enabled = ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED);
-        request.setEnabled(enabled);
+        if (enabled != null && !enabled) {
+            return disableAlertPolicy(params);
+        }
+        String policyId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
 
-        return successToMap(this.opsGenieClient.alertPolicy().enableAlertPolicy(request));
+        return successToMap(policyApi.enableAlertPolicy(policyId));
+    }
+
+    public Map disableAlertPolicy(Map params) throws Exception {
+        String policyId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
+
+        return successToMap(policyApi.disableAlertPolicy(policyId));
     }
 
     public Map enableIntegration(Map params) throws Exception {
-        EnableIntegrationRequest request = new EnableIntegrationRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-        request.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
-        return successToMap(this.opsGenieClient.integration().enableIntegration(request));
+        Boolean enabled = ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED);
+        if (enabled != null && !enabled) {
+            return disableIntegration(params);
+        }
+        String integrationId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
+        return JsonUtils.toMap(integrationApi.enableIntegration(integrationId));
+
+    }
+
+    public Map disableIntegration(Map params) throws Exception {
+        String integrationId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
+        return JsonUtils.toMap(integrationApi.disableIntegration(integrationId));
+
     }
 
     public Map sendToIntegration(String endPoint, Map contentParams, Map httpParams) throws Exception {
-        SendToIntegrationRequest request = new SendToIntegrationRequest();
-        populateCommonProps(request, contentParams);
-        request.setEndPoint(endPoint);
-        request.setContentParameters(contentParams);
-        request.setHttpParameters(httpParams);
-        return successToMap(this.opsGenieClient.integration().sendToIntegration(request));
+        List<Pair> queryParams = new ArrayList<Pair>();
+        for (Object key : httpParams.keySet()) {
+            queryParams.add(new Pair((String) key, (String) httpParams.get(key)));
+        }
+        if (!httpParams.containsKey(OpsGenieClientConstants.API.API_KEY)) {
+            Map<String, String> credentials = new HashMap<String, String>();
+            apiClient.getAuthentication("GenieKey").applyToParams(null, credentials);
+            queryParams.add(new Pair(OpsGenieClientConstants.API.API_KEY, StringUtils.substringAfter(credentials.get(OpsGenieClientConstants.API.AUTHORIZATION), OpsGenieClientConstants.API.GENIE_KEY).trim()));
+        }
+        return JsonUtils.toMap(apiClient.invokeAPI(endPoint, "POST", queryParams, contentParams, new HashMap<String, String>(), null, "application/json", "application/json", new String[]{}, new GenericType<Object>() {
+        }));
     }
 
     public Map addEscalation(Map params) throws Exception {
-        AddEscalationRequest request = new AddEscalationRequest();
-        populateCommonProps(request, params);
-        Escalation escalation = new Escalation();
-        JsonUtils.fromMap(escalation, params);
-        request.setName(escalation.getName());
-        request.setRules(escalation.getRules());
+        CreateEscalationPayload payload = new CreateEscalationPayload();
 
-        AddEscalationResponse resp = this.opsGenieClient.escalation().addEscalation(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setOwnerTeam(parseOwnerTeamBackwardsCompatible(params));
+        payload.setRules(parseEscalationRules(params));
+
+        return successToMap(escalationApi.createEscalation(payload));
     }
 
     public Map deleteEscalation(Map params) throws Exception {
         DeleteEscalationRequest request = new DeleteEscalationRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
 
-        return successToMap(this.opsGenieClient.escalation().deleteEscalation(request));
+        setIdentifierParameters(request, DeleteEscalationRequest.IdentifierTypeEnum.class, params);
+
+        return successToMap(escalationApi.deleteEscalation(request));
     }
 
     public Map getEscalation(Map params) throws Exception {
         GetEscalationRequest request = new GetEscalationRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        setIdentifierParameters(request, GetEscalationRequest.IdentifierTypeEnum.class, params);
 
-        return JsonUtils.toMap(this.opsGenieClient.escalation().getEscalation(request).getEscalation());
+        return JsonUtils.toMap(escalationApi.getEscalation(request).getData());
     }
 
     public List<Map> listEscalations(Map params) throws Exception {
-        ListEscalationsRequest request = new ListEscalationsRequest();
-        populateCommonProps(request, params);
 
-        return beansToMap(this.opsGenieClient.escalation().listEscalations(request).getEscalations());
+        return beansToMap(escalationApi.listEscalations().getData());
     }
 
     public Map updateEscalation(Map params) throws Exception {
         UpdateEscalationRequest request = new UpdateEscalationRequest();
-        populateCommonProps(request, params);
-        Escalation escalation = new Escalation();
-        JsonUtils.fromMap(escalation, params);
-        request.setId(escalation.getId());
-        request.setName(escalation.getName());
-        request.setRules(escalation.getRules());
+        UpdateEscalationPayload payload = new UpdateEscalationPayload();
+        setIdentifierParameters(request, UpdateEscalationRequest.IdentifierTypeEnum.class, params);
 
-        UpdateEscalationResponse resp = this.opsGenieClient.escalation().updateEscalation(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setOwnerTeam(parseOwnerTeamBackwardsCompatible(params));
+        payload.setRules(parseEscalationRules(params));
+
+        request.setBody(payload);
+
+        return successToMap(escalationApi.updateEscalation(request));
     }
 
-    public Map addGroup(Map params) throws Exception {
-        AddGroupRequest request = new AddGroupRequest();
-        populateCommonProps(request, params);
-        Group group = new Group();
-        JsonUtils.fromMap(group, params);
-        request.setName(group.getName());
-        request.setUsers(group.getUsers());
 
-        AddGroupResponse resp = this.opsGenieClient.group().addGroup(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+    public Map createTeam(Map params) throws Exception {
+        CreateTeamPayload payload = new CreateTeamPayload();
+
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setMembers(parseTeamMembers(params));
+
+        return successToMap(teamApi.createTeam(payload));
     }
 
-    public Map addGroupMember(Map params) throws Exception {
-        AddGroupMemberRequest request = new AddGroupMemberRequest();
-        populateCommonProps(request, params);
-        Group group = new Group();
-        JsonUtils.fromMap(group, params);
-        request.setId(group.getId());
-        request.setName(group.getName());
-        request.setUsers(group.getUsers());
+    public Map getTeam(Map params) throws Exception {
+        GetTeamRequest request = new GetTeamRequest();
+        setIdentifierParameters(request, GetTeamRequest.IdentifierTypeEnum.class, params);
 
-        AddGroupMemberResponse resp = this.opsGenieClient.group().addGroupMember(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        return JsonUtils.toMap(teamApi.getTeam(request).getData());
     }
 
-    public Map deleteGroupMember(Map params) throws Exception {
-        DeleteGroupMemberRequest request = new DeleteGroupMemberRequest();
-        populateCommonProps(request, params);
-        Group group = new Group();
-        JsonUtils.fromMap(group, params);
-        request.setId(group.getId());
-        request.setName(group.getName());
-        request.setUsers(group.getUsers());
+    public Map updateTeam(Map params) throws Exception {
+        UpdateTeamRequest request = new UpdateTeamRequest();
+        UpdateTeamPayload payload = new UpdateTeamPayload();
 
-        AddGroupMemberResponse resp = this.opsGenieClient.group().deleteGroupMember(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+
+        request.setIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TEAM_ID));
+        if (request.getIdentifier() == null) {
+            request.setIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER));
+        }
+
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setMembers(parseTeamMembers(params));
+
+
+        request.setBody(payload);
+
+        return successToMap(teamApi.updateTeam(request));
     }
 
-    public Map deleteGroup(Map params) throws Exception {
-        DeleteGroupRequest request = new DeleteGroupRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+    public Map deleteTeam(Map params) throws Exception {
+        DeleteTeamRequest request = new DeleteTeamRequest();
 
-        return successToMap(this.opsGenieClient.group().deleteGroup(request));
+        setIdentifierParameters(request, DeleteTeamRequest.IdentifierTypeEnum.class, params);
+        return successToMap(teamApi.deleteTeam(request));
     }
 
-    public Map getGroup(Map params) throws Exception {
-        GetGroupRequest request = new GetGroupRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-
-        return JsonUtils.toMap(this.opsGenieClient.group().getGroup(request).getGroup());
+    public List<Map> listTeams(Map params) throws Exception {
+        List<String> expand = getExpand(params);
+        return beansToMap(teamApi.listTeams(expand).getData());
     }
 
-    public List<Map> listGroups(Map params) throws Exception {
-        ListGroupsRequest request = new ListGroupsRequest();
-        populateCommonProps(request, params);
+    public List<Map> listTeamLogs(Map params) throws Exception {
+        ListTeamLogsRequest request = new ListTeamLogsRequest();
 
-        return beansToMap(this.opsGenieClient.group().listGroups(request).getGroups());
-    }
+        setIdentifierParameters(request, ListTeamLogsRequest.IdentifierTypeEnum.class, params);
 
-    public Map updateGroup(Map params) throws Exception {
-        UpdateGroupRequest request = new UpdateGroupRequest();
-        populateCommonProps(request, params);
-        Group group = new Group();
-        JsonUtils.fromMap(group, params);
-        request.setId(group.getId());
-        request.setName(group.getName());
-        request.setUsers(group.getUsers());
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        request.setOffset(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.OFFSET));
+        ListTeamLogsRequest.OrderEnum order = ListTeamLogsRequest.OrderEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER));
+        if (order != null) {
+            request.setOrder(order);
+        }
 
-        UpdateGroupResponse resp = this.opsGenieClient.group().updateGroup(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        return beansToMap(teamApi.listTeamLogs(request).getData().getLogs());
     }
 
     public Map addUser(Map params) throws Exception {
-        AddUserRequest request = new AddUserRequest();
-        populateCommonProps(request, params);
-        User user = new User();
-        JsonUtils.fromMap(user, params);
-        request.setUsername(user.getUsername());
-        request.setFullname(user.getFullname());
-        request.setUserRole(user.getUserRole());
-        request.setTimeZone(user.getTimeZone());
-        request.setLocale(user.getLocale());
-
-        AddUserResponse resp = this.opsGenieClient.user().addUser(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        updateDeprecatedUserInfo(params);
+        CreateUserPayload payload = new CreateUserPayload();
+        JsonUtils.fromMap(payload, params);
+        return successToMap(userApi.createUser(payload));
     }
 
     public Map deleteUser(Map params) throws Exception {
-        DeleteUserRequest request = new DeleteUserRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setUsername(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USERNAME));
+        String userId = getUserIdentifier(params);
 
-        return successToMap(this.opsGenieClient.user().deleteUser(request));
+        return successToMap(userApi.deleteUser(userId));
     }
 
     public Map getUser(Map params) throws Exception {
         GetUserRequest request = new GetUserRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setUsername(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USERNAME));
+        String userId = getUserIdentifier(params);
 
-        return JsonUtils.toMap(this.opsGenieClient.user().getUser(request).getUser());
+        request.setIdentifier(userId);
+        request.setExpand(getExpand(params));
+
+        return JsonUtils.toMap(userApi.getUser(request).getData());
     }
 
     public List<Map> listUsers(Map params) throws Exception {
+        updateDeprecatedUserInfo(params);
         ListUsersRequest request = new ListUsersRequest();
-        populateCommonProps(request, params);
+        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
+        request.setOffset(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.OFFSET));
+        request.setQuery(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.QUERY));
+        String order = ObjectUtils.defaultIfNull(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ORDER), ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_ORDER));
+        ListUsersRequest.OrderEnum orderEnum = ListUsersRequest.OrderEnum.fromValue(order);
+        if (orderEnum != null) {
+            request.setOrder(orderEnum);
+        }
+        String sort = ObjectUtils.defaultIfNull(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT), ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SORT_FIELD));
+        request.setSortField(sort);
 
-        return beansToMap(this.opsGenieClient.user().listUsers(request).getUsers());
+        return beansToMap(userApi.listUsers(request).getData());
     }
 
     public Map updateUser(Map params) throws Exception {
+        updateDeprecatedUserInfo(params);
         UpdateUserRequest request = new UpdateUserRequest();
-        populateCommonProps(request, params);
-        User user = new User();
-        JsonUtils.fromMap(user, params);
-        request.setId(user.getId());
-        request.setFullname(user.getFullname());
-        request.setUserRole(user.getUserRole());
-        request.setTimeZone(user.getTimeZone());
-        request.setLocale(user.getLocale());
+        UpdateUserPayload payload = new UpdateUserPayload();
 
-        UpdateUserResponse resp = this.opsGenieClient.user().updateUser(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        request.setIdentifier(getUserIdentifier(params));
+
+        removeIdentifierParams(params);
+
+        JsonUtils.fromMap(payload, params);
+        request.setBody(payload);
+
+        return successToMap(userApi.updateUser(request));
     }
 
-
+    //backward sikinti
     public Map addForwarding(Map params) throws Exception {
-        AddForwardingRequest request = new AddForwardingRequest();
-        populateCommonProps(request, params);
-        Forwarding forwarding = new Forwarding();
-        JsonUtils.fromMap(forwarding, params);
-        request.setAlias(forwarding.getAlias());
-        request.setStartDate(forwarding.getStartDate());
-        request.setEndDate(forwarding.getEndDate());
-        request.setFromUser(forwarding.getFromUser());
-        request.setToUser(forwarding.getToUser());
-        request.setTimeZone(forwarding.getTimeZone());
+        CreateForwardingRulePayload payload = new CreateForwardingRulePayload();
+        payload.setFromUser(parseUserMetaBackwardsCompatible(params.get(OpsGenieClientConstants.API.FROM_USER)));
+        payload.setToUser(parseUserMetaBackwardsCompatible(params.get(OpsGenieClientConstants.API.TO_USER)));
+        payload.setStartDate(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.START_DATE));
+        payload.setEndDate(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.END_DATE));
+        payload.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
 
-        AddForwardingResponse resp = this.opsGenieClient.user().addForwarding(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        return JsonUtils.toMap(forwardingRuleApi.createForwardingRule(payload));
     }
 
     public Map deleteForwarding(Map params) throws Exception {
-        DeleteForwardingRequest request = new DeleteForwardingRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
+        DeleteForwardingRuleRequest request = new DeleteForwardingRuleRequest();
+        setIdentifierParameters(request, DeleteForwardingRuleRequest.IdentifierTypeEnum.class, params);
 
-        return successToMap(this.opsGenieClient.user().deleteForwarding(request));
+        return successToMap(forwardingRuleApi.deleteForwardingRule(request));
     }
 
     public Map getForwarding(Map params) throws Exception {
-        GetForwardingRequest request = new GetForwardingRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setAlias(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS));
+        GetForwardingRuleRequest request = new GetForwardingRuleRequest();
+        setIdentifierParameters(request, GetForwardingRuleRequest.IdentifierTypeEnum.class, params);
 
-        return JsonUtils.toMap(this.opsGenieClient.user().getForwarding(request).getForwarding());
+        return JsonUtils.toMap(forwardingRuleApi.getForwardingRule(request).getData());
     }
 
     public List<Map> listForwardings(Map params) throws Exception {
-        ListForwardingsRequest request = new ListForwardingsRequest();
-        populateCommonProps(request, params);
-
-        return beansToMap(this.opsGenieClient.user().listForwardings(request).getForwardings());
+        return beansToMap(forwardingRuleApi.listForwardingRules().getData());
     }
 
     public Map updateForwarding(Map params) throws Exception {
-        UpdateForwardingRequest request = new UpdateForwardingRequest();
-        populateCommonProps(request, params);
-        Forwarding forwarding = new Forwarding();
-        JsonUtils.fromMap(forwarding, params);
-        request.setId(forwarding.getId());
-        request.setAlias(forwarding.getAlias());
-        request.setStartDate(forwarding.getStartDate());
-        request.setEndDate(forwarding.getEndDate());
-        request.setFromUser(forwarding.getFromUser());
-        request.setToUser(forwarding.getToUser());
-        request.setTimeZone(forwarding.getTimeZone());
+        UpdateForwardingRuleRequest request = new UpdateForwardingRuleRequest();
+        UpdateForwardingRulePayload payload = new UpdateForwardingRulePayload();
 
-        UpdateForwardingResponse resp = this.opsGenieClient.user().updateForwarding(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+        setIdentifierParameters(request, UpdateForwardingRuleRequest.IdentifierTypeEnum.class, params);
+
+        payload.setFromUser(parseUserMetaBackwardsCompatible(params.get(OpsGenieClientConstants.API.FROM_USER)));
+        payload.setToUser(parseUserMetaBackwardsCompatible(params.get(OpsGenieClientConstants.API.TO_USER)));
+        payload.setStartDate(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.START_DATE));
+        payload.setEndDate(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.END_DATE));
+
+        request.setBody(payload);
+
+        return successToMap(forwardingRuleApi.updateForwardingRule(request));
     }
 
     public Map addSchedule(Map params) throws Exception {
-        correctRestrictionAndParticipantParams(params);
-        AddScheduleRequest request = new AddScheduleRequest();
-        populateCommonProps(request, params);
-        Schedule schedule = new Schedule();
-        JsonUtils.fromMap(schedule, params);
-        request.setEnabled(schedule.isEnabled());
-        request.setName(schedule.getName());
-        request.setRotations(schedule.getRotations());
-        request.setTimeZone(schedule.getTimeZone());
+        CreateSchedulePayload payload = new CreateSchedulePayload();
 
-        AddScheduleResponse resp = this.opsGenieClient.schedule().addSchedule(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setOwnerTeam(parseOwnerTeamBackwardsCompatible(params));
+        payload.setTimezone(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TIMEZONE));
+
+        payload.setRotations(parseRotations(params));
+
+        return JsonUtils.toMap(scheduleApi.createSchedule(payload));
     }
 
-    private void correctRestrictionAndParticipantParams(Map params) {
-        List<Map> rotations = null;
-        if (params.containsKey(OpsGenieClientConstants.API.RULES)) {
-            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.RULES);
-        } else if (params.containsKey(OpsGenieClientConstants.API.LAYERS)) {
-            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.LAYERS);
-        } else if (params.containsKey(OpsGenieClientConstants.API.ROTATIONS)) {
-            rotations = (List<Map>) params.get(OpsGenieClientConstants.API.ROTATIONS);
-        }
-        if (rotations != null) {
-            for (Map rotationMap : rotations) {
-                if (rotationMap.containsKey(OpsGenieClientConstants.API.RESTRICTIONS)) {
-                    List<Map> restrictions = (List<Map>) rotationMap.get(OpsGenieClientConstants.API.RESTRICTIONS);
-                    for (Map restriction : restrictions) {
-                        int startHour = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_HOUR);
-                        int startMinute = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.START_MINUTE);
-                        int endHour = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.END_HOUR);
-                        int endMinute = ScriptBridgeUtils.getAsInt(restriction, OpsgenieClientApplicationConstants.ScriptProxy.END_MINUTE);
-                        restriction.put(OpsGenieClientConstants.API.START_TIME, "" + startHour + ":" + startMinute);
-                        restriction.put(OpsGenieClientConstants.API.END_TIME, "" + endHour + ":" + endMinute);
-                    }
-                }
-                if (rotationMap.containsKey(OpsGenieClientConstants.API.PARTICIPANTS)) {
-                    List<String> participants = (List<String>) rotationMap.get(OpsGenieClientConstants.API.PARTICIPANTS);
-                    List<Map> participantMaps = new ArrayList<Map>();
-                    for (String participant : participants) {
-                        Map participantMap = new HashMap();
-                        participantMap.put(OpsGenieClientConstants.API.PARTICIPANT, participant);
-                        participantMaps.add(participantMap);
-                    }
-                    rotationMap.put(OpsGenieClientConstants.API.PARTICIPANTS, participantMaps);
-                }
-            }
-
-        }
-    }
 
     public Map deleteSchedule(Map params) throws Exception {
         DeleteScheduleRequest request = new DeleteScheduleRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        setIdentifierParameters(request, DeleteScheduleRequest.IdentifierTypeEnum.class, params);
 
-        return successToMap(this.opsGenieClient.schedule().deleteSchedule(request));
+        return successToMap(scheduleApi.deleteSchedule(request));
     }
 
     public Map getSchedule(Map params) throws Exception {
         GetScheduleRequest request = new GetScheduleRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
 
-        return JsonUtils.toMap(this.opsGenieClient.schedule().getSchedule(request).getSchedule());
+        setIdentifierParameters(request, GetScheduleRequest.IdentifierTypeEnum.class, params);
+
+        return JsonUtils.toMap(scheduleApi.getSchedule(request).getData());
     }
 
-    public Map whoIsOnCall(Map params) throws Exception {
-        WhoIsOnCallRequest request = new WhoIsOnCallRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-
-        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
-        request.setTime(ScriptBridgeUtils.getAsDate(params, OpsGenieClientConstants.API.TIME));
-        return JsonUtils.toMap(this.opsGenieClient.schedule().whoIsOnCall(request).getWhoIsOnCall());
-    }
-
-    public Map flatWhoIsOnCall(Map params) throws Exception {
-        FlatWhoIsOnCallRequest request = new FlatWhoIsOnCallRequest();
-        populateCommonProps(request, params);
-        request.setId(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
-        request.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
-
-        request.setTimeZone(ScriptBridgeUtils.getAsTimeZone(params, OpsGenieClientConstants.API.TIMEZONE));
-        request.setTime(ScriptBridgeUtils.getAsDate(params, OpsGenieClientConstants.API.TIME));
-        return JsonUtils.toMap(this.opsGenieClient.schedule().flatWhoIsOnCall(request).getWhoIsOnCall());
-    }
-
-    public List<Map> listWhoIsOnCall(Map params) throws Exception {
-        ListWhoIsOnCallRequest request = new ListWhoIsOnCallRequest();
-        populateCommonProps(request, params);
-
-        return beansToMap(this.opsGenieClient.schedule().listWhoIsOnCall(request).getWhoIsOnCallList());
-    }
-
-    public List<Map> listFlatWhoIsOnCall(Map params) throws Exception {
-        ListFlatWhoIsOnCallRequest request = new ListFlatWhoIsOnCallRequest();
-        populateCommonProps(request, params);
-
-        return beansToMap(this.opsGenieClient.schedule().listFlatWhoIsOnCall(request).getWhoIsOnCallList());
-    }
 
     public List<Map> listSchedules(Map params) throws Exception {
-        ListSchedulesRequest request = new ListSchedulesRequest();
-        populateCommonProps(request, params);
 
-        return beansToMap(this.opsGenieClient.schedule().listSchedules(request).getSchedules());
+        List<String> expand = getExpand(params);
+        return beansToMap(scheduleApi.listSchedules(expand).getData());
     }
 
     public Map updateSchedule(Map params) throws Exception {
-        correctRestrictionAndParticipantParams(params);
         UpdateScheduleRequest request = new UpdateScheduleRequest();
-        populateCommonProps(request, params);
-        Schedule schedule = new Schedule();
-        JsonUtils.fromMap(schedule, params);
-        request.setId(schedule.getId());
-        request.setEnabled(schedule.isEnabled());
-        request.setName(schedule.getName());
-        request.setRotations(schedule.getRotations());
-        request.setTimeZone(schedule.getTimeZone());
+        UpdateSchedulePayload payload = new UpdateSchedulePayload();
 
-        UpdateScheduleResponse resp = this.opsGenieClient.schedule().updateSchedule(request);
-        Map mapResponse = new HashMap();
-        mapResponse.put(OpsGenieClientConstants.API.ID, resp.getId());
-        return mapResponse;
+
+        setIdentifierParameters(request, UpdateScheduleRequest.IdentifierTypeEnum.class, params);
+
+        payload.setDescription(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.DESCRIPTION));
+        payload.setEnabled(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.ENABLED));
+        payload.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+        payload.setOwnerTeam(parseOwnerTeamBackwardsCompatible(params));
+        payload.setTimezone(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TIMEZONE));
+
+        payload.setRotations(parseRotations(params));
+
+        request.setBody(payload);
+
+
+        return JsonUtils.toMap(scheduleApi.updateSchedule(request));
     }
 
-    public Map copyNotificationRules(Map params) throws Exception {
-        CopyNotificationRulesRequest request = new CopyNotificationRulesRequest();
-        populateCommonProps(request, params);
-        request.setFromUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.FROM_USER));
-        request.setToUsers(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TO_USERS));
-        request.setRuleTypes(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.RULE_TYPES));
+    public Map whoIsOnCall(Map params) throws Exception {
+        GetOnCallRequest request = new GetOnCallRequest();
 
-        return JsonUtils.parse(this.opsGenieClient.copyNotificationRules(request).getJson());
-    }
-
-    private void populateAlertRequestWithId(BaseAlertRequestWithId request, Map params) {
-        Tuple identifierParams = getIdentifierParams(params);
-        populateCommonProps(request, params);
-
-        if (OpsGenieClientConstants.API.ALERT_ID.equals(identifierParams.get(1)) || OpsGenieClientConstants.API.ID.equals(identifierParams.get(1))) {
-            request.setId((String) identifierParams.get(0));
-        } else if (OpsGenieClientConstants.API.TINY.equals(identifierParams.get(1))) {
-            request.setTinyId((String) identifierParams.get(0));
-        } else {
-            request.setAlias((String) identifierParams.get(0));
-        }
-    }
-
-    private void populateAttachmentRequestCommonProps(AttachRequest request, Map params) {
-        populateAlertRequestWithId(request, params);
-        request.setUser(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
-        request.setNote(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
-        request.setSource(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
-        request.setIndexFile(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.INDEX_FILE));
-    }
-
-    protected Tuple getIdentifierParams(Map params) {
-        if (params.containsKey(OpsGenieClientConstants.API.ALERT_ID)) {
-            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID), OpsGenieClientConstants.API.ID});
-        } else if (params.containsKey(OpsGenieClientConstants.API.TINY_ID)) {
-            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TINY_ID), OpsGenieClientConstants.API.TINY});
+        if (params.containsKey(OpsGenieClientConstants.API.SCHEDULE_IDENTIFIER)) {
+            request.setIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SCHEDULE_IDENTIFIER));
+            GetOnCallRequest.ScheduleIdentifierTypeEnum scheduleIdentifierType = GetOnCallRequest.ScheduleIdentifierTypeEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SCHEDULE_IDENTIFIER_TYPE));
+            if (scheduleIdentifierType != null) {
+                request.setScheduleIdentifierType(scheduleIdentifierType);
+            }
         } else if (params.containsKey(OpsGenieClientConstants.API.ID)) {
-            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID), OpsGenieClientConstants.API.ID});
-        } else if (params.containsKey(OpsGenieClientConstants.API.ALIAS)) {
-            return new Tuple(new Object[]{ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS), OpsGenieClientConstants.API.ALIAS});
-        } else {
-            return new Tuple(new Object[]{null, null});
+            request.setIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID));
+            request.setScheduleIdentifierType(GetOnCallRequest.ScheduleIdentifierTypeEnum.ID);
+        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
+            request.setIdentifier(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME));
+            request.setScheduleIdentifierType(GetOnCallRequest.ScheduleIdentifierTypeEnum.NAME);
         }
+
+        request.setDate(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.DATE));
+        request.setFlat(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.FLAT));
+
+        return JsonUtils.toMap(whoIsOnCallApi.getOnCalls(request).getData());
     }
 
-    protected void populateCommonProps(BaseRequest request, Map params) {
-        String apiKeyFromParam;
-        if (params.containsKey(OpsGenieClientConstants.API.CUSTOMER_KEY)) {
-            apiKeyFromParam = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.CUSTOMER_KEY);
-        } else {
-            apiKeyFromParam = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.API_KEY);
-        }
-        if (apiKeyFromParam == null) {
-            apiKeyFromParam = apiKey;
-        }
-        request.setApiKey(apiKeyFromParam);
+
+    public Map flatWhoIsOnCall(Map params) throws Exception {
+        params.put(OpsGenieClientConstants.API.FLAT, true);
+        return whoIsOnCall(params);
     }
 
-    protected void populateAlertsRequest(AlertsRequest request, Map params) {
-        request.setCreatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_AFTER));
-        request.setCreatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.CREATED_BEFORE));
-        request.setUpdatedAfter(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_AFTER));
-        request.setUpdatedBefore(ScriptBridgeUtils.getAsLong(params, OpsGenieClientConstants.API.UPDATED_BEFORE));
-        request.setLimit(ScriptBridgeUtils.getAsInt(params, OpsGenieClientConstants.API.LIMIT));
-        if (params.containsKey(OpsGenieClientConstants.API.STATUS)) {
-            request.setStatus(AlertsRequest.Status.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.STATUS)));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.TAGS)) {
-            request.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
-        }
-        if (params.containsKey(OpsGenieClientConstants.API.TAGS_OPERATOR)) {
-            request.setTagsOperator(AlertsRequest.Operator.valueOf(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TAGS_OPERATOR)));
-        }
+    public List<Map> listWhoIsOnCall(Map params) throws Exception {
+        ListOnCallsRequest request = new ListOnCallsRequest();
+        request.setDate(ObjectUtils.defaultIfNull(ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.DATE), ScriptBridgeUtils.getAsDateTime(params, OpsGenieClientConstants.API.TIME)));
+
+        request.setFlat(ScriptBridgeUtils.getAsBoolean(params, OpsGenieClientConstants.API.FLAT));
+
+
+        return beansToMap(whoIsOnCallApi.listOnCalls(request).getData());
     }
 
-    protected Map successToMap(Object response) throws Exception {
+
+    private Map successToMap(Object response) throws Exception {
         Map mapResponse = new HashMap();
 
         if (response instanceof SuccessResponse) {
             return JsonUtils.toMap(response);
         } else {
-            mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, ((BaseResponse) response).isSuccess());
+            mapResponse.put(OpsgenieClientApplicationConstants.ScriptProxy.SUCCESS, false);
         }
 
         return mapResponse;
     }
 
-    protected List<Map> beansToMap(Iterable beans) {
+    private List<Map> beansToMap(Iterable beans) {
         List<Map> beanMaps = new ArrayList<Map>();
         for (Object bean : beans) {
             try {
@@ -1221,5 +931,292 @@ public class ScriptProxy {
             }
         }
         return beanMaps;
+    }
+
+    private static void updateIdentifierParamsIfDeprecated(Map params) {
+        if (!params.containsKey(OpsGenieClientConstants.API.IDENTIFIER)) {
+            params.putAll(generateIdentifierParamsForDeprecatedAPIRequests(params));
+        }
+    }
+
+    private static Map generateIdentifierParamsForDeprecatedAPIRequests(Map params) {
+        Map<String, String> identifierParams = new HashMap<String, String>();
+        String identifier = null;
+        String identifierType = null;
+        if (params.containsKey(OpsGenieClientConstants.API.ALERT_ID)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALERT_ID);
+            identifierType = OpsGenieClientConstants.API.ID;
+        } else if (params.containsKey(OpsGenieClientConstants.API.TINY_ID)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TINY_ID);
+            identifierType = OpsGenieClientConstants.API.TINY;
+        } else if (params.containsKey(OpsGenieClientConstants.API.ID)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID);
+            identifierType = OpsGenieClientConstants.API.ID;
+        } else if (params.containsKey(OpsGenieClientConstants.API.ALIAS)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ALIAS);
+            identifierType = OpsGenieClientConstants.API.ALIAS;
+        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
+            identifier = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
+            identifierType = OpsGenieClientConstants.API.NAME;
+        }
+        identifierParams.put(OpsGenieClientConstants.API.IDENTIFIER, identifier);
+        identifierParams.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE, identifierType);
+        return identifierParams;
+    }
+
+    public static void removeIdentifierParams(Map params) {
+        params.remove(OpsGenieClientConstants.API.IDENTIFIER);
+        params.remove(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        params.remove(OpsGenieClientConstants.API.ID);
+        params.remove(OpsGenieClientConstants.API.ALERT_ID);
+        params.remove(OpsGenieClientConstants.API.TINY_ID);
+        params.remove(OpsGenieClientConstants.API.ALIAS);
+        params.remove(OpsGenieClientConstants.API.USERNAME);
+    }
+
+
+    private static <T extends Enum<T>> T getEnumFromValue(Class<T> enumType, String value) {
+        for (T enumItem : EnumSet.allOf(enumType)) {
+            if (enumItem.toString().equals(value)) {
+                return enumItem;
+            }
+        }
+        return null;
+    }
+
+    private static <T> void populateCommonParameters(T object, Map params) throws Exception {
+        MethodUtils.invokeMethod(object, "setNote", ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NOTE));
+        MethodUtils.invokeMethod(object, "setUser", ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USER));
+        MethodUtils.invokeMethod(object, "setSource", ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE));
+    }
+
+    private static List<CreateScheduleRotationPayload> parseRotations(Map params) throws Exception {
+        List<CreateScheduleRotationPayload> scheduleRotations = new ArrayList<CreateScheduleRotationPayload>();
+        List<Map> scheduleRotationEntries = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.ROTATIONS);
+
+        if (scheduleRotationEntries != null) {
+            for (Map rotationEntry : scheduleRotationEntries) {
+                CreateScheduleRotationPayload rotation = new CreateScheduleRotationPayload();
+                rotation.setName(ScriptBridgeUtils.getAsString(rotationEntry, OpsGenieClientConstants.API.NAME));
+                rotation.setLength(ScriptBridgeUtils.getAsInt(rotationEntry, OpsGenieClientConstants.API.LENGTH));
+                rotation.setStartDate(ScriptBridgeUtils.getAsDateTime(rotationEntry, OpsGenieClientConstants.API.START_DATE));
+                rotation.setEndDate(ScriptBridgeUtils.getAsDateTime(rotationEntry, OpsGenieClientConstants.API.END_DATE));
+                rotation.setType(ObjectUtils.defaultIfNull(CreateScheduleRotationPayload.TypeEnum.fromValue(ScriptBridgeUtils.getAsString(rotationEntry, OpsGenieClientConstants.API.TYPE)), rotation.getType()));
+
+                rotation.setParticipants(ScriptBridgeUtils.getAsRecipientList(rotationEntry, OpsGenieClientConstants.API.PARTICIPANTS));
+
+
+                Map timeRestrictionIntervalEntry = ScriptBridgeUtils.getAsMap(rotationEntry, OpsGenieClientConstants.API.TIME_RESTRICTION);
+                if (timeRestrictionIntervalEntry != null) {
+
+                    TimeRestrictionInterval.TypeEnum timeRestrictionType = TimeRestrictionInterval.TypeEnum.fromValue(ScriptBridgeUtils.getAsString(timeRestrictionIntervalEntry, OpsGenieClientConstants.API.TYPE));
+                    if (timeRestrictionType != null) {
+                        if (timeRestrictionType.getValue().equals(TimeRestrictionInterval.TypeEnum.WEEKDAY_AND_TIME_OF_DAY.getValue())) {
+                            WeekdayTimeRestrictionInterval weekdayTimeRestrictionInterval = new WeekdayTimeRestrictionInterval();
+                            List<Map> weekDayTimeRestrictionEntries = ScriptBridgeUtils.getAsList(timeRestrictionIntervalEntry, OpsGenieClientConstants.API.RESTRICTIONS);
+                            if (weekDayTimeRestrictionEntries != null) {
+                                List<WeekdayTimeRestriction> restrictions = new ArrayList<WeekdayTimeRestriction>();
+                                for (Map weekDayTimeRestrictionEntry : weekDayTimeRestrictionEntries) {
+                                    WeekdayTimeRestriction weekdayTimeRestriction = new WeekdayTimeRestriction();
+                                    weekdayTimeRestriction.setStartDay(ObjectUtils.defaultIfNull(WeekdayTimeRestriction.StartDayEnum.fromValue(ScriptBridgeUtils.getAsString(weekDayTimeRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_START_DAY)), weekdayTimeRestriction.getStartDay()));
+                                    weekdayTimeRestriction.setEndDay(ObjectUtils.defaultIfNull(WeekdayTimeRestriction.EndDayEnum.fromValue(ScriptBridgeUtils.getAsString(weekDayTimeRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_END_DAY)), weekdayTimeRestriction.getEndDay()));
+                                    weekdayTimeRestriction.setStartHour(ScriptBridgeUtils.getAsInt(weekDayTimeRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_START_HOUR));
+                                    weekdayTimeRestriction.setEndHour(ScriptBridgeUtils.getAsInt(weekDayTimeRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_END_HOUR));
+                                    weekdayTimeRestriction.setStartMin(ScriptBridgeUtils.getAsInt(weekDayTimeRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_START_MINUTE));
+                                    weekdayTimeRestriction.setEndMin(ScriptBridgeUtils.getAsInt(weekDayTimeRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_END_MINUTE));
+                                    restrictions.add(weekdayTimeRestriction);
+                                }
+                                weekdayTimeRestrictionInterval.setRestrictions(restrictions);
+                                rotation.setTimeRestriction(weekdayTimeRestrictionInterval);
+                            }
+                        } else if (timeRestrictionType.getValue().equals(TimeRestrictionInterval.TypeEnum.TIME_OF_DAY.getValue())) {
+                            Map timeOfDayRestrictionEntry = ScriptBridgeUtils.getAsMap(timeRestrictionIntervalEntry, OpsGenieClientConstants.API.RESTRICTION);
+                            TimeOfDayRestrictionInterval timeOfDayRestrictionInterval = new TimeOfDayRestrictionInterval();
+                            TimeOfDayRestriction timeOfDayRestriction = new TimeOfDayRestriction();
+                            timeOfDayRestriction.setStartHour(ScriptBridgeUtils.getAsInt(timeOfDayRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_START_HOUR));
+                            timeOfDayRestriction.setEndHour(ScriptBridgeUtils.getAsInt(timeOfDayRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_END_HOUR));
+                            timeOfDayRestriction.setStartMin(ScriptBridgeUtils.getAsInt(timeOfDayRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_START_MINUTE));
+                            timeOfDayRestriction.setEndMin(ScriptBridgeUtils.getAsInt(timeOfDayRestrictionEntry, OpsGenieClientConstants.API.RESTRICTION_END_MINUTE));
+                            timeOfDayRestrictionInterval.setRestriction(timeOfDayRestriction);
+                            rotation.setTimeRestriction(timeOfDayRestrictionInterval);
+                        }
+
+                    }
+                }
+
+
+                scheduleRotations.add(rotation);
+            }
+        }
+
+        return scheduleRotations.isEmpty() ? null : scheduleRotations;
+    }
+
+    private static <T, S extends Enum<S>> void setIdentifierParameters(T object, Class<S> enumType, Map params) throws Exception {
+        updateIdentifierParamsIfDeprecated(params);
+        MethodUtils.invokeMethod(object, "setIdentifier", ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER));
+        MethodUtils.invokeMethod(object, "setIdentifierType", ObjectUtils.defaultIfNull(getEnumFromValue(enumType, ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER_TYPE)), MethodUtils.invokeMethod(object, "getIdentifierType")));
+    }
+
+    private static String getHeartbeatName(Map params) {
+        if (params.containsKey(OpsGenieClientConstants.API.HEARTBEAT_NAME)) {
+            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.HEARTBEAT_NAME);
+        } else if (params.containsKey(OpsGenieClientConstants.API.NAME)) {
+            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.NAME);
+        } else if (params.containsKey(OpsGenieClientConstants.API.SOURCE)) {
+            return ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.SOURCE);
+        }
+        return null;
+    }
+
+
+    private static List<EscalationRule> parseEscalationRules(Map params) throws Exception {
+
+        List<EscalationRule> escalationRules = new ArrayList<EscalationRule>();
+        List<Map> objectList = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.RULES);
+
+        if (objectList != null) {
+            for (Map ruleEntry : objectList) {
+                EscalationRule rule = new EscalationRule();
+                EscalationRule.ConditionEnum condition = EscalationRule.ConditionEnum.fromValue(ScriptBridgeUtils.getAsString(ruleEntry, OpsGenieClientConstants.API.CONDITION));
+                if (condition != null) {
+                    rule.setCondition(condition);
+                }
+                EscalationRule.NotifyTypeEnum notifyType = EscalationRule.NotifyTypeEnum.fromValue(ScriptBridgeUtils.getAsString(ruleEntry, OpsGenieClientConstants.API.NOTIFY_TYPE));
+                if (notifyType != null) {
+                    rule.setNotifyType(notifyType);
+                }
+                Map recipientMap = ScriptBridgeUtils.getAsMap(ruleEntry, OpsGenieClientConstants.API.RECIPIENT);
+                rule.setRecipient(ScriptBridgeUtils.getAsRecipient(recipientMap));
+
+                Map durationMap = ScriptBridgeUtils.getAsMap(ruleEntry, OpsGenieClientConstants.API.DELAY);
+                Duration duration = new Duration();
+                duration.setTimeAmount(ScriptBridgeUtils.getAsLong(durationMap, OpsGenieClientConstants.API.TIME_AMOUNT));
+                Duration.TimeUnitEnum timeUnit = Duration.TimeUnitEnum.fromValue(ScriptBridgeUtils.getAsString(durationMap, OpsGenieClientConstants.API.TIME_UNIT));
+                if (timeUnit != null) {
+                    duration.setTimeUnit(timeUnit);
+                }
+                rule.setDelay(duration);
+                escalationRules.add(rule);
+            }
+        }
+
+        return escalationRules;
+    }
+
+
+    private static TeamMeta parseOwnerTeamBackwardsCompatible(Map params) throws Exception {
+        TeamMeta teamMeta = new TeamMeta();
+
+        if (params.containsKey(OpsGenieClientConstants.API.OWNER_TEAM)) {
+            Map team = ScriptBridgeUtils.getAsMap(params, OpsGenieClientConstants.API.OWNER_TEAM);
+            JsonUtils.fromMap(teamMeta, team);
+            return teamMeta;
+        } else if (params.containsKey(OpsGenieClientConstants.API.TEAM)) {
+            teamMeta.setName(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.TEAM));
+            return teamMeta;
+        }
+
+        return null;
+    }
+
+    private static List<TeamMember> parseTeamMembers(Map params) throws Exception {
+        List<TeamMember> teamMembers = new ArrayList<TeamMember>();
+        List<Map> objectList = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.MEMBERS);
+
+        if (objectList != null) {
+            for (Map memberEntry : objectList) {
+                TeamMember teamMember = new TeamMember();
+                TeamMember.RoleEnum role = getEnumFromValue(TeamMember.RoleEnum.class, ScriptBridgeUtils.getAsString(memberEntry, OpsGenieClientConstants.API.ROLE));
+                if (role != null) {
+                    teamMember.setRole(role);
+                }
+                UserMeta userMeta = new UserMeta();
+                JsonUtils.fromMap(userMeta, ScriptBridgeUtils.getAsMap(memberEntry, OpsGenieClientConstants.API.USER));
+                teamMember.setUser(userMeta);
+                teamMembers.add(teamMember);
+            }
+        }
+        return teamMembers.isEmpty() ? null : teamMembers;
+    }
+
+    private static List<String> getExpand(Map params) {
+        String expandRaw = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.EXPAND);
+        List<String> expand = null;
+        if (expandRaw != null) {
+            expand = new ArrayList<String>(Arrays.asList((expandRaw).split(",")));
+        }
+        return expand;
+    }
+
+    private static String getUserIdentifier(Map params) {
+        String userId = null;
+        if (params.containsKey(OpsGenieClientConstants.API.IDENTIFIER)) {
+            userId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
+        } else if (params.containsKey(OpsGenieClientConstants.API.ID)) {
+            userId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.ID);
+        } else if (params.containsKey(OpsGenieClientConstants.API.USERNAME)) {
+            userId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.USERNAME);
+        }
+        return userId;
+    }
+
+    private static UserMeta parseUserMetaBackwardsCompatible(Object userMetaEntry) throws Exception {
+        if (userMetaEntry == null) {
+            return null;
+        }
+        UserMeta userMeta = new UserMeta();
+
+        if (userMetaEntry instanceof String) {
+            userMeta.setUsername((String) userMetaEntry);
+        } else if (userMetaEntry instanceof Map) {
+            JsonUtils.fromMap(userMeta, (Map) userMetaEntry);
+        } else {
+            return null;
+        }
+
+        return userMeta;
+    }
+
+    private static List<String> parseTags(Map params) {
+        if (params.containsKey(OpsGenieClientConstants.API.TAGS)) {
+            Object tags = params.get(OpsGenieClientConstants.API.TAGS);
+
+            if (tags instanceof List) {
+                return (List) tags;
+            } else if (tags instanceof String) {
+                return new ArrayList<String>(Arrays.asList(((String) tags).split(",")));
+            }
+        }
+        return null;
+    }
+
+    private static void updateDeprecatedUserInfo(Map params) {
+        if (params.get(OpsGenieClientConstants.API.ROLE) instanceof String) {
+            Map userRole = new HashMap<String, String>();
+            userRole.put(OpsGenieClientConstants.API.NAME, params.get(OpsGenieClientConstants.API.ROLE));
+            params.put(OpsGenieClientConstants.API.ROLE, userRole);
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.FULLNAME)) {
+            params.put(OpsGenieClientConstants.API.FULLNAME_CAMEL_CASE, params.remove(OpsGenieClientConstants.API.FULLNAME));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.TIMEZONE)) {
+            params.put(OpsGenieClientConstants.API.TIMEZONE_CAMEL_CASE, params.remove(OpsGenieClientConstants.API.TIMEZONE));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.SORT)) {
+            params.put(OpsGenieClientConstants.API.SORT_FIELD, params.remove(OpsGenieClientConstants.API.SORT));
+        }
+        if (params.containsKey(OpsGenieClientConstants.API.ORDER)) {
+            params.put(OpsGenieClientConstants.API.SORT_ORDER, params.remove(OpsGenieClientConstants.API.ORDER));
+        }
+    }
+
+
+    public AlertApi getAlertApi() {
+        return alertApi;
+    }
+
+    public void setAlertApi(AlertApi alertApi) {
+        this.alertApi = alertApi;
     }
 }

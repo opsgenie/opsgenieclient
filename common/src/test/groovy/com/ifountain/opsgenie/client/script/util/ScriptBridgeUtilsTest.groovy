@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.script.util
 
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.junit.Test
 import static org.junit.Assert.*
 
@@ -52,6 +54,23 @@ class ScriptBridgeUtilsTest {
         }
         catch (Throwable t) {
             assertEquals("[prop3] paramater should be hash", t.getMessage())
+        }
+    }
+
+    @Test
+    public void testGetAsDateTime() {
+        DateTimeZone.setDefault(DateTimeZone.forID("Europe/Moscow"))
+        def dates = []
+        def params = [date: new Date("11/24/2016 11:45")]
+        dates.add(ScriptBridgeUtils.getAsDateTime(params, "date"))
+        params = [date: "2016-11-24 11:45"]
+        dates.add(ScriptBridgeUtils.getAsDateTime(params, "date"))
+        params = [date: "2016-11-24T11:45:00.000+03:00"]
+        dates.add(ScriptBridgeUtils.getAsDateTime(params, "date"))
+        params = [date: 1479977100000]
+        dates.add(ScriptBridgeUtils.getAsDateTime(params, "date"))
+        for(int i=1 ;i<dates.size();i++){
+            assertEquals(dates.get(i).toString(), dates.get(i-1).toString())
         }
     }
 }

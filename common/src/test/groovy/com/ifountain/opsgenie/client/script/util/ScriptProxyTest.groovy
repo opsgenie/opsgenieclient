@@ -1,12 +1,14 @@
 package com.ifountain.opsgenie.client.script.util
 
-import com.ifountain.opsgenie.client.swagger.model.AddAlertDetailsRequest
-import com.ifountain.opsgenie.client.swagger.model.DeleteAlertDetailsRequest
-import com.ifountain.opsgenie.client.swagger.model.SnoozeAlertRequest
-import com.ifountain.opsgenie.client.swagger.model.SuccessResponse
-import com.ifountain.opsgenie.client.swagger.model.UnAcknowledgeAlertRequest
-import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
+
+import com.ifountain.opsgenie.client.test.util.AlertApiMock
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
+import com.opsgenie.oas.sdk.ApiClient
+import com.opsgenie.oas.sdk.model.AddDetailsToAlertRequest
+import com.opsgenie.oas.sdk.model.RemoveDetailsFromAlertRequest
+import com.opsgenie.oas.sdk.model.SnoozeAlertRequest
+import com.opsgenie.oas.sdk.model.SuccessResponse
+import com.opsgenie.oas.sdk.model.UnAcknowledgeAlertRequest
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -17,66 +19,69 @@ import static  org.junit.Assert.*
  * Time: 10:22 AM
  */
 class ScriptProxyTest  {
-    OpsGenieClientMock opsGenieClient;
-    String apiKey = "key1"
-    ScriptProxy proxy;
+    private ApiClient apiClient;
+    private AlertApiMock alertApiMock = new AlertApiMock()
+    private String apiKey = "key1"
+    private ScriptProxy scriptProxy;
 
     @Before
     public void setUp() {
-        opsGenieClient = new OpsGenieClientMock();
-        proxy = new ScriptProxy(opsGenieClient, apiKey);
+        apiClient = new ApiClient()
+        apiClient.setApiKey(apiKey)
+        alertApiMock.setApiClient(apiClient)
+        scriptProxy = new ScriptProxy(apiClient)
+        scriptProxy.setAlertApi(alertApiMock)
     }
-
     @Test
     public void testSnooze() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.snooze(["id":"id1", "endDate": new Date("11/24/2016 11:45"), "user" : "user1", "note" : "note1", "source" : "source1"]);
+        alertApiMock.setGenericSuccessResponse(successResponse);
+        Map response = scriptProxy.snooze(["id":"id1", "endDate": new Date("11/24/2016 11:45"), "user": "user1", "note": "note1", "source": "source1"]);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size());
         SnoozeAlertRequest request = executedRequests[0] as SnoozeAlertRequest;
 
-        assertEquals(new DateTime(new Date("11/24/2016 11:45")), request.getEndTime());
-        assertEquals("user1", request.getUser());
-        assertEquals("note1", request.getNote());
-        assertEquals("source1", request.getSource());
+        assertEquals(new DateTime(new Date("11/24/2016 11:45")), request.getBody().getEndTime());
+        assertEquals("user1", request.getBody().getUser());
+        assertEquals("note1", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
     }
 
     @Test
     public void testAddDetails() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.addDetails(["id": "id1", "details": ["k1" : "v1", "k2" : "v2", "k3" : "v3"], "user" : "user1", "note" : "note1", "source" : "source1"]);
+        alertApiMock.setGenericSuccessResponse(successResponse);
+        Map response = scriptProxy.addDetails(["id": "id1", "details": ["k1": "v1", "k2": "v2", "k3": "v3"], "user": "user1", "note": "note1", "source": "source1"]);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        AddAlertDetailsRequest request = executedRequests[0] as AddAlertDetailsRequest;
+        AddDetailsToAlertRequest request = executedRequests[0] as AddDetailsToAlertRequest;
 
-        assertEquals(["k1" : "v1", "k2" : "v2", "k3" : "v3"], request.getDetails())
-        assertEquals("user1", request.getUser());
-        assertEquals("note1", request.getNote());
-        assertEquals("source1", request.getSource());
+        assertEquals(["k1" : "v1", "k2" : "v2", "k3" : "v3"], request.getBody().getDetails())
+        assertEquals("user1", request.getBody().getUser());
+        assertEquals("note1", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
     }
 
     @Test
     public void testRemoveDetails() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.removeDetails(["id" : "id1", "keys" : ["key1", "key2", "key3"], "user" : "user1", "note" : "note1", "source" : "source1"]);
+        alertApiMock.setGenericSuccessResponse(successResponse);
+        Map response = scriptProxy.removeDetails(["id": "id1", "keys": ["key1", "key2", "key3"], "user": "user1", "note": "note1", "source": "source1"]);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        DeleteAlertDetailsRequest request = executedRequests[0] as DeleteAlertDetailsRequest;
+        RemoveDetailsFromAlertRequest request = executedRequests[0] as RemoveDetailsFromAlertRequest;
 
         assertEquals(["key1", "key2", "key3"], request.getKeys());
         assertEquals("user1", request.getUser());
@@ -88,17 +93,17 @@ class ScriptProxyTest  {
     public void testUnAcknowledge() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.unAcknowledge(["id" : "id1", "user" : "user1", "source" : "source1", "note" : "note1"]);
+        alertApiMock.setGenericSuccessResponse(successResponse);
+        Map response = scriptProxy.unAcknowledge(["id": "id1", "user": "user1", "source": "source1", "note": "note1"]);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         UnAcknowledgeAlertRequest request = executedRequests[0] as UnAcknowledgeAlertRequest;
 
-        assertEquals("user1", request.getUser());
-        assertEquals("note1", request.getNote());
-        assertEquals("source1", request.getSource());
+        assertEquals("user1", request.getBody().getUser());
+        assertEquals("note1", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
     }
 }

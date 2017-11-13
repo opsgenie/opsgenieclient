@@ -1,59 +1,19 @@
 package com.ifountain.opsgenie.client.script.util
 
-import com.ifountain.opsgenie.client.TestConstants;
-import com.ifountain.opsgenie.client.model.InputStreamAttachRequest
-import com.ifountain.opsgenie.client.swagger.model.AcknowledgeAlertRequest
-import com.ifountain.opsgenie.client.swagger.model.AddSavedSearchRequest
-import com.ifountain.opsgenie.client.swagger.model.AddSavedSearchResponse;
-import com.ifountain.opsgenie.client.swagger.model.AlertIntegration;
-import com.ifountain.opsgenie.client.swagger.model.AlertNote;
-import com.ifountain.opsgenie.client.swagger.model.AlertRecipient;
-import com.ifountain.opsgenie.client.swagger.model.AddAlertNoteRequest;
-import com.ifountain.opsgenie.client.swagger.model.AddAlertTagsRequest
-import com.ifountain.opsgenie.client.swagger.model.AlertReport
-import com.ifountain.opsgenie.client.swagger.model.AlertRequestStatus
-import com.ifountain.opsgenie.client.swagger.model.AssignAlertRequest
-import com.ifountain.opsgenie.client.swagger.model.BaseAlert;
-import com.ifountain.opsgenie.client.swagger.model.CreateAlertRequest;
-import com.ifountain.opsgenie.client.swagger.model.CloseAlertRequest
-import com.ifountain.opsgenie.client.swagger.model.EscalateAlertToNextRequest
-import com.ifountain.opsgenie.client.swagger.model.EscalationRecipient
-import com.ifountain.opsgenie.client.swagger.model.GetRequestStatusResponse
-import com.ifountain.opsgenie.client.swagger.model.GetSavedSearchResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertsResponse;
-import com.ifountain.opsgenie.client.model.alert.*;
-import com.ifountain.opsgenie.client.swagger.model.Alert;
-import com.ifountain.opsgenie.client.swagger.model.AlertLog;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertLogsResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertLogsRequest;
-import com.ifountain.opsgenie.client.swagger.model.GetAlertResponse;
-import com.ifountain.opsgenie.client.swagger.model.DeleteAlertTagsRequest;
-import com.ifountain.opsgenie.client.swagger.model.ExecuteCustomAlertActionRequest
-import com.ifountain.opsgenie.client.swagger.model.ListSavedSearchResponse
-import com.ifountain.opsgenie.client.swagger.model.Paging
-import com.ifountain.opsgenie.client.swagger.model.SavedSearch
-import com.ifountain.opsgenie.client.swagger.model.SavedSearchEntity
-import com.ifountain.opsgenie.client.swagger.model.SavedSearchMeta;
-import com.ifountain.opsgenie.client.swagger.model.SuccessResponse
-import com.ifountain.opsgenie.client.swagger.model.TeamMeta;
-import com.ifountain.opsgenie.client.swagger.model.TeamRecipient
-import com.ifountain.opsgenie.client.swagger.model.UserMeta
-import com.ifountain.opsgenie.client.swagger.model.UserRecipient;
+import com.ifountain.opsgenie.client.TestConstants
+import com.ifountain.opsgenie.client.test.util.AlertApiMock
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
-import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertRecipientsResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertsRequest;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertNotesResponse;
-import com.ifountain.opsgenie.client.swagger.model.ListAlertNotesRequest
-import com.ifountain.opsgenie.client.test.util.SuccessResponseMock;
-import com.ifountain.opsgenie.client.swagger.model.DeleteAlertRequest;
-import com.ifountain.opsgenie.client.swagger.model.AddAlertTeamRequest
-import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.opsgenie.client.test.util.SuccessResponseMock
+import com.ifountain.opsgenie.client.util.JsonUtils
+import com.opsgenie.oas.sdk.ApiClient
+import com.opsgenie.oas.sdk.model.*
+import org.apache.commons.io.FileUtils
+import org.apache.commons.io.IOUtils
 import org.joda.time.DateTime
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.Before
+import org.junit.Test
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*
 
 /**
  * Created by Sezgin Kucukkaraaslan
@@ -61,20 +21,24 @@ import static org.junit.Assert.*;
  * Time: 10:22 AM
  */
 class ScriptProxyAlertTest {
-    OpsGenieClientMock opsGenieClient;
+    ApiClient apiClient;
+    AlertApiMock alertApiMock = new AlertApiMock()
     String apiKey = "key1"
-    ScriptProxy proxy;
+    ScriptProxy scriptProxy;
 
     @Before
     public void setUp() {
-        opsGenieClient = new OpsGenieClientMock();
-        proxy = new ScriptProxy(opsGenieClient, apiKey);
+        apiClient = new ApiClient()
+        apiClient.setApiKey(apiKey)
+        alertApiMock.setApiClient(apiClient)
+        scriptProxy = new ScriptProxy(apiClient)
+        scriptProxy.setAlertApi(alertApiMock)
     }
 
     @Test
     public void testCreateAlertSuccessfully() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
+        alertApiMock.setGenericSuccessResponse(successResponse);
 
         def params = [message    : "my message",
                       description: "my description",
@@ -84,14 +48,13 @@ class ScriptProxyAlertTest {
                       teams      : [["name" : "team1"],["name" : "team2"]],
                       details    : [param1: "value1", param2: "value2"]];
 
-        Map resp = proxy.createAlert(params);
+        Map resp = scriptProxy.createAlert(params);
 
-        CommonTestUtils.assertGenericResponseWithoutData(resp);
+        CommonTestUtils.assertGenericResponseWithoutData(resp)
 
-        assertEquals(1, opsGenieClient.getExecutedRequestsV2().size());
+        assertEquals(1, alertApiMock.getExecutedRequests().size())
 
-        CreateAlertRequest request = opsGenieClient.getExecutedRequestsV2()[0] as CreateAlertRequest;
-
+        CreateAlertPayload payload = alertApiMock.getExecutedRequests()[0] as CreateAlertPayload
         TeamRecipient team1 = new TeamRecipient();
         team1.setName("team1");
 
@@ -103,16 +66,16 @@ class ScriptProxyAlertTest {
                 team2
         ];
 
-        assertEquals(params.actions, request.getActions())
-        assertEquals(params.tags, request.getTags())
-        assertEquals(expectedTeamsList, request.getTeams())
-        assertEquals(params.details, request.getDetails())
-        assertEquals(params.message, request.getMessage())
-        assertEquals(params.description, request.getDescription())
-        assertEquals(params.source, request.getSource())
-        assertEquals(params.entity, request.getEntity())
-        assertEquals(params.note, request.getNote())
-        assertEquals(params.user, request.getUser())
+        assertEquals(params.actions, payload.getActions())
+        assertEquals(params.tags, payload.getTags())
+        assertEquals(expectedTeamsList, payload.getTeams())
+        assertEquals(params.details, payload.getDetails())
+        assertEquals(params.message, payload.getMessage())
+        assertEquals(params.description, payload.getDescription())
+        assertEquals(params.source, payload.getSource())
+        assertEquals(params.entity, payload.getEntity())
+        assertEquals(params.note, payload.getNote())
+        assertEquals(params.user, payload.getUser())
     }
 
     @Test
@@ -120,7 +83,7 @@ class ScriptProxyAlertTest {
         def params = [details: "invalidmap"]
 
         try {
-            proxy.createAlert(params);
+            scriptProxy.createAlert(params);
             fail("Should throw exception since details is invalid");
         }
         catch (Exception ex) {
@@ -131,206 +94,168 @@ class ScriptProxyAlertTest {
     @Test
     public void testCloseAlert() throws Exception {
         SuccessResponseMock successResponse = CommonTestUtils.createGenericSuccessResponseMock();
-        opsGenieClient.alertV2().setGenericSuccessResponseMock(successResponse);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
 
         def params = [alertId: "alertId1", user: "someuser", source: "source1", "note": "note1"];
-        Map response = proxy.closeAlert(params);
+        Map response = scriptProxy.closeAlert(params);
 
         assertEquals("alertId1", response.identifier);
         assertEquals("id", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        assertEquals(1, opsGenieClient.getExecutedRequestsV2().size());
+        assertEquals(1, alertApiMock.getExecutedRequests().size());
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
-        assertEquals(1, executedRequests.size());
+        def executedRequests = alertApiMock.getExecutedRequests();
 
         CloseAlertRequest request = executedRequests[0] as CloseAlertRequest;
-        assertEquals("someuser", request.getUser());
-        assertEquals("source1", request.getSource());
-        assertEquals("note1", request.getNote());
+        assertEquals("someuser", request.getBody().getUser());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("note1", request.getBody().getNote());
     }
 
     @Test
     public void testAcknowledgeAlert() throws Exception {
         SuccessResponseMock successResponse = CommonTestUtils.createGenericSuccessResponseMock();
-        opsGenieClient.alertV2().setGenericSuccessResponseMock(successResponse);
+
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
 
         def params = [alias: "alias1", user: "someuser", source: "source1", note: "note"];
-        Map response = proxy.acknowledge(params);
+        Map response = scriptProxy.acknowledge(params);
 
         assertEquals("alias1", response.identifier);
         assertEquals("alias", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        assertEquals(1, opsGenieClient.getExecutedRequestsV2().size());
+        assertEquals(1, alertApiMock.getExecutedRequests().size());
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
-        assertEquals(1, executedRequests.size());
+        def executedRequests = alertApiMock.getExecutedRequests();
 
         AcknowledgeAlertRequest request = executedRequests[0] as AcknowledgeAlertRequest;
-        assertEquals("someuser", request.getUser());
-        assertEquals("source1", request.getSource());
-        assertEquals("note", request.getNote());
+
+        assertEquals("someuser", request.getBody().getUser());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("note", request.getBody().getNote());
     }
 
     @Test
     public void testEscalateAlertWithNewStructure() throws Exception {
         SuccessResponseMock successResponse = CommonTestUtils.createGenericSuccessResponseMock();
-        opsGenieClient.alertV2().setGenericSuccessResponseMock(successResponse);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
 
         def params = [tinyId: "tinyId1", user: "someuser", source: "source1", note: "note",
                       escalation: [id: "escalation1"]];
-        Map response = proxy.escalateToNext(params);
+        Map response = scriptProxy.escalateToNext(params);
 
         assertEquals("tinyId1", response.identifier);
         assertEquals("tiny", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        assertEquals(1, opsGenieClient.getExecutedRequestsV2().size());
+        assertEquals(1, alertApiMock.getExecutedRequests().size());
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size());
 
-        EscalateAlertToNextRequest request = executedRequests[0] as EscalateAlertToNextRequest;
-        assertEquals("someuser", request.getUser());
-        assertEquals("source1", request.getSource());
-        assertEquals("note", request.getNote());
+        EscalateAlertRequest request = executedRequests[0] as EscalateAlertRequest;
+        assertEquals("someuser", request.getBody().getUser());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("note", request.getBody().getNote());
 
         EscalationRecipient expectedEscalation = new EscalationRecipient();
         expectedEscalation.setId("escalation1");
 
-        assertEquals(expectedEscalation, request.getEscalation());
+        assertEquals(expectedEscalation, request.getBody().getEscalation());
     }
 
     @Test
     public void testEscalateAlertWithOldStructure() throws Exception {
         SuccessResponseMock successResponse = CommonTestUtils.createGenericSuccessResponseMock();
-        opsGenieClient.alertV2().setGenericSuccessResponseMock(successResponse);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
 
         def params = [tinyId: "tinyId1", user: "someuser", source: "source1", note: "note",
                       escalationName: "escalationName1"];
-        Map response = proxy.escalateToNext(params);
+        Map response = scriptProxy.escalateToNext(params);
 
         assertEquals("tinyId1", response.identifier);
         assertEquals("tiny", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        assertEquals(1, opsGenieClient.getExecutedRequestsV2().size());
+        assertEquals(1, alertApiMock.getExecutedRequests().size());
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size());
 
-        EscalateAlertToNextRequest request = executedRequests[0] as EscalateAlertToNextRequest;
-        assertEquals("someuser", request.getUser());
-        assertEquals("source1", request.getSource());
-        assertEquals("note", request.getNote());
+        EscalateAlertRequest request = executedRequests[0] as EscalateAlertRequest;
+        assertEquals("someuser", request.getBody().getUser());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("note", request.getBody().getNote());
 
         EscalationRecipient expectedEscalation = new EscalationRecipient();
         expectedEscalation.setName("escalationName1");
 
-        assertEquals(expectedEscalation, request.getEscalation());
-    }
-
-    @Test
-    public void testRenotify() throws Exception {
-        _testRenotify(false);
-        opsGenieClient.getExecutedRequests().clear()
-        _testRenotify(true);
-
-    }
-
-    public void _testRenotify(boolean useConfig) throws Exception {
-        opsGenieClient.alert().setRenotifyResponse(new RenotifyResponse());
-
-        def params = [alertId: "alertId1", user: "someuser", recipients: ["user1@xyz.com", "group1"], source: "source1"]
-
-        if (!useConfig) {
-            params.apiKey = "customer1";
-        }
-
-        Map response = proxy.renotify(params)
-
-        assertTrue(response.success)
-
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size())
-
-        RenotifyRequest request = executedRequests[0] as RenotifyRequest;
-
-        if (useConfig) {
-            assertEquals(apiKey, request.getApiKey())
-        } else {
-            assertEquals("customer1", request.getApiKey())
-
-        }
-
-        assertEquals("alertId1", request.getId());
-        assertEquals("someuser", request.getUser());
-        assertEquals("source1", request.getSource());
-        assertEquals(2, request.getRecipients().size());
-
-        assertTrue(request.getRecipients().containsAll(params.recipients));
-
+        assertEquals(expectedEscalation, request.getBody().getEscalation());
     }
 
     @Test
     public void testAddNote() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [alias: "alias1", note: "mynote", user: "someuser", source: "source1"];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.addNote(params);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.addNote(params);
+        assertEquals("alias1", response.identifier);
+        assertEquals("alias", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        AddAlertNoteRequest request = executedRequests[0] as AddAlertNoteRequest;
+        AddNoteToAlertRequest request = executedRequests[0] as AddNoteToAlertRequest;
 
-        assertEquals("mynote", request.getNote());
-        assertEquals("source1", request.getSource());
-        assertEquals("someuser", request.getUser());
+        assertEquals("mynote", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("someuser", request.getBody().getUser());
     }
 
     @Test
     public void testAddTags() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [tinyId: "tinyId1", note: "mynote", user: "someuser", source: "source1", tags: ["tag1","tag2"]];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.addTags(params)
-
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.addTags(params)
+        assertEquals("tinyId1", response.identifier);
+        assertEquals("tiny", response.identifierType);
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        AddAlertTagsRequest request = executedRequests[0] as AddAlertTagsRequest;
+        AddTagsToAlertRequest request = executedRequests[0] as AddTagsToAlertRequest;
 
-        assertEquals("mynote", request.getNote());
-        assertEquals("source1", request.getSource());
-        assertEquals("someuser", request.getUser());
-        assertEquals(["tag1","tag2"], request.getTags());
+        assertEquals("mynote", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("someuser", request.getBody().getUser());
+        assertEquals(["tag1","tag2"], request.getBody().getTags());
 
     }
 
     @Test
     public void testRemoveTags() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [alertId: "alertId1", note: "mynote", user: "someuser", source: "source1", tags: ["tag1","tag2"]];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.removeTags(params);
-
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.removeTags(params);
+        assertEquals("alertId1", response.identifier);
+        assertEquals("id", response.identifierType);
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        DeleteAlertTagsRequest request = executedRequests[0] as DeleteAlertTagsRequest;
+        RemoveTagsFromAlertRequest request = executedRequests[0] as RemoveTagsFromAlertRequest;
 
         assertEquals("mynote", request.getNote());
         assertEquals("source1", request.getSource());
@@ -344,90 +269,62 @@ class ScriptProxyAlertTest {
         SuccessResponseMock successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [id: "alertId1", action: "action", user: "user1@xyz.com", note: "note1", source: "source1"];
 
-        opsGenieClient.alertV2().setGenericSuccessResponseMock(successResponse);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
 
-        Map response = proxy.executeAlertAction(params);
+        Map response = scriptProxy.executeAlertAction(params);
 
         assertEquals("alertId1", response.identifier);
         assertEquals("id", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         ExecuteCustomAlertActionRequest request = executedRequests[0] as ExecuteCustomAlertActionRequest;
 
-        assertEquals("note1", request.getNote());
-        assertEquals("user1@xyz.com", request.getUser());
-        assertEquals("source1", request.getSource());
+        assertEquals("note1", request.getBody().getNote());
+        assertEquals("user1@xyz.com", request.getBody().getUser());
+        assertEquals("source1", request.getBody().getSource());
     }
+
 
     @Test
     public void testFileAttach() throws Exception {
-        _testFileAttach(false)
-        opsGenieClient.getExecutedRequests().clear()
-        _testFileAttach(true);
-    }
-
-    public void _testFileAttach(boolean useConfig) throws Exception {
-        opsGenieClient.alert().setAttachResponse(new AttachResponse());
         def params = [alertId: "alertId1", indexFile: "index.html", attachment: "dummy.txt", user: "someuser", source: "source1", note: "comment"]
-        if (!useConfig) {
-            params.apiKey = "customer1";
-        }
-        Map response = proxy.attach(params)
-        assertTrue(response.success)
 
-        def executedRequests = opsGenieClient.getExecutedRequests();
+        scriptProxy.attach(params)
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        FileAttachRequest request = executedRequests[0] as FileAttachRequest;
 
-        assertEquals("source1", request.getSource());
-        assertEquals("alertId1", request.getAlertId());
+        AddAttachmentToAlertRequest request = executedRequests[0] as AddAttachmentToAlertRequest;
+
+        assertEquals("alertId1", request.getIdentifier());
+        assertEquals("id", request.getAlertIdentifierType().getValue());
         assertEquals("index.html", request.getIndexFile());
-        assertEquals("comment", request.getNote());
         assertEquals(new File("dummy.txt"), request.getFile());
         assertEquals("someuser", request.getUser());
-        if (useConfig) {
-            assertEquals(apiKey, request.getApiKey())
-        } else {
-            assertEquals("customer1", request.getApiKey())
-        }
     }
 
     @Test
     public void testInputStreamAttach() throws Exception {
-        _testInputStreamAttach(false)
-        opsGenieClient.getExecutedRequests().clear()
-        _testInputStreamAttach(true);
-    }
+        String content = "example content";
+        byte[] contentBytes = content.getBytes();
 
-    public void _testInputStreamAttach(boolean useConfig) throws Exception {
-        opsGenieClient.alert().setAttachResponse(new AttachResponse());
-        def stream = new ByteArrayInputStream()
+        def stream = new ByteArrayInputStream(contentBytes)
+
         def params = [tinyId: "tinyId1", indexFile: "index.html", stream: stream, fileName: "dummy.txt", user: "someuser", source: "source1", note: "comment"]
-        if (!useConfig) {
-            params.apiKey = "customer1";
-        }
-        Map response = proxy.attach(params)
-        assertTrue(response.success)
 
-        def executedRequests = opsGenieClient.getExecutedRequests();
+        scriptProxy.attach(params)
+
+
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        InputStreamAttachRequest request = executedRequests[0] as InputStreamAttachRequest;
-
-        assertEquals("tinyId1", request.getTinyId())
-        assertEquals("source1", request.getSource());
+        AddAttachmentToAlertRequest request = executedRequests[0] as AddAttachmentToAlertRequest;
+        assertEquals("tinyId1", request.getIdentifier())
+        assertEquals("tiny", request.getAlertIdentifierType().getValue())
         assertEquals("index.html", request.getIndexFile());
-        assertEquals(stream, request.getInputStream());
-        assertEquals("dummy.txt", request.getFileName());
         assertEquals("someuser", request.getUser());
-        assertEquals("comment", request.getNote());
-        if (useConfig) {
-            assertEquals(apiKey, request.getApiKey())
-        } else {
-            assertEquals("customer1", request.getApiKey())
-        }
+        assertEquals(contentBytes.toString(), IOUtils.toByteArray(new FileInputStream(request.getFile())).toString());
     }
 
     @Test
@@ -456,10 +353,10 @@ class ScriptProxyAlertTest {
         expectedResponse.setTook(0.169f);
         expectedResponse.setRequestId("request-id");
 
-        opsGenieClient.alertV2().setGetAlertResponse(expectedResponse);
+        alertApiMock.setGetAlertResponse(expectedResponse);
 
         def params = [alias: "alias1", tinyId: "tinyId1", alertId: "alertId1"];
-        Map response = proxy.getAlert(params);
+        Map response = scriptProxy.getAlert(params);
 
         assertEquals(expectedResponse.getData().getMessage(), response.message);
         assertEquals(expectedResponse.getData().getActions(), response.actions);
@@ -472,7 +369,7 @@ class ScriptProxyAlertTest {
         assertEquals(expectedResponse.getData().getSource(), response.source);
         assertEquals(expectedResponse.getRequestId(), response.requestId);
         assertEquals(expectedResponse.getData().getStatus(), response.status);
-        assertEquals([["id" : "teamId1"]], response.teams);
+        assertEquals([["id" : "teamId1", "name" : null]], response.teams);
         assertEquals(expectedResponse.getData().getTags(), response.tags);
         assertEquals(expectedResponse.getData().getTinyId(), response.tinyId);
     }
@@ -484,7 +381,7 @@ class ScriptProxyAlertTest {
         expectedResponse.setTook(0.169f);
         expectedResponse.setRequestId("request-id");
 
-        Paging paging = new Paging();
+        AlertPaging paging = new AlertPaging();
         paging.setFirst("paging_first");
         paging.setNext("paging_next");
 
@@ -507,7 +404,7 @@ class ScriptProxyAlertTest {
 
         expectedResponse.setData(alertLogs);
 
-        opsGenieClient.alertV2().setListAlertLogsResponse(expectedResponse);
+        alertApiMock.setListAlertLogsResponse(expectedResponse);
 
         def params = [
                 alias: "alias1",
@@ -517,9 +414,9 @@ class ScriptProxyAlertTest {
                 offset: "offset_param"
         ]
 
-        def response = proxy.listAlertLogs(params);
+        def response = scriptProxy.listAlertLogs(params);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size());
         ListAlertLogsRequest request = executedRequests[0] as ListAlertLogsRequest;
 
@@ -565,22 +462,22 @@ class ScriptProxyAlertTest {
                         .method("Acknowledge")
                         .createdAt(new DateTime(new Date("7/7/2017 17:17")))
                         .updatedAt(new DateTime(new Date("7/7/2017 18:18")))
-                        .user(new UserMeta().username("username1").id("userId1")),
+                        .user(new AlertUserMeta().username("username1").id("userId1")),
                 new AlertRecipient()
                         .state("notactive")
                         .method("")
                         .createdAt(new DateTime(new Date("8/8/2017 18:18")))
                         .updatedAt(new DateTime(new Date("8/8/2017 19:19")))
-                        .user(new UserMeta().username("username2").id("userId2"))
+                        .user(new AlertUserMeta().username("username2").id("userId2"))
         ];
 
         expectedResponse.setData(expectedRecipients);
 
-        opsGenieClient.alertV2().setListAlertRecipientsResponse(expectedResponse);
+        alertApiMock.setListAlertRecipientsResponse(expectedResponse);
 
         def params = [alias: "alias1"];
 
-        def response = proxy.listAlertRecipients(params);
+        def response = scriptProxy.listAlertRecipients(params);
 
         assertEquals(0.169f, (float) response.took, 0.001f);
         assertEquals(expectedResponse.getRequestId(), response.requestId);
@@ -682,14 +579,14 @@ class ScriptProxyAlertTest {
 
         expectedResponse.setData(expectedAlerts);
 
-        opsGenieClient.alertV2().setListAlertsResponse(expectedResponse);
+        alertApiMock.setListAlertsResponse(expectedResponse);
 
         def params = [limit: 10, order: "asc", sort: "createdAt", offset: 2,
                       query: "message: (lorem OR ipsum)", searchIdentifier: "alertId1", searchIdentifierType: "id"]
 
-        List<Map> response = proxy.listAlerts(params)
+        List<Map> response = scriptProxy.listAlerts(params)
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         ListAlertsRequest request = executedRequests[0] as ListAlertsRequest;
 
@@ -712,7 +609,7 @@ class ScriptProxyAlertTest {
         assertEquals(expectedResponse.getData()[0].tags, response[0].tags);
         assertEquals(expectedResponse.getData()[0].tinyId, response[0].tinyId);
         assertEquals(expectedResponse.getData()[0].tags, response[0].tags);
-        assertEquals([["id": "teamId1"], ["id": "teamId2"]], response[0].teams);
+        assertEquals([["id": "teamId1", "name" : null], ["id": "teamId2", "name" : null]], response[0].teams);
         assertEquals(expectedResponse.getData()[0].acknowledged, response[0].acknowledged);
         assertEquals(expectedResponse.getData()[0].isSeen, response[0].isSeen);
         assertEquals(expectedResponse.getData()[0].snoozed, response[0].snoozed);
@@ -731,48 +628,14 @@ class ScriptProxyAlertTest {
     }
 
     @Test
-    public void testCountAlerts() throws Exception {
-        _testCountAlerts(false)
-        opsGenieClient.getExecutedRequests().clear();
-        _testCountAlerts(true)
-    }
-
-    public void _testCountAlerts(boolean useConfig) throws Exception {
-        def expectedResponse = new CountAlertsResponse(count: 5)
-        opsGenieClient.alert().setCountAlertsResponse(expectedResponse);
-        def params = [ status: "open", createdAfter: 3, createdBefore: 4, updatedAfter: 5, updatedBefore: 6, sortBy: "createdAt", order: "asc", tags: "tag1, tag3", tagsOperator: "or"]
-        if (!useConfig) {
-            params.apiKey = "customer1";
-        }
-        Map response = proxy.countAlerts(params)
-
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size())
-        CountAlertsRequest request = executedRequests[0] as CountAlertsRequest;
-
-        assertEquals(3, request.getCreatedAfter())
-        assertEquals(4, request.getCreatedBefore())
-        assertEquals(5, request.getUpdatedAfter())
-        assertEquals(6, request.getUpdatedBefore())
-        assertNotNull(request.getTags())
-        assertEquals(AlertsRequest.Operator.or, request.getTagsOperator())
-        if (useConfig) {
-            assertEquals(apiKey, request.getApiKey())
-        } else {
-            assertEquals("customer1", request.getApiKey())
-        }
-
-        assertEquals(expectedResponse.count, response.count)
-    }
-
-    @Test
     public void testListAlertNotes() throws Exception {
         ListAlertNotesResponse expectedResponse = new ListAlertNotesResponse();
 
         expectedResponse.setTook(0.169f);
         expectedResponse.setRequestId("request-id");
 
-        Paging paging = new Paging();
+
+        AlertPaging paging = new AlertPaging();
         paging.setFirst("paging_first");
         paging.setNext("paging_next");
 
@@ -791,12 +654,12 @@ class ScriptProxyAlertTest {
                         .offset("offset2")
         ]);
 
-        opsGenieClient.alertV2().setListAlertNotesResponse(expectedResponse);
+        alertApiMock.setListAlertNotesResponse(expectedResponse);
         def params = [alertId: "alertId1", order: "asc", limit: 10, direction: "prev", offset: "offset1"]
 
-        def response = proxy.listAlertNotes(params);
+        def response = scriptProxy.listAlertNotes(params);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         ListAlertNotesRequest request = executedRequests[0] as ListAlertNotesRequest;
 
@@ -829,43 +692,23 @@ class ScriptProxyAlertTest {
     }
 
     @Test
-    public void testAddRecipient() throws Exception {
-        opsGenieClient.alert().setAddRecipientResponse(new AddRecipientResponse());
-        def params = [id: "alertId1", recipient: "recipient@opsgenie.com", user: "user@opsgenie.com", note: "note1", source: "source1"];
-
-        Map response = proxy.addRecipient(params);
-
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size());
-        AddRecipientRequest request = executedRequests[0] as AddRecipientRequest;
-
-        assertEquals("alertId1", request.getId());
-        assertEquals("recipient@opsgenie.com", request.getRecipient());
-        assertEquals("user@opsgenie.com", request.getUser());
-        assertEquals("note1", request.getNote());
-        assertEquals("source1", request.getSource());
-
-        assertTrue(response.success);
-    }
-
-    @Test
     public void testAddTeamOldParameters() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
         def params = [alias: "alias1", note: "mynote", user: "someuser", source: "source1", team: "teamName1"];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.addTeam(params);
+        alertApiMock.setGenericSuccessResponse(successResponse);
+        Map response = scriptProxy.addTeam(params);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        AddAlertTeamRequest request = executedRequests[0] as AddAlertTeamRequest;
+        AddTeamToAlertRequest request = executedRequests[0] as AddTeamToAlertRequest;
 
-        assertEquals(new TeamRecipient().name("teamName1"), request.getTeam());
-        assertEquals("mynote", request.getNote());
-        assertEquals("source1", request.getSource());
-        assertEquals("someuser", request.getUser());
+        assertEquals(new TeamRecipient().name("teamName1"), request.getBody().getTeam());
+        assertEquals("mynote", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("someuser", request.getBody().getUser());
     }
 
     @Test
@@ -873,72 +716,77 @@ class ScriptProxyAlertTest {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
         def params = [alias: "alias1", note: "mynote", user: "someuser", source: "source1", team: ["id": "teamId1"]];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.addTeam(params);
+        alertApiMock.setGenericSuccessResponse(successResponse);
+        Map response = scriptProxy.addTeam(params);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        AddAlertTeamRequest request = executedRequests[0] as AddAlertTeamRequest;
+        AddTeamToAlertRequest request = executedRequests[0] as AddTeamToAlertRequest;
 
-        assertEquals(new TeamRecipient().id("teamId1"), request.getTeam());
-        assertEquals("mynote", request.getNote());
-        assertEquals("source1", request.getSource());
-        assertEquals("someuser", request.getUser());
+        assertEquals(new TeamRecipient().id("teamId1"), request.getBody().getTeam());
+        assertEquals("mynote", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("someuser", request.getBody().getUser());
     }
 
     @Test
     public void testAssignOldParameters() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [alias: "alias1", note: "mynote", user: "someuser", source: "source1", owner: "owner@opsgenie.com"];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.assign(params);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.assign(params);
+        assertEquals("alias1", response.identifier);
+        assertEquals("alias", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         AssignAlertRequest request = executedRequests[0] as AssignAlertRequest;
 
-        assertEquals(new UserRecipient().username("owner@opsgenie.com"), request.getOwner());
-        assertEquals("mynote", request.getNote());
-        assertEquals("source1", request.getSource());
-        assertEquals("someuser", request.getUser());
+        assertEquals(new UserRecipient().username("owner@opsgenie.com"), request.getBody().getOwner());
+        assertEquals("mynote", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("someuser", request.getBody().getUser());
     }
 
     @Test
     public void testAssignNewParameters() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [alias: "alias1", note: "mynote", user: "someuser", source: "source1", owner: ["username": "owner@opsgenie.com"]];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.assign(params);
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.assign(params);
+        assertEquals("alias1", response.identifier);
+        assertEquals("alias", response.identifierType);
 
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         AssignAlertRequest request = executedRequests[0] as AssignAlertRequest;
 
-        assertEquals(new UserRecipient().username("owner@opsgenie.com"), request.getOwner());
-        assertEquals("mynote", request.getNote());
-        assertEquals("source1", request.getSource());
-        assertEquals("someuser", request.getUser());
+        assertEquals(new UserRecipient().username("owner@opsgenie.com"), request.getBody().getOwner());
+        assertEquals("mynote", request.getBody().getNote());
+        assertEquals("source1", request.getBody().getSource());
+        assertEquals("someuser", request.getBody().getUser());
     }
 
     @Test
     public void testDeleteAlert() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [alias: "alias1", user: "someuser", source: "source1"];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.deleteAlert(params);
-
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.deleteAlert(params);
+        assertEquals("alias1", response.identifier);
+        assertEquals("alias", response.identifierType);
         CommonTestUtils.assertGenericResponseWithoutData(response);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
         DeleteAlertRequest request = executedRequests[0] as DeleteAlertRequest;
 
@@ -947,27 +795,8 @@ class ScriptProxyAlertTest {
     }
 
     @Test
-    public void testTakeOwnership() throws Exception {
-        opsGenieClient.alert().setTakeOwnershipResponse(new TakeOwnershipResponse());
-        def params = [id: "alertId1", user: "user@opsgenie.com", note: "note1", source: "source1"];
-
-        Map response = proxy.takeOwnership(params);
-
-        def executedRequests = opsGenieClient.getExecutedRequests();
-        assertEquals(1, executedRequests.size());
-        TakeOwnershipRequest request = executedRequests[0] as TakeOwnershipRequest;
-
-        assertEquals("alertId1", request.getId());
-        assertEquals("user@opsgenie.com", request.getUser());
-        assertEquals("note1", request.getNote());
-        assertEquals("source1", request.getSource());
-
-        assertTrue(response.success);
-    }
-
-    @Test
     public void testAddSavedSearch() throws Exception {
-        AddSavedSearchResponse expectedResponse = new AddSavedSearchResponse();
+        CreateSavedSearchResponse expectedResponse = new CreateSavedSearchResponse();
 
         expectedResponse.setTook(0.169f);
         expectedResponse.setRequestId("request-id");
@@ -978,16 +807,16 @@ class ScriptProxyAlertTest {
 
         def params = [name: "savedSearchName", query: "query1", owner: ["username": "owner1"], description: "desc", teams: ["name": "team1"]];
 
-        opsGenieClient.alertV2().setAddSavedSearchResponse(expectedResponse);
-        Map response = proxy.addSavedSearch(params);
+        alertApiMock.setCreateSavedSearchResponse(expectedResponse);
+        Map response = scriptProxy.addSavedSearch(params);
 
         assertEquals(expectedResponse.getTook(), (float) response.took, 0.001f);
         assertEquals(expectedResponse.getRequestId(), response.requestId);
         assertEquals(JsonUtils.toMap(expectedResponse.getData()), response.data);
 
-        def executedRequests = opsGenieClient.getExecutedRequestsV2();
+        def executedRequests = alertApiMock.getExecutedRequests();
         assertEquals(1, executedRequests.size())
-        AddSavedSearchRequest request = executedRequests[0] as AddSavedSearchRequest;
+        CreateSavedSearchPayload request = executedRequests[0] as CreateSavedSearchPayload;
 
         assertEquals("savedSearchName", request.getName());
         assertEquals("query1", request.getQuery());
@@ -998,12 +827,13 @@ class ScriptProxyAlertTest {
 
     @Test
     public void testDeleteSavedSearch() throws Exception {
-        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponseMock();
         def params = [name: "savedSearch1"];
 
-        opsGenieClient.alertV2().setGenericSuccessResponse(successResponse);
-        Map response = proxy.deleteSavedSearch(params);
-
+        alertApiMock.setGenericSuccessResponseMock(successResponse);
+        Map response = scriptProxy.deleteSavedSearch(params);
+        assertEquals("savedSearch1", response.identifier);
+        assertEquals("name", response.identifierType);
         CommonTestUtils.assertGenericResponseWithoutData(response);
     }
 
@@ -1024,8 +854,9 @@ class ScriptProxyAlertTest {
 
         def params = [requestId: "request-id"];
 
-        opsGenieClient.alertV2().setGetRequestStatusResponse(expectedResponse);
-        Map response = proxy.getRequestStatus(params);
+        alertApiMock.setGetRequestStatusResponse(expectedResponse);
+
+        Map response = scriptProxy.getRequestStatus(params);
 
         assertEquals(expectedResponse.getTook(), (float) response.took, 0.001f);
         assertEquals(expectedResponse.getRequestId(), response.requestId);
@@ -1055,8 +886,8 @@ class ScriptProxyAlertTest {
 
         def params = [id: "saved-search-id"];
 
-        opsGenieClient.alertV2().setGetSavedSearchResponse(expectedResponse);
-        Map response = proxy.getSavedSearch(params);
+        alertApiMock.setGetSavedSearchResponse(expectedResponse);
+        Map response = scriptProxy.getSavedSearch(params);
 
         assertEquals(expectedResponse.getTook(), (float) response.took, 0.001f);
         assertEquals(expectedResponse.getRequestId(), response.requestId);
@@ -1065,7 +896,7 @@ class ScriptProxyAlertTest {
 
     @Test
     public void testListSavedSearch() throws Exception {
-        ListSavedSearchResponse expectedResponse = new ListSavedSearchResponse();
+        ListSavedSearchesResponse expectedResponse = new ListSavedSearchesResponse();
 
         expectedResponse.setRequestId("request-id");
         expectedResponse.setTook(0.169f);
@@ -1080,8 +911,8 @@ class ScriptProxyAlertTest {
 
         expectedResponse.setData(savedSearchesList);
 
-        opsGenieClient.alertV2().setListSavedSearchResponse(expectedResponse);
-        Map response = proxy.listSavedSearch();
+        alertApiMock.setListSavedSearchesResponse(expectedResponse);
+        Map response = scriptProxy.listSavedSearch();
 
         assertEquals(expectedResponse.getTook(), (float) response.took, 0.001f);
         assertEquals(expectedResponse.getRequestId(), response.requestId);

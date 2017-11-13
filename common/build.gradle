@@ -1,9 +1,15 @@
 jar.baseName = 'client-scripts'
 
 dependencies {
-    compile project(':sdk')
+    compile(project(':sdk')) {
+        exclude group: 'com.sun.jersey'
+        exclude group: 'com.sun.jersey.contribs'
+        exclude group: 'io.swagger'
+    }
+
     compile 'bsf:bsf:2.4.0'
     compile 'org.codehaus.groovy:groovy-all:1.8.4'
     compile 'log4j:log4j:1.2.16'
     testCompile project(':test')
+    compile 'com.opsgenie.oas:opsgenie-sdk-swagger:1.0.1'
 }
