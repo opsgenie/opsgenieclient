@@ -1,11 +1,10 @@
 package com.ifountain.opsgenie.client.marid;
-
-import com.ifountain.opsgenie.client.IOpsGenieClient;
-import com.ifountain.opsgenie.client.OpsGenieClient;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
 import com.ifountain.opsgenie.client.util.ClientConfiguration;
 import com.ifountain.opsgenie.client.util.ClientProxyConfiguration;
 
+import com.opsgenie.oas.sdk.ApiClient;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -22,45 +21,46 @@ import java.util.Properties;
  * @version 8/9/12 2:44 PM
  */
 public class MaridConfig {
-    private  String opsgenieApiUrl;
-    private  String apiKey;
-    private  String maridKey;
-    private  OpsGenieHttpClient opsGenieHttpClient;
-    private  IOpsGenieClient opsGenieClient;
+    private String opsgenieApiUrl;
+    private String apiKey;
+    private String maridKey;
+    private OpsGenieHttpClient opsGenieHttpClient;
+    private ApiClient apiClient;
     private Map<String, String> lowercasedConfiguration;
     private Properties configuration;
     private ClientConfiguration clientConfiguration;
 
     private static MaridConfig instance = new MaridConfig();
-    public static MaridConfig getInstance(){
+
+    public static MaridConfig getInstance() {
         return instance;
     }
 
-    public static void destroyInstance(){
-        if(instance != null){
+    public static void destroyInstance() {
+        if (instance != null) {
             instance.destroy();
         }
         instance = new MaridConfig();
     }
 
-    public void destroy(){
-        if(opsGenieClient != null){
-            opsGenieClient.close();
-            opsGenieClient = null;
+    public void destroy() {
+        if (apiClient != null) {
+            apiClient.getHttpClient().close();
+            apiClient = null;
         }
-        if(opsGenieHttpClient != null){
+        if (opsGenieHttpClient != null) {
             opsGenieHttpClient.close();
             opsGenieHttpClient = null;
         }
     }
 
     public void init(String configurationPath) throws Exception {
-        if(configuration != null) throw new Exception("Already initialized");
+        if (configuration != null) throw new Exception("Already initialized");
         Properties configuration = new Properties();
         File configFile = new File(configurationPath);
 
         // if config file doesn't exist, look in home dir
-        if(!configFile.exists())
+        if (!configFile.exists())
             configFile = new File("conf/marid.conf");
 
         if (configFile.exists()) {
@@ -76,19 +76,19 @@ public class MaridConfig {
         }
         opsgenieApiUrl = configuration.getProperty("opsgenie.api.url", "https://api.opsgenie.com");
         apiKey = configuration.getProperty("apiKey");
-        if(apiKey == null){
+        if (apiKey == null) {
             apiKey = configuration.getProperty("customerKey");
         }
         maridKey = configuration.getProperty("maridKey");
         initOpsgenieClient();
     }
 
-    private void initOpsgenieClient(){
+    private void initOpsgenieClient() {
         clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setSocketTimeout(getInt("opsgenie.connection.sockettimeout", 30)*1000);
-        clientConfiguration.setConnectionTimeout(getInt("opsgenie.connection.timeout", 30)*1000);
+        clientConfiguration.setSocketTimeout(getInt("opsgenie.connection.sockettimeout", 30) * 1000);
+        clientConfiguration.setConnectionTimeout(getInt("opsgenie.connection.timeout", 30) * 1000);
         clientConfiguration.setMaxConnections(getInt("opsgenie.connection.maxConnectionCount", 50));
-        if(getBoolean("http.proxy.enabled", false)){
+        if (getBoolean("http.proxy.enabled", false)) {
             final String proxyHost = getProperty("http.proxy.host");
             final int proxyPort = getInt("http.proxy.port", 0);
             final String proxyProtocol = getProperty("http.proxy.protocol", "http");
@@ -101,10 +101,10 @@ public class MaridConfig {
             clientProxyConfiguration.setProxyProtocol(proxyProtocol);
             String authMethod = getProperty("http.proxy.authMethod", ClientProxyConfiguration.AuthType.NT.name());
             ClientProxyConfiguration.AuthType authTypeEnum;
-            try{
+            try {
                 authTypeEnum = ClientProxyConfiguration.AuthType.valueOf(authMethod);
-            }catch (Throwable t){
-                throw new RuntimeException("Invalid authMethod ["+authMethod+"]");
+            } catch (Throwable t) {
+                throw new RuntimeException("Invalid authMethod [" + authMethod + "]");
             }
             clientProxyConfiguration.setAuthType(authTypeEnum);
             clientConfiguration.setClientProxyConfiguration(clientProxyConfiguration);
@@ -136,19 +136,18 @@ public class MaridConfig {
         }
 
         clientConfiguration.setUserAgent(ClientConfiguration.createUserAgentFromManifest(MaridConfig.class));
-        if(configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null){
+        if (configuration.getProperty("opsgenie.connection.socketReceiveBufferSizeHint") != null) {
             clientConfiguration.setSocketReceiveBufferSizeHint(getInt("opsgenie.connection.socketReceiveBufferSizeHint", -1));
         }
-        if(configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null){
+        if (configuration.getProperty("opsgenie.connection.socketSendBufferSizeHint") != null) {
             clientConfiguration.setSocketSendBufferSizeHint(getInt("opsgenie.connection.socketSendBufferSizeHint", -1));
         }
         opsGenieHttpClient = new OpsGenieHttpClient(clientConfiguration);
-        opsGenieClient = new OpsGenieClient(opsGenieHttpClient);
-        opsGenieClient.setRootUri(getOpsgenieApiUrl());
+        applyConfigurationToApiClient();
     }
 
     public Map<String, String> getLowercasedConfiguration() {
-        if(lowercasedConfiguration == null){
+        if (lowercasedConfiguration == null) {
             throw new RuntimeException("Not initialized");
         }
         return lowercasedConfiguration;
@@ -174,20 +173,16 @@ public class MaridConfig {
         return opsGenieHttpClient;
     }
 
-    public IOpsGenieClient getOpsGenieClient() {
-        return opsGenieClient;
-    }
-
     public Properties getConfiguration() {
         return configuration;
     }
 
-    public void putAll(Map settings){
+    public void putAll(Map settings) {
         configuration.putAll(settings);
     }
 
-    public String getProperty(String key){
-        if(configuration != null){
+    public String getProperty(String key) {
+        if (configuration != null) {
             return configuration.getProperty(key);
         }
         throw new RuntimeException("Not initialized");
@@ -209,66 +204,79 @@ public class MaridConfig {
         this.opsGenieHttpClient = opsGenieHttpClient;
     }
 
-    public void setOpsGenieClient(IOpsGenieClient opsGenieClient) {
-        this.opsGenieClient = opsGenieClient;
-    }
-
     public void setConfiguration(Properties configuration) {
         this.configuration = configuration;
         lowercasedConfiguration = new HashMap<String, String>();
-        for(Map.Entry entry:configuration.entrySet()){
+        for (Map.Entry entry : configuration.entrySet()) {
             lowercasedConfiguration.put(String.valueOf(entry.getKey()).toLowerCase(), String.valueOf(entry.getValue()));
         }
     }
 
-    public String getProperty(String key, String defaultValue){
-        if(configuration != null){
+    public ApiClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(ApiClient apiClient) {
+        this.apiClient = apiClient;
+    }
+
+    public String getProperty(String key, String defaultValue) {
+        if (configuration != null) {
             return configuration.getProperty(key, defaultValue);
         }
         throw new RuntimeException("Not initialized");
     }
-    
-    public String getMandatoryProperty(String key){
+
+    public String getMandatoryProperty(String key) {
         String value = getProperty(key);
-        if(value == null || value.length() == 0){
-            throw new RuntimeException("Missing mandatory config property "+key);
+        if (value == null || value.length() == 0) {
+            throw new RuntimeException("Missing mandatory config property " + key);
         }
         return value;
     }
 
-    public int getInt(String key, int defaultValue){
+    public int getInt(String key, int defaultValue) {
         String value = getProperty(key);
-        if(value == null || value.length() == 0){
+        if (value == null || value.length() == 0) {
             return defaultValue;
         }
-        try{
+        try {
             return Integer.parseInt(value);
-        }catch (Throwable e){
-            throw new RuntimeException("Invalid int value ["+value+"] for ["+key+"]");
+        } catch (Throwable e) {
+            throw new RuntimeException("Invalid int value [" + value + "] for [" + key + "]");
         }
     }
 
-    public long getLong(String key, long defaultValue){
+    public long getLong(String key, long defaultValue) {
         String value = getProperty(key);
-        if(value == null || value.length() == 0){
+        if (value == null || value.length() == 0) {
             return defaultValue;
         }
-        try{
+        try {
             return Long.parseLong(value);
-        }catch (Throwable e){
-            throw new RuntimeException("Invalid long value ["+value+"] for ["+key+"]");
+        } catch (Throwable e) {
+            throw new RuntimeException("Invalid long value [" + value + "] for [" + key + "]");
         }
     }
 
-    public boolean getBoolean(String key, boolean defaultValue){
+    public boolean getBoolean(String key, boolean defaultValue) {
         String value = getProperty(key);
-        if(value == null || value.length() == 0){
+        if (value == null || value.length() == 0) {
             return defaultValue;
         }
-        try{
+        try {
             return Boolean.parseBoolean(value);
-        }catch (Throwable e){
-            throw new RuntimeException("Invalid boolean value ["+value+"] for ["+key+"]");
+        } catch (Throwable e) {
+            throw new RuntimeException("Invalid boolean value [" + value + "] for [" + key + "]");
         }
+    }
+
+    private void applyConfigurationToApiClient() {
+        apiClient = new ApiClient();
+        apiClient.setUserAgent(clientConfiguration.getUserAgent());
+        apiClient.setConnectTimeout(clientConfiguration.getConnectionTimeout());
+        apiClient.setBasePath(getOpsgenieApiUrl());
+        apiClient.setApiKey(getApiKey());
+        apiClient.setApiKeyPrefix(OpsGenieClientConstants.API.GENIE_KEY);
     }
 }

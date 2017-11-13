@@ -15,17 +15,25 @@ public interface OpsGenieClientConstants {
 
     interface API {
         String ID = "id";
+        String IDENTIFIER = "identifier";
+        String ALERT_IDENTIFIER = "alertIdentifier";
+        String SCHEDULE_IDENTIFIER = "scheduleIdentifier";
         String API_KEY = "apiKey";
+        String AUTHORIZATION = "Authorization";
+        String GENIE_KEY = "GenieKey";
         String CUSTOMER_KEY = "customerKey";
         String MESSAGE = "message";
         String DESCRIPTION = "description";
         String DIRECTION = "direction";
+        String DATE = "date";
         String SOURCE = "source";
         String NAME = "name";
         String ENTITY = "entity";
         String ALIAS = "alias";
+        String PRIORITY = "priority";
         String TAGS = "tags";
         String TAGS_OPERATOR = "tagsOperator";
+        String VISIBLE_TO = "visibleTo";
         String QUERY = "query";
         String REQUEST_ID = "requestId";
         String TINY = "tiny";
@@ -33,11 +41,17 @@ public interface OpsGenieClientConstants {
         String ACTIONS = "actions";
         String DATA = "data";
         String SORT = "sort";
+        String SORT_FIELD = "sortField";
+        String SORT_ORDER = "sortOrder";
         String ACTION = "action";
         String RECIPIENTS = "recipients";
         String TEAM = "team";
+        String OWNER_TEAM = "ownerTeam";
         String TEAMS = "teams";
+        String TEAM_ID = "teamId";
         String RECIPIENT = "recipient";
+        String IDENTIFIER_TYPE = "identifierType";
+        String SCHEDULE_IDENTIFIER_TYPE = "scheduleIdentifierType";
         String SEARCH_IDENTIFIER = "searchIdentifier";
         String SEARCH_IDENTIFIER_TYPE = "searchIdentifierType";
         String STATUS = "status";
@@ -63,9 +77,14 @@ public interface OpsGenieClientConstants {
         String END_DATE = "endDate";
         String FROM_USER = "fromUser";
         String TO_USER = "toUser";
+        String TIME_AMOUNT = "timeAmount";
+        String TIME_RESTRICTION = "timeRestriction";
+        String TIME_UNIT = "timeUnit";
+        String TIMEZONE_CAMEL_CASE = "timeZone";
         String TIMEZONE = "timezone";
         String TINY_ID = "tinyId";
         String USERNAME = "username";
+        String FULLNAME_CAMEL_CASE = "fullName";
         String FULLNAME = "fullname";
         String ROLE = "role";
         String STATE = "state";
@@ -93,9 +112,11 @@ public interface OpsGenieClientConstants {
         String ENABLED = "enabled";
         String ENABLE = "enable";
         String ROTATION_TYPE = "rotationType";
+        String LENGTH = "length";
         String ROTATION_LENGTH = "rotationLength";
         String PARTICIPANTS = "participants";
         String RESTRICTIONS = "restrictions";
+        String RESTRICTION = "restriction";
         String TOOK = "took";
         String ALERTS = "alerts";
         String RESULT = "result";
@@ -126,10 +147,12 @@ public interface OpsGenieClientConstants {
         String FORWARDED_FROM = "forwardedFrom";
         String CONTACTS = "contacts";
         String INTEGRATION = "integration";
+        String INTEGRATION_ID = "integrationId";
         String POLICY = "policy";
         String INTERVAL = "interval";
         String INTERVAL_UNIT = "intervalUnit";
         String HEARTBEATS = "heartbeats";
+        String HEARTBEAT_NAME = "heartbeatName";
         String NOTES = "notes";
         String TO_USERS = "toUsers";
         String RULE_TYPES = "ruleTypes";
@@ -138,6 +161,7 @@ public interface OpsGenieClientConstants {
         String ESCALATION_NAME = "escalationName";
         String KEYS = "keys";
         //contact constants
+        String EXPAND = "expand";
         String USER_ID = "userId";
         String USER_CONTACTS = "userContacts";
         String TO = "to";
@@ -158,6 +182,7 @@ public interface OpsGenieClientConstants {
         String ACKNOWLEDGED_ALERT = "Acknowledged Alert";
         String ADD_NOTE = "Add Note";
         //notification condition constants
+        String CONDITION = "condition";
         String CONDITIONS = "conditions";
         String CONDITION_MATCH_TYPE = "conditionMatchType";
         String CONDITION_MATCH_ALL = "Match All";
@@ -165,10 +190,10 @@ public interface OpsGenieClientConstants {
         String CONDITION_MATCH_ANY_CONDITIONS = "Match Any Condition";
         //notification restriction constants
         String RESTRICTION_END_HOUR = "endHour";
-        String RESTRICTION_END_MINUTE = "endMinute";
+        String RESTRICTION_END_MINUTE = "endMin";
         String RESTRICTION_END_DAY = "endDay";
         String RESTRICTION_START_HOUR = "startHour";
-        String RESTRICTION_START_MINUTE = "startMinute";
+        String RESTRICTION_START_MINUTE = "startMin";
         String RESTRICTION_START_DAY = "startDay";
         //notification operation constants
         String OPERATION = "operation";

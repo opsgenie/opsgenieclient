@@ -10,10 +10,10 @@ import com.ifountain.opsgenie.client.script.util.ScriptProxy
 import com.ifountain.opsgenie.client.test.util.CommonTestUtils
 import com.ifountain.opsgenie.client.test.util.JSON
 import com.ifountain.opsgenie.client.test.util.MaridTestCase
-import com.ifountain.opsgenie.client.test.util.OpsGenieClientMock
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.test.util.logging.MockAppender
 import com.ifountain.opsgenie.client.test.util.logging.TestLogUtils
+import com.opsgenie.oas.sdk.ApiClient
 import org.apache.commons.io.FileUtils
 import org.apache.http.HttpStatus
 import org.apache.log4j.Level
@@ -62,7 +62,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         MaridConfig.getInstance().setApiKey("customer1")
         MaridConfig.getInstance().setConfiguration(new Properties([prop1: "prop1Value"]))
         MaridConfig.getInstance().setOpsGenieHttpClient(new OpsGenieHttpClient());
-        MaridConfig.getInstance().setOpsGenieClient(new OpsGenieClientMock());
+        MaridConfig.getInstance().setApiClient(new ApiClient());
         scriptCalls.clear();
         channelName = "customer1AlertExecutor"
         receivedRequests.clear();
@@ -133,7 +133,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
 
         assertEquals(action, scriptCalls[1])
         assertTrue(scriptCalls[2] instanceof ScriptProxy)
-        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[2].opsGenieClient)
+        assertSame(MaridConfig.getInstance().getApiClient(), scriptCalls[2].apiClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[3])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[4])
         assertEquals([type: "api"], scriptCalls[5])
@@ -167,7 +167,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
         assertEquals("user2", alert.username)
         assertEquals(action.trim(), scriptCalls[1])
         assertTrue(scriptCalls[2] instanceof ScriptProxy)
-        assertSame(MaridConfig.getInstance().getOpsGenieClient(), scriptCalls[2].opsGenieClient)
+        assertSame(MaridConfig.getInstance().getApiClient(), scriptCalls[2].apiClient)
         assertEquals(MaridConfig.getInstance().getConfiguration(), scriptCalls[3])
         assertSame(Logger.getLogger("script." + scriptFile.getName()), scriptCalls[4])
 
@@ -370,7 +370,7 @@ class PubnubAlertActionListenerTest extends MaridTestCase implements HttpTestReq
             }
             PubnubAlertActionListener.destroyInstance();
 
-            //test successfull connection via proxy
+            //test successful connection via proxy
             proxyServer.start();
             PubnubAlertActionListener.getInstance().initialize(alertActionExecutorChannelParameters)
             SmartWait.waitForClosure {

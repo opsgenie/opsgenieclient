@@ -1,6 +1,0 @@
-dependencies {
-    compile project(':common')
-    compile 'com.beust:jcommander:1.47.OG'
-    testCompile project(':test')
-    testCompile project(':common').sourceSets.test.output
-}

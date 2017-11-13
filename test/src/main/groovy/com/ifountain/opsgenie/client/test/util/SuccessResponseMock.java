@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.test.util;
 
-import com.ifountain.opsgenie.client.swagger.model.SuccessResponse;
+
+import com.opsgenie.oas.sdk.model.SuccessResponse;
 
 /**
  * @author Celal Emre CICEK

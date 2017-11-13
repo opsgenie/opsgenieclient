@@ -1,8 +1,8 @@
-package com.ifountain.opsgenie.client.test.util;
+package com.ifountain.opsgenie.client.test.util
 
-import com.ifountain.opsgenie.client.OpsGenieClientException;
+import com.ifountain.opsgenie.client.OpsGenieClientException
 import com.ifountain.opsgenie.client.model.Request
-import com.ifountain.opsgenie.client.swagger.ApiException;
+import com.opsgenie.oas.sdk.ApiException
 
 /**
  * Created by Sezgin Kucukkaraaslan

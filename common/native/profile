@@ -1,5 +1,17 @@
 JAVA_CMD=java
+
 MARID_TEMPDIR=/tmp/marid
+
+if [[ ! -e $MARID_TEMPDIR ]]; then
+    mkdir $MARID_TEMPDIR
+elif [[ ! -d $MARID_TEMPDIR ]]; then
+    echo "$MARID_TEMPDIR must be directory" 1>&2
+fi
+
+chmod -R 775 $MARID_TEMPDIR
+chown -R opsgenie:opsgenie $MARID_TEMPDIR
+
+
 
 #
 # If JAVA_HOME is set, then add it to home and set JAVA_CMD to use the version specified in that
