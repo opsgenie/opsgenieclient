@@ -6,6 +6,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseRequestWithHttpParameters;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.opsgenie.client.util.LogUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
@@ -70,7 +71,7 @@ public abstract class AbstractOpsGenieHttpClient {
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
         String json = JsonUtils.toJson(request);
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + LogUtils.getInsensitiveLogMessage(JsonUtils.toMap(request)));
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers);
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
@@ -84,7 +85,7 @@ public abstract class AbstractOpsGenieHttpClient {
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
         String uri = rootUri + request.getEndPoint();
         String json = JsonUtils.toJson(request);
-        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + json);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + LogUtils.getInsensitiveLogMessage(JsonUtils.toMap(request)));
         OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers, request.getHttpParameters());
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
@@ -108,7 +109,7 @@ public abstract class AbstractOpsGenieHttpClient {
             request.validate();
             String uri = rootUri + request.getEndPoint();
             Map parameters = JsonUtils.toMap(request);
-            log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
+            log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
             OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
             handleResponse(httpResponse);
             return populateResponse(request, httpResponse);
@@ -123,8 +124,9 @@ public abstract class AbstractOpsGenieHttpClient {
                 request.setApiKey(getApiKey());
             request.validate();
             String uri = rootUri + request.getEndPoint();
+
             Map parameters = JsonUtils.toMap(request);
-            log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + parameters);
+            log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
             OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
             handleResponse(httpResponse);
             return populateResponse(request, httpResponse);
