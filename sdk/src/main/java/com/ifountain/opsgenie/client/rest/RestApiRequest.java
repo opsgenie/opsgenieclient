@@ -8,6 +8,7 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.rest.response.RestFailureResult;
 import com.ifountain.opsgenie.client.rest.response.RestSuccessResult;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import com.ifountain.opsgenie.client.util.LogUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -108,7 +109,7 @@ public class RestApiRequest {
 
     public <T> RestSuccessResult<T> getResponse(Class<T> claz) throws OpsGenieClientException, IOException, ParseException {
         validate();
-        logger.info("Executing OpsGenie " + httpMethod + " request to [" + uri + "] with Parameters " + parameters + ", Headers " + headers);
+        logger.info("Executing OpsGenie " + httpMethod + " request to [" + uri + "] with Parameters " + LogUtils.getInsensitiveLogMessage(parameters) + ", Headers " + headers);
 
         if (parameters == null) {
             parameters = new HashMap<String, Object>();
