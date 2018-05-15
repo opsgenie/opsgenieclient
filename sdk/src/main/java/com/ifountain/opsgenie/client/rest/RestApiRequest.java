@@ -167,13 +167,13 @@ public class RestApiRequest {
         return httpClient.get(generateUrl(), parameters, headers);
     }
 
-    private OpsGenieHttpResponse post() throws IOException, URISyntaxException, ParseException {
+    private OpsGenieHttpResponse post() throws IOException, OpsGenieClientException, ParseException {
         return body != null && body instanceof HttpEntity ?
                 postWithBodyAsHttpEntity()
                 : postWithBodyAsJson();
     }
 
-    private OpsGenieHttpResponse postWithBodyAsHttpEntity() throws IOException, URISyntaxException {
+    private OpsGenieHttpResponse postWithBodyAsHttpEntity() throws IOException, OpsGenieClientException {
         if (parameters != null && !parameters.isEmpty()) {
             return httpClient.post(generateUrl(), (HttpEntity) body, headers, parameters);
         } else {
@@ -181,7 +181,7 @@ public class RestApiRequest {
         }
     }
 
-    private OpsGenieHttpResponse postWithBodyAsJson() throws IOException, URISyntaxException, ParseException {
+    private OpsGenieHttpResponse postWithBodyAsJson() throws IOException, ParseException, OpsGenieClientException {
         String json = JsonUtils.toJson(body);
 
         if (parameters != null && !parameters.isEmpty()) {
@@ -191,11 +191,11 @@ public class RestApiRequest {
         }
     }
 
-    private OpsGenieHttpResponse delete() throws IOException, URISyntaxException, OpsGenieClientException {
+    private OpsGenieHttpResponse delete() throws IOException, OpsGenieClientException {
         return httpClient.delete(generateUrl(), parameters, headers);
     }
 
-    private OpsGenieHttpResponse patch() throws IOException, ParseException, URISyntaxException {
+    private OpsGenieHttpResponse patch() throws IOException, ParseException, OpsGenieClientException {
         String json = JsonUtils.toJson(body);
         return httpClient.patch(generateUrl(), json, parameters, headers);
     }
