@@ -8,6 +8,7 @@ import com.ifountain.opsgenie.client.model.customer.*
 import com.ifountain.opsgenie.client.test.util.JSON
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
+import org.apache.commons.httpclient.util.URIUtil
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
@@ -173,10 +174,19 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
 
     @Test
     public void testPingHeartbeatSuccessfully() throws Exception {
+        testPingHeartbeatSuccessfully("source1");
+    }
+
+    @Test
+    public void testPingHeartbeatWithSpaceCharactedNameSuccessfully() throws Exception {
+        testPingHeartbeatSuccessfully("source1 with space");
+    }
+
+    public void testPingHeartbeatSuccessfully(String name) throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{ \"data\": { \"message\" : \"PONG\" }}".getBytes(), 202, "application/json; charset=utf-8"))
 
         HeartbeatPingRequest request = new HeartbeatPingRequest();
-        request.setName("source1")
+        request.setName(name)
         request.setApiKey("customer1")
 
         def response = OpsGenieClientTestCase.opsgenieClient.pingHeartbeat(request)
@@ -185,7 +195,7 @@ class OpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestReque
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v2/heartbeats/source1/ping", requestSent.getUrl())
+        assertEquals("/v2/heartbeats/" + URIUtil.encodePath(name) + "/ping", requestSent.getUrl())
 
         assertEquals("GenieKey customer1", requestSent.getHeader("Authorization"))
     }

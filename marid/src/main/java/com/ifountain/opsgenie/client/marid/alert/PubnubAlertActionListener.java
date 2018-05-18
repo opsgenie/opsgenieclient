@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.marid.alert;
 
+import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.marid.MaridConfig;
 import com.ning.http.client.AsyncHttpClientConfig;
@@ -204,6 +205,8 @@ public class PubnubAlertActionListener {
                 logger.info(getLogPrefix() + "Successfully sent result to OpsGenie.");
             }
         } catch (IOException e) {
+            logger.warn(getLogPrefix() + "Could not send action result to OpsGenie. Reason: " + e.getMessage());
+        } catch (OpsGenieClientException e) {
             logger.warn(getLogPrefix() + "Could not send action result to OpsGenie. Reason: " + e.getMessage());
         }
     }

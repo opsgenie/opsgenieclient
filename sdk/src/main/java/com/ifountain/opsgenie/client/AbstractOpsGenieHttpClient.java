@@ -13,7 +13,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.entity.mime.MultipartEntity;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +76,7 @@ public abstract class AbstractOpsGenieHttpClient {
         return populateResponse(request, httpResponse);
     }
 
-    protected BaseResponse doPostRequest(BaseRequestWithHttpParameters request) throws OpsGenieClientException, IOException, ParseException, URISyntaxException {
+    protected BaseResponse doPostRequest(BaseRequestWithHttpParameters request) throws OpsGenieClientException, IOException, ParseException {
         if (request.getApiKey() == null)
             request.setApiKey(getApiKey());
         request.validate();
@@ -103,37 +102,28 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doDeleteRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
-        try {
-            if (request.getApiKey() == null)
-                request.setApiKey(getApiKey());
-            request.validate();
-            String uri = rootUri + request.getEndPoint();
-            Map parameters = JsonUtils.toMap(request);
-            log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
-            OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
-            handleResponse(httpResponse);
-            return populateResponse(request, httpResponse);
-        } catch (URISyntaxException e) {
-            throw new IOException(e);
-        }
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
+        String uri = rootUri + request.getEndPoint();
+        Map parameters = JsonUtils.toMap(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
+        OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
     }
 
     protected BaseResponse doGetRequest(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
-        try {
-            if (request.getApiKey() == null)
-                request.setApiKey(getApiKey());
-            request.validate();
-            String uri = rootUri + request.getEndPoint();
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
+        String uri = rootUri + request.getEndPoint();
 
-            Map parameters = JsonUtils.toMap(request);
-            log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
-            OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
-            handleResponse(httpResponse);
-            return populateResponse(request, httpResponse);
-
-        } catch (URISyntaxException e) {
-            throw new IOException(e);
-        }
+        Map parameters = JsonUtils.toMap(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
+        OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
     }
 
     protected void handleResponse(OpsGenieHttpResponse response) throws IOException, OpsGenieClientException {
