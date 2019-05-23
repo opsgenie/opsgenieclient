@@ -36,7 +36,7 @@ class ScriptProxyAlertTest {
     }
 
     @Test
-    public void testCreateAlertSuccessfully() throws Exception {
+    public void testCreateAlertSuccessfullyWithTeams() throws Exception {
         SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
         alertApiMock.setGenericSuccessResponse(successResponse);
 
@@ -68,7 +68,62 @@ class ScriptProxyAlertTest {
 
         assertEquals(params.actions, payload.getActions())
         assertEquals(params.tags, payload.getTags())
-        assertEquals(expectedTeamsList, payload.getTeams())
+        assertEquals(expectedTeamsList, payload.getResponders())
+        assertEquals(params.details, payload.getDetails())
+        assertEquals(params.message, payload.getMessage())
+        assertEquals(params.description, payload.getDescription())
+        assertEquals(params.source, payload.getSource())
+        assertEquals(params.entity, payload.getEntity())
+        assertEquals(params.note, payload.getNote())
+        assertEquals(params.user, payload.getUser())
+    }
+
+    @Test
+    public void testCreateAlertSuccessfullyWithResponders() throws Exception {
+        SuccessResponse successResponse = CommonTestUtils.createGenericSuccessResponse();
+        alertApiMock.setGenericSuccessResponse(successResponse);
+
+        def params = [message    : "my message",
+                      description: "my description",
+                      source     : "source1", entity: "entity1", alias: "alias1",
+                      note       : "alert note",
+                      tags       : ["tag1", "tag2"], actions: ["action1", "action2"],
+                      responders : [["name" : "team1", "type":"team"],["username" : "user1", "type":"user"],["id" : "esc1", "type":"escalation"],["name" : "sch1", "type":"schedule"],["name" : "grp1", "type":"group"],["name" : "invalid"]],
+                      details    : [param1: "value1", param2: "value2"]];
+
+        Map resp = scriptProxy.createAlert(params);
+
+        CommonTestUtils.assertGenericResponseWithoutData(resp)
+
+        assertEquals(1, alertApiMock.getExecutedRequests().size())
+
+        CreateAlertPayload payload = alertApiMock.getExecutedRequests()[0] as CreateAlertPayload
+        TeamRecipient team1 = new TeamRecipient();
+        team1.setName("team1");
+
+        UserRecipient userRecipient = new UserRecipient();
+        userRecipient.setUsername("user1");
+
+        EscalationRecipient escalationRecipient = new EscalationRecipient();
+        escalationRecipient.setId("esc1");
+
+        ScheduleRecipient scheduleRecipient = new ScheduleRecipient();
+        scheduleRecipient.setName("sch1");
+
+        GroupRecipient groupRecipient = new GroupRecipient();
+        groupRecipient.setName("grp1");
+
+        def listOfRecipients = [
+                team1,
+                userRecipient,
+                escalationRecipient,
+                scheduleRecipient,
+                groupRecipient
+        ];
+
+        assertEquals(params.actions, payload.getActions())
+        assertEquals(params.tags, payload.getTags())
+        assertEquals(listOfRecipients, payload.getResponders())
         assertEquals(params.details, payload.getDetails())
         assertEquals(params.message, payload.getMessage())
         assertEquals(params.description, payload.getDescription())

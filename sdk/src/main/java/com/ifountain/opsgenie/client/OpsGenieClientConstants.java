@@ -50,6 +50,7 @@ public interface OpsGenieClientConstants {
         String TEAMS = "teams";
         String TEAM_ID = "teamId";
         String RECIPIENT = "recipient";
+        String RESPONDERS = "responders";
         String IDENTIFIER_TYPE = "identifierType";
         String SCHEDULE_IDENTIFIER_TYPE = "scheduleIdentifierType";
         String SEARCH_IDENTIFIER = "searchIdentifier";

@@ -285,25 +285,80 @@ public class ScriptProxy {
         payload.setMessage(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.MESSAGE));
         payload.setPriority(ObjectUtils.defaultIfNull(CreateAlertPayload.PriorityEnum.fromValue(ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.PRIORITY)), payload.getPriority()));
         payload.setTags(ScriptBridgeUtils.getAsStringList(params, OpsGenieClientConstants.API.TAGS));
-        List<TeamRecipient> teamRecipients;
-        List teamEntries = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
-        if (teamEntries != null && !teamEntries.isEmpty() && teamEntries.get(0) instanceof String) {
-            teamRecipients = new ArrayList<TeamRecipient>();
-            for (Object teamName : teamEntries) {
-                TeamRecipient teamRecipient = new TeamRecipient();
-                teamRecipient.setName((String) teamName);
-                teamRecipients.add(teamRecipient);
-            }
+
+        List<Recipient> responders = getResponders(params);
+        List<Recipient> teamRecipients = getTeamRecipients(params);
+
+        if (responders != null && !responders.isEmpty()) {
+            payload.setResponders(responders);
+
         } else {
-            teamRecipients = ScriptBridgeUtils.getAsObjectList(params, OpsGenieClientConstants.API.TEAMS, TeamRecipient.class);
+            payload.setResponders(teamRecipients);
         }
-        payload.setTeams(teamRecipients);
+
         List<Recipient> visibleToRecipients = ScriptBridgeUtils.getAsRecipientList(params, OpsGenieClientConstants.API.VISIBLE_TO);
         payload.setVisibleTo(visibleToRecipients);
 
         populateCommonParameters(payload, params);
 
         return successToMap(alertApi.createAlert(payload));
+    }
+
+    private List<Recipient> getResponders(Map params) {
+        List<Recipient> responders = new ArrayList<Recipient>();
+
+        List<HashMap> responderEntries = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.RESPONDERS);
+        if (responderEntries != null) {
+            for (HashMap responder : responderEntries) {
+                if (Recipient.TypeEnum.ESCALATION.getValue().equals(responder.get("type"))) {
+                    EscalationRecipient escalationRecipient = new EscalationRecipient();
+                    escalationRecipient.setName((String) responder.get("name"));
+                    escalationRecipient.setId((String) responder.get("id"));
+                    responders.add(escalationRecipient);
+                } else if (Recipient.TypeEnum.USER.getValue().equals(responder.get("type"))) {
+                    UserRecipient userRecipient = new UserRecipient();
+                    userRecipient.setUsername((String) responder.get("username"));
+                    userRecipient.setId((String) responder.get("id"));
+                    responders.add(userRecipient);
+                } else if (Recipient.TypeEnum.TEAM.getValue().equals(responder.get("type"))) {
+                    TeamRecipient teamRecipient = new TeamRecipient();
+                    teamRecipient.setName((String) responder.get("name"));
+                    teamRecipient.setId((String) responder.get("id"));
+                    responders.add(teamRecipient);
+                } else if (Recipient.TypeEnum.SCHEDULE.getValue().equals(responder.get("type"))) {
+                    ScheduleRecipient scheduleRecipient = new ScheduleRecipient();
+                    scheduleRecipient.setName((String) responder.get("name"));
+                    scheduleRecipient.setId((String) responder.get("id"));
+                    responders.add(scheduleRecipient);
+                }else if (Recipient.TypeEnum.GROUP.getValue().equals(responder.get("type"))) {
+                    GroupRecipient groupRecipient = new GroupRecipient();
+                    groupRecipient.setName((String) responder.get("name"));
+                    groupRecipient.setId((String) responder.get("id"));
+                    responders.add(groupRecipient);
+                }
+            }
+        }
+
+        return responders;
+    }
+
+    private List<Recipient> getTeamRecipients(Map params) throws Exception {
+        List<Recipient> teamRecipients;
+        List teamEntries = ScriptBridgeUtils.getAsList(params, OpsGenieClientConstants.API.TEAMS);
+        teamRecipients = new ArrayList<Recipient>();
+        if (teamEntries != null && !teamEntries.isEmpty() && teamEntries.get(0) instanceof String) {
+            for (Object teamName : teamEntries) {
+                TeamRecipient teamRecipient = new TeamRecipient();
+                teamRecipient.setName((String) teamName);
+                teamRecipients.add(teamRecipient);
+            }
+        } else {
+            List<TeamRecipient> teams = ScriptBridgeUtils.getAsObjectList(params, OpsGenieClientConstants.API.TEAMS, TeamRecipient.class);
+            if (teams != null) {
+                teamRecipients.addAll(teams);
+            }
+        }
+        return teamRecipients;
     }
 
 
@@ -559,13 +614,13 @@ public class ScriptProxy {
         }
         String policyId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
 
-        return successToMap(policyApi.enableAlertPolicy(policyId));
+        return successToMap(policyApi.enablePolicy(policyId, null));
     }
 
     public Map disableAlertPolicy(Map params) throws Exception {
         String policyId = ScriptBridgeUtils.getAsString(params, OpsGenieClientConstants.API.IDENTIFIER);
 
-        return successToMap(policyApi.disableAlertPolicy(policyId));
+        return successToMap(policyApi.disablePolicy(policyId, null));
     }
 
     public Map enableIntegration(Map params) throws Exception {
@@ -689,9 +744,8 @@ public class ScriptProxy {
         return successToMap(teamApi.deleteTeam(request));
     }
 
-    public List<Map> listTeams(Map params) throws Exception {
-        List<String> expand = getExpand(params);
-        return beansToMap(teamApi.listTeams(expand).getData());
+    public List<Map> listTeams() throws Exception {
+        return beansToMap(teamApi.listTeams().getData());
     }
 
     public List<Map> listTeamLogs(Map params) throws Exception {
@@ -1127,7 +1181,7 @@ public class ScriptProxy {
         if (objectList != null) {
             for (Map memberEntry : objectList) {
                 TeamMember teamMember = new TeamMember();
-                TeamMember.RoleEnum role = getEnumFromValue(TeamMember.RoleEnum.class, ScriptBridgeUtils.getAsString(memberEntry, OpsGenieClientConstants.API.ROLE));
+                String role = ScriptBridgeUtils.getAsString(memberEntry, OpsGenieClientConstants.API.ROLE);
                 if (role != null) {
                     teamMember.setRole(role);
                 }

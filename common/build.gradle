@@ -11,5 +11,5 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:1.8.4'
     compile 'log4j:log4j:1.2.16'
     testCompile project(':test')
-    compile 'com.opsgenie.oas:opsgenie-sdk-swagger:1.0.1'
+    compile 'com.opsgenie.oas:opsgenie-sdk-swagger:1.0.10'
 }
