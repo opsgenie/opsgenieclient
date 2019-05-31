@@ -171,7 +171,7 @@ public class HttpServer {
         QueryStringDecoder decoder = new QueryStringDecoder(request.getUri());
         Map<String, String> parameters = createParametersFromDecoder(decoder);
         String url = decoder.getPath();
-        String contentType = request.getHeader(HttpHeaders.Names.CONTENT_TYPE);
+        String contentType = request.headers().get(HttpHeaders.Names.CONTENT_TYPE);
         ChannelBuffer contentBuffer = request.getContent();
         if (request.getMethod().equals(HttpMethod.POST) && (contentType != null && contentType.contains("x-www-form-urlencoded"))) {
             decoder = new QueryStringDecoder("?" + contentBuffer.toString(CharsetUtil.UTF_8));
@@ -184,7 +184,7 @@ public class HttpServer {
         req.setUrl(url);
 
         Map<String, String> headers = new HashMap<String, String>();
-        List<Map.Entry<String, String>> headerEntries = request.getHeaders();
+        List<Map.Entry<String, String>> headerEntries = request.headers().entries();
         for (Map.Entry<String, String> entry : headerEntries) {
             headers.put(entry.getKey(), entry.getValue());
         }
@@ -250,14 +250,14 @@ public class HttpServer {
         boolean isKeepAlive = HttpHeaders.isKeepAlive(request);
         HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HTTPResponse.getStatus());
         response.setContent(ChannelBuffers.wrappedBuffer(HTTPResponse.getContent(), 0, HTTPResponse.getContentLength()));
-        response.setHeader(HttpHeaders.Names.CONTENT_TYPE, HTTPResponse.getContentType());
-        response.setHeader(HttpHeaders.Names.DATE, dateFormatter.format(new Date()));
+        response.headers().add(HttpHeaders.Names.CONTENT_TYPE, HTTPResponse.getContentType());
+        response.headers().add(HttpHeaders.Names.DATE, dateFormatter.format(new Date()));
         if (isKeepAlive) {
             // Add 'Content-Length' header only for a keep-alive connection.
-            response.setHeader(HttpHeaders.Names.CONTENT_LENGTH, response.getContent().readableBytes());
+            response.headers().add(HttpHeaders.Names.CONTENT_LENGTH, response.getContent().readableBytes());
         }
         // Encode the cookie.
-        String cookieString = request.getHeader(HttpHeaders.Names.COOKIE);
+        String cookieString = request.headers().get(HttpHeaders.Names.COOKIE);
         if (cookieString != null) {
             CookieDecoder cookieDecoder = new CookieDecoder();
             Set<Cookie> cookies = cookieDecoder.decode(cookieString);
@@ -266,7 +266,7 @@ public class HttpServer {
                 for (Cookie cookie : cookies) {
                     CookieEncoder cookieEncoder = new CookieEncoder(true);
                     cookieEncoder.addCookie(cookie);
-                    response.addHeader(HttpHeaders.Names.SET_COOKIE, cookieEncoder.encode());
+                    response.headers().add(HttpHeaders.Names.SET_COOKIE, cookieEncoder.encode());
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpClient;
@@ -12,8 +14,6 @@ import com.ifountain.opsgenie.client.util.LogUtils;
 import org.apache.commons.logging.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

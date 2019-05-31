@@ -3,10 +3,10 @@ apply from: 'pom.gradle'
 
 dependencies {
     compile project(':sdk-swagger')
-    compile 'org.apache.httpcomponents:httpcore:4.2.5'
-    compile 'org.apache.httpcomponents:httpmime:4.2.5'
-    compile 'org.apache.httpcomponents:httpclient:4.2.5'
-    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.3'
+    compile 'org.apache.httpcomponents:httpcore:4.4.1'
+    compile 'org.apache.httpcomponents:httpmime:4.4.1'
+    compile 'org.apache.httpcomponents:httpclient:4.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
 
     testCompile project(':test')
 }

@@ -17,12 +17,13 @@ import com.ifountain.opsgenie.client.swagger.ApiException;
 import com.ifountain.opsgenie.client.swagger.Configuration;
 import com.ifountain.opsgenie.client.swagger.Pair;
 import com.ifountain.opsgenie.client.swagger.model.*;
-import com.sun.jersey.api.client.GenericType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.core.GenericType;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-13T16:12:27.505+03:00")
 public class AlertApi {

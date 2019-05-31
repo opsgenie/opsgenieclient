@@ -22,17 +22,24 @@ import com.ifountain.opsgenie.client.swagger.auth.ApiKeyAuth;
 import com.ifountain.opsgenie.client.swagger.auth.Authentication;
 import com.ifountain.opsgenie.client.swagger.auth.HttpBasicAuth;
 import com.ifountain.opsgenie.client.swagger.auth.OAuth;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.WebResource.Builder;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.ClientResponse;
+import org.glassfish.jersey.client.JerseyClient;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.JerseyInvocation;
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.glassfish.jersey.message.GZipEncoder;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.Status.Family;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -48,7 +55,7 @@ public class ApiClient {
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
-  private Client httpClient;
+  private JerseyClient httpClient;
   private ObjectMapper objectMapper;
 
   private Map<String, Authentication> authentications;
@@ -96,14 +103,16 @@ public class ApiClient {
   public ApiClient rebuildHttpClient() {
     // Add the JSON serialization support to Jersey
     JacksonJsonProvider jsonProvider = new JacksonJsonProvider(objectMapper);
-    DefaultClientConfig conf = new DefaultClientConfig();
-    conf.getSingletons().add(jsonProvider);
-    Client client = Client.create(conf);
-    client.addFilter(new GZIPContentEncodingFilter(false));
+
+    ClientBuilder builder = JerseyClientBuilder.newBuilder()
+        .register(jsonProvider)
+        .register(GZipEncoder.class);
+
     if (debugging) {
-      client.addFilter(new LoggingFilter());
+      builder = builder.register(new LoggingFilter());
     }
-    this.httpClient = client;
+
+    this.httpClient = (JerseyClient) builder.build();
     return this;
   }
 
@@ -131,7 +140,7 @@ public class ApiClient {
     return httpClient;
   }
 
-  public ApiClient setHttpClient(Client httpClient) {
+  public ApiClient setHttpClient(JerseyClient httpClient) {
     this.httpClient = httpClient;
     return this;
   }
@@ -319,7 +328,7 @@ public class ApiClient {
    */
   public ApiClient setConnectTimeout(int connectionTimeout) {
     this.connectionTimeout = connectionTimeout;
-    httpClient.setConnectTimeout(connectionTimeout);
+    httpClient.property(ClientProperties.CONNECT_TIMEOUT, connectionTimeout);
     return this;
   }
 
@@ -599,11 +608,11 @@ public class ApiClient {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     final String url = buildUrl(path, queryParams);
-    Builder builder;
+    JerseyInvocation.Builder builder;
     if (accept == null) {
-      builder = httpClient.resource(url).getRequestBuilder();
+      builder = httpClient.target(url).request();
     } else {
-      builder = httpClient.resource(url).accept(accept);
+      builder = httpClient.target(url).request(accept);
     }
 
     for (String key : headerParams.keySet()) {
@@ -618,15 +627,15 @@ public class ApiClient {
     ClientResponse response = null;
 
     if ("GET".equals(method)) {
-      response = (ClientResponse) builder.get(ClientResponse.class);
+      response = builder.get(ClientResponse.class);
     } else if ("POST".equals(method)) {
-      response = builder.type(contentType).post(ClientResponse.class, serialize(body, contentType, formParams));
+      response = builder.buildPost(Entity.json((String) serialize(body, contentType, formParams))).invoke(ClientResponse.class);
     } else if ("PUT".equals(method)) {
-      response = builder.type(contentType).put(ClientResponse.class, serialize(body, contentType, formParams));
+      response = builder.buildPut(Entity.json((String)serialize(body, contentType, formParams))).invoke(ClientResponse.class);
     } else if ("DELETE".equals(method)) {
-      response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType, formParams));
+      response = builder.buildDelete().invoke(ClientResponse.class);
     } else if ("PATCH".equals(method)) {
-      response = builder.type(contentType).header("X-HTTP-Method-Override", "PATCH").post(ClientResponse.class, serialize(body, contentType, formParams));
+      response = builder.build("PATCH", Entity.json((String)serialize(body, contentType, formParams))).invoke(ClientResponse.class);
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }
@@ -657,19 +666,19 @@ public class ApiClient {
     statusCode = response.getStatusInfo().getStatusCode();
     responseHeaders = response.getHeaders();
 
-    if (response.getStatusInfo().getStatusCode() == ClientResponse.Status.NO_CONTENT.getStatusCode()) {
+    if (response.getStatusInfo().getStatusCode() == Status.NO_CONTENT.getStatusCode()) {
       return null;
     } else if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
       if (returnType == null)
         return null;
       else
-        return response.getEntity(returnType);
+        return response.readEntity(returnType);
     } else {
       String message = "error";
       String respBody = null;
       if (response.hasEntity()) {
         try {
-          respBody = response.getEntity(String.class);
+          respBody = response.readEntity(String.class);
           message = respBody;
         } catch (RuntimeException e) {
           // e.printStackTrace();

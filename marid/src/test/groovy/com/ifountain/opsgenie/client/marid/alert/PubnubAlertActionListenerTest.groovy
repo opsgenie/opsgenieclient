@@ -25,7 +25,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.littleshoot.proxy.DefaultHttpProxyServer
 import org.littleshoot.proxy.ProxyAuthorizationHandler
-import pubnub.api.Pubnub
+import com.pubnub.api.Pubnub
 
 import static org.junit.Assert.*
 

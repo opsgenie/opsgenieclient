@@ -1,12 +1,12 @@
 package com.ifountain.opsgenie.client.script.util;
 
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.ifountain.opsgenie.client.script.util.deserializer.RecipientDeserializer;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import com.opsgenie.oas.sdk.model.Recipient;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.module.SimpleModule;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -160,7 +160,7 @@ public class ScriptBridgeUtils {
         if (objectList != null) {
             for (Map objectEntry : objectList) {
                 JsonNode jsonNode = mapper.valueToTree(objectEntry);
-                listElements.add(mapper.readValue(jsonNode, Recipient.class));
+                listElements.add(mapper.readerFor(Recipient.class).readValue(jsonNode));
             }
             return listElements;
         }
@@ -170,7 +170,7 @@ public class ScriptBridgeUtils {
     public static Recipient getAsRecipient(Map params) throws Exception {
 
         JsonNode jsonNode = mapper.valueToTree(params);
-        return mapper.readValue(jsonNode, Recipient.class);
+        return mapper.readerFor(Recipient.class).readValue(jsonNode);
 
     }
 }

@@ -3,9 +3,12 @@ package com.ifountain.opsgenie.client.marid.http;
 import org.apache.commons.codec.binary.Base64;
 import org.jboss.netty.handler.codec.http.HttpMethod;
 import org.jboss.netty.handler.codec.http.HttpRequest;
-import org.littleshoot.proxy.*;
-
-import java.net.PasswordAuthentication;
+import org.littleshoot.proxy.ChainProxyManager;
+import org.littleshoot.proxy.DefaultHttpProxyServer;
+import org.littleshoot.proxy.HttpFilter;
+import org.littleshoot.proxy.HttpRequestFilter;
+import org.littleshoot.proxy.HttpResponseFilters;
+import org.littleshoot.proxy.ProxyAuthorizationHandler;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -36,7 +39,7 @@ public class HttpProxy {
 
                 public void filter(HttpRequest httpRequest) {
                     if(needAuthentication){
-                        httpRequest.addHeader("Proxy-Authorization", "Basic "+authStr);
+                        httpRequest.headers().add("Proxy-Authorization", "Basic "+authStr);
                     }
                 }
             };
@@ -58,9 +61,7 @@ public class HttpProxy {
         else{
             proxyServer = new DefaultHttpProxyServer(this.config.getPort());
         }
-        if(config.getHost() != null){
-            proxyServer.setHost(config.getHost());
-        }
+
         if (this.config.getUsername() != null && this.config.getUsername() != null) {
             proxyServer.addProxyAuthenticationHandler(new ProxyAuthorizationHandler() {
                 @Override

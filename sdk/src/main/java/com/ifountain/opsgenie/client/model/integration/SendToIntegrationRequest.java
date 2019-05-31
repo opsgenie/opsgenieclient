@@ -1,8 +1,7 @@
 package com.ifountain.opsgenie.client.model.integration;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.ifountain.opsgenie.client.model.BaseRequestWithHttpParameters;
-
-import org.codehaus.jackson.annotate.JsonAnyGetter;
 
 import java.util.Map;
 

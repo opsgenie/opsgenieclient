@@ -3,19 +3,18 @@ package com.ifountain.opsgenie.client.marid.alert;
 import com.ifountain.opsgenie.client.OpsGenieClientException;
 import com.ifountain.opsgenie.client.http.OpsGenieHttpResponse;
 import com.ifountain.opsgenie.client.marid.MaridConfig;
-import com.ning.http.client.AsyncHttpClientConfig;
-import com.ning.http.client.ProxyServer;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import pubnub.api.Callback;
-import pubnub.api.Pubnub;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -65,41 +64,43 @@ public class PubnubAlertActionListener {
     private void subscribeToOpsGenie(final PubnubChannelParameters params) {
         logger.debug(getLogPrefix() + "Subscribing to OpsGenie.");
         this.pubnubChannelParameters = params;
-        pubnub = new Pubnub(params.getPublishKey(), params.getSubscribeKey(), params.getSecretKey(), params.getCipherKey(), params.isSslOn()) {
-            @Override
-            protected AsyncHttpClientConfig.Builder createHttpClientBuilder() {
-                AsyncHttpClientConfig.Builder builder = super.createHttpClientBuilder();
-                if (params.isProxyEnabled()) {
-                    ProxyServer proxyServer;
-                    if (params.getProxyProtocol() == null) {
-                        proxyServer = new ProxyServer(params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
-                    } else {
-                        ProxyServer.Protocol protocol = ProxyServer.Protocol.valueOf(params.getProxyProtocol().toUpperCase());
-                        proxyServer = new ProxyServer(protocol, params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
-                    }
-                    builder.setProxyServer(proxyServer);
-                }
-                return builder;
-            }
-        };
+        pubnub = new Pubnub(params.getPublishKey(), params.getSubscribeKey(), params.getSecretKey(), params.getCipherKey(), params.isSslOn());
+
+      /**
+       * The com.opsgenie.lib:pubnub:3.3.7 Opsgenie fork of pubnub apparently added this method but it's not available
+       * in maven central nor in git.  The following method is not defined in the normal pubnub dependency.
+       */
+//
+// @Override
+//     protected AsyncHttpClientConfig.Builder createHttpClientBuilder() {
+//         AsyncHttpClientConfig.Builder builder = super.super.createHttpClientBuilder();
+//         if (params.isProxyEnabled()) {
+//             ProxyServer proxyServer;
+//             if (params.getProxyProtocol() == null) {
+//                 proxyServer = new ProxyServer(params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
+//             } else {
+//                 ProxyServer.Protocol protocol = ProxyServer.Protocol.valueOf(params.getProxyProtocol().toUpperCase());
+//                 proxyServer = new ProxyServer(protocol, params.getProxyHost(), params.getProxyPort(), params.getProxyUsername(), params.getProxyPassword());
+//             }
+//             builder.setProxyServer(proxyServer);
+//         }
+//         return builder;
+//     }
+// };
         pubnubSubscribeThread = new Thread() {
             @Override
             public void run() {
-                pubnub.subscribe(params.getChannel(), new Callback() {
-                    @Override
-                    public boolean presenceCallback(String s, Object o) {
-                        return false;
-                    }
+              try {
+                pubnub.subscribe(new String[] { params.getChannel() }, new Callback() {
 
                     @Override
-                    public boolean subscribeCallback(final String s, final Object o) {
+                    public void successCallback(String channel, Object o) {
                         actionExecutionService.submit(new Runnable() {
                             @Override
                             public void run() {
                                 processMessage(o);
                             }
                         });
-                        return true;
                     }
 
                     @Override
@@ -110,22 +111,25 @@ public class PubnubAlertActionListener {
                     }
 
                     @Override
-                    public void connectCallback(String channel) {
+                    public void connectCallback(String channel, Object message) {
                         isSubscribed = true;
                         logger.info(getLogPrefix() + "Connected to channel: " + channel);
                     }
 
                     @Override
-                    public void reconnectCallback(String channel) {
+                    public void reconnectCallback(String channel, Object message) {
                         logger.info(getLogPrefix() + "Re-connectting to channel: " + channel);
                     }
 
                     @Override
-                    public void disconnectCallback(String channel) {
+                    public void disconnectCallback(String channel, Object message) {
                         isSubscribed = false;
                         logger.info(getLogPrefix() + "Disconnected from channel: " + channel);
                     }
                 });
+              } catch (PubnubException e) {
+                logger.error(getLogPrefix() + "Failed to subscribe to channel: " + params.getChannel());
+              }
             }
         };
         pubnubSubscribeThread.start();
@@ -232,7 +236,7 @@ public class PubnubAlertActionListener {
     private void unsubscribe() {
         if (pubnub != null) {
             logger.debug(getLogPrefix() + "Unsubscribing from OpsGenie.");
-            HashMap<String, Object> args = new HashMap<String, Object>();
+            Hashtable<String, Object> args = new Hashtable<>();
             args.put("channel", pubnubChannelParameters.getChannel());
             pubnub.unsubscribe(args);
             try {
