@@ -1,9 +1,8 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
 import java.util.TimeZone;

@@ -3,9 +3,9 @@ apply from: 'pom.gradle'
 
 ext {
     swagger_annotations_version = "1.5.8"
-    jackson_version = "2.7.5"
-    jersey_version = "1.19.1"
-    jodatime_version = "2.9.4"
+    jackson_version = "2.9.6"
+    jersey_version = "2.25.1"
+    jodatime_version = "2.10.2"
     junit_version = "4.12"
     commons_lang3_version = "3.5"
     commons_io_version = "2.5"
@@ -15,8 +15,8 @@ ext {
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.sun.jersey:jersey-client:$jersey_version"
-    compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
+    compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
