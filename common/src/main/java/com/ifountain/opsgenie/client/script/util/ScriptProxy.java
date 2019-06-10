@@ -5,7 +5,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import com.opsgenie.oas.sdk.ApiClient;
-import com.opsgenie.oas.sdk.JSON;
 import com.opsgenie.oas.sdk.Pair;
 import com.opsgenie.oas.sdk.api.*;
 import com.opsgenie.oas.sdk.model.*;
