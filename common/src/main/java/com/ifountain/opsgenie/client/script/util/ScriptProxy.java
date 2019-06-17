@@ -5,7 +5,6 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import com.opsgenie.oas.sdk.ApiClient;
-import com.opsgenie.oas.sdk.JSON;
 import com.opsgenie.oas.sdk.Pair;
 import com.opsgenie.oas.sdk.api.*;
 import com.opsgenie.oas.sdk.model.*;
@@ -295,9 +294,6 @@ public class ScriptProxy {
         } else {
             payload.setResponders(teamRecipients);
         }
-
-        List<Recipient> visibleToRecipients = ScriptBridgeUtils.getAsRecipientList(params, OpsGenieClientConstants.API.VISIBLE_TO);
-        payload.setVisibleTo(visibleToRecipients);
 
         populateCommonParameters(payload, params);
 
