@@ -19,6 +19,7 @@ dependencies {
 
     compile project(':common')
     compile 'org.littleshoot:littleproxy:0.5.OG-atlassian-hosted'
+    compile 'org.slf4j:slf4j-log4j12:1.7.2'
     compile('com.opsgenie.lib:pubnub:3.3.7-atlassian-hosted') {
         exclude module: 'netty'
     }
