@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.group;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Group;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for get group request.

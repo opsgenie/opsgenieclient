@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import java.io.IOException;
 import java.text.ParseException;

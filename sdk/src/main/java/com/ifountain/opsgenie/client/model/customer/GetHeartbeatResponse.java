@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Heartbeat;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for get heartbeat request.
@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonUnwrapped;
  * @see com.ifountain.opsgenie.client.IOpsGenieClient#getHeartbeat(com.ifountain.opsgenie.client.model.customer.GetHeartbeatRequest)
  */
 public class GetHeartbeatResponse extends BaseResponse {
+
     @JsonUnwrapped
     private Heartbeat heartbeat;
 

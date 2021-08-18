@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.user;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.User;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for get user request.

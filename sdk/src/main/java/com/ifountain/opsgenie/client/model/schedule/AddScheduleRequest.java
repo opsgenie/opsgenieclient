@@ -1,10 +1,9 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 import java.util.TimeZone;
