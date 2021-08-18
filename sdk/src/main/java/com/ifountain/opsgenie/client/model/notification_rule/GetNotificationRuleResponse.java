@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.notification_rule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.NotificationRule;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for get notificationRule request.

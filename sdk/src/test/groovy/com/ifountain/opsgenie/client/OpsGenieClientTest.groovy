@@ -8,7 +8,6 @@ import com.ifountain.opsgenie.client.model.customer.*
 import com.ifountain.opsgenie.client.test.util.JSON
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
-import org.apache.commons.httpclient.util.URIUtil
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet

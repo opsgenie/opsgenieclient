@@ -1,8 +1,7 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.TimeZone;
 

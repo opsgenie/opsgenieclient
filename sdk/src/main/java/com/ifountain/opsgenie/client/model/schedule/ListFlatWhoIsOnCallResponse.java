@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.FlatWhoIsOnCall;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
