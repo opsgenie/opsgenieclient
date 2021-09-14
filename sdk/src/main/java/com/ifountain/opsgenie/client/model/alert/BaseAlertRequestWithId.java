@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.alert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Abstract Container for the alert requests.

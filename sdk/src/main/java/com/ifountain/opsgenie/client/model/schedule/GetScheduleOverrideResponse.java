@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.schedule;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.ScheduleOverride;
-import org.codehaus.jackson.annotate.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import java.io.IOException;
 import java.text.ParseException;

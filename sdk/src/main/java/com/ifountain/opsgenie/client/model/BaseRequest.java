@@ -1,12 +1,12 @@
 package com.ifountain.opsgenie.client.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.util.JsonUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonPropertyOrder;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Sezgin Kucukkaraaslan
  */
-@JsonSerialize(include = Inclusion.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonPropertyOrder(alphabetic = true)
 public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> implements Request {
     private String apiKey;

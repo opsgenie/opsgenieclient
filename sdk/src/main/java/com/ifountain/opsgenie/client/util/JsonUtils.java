@@ -1,10 +1,11 @@
 package com.ifountain.opsgenie.client.util;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.ObjectMapper;
+
 
 import java.io.IOException;
 import java.text.ParseException;

@@ -1,9 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonValue;
 
 import java.util.List;
 
