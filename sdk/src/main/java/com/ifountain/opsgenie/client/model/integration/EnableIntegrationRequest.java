@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.integration;
 
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Container for the parameters to make an enable/disable integration api call.

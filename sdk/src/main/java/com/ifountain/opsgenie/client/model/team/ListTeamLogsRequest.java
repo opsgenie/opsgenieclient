@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Container for the parameters to make a list team logs api call.
