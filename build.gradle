@@ -8,11 +8,12 @@ subprojects {
     targetCompatibility = 1.6
 
     group = "com.opsgenie.client"
-    version = "2.0.1-SNAPSHOT"
+    version = "2.12.0"
 
     repositories {
         mavenCentral()
         maven {
+            name "java-sdk"
             url "https://packages.atlassian.com/maven-3rdparty/"
         }
     }
