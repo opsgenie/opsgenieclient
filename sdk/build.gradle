@@ -10,6 +10,14 @@ dependencies {
     testCompile project(':test')
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        name "java-sdk"
+        url "https://packages.atlassian.com/maven-3rdparty/"
+    }
+}
+
 
 jar {
     manifest {
