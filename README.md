@@ -4,7 +4,7 @@
 The project includes:
 
 * Java SDK
-* Marid
+* Marid (Deprecated)
 
 ## Java SDK For Maven and Gradle
 

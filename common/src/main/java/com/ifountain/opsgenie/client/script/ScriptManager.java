@@ -4,7 +4,8 @@ import groovy.lang.GroovyClassLoader;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.util.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -52,7 +53,7 @@ public class ScriptManager {
         if (!scriptFile.exists()) {
             throw new Exception("Script [" + scriptPath + "] does not exist.");
         }
-        Logger logger = Logger.getLogger("script." + scriptPath);
+        final Logger logger = LoggerFactory.getLogger("script." + scriptPath);
         bindings.put(OpsgenieClientApplicationConstants.ScriptProxy.BINDING_LOGGER, logger);
         String lang = BSFManager.getLangFromFilename(scriptFile.getName());
         FileReader fin = null;

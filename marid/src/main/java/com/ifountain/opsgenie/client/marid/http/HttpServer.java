@@ -1,7 +1,6 @@
 package com.ifountain.opsgenie.client.marid.http;
 
 import com.ifountain.opsgenie.client.util.JsonUtils;
-import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
@@ -19,6 +18,8 @@ import org.jboss.netty.handler.timeout.*;
 import org.jboss.netty.util.CharsetUtil;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -48,9 +49,9 @@ public class HttpServer {
     private ChannelGroup allChannels;
     private int maxContentLength = 100 * 1024 * 1024;
     private int threadPoolSize = 100;
-    private Logger logger = Logger.getLogger(HttpServer.class);
-    private Logger requestLogger = Logger.getLogger(HttpServer.class.getName() + ".request");
-    private Logger requestWithExceptionLogger = Logger.getLogger(HttpServer.class.getName() + ".request.exception");
+    private Logger logger = LoggerFactory.getLogger(HttpServer.class);
+    private Logger requestLogger = LoggerFactory.getLogger(HttpServer.class.getName() + ".request");
+    private Logger requestWithExceptionLogger = LoggerFactory.getLogger(HttpServer.class.getName() + ".request.exception");
     private long timeout;
     private boolean sslEnabled = false;
     private String keystorePath;
