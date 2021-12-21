@@ -6,8 +6,9 @@ import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.script.util.ScriptProxy;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.Properties;
 
 public class AlertActionUtils {
     public static final String MAPPED_ACTION_V2 = "mappedActionV2";
-    private static Logger logger = Logger.getLogger(AlertActionUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(AlertActionUtils.class);
 
     public static void executeActionScript(AlertActionBean actionBean) throws Exception {
         Map params = actionBean.params;
