@@ -8,8 +8,9 @@ import com.ning.http.client.ProxyServer;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pubnub.api.Callback;
 import pubnub.api.Pubnub;
 
@@ -32,7 +33,7 @@ public class PubnubAlertActionListener {
     private PubnubAlertActionListener() {
     }
 
-    private Logger logger = Logger.getLogger(PubnubAlertActionListener.class);
+    private Logger logger = LoggerFactory.getLogger(PubnubAlertActionListener.class);
     private Pubnub pubnub;
     private PubnubChannelParameters pubnubChannelParameters;
     private Thread pubnubSubscribeThread;

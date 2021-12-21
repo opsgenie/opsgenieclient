@@ -13,7 +13,9 @@ import com.ifountain.opsgenie.client.script.ScriptManager;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import com.ifountain.opsgenie.client.util.ManifestUtils;
 import org.apache.http.HttpStatus;
-import org.apache.log4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.File;
 import java.util.*;
@@ -29,7 +31,7 @@ public class Bootstrap {
     public static final String MARID_CONF_DIR_SYSTEM_PROPERTY = "marid.conf.dir";
     public static final String CONF_PATH_SYSTEM_PROPERTY = "marid.conf.path";
     public static final String LOG_PATH_SYSTEM_PROPERTY = "marid.log.conf.path";
-    protected Logger logger = Logger.getLogger(Bootstrap.class);
+    protected Logger logger = LoggerFactory.getLogger(Bootstrap.class);
     private HttpProxy proxy;
     private HttpServer httpServer;
     private HttpServer httpsServer;
@@ -253,34 +255,7 @@ public class Bootstrap {
     }
 
     private void configureLogger() {
-        File logConfigFile = new File(getLogConfigurationFilePath());
-
-        // if doesn't exist look in home dir
-        if(!logConfigFile.exists())
-            logConfigFile = new File("conf/log.properties");
-
-        if (logConfigFile.exists()) {
-            Enumeration currentCategories = LogManager.getCurrentLoggers();
-            Map<Category, List<Appender>> allAppenders = new HashMap<Category, List<Appender>>();
-            while (currentCategories.hasMoreElements()) {
-                List<Appender> categoryAppenders = new ArrayList<Appender>();
-                Category category = (Category) currentCategories.nextElement();
-                Enumeration appenders = category.getAllAppenders();
-                while (appenders.hasMoreElements()) {
-                    categoryAppenders.add((Appender) appenders.nextElement());
-                }
-                allAppenders.put(category, categoryAppenders);
-            }
-            PropertyConfigurator.configure(logConfigFile.getPath());
-            for (Map.Entry<Category, List<Appender>> appenders : allAppenders.entrySet()) {
-                for (Appender appender : appenders.getValue()) {
-                    appenders.getKey().removeAppender(appender);
-                }
-            }
-            logger.info(getLogPrefix() + "Log configuration is loaded.");
-        } else {
-            logger.warn(getLogPrefix() + "No log configuration file exists.");
-        }
+        File logConfigFile  = new File("conf/log.properties");
     }
 
 

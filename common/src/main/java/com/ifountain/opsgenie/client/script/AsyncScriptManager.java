@@ -1,7 +1,8 @@
 package com.ifountain.opsgenie.client.script;
 
 import com.ifountain.opsgenie.client.script.util.OpsGenieExecutorsUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.*;
@@ -19,7 +20,7 @@ public class AsyncScriptManager {
     private ExecutorService scriptExecutionService;
     private BlockingQueue<Runnable> workQueue;
     private long shutdownWaitTime = DEFAULT_SHUTDOWN_WAIT_TIME;
-    private Logger logger = Logger.getLogger(AsyncScriptManager.class);
+    private Logger logger = LoggerFactory.getLogger(AsyncScriptManager.class);
     private boolean initialized = false;
 
     private AsyncScriptManager() {
