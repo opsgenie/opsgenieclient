@@ -9,9 +9,9 @@ dependencies {
 
     compile 'bsf:bsf:2.4.0'
     compile 'org.codehaus.groovy:groovy-all:1.8.4'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.17.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.17.2'
     testCompile project(':test')
     compile 'com.opsgenie.oas:opsgenie-sdk-swagger:1.0.10'
 }

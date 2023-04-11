@@ -10,7 +10,7 @@ import org.apache.commons.io.FileUtils
 
 import com.ifountain.opsgenie.client.util.JsonUtils
 
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Logger
 import com.ifountain.opsgenie.client.marid.MaridConfig
 import com.ifountain.opsgenie.client.OpsGenieClient
 import com.ifountain.opsgenie.client.script.OpsgenieClientApplicationConstants

@@ -4,8 +4,8 @@ subprojects {
     apply plugin: 'maven'
     apply plugin: 'project-report'
 
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     group = "com.opsgenie.client"
     version = "2.0.1-SNAPSHOT"
