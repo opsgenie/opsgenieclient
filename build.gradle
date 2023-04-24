@@ -8,7 +8,7 @@ subprojects {
     targetCompatibility = 1.8
 
     group = "com.opsgenie.client"
-    version = "2.0.1-SNAPSHOT"
+    version = "2.13.1"
 
     repositories {
         mavenCentral()
