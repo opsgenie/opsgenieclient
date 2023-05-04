@@ -8,4 +8,5 @@ dependencies {
     compile 'org.apache.directory.studio:org.apache.commons.lang:2.6'
     compile 'org.littleshoot:littleproxy:0.5.OG-atlassian-hosted'
     compile 'junit:junit:4.12'
+    compile 'log4j:log4j:1.2.16'
 }
