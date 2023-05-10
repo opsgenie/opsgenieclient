@@ -32,11 +32,28 @@ dependencies {
 	compile "com.opsgenie.integration:sdk:2+"
 }
 ```
+#### Following APIs are not supported for now in this SDK. Their support will be provided soon.
+GitHub issue for this : https://github.com/opsgenie/opsgenieclient/issues/34
+* Integration API
+* Policy API
+* Contact API
+* Account API
+* User API
+* Notification Rule API
+* Notification Rule Step API
+* Team API
+* Team Member API
+* Team Routing Rule API
+* Schedule API
+* Schedule Override API
+* Escalation API
+* Who is On Call API
+* Forwarding Rule API
 
 
 ## Build
 
-**Requires JDK 1.7** 
+**Requires JDK 1.8** 
 
 This is a gradle project so you can build by running `build` task
 

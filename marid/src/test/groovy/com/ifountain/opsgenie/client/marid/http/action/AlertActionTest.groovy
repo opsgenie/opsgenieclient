@@ -9,7 +9,7 @@ import com.ifountain.opsgenie.client.test.util.RequestActionTestCase
 import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.util.JsonUtils
 import org.apache.commons.io.FileUtils
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Logger
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import com.ifountain.opsgenie.client.script.util.ScriptProxy

@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.test.util.logging;
 
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.LogEvent;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -12,20 +12,20 @@ import java.util.Map;
  * @author Sezgin Kucukkaraaslan
  * @version 8/7/12 2:39 PM
  */
-public class MockAppender extends AppenderSkeleton {
+public class MockAppender extends AbstractAppender {
     private Map<String, List<String>> messages = new HashMap<String, List<String>>();
     private List<String> allMessages = new LinkedList<String>();
 
     @Override
-    protected void append(LoggingEvent loggingEvent) {
-        String level = loggingEvent.getLevel().toString();
+    public void append(LogEvent logEvent) {
+        String level = logEvent.getLevel().toString();
         List<String> levelMessages = messages.get(level);
         if (levelMessages == null) {
             levelMessages = new LinkedList<String>();
             messages.put(level, levelMessages);
         }
-        levelMessages.add(loggingEvent.getRenderedMessage());
-        allMessages.add(loggingEvent.getRenderedMessage());
+        levelMessages.add(logEvent.getRenderedMessage());
+        allMessages.add(logEvent.getRenderedMessage());
     }
 
     @Override

@@ -16,8 +16,8 @@ import com.ifountain.opsgenie.client.test.util.logging.TestLogUtils
 import com.opsgenie.oas.sdk.ApiClient
 import org.apache.commons.io.FileUtils
 import org.apache.http.HttpStatus
-import org.apache.log4j.Level
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.Logger
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Before

@@ -208,8 +208,8 @@ public class RestApiRequest {
     private <T> T convertObject(byte[] json, Class<T> claz) throws IOException {
         TypeReference<RestSuccessResult<Map<?, ?>>> typeReference = new TypeReference<RestSuccessResult<Map<?, ?>>>() {
         };
-        RestSuccessResult<T> successResponse = MAPPER.readValue(json, typeReference);
-        Map<?, ?> data = (Map<?, ?>) successResponse.getData();
+        RestSuccessResult<Map<?,?>> successResponse = MAPPER.readValue(json, typeReference);
+        Map<?, ?> data = successResponse.getData();
         return MAPPER.convertValue(data, claz);
     }
 

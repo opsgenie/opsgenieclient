@@ -25,8 +25,8 @@ import org.apache.http.conn.HttpHostConnectException
 import org.apache.http.conn.params.ConnRoutePNames
 import org.apache.http.impl.client.DefaultHttpClient
 import org.apache.http.util.EntityUtils
-import org.apache.log4j.Level
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.Logger
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass

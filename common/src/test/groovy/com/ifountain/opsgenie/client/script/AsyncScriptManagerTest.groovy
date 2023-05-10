@@ -5,8 +5,8 @@ import com.ifountain.opsgenie.client.test.util.file.TestFile
 import com.ifountain.opsgenie.client.test.util.logging.MockAppender
 import com.ifountain.opsgenie.client.test.util.logging.TestLogUtils
 import org.apache.commons.io.FileUtils
-import org.apache.log4j.Level
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.Logger
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
