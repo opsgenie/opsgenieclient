@@ -126,6 +126,57 @@ public abstract class AbstractOpsGenieHttpClient {
         return populateResponse(request, httpResponse);
     }
 
+    protected BaseResponse doPostRequestV2(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
+        setAndValidateApiKey(request);
+        Map<String, String> headers = request.getReqHeadersForPostOrPatch();
+        String uri = rootUri + request.getEndPoint();
+        String json = JsonUtils.toJson(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + LogUtils.getInsensitiveLogMessage(JsonUtils.toMap(request)));
+        OpsGenieHttpResponse httpResponse = httpClient.post(uri, json, headers);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
+    }
+    protected BaseResponse doGetRequestV2(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
+        setAndValidateApiKey(request);
+        String uri = rootUri + request.getEndPoint();
+
+        Map<String,Object> parameters = request.getRequestParams();
+        Map<String,String> headers = request.getReqHeadersForGetOrDelete();
+        log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
+        OpsGenieHttpResponse httpResponse = httpClient.get(uri, parameters,headers);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
+    }
+
+    protected BaseResponse doDeleteRequestV2(BaseRequest request) throws OpsGenieClientException, IOException, ParseException {
+        setAndValidateApiKey(request);
+        String uri = rootUri + request.getEndPoint();
+        Map<String,Object> parameters = request.getRequestParams();
+        Map<String,String> headers = request.getReqHeadersForGetOrDelete();
+        log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
+        OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
+    }
+
+    protected BaseResponse doPatchRequestV2(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
+        setAndValidateApiKey(request);
+        Map<String,Object> parameters = request.getRequestParams();
+        Map<String, String> headers = request.getReqHeadersForPostOrPatch();
+        String uri = rootUri + request.getEndPoint();
+        String json = JsonUtils.toJson(request);
+        log.info("Executing OpsGenie request to [" + uri + "] with content Parameters:" + LogUtils.getInsensitiveLogMessage(JsonUtils.toMap(request)));
+        OpsGenieHttpResponse httpResponse = httpClient.patch(uri, json, parameters,headers);
+        handleResponse(httpResponse);
+        return populateResponse(request, httpResponse);
+    }
+
+    private void setAndValidateApiKey(BaseRequest request) throws OpsGenieClientValidationException {
+        if (request.getApiKey() == null)
+            request.setApiKey(getApiKey());
+        request.validate();
+    }
+
     protected void handleResponse(OpsGenieHttpResponse response) throws IOException, OpsGenieClientException {
         if (response.getStatusCode() != HttpStatus.SC_OK) {
             String contentType = response.getHeaders().get(HttpHeaders.CONTENT_TYPE);
