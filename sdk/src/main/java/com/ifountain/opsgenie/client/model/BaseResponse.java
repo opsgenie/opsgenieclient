@@ -19,8 +19,6 @@ public abstract class BaseResponse implements Response {
     @JsonIgnore
     private String json;
 
-    private String requestId;
-
     /**
      * True if the operation is successful.
      */
@@ -47,14 +45,6 @@ public abstract class BaseResponse implements Response {
      */
     public void setTook(long took) {
         this.took = took;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
     }
 
     /**
