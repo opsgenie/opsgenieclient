@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-public class UserData {
+public class DataWithIdAndName {
     private String id;
     private String name;
 
@@ -20,11 +20,11 @@ public class UserData {
         this.name = name;
     }
 
-    public UserData withName(String name){
+    public DataWithIdAndName withName(String name){
         this.name=name;
         return this;
     }
-    public UserData withId(String id){
+    public DataWithIdAndName withId(String id){
         this.id=id;
         return this;
     }
