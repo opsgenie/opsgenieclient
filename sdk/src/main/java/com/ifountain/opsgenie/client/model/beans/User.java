@@ -7,12 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * User bean
@@ -26,19 +21,73 @@ public class User extends BeanWithId {
         }
     }
 
+    private Boolean blocked;
+    private Boolean verified;
     private String username;
-    private State state;
-    private String fullname;
+    private String fullName;
+    private UserRole role;
     private String skypeUsername;
-    @JsonProperty("timezone")
+
     private TimeZone timeZone;
     private Locale locale;
-    private UserRole role;
-    private List<String> groups;
-    private List<String> escalations;
-    private List<String> schedules;
+    private List<String> tags;
+    private UserAddress userAddress;
+    private Details details;
+    private String createdAt;
+    @JsonProperty("userContacts")
     private List<Contact> contacts;
-    private Long createdAt;
+
+    public Boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public Details getDetails() {
+        return details;
+    }
+
+    public void setDetails(Details details) {
+        this.details = details;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public static String getLocaleId(Locale locale) {
         return locale.toString();
@@ -63,35 +112,17 @@ public class User extends BeanWithId {
     }
 
     /**
-     * State of user
-     *
-     * @see State
-     */
-    public State getState() {
-        return state;
-    }
-
-    /**
-     * Sets state of user
-     *
-     * @see State
-     */
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    /**
      * Fullname of user
      */
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
     /**
      * Sets fullname of user
      */
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     /**
@@ -132,29 +163,6 @@ public class User extends BeanWithId {
     }
 
     /**
-     * @throws UnsupportedOperationException when role is custom. Please use setUserRole() for
-     *                                       custom roles.
-     * @deprecated Use setUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setRole(User.Role role) {
-        if (role != null) {
-            if (role == Role.admin) {
-                this.role = UserRole.ADMIN;
-            } else if (role == Role.owner) {
-                this.role = UserRole.OWNER;
-            } else if (role == Role.user) {
-                this.role = UserRole.USER;
-            } else {
-                throw new UnsupportedOperationException("custom role does not supported by Role enum. Use setUserRole() for custom roles.");
-            }
-        } else {
-            this.role = null;
-        }
-    }
-
-    /**
      * Role of user
      *
      * @see com.ifountain.opsgenie.client.model.beans.UserRole
@@ -171,48 +179,6 @@ public class User extends BeanWithId {
      */
     public void setUserRole(UserRole role) {
         this.role = role;
-    }
-
-    /**
-     * Groups of user
-     */
-    public List<String> getGroups() {
-        return groups;
-    }
-
-    /**
-     * Sets groups of user
-     */
-    public void setGroups(List<String> groups) {
-        this.groups = groups;
-    }
-
-    /**
-     * Escalations of user
-     */
-    public List<String> getEscalations() {
-        return escalations;
-    }
-
-    /**
-     * Sets escalations of user
-     */
-    public void setEscalations(List<String> escalations) {
-        this.escalations = escalations;
-    }
-
-    /**
-     * Schedules of user
-     */
-    public List<String> getSchedules() {
-        return schedules;
-    }
-
-    /**
-     * Sets schedules of user
-     */
-    public void setSchedules(List<String> schedules) {
-        this.schedules = schedules;
     }
 
     /**
@@ -235,30 +201,9 @@ public class User extends BeanWithId {
     }
 
     /**
-     * @deprecated Use setUserContacts
-     */
-    @Deprecated
-    public void setContacts(List<Map<String, String>> contacts) {
-        if (contacts != null) {
-            this.contacts = new ArrayList<Contact>();
-            for (Map<String, String> map : contacts) {
-                Contact contact = new Contact();
-                try {
-                    JsonUtils.fromMap(contact, map);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                this.contacts.add(contact);
-            }
-        } else {
-            this.contacts = null;
-        }
-    }
-
-    /**
      * Contacts of user
      */
-    @JsonProperty("contacts")
+    @JsonProperty("userContacts")
     public List<Contact> getUserContacts() {
         return contacts;
     }
@@ -283,13 +228,8 @@ public class User extends BeanWithId {
         return this;
     }
 
-    public User withState(State state) {
-        this.state = state;
-        return this;
-    }
-
-    public User withFullname(String fullname) {
-        this.fullname = fullname;
+    public User withFullName(String fullName) {
+        this.fullName = fullName;
         return this;
     }
 
@@ -313,34 +253,35 @@ public class User extends BeanWithId {
         return this;
     }
 
-    public User withGroups(List<String> groups) {
-        this.groups = groups;
-        return this;
-    }
-
-    public User withEscalations(List<String> escalations) {
-        this.escalations = escalations;
-        return this;
-    }
-
-    public User withSchedules(List<String> schedules) {
-        this.schedules = schedules;
-        return this;
-    }
-
     public User withContacts(List<Contact> contacts) {
         this.contacts = contacts;
         return this;
     }
 
-    public Long getCreatedAt() {
-        return createdAt;
+    public User withBlocked(Boolean blocked) {
+        this.blocked = blocked;
+        return this;
     }
 
-    public void setCreatedAt(Long createdAt) {
-        this.createdAt = createdAt;
+    public User withVerified(Boolean verified) {
+        this.verified = verified;
+        return this;
     }
 
+    public User withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public User withDetails(Details details) {
+        this.details = details;
+        return this;
+    }
+
+    public User withUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+        return this;
+    }
     /**
      * Role enum is deprecated in order to give support to custom roles
      * Please use UserRole class

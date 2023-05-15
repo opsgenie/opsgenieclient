@@ -279,7 +279,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         request.setApiKey("customer1");
         request.setUsername("user1@xyz.com");
         request.setRole(User.Role.user);
-        request.setFullname("user1 user1");
+        request.setFullName("user1 user1");
         request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"));
         request.setLocale(Locale.CHINA);
 
@@ -296,7 +296,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
-        assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
+        assertEquals(request.getFullName(), jsonContent[TestConstants.API.FULLNAME])
         assertEquals(request.getUserRole().getName(), jsonContent[TestConstants.API.ROLE])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
         assertEquals(User.getLocaleId(request.getLocale()), jsonContent[TestConstants.API.LOCALE])
@@ -310,7 +310,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         request.setApiKey("customer1");
         request.setUsername("user1@xyz.com");
         request.setRole(User.Role.user);
-        request.setFullname("user1 user1");
+        request.setFullName("user1 user1");
 
         def response = OpsGenieClientTestCase.opsgenieClient.user().addUser(request)
         assertEquals("user1Id", response.getId())
@@ -325,7 +325,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
-        assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
+        assertEquals(request.getFullName(), jsonContent[TestConstants.API.FULLNAME])
         assertEquals(request.getUserRole().getName(), jsonContent[TestConstants.API.ROLE])
         assertFalse(jsonContent.containsKey(TestConstants.API.TIMEZONE))
         assertFalse(jsonContent.containsKey(TestConstants.API.LOCALE))
@@ -342,7 +342,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
 
         UpdateUserRequest request = new UpdateUserRequest();
         request.setApiKey("customer1");
-        request.setId("user1Id");
+        request.setIdentifier("user1Id");
         request.setRole(User.Role.user);
         request.setFullname("user1 user1");
         request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -359,7 +359,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getIdentifier(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getFullname(), jsonContent[TestConstants.API.FULLNAME])
         assertEquals(request.getUserRole().getName(), jsonContent[TestConstants.API.ROLE])
@@ -373,7 +373,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
 
         UpdateUserRequest request = new UpdateUserRequest();
         request.setApiKey("customer1");
-        request.setId("user1Id");
+        request.setIdentifier("user1Id");
 
         def response = OpsGenieClientTestCase.opsgenieClient.user().updateUser(request)
         assertEquals("user1Id", response.getId())
@@ -386,7 +386,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
+        assertEquals(request.getIdentifier(), jsonContent[TestConstants.API.ID])
         assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertFalse(jsonContent.containsKey(TestConstants.API.USERNAME))
         assertFalse(jsonContent.containsKey(TestConstants.API.FULLNAME))
@@ -451,7 +451,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         assertEquals(1, response.getTook())
         assertEquals(jsonContent[TestConstants.API.USERNAME], response.getUser().username)
         assertEquals(jsonContent[TestConstants.API.ID], response.getUser().id)
-        assertEquals(jsonContent[TestConstants.API.FULLNAME], response.getUser().fullname)
+        assertEquals(jsonContent[TestConstants.API.FULLNAME], response.getUser().fullName)
         assertEquals(jsonContent[TestConstants.API.STATE], response.getUser().state.name())
         assertEquals(jsonContent[TestConstants.API.GROUPS], response.getUser().groups)
         assertEquals(jsonContent[TestConstants.API.ESCALATIONS], response.getUser().escalations)
@@ -494,7 +494,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         assertEquals(1, response.getTook())
         assertEquals(jsonContent[TestConstants.API.USERNAME], response.getUser().username)
         assertEquals(jsonContent[TestConstants.API.ID], response.getUser().id)
-        assertEquals(jsonContent[TestConstants.API.FULLNAME], response.getUser().fullname)
+        assertEquals(jsonContent[TestConstants.API.FULLNAME], response.getUser().fullName)
         assertEquals(jsonContent[TestConstants.API.STATE], response.getUser().state.name())
         assertEquals(jsonContent[TestConstants.API.GROUPS], response.getUser().groups)
         assertEquals(jsonContent[TestConstants.API.ESCALATIONS], response.getUser().escalations)
@@ -552,7 +552,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         User user = response.getUsers().find { it.id == user1Content[TestConstants.API.ID] }
         assertEquals(user1Content[TestConstants.API.USERNAME], user.username)
         assertEquals(user1Content[TestConstants.API.ID], user.id)
-        assertEquals(user1Content[TestConstants.API.FULLNAME], user.fullname)
+        assertEquals(user1Content[TestConstants.API.FULLNAME], user.fullName)
         assertEquals(user1Content[TestConstants.API.STATE], user.state.name())
         assertEquals(user1Content[TestConstants.API.GROUPS], user.groups)
         assertEquals(user1Content[TestConstants.API.ESCALATIONS], user.escalations)
@@ -564,7 +564,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         user = response.getUsers().find { it.id == user2Content[TestConstants.API.ID] }
         assertEquals(user2Content[TestConstants.API.USERNAME], user.username)
         assertEquals(user2Content[TestConstants.API.ID], user.id)
-        assertEquals(user2Content[TestConstants.API.FULLNAME], user.fullname)
+        assertEquals(user2Content[TestConstants.API.FULLNAME], user.fullName)
         assertEquals(user2Content[TestConstants.API.STATE], user.state.name())
         assertEquals(user2Content[TestConstants.API.GROUPS], user.groups)
         assertEquals(user2Content[TestConstants.API.ESCALATIONS], user.escalations)

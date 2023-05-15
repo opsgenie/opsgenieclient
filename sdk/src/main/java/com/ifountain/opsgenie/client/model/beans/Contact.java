@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 
-
 /**
  * Contact bean
  */
@@ -14,7 +13,15 @@ public class Contact extends BeanWithId {
     private Method method;
     private String to;
     private Boolean enabled;
-    private String disabledReason;
+    private Method contactMethod;
+
+    public Method getContactMethod() {
+        return contactMethod;
+    }
+
+    public void setContactMethod(Method contactMethod) {
+        this.contactMethod = contactMethod;
+    }
 
     public Method getMethod() {
         return method;
@@ -40,14 +47,6 @@ public class Contact extends BeanWithId {
         this.enabled = enabled;
     }
 
-    public String getDisabledReason() {
-        return disabledReason;
-    }
-
-    public void setDisabledReason(String disabledReason) {
-        this.disabledReason = disabledReason;
-    }
-
     public Contact withMethod(Method method) {
         this.method = method;
         return this;
@@ -60,11 +59,6 @@ public class Contact extends BeanWithId {
 
     public Contact withEnabled(Boolean enabled) {
         this.enabled = enabled;
-        return this;
-    }
-
-    public Contact withDisabledReason(String disabledReason) {
-        this.disabledReason = disabledReason;
         return this;
     }
 

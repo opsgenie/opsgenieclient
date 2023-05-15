@@ -64,7 +64,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public AddUserResponse addUser(AddUserRequest addUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (AddUserResponse) httpClient.doPostRequest(addUserRequest);
+        return (AddUserResponse) httpClient.doPostRequestV2(addUserRequest);
     }
 
     /**
@@ -72,7 +72,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public UpdateUserResponse updateUser(UpdateUserRequest updateUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (UpdateUserResponse) httpClient.doPostRequest(updateUserRequest);
+        return (UpdateUserResponse) httpClient.doPatchRequestV2(updateUserRequest);
     }
 
     /**
@@ -96,6 +96,6 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public ListUsersResponse listUsers(ListUsersRequest listUsersRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListUsersResponse) httpClient.doGetRequest(listUsersRequest);
+        return (ListUsersResponse) httpClient.doGetRequestV2(listUsersRequest);
     }
 }

@@ -5,10 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.Details;
 import com.ifountain.opsgenie.client.model.beans.User;
+import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
 
 
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -18,34 +21,68 @@ import java.util.TimeZone;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateUser(UpdateUserRequest)
  */
 public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUserRequest> {
-    private String id;
-    private String fullname;
+    private String identifier;
+    private String username;
+    private String fullName;
+    private UserRole role;
     private String skypeUsername;
+    private UserAddress userAddress;
+    private List<String> tags;
+    private Details details;
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
-    private UserRole role;
 
     /**
      * Rest api uri of addding user operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user";
+        return "/v2/users/"+identifier;
     }
 
-    /**
-     * Fullname of user
-     */
-    public String getFullname() {
-        return fullname;
+    public String getUsername() {
+        return username;
     }
 
-    /**
-     * Sets fullname of user
-     */
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public Details getDetails() {
+        return details;
+    }
+
+    public void setDetails(Details details) {
+        this.details = details;
     }
 
     /**
@@ -86,29 +123,6 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
     }
 
     /**
-     * @throws UnsupportedOperationException when role is custom. Please use setUserRole() for
-     *                                       custom roles.
-     * @deprecated Use setUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setRole(User.Role role) {
-        if (role != null) {
-            if (role == User.Role.admin) {
-                this.role = UserRole.ADMIN;
-            } else if (role == User.Role.owner) {
-                this.role = UserRole.OWNER;
-            } else if (role == User.Role.user) {
-                this.role = UserRole.USER;
-            } else {
-                throw new UnsupportedOperationException("custom role does not supported by Role enum. Use setUserRole() for custom roles.");
-            }
-        } else {
-            this.role = null;
-        }
-    }
-
-    /**
      * Role of user
      *
      * @see com.ifountain.opsgenie.client.model.beans.UserRole
@@ -144,22 +158,22 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (id == null)
+        if (identifier == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
     }
 
     /**
      * Id of user to be updated.
      */
-    public String getId() {
-        return id;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
      * Sets id of user to be updated.
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     /**
@@ -170,13 +184,13 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
         return new UpdateUserResponse();
     }
 
-    public UpdateUserRequest withId(String id) {
-        this.id = id;
+    public UpdateUserRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public UpdateUserRequest withFullname(String fullname) {
-        this.fullname = fullname;
+    public UpdateUserRequest withFullName(String fullName) {
+        this.fullName = fullName;
         return this;
     }
 
@@ -197,6 +211,26 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
 
     public UpdateUserRequest withRole(UserRole role) {
         this.role = role;
+        return this;
+    }
+
+    public UpdateUserRequest withUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+        return this;
+    }
+
+    public UpdateUserRequest withDetails(Details details) {
+        this.details = details;
+        return this;
+    }
+
+    public UpdateUserRequest withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public UpdateUserRequest withUsername(String username) {
+        this.username = username;
         return this;
     }
 }
