@@ -80,7 +80,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteUserResponse) httpClient.doDeleteRequest(deleteUserRequest);
+        return (DeleteUserResponse) httpClient.doDeleteRequestV2(deleteUserRequest);
     }
 
     /**
@@ -88,7 +88,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public GetUserResponse getUser(GetUserRequest getUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (GetUserResponse) httpClient.doGetRequest(getUserRequest);
+        return (GetUserResponse) httpClient.doGetRequestV2(getUserRequest);
     }
 
     /**
