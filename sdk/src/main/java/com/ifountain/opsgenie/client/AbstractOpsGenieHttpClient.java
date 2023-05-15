@@ -154,7 +154,7 @@ public abstract class AbstractOpsGenieHttpClient {
         Map<String,Object> parameters = request.getRequestParams();
         Map<String,String> headers = request.getReqHeadersForGetOrDelete();
         log.info("Executing OpsGenie request to [" + uri + "] with Parameters:" + LogUtils.getInsensitiveLogMessage(parameters));
-        OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters);
+        OpsGenieHttpResponse httpResponse = httpClient.delete(uri, parameters,headers);
         handleResponse(httpResponse);
         return populateResponse(request, httpResponse);
     }
