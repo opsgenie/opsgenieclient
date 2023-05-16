@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.alert;
 
 import com.ifountain.opsgenie.client.model.BaseResponseWithId;
+import com.ifountain.opsgenie.client.model.beans.DataWithId;
 
 /**
  * Represents OpsGenie service response for a create alert request.
@@ -16,14 +17,14 @@ public class CreateAlertResponse extends BaseResponseWithId {
      * Id of the created alert
      */
     public String getAlertId() {
-        return getId();
+        return getData().getId();
     }
 
     /**
      * Sets the id of the created alert.
      */
     public void setAlertId(String alertId) {
-        this.setId(alertId);
+        this.setData(new DataWithId(alertId));
     }
 
 }
