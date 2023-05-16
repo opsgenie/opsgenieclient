@@ -183,7 +183,7 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected void handleResponse(OpsGenieHttpResponse response) throws IOException, OpsGenieClientException {
-        if (response.getStatusCode() != HttpStatus.SC_OK) {
+        if ((response.getStatusCode() != HttpStatus.SC_OK) && (response.getStatusCode() != HttpStatus.SC_CREATED)) {
             String contentType = response.getHeaders().get(HttpHeaders.CONTENT_TYPE);
             if (contentType != null && contentType.toLowerCase().startsWith("application/json")) {
                 Map error = JsonUtils.parse(response.getContent());
