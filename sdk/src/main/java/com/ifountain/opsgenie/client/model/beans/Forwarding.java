@@ -15,10 +15,10 @@ import java.util.TimeZone;
  */
 public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     private String alias;
-    private String fromUser;
-    private String toUser;
-    private Date startDate;
-    private Date endDate;
+    private Team.User fromUser;
+    private Team.User toUser;
+    private String startDate;
+    private String endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone;
 
@@ -40,56 +40,56 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     /**
      * Username of user which forwarding is created for
      */
-    public String getFromUser() {
+    public Team.User getFromUser() {
         return fromUser;
     }
 
     /**
      * Sets username of user who forwarding is created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(Team.User fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
      * Username of user who forwarding will be directed to
      */
-    public String getToUser() {
+    public Team.User getToUser() {
         return toUser;
     }
 
     /**
      * Sets username of user who forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(Team.User toUser) {
         this.toUser = toUser;
     }
 
     /**
      * Start date of forwarding will be started
      */
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
     /**
      * Sets start date of forwarding will be started
      */
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
     /**
      * End date of forwarding will be discarded
      */
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of forwarding will be discarded
      */
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -118,9 +118,9 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
                 startDateString = sdf.format(startDate);
             sdf.setTimeZone(getObjectTimeZone());
             if (endDateString != null)
-                endDate = sdf.parse(endDateString);
+                endDate = sdf.format(sdf.parse(endDateString));
             if (startDateString != null)
-                startDate = sdf.parse(startDateString);
+                startDate = sdf.format(sdf.parse(startDateString));
         }
 
     }
@@ -135,22 +135,22 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
         return this;
     }
 
-    public Forwarding withFromUser(String fromUser) {
+    public Forwarding withFromUser(Team.User fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public Forwarding withToUser(String toUser) {
+    public Forwarding withToUser(Team.User toUser) {
         this.toUser = toUser;
         return this;
     }
 
-    public Forwarding withStartDate(Date startDate) {
+    public Forwarding withStartDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public Forwarding withEndDate(Date endDate) {
+    public Forwarding withEndDate(String endDate) {
         this.endDate = endDate;
         return this;
     }

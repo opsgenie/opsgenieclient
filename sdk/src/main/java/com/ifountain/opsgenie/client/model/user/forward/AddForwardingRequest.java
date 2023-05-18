@@ -4,8 +4,8 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ifountain.opsgenie.client.model.beans.Team;
 
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -16,10 +16,10 @@ import java.util.TimeZone;
  */
 public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, AddForwardingRequest> implements ObjectWithTimeZone {
     private String alias;
-    private String fromUser;
-    private String toUser;
-    private Date startDate;
-    private Date endDate;
+    private Team.User fromUser;
+    private Team.User toUser;
+    private String startDate;
+    private String endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone = TimeZone.getTimeZone("GMT");
 
@@ -28,7 +28,7 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
+        return "/v2/forwarding-rules";
     }
 
     /**
@@ -51,56 +51,56 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
     /**
      * Username of user which forwarding will be created for
      */
-    public String getFromUser() {
+    public Team.User getFromUser() {
         return fromUser;
     }
 
     /**
      * Sets Username of user who forwarding will be created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(Team.User fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
      * Username of user who forwarding will be directed to
      */
-    public String getToUser() {
+    public Team.User getToUser() {
         return toUser;
     }
 
     /**
      * Sets username of user who forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(Team.User toUser) {
         this.toUser = toUser;
     }
 
     /**
      * Start date of forwarding will be started
      */
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
     /**
      * Sets start date of forwarding will be started
      */
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
     /**
      * End date of forwarding will be discarded
      */
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of forwarding will be discarded
      */
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -138,22 +138,22 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
         return this;
     }
 
-    public AddForwardingRequest withFromUser(String fromUser) {
+    public AddForwardingRequest withFromUser(Team.User fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public AddForwardingRequest withToUser(String toUser) {
+    public AddForwardingRequest withToUser(Team.User toUser) {
         this.toUser = toUser;
         return this;
     }
 
-    public AddForwardingRequest withStartDate(Date startDate) {
+    public AddForwardingRequest withStartDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public AddForwardingRequest withEndDate(Date endDate) {
+    public AddForwardingRequest withEndDate(String endDate) {
         this.endDate = endDate;
         return this;
     }

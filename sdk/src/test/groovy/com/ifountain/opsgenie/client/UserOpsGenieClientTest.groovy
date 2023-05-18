@@ -174,7 +174,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
 
         GetForwardingRequest request = new GetForwardingRequest();
-        request.setId("forwarding1");
+        request.setIdentifier("forwarding1");
         request.setAlias("forwarding1Alias");
         request.setApiKey("customer1");
 
@@ -191,7 +191,7 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
+        assertEquals(request.getIdentifier(), requestSent.getParameters()[TestConstants.API.ID]);
         assertEquals(request.getAlias(), requestSent.getParameters()[TestConstants.API.ALIAS]);
         assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
         assertEquals("/v1/json/user/forward", requestSent.getUrl())

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Forwarding;
 
@@ -13,7 +13,7 @@ import java.text.ParseException;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getForwarding(GetForwardingRequest)
  */
 public class GetForwardingResponse extends BaseResponse {
-    @JsonUnwrapped
+    @JsonProperty("data")
     private Forwarding forwarding;
 
     /**

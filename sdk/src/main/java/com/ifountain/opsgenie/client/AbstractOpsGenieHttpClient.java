@@ -150,6 +150,12 @@ public abstract class AbstractOpsGenieHttpClient {
         return handleAndPopulateResponse(httpResponse,request);
     }
 
+    protected BaseResponse doPutRequestV2(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
+        APIConfiguration apiConfiguration = getAPIConfigurationForPostOrPatch(request);
+        OpsGenieHttpResponse httpResponse = httpClient.put(apiConfiguration.getUri(), apiConfiguration.getJson(), apiConfiguration.getParameters(),apiConfiguration.getHeaders());
+        return handleAndPopulateResponse(httpResponse,request);
+    }
+
     private void setAndValidateApiKey(BaseRequest request) throws OpsGenieClientValidationException {
         if (request.getApiKey() == null)
             request.setApiKey(getApiKey());

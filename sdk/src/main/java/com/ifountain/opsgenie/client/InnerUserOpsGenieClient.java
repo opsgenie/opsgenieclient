@@ -23,7 +23,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (AddForwardingResponse) httpClient.doPostRequest(addForwardingRequest);
+        return (AddForwardingResponse) httpClient.doPostRequestV2(addForwardingRequest);
     }
 
     /**
@@ -31,7 +31,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (UpdateForwardingResponse) httpClient.doPostRequest(updateForwardingRequest);
+        return (UpdateForwardingResponse) httpClient.doPutRequestV2(updateForwardingRequest);
     }
 
     /**
@@ -39,7 +39,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteForwardingResponse) httpClient.doDeleteRequest(deleteForwardingRequest);
+        return (DeleteForwardingResponse) httpClient.doDeleteRequestV2(deleteForwardingRequest);
 
     }
 
@@ -48,7 +48,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (GetForwardingResponse) httpClient.doGetRequest(getForwardingRequest);
+        return (GetForwardingResponse) httpClient.doGetRequestV2(getForwardingRequest);
     }
 
     /**
@@ -56,7 +56,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public ListForwardingsResponse listForwardings(ListForwardingsRequest listForwardingsRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListForwardingsResponse) httpClient.doGetRequest(listForwardingsRequest);
+        return (ListForwardingsResponse) httpClient.doGetRequestV2(listForwardingsRequest);
     }
 
     /**

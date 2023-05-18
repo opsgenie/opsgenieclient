@@ -1,13 +1,16 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
+import com.ifountain.opsgenie.client.model.beans.Team;
 
 
-import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -16,12 +19,14 @@ import java.util.TimeZone;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingResponse, UpdateForwardingRequest> implements ObjectWithTimeZone {
-    private String id;
-    private String alias;
-    private String fromUser;
-    private String toUser;
-    private Date startDate;
-    private Date endDate;
+    @JsonIgnore
+    private String identifier;
+    @JsonIgnore
+    private String identifierType;
+    private Team.User fromUser;
+    private Team.User toUser;
+    private String startDate;
+    private String endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone = TimeZone.getTimeZone("GMT");
 
@@ -31,21 +36,36 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
+        return "/v2/forwarding-rules/"+ identifier;
     }
 
     /**
-     * Id of forwarding setting to be updated.
+     * check the parameters for validation. It will be overridden by necessary
+     * Requests.
+     *
+     * @throws OpsGenieClientValidationException when alias and id both null!
      */
-    public String getId() {
-        return id;
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(Objects.nonNull(identifierType) && Objects.isNull(ForwardingIdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (identifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
     }
 
     /**
-     * Sets id of forwarding setting to be updated.
+     Gets identifierType - valid values are id or alias from enum ForwardingIdentifierType
      */
-    public void setId(String id) {
-        this.id = id;
+    public String getIdentifierType() {
+        return identifierType;
+    }
+
+    /**
+     * sets type of identifier - valid values should be one of the ForwardingIdentifierType enum mentioned
+     */
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
     }
 
     /**
@@ -54,70 +74,70 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
      * same forwarding. If a forwarding exists with specified alias for from
      * user, it will update existing one.
      */
-    public String getAlias() {
-        return alias;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
      * Sets a user defined identifier for the forwarding.
      */
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     /**
      * Username of user which forwarding will be created for
      */
-    public String getFromUser() {
+    public Team.User getFromUser() {
         return fromUser;
     }
 
     /**
      * Sets Username of user who forwarding will be created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(Team.User fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
      * Username of user who forwarding will be directed to
      */
-    public String getToUser() {
+    public Team.User getToUser() {
         return toUser;
     }
 
     /**
      * Sets username of user who forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(Team.User toUser) {
         this.toUser = toUser;
     }
 
     /**
      * Start date of forwarding will be started
      */
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
     /**
      * Sets start date of forwarding will be started
      */
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
     /**
      * End date of forwarding will be discarded
      */
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of forwarding will be discarded
      */
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -142,32 +162,32 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
         return timeZone;
     }
 
-    public UpdateForwardingRequest withId(String id) {
-        this.id = id;
+    public UpdateForwardingRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public UpdateForwardingRequest withAlias(String alias) {
-        this.alias = alias;
+    public UpdateForwardingRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
         return this;
     }
 
-    public UpdateForwardingRequest withFromUser(String fromUser) {
+    public UpdateForwardingRequest withFromUser(Team.User fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public UpdateForwardingRequest withToUser(String toUser) {
+    public UpdateForwardingRequest withToUser(Team.User toUser) {
         this.toUser = toUser;
         return this;
     }
 
-    public UpdateForwardingRequest withStartDate(Date startDate) {
+    public UpdateForwardingRequest withStartDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public UpdateForwardingRequest withEndDate(Date endDate) {
+    public UpdateForwardingRequest withEndDate(String endDate) {
         this.endDate = endDate;
         return this;
     }
@@ -175,18 +195,6 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
     public UpdateForwardingRequest withTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
         return this;
-    }
-
-    /**
-     * check the parameters for validation.
-     *
-     * @throws OpsGenieClientValidationException when alias and id both null!
-     */
-    @Override
-    public void validate() throws OpsGenieClientValidationException {
-        super.validate();
-        if (getId() == null && getAlias() == null)
-            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
     }
 
     /**
