@@ -1,15 +1,15 @@
 package com.ifountain.opsgenie.client.model;
 
-import com.ifountain.opsgenie.client.model.beans.DataWithId;
+import com.ifountain.opsgenie.client.model.beans.BaseDataObj;
 
 public class BaseResponseWithId extends BaseResponse {
-    private DataWithId data;
+    private BaseDataObj data;
 
-    public DataWithId getData() {
+    public BaseDataObj getData() {
         return data;
     }
 
-    public void setData(DataWithId data) {
+    public void setData(BaseDataObj data) {
         this.data = data;
     }
 }
