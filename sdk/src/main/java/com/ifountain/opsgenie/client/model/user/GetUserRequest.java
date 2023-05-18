@@ -36,6 +36,8 @@ public class GetUserRequest extends BaseRequest<GetUserResponse, GetUserRequest>
         super.validate();
         if (StringUtils.isEmpty(identifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.USERNAME, OpsGenieClientConstants.API.ID);
+        if (StringUtils.isNotBlank(expand) && !expand.equalsIgnoreCase(OpsGenieClientConstants.API.CONTACT))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.EXPAND);
     }
 
     public Map<String,Object> getRequestParams(){

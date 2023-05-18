@@ -2,11 +2,14 @@ package com.ifountain.opsgenie.client.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.Details;
 import com.ifountain.opsgenie.client.model.beans.User;
 import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
+import org.apache.commons.lang3.StringUtils;
 
 
 import java.util.List;
@@ -39,6 +42,22 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
     @Override
     public String getEndPoint() {
         return "/v2/users";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(StringUtils.isEmpty(username))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USERNAME);
+        if(StringUtils.isEmpty(fullName))
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.FULLNAME);
+        if(role == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROLE);
     }
 
     public void setRole(UserRole role) {

@@ -159,7 +159,7 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
         if (identifier == null)
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID, OpsGenieClientConstants.API.USERNAME);
     }
 
     /**
