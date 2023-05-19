@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-public class DataWithId {
+public class BaseDataObj extends Bean{
     private String id;
     public String getId() {
         return id;
@@ -10,14 +10,14 @@ public class DataWithId {
         this.id = id;
     }
 
-    public DataWithId(String id) {
+    public BaseDataObj(String id) {
         this.id = id;
     }
 
-    public DataWithId() {
+    public BaseDataObj() {
     }
 
-    public DataWithId withId(String id){
+    public BaseDataObj withId(String id){
         this.id = id;
         return this;
     }
