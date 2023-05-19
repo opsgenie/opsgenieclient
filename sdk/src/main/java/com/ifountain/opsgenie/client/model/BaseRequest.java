@@ -11,6 +11,8 @@ import org.apache.http.HttpHeaders;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,12 +85,11 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
         return headers;
     }
 
-    public static boolean isValidDate(String dateStr) {
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ssZ");
-        sdf.setLenient(false);
+    public boolean isValidDate(String dateStr) {
         try {
-            sdf.parse(dateStr);
-        } catch (ParseException e) {
+            Instant instantDate = Instant.parse(dateStr);
+        }
+        catch (DateTimeParseException e){
             return false;
         }
         return true;
