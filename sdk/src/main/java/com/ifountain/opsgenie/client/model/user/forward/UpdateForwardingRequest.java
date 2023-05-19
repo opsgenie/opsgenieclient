@@ -10,6 +10,8 @@ import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
 import com.ifountain.opsgenie.client.model.beans.Team;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -52,6 +54,23 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
         if (identifier == null)
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
+        if (fromUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.FROM_USER);
+        if(toUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
+        if(!isValidDate(startDate))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
+        if(!isValidDate(endDate))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
+    }
+
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
     /**

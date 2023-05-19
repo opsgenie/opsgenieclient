@@ -1,5 +1,7 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 
@@ -29,6 +31,24 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
     @Override
     public String getEndPoint() {
         return "/v2/forwarding-rules";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (fromUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.FROM_USER);
+        if(toUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
+        if(!isValidDate(startDate))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
+        if(!isValidDate(endDate))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
     }
 
     /**
