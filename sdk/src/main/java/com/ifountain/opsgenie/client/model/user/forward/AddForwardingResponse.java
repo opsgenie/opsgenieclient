@@ -1,7 +1,7 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.beans.DataWithAliasAndId;
+import com.ifountain.opsgenie.client.model.beans.DataObjWithAlias;
 
 /**
  * Represents OpsGenie service response for add forwarding request.
@@ -10,18 +10,18 @@ import com.ifountain.opsgenie.client.model.beans.DataWithAliasAndId;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#addForwarding(AddForwardingRequest)
  */
 public class AddForwardingResponse extends BaseResponse {
-    private DataWithAliasAndId data;
+    private DataObjWithAlias data;
     /**
      * Alias and id of the created forwarding
      */
-    public DataWithAliasAndId getData() {
+    public DataObjWithAlias getData() {
         return data;
     }
 
     /**
      * Alias and id of the created forwarding
      */
-    public void setData(DataWithAliasAndId data) {
+    public void setData(DataObjWithAlias data) {
         this.data = data;
     }
 }

@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-public class DataWithAliasAndId extends Bean{
+public class DataObjWithAlias extends Bean{
     private String alias;
     private String id;
 
