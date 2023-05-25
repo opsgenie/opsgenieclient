@@ -1,6 +1,7 @@
 ## 2.13.2 (May 25, 2023)
-* Support for Contact API Client V2 version APIs
-* Support for Account API Client V2 version APIs
+* Add support for following OpsGenie V2 APIs
+    * Contact API
+    * Account API
 
 ## 2.13.1 (April 24, 2023)
 * Java version updated to 1.8
