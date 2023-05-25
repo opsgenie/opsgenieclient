@@ -5,45 +5,46 @@ import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.account.GetAccountInfoRequest
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
-import com.ifountain.opsgenie.client.util.JsonUtils
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+import org.json.JSONObject
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 
 /**
- * @author Mehmet Mustafa Demir
+ * @author Manisha Singla
  */
 class AccountOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 
     @Test
-    public void getUserSuccessfullyWithUsername() throws Exception {
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.USER_COUNT, 1450);
-        jsonContent.put(TestConstants.API.NAME, "opsgenie");
-        Map planContent = new HashMap();
-        planContent.put(TestConstants.API.IS_YEARLY,true);
-        planContent.put(TestConstants.API.NAME,"Enterprise");
-        planContent.put(TestConstants.API.MAX_USER_COUNT,1500);
-        jsonContent.put(TestConstants.API.PLAN,planContent);
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+    void getUserSuccessfullyWithUsername() throws Exception {
+        String responseStr = getResponseString("GetAccountInfoResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
-        GetAccountInfoRequest request = new GetAccountInfoRequest();
-        request.setApiKey("customer1");
+        GetAccountInfoRequest request = new GetAccountInfoRequest()
+        request.setApiKey("customer1")
 
-        def response = OpsGenieClientTestCase.opsgenieClient.account().getAccount(request);
-        assertEquals(1, response.getTook());
-        assertEquals(jsonContent[TestConstants.API.USER_COUNT], response.getAccount().getUserCount());
-        assertEquals(jsonContent[TestConstants.API.NAME], response.getAccount().getName());
+        def response = opsgenieClient.account().getAccount(request)
+        assertEquals(0, response.getTook())
+        assertEquals(1450, response.getAccount().getUserCount())
+        assertEquals("opsgenie", response.getAccount().getName())
 
-        assertEquals(planContent[TestConstants.API.IS_YEARLY], response.getAccount().getPlan().getIsYearly());
-        assertEquals(planContent[TestConstants.API.NAME], response.getAccount().getPlan().getName());
-        assertEquals(planContent[TestConstants.API.MAX_USER_COUNT], response.getAccount().getPlan().getMaxUserCount());
+        assertEquals(true, response.getAccount().getPlan().getIsYearly())
+        assertEquals("Enterprise", response.getAccount().getPlan().getName())
+        assertEquals(1500, response.getAccount().getPlan().getMaxUserCount())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/account/info", requestSent.getUrl())
+        assertEquals("/v2/account", requestSent.getUrl())
+    }
+
+    private String getResponseString(String responseType) {
+        def jsonSlurper = new JsonSlurper()
+        JSONObject data = jsonSlurper.parse(new FileReader("sdk/src/test/resources/AccountOpsGenieClient.json")) as JSONObject
+        Object responseJson = data.get(responseType)
+        String responseStr = new JsonBuilder(responseJson).toPrettyString()
+        responseStr
     }
 
 }

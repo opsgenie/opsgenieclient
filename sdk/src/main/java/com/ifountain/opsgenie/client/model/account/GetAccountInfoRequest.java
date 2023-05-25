@@ -13,7 +13,7 @@ public class GetAccountInfoRequest extends BaseRequest<GetAccountInfoResponse,Ge
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/account/info";
+        return "/v2/account";
     }
 
     @Override
