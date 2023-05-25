@@ -5,16 +5,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
 
-
 /**
  * Contact bean
  */
-public class Contact extends BeanWithId {
-
+public class Contact extends Bean {
     private Method method;
     private String to;
-    private Boolean enabled;
-    private String disabledReason;
+    private Status status;
+    private String id;
+    private Integer applyOrder;
 
     public Method getMethod() {
         return method;
@@ -32,20 +31,28 @@ public class Contact extends BeanWithId {
         this.to = to;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public String getDisabledReason() {
-        return disabledReason;
+    public String getId() {
+        return id;
     }
 
-    public void setDisabledReason(String disabledReason) {
-        this.disabledReason = disabledReason;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Integer getApplyOrder() {
+        return applyOrder;
+    }
+
+    public void setApplyOrder(Integer applyOrder) {
+        this.applyOrder = applyOrder;
     }
 
     public Contact withMethod(Method method) {
@@ -58,20 +65,19 @@ public class Contact extends BeanWithId {
         return this;
     }
 
-    public Contact withEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public Contact withEnabled(Status status) {
+        this.status = status;
         return this;
     }
 
-    public Contact withDisabledReason(String disabledReason) {
-        this.disabledReason = disabledReason;
+    public Contact withId(String id) {
+        this.id = id;
         return this;
     }
 
     public enum Method {
         EMAIL(OpsGenieClientConstants.API.EMAIL), SMS(OpsGenieClientConstants.API.SMS),
-        VOICE(OpsGenieClientConstants.API.VOICE),
-        MOBILE_APP(OpsGenieClientConstants.API.MOBILE_APP);
+        VOICE(OpsGenieClientConstants.API.VOICE);
         private String value;
 
         Method(String value) {

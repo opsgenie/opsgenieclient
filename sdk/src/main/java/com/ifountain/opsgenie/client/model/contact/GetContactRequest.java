@@ -10,14 +10,14 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(GetContactRequest)
  */
-public class GetContactRequest extends BaseContactRequestWithId<GetContactResponse, GetContactRequest> {
+public class GetContactRequest extends BaseContactRequest<GetContactResponse, GetContactRequest> {
 
     /**
      * Rest api uri of getting contact operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/contact";
+        return "/v2/users/" + getUserIdentifier() + "/contacts/" + getContactId();
     }
 
     /**
@@ -29,8 +29,10 @@ public class GetContactRequest extends BaseContactRequestWithId<GetContactRespon
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (getId() == null)
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+        if (getContactId() == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.CONTACT_ID);
+        if (getUserIdentifier() == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER_IDENTIFIER);
     }
 
     @Override

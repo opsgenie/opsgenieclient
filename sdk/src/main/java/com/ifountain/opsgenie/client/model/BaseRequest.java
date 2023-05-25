@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.util.JsonUtils;
+import org.apache.http.HttpHeaders;
 
-
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,6 +20,7 @@ import java.util.Map;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonPropertyOrder(alphabetic = true)
 public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> implements Request {
+    @JsonIgnore
     private String apiKey;
 
     /**
@@ -53,6 +55,29 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
     public void validate() throws OpsGenieClientValidationException {
         if (apiKey == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.API_KEY);
+    }
+
+    @JsonIgnore
+    public Map<String,Object> getRequestParams(){
+        return new HashMap<>();
+    }
+
+    @JsonIgnore
+    public Map<String,String> getReqHeadersForGetOrDelete(){
+        return addGenieKey();
+    }
+
+    @JsonIgnore
+    public Map<String,String> getReqHeadersForPostOrPatch(){
+        Map<String, String> headers = addGenieKey();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
+        return headers;
+    }
+
+    private Map<String, String> addGenieKey() {
+        Map<String,String> headers = new HashMap<>();
+        headers.put("Authorization","GenieKey "+apiKey);
+        return headers;
     }
 
     /**

@@ -8,5 +8,13 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#deleteContact(DeleteContactRequest)
  */
 public class DeleteContactResponse extends BaseResponse {
+    private String result;
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 }

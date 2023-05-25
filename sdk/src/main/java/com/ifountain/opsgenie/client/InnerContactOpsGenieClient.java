@@ -25,7 +25,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public AddContactResponse addContact(AddContactRequest addContactRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (AddContactResponse) httpClient.doPostRequest(addContactRequest);
+		return (AddContactResponse) httpClient.doPostRequestV2(addContactRequest);
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public UpdateContactResponse updateContact(UpdateContactRequest updateContactRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (UpdateContactResponse) httpClient.doPostRequest(updateContactRequest);
+		return (UpdateContactResponse) httpClient.doPatchRequestV2(updateContactRequest);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public DeleteContactResponse deleteContact(DeleteContactRequest deleteContactRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (DeleteContactResponse) httpClient.doDeleteRequest(deleteContactRequest);
+		return (DeleteContactResponse) httpClient.doDeleteRequestV2(deleteContactRequest);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public EnableContactResponse enableContact(EnableContactRequest enableContactRequest)
 			throws ParseException, OpsGenieClientException, IOException {
-		return (EnableContactResponse) httpClient.doPostRequest(enableContactRequest);
+		return (EnableContactResponse) httpClient.doPostRequestV2(enableContactRequest);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public DisableContactResponse disableContact(DisableContactRequest disableContactRequest)
 			throws ParseException, OpsGenieClientException, IOException {
-		return (DisableContactResponse) httpClient.doPostRequest(disableContactRequest);
+		return (DisableContactResponse) httpClient.doPostRequestV2(disableContactRequest);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public GetContactResponse getContact(GetContactRequest getContactRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (GetContactResponse) httpClient.doGetRequest(getContactRequest);
+		return (GetContactResponse) httpClient.doGetRequestV2(getContactRequest);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class InnerContactOpsGenieClient implements IContactOpsGenieClient {
 	@Override
 	public ListContactsResponse listContact(ListContactsRequest listContactRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (ListContactsResponse) httpClient.doGetRequest(listContactRequest);
+		return (ListContactsResponse) httpClient.doGetRequestV2(listContactRequest);
 	}
 
 }

@@ -10,4 +10,13 @@ import com.ifountain.opsgenie.client.model.BaseResponseWithId;
  */
 public class AddContactResponse extends BaseResponseWithId {
 
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 }
