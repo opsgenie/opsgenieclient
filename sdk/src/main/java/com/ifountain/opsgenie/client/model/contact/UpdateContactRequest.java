@@ -2,6 +2,7 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Container for the parameters to make an update contact api call.
@@ -9,7 +10,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#updateContact(UpdateContactRequest)
  */
-public class UpdateContactRequest extends BaseContactRequestWithId<UpdateContactResponse, UpdateContactRequest> {
+public class UpdateContactRequest extends BaseContactRequest<UpdateContactResponse, UpdateContactRequest> {
     private String to;
 
     /**
@@ -17,7 +18,7 @@ public class UpdateContactRequest extends BaseContactRequestWithId<UpdateContact
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/contact";
+        return "/v2/users/" + getUserIdentifier() +"/contacts/" + getContactId();
     }
 
     /**
@@ -28,8 +29,12 @@ public class UpdateContactRequest extends BaseContactRequestWithId<UpdateContact
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (getId() == null)
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+        if (getContactId() == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.CONTACT_ID);
+        if (getUserIdentifier() == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER_IDENTIFIER);
+        if(StringUtils.isEmpty(to))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO);
     }
 
     /**

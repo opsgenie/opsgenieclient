@@ -1,8 +1,12 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.ifountain.opsgenie.client.model.BaseUserRequest;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.beans.Contact;
 import com.ifountain.opsgenie.client.model.beans.Contact.Method;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 /**
  * Container for the parameters to make an add contact api call.
@@ -10,7 +14,7 @@ import com.ifountain.opsgenie.client.model.beans.Contact.Method;
  * @author Mehmet Mustafa Demir
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#addContact(AddContactRequest)
  */
-public class AddContactRequest extends BaseUserRequest<AddContactResponse, AddContactRequest> {
+public class AddContactRequest extends BaseContactRequest<AddContactResponse, AddContactRequest> {
     private Method method;
     private String to;
 
@@ -18,7 +22,18 @@ public class AddContactRequest extends BaseUserRequest<AddContactResponse, AddCo
      * Rest api uri of adding contact operation.
      */
     public String getEndPoint() {
-        return "/v1/json/user/contact";
+        return "/v2/users/" + getUserIdentifier() + "/contacts";
+    }
+
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(StringUtils.isEmpty(to))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO);
+        if(Objects.isNull(method))
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.METHOD);
+        if (Objects.isNull(getUserIdentifier()))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER_IDENTIFIER);
     }
 
     /**

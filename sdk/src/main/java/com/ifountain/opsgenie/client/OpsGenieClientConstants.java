@@ -148,6 +148,7 @@ public interface OpsGenieClientConstants {
         String ESCALATION_TIME = "escalationTime";
         String FORWARDED_FROM = "forwardedFrom";
         String CONTACTS = "contacts";
+        String CONTACT_ID = "contactId";
         String INTEGRATION = "integration";
         String INTEGRATION_ID = "integrationId";
         String POLICY = "policy";

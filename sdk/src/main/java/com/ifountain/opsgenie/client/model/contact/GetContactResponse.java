@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.contact;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Contact;
 
@@ -11,7 +11,8 @@ import com.ifountain.opsgenie.client.model.beans.Contact;
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#getContact(GetContactRequest)
  */
 public class GetContactResponse extends BaseResponse {
-    @JsonUnwrapped
+
+    @JsonProperty("data")
     private Contact contact;
 
     /**
