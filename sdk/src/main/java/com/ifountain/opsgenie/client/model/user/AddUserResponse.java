@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.beans.DataObjWithName;
+import com.ifountain.opsgenie.client.model.beans.DataWithName;
 
 /**
  * Represents OpsGenie service response for add user request.
@@ -13,7 +13,7 @@ public class AddUserResponse extends BaseResponse {
 
     private String result;
     @JsonProperty("data")
-    private DataObjWithName user;
+    private DataWithName user;
 
     public String getResult() {
         return result;
@@ -23,11 +23,11 @@ public class AddUserResponse extends BaseResponse {
         this.result = result;
     }
 
-    public DataObjWithName getUserData() {
+    public DataWithName getUserData() {
         return user;
     }
 
-    public void setUserData(DataObjWithName dataObjWithName) {
-        this.user = dataObjWithName;
+    public void setUserData(DataWithName dataWithName) {
+        this.user = dataWithName;
     }
 }

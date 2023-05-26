@@ -9,12 +9,7 @@ import java.util.Objects;
  * @author Mehmet Mustafa Demir
  */
 public class UserRole extends BeanWithId {
-
     private String name;
-
-    private UserRole(String name) {
-        this.name = name;
-    }
 
     public UserRole(){
 

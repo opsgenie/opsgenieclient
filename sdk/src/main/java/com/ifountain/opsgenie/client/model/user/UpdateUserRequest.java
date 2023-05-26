@@ -1,18 +1,14 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.Details;
-import com.ifountain.opsgenie.client.model.beans.User;
 import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
-
-
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -28,7 +24,7 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
     private String skypeUsername;
     private UserAddress userAddress;
     private List<String> tags;
-    private Details details;
+    private Map<String, List<String>> details;
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
@@ -77,11 +73,11 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
         this.tags = tags;
     }
 
-    public Details getDetails() {
+    public Map<String, List<String>> getDetails() {
         return details;
     }
 
-    public void setDetails(Details details) {
+    public void setDetails(Map<String, List<String>> details) {
         this.details = details;
     }
 
@@ -111,15 +107,6 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
      */
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    /**
-     * @deprecated Use getUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public User.Role getRole() {
-        return role != null ? User.Role.fromName(role.getName()) : null;
     }
 
     /**
@@ -219,7 +206,7 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
         return this;
     }
 
-    public UpdateUserRequest withDetails(Details details) {
+    public UpdateUserRequest withDetails(Map<String, List<String>> details) {
         this.details = details;
         return this;
     }

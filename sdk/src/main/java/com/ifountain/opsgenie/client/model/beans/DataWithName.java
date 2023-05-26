@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-public class DataObjWithName extends BaseDataObj {
+public class DataWithName extends BaseDataObj {
     private String name;
     public String getName() {
         return name;
@@ -10,7 +10,7 @@ public class DataObjWithName extends BaseDataObj {
         this.name = name;
     }
 
-    public DataObjWithName withName(String name){
+    public DataWithName withName(String name){
         this.name=name;
         return this;
     }

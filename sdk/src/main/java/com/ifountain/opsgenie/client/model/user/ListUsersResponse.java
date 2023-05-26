@@ -13,12 +13,9 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
 public class ListUsersResponse extends BaseResponse {
-
     @JsonProperty("data")
     private List<User> users;
-
     private Integer totalCount;
-
     private Paging paging;
 
     public Integer getTotalCount() {

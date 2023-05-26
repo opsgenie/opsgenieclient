@@ -1,11 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.ifountain.opsgenie.client.util.JsonUtils;
-
 
 import java.util.*;
 
@@ -32,10 +27,17 @@ public class User extends BeanWithId {
     private Locale locale;
     private List<String> tags;
     private UserAddress userAddress;
-    private Details details;
+    private Map<String, List<String>> details;
     private String createdAt;
     @JsonProperty("userContacts")
     private List<Contact> contacts;
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
 
     public Boolean getBlocked() {
         return blocked;
@@ -51,6 +53,9 @@ public class User extends BeanWithId {
 
     public void setVerified(Boolean verified) {
         this.verified = verified;
+    }
+    public UserRole getRole() {
+        return role;
     }
 
     public void setRole(UserRole role) {
@@ -73,11 +78,11 @@ public class User extends BeanWithId {
         this.userAddress = userAddress;
     }
 
-    public Details getDetails() {
+    public Map<String, List<String>> getDetails() {
         return details;
     }
 
-    public void setDetails(Details details) {
+    public void setDetails(Map<String, List<String>> details) {
         this.details = details;
     }
 
@@ -153,68 +158,6 @@ public class User extends BeanWithId {
         this.locale = locale;
     }
 
-    /**
-     * @deprecated Use getUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public User.Role getRole() {
-        return role == null ? null : Role.fromName(role.getName());
-    }
-
-    /**
-     * Role of user
-     *
-     * @see com.ifountain.opsgenie.client.model.beans.UserRole
-     */
-    @JsonProperty("role")
-    public UserRole getUserRole() {
-        return role;
-    }
-
-    /**
-     * Sets role of user
-     *
-     * @see com.ifountain.opsgenie.client.model.beans.UserRole
-     */
-    public void setUserRole(UserRole role) {
-        this.role = role;
-    }
-
-    /**
-     * @deprecated Use getUserContacts
-     */
-    @Deprecated
-    @JsonIgnore
-    public List<Map<String, String>> getContacts() {
-        if (contacts == null)
-            return null;
-        List<Map<String, String>> contactMapList = new ArrayList();
-        for (Contact contact : contacts) {
-            try {
-                contactMapList.add(JsonUtils.toMap(contact));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return contactMapList;
-    }
-
-    /**
-     * Contacts of user
-     */
-    @JsonProperty("userContacts")
-    public List<Contact> getUserContacts() {
-        return contacts;
-    }
-
-    /**
-     * Sets contacts of user
-     */
-    public void setUserContacts(List<Contact> contacts) {
-        this.contacts = contacts;
-    }
-
     public String getSkypeUsername() {
         return skypeUsername;
     }
@@ -273,7 +216,7 @@ public class User extends BeanWithId {
         return this;
     }
 
-    public User withDetails(Details details) {
+    public User withDetails(Map<String, List<String>> details) {
         this.details = details;
         return this;
     }
@@ -282,31 +225,4 @@ public class User extends BeanWithId {
         this.userAddress = userAddress;
         return this;
     }
-    /**
-     * Role enum is deprecated in order to give support to custom roles
-     * Please use UserRole class
-     */
-    @Deprecated
-    public enum Role {
-        admin, owner, user, custom;
-
-        @JsonCreator
-        public static Role fromName(String name) {
-            for (Role role : Role.values()) {
-                if (role.name().equalsIgnoreCase(name))
-                    return role;
-            }
-            return custom;
-        }
-
-        @JsonValue
-        public String value() {
-            return name();
-        }
-    }
-
-    public enum State {
-        active, waitingverification, inactive
-    }
-
 }

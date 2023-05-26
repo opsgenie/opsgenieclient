@@ -1,19 +1,15 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.Details;
-import com.ifountain.opsgenie.client.model.beans.User;
 import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
 import org.apache.commons.lang3.StringUtils;
-
-
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -28,13 +24,11 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
     private String skypeUsername;
     private UserAddress userAddress;
     private List<String> tags;
-    private Details details;
+    private Map<String, List<String>> details;
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
-
     private Boolean invitationDisabled = false;
-
 
     /**
      * Rest api uri of addding user operation.
@@ -56,7 +50,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USERNAME);
         if(StringUtils.isEmpty(fullName))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.FULLNAME);
-        if(role == null)
+        if(role == null || StringUtils.isEmpty(role.getName()))
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROLE);
     }
 
@@ -80,11 +74,11 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
         this.tags = tags;
     }
 
-    public Details getDetails() {
+    public Map<String, List<String>> getDetails() {
         return details;
     }
 
-    public void setDetails(Details details) {
+    public void setDetails(Map<String, List<String>> details) {
         this.details = details;
     }
 
@@ -153,19 +147,6 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
     }
 
     /**
-     * @deprecated Use getUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public User.Role getRole() {
-
-        if (role == null) {
-            return null;
-        }
-        return User.Role.fromName(role.getName());
-    }
-
-    /**
      * Role of user
      *
      * @see com.ifountain.opsgenie.client.model.beans.UserRole
@@ -216,7 +197,7 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
         return this;
     }
 
-    public AddUserRequest withDetails(Details details) {
+    public AddUserRequest withDetails(Map<String, List<String>> details) {
         this.details = details;
         return this;
     }
