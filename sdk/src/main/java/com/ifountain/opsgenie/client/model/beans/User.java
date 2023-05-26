@@ -1,13 +1,12 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.*;
 
 /**
  * User bean
  */
-public class User extends BeanWithId {
+public class User extends BaseUserObj {
     private static final Map<String, Locale> LOCALES = new HashMap<String, Locale>();
 
     static {
@@ -18,7 +17,6 @@ public class User extends BeanWithId {
 
     private Boolean blocked;
     private Boolean verified;
-    private String username;
     private String fullName;
     private UserRole role;
     private String skypeUsername;
@@ -103,20 +101,6 @@ public class User extends BeanWithId {
     }
 
     /**
-     * Username of user
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets username of user
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
      * Fullname of user
      */
     public String getFullName() {
@@ -164,11 +148,6 @@ public class User extends BeanWithId {
 
     public void setSkypeUsername(String skypeUsername) {
         this.skypeUsername = skypeUsername;
-    }
-
-    public User withUsername(String username) {
-        this.username = username;
-        return this;
     }
 
     public User withFullName(String fullName) {
