@@ -1,7 +1,16 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.Team.TeamMember.Role;
+import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
+import com.ifountain.opsgenie.client.model.beans.IdentifierType;
+import com.ifountain.opsgenie.client.model.beans.Role;
+import org.apache.commons.lang3.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Container for the parameters to make an add team api call.
@@ -9,10 +18,11 @@ import com.ifountain.opsgenie.client.model.beans.Team.TeamMember.Role;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#addTeamMember(AddTeamMemberRequest)
  */
 public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse, AddTeamMemberRequest> {
-    private String id;
-    private String name;
-    private String userId;
-    private String username;
+    @JsonIgnore
+    private String teamIdentifier;
+    @JsonIgnore
+    private String teamIdentifierType;
+    private BaseUserObj user;
     private Role role;
 
     /**
@@ -20,59 +30,53 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse, Add
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/team/member";
+        return "/v2/teams/" + teamIdentifier + "/members";
     }
 
-    /**
-     * Id of team which member will be added
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of team which member will be added
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Name of team which member will be added
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets name of team which member will be added
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
-     */
     @Override
-    public AddTeamMemberResponse createResponse() {
-        return new AddTeamMemberResponse();
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(Objects.nonNull(teamIdentifierType) && Objects.isNull(IdentifierType.getFromValues(teamIdentifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE);
+        if (teamIdentifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+        if(user == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER);
+        if(StringUtils.isEmpty(user.getUsername()) && StringUtils.isEmpty(user.getId()))
+            throw OpsGenieClientValidationException.error("Either id or username should be present in user field");
     }
 
-    public String getUserId() {
-        return userId;
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(teamIdentifierType))
+            params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,teamIdentifierType);
+        else
+            params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public String getTeamIdentifier() {
+        return teamIdentifier;
     }
 
-    public String getUsername() {
-        return username;
+    public void setTeamIdentifier(String teamIdentifier) {
+        this.teamIdentifier = teamIdentifier;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getTeamIdentifierType() {
+        return teamIdentifierType;
+    }
+
+    public void setTeamIdentifierType(String teamIdentifierType) {
+        this.teamIdentifierType = teamIdentifierType;
+    }
+
+    public BaseUserObj getUser() {
+        return user;
+    }
+
+    public void setUser(BaseUserObj user) {
+        this.user = user;
     }
 
     public Role getRole() {
@@ -83,28 +87,31 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse, Add
         this.role = role;
     }
 
-    public AddTeamMemberRequest withId(String id) {
-        this.id = id;
+    /**
+     * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
+     */
+    @Override
+    public AddTeamMemberResponse createResponse() {
+        return new AddTeamMemberResponse();
+    }
+
+    public AddTeamMemberRequest withTeamIdentifier(String teamIdentifier) {
+        this.teamIdentifier = teamIdentifier;
         return this;
     }
 
-    public AddTeamMemberRequest withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public AddTeamMemberRequest withUserId(String userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public AddTeamMemberRequest withUsername(String username) {
-        this.username = username;
+    public AddTeamMemberRequest withTeamIdentifierType(String teamIdentifierType) {
+        this.teamIdentifierType = teamIdentifierType;
         return this;
     }
 
     public AddTeamMemberRequest withRole(Role role) {
         this.role = role;
+        return this;
+    }
+
+    public AddTeamMemberRequest withUser(BaseUserObj user) {
+        this.user = user;
         return this;
     }
 }

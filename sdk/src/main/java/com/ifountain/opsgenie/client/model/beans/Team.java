@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -145,7 +146,7 @@ public class Team extends BeanWithId {
 
             if (role != that.role)
                 return false;
-            if (user != null ? !user.equals(that.user) : that.user != null)
+            if (!Objects.equals(user, that.user))
                 return false;
 
             return true;
@@ -156,10 +157,6 @@ public class Team extends BeanWithId {
             int result = user != null ? user.hashCode() : 0;
             result = 31 * result + (role != null ? role.hashCode() : 0);
             return result;
-        }
-
-        public enum Role {
-            admin, user
         }
     }
 
