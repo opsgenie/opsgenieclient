@@ -10,6 +10,7 @@ import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
 import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -68,6 +69,12 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
         if(!isValidDate(endDate))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
+        Instant startDate = Instant.parse(getStartDate());
+        Instant endDate = Instant.parse(getEndDate());
+        if(startDate.isBefore(Instant.now()))
+            throw OpsGenieClientValidationException.error("Start Time can not be before now.");
+        if(startDate.isAfter(endDate))
+            throw OpsGenieClientValidationException.error("End time should be later than start time.");
     }
 
     public Map<String,Object> getRequestParams(){

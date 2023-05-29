@@ -7,7 +7,7 @@ import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
 import org.apache.commons.lang3.StringUtils;
-
+import java.time.Instant;
 import java.util.TimeZone;
 
 /**
@@ -55,6 +55,12 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
         if(!isValidDate(endDate))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
+        Instant startDate = Instant.parse(getStartDate());
+        Instant endDate = Instant.parse(getEndDate());
+        if(startDate.isBefore(Instant.now()))
+            throw OpsGenieClientValidationException.error("Start Time can not be before now.");
+        if(startDate.isAfter(endDate))
+            throw OpsGenieClientValidationException.error("End time should be later than start time.");
     }
 
     /**

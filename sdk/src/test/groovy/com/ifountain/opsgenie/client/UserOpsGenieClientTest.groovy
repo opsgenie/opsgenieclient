@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
 import org.json.JSONObject
 import org.junit.Test
+import java.time.Instant
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 
@@ -62,13 +63,13 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
         AddForwardingRequest request = getAddForwardingRequest()
-        request.setEndDate("2017-07-06T18:00:00")
+        request.setEndDate(Instant.now().plusSeconds(120).toString().replace('Z','X'))
         try{
             def response = opsgenieClient.user().addForwarding(request)
         } catch (OpsGenieClientValidationException exception){
             assertEquals("Invalid Values for endDate",exception.getMessage())
         }
-        request.setStartDate("2017-07-06T18:00:00")
+        request.setStartDate(Instant.now().toString().replace('Z','X'))
         try{
             def response = opsgenieClient.user().addForwarding(request)
         } catch (OpsGenieClientValidationException exception){
@@ -137,13 +138,13 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
         UpdateForwardingRequest request = getUpdateForwardingRequest()
-        request.setEndDate("2017-07-06T18:00:00")
+        request.setEndDate(Instant.now().plusSeconds(120).toString().replace('Z','X'))
         try{
             def response = opsgenieClient.user().updateForwarding(request)
         } catch (OpsGenieClientValidationException exception){
             assertEquals("Invalid Values for endDate",exception.getMessage())
         }
-        request.setStartDate("2017-07-06T18:00:00")
+        request.setStartDate(Instant.now().toString().replace('Z','X'))
         try{
             def response = opsgenieClient.user().updateForwarding(request)
         } catch (OpsGenieClientValidationException exception){
@@ -671,8 +672,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setAlias("ruleAlias")
         request.setToUser(new BaseUserObj(id: "a65c6b81-ffbf-41bd-b674-b06de5d90c26"))
         request.setFromUser(new BaseUserObj(id: "ac8f4bf1-77ec-4a6d-9805-9c0a9c0d0d24"))
-        request.setStartDate("2017-07-05T08:00:00Z")
-        request.setEndDate("2017-07-06T18:00:00Z")
+        request.setStartDate(Instant.now().plusSeconds(60).toString())
+        request.setEndDate(Instant.now().plusSeconds(120).toString())
         request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"))
         request
     }
@@ -684,8 +685,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setIdentifierType("alias")
         request.setFromUser(new BaseUserObj(username: "user2@opsgenie.com"))
         request.setToUser(new BaseUserObj(username: "user@opsgenie.com"))
-        request.setStartDate("2017-07-05T08:00:00Z")
-        request.setEndDate("2017-07-06T18:00:00Z")
+        request.setStartDate(Instant.now().plusSeconds(60).toString())
+        request.setEndDate(Instant.now().plusSeconds(120).toString())
         request
     }
 }
