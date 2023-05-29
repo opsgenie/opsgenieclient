@@ -4,16 +4,25 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 
-
 /**
  * Contact bean
  */
-public class Contact extends Bean {
+public class Contact extends BeanWithId {
+
     private Method method;
     private String to;
     private Status status;
-    private String id;
     private Integer applyOrder;
+    private Boolean enabled;
+    private Method contactMethod;
+
+    public Method getContactMethod() {
+        return contactMethod;
+    }
+
+    public void setContactMethod(Method contactMethod) {
+        this.contactMethod = contactMethod;
+    }
 
     public Method getMethod() {
         return method;
@@ -37,14 +46,6 @@ public class Contact extends Bean {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Integer getApplyOrder() {

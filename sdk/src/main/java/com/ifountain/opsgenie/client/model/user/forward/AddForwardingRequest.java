@@ -1,11 +1,13 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Date;
+import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
+import org.apache.commons.lang3.StringUtils;
+import java.time.Instant;
 import java.util.TimeZone;
 
 /**
@@ -16,10 +18,10 @@ import java.util.TimeZone;
  */
 public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, AddForwardingRequest> implements ObjectWithTimeZone {
     private String alias;
-    private String fromUser;
-    private String toUser;
-    private Date startDate;
-    private Date endDate;
+    private BaseUserObj fromUser;
+    private BaseUserObj toUser;
+    private String startDate;
+    private String endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone = TimeZone.getTimeZone("GMT");
 
@@ -28,7 +30,37 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
+        return "/v2/forwarding-rules";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (fromUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.FROM_USER);
+        if(StringUtils.isEmpty(fromUser.getUsername()) && StringUtils.isEmpty(fromUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in from user is mandatory");
+        if(toUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
+        if(StringUtils.isEmpty(toUser.getUsername()) && StringUtils.isEmpty(toUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in to user is mandatory");
+        if(StringUtils.isEmpty(startDate) || StringUtils.isEmpty(endDate))
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.START_DATE,OpsGenieClientConstants.API.END_DATE);
+        if(!isValidDate(startDate))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
+        if(!isValidDate(endDate))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
+        Instant startDate = Instant.parse(getStartDate());
+        Instant endDate = Instant.parse(getEndDate());
+        if(startDate.isBefore(Instant.now()))
+            throw OpsGenieClientValidationException.error("Start Time can not be before now.");
+        if(startDate.isAfter(endDate))
+            throw OpsGenieClientValidationException.error("End time should be later than start time.");
     }
 
     /**
@@ -49,58 +81,58 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
     }
 
     /**
-     * Username of user which forwarding will be created for
+     * Username and id of user which forwarding will be created for
      */
-    public String getFromUser() {
+    public BaseUserObj getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets Username of user who forwarding will be created for
+     * Sets Username and id of user who forwarding will be created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * Username and id of user who forwarding will be directed to
      */
-    public String getToUser() {
+    public BaseUserObj getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets user whom forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(BaseUserObj toUser) {
         this.toUser = toUser;
     }
 
     /**
      * Start date of forwarding will be started
      */
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
     /**
      * Sets start date of forwarding will be started
      */
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
     /**
      * End date of forwarding will be discarded
      */
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of forwarding will be discarded
      */
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -138,22 +170,22 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
         return this;
     }
 
-    public AddForwardingRequest withFromUser(String fromUser) {
+    public AddForwardingRequest withFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public AddForwardingRequest withToUser(String toUser) {
+    public AddForwardingRequest withToUser(BaseUserObj toUser) {
         this.toUser = toUser;
         return this;
     }
 
-    public AddForwardingRequest withStartDate(Date startDate) {
+    public AddForwardingRequest withStartDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public AddForwardingRequest withEndDate(Date endDate) {
+    public AddForwardingRequest withEndDate(String endDate) {
         this.endDate = endDate;
         return this;
     }

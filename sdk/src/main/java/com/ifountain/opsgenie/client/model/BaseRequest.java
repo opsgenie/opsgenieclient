@@ -8,6 +8,11 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpHeaders;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,6 +83,16 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
         Map<String,String> headers = new HashMap<>();
         headers.put("Authorization","GenieKey "+apiKey);
         return headers;
+    }
+
+    public boolean isValidDate(String dateStr) {
+        try {
+            Instant instantDate = Instant.parse(dateStr);
+        }
+        catch (DateTimeParseException e){
+            return false;
+        }
+        return true;
     }
 
     /**

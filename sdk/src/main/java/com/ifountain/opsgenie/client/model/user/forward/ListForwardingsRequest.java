@@ -8,34 +8,13 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listForwardings(com.ifountain.opsgenie.client.model.user.forward.ListForwardingsRequest)
  */
 public class ListForwardingsRequest extends BaseRequest<ListForwardingsResponse, ListForwardingsRequest> {
-    private String user;
 
     /**
      * Rest api uri of list forwarding operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
-    }
-
-    /**
-     * Username of user who forwarding is created for. If not specified all
-     * forwardings belongs to customer will be returned
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Username of user who forwarding is created for
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public ListForwardingsRequest withUser(String user) {
-        this.user = user;
-        return this;
+        return "/v2/forwarding-rules";
     }
 
     /**
