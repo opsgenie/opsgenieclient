@@ -6,9 +6,9 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
 import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
-import com.ifountain.opsgenie.client.model.beans.Team;
-
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +25,8 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
     private String identifier;
     @JsonIgnore
     private String identifierType;
-    private Team.User fromUser;
-    private Team.User toUser;
+    private BaseUserObj fromUser;
+    private BaseUserObj toUser;
     private String startDate;
     private String endDate;
     @JsonProperty("timezone")
@@ -56,8 +56,14 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
         if (fromUser == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.FROM_USER);
+        if(StringUtils.isEmpty(fromUser.getUsername()) && StringUtils.isEmpty(fromUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in from user is mandatory");
         if(toUser == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
+        if(StringUtils.isEmpty(toUser.getUsername()) && StringUtils.isEmpty(toUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in to user is mandatory");
+        if(StringUtils.isEmpty(startDate) || StringUtils.isEmpty(endDate))
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.START_DATE,OpsGenieClientConstants.API.END_DATE);
         if(!isValidDate(startDate))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
         if(!isValidDate(endDate))
@@ -105,30 +111,30 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
     }
 
     /**
-     * Username of user which forwarding will be created for
+     * Gets User which forwarding will be created for
      */
-    public Team.User getFromUser() {
+    public BaseUserObj getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets Username of user who forwarding will be created for
+     * Sets User who forwarding will be created for
      */
-    public void setFromUser(Team.User fromUser) {
+    public void setFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * Username and id of user who forwarding will be directed to
      */
-    public Team.User getToUser() {
+    public BaseUserObj getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets username and id of user who forwarding will be directed to
      */
-    public void setToUser(Team.User toUser) {
+    public void setToUser(BaseUserObj toUser) {
         this.toUser = toUser;
     }
 
@@ -191,12 +197,12 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
         return this;
     }
 
-    public UpdateForwardingRequest withFromUser(Team.User fromUser) {
+    public UpdateForwardingRequest withFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public UpdateForwardingRequest withToUser(Team.User toUser) {
+    public UpdateForwardingRequest withToUser(BaseUserObj toUser) {
         this.toUser = toUser;
         return this;
     }

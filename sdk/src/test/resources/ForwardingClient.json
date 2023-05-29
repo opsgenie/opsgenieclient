@@ -1,0 +1,75 @@
+{
+  "AddForwardingResponseString": {
+    "data": {
+      "alias": "ruleAlias",
+      "id": "6667cb5b-a5ce-4550-9469-1dbcabac6ffb"
+    },
+    "took": 9.297,
+    "requestId": "387dc75c-1138-4733-b5bd-5c9cce1ac715"
+  },
+  "UpdateForwardingResponseString": {
+    "data": {
+      "alias": "ruleAlias",
+      "id": "6667cb5b-a5ce-4550-9469-1dbcabac6ffb"
+    },
+    "took": 3.375,
+    "requestId": "a6fa2988-8023-47b5-94a5-84af6a657384"
+  },
+  "DeleteForwardingResponseString": {
+    "result": "Deleted",
+    "took": 1.208,
+    "requestId": "7c02f0d9-c765-430f-90ef-a2d2465fdbe9"
+  },
+  "GetForwardingResponseString": {
+    "data": {
+      "fromUser": {
+        "id": "e58d6ee3-37bd-432f-9ded-64808b761ae0",
+        "username": "user@opsgenie.com"
+      },
+      "toUser": {
+        "id": "4b26961a-a837-49d2-a1fe-0973013e3c3b",
+        "username": "user@opsgenie.com"
+      },
+      "startDate": "2017-07-05T08:00:00Z",
+      "endDate": "2017-07-06T18:00:00Z",
+      "alias": "ruleAlias",
+      "id": "6667cb5b-a5ce-4550-9469-1dbcabac6ffb"
+    },
+    "took": 0.119,
+    "requestId": "58688d8f-e4bd-402e-a25f-9999a774e0af"
+  },
+  "ListForwardingResponseString": {
+    "data": [
+      {
+        "fromUser": {
+          "id": "e58d6ee3-37bd-432f-9ded-64808b761ae0",
+          "username": "user@opsgenie.com"
+        },
+        "toUser": {
+          "id": "4b26961a-a837-49d2-a1fe-0973013e3c3b",
+          "username": "user2@opsgenie.com"
+        },
+        "startDate": "2017-05-08T21:00:00Z",
+        "endDate": "2017-05-09T21:00:00Z",
+        "alias": "",
+        "id": "5c4694d5-37a4-4ada-99cc-0652296e9397"
+      },
+      {
+        "fromUser": {
+          "id": "e58d6ee3-37bd-432f-9ded-64808b761ae0",
+          "username": "user@opsgenie.com"
+        },
+        "toUser": {
+          "id": "4b26961a-a837-49d2-a1fe-0973013e3c3b",
+          "username": "user2@opsgenie.com"
+        },
+        "startDate": "2017-05-22T21:00:00Z",
+        "endDate": "2017-05-24T21:00:00Z",
+        "alias": "",
+        "id": "e2a4ea3a-7abb-4bb9-8a05-00de82de544d"
+      }
+    ],
+    "took": 0.212,
+    "requestId": "cf4ad4dc-4dcd-4a0c-b50b-0cc5ea8f4091"
+  }
+}

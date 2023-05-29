@@ -3,273 +3,345 @@ package com.ifountain.opsgenie.client
 import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
+import com.ifountain.opsgenie.client.model.beans.BaseUserObj
 import com.ifountain.opsgenie.client.model.beans.User
 import com.ifountain.opsgenie.client.model.user.*
 import com.ifountain.opsgenie.client.model.user.forward.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
+import org.apache.http.client.methods.HttpPut
+import org.json.JSONObject
 import org.junit.Test
-
-import java.text.SimpleDateFormat
-
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 
 /**
- * Created by Sezgin Kucukkaraaslan
- * Date: 5/31/12
- * Time: 11:09 AM
+ * Created by Manisha Singla
+ * Date: 5/29/23
+ * Time: 2:13 PM
  */
-public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
+class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
 
     @Test
-    public void testAddForwardingSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"forwarding1Id\",\"alias\":\"alias1\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testAddForwardingSuccessfully() throws Exception {
+        String responseStr = getResponseString("AddForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 201, "application/json; charset=utf-8"))
 
-        AddForwardingRequest request = new AddForwardingRequest();
-        request.setApiKey("customer1");
-        request.setAlias("forwarding1");
-        request.setStartDate(new Date());
-        request.setFromUser("user1");
-        request.setToUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
-        request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
+        AddForwardingRequest request = getAddForwardingRequest()
 
-        def response = OpsGenieClientTestCase.opsgenieClient.user().addForwarding(request)
-        assertEquals("forwarding1Id", response.getId())
-        assertEquals("alias1", response.getAlias())
-        assertEquals(1, response.getTook())
+        def response = opsgenieClient.user().addForwarding(request)
+        assertEquals("6667cb5b-a5ce-4550-9469-1dbcabac6ffb", response.getData().getId())
+        assertEquals("ruleAlias", response.getData().getAlias())
+        assertEquals(9, response.getTook())
 
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/forward", requestSent.getUrl())
-        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
-
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(request.getTimeZone());
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/forwarding-rules", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getAlias(), jsonContent[TestConstants.API.ALIAS])
-        assertEquals(sdf.format(request.getStartDate()), jsonContent[TestConstants.API.START_DATE])
-        assertEquals(sdf.format(request.getEndDate()), jsonContent[TestConstants.API.END_DATE])
-        assertEquals(request.getFromUser(), jsonContent[TestConstants.API.FROM_USER])
-        assertEquals(request.getToUser(), jsonContent[TestConstants.API.TO_USER])
+        assertEquals(request.getStartDate(), jsonContent[TestConstants.API.START_DATE])
+        assertEquals(request.getEndDate(), jsonContent[TestConstants.API.END_DATE])
+        assertEquals(request.getFromUser().getId(), jsonContent[TestConstants.API.FROM_USER][TestConstants.API.ID])
+        assertEquals(request.getToUser().getId(), jsonContent[TestConstants.API.TO_USER][TestConstants.API.ID])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
     }
 
     @Test
-    public void testAddForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.user(), "addForwarding", new AddForwardingRequest())
+    void testAddForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.user(), "addForwarding", new AddForwardingRequest())
+        String responseStr = getResponseString("AddForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        AddForwardingRequest request = getAddForwardingRequest()
+        request.setEndDate("2017-07-06T18:00:00")
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for endDate",exception.getMessage())
+        }
+        request.setStartDate("2017-07-06T18:00:00")
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for startDate",exception.getMessage())
+        }
+        request.setStartDate("")
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [startDate or endDate]",exception.getMessage())
+        }
+        request.getToUser().setId("")
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Either username or id in to user is mandatory",exception.getMessage())
+        }
+        request.setToUser(null)
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception) {
+            assertEquals("Missing mandatory property [toUser]", exception.getMessage())
+        }
+        request.getFromUser().setId("")
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Either username or id in from user is mandatory",exception.getMessage())
+        }
+        request.setFromUser(null)
+        try{
+            def response = opsgenieClient.user().addForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [fromUser]",exception.getMessage())
+        }
     }
 
     @Test
-    public void testUpdateForwardingSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"forwarding1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testUpdateForwardingSuccessfully() throws Exception {
+        String responseStr = getResponseString("UpdateForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
-        UpdateForwardingRequest request = new UpdateForwardingRequest();
-        request.setId("forwarding1Id");
-        request.setApiKey("customer1");
-        request.setAlias("forwarding1");
-        request.setStartDate(new Date());
-        request.setFromUser("user1");
-        request.setToUser("user1");
-        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"));
-        request.setEndDate(new Date(System.currentTimeMillis() + 100000000l));
+        UpdateForwardingRequest request = getUpdateForwardingRequest()
 
-        def response = OpsGenieClientTestCase.opsgenieClient.user().updateForwarding(request)
-        assertEquals("forwarding1Id", response.getId())
-        assertEquals(1, response.getTook())
+        def response = opsgenieClient.user().updateForwarding(request)
+        assertEquals("ruleAlias", response.getData().getAlias())
+        assertEquals(3, response.getTook())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/forward", requestSent.getUrl())
-        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
-
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(request.getTimeZone());
+        assertEquals(HttpPut.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/forwarding-rules/ruleAlias", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getAlias(), jsonContent[TestConstants.API.ALIAS])
-        assertEquals(sdf.format(request.getStartDate()), jsonContent[TestConstants.API.START_DATE])
-        assertEquals(sdf.format(request.getEndDate()), jsonContent[TestConstants.API.END_DATE])
-        assertEquals(request.getFromUser(), jsonContent[TestConstants.API.FROM_USER])
-        assertEquals(request.getToUser(), jsonContent[TestConstants.API.TO_USER])
-        assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
+        assertEquals(request.getStartDate(), jsonContent[TestConstants.API.START_DATE])
+        assertEquals(request.getEndDate(), jsonContent[TestConstants.API.END_DATE])
+        assertEquals(request.getFromUser().getUsername(), jsonContent[TestConstants.API.FROM_USER][TestConstants.API.USERNAME])
+        assertEquals(request.getToUser().getUsername(), jsonContent[TestConstants.API.TO_USER][TestConstants.API.USERNAME])
     }
 
     @Test
-    public void testUpdateForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.user(), "updateForwarding", new UpdateForwardingRequest())
+    void testUpdateForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.user(), "updateForwarding", new UpdateForwardingRequest())
+        String responseStr = getResponseString("UpdateForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        UpdateForwardingRequest request = getUpdateForwardingRequest()
+        request.setEndDate("2017-07-06T18:00:00")
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for endDate",exception.getMessage())
+        }
+        request.setStartDate("2017-07-06T18:00:00")
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for startDate",exception.getMessage())
+        }
+        request.setStartDate("")
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [startDate or endDate]",exception.getMessage())
+        }
+        request.getToUser().setUsername("")
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Either username or id in to user is mandatory",exception.getMessage())
+        }
+        request.setToUser(null)
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception) {
+            assertEquals("Missing mandatory property [toUser]", exception.getMessage())
+        }
+        request.getFromUser().setUsername("")
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Either username or id in from user is mandatory",exception.getMessage())
+        }
+        request.setFromUser(null)
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [fromUser]",exception.getMessage())
+        }
+        request.setIdentifier(null)
+        try{
+            def response = opsgenieClient.user().updateForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [alias or id]",exception.getMessage())
+        }
     }
 
     @Test
-    public void testDeleteForwardingSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testDeleteForwardingSuccessfully() throws Exception {
+        String responseStr = getResponseString("DeleteForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
-        DeleteForwardingRequest request = new DeleteForwardingRequest();
-        request.setId("forwarding1Id");
-        request.setApiKey("customer1");
+        DeleteForwardingRequest request = new DeleteForwardingRequest()
+        request.setApiKey("customer1")
+        request.setIdentifier("ruleAlias")
+        request.setIdentifierType("alias")
 
-        def response = OpsGenieClientTestCase.opsgenieClient.user().deleteForwarding(request)
+        def response = opsgenieClient.user().deleteForwarding(request)
         assertEquals(1, response.getTook())
 
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
 
-        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/forward", requestSent.getUrl())
-
-        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/forwarding-rules/ruleAlias", requestSent.getUrl())
 
         //test with alias
         request = new DeleteForwardingRequest();
-        request.setId("alias1");
-        request.setApiKey("customer2");
+        request.setApiKey("customer1")
+        request.setIdentifier("6667cb5b-a5ce-4550-9469-1dbcabac6ffb")
 
-        response = OpsGenieClientTestCase.opsgenieClient.user().deleteForwarding(request)
+        response = opsgenieClient.user().deleteForwarding(request)
         assertEquals(1, response.getTook())
 
         assertEquals(2, receivedRequests.size());
         requestSent = receivedRequests[1]
 
         assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/user/forward", requestSent.getUrl())
-
-        assertEquals(request.getAlias(), requestSent.getParameters()[TestConstants.API.ALIAS]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals("/v2/forwarding-rules/6667cb5b-a5ce-4550-9469-1dbcabac6ffb", requestSent.getUrl())
     }
 
     @Test
-    public void testDeleteForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.user(), "deleteForwarding", new DeleteForwardingRequest())
+    void testDeleteForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.user(), "deleteForwarding", new DeleteForwardingRequest())
+        String responseStr = getResponseString("DeleteForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        DeleteForwardingRequest request = new DeleteForwardingRequest()
+        request.setApiKey("customer1")
+        try{
+            def response = opsgenieClient.user().deleteForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [alias or id]",exception.getMessage())
+        }
     }
 
     @Test
-    public void testGetForwardingSuccessfully() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
+    void testGetForwardingSuccessfully() throws Exception {
+        String responseStr = getResponseString("GetForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
-        def startDate = new Date()
-        def endDate = new Date(System.currentTimeMillis() + 1000000)
+        GetForwardingRequest request = new GetForwardingRequest()
+        request.setApiKey("customer1")
+        request.setIdentifier("ruleAlias")
+        request.setIdentifierType("alias")
 
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.ID, "forwarding1");
-        jsonContent.put(TestConstants.API.START_DATE, sdf.format(startDate));
-        jsonContent.put(TestConstants.API.END_DATE, sdf.format(endDate));
-        jsonContent.put(TestConstants.API.FROM_USER, "user1");
-        jsonContent.put(TestConstants.API.TO_USER, "user2");
-        jsonContent.put(TestConstants.API.ALIAS, "forwarding1Alias");
-        jsonContent.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+        def response = opsgenieClient.user().getForwarding(request)
+        assertEquals(0, response.getTook())
+        assertEquals("ruleAlias", response.getForwarding().alias)
+        assertEquals("6667cb5b-a5ce-4550-9469-1dbcabac6ffb", response.getForwarding().id)
+        assertEquals("4b26961a-a837-49d2-a1fe-0973013e3c3b", response.getForwarding().toUser.getId())
+        assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", response.getForwarding().fromUser.getId())
+        assertEquals("user@opsgenie.com", response.getForwarding().toUser.getUsername())
+        assertEquals("user@opsgenie.com", response.getForwarding().fromUser.getUsername())
+        assertEquals("2017-07-05T08:00:00Z",response.getForwarding().getStartDate())
+        assertEquals("2017-07-06T18:00:00Z",response.getForwarding().getEndDate())
 
-        GetForwardingRequest request = new GetForwardingRequest();
-        request.setIdentifier("forwarding1");
-        request.setAlias("forwarding1Alias");
-        request.setApiKey("customer1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.user().getForwarding(request)
-        assertEquals(1, response.getTook())
-        assertEquals(jsonContent[TestConstants.API.ALIAS], response.getForwarding().alias)
-        assertEquals(jsonContent[TestConstants.API.ID], response.getForwarding().id)
-        assertEquals(jsonContent[TestConstants.API.TO_USER], response.getForwarding().toUser)
-        assertEquals(jsonContent[TestConstants.API.FROM_USER], response.getForwarding().fromUser)
-        assertEquals(sdf.format(startDate), sdf.format(response.getForwarding().startDate))
-        assertEquals(sdf.format(endDate), sdf.format(response.getForwarding().endDate))
-        assertEquals(sdf.getTimeZone(), response.getForwarding().timeZone)
-
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getIdentifier(), requestSent.getParameters()[TestConstants.API.ID]);
-        assertEquals(request.getAlias(), requestSent.getParameters()[TestConstants.API.ALIAS]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/forward", requestSent.getUrl())
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/forwarding-rules/ruleAlias", requestSent.getUrl())
+
+        //test with id as identifier type
+        request = new GetForwardingRequest()
+        request.setApiKey("customer1")
+        request.setIdentifier("6667cb5b-a5ce-4550-9469-1dbcabac6ffb")
+
+        response = opsgenieClient.user().getForwarding(request)
+        assertEquals(0, response.getTook())
+        assertEquals("ruleAlias", response.getForwarding().alias)
+        assertEquals("6667cb5b-a5ce-4550-9469-1dbcabac6ffb", response.getForwarding().id)
+        assertEquals("4b26961a-a837-49d2-a1fe-0973013e3c3b", response.getForwarding().toUser.getId())
+        assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", response.getForwarding().fromUser.getId())
+        assertEquals("user@opsgenie.com", response.getForwarding().toUser.getUsername())
+        assertEquals("user@opsgenie.com", response.getForwarding().fromUser.getUsername())
+        assertEquals("2017-07-05T08:00:00Z",response.getForwarding().getStartDate())
+        assertEquals("2017-07-06T18:00:00Z",response.getForwarding().getEndDate())
+
+        assertEquals(2, receivedRequests.size())
+        requestSent = receivedRequests[1]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/forwarding-rules/6667cb5b-a5ce-4550-9469-1dbcabac6ffb", requestSent.getUrl())
+
     }
 
     @Test
-    public void testGetForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.user(), "getForwarding", new GetForwardingRequest())
+    void testGetForwardingThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.user(), "getForwarding", new GetForwardingRequest())
+        String responseStr = getResponseString("GetForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        GetForwardingRequest request = new GetForwardingRequest()
+        request.setApiKey("customer1")
+        try{
+            def response = opsgenieClient.user().getForwarding(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [alias or id]",exception.getMessage())
+        }
     }
 
     @Test
-    public void testListForwardingsSuccessfully() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-5"));
+    void testListForwardingsSuccessfully() throws Exception {
+        String responseStr = getResponseString("ListForwardingResponseString")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
-        def startDate1 = new Date()
-        def endDate1 = new Date(System.currentTimeMillis() + 1000000)
-        def startDate2 = new Date(System.currentTimeMillis() + 2000000)
-        def endDate2 = new Date(System.currentTimeMillis() + 3000000)
+        ListForwardingsRequest request = new ListForwardingsRequest()
+        request.setApiKey("customer1")
 
-        Map jsonContent1 = new HashMap();
-        jsonContent1.put(TestConstants.API.ID, "forwarding1");
-        jsonContent1.put(TestConstants.API.START_DATE, sdf.format(startDate1));
-        jsonContent1.put(TestConstants.API.END_DATE, sdf.format(endDate1));
-        jsonContent1.put(TestConstants.API.FROM_USER, "user1");
-        jsonContent1.put(TestConstants.API.TO_USER, "user2");
-        jsonContent1.put(TestConstants.API.ALIAS, "forwarding1Alias");
-        jsonContent1.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
-        sdf.setTimeZone(TimeZone.getTimeZone("Etc/GMT-3"));
-        Map jsonContent2 = new HashMap();
-        jsonContent2.put(TestConstants.API.ID, "forwarding2");
-        jsonContent2.put(TestConstants.API.START_DATE, sdf.format(startDate2));
-        jsonContent2.put(TestConstants.API.END_DATE, sdf.format(endDate2));
-        jsonContent2.put(TestConstants.API.FROM_USER, "user3");
-        jsonContent2.put(TestConstants.API.TO_USER, "user4");
-        jsonContent2.put(TestConstants.API.ALIAS, "forwarding2Alias");
-        jsonContent2.put(TestConstants.API.TIMEZONE, sdf.getTimeZone().getID());
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson([took: 1, forwardings: [jsonContent1, jsonContent2]]).getBytes(), 200, "application/json; charset=utf-8"))
-
-        ListForwardingsRequest request = new ListForwardingsRequest();
-        request.setUser("user1");
-        request.setApiKey("customer1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.user().listForwardings(request)
-        assertEquals(1, response.getTook())
-        def forwardings = response.getForwardings();
+        def response = opsgenieClient.user().listForwardings(request)
+        assertEquals(0, response.getTook())
+        def forwardings = response.getForwardings()
         assertEquals(2, forwardings.size())
-        def forwarding = forwardings.find { it.alias == jsonContent1[TestConstants.API.ALIAS] }
-        assertEquals(jsonContent1[TestConstants.API.ALIAS], forwarding.alias)
-        assertEquals(jsonContent1[TestConstants.API.ID], forwarding.id)
-        assertEquals(jsonContent1[TestConstants.API.TO_USER], forwarding.toUser)
-        assertEquals(jsonContent1[TestConstants.API.FROM_USER], forwarding.fromUser)
-        assertEquals(sdf.format(startDate1), sdf.format(forwarding.startDate))
-        assertEquals(sdf.format(endDate1), sdf.format(forwarding.endDate))
-        assertEquals(TimeZone.getTimeZone("Etc/GMT-5"), forwarding.timeZone)
+        def forwarding = forwardings.find { it.id == "5c4694d5-37a4-4ada-99cc-0652296e9397" }
+        assertEquals("", forwarding.alias)
+        assertEquals("5c4694d5-37a4-4ada-99cc-0652296e9397", forwarding.id)
+        assertEquals("4b26961a-a837-49d2-a1fe-0973013e3c3b", forwarding.toUser.getId())
+        assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", forwarding.fromUser.getId())
+        assertEquals("user2@opsgenie.com", forwarding.toUser.getUsername())
+        assertEquals("user@opsgenie.com", forwarding.fromUser.getUsername())
+        assertEquals("2017-05-08T21:00:00Z",forwarding.getStartDate())
+        assertEquals("2017-05-09T21:00:00Z",forwarding.getEndDate())
 
-        forwarding = forwardings.find { it.alias == jsonContent2[TestConstants.API.ALIAS] }
-        assertEquals(jsonContent2[TestConstants.API.ALIAS], forwarding.alias)
-        assertEquals(jsonContent2[TestConstants.API.ID], forwarding.id)
-        assertEquals(jsonContent2[TestConstants.API.TO_USER], forwarding.toUser)
-        assertEquals(jsonContent2[TestConstants.API.FROM_USER], forwarding.fromUser)
-        assertEquals(sdf.format(startDate2), sdf.format(forwarding.startDate))
-        assertEquals(sdf.format(endDate2), sdf.format(forwarding.endDate))
-        assertEquals(TimeZone.getTimeZone("Etc/GMT-3"), forwarding.timeZone)
+        forwarding = forwardings.find { it.id == "e2a4ea3a-7abb-4bb9-8a05-00de82de544d" }
+        assertEquals("", forwarding.alias)
+        assertEquals("e2a4ea3a-7abb-4bb9-8a05-00de82de544d", forwarding.id)
+        assertEquals("4b26961a-a837-49d2-a1fe-0973013e3c3b", forwarding.toUser.getId())
+        assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", forwarding.fromUser.getId())
+        assertEquals("user2@opsgenie.com", forwarding.toUser.getUsername())
+        assertEquals("user@opsgenie.com", forwarding.fromUser.getUsername())
+        assertEquals("2017-05-22T21:00:00Z",forwarding.getStartDate())
+        assertEquals("2017-05-24T21:00:00Z",forwarding.getEndDate())
 
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getUser(), requestSent.getParameters()[TestConstants.API.USER]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/user/forward", requestSent.getUrl())
+        assertEquals("/v2/forwarding-rules", requestSent.getUrl())
     }
 
     @Test
-    public void testListForwardingsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.user(), "listForwardings", new ListForwardingsRequest())
+    void testListForwardingsThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.user(), "listForwardings", new ListForwardingsRequest())
     }
-
 
     @Test
     public void testAddUserSuccessfully() throws Exception {
@@ -583,5 +655,37 @@ public class UserOpsGenieClientTest extends OpsGenieClientTestCase implements Ht
     @Test
     public void testListUserThrowsExceptionIfRequestCannotBeValidated() throws Exception {
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.user(), "listUsers", new ListUsersRequest())
+    }
+
+    private String getResponseString(String responseType) {
+        def jsonSlurper = new JsonSlurper()
+        JSONObject data = jsonSlurper.parse(new FileReader("sdk/src/test/resources/ForwardingClient.json")) as JSONObject
+        Object responseJson = data.get(responseType)
+        String responseStr = new JsonBuilder(responseJson).toPrettyString()
+        responseStr
+    }
+
+    private AddForwardingRequest getAddForwardingRequest() {
+        AddForwardingRequest request = new AddForwardingRequest()
+        request.setApiKey("customer1")
+        request.setAlias("ruleAlias")
+        request.setToUser(new BaseUserObj(id: "a65c6b81-ffbf-41bd-b674-b06de5d90c26"))
+        request.setFromUser(new BaseUserObj(id: "ac8f4bf1-77ec-4a6d-9805-9c0a9c0d0d24"))
+        request.setStartDate("2017-07-05T08:00:00Z")
+        request.setEndDate("2017-07-06T18:00:00Z")
+        request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"))
+        request
+    }
+
+    private UpdateForwardingRequest getUpdateForwardingRequest() {
+        UpdateForwardingRequest request = new UpdateForwardingRequest()
+        request.setApiKey("customer1")
+        request.setIdentifier("ruleAlias")
+        request.setIdentifierType("alias")
+        request.setFromUser(new BaseUserObj(username: "user2@opsgenie.com"))
+        request.setToUser(new BaseUserObj(username: "user@opsgenie.com"))
+        request.setStartDate("2017-07-05T08:00:00Z")
+        request.setEndDate("2017-07-06T18:00:00Z")
+        request
     }
 }

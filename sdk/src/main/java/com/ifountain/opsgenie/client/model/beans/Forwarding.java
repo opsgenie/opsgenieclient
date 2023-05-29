@@ -3,11 +3,8 @@ package com.ifountain.opsgenie.client.model.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -15,8 +12,8 @@ import java.util.TimeZone;
  */
 public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     private String alias;
-    private Team.User fromUser;
-    private Team.User toUser;
+    private BaseUserObj fromUser;
+    private BaseUserObj toUser;
     private String startDate;
     private String endDate;
     @JsonProperty("timezone")
@@ -38,30 +35,30 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     }
 
     /**
-     * Username of user which forwarding is created for
+     * gets user which forwarding is created for
      */
-    public Team.User getFromUser() {
+    public BaseUserObj getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets username of user who forwarding is created for
+     * Sets user who forwarding is created for
      */
-    public void setFromUser(Team.User fromUser) {
+    public void setFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * User who forwarding will be directed to
      */
-    public Team.User getToUser() {
+    public BaseUserObj getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets user who forwarding will be directed to
      */
-    public void setToUser(Team.User toUser) {
+    public void setToUser(BaseUserObj toUser) {
         this.toUser = toUser;
     }
 
@@ -135,12 +132,12 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
         return this;
     }
 
-    public Forwarding withFromUser(Team.User fromUser) {
+    public Forwarding withFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public Forwarding withToUser(Team.User toUser) {
+    public Forwarding withToUser(BaseUserObj toUser) {
         this.toUser = toUser;
         return this;
     }
