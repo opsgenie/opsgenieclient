@@ -1,0 +1,75 @@
+{
+  "AddContactResponseString": {
+    "result": "Created",
+    "data": {
+      "id": "contact1Id"
+    },
+    "took": 1,
+    "requestId": "b5862ad7-d805-4901-8b6d-2ea75dba0f15"
+  },
+  "UpdateContactResponseString": {
+    "result": "Updated",
+    "data": {
+      "id": "contact1Id"
+    },
+    "took": 0,
+    "requestId": "9d8c16ce-b37b-4cb8-bb9d-6c62efa76b98"
+  },
+  "DeleteContactResponseString": {
+    "result": "Deleted",
+    "took": 0,
+    "requestId": "e79e8f79-f786-4cc4-8fdb-412c4425b1ea"
+  },
+  "EnableContactResponseString": {
+    "result": "Enabled",
+    "data": {
+      "id": "contact1Id"
+    },
+    "took": 2,
+    "requestId": "525e1556-416b-4973-bc1e-dfef68bc09b1"
+  },
+  "DisableContactResponseString": {
+    "result": "Disabled",
+    "data": {
+      "id": "contact1Id"
+    },
+    "took": 2,
+    "requestId": "525e1556-416b-4973-bc1e-dfef68bc09b1"
+  },
+  "GetContactResponseString": {
+    "data": {
+      "id": "test_id",
+      "method": "email",
+      "to": "user@opsgenie.com",
+      "status": {
+        "enabled": true
+      }
+    },
+    "took": 0,
+    "requestId": "03976ff1-81ba-4772-b243-42c776e17fe2"
+  },
+  "ListContactResponseString": {
+    "data": [
+      {
+        "id": "test_id1",
+        "method": "email",
+        "to": "user1@opsgenie.com",
+        "status": {
+          "enabled": true
+        },
+        "applyOrder": 0
+      },
+      {
+        "id": "test_id2",
+        "method": "sms",
+        "to": "1-9999999999",
+        "status": {
+          "enabled": true
+        },
+        "applyOrder": 1
+      }
+    ],
+    "took": 0,
+    "requestId": "793decd9-0b81-4981-bf82-af5a0cdcb06c"
+  }
+}

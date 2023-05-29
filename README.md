@@ -36,8 +36,6 @@ dependencies {
 GitHub issue for this : https://github.com/opsgenie/opsgenieclient/issues/34
 * Integration API
 * Policy API
-* Contact API
-* Account API
 * User API
 * Notification Rule API
 * Notification Rule Step API

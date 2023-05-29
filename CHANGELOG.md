@@ -1,3 +1,8 @@
+## 2.13.2 (May 25, 2023)
+* Add support for following OpsGenie V2 APIs
+    * Contact API
+    * Account API
+
 ## 2.13.1 (April 24, 2023)
 * Java version updated to 1.8
 * Log4j updated to 2.17.2

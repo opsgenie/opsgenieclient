@@ -1,8 +1,8 @@
 package com.ifountain.opsgenie.client.model.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Account;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * Represents OpsGenie service response for get account request.
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
  */
 
 public class GetAccountInfoResponse extends BaseResponse {
-    @JsonUnwrapped
+    @JsonProperty("data")
     private Account account;
 
     /**

@@ -26,7 +26,7 @@ public class InnerAccountOpsGenieClient implements IAccountOpsGenieClient {
 	@Override
 	public GetAccountInfoResponse getAccount(GetAccountInfoRequest getAccountRequest)
 			throws IOException, OpsGenieClientException, ParseException {
-		return (GetAccountInfoResponse) httpClient.doGetRequest(getAccountRequest);
+		return (GetAccountInfoResponse) httpClient.doGetRequestV2(getAccountRequest);
 	}
 
 }

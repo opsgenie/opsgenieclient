@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.contact;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Contact;
 
@@ -12,6 +13,8 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IContactOpsGenieClient#listContact(ListContactsRequest)
  */
 public class ListContactsResponse extends BaseResponse {
+
+    @JsonProperty("data")
     private List<Contact> userContacts;
 
     /**
