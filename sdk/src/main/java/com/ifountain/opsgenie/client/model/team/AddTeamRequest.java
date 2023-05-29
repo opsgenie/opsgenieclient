@@ -1,9 +1,13 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.Links;
 import com.ifountain.opsgenie.client.model.beans.Team.TeamMember;
-
+import org.apache.commons.lang3.StringUtils;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Container for the parameters to make an add team api call.
@@ -15,13 +19,42 @@ public class AddTeamRequest extends BaseRequest<AddTeamResponse, AddTeamRequest>
     private String name;
     private String description;
     private List<TeamMember> members;
+    private Links links;
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
+    }
 
     /**
      * Rest api uri of addding team operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/team";
+        return "/v2/teams";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (StringUtils.isEmpty(name))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.NAME);
+        if(Objects.nonNull(members)){
+            for(TeamMember member: members){
+                if(member.getUser() == null)
+                    throw OpsGenieClientValidationException.error("User should be present in member field");
+                if(StringUtils.isEmpty(member.getUser().getUsername()) && StringUtils.isEmpty(member.getUser().getId()))
+                    throw OpsGenieClientValidationException.error("Either username or id of user should be present");
+            }
+        }
     }
 
     /**

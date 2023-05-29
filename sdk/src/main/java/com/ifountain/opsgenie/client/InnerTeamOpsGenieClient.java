@@ -27,7 +27,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public AddTeamResponse addTeam(AddTeamRequest addTeamRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (AddTeamResponse) httpClient.doPostRequest(addTeamRequest);
+        return (AddTeamResponse) httpClient.doPostRequestV2(addTeamRequest);
     }
 
     /**
@@ -36,7 +36,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public UpdateTeamResponse updateTeam(UpdateTeamRequest updateTeamRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (UpdateTeamResponse) httpClient.doPostRequest(updateTeamRequest);
+        return (UpdateTeamResponse) httpClient.doPatchRequestV2(updateTeamRequest);
     }
 
     /**
@@ -45,7 +45,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public DeleteTeamResponse deleteTeam(DeleteTeamRequest deleteTeamRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteTeamResponse) httpClient.doDeleteRequest(deleteTeamRequest);
+        return (DeleteTeamResponse) httpClient.doDeleteRequestV2(deleteTeamRequest);
     }
 
     /**
@@ -54,7 +54,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public GetTeamResponse getTeam(GetTeamRequest getTeamRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (GetTeamResponse) httpClient.doGetRequest(getTeamRequest);
+        return (GetTeamResponse) httpClient.doGetRequestV2(getTeamRequest);
     }
 
     /**
@@ -63,7 +63,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public ListTeamsResponse listTeams(ListTeamsRequest listTeamsRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (ListTeamsResponse) httpClient.doGetRequest(listTeamsRequest);
+        return (ListTeamsResponse) httpClient.doGetRequestV2(listTeamsRequest);
     }
 
     /**
@@ -72,7 +72,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public ListTeamLogsResponse listTeamLogs(ListTeamLogsRequest listTeamLogsRequest)
             throws ParseException, OpsGenieClientException, IOException {
-        return (ListTeamLogsResponse) httpClient.doGetRequest(listTeamLogsRequest);
+        return (ListTeamLogsResponse) httpClient.doGetRequestV2(listTeamLogsRequest);
     }
 
     /**

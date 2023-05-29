@@ -7,7 +7,7 @@ package com.ifountain.opsgenie.client.model.beans;
 public class TeamLog extends Bean {
     private String log;
     private String owner;
-    private long createdAt;
+    private String createdDate;
 
     /**
      * Gets log message
@@ -40,15 +40,15 @@ public class TeamLog extends Bean {
     /**
      * The creation time of log in milliseconds.
      */
-    public long getCreatedAt() {
-        return createdAt;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
     /**
      * Sets the creation time of the log in milliseconds.
      */
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
 
@@ -62,8 +62,8 @@ public class TeamLog extends Bean {
         return this;
     }
 
-    public TeamLog withCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    public TeamLog withCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
         return this;
     }
 
