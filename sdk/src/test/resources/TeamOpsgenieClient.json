@@ -93,5 +93,23 @@
     },
     "took": 0.041,
     "requestId": "1cee4c3e-a573-48b0-bef5-alpbfb03da63"
+  },
+  "AddTeamMemberResponse": {
+    "result": "Added",
+    "data": {
+      "id": "c569c016-alpc-4e20-8a28-bd5dc33b798e",
+      "name": "TeamName"
+    },
+    "took": 3.67,
+    "requestId": "e413alpf-c183-4982-ab82-b34d77cfafc6"
+  },
+  "DeleteTeamMemberResponse": {
+    "result": "Removed",
+    "data": {
+      "id": "c569c016-alpc-4e20-8a28-bd5dc33b798e",
+      "name": "TeamName"
+    },
+    "took": 1.024,
+    "requestId": "d83c646e-87b3-40d8-alp4-03c06dd62444"
   }
 }

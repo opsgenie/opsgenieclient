@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.http.HttpTestRequest
 import com.ifountain.opsgenie.client.http.HttpTestRequestListener
 import com.ifountain.opsgenie.client.http.HttpTestResponse
 import com.ifountain.opsgenie.client.model.beans.BaseUserObj
+import com.ifountain.opsgenie.client.model.beans.Role
 import com.ifountain.opsgenie.client.model.beans.Team
 import com.ifountain.opsgenie.client.model.beans.Team.TeamMember
 import com.ifountain.opsgenie.client.model.team.*
@@ -63,9 +64,9 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setApiKey("customer1")
         request.setName("TeamName")
         request.setDescription("Team Description")
-        request.setMembers([new TeamMember(user: new BaseUserObj(username: "user@opsgenie.com"), role: TeamMember.Role.admin),
+        request.setMembers([new TeamMember(user: new BaseUserObj(username: "user@opsgenie.com"), role: Role.admin),
                             new TeamMember(user: new BaseUserObj(id: "00564944-b42f-4b95-a882-ee9a5alpb9bb")),
-                            new TeamMember(user: new BaseUserObj(id: "1f2alp91-bca3-4ae2-bdea-b02e94d10953", username: "user3@opsgenie.com"), role: TeamMember.Role.user)
+                            new TeamMember(user: new BaseUserObj(id: "1f2alp91-bca3-4ae2-bdea-b02e94d10953", username: "user3@opsgenie.com"), role: Role.user)
         ])
         request
     }
@@ -104,9 +105,9 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         UpdateTeamRequest request = new UpdateTeamRequest()
         request.setApiKey("customer1")
         request.setId("a30alp45-65bf-422f-9d41-67b10a67282a")
-        request.setMembers([new TeamMember(user: new BaseUserObj(username: "user@opsgenie.com"), role: TeamMember.Role.admin),
+        request.setMembers([new TeamMember(user: new BaseUserObj(username: "user@opsgenie.com"), role: Role.admin),
                             new TeamMember(user: new BaseUserObj(id: "00564944-b42f-4b95-a882-ee9a5alpb9bb")),
-                            new TeamMember(user: new BaseUserObj(id: "1f2alp91-bca3-4ae2-bdea-b02e94d10953", username: "user3@opsgenie.com"), role: TeamMember.Role.user)
+                            new TeamMember(user: new BaseUserObj(id: "1f2alp91-bca3-4ae2-bdea-b02e94d10953", username: "user3@opsgenie.com"), role: Role.user)
         ])
         TeamMember member = request.getMembers().get(2)
         member.getUser().setId(null)
@@ -349,103 +350,158 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
     }
 
     @Test
-    public void testAddTeamMemberSuccessfullyWithUsername() throws Exception {
-        httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testAddTeamMemberSuccessfullyWithUsername() throws Exception {
+        String responseStr = getResponseString("AddTeamMemberResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 201, "application/json; charset=utf-8"))
 
-        AddTeamMemberRequest request = new AddTeamMemberRequest();
-        request.setApiKey("customer1");
-        request.setUsername("user1")
-        request.setRole(TeamMember.Role.admin)
-        request.setName("team1");
-
-        def response = opsgenieClient.team().addTeamMember(request)
-        assertEquals(1, response.getTook())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/team/member", requestSent.getUrl())
-        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
-
-        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
-        assertEquals(request.getRole().toString(), jsonContent[TestConstants.API.ROLE])
-        assertEquals(request.getUsername(), jsonContent[TestConstants.API.USERNAME])
-    }
-
-    @Test
-    public void testAddTeamMemberSuccessfullyWithUserId() throws Exception {
-        httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
-
-        AddTeamMemberRequest request = new AddTeamMemberRequest();
-        request.setApiKey("customer1");
-        request.setUserId("user1")
-        request.setRole(TeamMember.Role.user)
-        request.setName("team1");
+        AddTeamMemberRequest request = new AddTeamMemberRequest()
+        request.setApiKey("customer1")
+        request.setTeamIdentifier("TeamName")
+        request.setTeamIdentifierType("name")
+        request.setUser(new BaseUserObj(username: "user@opsgenie.com"))
+        request.setRole(Role.admin)
 
         def response = opsgenieClient.team().addTeamMember(request)
-        assertEquals(1, response.getTook())
+        assertEquals(3, response.getTook())
+        assertEquals("c569c016-alpc-4e20-8a28-bd5dc33b798e",response.getData().getId())
+        assertEquals("TeamName",response.getData().getName())
 
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/team/member", requestSent.getUrl())
-        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
-
-        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
-        assertEquals(request.getRole().toString(), jsonContent[TestConstants.API.ROLE])
-        assertEquals(request.getUserId(), jsonContent[TestConstants.API.USER_ID])
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/teams/TeamName/members", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
     }
 
     @Test
-    public void testDeleteTeamMemberSuccessfullyWithUsername() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testAddTeamMemberSuccessfullyWithUserId() throws Exception {
+        String responseStr = getResponseString("AddTeamMemberResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 201, "application/json; charset=utf-8"))
 
-        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest();
-        request.setApiKey("customer1");
-        request.setUsername("user1")
-        request.setName("team1");
+        AddTeamMemberRequest request = new AddTeamMemberRequest()
+        request.setApiKey("customer1")
+        request.setTeamIdentifier("c569c016-alpc-4e20-8a28-bd5dc33b798e")
+        request.setUser(new BaseUserObj(username: "user@opsgenie.com"))
+        request.setRole(Role.admin)
 
-        def response = OpsGenieClientTestCase.opsgenieClient.team().deleteTeamMember(request)
-        assertEquals(1, response.getTook())
+        def response = opsgenieClient.team().addTeamMember(request)
+        assertEquals(3, response.getTook())
+        assertEquals("c569c016-alpc-4e20-8a28-bd5dc33b798e",response.getData().getId())
+        assertEquals("TeamName",response.getData().getName())
 
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/team/member", requestSent.getUrl())
-
-
-        assertEquals(3, requestSent.getParameters().size())
-        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME])
-        assertEquals(request.getUsername(), requestSent.getParameters()[TestConstants.API.USERNAME])
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/teams/c569c016-alpc-4e20-8a28-bd5dc33b798e/members", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
     }
 
     @Test
-    public void testDeleteTeamMemberSuccessfullyWithUserId() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testAddTeamMemberValidationException() throws Exception {
+        String responseStr = getResponseString("AddTeamMemberResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
-        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest();
-        request.setApiKey("customer1");
-        request.setUserId("user1")
-        request.setName("team1");
+        AddTeamMemberRequest request = new AddTeamMemberRequest()
+        request.setApiKey("customer1")
+        request.setTeamIdentifier("c569c016-alpc-4e20-8a28-bd5dc33b798e")
+        request.setUser(new BaseUserObj())
 
-        def response = OpsGenieClientTestCase.opsgenieClient.team().deleteTeamMember(request)
+        try {
+            def response = opsgenieClient.team().addTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Either id or username should be present in user field", exception.getMessage())
+        }
+        request.setUser(null)
+        try {
+            def response = opsgenieClient.team().addTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [user]", exception.getMessage())
+        }
+        request.setTeamIdentifier(null)
+        try {
+            def response = opsgenieClient.team().addTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [name or id]", exception.getMessage())
+        }
+        request.setTeamIdentifierType("test")
+        try {
+            def response = opsgenieClient.team().addTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for teamIdentifierType", exception.getMessage())
+        }
+    }
+
+    @Test
+    void testDeleteTeamMemberSuccessfullyWithUsername() throws Exception {
+        String responseStr = getResponseString("DeleteTeamMemberResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
+
+        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest()
+        request.setApiKey("customer1")
+        request.setTeamIdentifier("TeamName")
+        request.setTeamIdentifierType("name")
+        request.setMemberIdentifier("user@opsgenie.com")
+
+        def response = opsgenieClient.team().deleteTeamMember(request)
         assertEquals(1, response.getTook())
+        assertEquals("c569c016-alpc-4e20-8a28-bd5dc33b798e",response.getData().getId())
+        assertEquals("TeamName",response.getData().getName())
 
-        assertEquals(1, receivedRequests.size());
+        assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/team/member", requestSent.getUrl())
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/teams/TeamName/members/user@opsgenie.com", requestSent.getUrl())
+        assertEquals("application/x-www-form-urlencoded; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
+    }
 
-        assertEquals(3, requestSent.getParameters().size())
-        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME])
-        assertEquals(request.getUserId(), requestSent.getParameters()[TestConstants.API.USER_ID])
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+    @Test
+    void testDeleteTeamMemberSuccessfullyWithUserId() throws Exception {
+        String responseStr = getResponseString("DeleteTeamMemberResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
+        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest()
+        request.setApiKey("customer1")
+        request.setTeamIdentifier("test_team_id")
+        request.setMemberIdentifier("user@opsgenie.com")
+
+        def response = opsgenieClient.team().deleteTeamMember(request)
+        assertEquals(1, response.getTook())
+        assertEquals("c569c016-alpc-4e20-8a28-bd5dc33b798e",response.getData().getId())
+        assertEquals("TeamName",response.getData().getName())
+
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/teams/test_team_id/members/user@opsgenie.com", requestSent.getUrl())
+        assertEquals("application/x-www-form-urlencoded; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
+    }
+
+    @Test
+    void testDeleteTeamMemberValidationException() throws Exception {
+        String responseStr = getResponseString("DeleteTeamMemberResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        DeleteTeamMemberRequest request = new DeleteTeamMemberRequest()
+        request.setApiKey("customer1")
+        request.setTeamIdentifier("test_team_id")
+        try {
+            def response = opsgenieClient.team().deleteTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [username or userId]", exception.getMessage())
+        }
+
+        request.setTeamIdentifier(null)
+        try {
+            def response = opsgenieClient.team().deleteTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [name or id]", exception.getMessage())
+        }
+        request.setTeamIdentifierType("test")
+        try {
+            def response = opsgenieClient.team().deleteTeamMember(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for teamIdentifierType", exception.getMessage())
+        }
     }
 
 

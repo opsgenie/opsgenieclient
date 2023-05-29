@@ -136,9 +136,5 @@ public class Team extends BeanWithId {
             result = 31 * result + (role != null ? role.hashCode() : 0);
             return result;
         }
-
-        public enum Role {
-            admin, user
-        }
     }
 }

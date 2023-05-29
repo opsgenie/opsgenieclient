@@ -81,7 +81,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public AddTeamMemberResponse addTeamMember(AddTeamMemberRequest addTeamMemberRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (AddTeamMemberResponse) httpClient.doPostRequest(addTeamMemberRequest);
+        return (AddTeamMemberResponse) httpClient.doPostRequestV2(addTeamMemberRequest);
     }
 
     /**
@@ -90,7 +90,7 @@ public class InnerTeamOpsGenieClient implements ITeamOpsGenieClient {
     @Override
     public DeleteTeamMemberResponse deleteTeamMember(DeleteTeamMemberRequest deleteTeamMemberRequest)
             throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteTeamMemberResponse) httpClient.doDeleteRequest(deleteTeamMemberRequest);
+        return (DeleteTeamMemberResponse) httpClient.doDeleteRequestV2(deleteTeamMemberRequest);
     }
 
     /**
