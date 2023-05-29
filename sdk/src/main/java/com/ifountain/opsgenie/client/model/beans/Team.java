@@ -1,6 +1,7 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Sezgin Kucukkaraaslan
@@ -10,8 +11,16 @@ public class Team extends BeanWithId {
     private String name;
     private String description;
     private List<TeamMember> members;
-    private List<String> escalations;
-    private List<String> schedules;
+
+    private Links links;
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
+    }
 
     /**
      * Name of the team.
@@ -41,22 +50,6 @@ public class Team extends BeanWithId {
         this.members = members;
     }
 
-    public List<String> getEscalations() {
-        return escalations;
-    }
-
-    public void setEscalations(List<String> escalations) {
-        this.escalations = escalations;
-    }
-
-    public List<String> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(List<String> schedules) {
-        this.schedules = schedules;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -80,28 +73,14 @@ public class Team extends BeanWithId {
         return this;
     }
 
-    public Team withEscalations(List<String> escalations) {
-        this.escalations = escalations;
-        return this;
-    }
-
-    public Team withSchedules(List<String> schedules) {
-        this.schedules = schedules;
-        return this;
-    }
-
     public static class TeamMember extends Bean {
-        private String user;
-        private Role role;
+        private BaseUserObj user;
+        private String role;
 
         public TeamMember() {
         }
 
-        public TeamMember(String user) {
-            this(user, Role.user);
-        }
-
-        public TeamMember(String user, Role role) {
+        public TeamMember(BaseUserObj user, String role) {
             this.user = user;
             this.role = role;
         }
@@ -109,28 +88,28 @@ public class Team extends BeanWithId {
         /**
          * Username of the member.
          */
-        public String getUser() {
+        public BaseUserObj getUser() {
             return user;
         }
 
         /**
          * Sets the username of the member.
          */
-        public void setUser(String user) {
+        public void setUser(BaseUserObj user) {
             this.user = user;
         }
 
         /**
          * Role of the member.
          */
-        public Role getRole() {
+        public String getRole() {
             return role;
         }
 
         /**
          * Sets the role of the member.
          */
-        public void setRole(Role role) {
+        public void setRole(String role) {
             this.role = role;
         }
 
@@ -143,9 +122,9 @@ public class Team extends BeanWithId {
 
             TeamMember that = (TeamMember) o;
 
-            if (role != that.role)
+            if (!Objects.equals(role, that.role))
                 return false;
-            if (user != null ? !user.equals(that.user) : that.user != null)
+            if (!Objects.equals(user, that.user))
                 return false;
 
             return true;
@@ -162,5 +141,4 @@ public class Team extends BeanWithId {
             admin, user
         }
     }
-
 }

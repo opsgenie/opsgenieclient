@@ -19,6 +19,6 @@ public class ListTeamsRequest extends BaseRequest<ListTeamsResponse, ListTeamsRe
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/team";
+        return "/v2/teams";
     }
 }
