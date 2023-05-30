@@ -55,9 +55,9 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
 
         Restriction restriction = new Restriction();
         restriction.setStartHour(15);
-        restriction.setStartMinute(04);
+        restriction.setStartMin(04);
         restriction.setEndHour(18);
-        restriction.setEndMinute(58);
+        restriction.setEndMin(58);
 
         request.setRestrictions([restriction])
 
@@ -92,9 +92,9 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
-        assertEquals(restriction1.getStartMinute(), 4);
+        assertEquals(restriction1.getStartMin(), 4);
         assertEquals(restriction1.getEndHour(), 18);
-        assertEquals(restriction1.getEndMinute(), 58);
+        assertEquals(restriction1.getEndMin(), 58);
 
 
         def requestNotify = jsonContent[TestConstants.API.NOTIFY]
@@ -134,9 +134,9 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
 
         Restriction restriction = new Restriction();
         restriction.setStartHour(15);
-        restriction.setStartMinute(04);
+        restriction.setStartMin(04);
         restriction.setEndHour(18);
-        restriction.setEndMinute(58);
+        restriction.setEndMin(58);
 
         request.setRestrictions([restriction])
 
@@ -171,9 +171,9 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
         Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
-        assertEquals(restriction1.getStartMinute(), 4);
+        assertEquals(restriction1.getStartMin(), 4);
         assertEquals(restriction1.getEndHour(), 18);
-        assertEquals(restriction1.getEndMinute(), 58);
+        assertEquals(restriction1.getEndMin(), 58);
 
 
         def requestNotify = jsonContent[TestConstants.API.NOTIFY]
@@ -455,8 +455,8 @@ class TeamRoutingRuleOpsGenieClientTest extends OpsGenieClientTestCase implement
     private void assertRestriction(Map restrictionMap, Restriction restriction) {
         assertEquals(restrictionMap.endHour, restriction.getEndHour());
         assertEquals(restrictionMap.startHour, restriction.getStartHour());
-        assertEquals(restrictionMap.startMinute, restriction.getStartMinute());
-        assertEquals(restrictionMap.endMinute, restriction.getEndMinute());
+        assertEquals(restrictionMap.startMinute, restriction.getStartMin());
+        assertEquals(restrictionMap.endMinute, restriction.getEndMin());
         if (restrictionMap.startDay != null)
             assertEquals(restrictionMap.startDay, restriction.getStartDay().name());
         if (restrictionMap.endDay != null)

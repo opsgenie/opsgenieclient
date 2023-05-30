@@ -5,11 +5,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.beans.*;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpHeaders;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHeaders;
 
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Base class for container objects which provides content parameters for
@@ -65,6 +73,100 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
     @JsonIgnore
     public Map<String,String> getReqHeadersForGetOrDelete(){
         return addGenieKey();
+    }
+
+    public boolean isValidDate(String dateStr) {
+        try {
+            Instant instantDate = Instant.parse(dateStr);
+        }
+        catch (DateTimeParseException e){
+            return false;
+        }
+        return true;
+    }
+
+    public void validateRotations(List<ScheduleRotation> rotations) throws OpsGenieClientValidationException {
+        if(Objects.nonNull(rotations)){
+            for(ScheduleRotation rotation : rotations){
+                validateScheduleRotation(rotation);
+            }
+        }
+    }
+
+    private void validateScheduleRotation(ScheduleRotation rotation) throws OpsGenieClientValidationException {
+        if(rotation.getRotationType() == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROTATION_TYPE);
+        if(rotation.getStartDate() == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.START_DATE);
+        if(!isValidDate(rotation.getStartDate()))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
+        if(rotation.getEndDate()!=null){
+            if(!isValidDate(rotation.getEndDate()))
+                throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
+            Instant startDate = Instant.parse(rotation.getStartDate());
+            Instant endDate = Instant.parse(rotation.getEndDate());
+            if(startDate.isAfter(endDate))
+                throw OpsGenieClientValidationException.error("Rotation end time should be later than start time.");
+        }
+        if(rotation.getParticipants().isEmpty())
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.PARTICIPANTS);
+        validateParticipants(rotation.getParticipants());
+        if(rotation.getTimeRestriction()!=null)
+            validateTimeRestriction(rotation.getTimeRestriction());
+    }
+
+    private void validateParticipants(List<ScheduleParticipant> participants) throws OpsGenieClientValidationException {
+        for(ScheduleParticipant participant : participants){
+            if(participant.getType() == null)
+                throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.PARTICIPANT_TYPE);
+            if(participant.getType().equals(ScheduleParticipant.Type.team) || participant.getType().equals(ScheduleParticipant.Type.escalation)){
+                if(StringUtils.isEmpty(participant.getId()) && StringUtils.isEmpty(participant.getName())){
+                    throw OpsGenieClientValidationException.error("For participant type team/escalation either team/escalation name or id must be provided.");
+                }
+            }
+            else if(participant.getType()!= ScheduleParticipant.Type.none){
+                if(StringUtils.isEmpty(participant.getId()) && StringUtils.isEmpty(participant.getUsername())){
+                    throw OpsGenieClientValidationException.error("Username or id must be provided.");
+                }
+            }
+        }
+    }
+
+    private void validateTimeRestriction(TimeRestriction timeRestriction) throws OpsGenieClientValidationException {
+        if(TimeRestrictionType.getFromValues(timeRestriction.getType())!= null){
+            if(TimeRestrictionType.WEEKDAY_AND_TIME_OF_DAY.getValue().equalsIgnoreCase(timeRestriction.getType())){
+                validateRestrictions(timeRestriction.getRestrictions(),TimeRestrictionType.WEEKDAY_AND_TIME_OF_DAY);
+            }
+            else if(TimeRestrictionType.TIME_OF_DAY.getValue().equalsIgnoreCase(timeRestriction.getType())){
+                validateRestrictions(timeRestriction.getRestrictions(),TimeRestrictionType.TIME_OF_DAY);
+            }
+        }
+        else
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.TIME_RESTRICTION_TYPE);
+    }
+
+    private void validateRestrictions(List<Restriction> restrictions, TimeRestrictionType timeRestrictionType) throws OpsGenieClientValidationException {
+        if(!restrictions.isEmpty()){
+            for(Restriction restriction: restrictions){
+                validateRestriction(restriction,timeRestrictionType);
+            }
+        }
+        else
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.RESTRICTIONS);
+    }
+
+    private void validateRestriction(Restriction restriction, TimeRestrictionType restrictionType) throws OpsGenieClientValidationException {
+        if(restriction.getEndHour() == null || restriction.getEndMin() == null || restriction.getStartHour() == null || restriction.getStartMin() == null){
+            throw OpsGenieClientValidationException.error("startHour, startMin, endHour, endMin cannot be empty");
+        }
+        if(restrictionType.equals(TimeRestrictionType.WEEKDAY_AND_TIME_OF_DAY) && (restriction.getEndDay() == null || restriction.getStartDay() == null)){
+            throw OpsGenieClientValidationException.error("startDay, endDay cannot be empty");
+        }
+        if(restriction.getStartHour() >24)
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.RESTRICTION_START_HOUR);
+        if(restriction.getEndHour() >24)
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.RESTRICTION_END_HOUR);
+        //Minutes may take 0 or 30 as value. Otherwise they will be converted to nearest 0 or 30 automatically. So startMin and endMin do not require validation check
     }
 
     @JsonIgnore

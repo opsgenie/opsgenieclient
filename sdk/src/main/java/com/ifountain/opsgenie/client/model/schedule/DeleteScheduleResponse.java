@@ -8,4 +8,11 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteSchedule(DeleteScheduleRequest)
  */
 public class DeleteScheduleResponse extends BaseResponse{
+    private String result;
+    public String getResult() {
+        return result;
+    }
+    public void setResult(String result) {
+        this.result = result;
+    }
 }

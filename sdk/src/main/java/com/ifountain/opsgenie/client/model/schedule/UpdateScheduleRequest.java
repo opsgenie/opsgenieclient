@@ -1,15 +1,15 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
+import com.ifountain.opsgenie.client.model.beans.DataWithName;
+import com.ifountain.opsgenie.client.model.beans.IdentifierType;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
-
-
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Container for the parameters to make an update schedule api call.
@@ -17,27 +17,31 @@ import java.util.TimeZone;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#updateSchedule(UpdateScheduleRequest)
  */
 public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddScheduleRequest> implements ObjectWithTimeZone {
-    private String id;
+    @JsonIgnore
+    private String identifier;
+    @JsonIgnore
+    private String identifierType;
     private String name;
     private Boolean enabled;
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private List<ScheduleRotation> rotations;
-    private String team;
+    @JsonProperty("ownerTeam")
+    private DataWithName team;
     private String description;
 
-    /**
-     * Id of schedule to be updated.
-     */
-    public String getId() {
-        return id;
+    public String getIdentifier() {
+        return identifier;
+    }
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    public String getIdentifierType() {
+        return identifierType;
     }
 
-    /**
-     * Sets id of schedule to be updated.
-     */
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
     }
 
     /**
@@ -105,7 +109,7 @@ public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddS
      *
      * @return String team Name
      */
-    public String getTeam() {
+    public DataWithName getTeam() {
         return team;
 
     }
@@ -116,7 +120,7 @@ public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddS
      *
      * @param team String team Name
      */
-    public void setTeam(String team) {
+    public void setTeam(DataWithName team) {
         this.team = team;
     }
 
@@ -133,11 +137,14 @@ public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddS
         return timeZone;
     }
 
-    public UpdateScheduleRequest withId(String id) {
-        this.id = id;
+    public UpdateScheduleRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
-
+    public UpdateScheduleRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
+        return this;
+    }
     public UpdateScheduleRequest withName(String name) {
         this.name = name;
         return this;
@@ -158,7 +165,7 @@ public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddS
         return this;
     }
 
-    public UpdateScheduleRequest withTeam(String team) {
+    public UpdateScheduleRequest withTeam(DataWithName team) {
         this.team = team;
         return this;
     }
@@ -173,19 +180,30 @@ public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddS
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/schedule";
+        return "/v2/schedules/" + identifier;
     }
 
     /**
      * check the parameters for validation.
      *
-     * @throws OpsGenieClientValidationException when id is null!
+     * @throws OpsGenieClientValidationException when name and id are both null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (id == null)
-            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ID);
+        if(Objects.nonNull(identifierType) && Objects.isNull(IdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (identifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+        validateRotations(rotations);
+    }
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
     /**

@@ -30,4 +30,8 @@ public class OpsGenieClientValidationException extends OpsGenieClientException {
     public static OpsGenieClientValidationException invalidValues(String propertyName) {
         return new OpsGenieClientValidationException("Invalid Values for "+ propertyName, HttpStatus.SC_BAD_REQUEST);
     }
+
+    public static OpsGenieClientValidationException error(String errorMessage){
+        return new OpsGenieClientValidationException(errorMessage, HttpStatus.SC_BAD_REQUEST);
+    }
 }

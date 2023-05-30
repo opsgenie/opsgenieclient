@@ -1,11 +1,12 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
-
-
+import com.ifountain.opsgenie.client.model.beans.*;
+import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -21,7 +22,7 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse, AddSche
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private List<ScheduleRotation> rotations;
-    private String team;
+    private DataWithName ownerTeam;
     private String description;
 
     /**
@@ -29,7 +30,15 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse, AddSche
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/schedule";
+        return "/v2/schedules";
+    }
+
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(StringUtils.isEmpty(name))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.NAME);
+        validateRotations(rotations);
     }
 
     /**
@@ -105,8 +114,8 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse, AddSche
      *
      * @return String team Name
      */
-    public String getTeam() {
-        return team;
+    public DataWithName getOwnerTeam() {
+        return ownerTeam;
 
     }
 
@@ -114,10 +123,10 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse, AddSche
      * Sets Name of the team that the schedule will be assigned to. If left empty, the schedule will
      * be global and not belong to any team.
      *
-     * @param team String team Name
+     * @param ownerTeam String team Name
      */
-    public void setTeam(String team) {
-        this.team = team;
+    public void setOwnerTeam(DataWithName ownerTeam) {
+        this.ownerTeam = ownerTeam;
     }
 
     public String getDescription() {
@@ -153,8 +162,8 @@ public class AddScheduleRequest extends BaseRequest<AddScheduleResponse, AddSche
         return this;
     }
 
-    public AddScheduleRequest withTeam(String team) {
-        this.team = team;
+    public AddScheduleRequest withTeam(DataWithName team) {
+        this.ownerTeam = team;
         return this;
     }
 
