@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPatch
 import org.apache.http.client.methods.HttpPost
 import org.json.JSONObject
 import org.junit.Test
+import java.time.Instant
 import static org.junit.Assert.*
 
 /**
@@ -282,11 +283,11 @@ class TeamOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
 
         def log = response.getTeamLogsData().getTeamLogs().find { it.log == "Updated members." }
         assertEquals("System", log.owner)
-        assertEquals("2017-05-23T07:45:51.56Z", log.createdDate)
+        assertEquals(Instant.parse("2017-05-23T07:45:51.056Z"), log.createdDate.toInstant())
 
         log = response.getTeamLogsData().getTeamLogs().find { it.log == "Created team" }
         assertEquals("System", log.owner)
-        assertEquals("2017-05-23T07:19:00.765Z", log.createdDate)
+        assertEquals(Instant.parse("2017-05-23T07:19:00.765Z"), log.createdDate.toInstant())
     }
 
     private ListTeamLogsRequest getListLogsRequest() {
