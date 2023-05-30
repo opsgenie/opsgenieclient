@@ -1,3 +1,8 @@
+## 2.13.4 (May 31, 2023)
+* Add support for following OpsGenie V2 APIs
+    * User API
+    * Forwarding Rule API
+
 ## 2.13.2 (May 25, 2023)
 * Add support for following OpsGenie V2 APIs
     * Contact API
