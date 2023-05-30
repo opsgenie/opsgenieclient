@@ -2,7 +2,7 @@ package com.ifountain.opsgenie.client.model.team;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
-import com.ifountain.opsgenie.client.model.beans.TeamLog;
+import com.ifountain.opsgenie.client.model.beans.TeamLogsData;
 
 import java.util.List;
 
@@ -13,34 +13,14 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeamLogs(ListTeamLogsRequest)
  */
 public class ListTeamLogsResponse extends BaseResponse {
-    private String lastKey;
-    @JsonProperty("logs")
-    private List<TeamLog> teamLogs;
+    @JsonProperty("data")
+    private TeamLogsData teamLogsData;
 
-    /**
-     * Returns team log objects
-     *
-     * @see TeamLog
-     */
-    public List<TeamLog> getTeamLogs() {
-        return teamLogs;
+    public TeamLogsData getTeamLogsData() {
+        return teamLogsData;
     }
 
-    /**
-     * Sets team log objects
-     *
-     * @see TeamLog
-     */
-    public void setTeamLogs(List<TeamLog> teamLogs) {
-        this.teamLogs = teamLogs;
+    public void setTeamLogsData(TeamLogsData teamLogsData) {
+        this.teamLogsData = teamLogsData;
     }
-
-    public String getLastKey() {
-        return lastKey;
-    }
-
-    public void setLastKey(String lastKey) {
-        this.lastKey = lastKey;
-    }
-
 }

@@ -1,6 +1,13 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.IdentifierType;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Container for the parameters to make a delete team api call.
@@ -9,43 +16,56 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeam(DeleteTeamRequest)
  */
 public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse, DeleteTeamRequest> {
-    private String id;
-    private String name;
+    private String identifier;
+    private String identifierType;
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when name and id are both null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(Objects.nonNull(identifierType) && Objects.isNull(IdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (identifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getIdentifierType() {
+        return identifierType;
+    }
+
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
+    }
 
     /**
      * Rest api uri of deleting team operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/team";
+        return "/v2/teams/"+identifier;
     }
 
     /**
-     * Id of team to be deleted.
+     * Rest api params of deleting team operation.
      */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of team to be deleted.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Name of team to be deleted.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets name of team to be deleted.
-     */
-    public void setName(String name) {
-        this.name = name;
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
     @Override
@@ -53,13 +73,14 @@ public class DeleteTeamRequest extends BaseRequest<DeleteTeamResponse, DeleteTea
         return new DeleteTeamResponse();
     }
 
-    public DeleteTeamRequest withId(String id) {
-        this.id = id;
+    public DeleteTeamRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public DeleteTeamRequest withName(String name) {
-        this.name = name;
+    public DeleteTeamRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
         return this;
     }
+
 }

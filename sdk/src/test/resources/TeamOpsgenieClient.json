@@ -1,0 +1,115 @@
+{
+"AddTeamResponse": {
+  "result": "Created",
+  "data": {
+    "id": "a30b5c45-6alp-422f-9d41-67b10a67282a",
+    "name": "TeamName"
+  },
+  "took": 1.443,
+  "requestId": "ac8d85d8-f13a-45c4-965b-3a8alpb9f988"
+},
+  "DeleteTeamResponse": {
+    "result": "Deleted",
+    "took": 0.229,
+    "requestId": "0367a2e8-3b9f-4f00-acf0-alp1df5489f0"
+  },
+  "UpdateTeamResponse": {
+    "result": "Updated",
+    "data": {
+      "id": "a30alp45-65bf-422f-9d41-67b10a67282a",
+      "name": "TeamName"
+    },
+    "took": 0.369,
+    "requestId": "be211alp-fef0-4698-bab6-d99ab4f8b5be"
+  },
+  "GetTeamResponse": {
+    "data": {
+      "id": "a30alp45-65bf-422f-9d41-67b10a67282a",
+      "name": "TeamName",
+      "description": "Team Description",
+      "members": [
+        {
+          "user": {
+            "id": "a9514028-2bca-4510-a51f-4b65f2c33alp",
+            "username": "user@opsgenie.com"
+          },
+          "role": "admin"
+        },
+        {
+          "user": {
+            "id": "00564944-b42f-4b95-a882-ee9a5aalp9bb",
+            "username": "user2@opsgenie.com"
+          },
+          "role": "user"
+        },
+        {
+          "user": {
+            "id": "1f281991-bca3-4ae2-bdea-b02e94dalp53",
+            "username": "user3@opsgenie.com"
+          },
+          "role": "user"
+        }
+      ]
+    },
+    "took": 0.021,
+    "requestId": "36d5c8c5-alpf-47b2-9964-9fd435e5e306"
+  },
+  "ListTeamResponse": {
+    "data": [
+      {
+        "id": "90098alp9-f0e3-41d3-a060-0ea895027630",
+        "name": "ops_team",
+        "description": ""
+      },
+      {
+        "id": "a30alp45-65bf-422f-9d41-67b10a67282a",
+        "name": "TeamName2",
+        "description": "Description"
+      },
+      {
+        "id": "c569c016-alp9-4e20-8a28-bd5dc33b798e",
+        "name": "TeamName",
+        "description": ""
+      }
+    ],
+    "took": 1.08,
+    "requestId": "9cbfalp7-53f5-41ef-a360-be01277a903d"
+  },
+  "ListTeamLogsResponse": {
+    "data": {
+      "offset": "1495523940765000268",
+      "logs": [
+        {
+          "owner": "System",
+          "createdDate": "2017-05-23T07:45:51.56Z",
+          "log": "Updated members."
+        },
+        {
+          "owner": "System",
+          "createdDate": "2017-05-23T07:19:00.765Z",
+          "log": "Created team"
+        }
+      ]
+    },
+    "took": 0.041,
+    "requestId": "1cee4c3e-a573-48b0-bef5-alpbfb03da63"
+  },
+  "AddTeamMemberResponse": {
+    "result": "Added",
+    "data": {
+      "id": "c569c016-alpc-4e20-8a28-bd5dc33b798e",
+      "name": "TeamName"
+    },
+    "took": 3.67,
+    "requestId": "e413alpf-c183-4982-ab82-b34d77cfafc6"
+  },
+  "DeleteTeamMemberResponse": {
+    "result": "Removed",
+    "data": {
+      "id": "c569c016-alpc-4e20-8a28-bd5dc33b798e",
+      "name": "TeamName"
+    },
+    "took": 1.024,
+    "requestId": "d83c646e-87b3-40d8-alp4-03c06dd62444"
+  }
+}

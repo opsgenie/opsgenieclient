@@ -1,3 +1,8 @@
+## 2.13.3 (May 30, 2023)
+* Add support for following OpsGenie V2 APIs
+  * Team API
+  * Team Member API
+
 ## 2.13.2 (May 25, 2023)
 * Add support for following OpsGenie V2 APIs
     * Contact API

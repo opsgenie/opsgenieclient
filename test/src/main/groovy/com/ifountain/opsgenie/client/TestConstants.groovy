@@ -8,7 +8,9 @@ public interface TestConstants {
         String API_DATE_FORMAT_WITH_TIMEZONE = "yyyy-MM-dd HH:mm z";
     }
     public interface API {
-        public static final String ID = "id";
+        public static final String ID = "id"
+        public static final String OFFSET = "offset"
+        public static final String IDENTIFIER_TYPE = "identifierType"
         public static final String API_KEY = "apiKey";
         public static final String CUSTOMER_KEY = "customerKey";
         public static final String MESSAGE = "message";

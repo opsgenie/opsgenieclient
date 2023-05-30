@@ -128,7 +128,7 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPostRequestV2(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
-        APIConfiguration apiConfiguration = getAPIConfigurationForPostOrPatch(request);
+        APIConfiguration apiConfiguration = getAPIConfigurationForPostOrPatchOrPut(request);
         OpsGenieHttpResponse httpResponse = httpClient.post(apiConfiguration.getUri(), apiConfiguration.getJson(), apiConfiguration.getHeaders(),apiConfiguration.getParameters());
         return handleAndPopulateResponse(httpResponse,request);
     }
@@ -145,7 +145,7 @@ public abstract class AbstractOpsGenieHttpClient {
     }
 
     protected BaseResponse doPatchRequestV2(BaseRequest request) throws IOException, OpsGenieClientException, ParseException {
-        APIConfiguration apiConfiguration = getAPIConfigurationForPostOrPatch(request);
+        APIConfiguration apiConfiguration = getAPIConfigurationForPostOrPatchOrPut(request);
         OpsGenieHttpResponse httpResponse = httpClient.patch(apiConfiguration.getUri(), apiConfiguration.getJson(), apiConfiguration.getParameters(),apiConfiguration.getHeaders());
         return handleAndPopulateResponse(httpResponse,request);
     }
@@ -156,7 +156,7 @@ public abstract class AbstractOpsGenieHttpClient {
         request.validate();
     }
 
-    private APIConfiguration getAPIConfigurationForPostOrPatch(BaseRequest request) throws OpsGenieClientValidationException, ParseException, IOException {
+    private APIConfiguration getAPIConfigurationForPostOrPatchOrPut(BaseRequest request) throws OpsGenieClientValidationException, ParseException, IOException {
         setAndValidateApiKey(request);
         APIConfiguration apiConfiguration = new APIConfiguration();
         apiConfiguration.setUri(rootUri + request.getEndPoint());
