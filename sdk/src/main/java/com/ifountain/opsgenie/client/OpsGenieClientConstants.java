@@ -52,6 +52,7 @@ public interface OpsGenieClientConstants {
         String RECIPIENT = "recipient";
         String RESPONDERS = "responders";
         String IDENTIFIER_TYPE = "identifierType";
+        String USER_IDENTIFIER = "userIdentifier";
         String SCHEDULE_IDENTIFIER_TYPE = "scheduleIdentifierType";
         String SEARCH_IDENTIFIER = "searchIdentifier";
         String SEARCH_IDENTIFIER_TYPE = "searchIdentifierType";
@@ -80,6 +81,7 @@ public interface OpsGenieClientConstants {
         String TO_USER = "toUser";
         String TIME_AMOUNT = "timeAmount";
         String TIME_RESTRICTION = "timeRestriction";
+        String TIME_RESTRICTION_TYPE = "timeRestrictionType";
         String TIME_UNIT = "timeUnit";
         String TIMEZONE_CAMEL_CASE = "timeZone";
         String TIMEZONE = "timezone";
@@ -101,6 +103,7 @@ public interface OpsGenieClientConstants {
         String RULES = "rules";
         String LAYERS = "layers";
         String ROTATIONS = "rotations";
+        String ROTATION = "rotation";
         String ROTATION_IDS = "rotationIds";
         String TYPE = "type";
         String NOTIFY_TYPE = "notifyType";
@@ -131,7 +134,7 @@ public interface OpsGenieClientConstants {
         String SORT_BY = "sortBy";
         String ORDER = "order";
         String LIMIT = "limit";
-        String PARTICIPANT = "participant";
+        String PARTICIPANT_TYPE = "participant type";
         String LAST_HEARTBEAT = "lastHeartbeat";
         String EXPIRED = "expired";
         String SOURCES = "sources";
@@ -147,6 +150,7 @@ public interface OpsGenieClientConstants {
         String ESCALATION_TIME = "escalationTime";
         String FORWARDED_FROM = "forwardedFrom";
         String CONTACTS = "contacts";
+        String CONTACT_ID = "contactId";
         String INTEGRATION = "integration";
         String INTEGRATION_ID = "integrationId";
         String POLICY = "policy";

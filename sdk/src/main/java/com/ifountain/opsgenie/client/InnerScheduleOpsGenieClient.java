@@ -25,7 +25,7 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
      */
     @Override
     public AddScheduleResponse addSchedule(AddScheduleRequest addScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (AddScheduleResponse) httpClient.doPostRequest(addScheduleRequest);
+        return (AddScheduleResponse) httpClient.doPostRequestV2(addScheduleRequest);
     }
 
     /**
@@ -33,7 +33,7 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
      */
     @Override
     public UpdateScheduleResponse updateSchedule(UpdateScheduleRequest updateScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (UpdateScheduleResponse) httpClient.doPostRequest(updateScheduleRequest);
+        return (UpdateScheduleResponse) httpClient.doPatchRequestV2(updateScheduleRequest);
     }
 
     /**
@@ -41,7 +41,7 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
      */
     @Override
     public DeleteScheduleResponse deleteSchedule(DeleteScheduleRequest deleteScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteScheduleResponse) httpClient.doDeleteRequest(deleteScheduleRequest);
+        return (DeleteScheduleResponse) httpClient.doDeleteRequestV2(deleteScheduleRequest);
     }
 
     /**
@@ -49,7 +49,7 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
      */
     @Override
     public GetScheduleResponse getSchedule(GetScheduleRequest getScheduleRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (GetScheduleResponse) httpClient.doGetRequest(getScheduleRequest);
+        return (GetScheduleResponse) httpClient.doGetRequestV2(getScheduleRequest);
     }
 
     /**
@@ -89,7 +89,7 @@ public class InnerScheduleOpsGenieClient implements IScheduleOpsGenieClient {
      */
     @Override
     public ListSchedulesResponse listSchedules(ListSchedulesRequest listSchedulesRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListSchedulesResponse) httpClient.doGetRequest(listSchedulesRequest);
+        return (ListSchedulesResponse) httpClient.doGetRequestV2(listSchedulesRequest);
     }
 
     /**

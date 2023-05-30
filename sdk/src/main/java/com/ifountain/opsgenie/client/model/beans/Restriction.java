@@ -1,15 +1,13 @@
 package com.ifountain.opsgenie.client.model.beans;
 
-import com.ifountain.opsgenie.client.model.beans.ScheduleRotationRestriction.DAY;
-
 /**
  * Restriction bean
  */
 public class Restriction extends Bean {
     private Integer endHour;
-    private Integer endMinute;
+    private Integer endMin;
     private Integer startHour;
-    private Integer startMinute;
+    private Integer startMin;
     private DAY startDay;
     private DAY endDay;
 
@@ -30,15 +28,15 @@ public class Restriction extends Bean {
     /**
      * endMinute of Restriction
      */
-    public Integer getEndMinute() {
-        return endMinute;
+    public Integer getEndMin() {
+        return endMin;
     }
 
     /**
      * Sets endMinute of Restriction
      */
-    public void setEndMinute(Integer endMinute) {
-        this.endMinute = endMinute;
+    public void setEndMin(Integer endMin) {
+        this.endMin = endMin;
     }
 
     /**
@@ -58,15 +56,15 @@ public class Restriction extends Bean {
     /**
      * startMinute of Restriction
      */
-    public Integer getStartMinute() {
-        return startMinute;
+    public Integer getStartMin() {
+        return startMin;
     }
 
     /**
      * Sets startMinute of Restriction
      */
-    public void setStartMinute(Integer startMinute) {
-        this.startMinute = startMinute;
+    public void setStartMin(Integer startMin) {
+        this.startMin = startMin;
     }
 
     /**
@@ -104,7 +102,7 @@ public class Restriction extends Bean {
     }
 
     public Restriction withEndMinute(Integer endMinute) {
-        this.endMinute = endMinute;
+        this.endMin = endMinute;
         return this;
     }
 
@@ -114,7 +112,7 @@ public class Restriction extends Bean {
     }
 
     public Restriction withStartMinute(Integer startMinute) {
-        this.startMinute = startMinute;
+        this.startMin = startMinute;
         return this;
     }
 

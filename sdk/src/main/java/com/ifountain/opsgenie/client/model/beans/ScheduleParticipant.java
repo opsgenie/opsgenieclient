@@ -4,29 +4,40 @@ package com.ifountain.opsgenie.client.model.beans;
  * ScheduleParticipant bean
  */
 public class ScheduleParticipant extends Bean {
-    private String participant;
     private Type type;
-
+    private String id;
+    private String name;
+    private String username;
     public ScheduleParticipant() {
 
     }
 
-    public ScheduleParticipant(String participant) {
-        this.participant = participant;
+    public String getId() {
+        return id;
     }
 
-    /**
-     * Name of participant
-     */
-    public String getParticipant() {
-        return participant;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    /**
-     * Sets name of participant
-     */
-    public void setParticipant(String participant) {
-        this.participant = participant;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     /**
@@ -39,8 +50,16 @@ public class ScheduleParticipant extends Bean {
         return type;
     }
 
-    public ScheduleParticipant withParticipant(String participant) {
-        this.participant = participant;
+    public ScheduleParticipant withId(String id) {
+        this.id = id;
+        return this;
+    }
+    public ScheduleParticipant withUsername(String username) {
+        this.username = username;
+        return this;
+    }
+    public ScheduleParticipant withName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -50,7 +69,7 @@ public class ScheduleParticipant extends Bean {
     }
 
     public enum Type {
-        user, group, escalation, schedule, team
+        user, group, escalation, schedule, team, none
     }
 
 }

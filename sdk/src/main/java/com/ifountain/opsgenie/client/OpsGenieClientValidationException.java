@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client;
 
+import org.apache.http.HttpStatus;
 /**
  * @see OpsGenieClientValidationException
  */
@@ -24,5 +25,13 @@ public class OpsGenieClientValidationException extends OpsGenieClientException {
             return new OpsGenieClientValidationException("Missing mandatory property " + missingProperties, MISSING_MANDATORY_PROPERTY);
         }
         return null;
+    }
+
+    public static OpsGenieClientValidationException invalidValues(String propertyName) {
+        return new OpsGenieClientValidationException("Invalid Values for "+ propertyName, HttpStatus.SC_BAD_REQUEST);
+    }
+
+    public static OpsGenieClientValidationException error(String errorMessage){
+        return new OpsGenieClientValidationException(errorMessage, HttpStatus.SC_BAD_REQUEST);
     }
 }
