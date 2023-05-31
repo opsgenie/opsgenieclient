@@ -52,7 +52,7 @@
           "detail2value"
         ]
       },
-      "createdAt": "2017-05-23T08:38:28.17Z",
+      "createdAt": "2017-05-23T08:38:28.017Z",
       "userContacts": [
         {
           "to": "john.doe@opsgenie.com",
@@ -124,7 +124,7 @@
             "detail2value"
           ]
         },
-        "createdAt": "2017-05-12T09:39:14.41Z"
+        "createdAt": "2017-05-12T09:39:14.041Z"
       }
     ],
     "paging": {
@@ -167,8 +167,8 @@
         "id": "4b26961a-a837-49d2-a1fe-0973013e3c3b",
         "username": "user@opsgenie.com"
       },
-      "startDate": "2017-07-05T08:00:00Z",
-      "endDate": "2017-07-06T18:00:00Z",
+      "startDate": "2017-07-05T08:00:00.000Z",
+      "endDate": "2017-07-06T18:00:00.000Z",
       "alias": "ruleAlias",
       "id": "6667cb5b-a5ce-4550-9469-1dbcabac6ffb"
     },
@@ -186,8 +186,8 @@
           "id": "4b26961a-a837-49d2-a1fe-0973013e3c3b",
           "username": "user2@opsgenie.com"
         },
-        "startDate": "2017-05-08T21:00:00Z",
-        "endDate": "2017-05-09T21:00:00Z",
+        "startDate": "2017-05-08T21:00:00.000Z",
+        "endDate": "2017-05-09T21:00:00.000Z",
         "alias": "",
         "id": "5c4694d5-37a4-4ada-99cc-0652296e9397"
       },
@@ -200,8 +200,8 @@
           "id": "4b26961a-a837-49d2-a1fe-0973013e3c3b",
           "username": "user2@opsgenie.com"
         },
-        "startDate": "2017-05-22T21:00:00Z",
-        "endDate": "2017-05-24T21:00:00Z",
+        "startDate": "2017-05-22T21:00:00.000Z",
+        "endDate": "2017-05-24T21:00:00.000Z",
         "alias": "",
         "id": "e2a4ea3a-7abb-4bb9-8a05-00de82de544d"
       }

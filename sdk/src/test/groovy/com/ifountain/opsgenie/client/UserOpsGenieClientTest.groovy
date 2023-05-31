@@ -17,11 +17,9 @@ import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPatch
 import org.apache.http.client.methods.HttpPost
-import org.json.JSONObject
 import org.apache.http.client.methods.HttpPut
 import org.json.JSONObject
 import org.junit.Test
-import java.text.SimpleDateFormat
 import java.time.Instant
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
@@ -51,8 +49,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
         assertEquals(request.getAlias(), jsonContent[TestConstants.API.ALIAS])
-        assertEquals(request.getStartDate(), jsonContent[TestConstants.API.START_DATE])
-        assertEquals(request.getEndDate(), jsonContent[TestConstants.API.END_DATE])
+        assertEquals(request.getStartDate().toInstant(), Instant.parse(jsonContent[TestConstants.API.START_DATE] as CharSequence))
+        assertEquals(request.getEndDate().toInstant(), Instant.parse(jsonContent[TestConstants.API.END_DATE] as CharSequence))
         assertEquals(request.getFromUser().getId(), jsonContent[TestConstants.API.FROM_USER][TestConstants.API.ID])
         assertEquals(request.getToUser().getId(), jsonContent[TestConstants.API.TO_USER][TestConstants.API.ID])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
@@ -65,19 +63,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
         AddForwardingRequest request = getAddForwardingRequest()
-        request.setEndDate(Instant.now().plusSeconds(120).toString().replace('Z','X'))
-        try{
-            def response = opsgenieClient.user().addForwarding(request)
-        } catch (OpsGenieClientValidationException exception){
-            assertEquals("Invalid Values for endDate",exception.getMessage())
-        }
-        request.setStartDate(Instant.now().toString().replace('Z','X'))
-        try{
-            def response = opsgenieClient.user().addForwarding(request)
-        } catch (OpsGenieClientValidationException exception){
-            assertEquals("Invalid Values for startDate",exception.getMessage())
-        }
-        request.setStartDate("")
+
+        request.setStartDate(null)
         try{
             def response = opsgenieClient.user().addForwarding(request)
         } catch (OpsGenieClientValidationException exception){
@@ -127,8 +114,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE))
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getStartDate(), jsonContent[TestConstants.API.START_DATE])
-        assertEquals(request.getEndDate(), jsonContent[TestConstants.API.END_DATE])
+        assertEquals(request.getStartDate().toInstant(), Instant.parse(jsonContent[TestConstants.API.START_DATE] as CharSequence))
+        assertEquals(request.getEndDate().toInstant(), Instant.parse(jsonContent[TestConstants.API.END_DATE] as CharSequence))
         assertEquals(request.getFromUser().getUsername(), jsonContent[TestConstants.API.FROM_USER][TestConstants.API.USERNAME])
         assertEquals(request.getToUser().getUsername(), jsonContent[TestConstants.API.TO_USER][TestConstants.API.USERNAME])
     }
@@ -140,19 +127,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
         UpdateForwardingRequest request = getUpdateForwardingRequest()
-        request.setEndDate(Instant.now().plusSeconds(120).toString().replace('Z','X'))
-        try{
-            def response = opsgenieClient.user().updateForwarding(request)
-        } catch (OpsGenieClientValidationException exception){
-            assertEquals("Invalid Values for endDate",exception.getMessage())
-        }
-        request.setStartDate(Instant.now().toString().replace('Z','X'))
-        try{
-            def response = opsgenieClient.user().updateForwarding(request)
-        } catch (OpsGenieClientValidationException exception){
-            assertEquals("Invalid Values for startDate",exception.getMessage())
-        }
-        request.setStartDate("")
+
+        request.setStartDate(null)
         try{
             def response = opsgenieClient.user().updateForwarding(request)
         } catch (OpsGenieClientValidationException exception){
@@ -257,8 +233,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", response.getForwarding().fromUser.getId())
         assertEquals("user@opsgenie.com", response.getForwarding().toUser.getUsername())
         assertEquals("user@opsgenie.com", response.getForwarding().fromUser.getUsername())
-        assertEquals("2017-07-05T08:00:00Z",response.getForwarding().getStartDate())
-        assertEquals("2017-07-06T18:00:00Z",response.getForwarding().getEndDate())
+        assertEquals(Instant.parse("2017-07-05T08:00:00.000Z"),response.getForwarding().getStartDate().toInstant())
+        assertEquals(Instant.parse("2017-07-06T18:00:00.000Z"),response.getForwarding().getEndDate().toInstant())
 
         assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
@@ -278,8 +254,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", response.getForwarding().fromUser.getId())
         assertEquals("user@opsgenie.com", response.getForwarding().toUser.getUsername())
         assertEquals("user@opsgenie.com", response.getForwarding().fromUser.getUsername())
-        assertEquals("2017-07-05T08:00:00Z",response.getForwarding().getStartDate())
-        assertEquals("2017-07-06T18:00:00Z",response.getForwarding().getEndDate())
+        assertEquals(Instant.parse("2017-07-05T08:00:00.000Z"),response.getForwarding().getStartDate().toInstant())
+        assertEquals(Instant.parse("2017-07-06T18:00:00.000Z"),response.getForwarding().getEndDate().toInstant())
 
         assertEquals(2, receivedRequests.size())
         requestSent = receivedRequests[1]
@@ -322,8 +298,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", forwarding.fromUser.getId())
         assertEquals("user2@opsgenie.com", forwarding.toUser.getUsername())
         assertEquals("user@opsgenie.com", forwarding.fromUser.getUsername())
-        assertEquals("2017-05-08T21:00:00Z",forwarding.getStartDate())
-        assertEquals("2017-05-09T21:00:00Z",forwarding.getEndDate())
+        assertEquals(Instant.parse("2017-05-08T21:00:00.000Z"),forwarding.getStartDate().toInstant())
+        assertEquals(Instant.parse("2017-05-09T21:00:00.000Z"),forwarding.getEndDate().toInstant())
 
         forwarding = forwardings.find { it.id == "e2a4ea3a-7abb-4bb9-8a05-00de82de544d" }
         assertEquals("", forwarding.alias)
@@ -332,8 +308,8 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals("e58d6ee3-37bd-432f-9ded-64808b761ae0", forwarding.fromUser.getId())
         assertEquals("user2@opsgenie.com", forwarding.toUser.getUsername())
         assertEquals("user@opsgenie.com", forwarding.fromUser.getUsername())
-        assertEquals("2017-05-22T21:00:00Z",forwarding.getStartDate())
-        assertEquals("2017-05-24T21:00:00Z",forwarding.getEndDate())
+        assertEquals(Instant.parse("2017-05-22T21:00:00.000Z"),forwarding.getStartDate().toInstant())
+        assertEquals(Instant.parse("2017-05-24T21:00:00.000Z"),forwarding.getEndDate().toInstant())
 
         assertEquals(1, receivedRequests.size())
         HttpTestRequest requestSent = receivedRequests[0]
@@ -532,7 +508,7 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         assertEquals("47802",response.getUser().getUserAddress().getZipCode())
         assertEquals(2,response.getUser().getDetails().get("detail1key").size())
         assertEquals(1,response.getUser().getDetails().get("detail2key").size())
-        assertEquals("2017-05-23T08:38:28.17Z",response.getUser().getCreatedAt())
+        assertEquals(Instant.parse("2017-05-23T08:38:28.017Z"),response.getUser().getCreatedAt().toInstant())
         assertEquals(1,response.getUser().getContacts().size())
         assertEquals(1,response.getExpandable().size())
         assertEquals("contact",response.getExpandable().get(0))
@@ -694,8 +670,9 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setAlias("ruleAlias")
         request.setToUser(new BaseUserObj(id: "a65c6b81-ffbf-41bd-b674-b06de5d90c26"))
         request.setFromUser(new BaseUserObj(id: "ac8f4bf1-77ec-4a6d-9805-9c0a9c0d0d24"))
-        request.setStartDate(Instant.now().plusSeconds(60).toString())
-        request.setEndDate(Instant.now().plusSeconds(120).toString())
+        Date current = Calendar.getInstance().getTime()
+        request.setStartDate(current + 1)
+        request.setEndDate(current + 2)
         request.setTimeZone(TimeZone.getTimeZone("Etc/GMT+2"))
         request
     }
@@ -707,8 +684,9 @@ class UserOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestR
         request.setIdentifierType("alias")
         request.setFromUser(new BaseUserObj(username: "user2@opsgenie.com"))
         request.setToUser(new BaseUserObj(username: "user@opsgenie.com"))
-        request.setStartDate(Instant.now().plusSeconds(60).toString())
-        request.setEndDate(Instant.now().plusSeconds(120).toString())
+        Date current = Calendar.getInstance().getTime()
+        request.setStartDate(current + 1)
+        request.setEndDate(current + 2)
         request
     }
 }

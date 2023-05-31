@@ -16,6 +16,14 @@ public class Contact extends BeanWithId {
     private Boolean enabled;
     private Method contactMethod;
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Method getContactMethod() {
         return contactMethod;
     }
@@ -68,11 +76,6 @@ public class Contact extends BeanWithId {
 
     public Contact withEnabled(Status status) {
         this.status = status;
-        return this;
-    }
-
-    public Contact withId(String id) {
-        this.id = id;
         return this;
     }
 

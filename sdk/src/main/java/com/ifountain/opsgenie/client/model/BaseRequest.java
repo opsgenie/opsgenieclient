@@ -85,16 +85,6 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
         return headers;
     }
 
-    public boolean isValidDate(String dateStr) {
-        try {
-            Instant instantDate = Instant.parse(dateStr);
-        }
-        catch (DateTimeParseException e){
-            return false;
-        }
-        return true;
-    }
-
     /**
      * @deprecated Use getApiKey
      */

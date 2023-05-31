@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
@@ -9,12 +10,7 @@ import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
 import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
 import org.apache.commons.lang3.StringUtils;
-
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Container for the parameters to make an update forwarding api call.
@@ -28,8 +24,10 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
     private String identifierType;
     private BaseUserObj fromUser;
     private BaseUserObj toUser;
-    private String startDate;
-    private String endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone = TimeZone.getTimeZone("GMT");
 
@@ -63,17 +61,11 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
         if(StringUtils.isEmpty(toUser.getUsername()) && StringUtils.isEmpty(toUser.getId()))
             throw OpsGenieClientValidationException.error("Either username or id in to user is mandatory");
-        if(StringUtils.isEmpty(startDate) || StringUtils.isEmpty(endDate))
+        if(startDate == null || endDate == null)
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.START_DATE,OpsGenieClientConstants.API.END_DATE);
-        if(!isValidDate(startDate))
-            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
-        if(!isValidDate(endDate))
-            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
-        Instant startDate = Instant.parse(getStartDate());
-        Instant endDate = Instant.parse(getEndDate());
-        if(startDate.isBefore(Instant.now()))
+        if(startDate.before(Calendar.getInstance().getTime()))
             throw OpsGenieClientValidationException.error("Start Time can not be before now.");
-        if(startDate.isAfter(endDate))
+        if(startDate.after(endDate))
             throw OpsGenieClientValidationException.error("End time should be later than start time.");
     }
 
@@ -148,28 +140,28 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
     /**
      * Start date of forwarding will be started
      */
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
     /**
      * Sets start date of forwarding will be started
      */
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     /**
      * End date of forwarding will be discarded
      */
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of forwarding will be discarded
      */
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -214,12 +206,12 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
         return this;
     }
 
-    public UpdateForwardingRequest withStartDate(String startDate) {
+    public UpdateForwardingRequest withStartDate(Date startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public UpdateForwardingRequest withEndDate(String endDate) {
+    public UpdateForwardingRequest withEndDate(Date endDate) {
         this.endDate = endDate;
         return this;
     }

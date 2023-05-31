@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;
 
@@ -20,13 +21,13 @@ public class User extends BaseUserObj {
     private String fullName;
     private UserRole role;
     private String skypeUsername;
-
     private TimeZone timeZone;
     private Locale locale;
     private List<String> tags;
     private UserAddress userAddress;
     private Map<String, List<String>> details;
-    private String createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date createdAt;
     @JsonProperty("userContacts")
     private List<Contact> contacts;
     public List<Contact> getContacts() {
@@ -84,11 +85,11 @@ public class User extends BaseUserObj {
         this.details = details;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

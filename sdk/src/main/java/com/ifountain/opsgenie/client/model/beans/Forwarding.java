@@ -1,10 +1,12 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -14,8 +16,10 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     private String alias;
     private BaseUserObj fromUser;
     private BaseUserObj toUser;
-    private String startDate;
-    private String endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone;
 
@@ -65,28 +69,28 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     /**
      * Start date of forwarding will be started
      */
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
     /**
      * Sets start date of forwarding will be started
      */
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     /**
      * End date of forwarding will be discarded
      */
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of forwarding will be discarded
      */
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -115,9 +119,9 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
                 startDateString = sdf.format(startDate);
             sdf.setTimeZone(getObjectTimeZone());
             if (endDateString != null)
-                endDate = sdf.format(sdf.parse(endDateString));
+                endDate = sdf.parse(endDateString);
             if (startDateString != null)
-                startDate = sdf.format(sdf.parse(startDateString));
+                startDate = sdf.parse(startDateString);
         }
 
     }
@@ -142,12 +146,12 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
         return this;
     }
 
-    public Forwarding withStartDate(String startDate) {
+    public Forwarding withStartDate(Date startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public Forwarding withEndDate(String endDate) {
+    public Forwarding withEndDate(Date endDate) {
         this.endDate = endDate;
         return this;
     }
