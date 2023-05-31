@@ -1,8 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -10,8 +11,10 @@ import java.util.TimeZone;
  * ScheduleRotation bean
  */
 public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
-    private String startDate;
-    private String endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date endDate;
     @JsonProperty("type")
     private RotationType rotationType;
     @JsonProperty("length")
@@ -36,25 +39,25 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
         this.name = name;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     /**
      * Returns the optional end date of schedule rotation
      */
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     /**
      * Sets end date of schedule rotation. Optional.
      */
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -128,12 +131,12 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
         return scheduleTimeZone;
     }
 
-    public ScheduleRotation withStartDate(String startDate) {
+    public ScheduleRotation withStartDate(Date startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public ScheduleRotation withEndDate(String endDate) {
+    public ScheduleRotation withEndDate(Date endDate) {
         this.endDate = endDate;
         return this;
     }

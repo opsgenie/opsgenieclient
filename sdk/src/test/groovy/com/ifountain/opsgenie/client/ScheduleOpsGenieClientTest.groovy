@@ -17,7 +17,7 @@ import org.apache.http.client.methods.HttpPost
 import org.json.JSONObject
 import org.junit.Test
 import java.text.SimpleDateFormat
-
+import java.time.Instant
 import static org.junit.Assert.*
 
 class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
@@ -55,8 +55,9 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setDescription("ScheduleDescription")
         request.setEnabled(true)
         request.setTimeZone(TimeZone.getTimeZone("Europe/Kirov"))
+        Date current = Calendar.getInstance().getTime()
         request.setRotations([
-                new ScheduleRotation(name: "First Rotation", startDate: "2017-02-06T05:00:00Z", endDate: "2017-02-23T06:00:00Z", rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
+                new ScheduleRotation(name: "First Rotation", startDate: current + 1, endDate: current + 2, rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
                         participants: [
                                 new ScheduleParticipant(type: "user", username: "user@opsgenie.com"),
                                 new ScheduleParticipant(type: "none"),
@@ -151,25 +152,12 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
             assertEquals("Missing mandatory property [participants]",exception.getMessage())
         }
 
-        request.getRotations().get(0).setEndDate("2017-02-05T05:00:00Z")
+        Date current = Calendar.getInstance().getTime()
+        request.getRotations().get(0).setEndDate(current)
         try {
             def response = opsgenieClient.schedule().addSchedule(request)
         } catch (OpsGenieClientValidationException exception){
             assertEquals("Rotation end time should be later than start time.",exception.getMessage())
-        }
-
-        request.getRotations().get(0).setEndDate("2017-02-05T05:00:00")
-        try {
-            def response = opsgenieClient.schedule().addSchedule(request)
-        } catch (OpsGenieClientValidationException exception){
-            assertEquals("Invalid Values for endDate",exception.getMessage())
-        }
-
-        request.getRotations().get(0).setStartDate("2017-02-05T05:00:00")
-        try {
-            def response = opsgenieClient.schedule().addSchedule(request)
-        } catch (OpsGenieClientValidationException exception){
-            assertEquals("Invalid Values for startDate",exception.getMessage())
         }
 
         request.getRotations().get(0).setStartDate(null)
@@ -245,8 +233,9 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         request.setDescription("ScheduleDescription")
         request.setEnabled(true)
         request.setTimeZone(TimeZone.getTimeZone("Europe/Kirov"))
+        Date current = Calendar.getInstance().getTime()
         request.setRotations([
-                new ScheduleRotation(name: "First Rotation", startDate: "2017-02-06T05:00:00Z", endDate: "2017-02-23T06:00:00Z", rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
+                new ScheduleRotation(name: "First Rotation", startDate: current + 1, endDate: current + 2, rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
                         participants: [
                                 new ScheduleParticipant(type: "user", username: "user@opsgenie.com"),
                                 new ScheduleParticipant(type: "none"),
@@ -266,7 +255,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
     void testUpdateScheduleThrowsExceptionIfRequestCannotBeValidated() throws Exception {
         _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "updateSchedule", new UpdateScheduleRequest())
         String responseStr = getResponseString("UpdateScheduleResponse")
-        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
         UpdateScheduleRequest request = getUpdateScheduleRequest()
         request.setIdentifier(null)
         try {
@@ -319,7 +308,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "deleteSchedule", new DeleteScheduleRequest())
 
         String responseStr = getResponseString("DeleteScheduleResponse")
-        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
         DeleteScheduleRequest request = new DeleteScheduleRequest()
         request.setApiKey("customer1")
@@ -363,8 +352,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         assertEquals("e1c575c4-7143-482c-8e83-4balp7d582d7", rotation.id)
         assertEquals("First Rotation",rotation.name)
-        assertEquals("2017-02-06T05:00:00Z",rotation.startDate)
-        assertEquals("2017-02-23T06:00:00Z",rotation.endDate)
+        assertEquals(Instant.parse("2017-02-06T05:00:00.000Z"),rotation.startDate.toInstant())
+        assertEquals(Instant.parse("2017-02-23T06:00:00Z"),rotation.endDate.toInstant())
         assertEquals(ScheduleRotation.RotationType.hourly, rotation.rotationType)
         assertEquals(6, rotation.rotationLength)
         assertEquals(2, rotation.getParticipants().size())
@@ -404,8 +393,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         assertEquals("e1c575c4-7143-482c-8e83-4balp7d582d7", rotation.id)
         assertEquals("First Rotation",rotation.name)
-        assertEquals("2017-02-06T05:00:00Z",rotation.startDate)
-        assertEquals("2017-02-23T06:00:00Z",rotation.endDate)
+        assertEquals(Instant.parse("2017-02-06T05:00:00.000Z"),rotation.startDate.toInstant())
+        assertEquals(Instant.parse("2017-02-23T06:00:00Z"),rotation.endDate.toInstant())
         assertEquals(ScheduleRotation.RotationType.hourly, rotation.rotationType)
         assertEquals(6, rotation.rotationLength)
         assertEquals(2, rotation.getParticipants().size())
@@ -475,7 +464,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
 
         assertEquals("a47alp93-0541-4aa3-bac6-4084cfa02d20", rotation.id)
         assertEquals("First Rotation",rotation.name)
-        assertEquals("2017-05-14T21:00:00Z",rotation.startDate)
+        assertEquals(Instant.parse("2017-05-14T21:00:00Z"),rotation.startDate.toInstant())
         assertEquals(ScheduleRotation.RotationType.weekly, rotation.rotationType)
         assertEquals(1, rotation.rotationLength)
         assertEquals(2, rotation.getParticipants().size())

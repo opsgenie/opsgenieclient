@@ -37,8 +37,8 @@
         {
           "id": "e1c575c4-7143-482c-8e83-4balp7d582d7",
           "name": "First Rotation",
-          "startDate": "2017-02-06T05:00:00Z",
-          "endDate": "2017-02-23T06:00:00Z",
+          "startDate": "2017-02-06T05:00:00.000Z",
+          "endDate": "2017-02-23T06:00:00.000Z",
           "type": "hourly",
           "length": 6,
           "participants": [
@@ -84,7 +84,7 @@
           {
             "id": "a47alp93-0541-4aa3-bac6-4084cfa02d20",
             "name": "First Rotation",
-            "startDate": "2017-05-14T21:00:00Z",
+            "startDate": "2017-05-14T21:00:00.000Z",
             "type": "weekly",
             "length": 1,
             "participants": [

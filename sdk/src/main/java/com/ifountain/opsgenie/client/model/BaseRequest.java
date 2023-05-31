@@ -98,14 +98,8 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROTATION_TYPE);
         if(rotation.getStartDate() == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.START_DATE);
-        if(!isValidDate(rotation.getStartDate()))
-            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.START_DATE);
         if(rotation.getEndDate()!=null){
-            if(!isValidDate(rotation.getEndDate()))
-                throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.END_DATE);
-            Instant startDate = Instant.parse(rotation.getStartDate());
-            Instant endDate = Instant.parse(rotation.getEndDate());
-            if(startDate.isAfter(endDate))
+            if(rotation.getStartDate().after(rotation.getEndDate()))
                 throw OpsGenieClientValidationException.error("Rotation end time should be later than start time.");
         }
         if(rotation.getParticipants().isEmpty())
