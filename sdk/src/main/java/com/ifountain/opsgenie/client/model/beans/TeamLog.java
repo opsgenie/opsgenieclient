@@ -1,5 +1,8 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+
 /**
  * @author Sezgin Kucukkaraaslan
  * @version 12/3/2014 2:01 PM
@@ -7,7 +10,8 @@ package com.ifountain.opsgenie.client.model.beans;
 public class TeamLog extends Bean {
     private String log;
     private String owner;
-    private long createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date createdDate;
 
     /**
      * Gets log message
@@ -40,15 +44,15 @@ public class TeamLog extends Bean {
     /**
      * The creation time of log in milliseconds.
      */
-    public long getCreatedAt() {
-        return createdAt;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
     /**
      * Sets the creation time of the log in milliseconds.
      */
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
 
@@ -62,8 +66,8 @@ public class TeamLog extends Bean {
         return this;
     }
 
-    public TeamLog withCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    public TeamLog withCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
         return this;
     }
 

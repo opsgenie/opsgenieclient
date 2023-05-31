@@ -3,6 +3,11 @@ package com.ifountain.opsgenie.client.model.team;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.IdentifierType;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Container for the parameters to make a get team api call.
@@ -11,9 +16,8 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#getTeam(GetTeamRequest)
  */
 public class GetTeamRequest extends BaseRequest<GetTeamResponse, GetTeamRequest> {
-    private String name;
-    private String id;
-
+    private String identifier;
+    private String identifierType;
     /**
      * check the parameters for validation.
      *
@@ -22,16 +26,26 @@ public class GetTeamRequest extends BaseRequest<GetTeamResponse, GetTeamRequest>
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (name == null && id == null)
+        if(Objects.nonNull(identifierType) && Objects.isNull(IdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (identifier == null)
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
     }
 
-    public String getId() {
-        return id;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getIdentifierType() {
+        return identifierType;
+    }
+
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
     }
 
     /**
@@ -39,21 +53,19 @@ public class GetTeamRequest extends BaseRequest<GetTeamResponse, GetTeamRequest>
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/team";
+        return "/v2/teams/"+identifier;
     }
 
     /**
-     * Name of team to be queried.
+     * Rest api params of getting team operation.
      */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets name of team to be queried.
-     */
-    public void setName(String name) {
-        this.name = name;
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
     @Override
@@ -61,13 +73,13 @@ public class GetTeamRequest extends BaseRequest<GetTeamResponse, GetTeamRequest>
         return new GetTeamResponse();
     }
 
-    public GetTeamRequest withId(String id) {
-        this.id = id;
+    public GetTeamRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public GetTeamRequest withName(String name) {
-        this.name = name;
+    public GetTeamRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
         return this;
     }
 

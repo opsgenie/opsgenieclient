@@ -9,4 +9,13 @@ import com.ifountain.opsgenie.client.model.BaseResponse;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeam(DeleteTeamRequest)
  */
 public class DeleteTeamResponse extends BaseResponse{
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 }

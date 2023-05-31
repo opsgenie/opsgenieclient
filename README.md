@@ -38,8 +38,6 @@ GitHub issue for this : https://github.com/opsgenie/opsgenieclient/issues/34
 * Policy API
 * Notification Rule API
 * Notification Rule Step API
-* Team API
-* Team Member API
 * Team Routing Rule API
 * Schedule API
 * Schedule Override API
