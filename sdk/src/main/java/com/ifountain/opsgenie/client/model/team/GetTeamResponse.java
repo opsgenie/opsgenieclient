@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Team;
@@ -11,7 +12,7 @@ import com.ifountain.opsgenie.client.model.beans.Team;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#getTeam(GetTeamRequest)
  */
 public class GetTeamResponse extends BaseResponse {
-    @JsonUnwrapped
+    @JsonProperty("data")
     private Team team;
 
     /**

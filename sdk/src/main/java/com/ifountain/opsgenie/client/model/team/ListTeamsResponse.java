@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Team;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#listTeams(ListTeamsRequest)
  */
 public class ListTeamsResponse extends BaseResponse {
+    @JsonProperty("data")
     private List<Team> teams;
 
     /**

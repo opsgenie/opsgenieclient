@@ -1,6 +1,13 @@
 package com.ifountain.opsgenie.client.model.team;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.IdentifierType;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Container for the parameters to remove a team member api call.
@@ -8,14 +15,33 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.ITeamOpsGenieClient#deleteTeamMember(DeleteTeamMemberRequest)
  */
 public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberResponse, DeleteTeamMemberRequest> {
-    private String id;
-    private String name;
-    private String userId;
-    private String username;
+    private String teamIdentifier;
+    private String memberIdentifier;
+    private String teamIdentifierType;
 
     @Override
     public String getEndPoint() {
-        return "/v1/json/team/member";
+        return "/v2/teams/"+ teamIdentifier + "/members/" + memberIdentifier;
+    }
+
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(teamIdentifierType))
+            params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,teamIdentifierType);
+        else
+            params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
+    }
+
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(Objects.nonNull(teamIdentifierType) && Objects.isNull(IdentifierType.getFromValues(teamIdentifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE);
+        if (teamIdentifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+        if(memberIdentifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.USERNAME,OpsGenieClientConstants.API.USER_ID);
     }
 
     /**
@@ -26,55 +52,42 @@ public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberRespons
         return new DeleteTeamMemberResponse();
     }
 
-    public String getId() {
-        return id;
+    public String getTeamIdentifier() {
+        return teamIdentifier;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTeamIdentifier(String teamIdentifier) {
+        this.teamIdentifier = teamIdentifier;
     }
 
-    public String getName() {
-        return name;
+    public String getMemberIdentifier() {
+        return memberIdentifier;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMemberIdentifier(String memberIdentifier) {
+        this.memberIdentifier = memberIdentifier;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getTeamIdentifierType() {
+        return teamIdentifierType;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTeamIdentifierType(String teamIdentifierType) {
+        this.teamIdentifierType = teamIdentifierType;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public DeleteTeamMemberRequest withId(String id) {
-        this.id = id;
+    public DeleteTeamMemberRequest withTeamIdentifier(String teamIdentifier) {
+        this.teamIdentifier = teamIdentifier;
         return this;
     }
 
-    public DeleteTeamMemberRequest withName(String name) {
-        this.name = name;
+    public DeleteTeamMemberRequest withTeamIdentifierType(String teamIdentifierType) {
+        this.teamIdentifierType = teamIdentifierType;
         return this;
     }
 
-    public DeleteTeamMemberRequest withUserId(String userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public DeleteTeamMemberRequest withUsername(String username) {
-        this.username = username;
+    public DeleteTeamMemberRequest withMemberIdentifier(String memberIdentifier) {
+        this.memberIdentifier = memberIdentifier;
         return this;
     }
 }
