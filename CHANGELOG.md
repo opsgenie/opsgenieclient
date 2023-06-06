@@ -1,3 +1,6 @@
+## 2.13.5 (June 6, 2023)
+* Added dependency for javax.ws.rs:javax.ws.rs-api
+
 ## 2.13.4 (June 1, 2023)
 * httpcore updated from 4.2.5 to 4.4.16
 * httpmime updated from 4.2.5 to 4.5.14
