@@ -140,7 +140,7 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
      * check the parameters for validation. It will be overridden by necessary
      * Requests.
      *
-     * @throws OpsGenieClientValidationException when id is null!
+     * @throws OpsGenieClientValidationException when identifier (username or id) is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
@@ -150,14 +150,14 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
     }
 
     /**
-     * Id of user to be updated.
+     * Identifier (id or username) of user to be updated.
      */
     public String getIdentifier() {
         return identifier;
     }
 
     /**
-     * Sets id of user to be updated.
+     * Sets Identifier (id or username) of user to be updated.
      */
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
