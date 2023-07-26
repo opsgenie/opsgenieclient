@@ -1,7 +1,15 @@
-## 2.13.4 (May 31, 2023)
+## 2.13.6 (Jul 26, 2023)
 * Add support for following OpsGenie V2 APIs
-    * User API
-    * Forwarding Rule API
+  * User API
+  * Forwarding Rule API
+
+## 2.13.5 (June 6, 2023)
+* Added dependency for javax.ws.rs:javax.ws.rs-api
+
+## 2.13.4 (June 1, 2023)
+* httpcore updated from 4.2.5 to 4.4.16
+* httpmime updated from 4.2.5 to 4.5.14
+* jackson_version updated from 2.7.5 to 2.14.2
 
 ## 2.13.3 (May 30, 2023)
 * Add support for following OpsGenie V2 APIs

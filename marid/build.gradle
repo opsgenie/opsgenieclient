@@ -25,7 +25,7 @@ dependencies {
     compile group: 'com.ning', name: 'async-http-client', version: '1.7.1'
     compile group: 'org.json', name: 'json', version: '20090211'
     compile 'org.apache.directory.studio:org.apache.commons.lang:2.6'
-    compile 'org.apache.httpcomponents:httpcore:4.2.5'
+    compile 'org.apache.httpcomponents:httpcore:4.4.16'
     compile 'org.apache.httpcomponents:httpclient:4.5.14'
     compile 'org.apache.httpcomponents:httpclient:4.5.14'
     compile 'io.netty:netty:3.6.6.Final'
