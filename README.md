@@ -36,7 +36,6 @@ dependencies {
 GitHub issue for this : https://github.com/opsgenie/opsgenieclient/issues/34
 * Integration API
 * Policy API
-* User API
 * Notification Rule API
 * Notification Rule Step API
 * Team Routing Rule API
@@ -44,7 +43,6 @@ GitHub issue for this : https://github.com/opsgenie/opsgenieclient/issues/34
 * Schedule Override API
 * Escalation API
 * Who is On Call API
-* Forwarding Rule API
 
 
 ## Build

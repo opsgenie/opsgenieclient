@@ -1,3 +1,8 @@
+## 2.13.6 (Jul 26, 2023)
+* Add support for following OpsGenie V2 APIs
+  * User API
+  * Forwarding Rule API
+
 ## 2.13.5 (June 6, 2023)
 * Added dependency for javax.ws.rs:javax.ws.rs-api
 

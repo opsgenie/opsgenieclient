@@ -182,6 +182,11 @@ public class OpsGenieHttpClient {
         return executeHttpMethod(putMethod);
     }
 
+    public OpsGenieHttpResponse put(String uri, String content, Map<String, Object> parameters,Map<String,String> headers) throws IOException, OpsGenieClientException {
+        HttpPut putMethod = preparePutMethod(uri, content, parameters,headers);
+
+        return executeHttpMethod(putMethod);
+    }
 
     public HttpPut preparePutMethod(String uri, Map<String, Object> contentMap, Map<String, Object> parameters) throws IOException, OpsGenieClientException {
         HttpPut putMethod = new HttpPut(UriUtils.generateUriWithParams(uri, parameters));
@@ -198,6 +203,15 @@ public class OpsGenieHttpClient {
         entity.setChunked(true);
         putMethod.setEntity(entity);
 
+        return putMethod;
+    }
+
+    public HttpPut preparePutMethod(String uri, String content, Map<String, Object> parameters,Map<String, String> headers) throws IOException, OpsGenieClientException {
+        HttpPut putMethod = new HttpPut(UriUtils.generateUriWithParams(uri, parameters));
+        StringEntity entity = new StringEntity(content, "UTF-8");
+        entity.setChunked(true);
+        putMethod.setEntity(entity);
+        configureHeaders(putMethod, headers);
         return putMethod;
     }
 

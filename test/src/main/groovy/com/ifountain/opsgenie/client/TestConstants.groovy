@@ -8,7 +8,8 @@ public interface TestConstants {
         String API_DATE_FORMAT_WITH_TIMEZONE = "yyyy-MM-dd HH:mm z";
     }
     public interface API {
-        public static final String ID = "id"
+        public static final String ID = "id";
+        public static final String IDENTIFIER = "identifier"
         public static final String OFFSET = "offset"
         public static final String IDENTIFIER_TYPE = "identifierType"
         public static final String API_KEY = "apiKey";
@@ -48,8 +49,9 @@ public interface TestConstants {
         public static final String TIMEZONE = "timezone";
         public static final String TINY_ID = "tinyId";
         public static final String USERNAME = "username";
-        public static final String FULLNAME = "fullname";
+        public static final String FULLNAME = "fullName";
         public static final String ROLE = "role";
+        public static final String INVITATION_DISABLED = "invitationDisabled"
         public static final String STATE = "state";
         public static final String GROUPS = "groups";
         public static final String ESCALATIONS = "escalations";

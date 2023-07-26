@@ -1,14 +1,16 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
-
-import java.util.Date;
-import java.util.TimeZone;
+import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
+import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
+import org.apache.commons.lang3.StringUtils;
+import java.util.*;
 
 /**
  * Container for the parameters to make an update forwarding api call.
@@ -16,11 +18,15 @@ import java.util.TimeZone;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#updateForwarding(com.ifountain.opsgenie.client.model.user.forward.UpdateForwardingRequest)
  */
 public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingResponse, UpdateForwardingRequest> implements ObjectWithTimeZone {
-    private String id;
-    private String alias;
-    private String fromUser;
-    private String toUser;
+    @JsonIgnore
+    private String identifier;
+    @JsonIgnore
+    private String identifierType;
+    private BaseUserObj fromUser;
+    private BaseUserObj toUser;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone = TimeZone.getTimeZone("GMT");
@@ -31,21 +37,59 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
+        return "/v2/forwarding-rules/"+ identifier;
     }
 
     /**
-     * Id of forwarding setting to be updated.
+     * check the parameters for validation. It will be overridden by necessary
+     * Requests.
+     *
+     * @throws OpsGenieClientValidationException when alias and id both null!
      */
-    public String getId() {
-        return id;
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(Objects.nonNull(identifierType) && Objects.isNull(ForwardingIdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (identifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
+        if (fromUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.FROM_USER);
+        if(StringUtils.isEmpty(fromUser.getUsername()) && StringUtils.isEmpty(fromUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in from user is mandatory");
+        if(toUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
+        if(StringUtils.isEmpty(toUser.getUsername()) && StringUtils.isEmpty(toUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in to user is mandatory");
+        if(startDate == null || endDate == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.START_DATE,OpsGenieClientConstants.API.END_DATE);
+        if(startDate.before(Calendar.getInstance().getTime()))
+            throw OpsGenieClientValidationException.error("Start Time can not be before now.");
+        if(startDate.after(endDate))
+            throw OpsGenieClientValidationException.error("End time should be later than start time.");
+    }
+
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
     /**
-     * Sets id of forwarding setting to be updated.
+     Gets identifierType - valid values are id or alias from enum ForwardingIdentifierType
      */
-    public void setId(String id) {
-        this.id = id;
+    public String getIdentifierType() {
+        return identifierType;
+    }
+
+    /**
+     * sets type of identifier - valid values should be one of the ForwardingIdentifierType enum mentioned
+     */
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
     }
 
     /**
@@ -54,42 +98,42 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
      * same forwarding. If a forwarding exists with specified alias for from
      * user, it will update existing one.
      */
-    public String getAlias() {
-        return alias;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
      * Sets a user defined identifier for the forwarding.
      */
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     /**
-     * Username of user which forwarding will be created for
+     * Gets User which forwarding will be created for
      */
-    public String getFromUser() {
+    public BaseUserObj getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets Username of user who forwarding will be created for
+     * Sets User who forwarding will be created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * Username and id of user who forwarding will be directed to
      */
-    public String getToUser() {
+    public BaseUserObj getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets username and id of user who forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(BaseUserObj toUser) {
         this.toUser = toUser;
     }
 
@@ -142,22 +186,22 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
         return timeZone;
     }
 
-    public UpdateForwardingRequest withId(String id) {
-        this.id = id;
+    public UpdateForwardingRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public UpdateForwardingRequest withAlias(String alias) {
-        this.alias = alias;
+    public UpdateForwardingRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
         return this;
     }
 
-    public UpdateForwardingRequest withFromUser(String fromUser) {
+    public UpdateForwardingRequest withFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public UpdateForwardingRequest withToUser(String toUser) {
+    public UpdateForwardingRequest withToUser(BaseUserObj toUser) {
         this.toUser = toUser;
         return this;
     }
@@ -175,18 +219,6 @@ public class UpdateForwardingRequest extends BaseRequest<UpdateForwardingRespons
     public UpdateForwardingRequest withTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
         return this;
-    }
-
-    /**
-     * check the parameters for validation.
-     *
-     * @throws OpsGenieClientValidationException when alias and id both null!
-     */
-    @Override
-    public void validate() throws OpsGenieClientValidationException {
-        super.validate();
-        if (getId() == null && getAlias() == null)
-            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
     }
 
     /**

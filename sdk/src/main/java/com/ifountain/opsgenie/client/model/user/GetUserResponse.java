@@ -1,8 +1,10 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.User;
+
+import java.util.List;
 
 /**
  * Represents OpsGenie service response for get user request.
@@ -10,8 +12,10 @@ import com.ifountain.opsgenie.client.model.beans.User;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getUser(GetUserRequest)
  */
 public class GetUserResponse extends BaseResponse {
-    @JsonUnwrapped
+    @JsonProperty("data")
     private User user;
+
+    private List<String> expandable;
 
     /**
      * Details of user
@@ -31,4 +35,11 @@ public class GetUserResponse extends BaseResponse {
         this.user = user;
     }
 
+    public List<String> getExpandable() {
+        return expandable;
+    }
+
+    public void setExpandable(List<String> expandable) {
+        this.expandable = expandable;
+    }
 }
