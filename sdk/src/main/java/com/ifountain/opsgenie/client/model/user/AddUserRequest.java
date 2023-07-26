@@ -1,13 +1,15 @@
 package com.ifountain.opsgenie.client.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
-import com.ifountain.opsgenie.client.model.beans.User;
+import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
-
-
+import org.apache.commons.lang3.StringUtils;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -17,19 +19,75 @@ import java.util.TimeZone;
  */
 public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest> {
     private String username;
-    private String fullname;
+    private String fullName;
+    private UserRole role;
     private String skypeUsername;
+    private UserAddress userAddress;
+    private List<String> tags;
+    private Map<String, List<String>> details;
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private Locale locale;
-    private UserRole role;
+    private Boolean invitationDisabled = false;
 
     /**
      * Rest api uri of addding user operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user";
+        return "/v2/users";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(StringUtils.isEmpty(username))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USERNAME);
+        if(StringUtils.isEmpty(fullName))
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.FULLNAME);
+        if(role == null || StringUtils.isEmpty(role.getName()))
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROLE);
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public Map<String, List<String>> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Map<String, List<String>> details) {
+        this.details = details;
+    }
+
+    public Boolean getInvitationDisabled() {
+        return invitationDisabled;
+    }
+
+    public void setInvitationDisabled(Boolean invitationDisabled) {
+        this.invitationDisabled = invitationDisabled;
     }
 
     /**
@@ -49,15 +107,15 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
     /**
      * Fullname of user
      */
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
     /**
      * Sets fullname of user
      */
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     /**
@@ -86,42 +144,6 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
      */
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    /**
-     * @deprecated Use getUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public User.Role getRole() {
-
-        if (role == null) {
-            return null;
-        }
-        return User.Role.fromName(role.getName());
-    }
-
-    /**
-     * @throws UnsupportedOperationException when role is custom. Please use setUserRole() for
-     *                                       custom roles.
-     * @deprecated Use setUserRole
-     */
-    @JsonIgnore
-    @Deprecated
-    public void setRole(User.Role role) {
-        if (role != null) {
-            if (role == User.Role.admin) {
-                this.role = UserRole.ADMIN;
-            } else if (role == User.Role.owner) {
-                this.role = UserRole.OWNER;
-            } else if (role == User.Role.user) {
-                this.role = UserRole.USER;
-            } else {
-                throw new UnsupportedOperationException("custom role does not supported by Role enum. Use setUserRole() for custom roles.");
-            }
-        } else {
-            this.role = null;
-        }
     }
 
     /**
@@ -165,8 +187,28 @@ public class AddUserRequest extends BaseRequest<AddUserResponse, AddUserRequest>
         return this;
     }
 
-    public AddUserRequest withFullname(String fullname) {
-        this.fullname = fullname;
+    public AddUserRequest withUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+        return this;
+    }
+
+    public AddUserRequest withTags(List<String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public AddUserRequest withDetails(Map<String, List<String>> details) {
+        this.details = details;
+        return this;
+    }
+
+    public AddUserRequest withInvitationDisabled(Boolean invitationDisabled) {
+        this.invitationDisabled = invitationDisabled;
+        return this;
+    }
+
+    public AddUserRequest withFullName(String fullName) {
+        this.fullName = fullName;
         return this;
     }
 

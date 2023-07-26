@@ -1,10 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,9 +14,11 @@ import java.util.TimeZone;
  */
 public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     private String alias;
-    private String fromUser;
-    private String toUser;
+    private BaseUserObj fromUser;
+    private BaseUserObj toUser;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone;
@@ -38,30 +39,30 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     }
 
     /**
-     * Username of user which forwarding is created for
+     * gets user which forwarding is created for
      */
-    public String getFromUser() {
+    public BaseUserObj getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets username of user who forwarding is created for
+     * Sets user who forwarding is created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * User who forwarding will be directed to
      */
-    public String getToUser() {
+    public BaseUserObj getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets user who forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(BaseUserObj toUser) {
         this.toUser = toUser;
     }
 
@@ -135,12 +136,12 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
         return this;
     }
 
-    public Forwarding withFromUser(String fromUser) {
+    public Forwarding withFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public Forwarding withToUser(String toUser) {
+    public Forwarding withToUser(BaseUserObj toUser) {
         this.toUser = toUser;
         return this;
     }

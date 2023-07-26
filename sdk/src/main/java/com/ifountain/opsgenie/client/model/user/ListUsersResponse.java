@@ -1,6 +1,8 @@
 package com.ifountain.opsgenie.client.model.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
+import com.ifountain.opsgenie.client.model.beans.Paging;
 import com.ifountain.opsgenie.client.model.beans.User;
 
 import java.util.List;
@@ -11,7 +13,26 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#listUsers(ListUsersRequest)
  */
 public class ListUsersResponse extends BaseResponse {
+    @JsonProperty("data")
     private List<User> users;
+    private Integer totalCount;
+    private Paging paging;
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Paging getPaging() {
+        return paging;
+    }
+
+    public void setPaging(Paging paging) {
+        this.paging = paging;
+    }
 
     /**
      * List of users

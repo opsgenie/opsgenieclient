@@ -1,6 +1,8 @@
 package com.ifountain.opsgenie.client.model.user;
 
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 
 /**
@@ -9,45 +11,32 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#deleteUser(DeleteUserRequest)
  */
 public class DeleteUserRequest extends BaseRequest<DeleteUserResponse, DeleteUserRequest> {
-    private String id;
-    private String username;
+    private String identifier;
+
+    public String getIdentifier() { return identifier; }
+
+    public void setIdentifier(String identifier) { this.identifier = identifier; }
 
     /**
      * Rest api uri of deleting user operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user";
+        return "/v2/users/" + identifier;
     }
 
     /**
-     * Id of user to be deleted.
+     * check the parameters for validation. It will be overridden by necessary
+     * Requests.
+     *
+     * @throws OpsGenieClientValidationException when id is null!
      */
-    public String getId() {
-        return id;
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (identifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID, OpsGenieClientConstants.API.USERNAME);
     }
-
-    /**
-     * Sets id of user to be deleted.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Username of user to be deleted.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets username of user to be deleted.
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
 
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
@@ -57,13 +46,8 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse, DeleteUse
         return new DeleteUserResponse();
     }
 
-    public DeleteUserRequest withId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public DeleteUserRequest withUsername(String username) {
-        this.username = username;
+    public DeleteUserRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 }

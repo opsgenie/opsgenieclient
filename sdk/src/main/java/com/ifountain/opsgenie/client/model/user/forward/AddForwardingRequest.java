@@ -1,10 +1,14 @@
 package com.ifountain.opsgenie.client.model.user.forward;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.ifountain.opsgenie.client.model.beans.BaseUserObj;
+import org.apache.commons.lang3.StringUtils;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -16,9 +20,11 @@ import java.util.TimeZone;
  */
 public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, AddForwardingRequest> implements ObjectWithTimeZone {
     private String alias;
-    private String fromUser;
-    private String toUser;
+    private BaseUserObj fromUser;
+    private BaseUserObj toUser;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date endDate;
     @JsonProperty("timezone")
     private TimeZone timeZone = TimeZone.getTimeZone("GMT");
@@ -28,7 +34,31 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
+        return "/v2/forwarding-rules";
+    }
+
+    /**
+     * check the parameters for validation.
+     *
+     * @throws OpsGenieClientValidationException when api key is null!
+     */
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if (fromUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.FROM_USER);
+        if(StringUtils.isEmpty(fromUser.getUsername()) && StringUtils.isEmpty(fromUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in from user is mandatory");
+        if(toUser == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO_USER);
+        if(StringUtils.isEmpty(toUser.getUsername()) && StringUtils.isEmpty(toUser.getId()))
+            throw OpsGenieClientValidationException.error("Either username or id in to user is mandatory");
+        if(startDate == null || endDate == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.START_DATE,OpsGenieClientConstants.API.END_DATE);
+        if(startDate.before(Calendar.getInstance().getTime()))
+            throw OpsGenieClientValidationException.error("Start Time can not be before now.");
+        if(startDate.after(endDate))
+            throw OpsGenieClientValidationException.error("End time should be later than start time.");
     }
 
     /**
@@ -49,30 +79,30 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
     }
 
     /**
-     * Username of user which forwarding will be created for
+     * Username and id of user which forwarding will be created for
      */
-    public String getFromUser() {
+    public BaseUserObj getFromUser() {
         return fromUser;
     }
 
     /**
-     * Sets Username of user who forwarding will be created for
+     * Sets Username and id of user who forwarding will be created for
      */
-    public void setFromUser(String fromUser) {
+    public void setFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
     }
 
     /**
-     * Username of user who forwarding will be directed to
+     * Username and id of user who forwarding will be directed to
      */
-    public String getToUser() {
+    public BaseUserObj getToUser() {
         return toUser;
     }
 
     /**
-     * Sets username of user who forwarding will be directed to
+     * Sets user whom forwarding will be directed to
      */
-    public void setToUser(String toUser) {
+    public void setToUser(BaseUserObj toUser) {
         this.toUser = toUser;
     }
 
@@ -138,12 +168,12 @@ public class AddForwardingRequest extends BaseRequest<AddForwardingResponse, Add
         return this;
     }
 
-    public AddForwardingRequest withFromUser(String fromUser) {
+    public AddForwardingRequest withFromUser(BaseUserObj fromUser) {
         this.fromUser = fromUser;
         return this;
     }
 
-    public AddForwardingRequest withToUser(String toUser) {
+    public AddForwardingRequest withToUser(BaseUserObj toUser) {
         this.toUser = toUser;
         return this;
     }

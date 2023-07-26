@@ -3,6 +3,11 @@ package com.ifountain.opsgenie.client.model.user.forward;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Container for the parameters to make a get forwarding api call.
@@ -10,8 +15,8 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IUserOpsGenieClient#getForwarding(GetForwardingRequest)
  */
 public class GetForwardingRequest extends BaseRequest<GetForwardingResponse, GetForwardingRequest> {
-    private String id;
-    private String alias;
+    private String identifier;
+    private String identifierType;
 
     /**
      * check the parameters for validation. It will be overridden by necessary
@@ -22,9 +27,19 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse, Get
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (id == null && alias == null)
-            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS,
-                    OpsGenieClientConstants.API.ID);
+        if(Objects.nonNull(identifierType) && Objects.isNull(ForwardingIdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (identifier == null)
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
+    }
+
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(Objects.nonNull(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
     /**
@@ -32,21 +47,7 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse, Get
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/user/forward";
-    }
-
-    /**
-     * Id of forwarding setting to be returned.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets id of forwarding setting to be returned.
-     */
-    public void setId(String id) {
-        this.id = id;
+        return "/v2/forwarding-rules/" + identifier;
     }
 
     /**
@@ -54,15 +55,29 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse, Get
      * a known identifier and later use this identifier to get forwarding
      * details.
      */
-    public String getAlias() {
-        return alias;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
      * Sets a user defined identifier for the forwarding.
      */
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    /**
+     Gets identifierType - valid values are id or alias from enum ForwardingIdentifierType
+     */
+    public String getIdentifierType() {
+        return identifierType;
+    }
+
+    /**
+     * sets type of identifier - valid values should be one of the ForwardingIdentifierType enum mentioned
+     */
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
     }
 
     /**
@@ -73,13 +88,13 @@ public class GetForwardingRequest extends BaseRequest<GetForwardingResponse, Get
         return new GetForwardingResponse();
     }
 
-    public GetForwardingRequest withId(String id) {
-        this.id = id;
+    public GetForwardingRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public GetForwardingRequest withAlias(String alias) {
-        this.alias = alias;
+    public GetForwardingRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
         return this;
     }
 }

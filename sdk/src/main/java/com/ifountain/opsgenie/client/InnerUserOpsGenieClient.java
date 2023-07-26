@@ -23,7 +23,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public AddForwardingResponse addForwarding(AddForwardingRequest addForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (AddForwardingResponse) httpClient.doPostRequest(addForwardingRequest);
+        return (AddForwardingResponse) httpClient.doPostRequestV2(addForwardingRequest);
     }
 
     /**
@@ -31,7 +31,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public UpdateForwardingResponse updateForwarding(UpdateForwardingRequest updateForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (UpdateForwardingResponse) httpClient.doPostRequest(updateForwardingRequest);
+        return (UpdateForwardingResponse) httpClient.doPutRequestV2(updateForwardingRequest);
     }
 
     /**
@@ -39,7 +39,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public DeleteForwardingResponse deleteForwarding(DeleteForwardingRequest deleteForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteForwardingResponse) httpClient.doDeleteRequest(deleteForwardingRequest);
+        return (DeleteForwardingResponse) httpClient.doDeleteRequestV2(deleteForwardingRequest);
 
     }
 
@@ -48,7 +48,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public GetForwardingResponse getForwarding(GetForwardingRequest getForwardingRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (GetForwardingResponse) httpClient.doGetRequest(getForwardingRequest);
+        return (GetForwardingResponse) httpClient.doGetRequestV2(getForwardingRequest);
     }
 
     /**
@@ -56,7 +56,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public ListForwardingsResponse listForwardings(ListForwardingsRequest listForwardingsRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListForwardingsResponse) httpClient.doGetRequest(listForwardingsRequest);
+        return (ListForwardingsResponse) httpClient.doGetRequestV2(listForwardingsRequest);
     }
 
     /**
@@ -64,7 +64,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public AddUserResponse addUser(AddUserRequest addUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (AddUserResponse) httpClient.doPostRequest(addUserRequest);
+        return (AddUserResponse) httpClient.doPostRequestV2(addUserRequest);
     }
 
     /**
@@ -72,7 +72,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public UpdateUserResponse updateUser(UpdateUserRequest updateUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (UpdateUserResponse) httpClient.doPostRequest(updateUserRequest);
+        return (UpdateUserResponse) httpClient.doPatchRequestV2(updateUserRequest);
     }
 
     /**
@@ -80,7 +80,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (DeleteUserResponse) httpClient.doDeleteRequest(deleteUserRequest);
+        return (DeleteUserResponse) httpClient.doDeleteRequestV2(deleteUserRequest);
     }
 
     /**
@@ -88,7 +88,7 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public GetUserResponse getUser(GetUserRequest getUserRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (GetUserResponse) httpClient.doGetRequest(getUserRequest);
+        return (GetUserResponse) httpClient.doGetRequestV2(getUserRequest);
     }
 
     /**
@@ -96,6 +96,6 @@ public class InnerUserOpsGenieClient implements IUserOpsGenieClient {
      */
     @Override
     public ListUsersResponse listUsers(ListUsersRequest listUsersRequest) throws IOException, OpsGenieClientException, ParseException {
-        return (ListUsersResponse) httpClient.doGetRequest(listUsersRequest);
+        return (ListUsersResponse) httpClient.doGetRequestV2(listUsersRequest);
     }
 }

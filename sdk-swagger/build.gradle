@@ -3,7 +3,7 @@ apply from: 'pom.gradle'
 
 ext {
     swagger_annotations_version = "1.5.8"
-    jackson_version = "2.7.5"
+    jackson_version = "2.14.2"
     jersey_version = "1.19.1"
     jodatime_version = "2.9.4"
     junit_version = "4.12"
@@ -11,6 +11,7 @@ ext {
     commons_io_version = "2.5"
     migbase64_version = "2.2"
     javax_validation_api_version = "1.1.0.Final"
+    javax_ws_rs_api_version ="2.0.1"
 }
 
 dependencies {
@@ -27,6 +28,7 @@ dependencies {
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
     compile "commons-io:commons-io:$commons_io_version"
     compile "javax.validation:validation-api:$javax_validation_api_version"
+    compile "javax.ws.rs:javax.ws.rs-api:$javax_ws_rs_api_version"
 
     testCompile "junit:junit:$junit_version"
 }

@@ -9,13 +9,10 @@ import com.ifountain.opsgenie.client.model.beans.*;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHeaders;
-
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
