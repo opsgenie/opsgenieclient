@@ -9,7 +9,11 @@ import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.ifountain.opsgenie.client.model.beans.DataWithName;
 import com.ifountain.opsgenie.client.model.beans.IdentifierType;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TimeZone;
+import java.util.HashMap;
 
 /**
  * Container for the parameters to make an update schedule api call.
