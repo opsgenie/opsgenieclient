@@ -9,6 +9,8 @@ import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.ifountain.opsgenie.client.model.beans.DataWithName;
 import com.ifountain.opsgenie.client.model.beans.IdentifierType;
 import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -195,15 +197,15 @@ public class UpdateScheduleRequest extends BaseRequest<AddScheduleResponse, AddS
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if(Objects.nonNull(identifierType) && Objects.isNull(IdentifierType.getFromValues(identifierType)))
+        if(StringUtils.isNotEmpty(identifierType) && Objects.isNull(IdentifierType.getFromValues(identifierType)))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
-        if (identifier == null)
+        if (StringUtils.isEmpty(identifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
         validateRotations(rotations);
     }
     public Map<String,Object> getRequestParams(){
         Map<String,Object> params = new HashMap<>();
-        if(Objects.nonNull(identifierType))
+        if(StringUtils.isNotEmpty(identifierType))
             params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
         else
             params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);

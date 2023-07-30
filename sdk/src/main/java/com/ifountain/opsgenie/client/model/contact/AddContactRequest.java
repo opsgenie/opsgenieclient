@@ -32,7 +32,7 @@ public class AddContactRequest extends BaseContactRequest<AddContactResponse, Ad
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO);
         if(Objects.isNull(method))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.METHOD);
-        if (Objects.isNull(getUserIdentifier()))
+        if (StringUtils.isEmpty(getUserIdentifier()))
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER_IDENTIFIER);
     }
 

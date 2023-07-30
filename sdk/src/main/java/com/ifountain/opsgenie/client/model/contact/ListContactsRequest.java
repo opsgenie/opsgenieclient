@@ -3,8 +3,7 @@ package com.ifountain.opsgenie.client.model.contact;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
-
-import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Container for the parameters to make a list contacts api call.
@@ -25,7 +24,7 @@ public class ListContactsRequest extends BaseContactRequest<ListContactsResponse
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (Objects.isNull(getUserIdentifier()))
+        if (StringUtils.isEmpty(getUserIdentifier()))
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER_IDENTIFIER);
     }
 

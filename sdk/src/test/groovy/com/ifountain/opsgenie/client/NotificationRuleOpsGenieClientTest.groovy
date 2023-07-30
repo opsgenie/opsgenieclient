@@ -50,9 +50,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
         Restriction restriction = new Restriction();
         restriction.setStartHour(15);
-        restriction.setStartMin(04);
+        restriction.setStartMinute(04);
         restriction.setEndHour(18);
-        restriction.setEndMin(58);
+        restriction.setEndMinute(58);
 
         request.setRestrictions([restriction])
         request.setSchedules(["schedule1", "schedule2"]);
@@ -100,9 +100,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
-        assertEquals(restriction1.getStartMin(), 4);
+        assertEquals(restriction1.getStartMinute(), 4);
         assertEquals(restriction1.getEndHour(), 18);
-        assertEquals(restriction1.getEndMin(), 58);
+        assertEquals(restriction1.getEndMinute(), 58);
 
         assertEquals(request.getSchedules(), jsonContent[TestConstants.API.SCHEDULES])
     }
@@ -137,9 +137,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
         Restriction restriction = new Restriction();
         restriction.setStartHour(15);
-        restriction.setStartMin(04);
+        restriction.setStartMinute(04);
         restriction.setEndHour(18);
-        restriction.setEndMin(58);
+        restriction.setEndMinute(58);
 
         request.setRestrictions([restriction])
         request.setSchedules(["schedule1", "schedule2"]);
@@ -187,9 +187,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
-        assertEquals(restriction1.getStartMin(), 4);
+        assertEquals(restriction1.getStartMinute(), 4);
         assertEquals(restriction1.getEndHour(), 18);
-        assertEquals(restriction1.getEndMin(), 58);
+        assertEquals(restriction1.getEndMinute(), 58);
 
         assertEquals(request.getSchedules(), jsonContent[TestConstants.API.SCHEDULES])
     }
@@ -224,9 +224,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
         Restriction restriction = new Restriction();
         restriction.setStartHour(15);
-        restriction.setStartMin(04);
+        restriction.setStartMinute(04);
         restriction.setEndHour(18);
-        restriction.setEndMin(58);
+        restriction.setEndMinute(58);
 
         request.setRestrictions([restriction])
         request.setSchedules(["schedule1", "schedule2"]);
@@ -273,9 +273,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
-        assertEquals(restriction1.getStartMin(), 4);
+        assertEquals(restriction1.getStartMinute(), 4);
         assertEquals(restriction1.getEndHour(), 18);
-        assertEquals(restriction1.getEndMin(), 58);
+        assertEquals(restriction1.getEndMinute(), 58);
 
         assertEquals(request.getSchedules(), jsonContent[TestConstants.API.SCHEDULES])
     }
@@ -310,9 +310,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
 
         Restriction restriction = new Restriction();
         restriction.setStartHour(15);
-        restriction.setStartMin(04);
+        restriction.setStartMinute(04);
         restriction.setEndHour(18);
-        restriction.setEndMin(58);
+        restriction.setEndMinute(58);
 
         request.setRestrictions([restriction])
         request.setSchedules(["schedule1", "schedule2"]);
@@ -359,9 +359,9 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         Restriction restriction1 = jsonContent[TestConstants.API.RESTRICTIONS]
         assertNotNull(restriction1)
         assertEquals(restriction1.getStartHour(), 15);
-        assertEquals(restriction1.getStartMin(), 4);
+        assertEquals(restriction1.getStartMinute(), 4);
         assertEquals(restriction1.getEndHour(), 18);
-        assertEquals(restriction1.getEndMin(), 58);
+        assertEquals(restriction1.getEndMinute(), 58);
 
         assertEquals(request.getSchedules(), jsonContent[TestConstants.API.SCHEDULES])
     }
@@ -680,8 +680,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals("monday", restriction.getStartDay().name());
         assertEquals(2, restriction.getStartHour());
         assertEquals("tuesday", restriction.getEndDay().name());
-        assertEquals(3, restriction.getStartMin());
-        assertEquals(4, restriction.getEndMin());
+        assertEquals(3, restriction.getStartMinute());
+        assertEquals(4, restriction.getEndMinute());
 
         assertEquals(jsonResponse[TestConstants.API.ID], response.getNotificationRule().getId());
         assertEquals(2, response.getNotificationRule().getConditions().size());
@@ -786,8 +786,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals("monday", restriction.getStartDay().name());
         assertEquals(2, restriction.getStartHour());
         assertEquals("tuesday", restriction.getEndDay().name());
-        assertEquals(3, restriction.getStartMin());
-        assertEquals(4, restriction.getEndMin());
+        assertEquals(3, restriction.getStartMinute());
+        assertEquals(4, restriction.getEndMinute());
 
         assertEquals(jsonResponse[TestConstants.API.ID], response.getNotificationRule().getId());
         assertEquals(2, response.getNotificationRule().getConditions().size());
@@ -953,8 +953,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRestriction.getStartDay().name(), rule1.restrictions[0].startDay);
         assertEquals(inputRestriction.getStartHour(), rule1.restrictions[0].startHour);
         assertEquals(inputRestriction.getEndDay().name(), rule1.restrictions[0].endDay);
-        assertEquals(inputRestriction.getStartMin(), rule1.restrictions[0].startMinute);
-        assertEquals(inputRestriction.getEndMin(), rule1.restrictions[0].endMinute);
+        assertEquals(inputRestriction.getStartMinute(), rule1.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule1.restrictions[0].endMinute);
         assertEquals(inputRule1.getId(), rule1.id);
         assertEquals(inputRule1.getSteps().size(), rule1.steps.size());
         assertEquals(inputRule1.getSteps().get(0).getMethod().value(), rule1.steps.get(0).method);
@@ -971,8 +971,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         inputRestriction = inputRule2.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule2.restrictions[0].endHour);
         assertEquals(inputRestriction.getStartHour(), rule2.restrictions[0].startHour);
-        assertEquals(inputRestriction.getStartMin(), rule2.restrictions[0].startMinute);
-        assertEquals(inputRestriction.getEndMin(), rule2.restrictions[0].endMinute);
+        assertEquals(inputRestriction.getStartMinute(), rule2.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule2.restrictions[0].endMinute);
         assertEquals(inputRule2.getId(), rule2.id);
         assertEquals(inputRule2.getConditions().size(), rule2.conditions.size());
 
@@ -1004,8 +1004,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         inputRestriction = inputRule3.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule3.restrictions[0].endHour);
         assertEquals(inputRestriction.getStartHour(), rule3.restrictions[0].startHour);
-        assertEquals(inputRestriction.getStartMin(), rule3.restrictions[0].startMinute);
-        assertEquals(inputRestriction.getEndMin(), rule3.restrictions[0].endMinute);
+        assertEquals(inputRestriction.getStartMinute(), rule3.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule3.restrictions[0].endMinute);
         assertEquals(inputRule3.getId(), rule3.id);
         assertEquals(inputRule3.getConditions().size(), rule3.conditions.size());
 
@@ -1158,8 +1158,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         assertEquals(inputRestriction.getStartDay().name(), rule1.restrictions[0].startDay);
         assertEquals(inputRestriction.getStartHour(), rule1.restrictions[0].startHour);
         assertEquals(inputRestriction.getEndDay().name(), rule1.restrictions[0].endDay);
-        assertEquals(inputRestriction.getStartMin(), rule1.restrictions[0].startMinute);
-        assertEquals(inputRestriction.getEndMin(), rule1.restrictions[0].endMinute);
+        assertEquals(inputRestriction.getStartMinute(), rule1.restrictions[0].startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule1.restrictions[0].endMinute);
         assertEquals(inputRule1.getId(), rule1.id);
         assertEquals(inputRule1.getSteps().size(), rule1.steps.size());
         assertEquals(inputRule1.getSteps().get(0).getMethod().value(), rule1.steps.get(0).method);
@@ -1176,8 +1176,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         inputRestriction = inputRule2.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule2.restrictions.get(0).endHour);
         assertEquals(inputRestriction.getStartHour(), rule2.restrictions.get(0).startHour);
-        assertEquals(inputRestriction.getStartMin(), rule2.restrictions.get(0).startMinute);
-        assertEquals(inputRestriction.getEndMin(), rule2.restrictions.get(0).endMinute);
+        assertEquals(inputRestriction.getStartMinute(), rule2.restrictions.get(0).startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule2.restrictions.get(0).endMinute);
         assertEquals(inputRule2.getId(), rule2.id);
         assertEquals(inputRule2.getConditions().size(), rule2.conditions.size());
 
@@ -1209,8 +1209,8 @@ class NotificationRuleOpsGenieClientTest extends OpsGenieClientTestCase implemen
         inputRestriction = inputRule3.getRestrictions().get(0);
         assertEquals(inputRestriction.getEndHour(), rule3.restrictions.get(0).endHour);
         assertEquals(inputRestriction.getStartHour(), rule3.restrictions.get(0).startHour);
-        assertEquals(inputRestriction.getStartMin(), rule3.restrictions.get(0).startMinute);
-        assertEquals(inputRestriction.getEndMin(), rule3.restrictions.get(0).endMinute);
+        assertEquals(inputRestriction.getStartMinute(), rule3.restrictions.get(0).startMinute);
+        assertEquals(inputRestriction.getEndMinute(), rule3.restrictions.get(0).endMinute);
         assertEquals(inputRule3.getId(), rule3.id);
         assertEquals(inputRule3.getConditions().size(), rule3.conditions.size());
 

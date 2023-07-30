@@ -1,15 +1,35 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+
 /**
  * Restriction bean
  */
 public class Restriction extends Bean {
     private Integer endHour;
-    private Integer endMin;
+    @JsonProperty("endMin")
+    private Integer endMinute;
     private Integer startHour;
-    private Integer startMin;
+    @JsonProperty("startMin")
+    private Integer startMinute;
     private DAY startDay;
     private DAY endDay;
+
+    public void validateRestriction(TimeRestrictionType restrictionType) throws OpsGenieClientValidationException {
+        if(endHour == null || endMinute == null || startHour == null || startMinute == null){
+            throw OpsGenieClientValidationException.error("startHour, startMinute, endHour, endMinute cannot be empty");
+        }
+        if(restrictionType.equals(TimeRestrictionType.WEEKDAY_AND_TIME_OF_DAY) && (endDay == null || startDay == null)){
+            throw OpsGenieClientValidationException.error("startDay, endDay cannot be empty");
+        }
+        if(startHour >24)
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.RESTRICTION_START_HOUR);
+        if(endHour >24)
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.RESTRICTION_END_HOUR);
+        //Minutes may take 0 or 30 as value. Otherwise they will be converted to nearest 0 or 30 automatically. So startMin and endMin do not require validation check
+    }
 
     /**
      * endHour of Restriction
@@ -28,15 +48,15 @@ public class Restriction extends Bean {
     /**
      * endMinute of Restriction
      */
-    public Integer getEndMin() {
-        return endMin;
+    public Integer getEndMinute() {
+        return endMinute;
     }
 
     /**
      * Sets endMinute of Restriction
      */
-    public void setEndMin(Integer endMin) {
-        this.endMin = endMin;
+    public void setEndMinute(Integer endMinute) {
+        this.endMinute = endMinute;
     }
 
     /**
@@ -56,15 +76,15 @@ public class Restriction extends Bean {
     /**
      * startMinute of Restriction
      */
-    public Integer getStartMin() {
-        return startMin;
+    public Integer getStartMinute() {
+        return startMinute;
     }
 
     /**
      * Sets startMinute of Restriction
      */
-    public void setStartMin(Integer startMin) {
-        this.startMin = startMin;
+    public void setStartMinute(Integer startMinute) {
+        this.startMinute = startMinute;
     }
 
     /**
@@ -102,7 +122,7 @@ public class Restriction extends Bean {
     }
 
     public Restriction withEndMinute(Integer endMinute) {
-        this.endMin = endMinute;
+        this.endMinute = endMinute;
         return this;
     }
 
@@ -112,7 +132,7 @@ public class Restriction extends Bean {
     }
 
     public Restriction withStartMinute(Integer startMinute) {
-        this.startMin = startMinute;
+        this.startMinute = startMinute;
         return this;
     }
 

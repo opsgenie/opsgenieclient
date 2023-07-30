@@ -6,6 +6,8 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -145,7 +147,7 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (identifier == null)
+        if (StringUtils.isEmpty(identifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID, OpsGenieClientConstants.API.USERNAME);
     }
 

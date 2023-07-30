@@ -96,7 +96,7 @@ public class Schedule extends BeanWithId implements ConvertFromTimeZone {
 
     @Override
     public void setTime() throws ParseException {
-        if (getTimeZone() != null && rotations != null && rotations.size() > 0) {
+        if (getTimeZone() != null && rotations != null && !rotations.isEmpty()) {
             for (ScheduleRotation scheduleRotation : rotations) {
                 scheduleRotation.setScheduleTimeZone(getTimeZone());
                 SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);

@@ -1,6 +1,8 @@
 package com.ifountain.opsgenie.client.model.beans;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
@@ -23,6 +25,31 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
     private TimeRestriction timeRestriction;
     private TimeZone scheduleTimeZone;
     private String name;
+
+    public void validateScheduleRotation() throws OpsGenieClientValidationException {
+        if(rotationType == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROTATION_TYPE);
+        validateStartAndEndDate();
+        validateParticipants();
+        if(timeRestriction!=null){
+            timeRestriction.validateTimeRestriction();
+        }
+    }
+
+    public void validateStartAndEndDate() throws OpsGenieClientValidationException {
+        if(startDate == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.START_DATE);
+        if(endDate!=null && startDate.after(endDate))
+            throw OpsGenieClientValidationException.error("Rotation end time should be later than start time.");
+    }
+
+    public void validateParticipants() throws OpsGenieClientValidationException {
+        if(participants == null || participants.isEmpty())
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.PARTICIPANTS);
+        for(ScheduleParticipant participant : participants){
+            participant.validateParticipant();
+        }
+    }
 
     public TimeRestriction getTimeRestriction() {
         return timeRestriction;

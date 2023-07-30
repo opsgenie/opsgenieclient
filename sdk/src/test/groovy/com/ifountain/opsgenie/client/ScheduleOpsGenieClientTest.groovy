@@ -64,8 +64,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
                                 new ScheduleParticipant(type: "user", id: "ac463592-dbd2-4ca3-alp1d-48fhf5j5c871")
                         ],
                         timeRestriction: new TimeRestriction(type: "weekday-and-time-of-day", restrictions: [
-                                new Restriction(startDay: DAY.monday, startHour: 8, startMin: 0, endDay: DAY.tuesday, endHour: 18, endMin: 30),
-                                new Restriction(startDay: DAY.wednesday, startHour: 8, startMin: 0, endDay: DAY.thursday, endHour: 18, endMin: 30)
+                                new Restriction(startDay: DAY.monday, startHour: 8, startMinute: 0, endDay: DAY.tuesday, endHour: 18, endMinute: 30),
+                                new Restriction(startDay: DAY.wednesday, startHour: 8, startMinute: 0, endDay: DAY.thursday, endHour: 18, endMinute: 30)
                         ])
                 )
         ])
@@ -106,7 +106,7 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         try {
             def response = opsgenieClient.schedule().addSchedule(request)
         } catch (OpsGenieClientValidationException exception){
-            assertEquals("startHour, startMin, endHour, endMin cannot be empty",exception.getMessage())
+            assertEquals("startHour, startMinute, endHour, endMinute cannot be empty",exception.getMessage())
         }
 
         request.getRotations().get(0).getTimeRestriction().setType("test")
@@ -242,8 +242,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
                                 new ScheduleParticipant(type: "user", id: "ac463592-dbd2-4ca3-alp1d-48fhf5j5c871")
                         ],
                         timeRestriction: new TimeRestriction(type: "weekday-and-time-of-day", restrictions: [
-                                new Restriction(startDay: DAY.monday, startHour: 8, startMin: 0, endDay: DAY.tuesday, endHour: 18, endMin: 30),
-                                new Restriction(startDay: DAY.wednesday, startHour: 8, startMin: 0, endDay: DAY.thursday, endHour: 18, endMin: 30)
+                                new Restriction(startDay: DAY.monday, startHour: 8, startMinute: 0, endDay: DAY.tuesday, endHour: 18, endMinute: 30),
+                                new Restriction(startDay: DAY.wednesday, startHour: 8, startMinute: 0, endDay: DAY.thursday, endHour: 18, endMinute: 30)
                         ])
                 )
         ])
@@ -365,8 +365,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(1,rotation.getTimeRestriction().getRestrictions().size())
         assertEquals(8,rotation.getTimeRestriction().getRestrictions().get(0).getStartHour())
         assertEquals(18,rotation.getTimeRestriction().getRestrictions().get(0).getEndHour())
-        assertEquals(0,rotation.getTimeRestriction().getRestrictions().get(0).getStartMin())
-        assertEquals(30,rotation.getTimeRestriction().getRestrictions().get(0).getEndMin())
+        assertEquals(0,rotation.getTimeRestriction().getRestrictions().get(0).getStartMinute())
+        assertEquals(30,rotation.getTimeRestriction().getRestrictions().get(0).getEndMinute())
 
 
         assertEquals(1, receivedRequests.size())
@@ -406,8 +406,8 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         assertEquals(1,rotation.getTimeRestriction().getRestrictions().size())
         assertEquals(8,rotation.getTimeRestriction().getRestrictions().get(0).getStartHour())
         assertEquals(18,rotation.getTimeRestriction().getRestrictions().get(0).getEndHour())
-        assertEquals(0,rotation.getTimeRestriction().getRestrictions().get(0).getStartMin())
-        assertEquals(30,rotation.getTimeRestriction().getRestrictions().get(0).getEndMin())
+        assertEquals(0,rotation.getTimeRestriction().getRestrictions().get(0).getStartMinute())
+        assertEquals(30,rotation.getTimeRestriction().getRestrictions().get(0).getEndMinute())
 
 
         assertEquals(2, receivedRequests.size())

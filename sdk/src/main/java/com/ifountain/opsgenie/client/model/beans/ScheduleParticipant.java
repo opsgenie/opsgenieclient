@@ -1,5 +1,9 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * ScheduleParticipant bean
  */
@@ -10,6 +14,19 @@ public class ScheduleParticipant extends Bean {
     private String username;
     public ScheduleParticipant() {
 
+    }
+    public void validateParticipant() throws OpsGenieClientValidationException {
+        if(type == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.PARTICIPANT_TYPE);
+        if(type.equals(ScheduleParticipant.Type.team) || type.equals(ScheduleParticipant.Type.escalation)){
+            if(StringUtils.isEmpty(id) && StringUtils.isEmpty(name)){
+                throw OpsGenieClientValidationException.error("For participant type team/escalation either team/escalation name or id must be provided.");
+            }
+        }
+        else if(type!= ScheduleParticipant.Type.none
+                && StringUtils.isEmpty(id) && StringUtils.isEmpty(username)){
+            throw OpsGenieClientValidationException.error("Username or id must be provided.");
+        }
     }
 
     public String getId() {

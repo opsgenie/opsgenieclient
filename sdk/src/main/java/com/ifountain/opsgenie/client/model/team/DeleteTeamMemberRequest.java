@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.IdentifierType;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberRespons
 
     public Map<String,Object> getRequestParams(){
         Map<String,Object> params = new HashMap<>();
-        if(Objects.nonNull(teamIdentifierType))
+        if(StringUtils.isNotEmpty(teamIdentifierType))
             params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,teamIdentifierType);
         else
             params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
@@ -36,11 +37,11 @@ public class DeleteTeamMemberRequest extends BaseRequest<DeleteTeamMemberRespons
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if(Objects.nonNull(teamIdentifierType) && Objects.isNull(IdentifierType.getFromValues(teamIdentifierType)))
+        if(StringUtils.isNotEmpty(teamIdentifierType) && Objects.isNull(IdentifierType.getFromValues(teamIdentifierType)))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE);
-        if (teamIdentifier == null)
+        if (StringUtils.isEmpty(teamIdentifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
-        if(memberIdentifier == null)
+        if(StringUtils.isEmpty(memberIdentifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.USERNAME,OpsGenieClientConstants.API.USER_ID);
     }
 
