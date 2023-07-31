@@ -2,9 +2,7 @@ package com.ifountain.opsgenie.client.model.beans;
 
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.model.ConvertFromTimeZone;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -15,12 +13,11 @@ import java.util.TimeZone;
  */
 public class Schedule extends BeanWithId implements ConvertFromTimeZone {
     private String name;
-    private String team;
+    private DataWithName ownerTeam;
     private String description;
     @JsonProperty("timezone")
     private TimeZone timeZone;
     private Boolean enabled;
-    @JsonProperty("rules")
     private List<ScheduleRotation> rotations;
 
     /**
@@ -86,33 +83,24 @@ public class Schedule extends BeanWithId implements ConvertFromTimeZone {
     /**
      * Name of the team that schedule belongs to, if any
      */
-    public String getTeam() {
-        return team;
+    public DataWithName getOwnerTeam() {
+        return ownerTeam;
     }
 
     /**
      * Sets the name of the team that schedule belongs to.
      */
-    public void setTeam(String team) {
-        this.team = team;
+    public void setOwnerTeam(DataWithName ownerTeam) {
+        this.ownerTeam = ownerTeam;
     }
 
     @Override
     public void setTime() throws ParseException {
-        if (getTimeZone() != null && rotations != null && rotations.size() > 0) {
+        if (getTimeZone() != null && rotations != null && !rotations.isEmpty()) {
             for (ScheduleRotation scheduleRotation : rotations) {
                 scheduleRotation.setScheduleTimeZone(getTimeZone());
                 SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-                String endDateString = null, startDateString = null;
-                if (scheduleRotation.getEndDate() != null)
-                    endDateString = sdf.format(scheduleRotation.getEndDate());
-                if (scheduleRotation.getStartDate() != null)
-                    startDateString = sdf.format(scheduleRotation.getStartDate());
                 sdf.setTimeZone(getTimeZone());
-                if (endDateString != null)
-                    scheduleRotation.setEndDate(sdf.parse(endDateString));
-                if (startDateString != null)
-                    scheduleRotation.setStartDate(sdf.parse(startDateString));
             }
         }
     }
@@ -136,8 +124,8 @@ public class Schedule extends BeanWithId implements ConvertFromTimeZone {
         return this;
     }
 
-    public Schedule withTeam(String team) {
-        this.team = team;
+    public Schedule withOwnerTeam(DataWithName team) {
+        this.ownerTeam = team;
         return this;
     }
 

@@ -112,16 +112,7 @@ public class Forwarding extends BeanWithId implements ConvertFromTimeZone {
     public void setTime() throws ParseException {
         if (getObjectTimeZone() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(OpsGenieClientConstants.Common.API_DATE_FORMAT);
-            String endDateString = null, startDateString = null;
-            if (endDate != null)
-                endDateString = sdf.format(endDate);
-            if (startDate != null)
-                startDateString = sdf.format(startDate);
             sdf.setTimeZone(getObjectTimeZone());
-            if (endDateString != null)
-                endDate = sdf.parse(endDateString);
-            if (startDateString != null)
-                startDate = sdf.parse(startDateString);
         }
 
     }

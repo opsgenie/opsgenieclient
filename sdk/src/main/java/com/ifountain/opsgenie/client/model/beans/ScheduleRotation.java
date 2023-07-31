@@ -1,11 +1,10 @@
 package com.ifountain.opsgenie.client.model.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.ObjectWithTimeZone;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -14,15 +13,50 @@ import java.util.TimeZone;
  * ScheduleRotation bean
  */
 public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date endDate;
+    @JsonProperty("type")
     private RotationType rotationType;
-    private Integer rotationLength;
+    @JsonProperty("length")
+    private Integer rotationLength = 1;
     private List<ScheduleParticipant> participants;
-    @JsonProperty("restrictions")
-    private List<Restriction> scheduleRotationRestrictions;
+    private TimeRestriction timeRestriction;
     private TimeZone scheduleTimeZone;
     private String name;
+
+    public void validateScheduleRotation() throws OpsGenieClientValidationException {
+        if(rotationType == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.ROTATION_TYPE);
+        validateStartAndEndDate();
+        validateParticipants();
+        if(timeRestriction!=null){
+            timeRestriction.validateTimeRestriction();
+        }
+    }
+
+    public void validateStartAndEndDate() throws OpsGenieClientValidationException {
+        if(startDate == null)
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.START_DATE);
+        if(endDate!=null && startDate.after(endDate))
+            throw OpsGenieClientValidationException.error("Rotation end time should be later than start time.");
+    }
+
+    public void validateParticipants() throws OpsGenieClientValidationException {
+        if(participants == null || participants.isEmpty())
+            throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.PARTICIPANTS);
+        for(ScheduleParticipant participant : participants){
+            participant.validateParticipant();
+        }
+    }
+
+    public TimeRestriction getTimeRestriction() {
+        return timeRestriction;
+    }
+    public void setTimeRestriction(TimeRestriction timeRestriction) {
+        this.timeRestriction = timeRestriction;
+    }
 
     public String getName() {
         return name;
@@ -87,20 +121,6 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
         this.rotationLength = rotationLength;
     }
 
-    /**
-     * Participants of schedule rotation
-     *
-     * @see ScheduleParticipant
-     */
-    @JsonProperty("participants")
-    public List<String> getParticipantsNames() {
-        if (participants == null)
-            return null;
-        List<String> participantList = new ArrayList<String>();
-        for (ScheduleParticipant participant : participants)
-            participantList.add(participant.getParticipant());
-        return participantList;
-    }
 
     /**
      * Participants of schedule rotation
@@ -118,52 +138,6 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
      */
     public void setParticipants(List<ScheduleParticipant> participants) {
         this.participants = participants;
-    }
-
-    /**
-     * @deprecated use getScheduleRotationRestrictions()
-     */
-    @Deprecated
-    @JsonIgnore
-    public List<ScheduleRotationRestriction> getRestrictions() {
-        if (scheduleRotationRestrictions == null) {
-            return null;
-        }
-        List<ScheduleRotationRestriction> deprecatedList = new ArrayList<ScheduleRotationRestriction>();
-        for (Restriction restriction : scheduleRotationRestrictions) {
-            ScheduleRotationRestriction newRestriction = new ScheduleRotationRestriction();
-            newRestriction.setEndDay(restriction.getEndDay());
-            newRestriction.setStartDay(restriction.getStartDay());
-            newRestriction.setStartHour(restriction.getStartHour());
-            newRestriction.setStartMin(restriction.getStartMinute());
-            newRestriction.setEndHour(restriction.getEndHour());
-            newRestriction.setEndMin(restriction.getEndMinute());
-
-            deprecatedList.add(newRestriction);
-        }
-        return deprecatedList;
-    }
-
-    /**
-     * @deprecated use setScheduleRotationRestrictions()
-     */
-    @Deprecated
-    @JsonIgnore
-    public void setRestrictions(List<ScheduleRotationRestriction> restrictions) {
-        if (restrictions == null) {
-            this.scheduleRotationRestrictions = null;
-        }
-        scheduleRotationRestrictions = new ArrayList<Restriction>();
-        for (ScheduleRotationRestriction deprecatedRestriction : restrictions) {
-            Restriction newRestriction = new Restriction();
-            newRestriction.withEndDay(deprecatedRestriction.getEndDay())
-                    .withStartDay(deprecatedRestriction.getStartDay())
-                    .withEndHour(deprecatedRestriction.getEndHour())
-                    .withEndMinute(deprecatedRestriction.getEndMin())
-                    .withStartHour(deprecatedRestriction.getStartHour())
-                    .withStartMinute(deprecatedRestriction.getStartMin());
-            scheduleRotationRestrictions.add(newRestriction);
-        }
     }
 
     public TimeZone getScheduleTimeZone() {
@@ -209,12 +183,6 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
         return this;
     }
 
-    @Deprecated
-    public ScheduleRotation withRestrictions(List<ScheduleRotationRestriction> restrictions) {
-        setRestrictions(restrictions);
-        return this;
-    }
-
     public ScheduleRotation withScheduleTimeZone(TimeZone scheduleTimeZone) {
         this.scheduleTimeZone = scheduleTimeZone;
         return this;
@@ -225,16 +193,8 @@ public class ScheduleRotation extends BeanWithId implements ObjectWithTimeZone {
         return this;
     }
 
-    public List<Restriction> getScheduleRotationRestrictions() {
-        return scheduleRotationRestrictions;
-    }
-
-    public void setScheduleRotationRestrictions(List<Restriction> scheduleRotationRestrictions) {
-        this.scheduleRotationRestrictions = scheduleRotationRestrictions;
-    }
-
-    public ScheduleRotation withScheduleRotationRestrictions(List<Restriction> restrictions) {
-        this.scheduleRotationRestrictions = restrictions;
+    public ScheduleRotation withTimeRestriction(TimeRestriction timeRestriction) {
+        this.timeRestriction = timeRestriction;
         return this;
     }
 

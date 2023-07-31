@@ -5,16 +5,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
+import com.ifountain.opsgenie.client.model.beans.ScheduleRotation;
 import com.ifountain.opsgenie.client.util.JsonUtils;
 import org.apache.http.HttpHeaders;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Base class for container objects which provides content parameters for
@@ -70,6 +67,14 @@ public abstract class BaseRequest<T extends BaseResponse,K extends BaseRequest> 
     @JsonIgnore
     public Map<String,String> getReqHeadersForGetOrDelete(){
         return addGenieKey();
+    }
+
+    public void validateRotations(List<ScheduleRotation> rotations) throws OpsGenieClientValidationException {
+        if(Objects.nonNull(rotations)){
+            for(ScheduleRotation rotation : rotations){
+                rotation.validateScheduleRotation();
+            }
+        }
     }
 
     @JsonIgnore

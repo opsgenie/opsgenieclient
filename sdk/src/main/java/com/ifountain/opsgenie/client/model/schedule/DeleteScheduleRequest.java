@@ -1,6 +1,14 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.ifountain.opsgenie.client.OpsGenieClientConstants;
+import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import com.ifountain.opsgenie.client.model.beans.IdentifierType;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Container for the parameters to make a delete schedule api call.
@@ -8,45 +16,47 @@ import com.ifountain.opsgenie.client.model.BaseRequest;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#deleteSchedule(DeleteScheduleRequest)
  */
 public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse, DeleteScheduleRequest> {
-    private String id;
-    private String name;
+    private String identifier;
+    private String identifierType;
 
     /**
      * Rest api uri of deleting schedule operation.
      */
     @Override
     public String getEndPoint() {
-        return "/v1/json/schedule";
+        return "/v2/schedules/"+ identifier;
     }
 
-    /**
-     * Id of schedule to be deleted.
-     */
-    public String getId() {
-        return id;
+    @Override
+    public void validate() throws OpsGenieClientValidationException {
+        super.validate();
+        if(StringUtils.isNotEmpty(identifierType) && Objects.isNull(IdentifierType.getFromValues(identifierType)))
+            throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
+        if (StringUtils.isEmpty(identifier))
+            throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
+    }
+    public Map<String,Object> getRequestParams(){
+        Map<String,Object> params = new HashMap<>();
+        if(StringUtils.isNotEmpty(identifierType))
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
+        else
+            params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);
+        return params;
     }
 
-    /**
-     * Sets id of schedule to be deleted.
-     */
-    public void setId(String id) {
-        this.id = id;
+    public String getIdentifier() {
+        return identifier;
+    }
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    public String getIdentifierType() {
+        return identifierType;
     }
 
-    /**
-     * Name of schedule to be deleted.
-     */
-    public String getName() {
-        return name;
+    public void setIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
     }
-
-    /**
-     * Sets name of schedule to be deleted.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
 
     /**
      * @see com.ifountain.opsgenie.client.model.BaseRequest#createResponse()
@@ -56,13 +66,13 @@ public class DeleteScheduleRequest extends BaseRequest<DeleteScheduleResponse, D
         return new DeleteScheduleResponse();
     }
 
-    public DeleteScheduleRequest withId(String id) {
-        this.id = id;
+    public DeleteScheduleRequest withIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
-    public DeleteScheduleRequest withName(String name) {
-        this.name = name;
+    public DeleteScheduleRequest withIdentifierType(String identifierType) {
+        this.identifierType = identifierType;
         return this;
     }
 }

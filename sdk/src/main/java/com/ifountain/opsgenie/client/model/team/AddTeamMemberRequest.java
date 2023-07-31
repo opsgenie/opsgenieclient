@@ -36,9 +36,9 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse, Add
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if(Objects.nonNull(teamIdentifierType) && Objects.isNull(IdentifierType.getFromValues(teamIdentifierType)))
+        if(StringUtils.isNotEmpty(teamIdentifierType) && Objects.isNull(IdentifierType.getFromValues(teamIdentifierType)))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE);
-        if (teamIdentifier == null)
+        if (StringUtils.isEmpty(teamIdentifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.NAME, OpsGenieClientConstants.API.ID);
         if(user == null)
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER);
@@ -48,7 +48,7 @@ public class AddTeamMemberRequest extends BaseRequest<AddTeamMemberResponse, Add
 
     public Map<String,Object> getRequestParams(){
         Map<String,Object> params = new HashMap<>();
-        if(Objects.nonNull(teamIdentifierType))
+        if(StringUtils.isNotEmpty(teamIdentifierType))
             params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,teamIdentifierType);
         else
             params.put(OpsGenieClientConstants.API.TEAM_IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);

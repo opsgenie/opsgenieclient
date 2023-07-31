@@ -6,6 +6,8 @@ import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.UserAddress;
 import com.ifountain.opsgenie.client.model.beans.UserRole;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -140,24 +142,24 @@ public class UpdateUserRequest extends BaseRequest<UpdateUserResponse, UpdateUse
      * check the parameters for validation. It will be overridden by necessary
      * Requests.
      *
-     * @throws OpsGenieClientValidationException when id is null!
+     * @throws OpsGenieClientValidationException when identifier (username or id) is null!
      */
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (identifier == null)
+        if (StringUtils.isEmpty(identifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID, OpsGenieClientConstants.API.USERNAME);
     }
 
     /**
-     * Id of user to be updated.
+     * Identifier (id or username) of user to be updated.
      */
     public String getIdentifier() {
         return identifier;
     }
 
     /**
-     * Sets id of user to be updated.
+     * Sets Identifier (id or username) of user to be updated.
      */
     public void setIdentifier(String identifier) {
         this.identifier = identifier;

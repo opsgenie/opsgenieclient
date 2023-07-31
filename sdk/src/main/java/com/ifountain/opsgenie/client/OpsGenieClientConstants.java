@@ -82,6 +82,7 @@ public interface OpsGenieClientConstants {
         String TO_USER = "toUser";
         String TIME_AMOUNT = "timeAmount";
         String TIME_RESTRICTION = "timeRestriction";
+        String TIME_RESTRICTION_TYPE = "timeRestrictionType";
         String TIME_UNIT = "timeUnit";
         String TIMEZONE_CAMEL_CASE = "timeZone";
         String TIMEZONE = "timezone";
@@ -103,6 +104,7 @@ public interface OpsGenieClientConstants {
         String RULES = "rules";
         String LAYERS = "layers";
         String ROTATIONS = "rotations";
+        String ROTATION = "rotation";
         String ROTATION_IDS = "rotationIds";
         String TYPE = "type";
         String NOTIFY_TYPE = "notifyType";
@@ -133,7 +135,7 @@ public interface OpsGenieClientConstants {
         String SORT_BY = "sortBy";
         String ORDER = "order";
         String LIMIT = "limit";
-        String PARTICIPANT = "participant";
+        String PARTICIPANT_TYPE = "participant type";
         String LAST_HEARTBEAT = "lastHeartbeat";
         String EXPIRED = "expired";
         String SOURCES = "sources";

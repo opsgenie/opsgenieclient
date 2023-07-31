@@ -1,6 +1,6 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Schedule;
 
@@ -13,7 +13,7 @@ import java.text.ParseException;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#getSchedule(GetScheduleRequest)
  */
 public class GetScheduleResponse extends BaseResponse {
-    @JsonUnwrapped
+    @JsonProperty("data")
     private Schedule schedule;
 
     /**

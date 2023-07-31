@@ -1,3 +1,7 @@
+## 2.13.7 (Jul 28, 2023)
+* Add support for following OpsGenie V2 APIs
+  * Schedule API
+
 ## 2.13.6 (Jul 26, 2023)
 * Add support for following OpsGenie V2 APIs
   * User API

@@ -4,6 +4,7 @@ package com.ifountain.opsgenie.client.model.user;
 import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Container for the parameters to make a delete user api call.
@@ -34,7 +35,7 @@ public class DeleteUserRequest extends BaseRequest<DeleteUserResponse, DeleteUse
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (identifier == null)
+        if (StringUtils.isEmpty(identifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ID, OpsGenieClientConstants.API.USERNAME);
     }
 

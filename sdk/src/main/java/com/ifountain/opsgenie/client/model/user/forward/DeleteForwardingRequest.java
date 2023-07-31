@@ -4,6 +4,7 @@ import com.ifountain.opsgenie.client.OpsGenieClientConstants;
 import com.ifountain.opsgenie.client.OpsGenieClientValidationException;
 import com.ifountain.opsgenie.client.model.BaseRequest;
 import com.ifountain.opsgenie.client.model.beans.ForwardingIdentifierType;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,15 +36,15 @@ public class DeleteForwardingRequest extends BaseRequest<DeleteForwardingRespons
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if(Objects.nonNull(identifierType) && Objects.isNull(ForwardingIdentifierType.getFromValues(identifierType)))
+        if(StringUtils.isNotEmpty(identifierType) && Objects.isNull(ForwardingIdentifierType.getFromValues(identifierType)))
             throw OpsGenieClientValidationException.invalidValues(OpsGenieClientConstants.API.IDENTIFIER_TYPE);
-        if (identifier == null)
+        if (StringUtils.isEmpty(identifier))
             throw OpsGenieClientValidationException.missingMultipleMandatoryProperty(OpsGenieClientConstants.API.ALIAS, OpsGenieClientConstants.API.ID);
     }
 
     public Map<String,Object> getRequestParams(){
         Map<String,Object> params = new HashMap<>();
-        if(Objects.nonNull(identifierType))
+        if(StringUtils.isNotEmpty(identifierType))
             params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,identifierType);
         else
             params.put(OpsGenieClientConstants.API.IDENTIFIER_TYPE,OpsGenieClientConstants.API.ID);

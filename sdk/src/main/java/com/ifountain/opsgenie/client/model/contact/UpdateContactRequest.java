@@ -29,9 +29,9 @@ public class UpdateContactRequest extends BaseContactRequest<UpdateContactRespon
     @Override
     public void validate() throws OpsGenieClientValidationException {
         super.validate();
-        if (getContactId() == null)
+        if (StringUtils.isEmpty(getContactId()))
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.CONTACT_ID);
-        if (getUserIdentifier() == null)
+        if (StringUtils.isEmpty(getUserIdentifier()))
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.USER_IDENTIFIER);
         if(StringUtils.isEmpty(to))
             throw OpsGenieClientValidationException.missingMandatoryProperty(OpsGenieClientConstants.API.TO);

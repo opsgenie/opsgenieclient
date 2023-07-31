@@ -7,425 +7,500 @@ import com.ifountain.opsgenie.client.model.beans.*
 import com.ifountain.opsgenie.client.model.schedule.*
 import com.ifountain.opsgenie.client.test.util.OpsGenieClientTestCase
 import com.ifountain.opsgenie.client.util.JsonUtils
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPatch
 import org.apache.http.client.methods.HttpPost
+import org.json.JSONObject
 import org.junit.Test
-
 import java.text.SimpleDateFormat
-
+import java.time.Instant
 import static org.junit.Assert.*
 
 class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpTestRequestListener {
     @Test
-    public void testAddScheduleSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"schedule1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+    void testAddScheduleSuccessfully() throws Exception {
+        String responseStr = getResponseString("AddScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 201, "application/json; charset=utf-8"))
 
-        AddScheduleRequest request = new AddScheduleRequest();
-        request.setApiKey("customer1");
-        request.setName("schedule1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        request.setEnabled(true);
+        AddScheduleRequest request = getAddScheduleRequest()
+
+        def response = opsgenieClient.schedule().addSchedule(request)
+        assertEquals("4a9alp7-b5d2-4ecb-b82c-e3b5286829cf", response.getScheduleData().getId())
+        assertEquals("ScheduleName",response.getScheduleData().getName())
+        assertEquals(true,response.getScheduleData().getEnabled())
+        assertEquals(0, response.getTook())
+
+        assertEquals(1, receivedRequests.size());
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v2/schedules", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
+
+        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
+        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
+        assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
+        assertTrue(jsonContent[TestConstants.API.ENABLED] as boolean)
+
+        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].collect {}.size())
+    }
+
+    private AddScheduleRequest getAddScheduleRequest() {
+        AddScheduleRequest request = new AddScheduleRequest()
+        request.setApiKey("apiKey")
+        request.setName("ScheduleName")
+        request.setDescription("ScheduleDescription")
+        request.setEnabled(true)
+        request.setTimeZone(TimeZone.getTimeZone("Europe/Kirov"))
+        Date current = Calendar.getInstance().getTime()
         request.setRotations([
-                new ScheduleRotation(name: "rule1", startDate: new Date(10000000000l), rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
-                        restrictions: [
-                                new ScheduleRotationRestriction(startDay: ScheduleRotationRestriction.DAY.monday, startHour: 0, startMin: 0, endDay: ScheduleRotationRestriction.DAY.sunday, endHour: 23, endMin: 30)
+                new ScheduleRotation(name: "First Rotation", startDate: current + 1, endDate: current + 2, rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
+                        participants: [
+                                new ScheduleParticipant(type: "user", username: "user@opsgenie.com"),
+                                new ScheduleParticipant(type: "none"),
+                                new ScheduleParticipant(type: "user", id: "ac463592-dbd2-4ca3-alp1d-48fhf5j5c871")
                         ],
-                        participants: [
-                                new ScheduleParticipant(participant: "group1", type: ScheduleParticipant.Type.group),
-                                new ScheduleParticipant(participant: "escalation1", type: ScheduleParticipant.Type.escalation),
-                                new ScheduleParticipant(participant: "team1", type: ScheduleParticipant.Type.team)
-                        ]
-                ),
-                new ScheduleRotation(startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
-                        participants: [
-                                new ScheduleParticipant(participant: "user1@xyz.com", type: ScheduleParticipant.Type.user),
+                        timeRestriction: new TimeRestriction(type: "weekday-and-time-of-day", restrictions: [
+                                new Restriction(startDay: DAY.monday, startHour: 8, startMinute: 0, endDay: DAY.tuesday, endHour: 18, endMinute: 30),
+                                new Restriction(startDay: DAY.wednesday, startHour: 8, startMinute: 0, endDay: DAY.thursday, endHour: 18, endMinute: 30)
                         ])
-        ]);
+                )
+        ])
+        request.setOwnerTeam(new DataWithName(name: "ops_team"))
+        request
+    }
 
-        def response = OpsGenieClientTestCase.opsgenieClient.schedule().addSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
+    @Test
+    void testAddScheduleThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "addSchedule", new AddScheduleRequest())
+        String responseStr = getResponseString("AddScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        AddScheduleRequest request = getAddScheduleRequest()
+
+        request.getRotations().get(0).getTimeRestriction().getRestrictions().get(0).setEndHour(25)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for endHour",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getTimeRestriction().getRestrictions().get(0).setStartHour(25)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for startHour",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getTimeRestriction().getRestrictions().get(0).setEndDay(null)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("startDay, endDay cannot be empty",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getTimeRestriction().getRestrictions().get(0).setStartHour(null)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("startHour, startMinute, endHour, endMinute cannot be empty",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getTimeRestriction().setType("test")
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for timeRestrictionType",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getTimeRestriction().setType("time-of-day")
+        request.getRotations().get(0).getTimeRestriction().setRestrictions(new ArrayList<Restriction>())
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [restrictions]",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getParticipants().get(0).setUsername(null)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Username or id must be provided.",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getParticipants().get(0).setType(ScheduleParticipant.Type.escalation)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("For participant type team/escalation either team/escalation name or id must be provided.",exception.getMessage())
+        }
+
+        request.getRotations().get(0).getParticipants().get(0).setType(null)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [participant type]",exception.getMessage())
+        }
+
+        request.getRotations().get(0).setParticipants(new ArrayList<ScheduleParticipant>())
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [participants]",exception.getMessage())
+        }
+
+        Date current = Calendar.getInstance().getTime()
+        request.getRotations().get(0).setEndDate(current)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Rotation end time should be later than start time.",exception.getMessage())
+        }
+
+        request.getRotations().get(0).setStartDate(null)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [startDate]",exception.getMessage())
+        }
+
+        request.getRotations().get(0).setRotationType(null)
+        try {
+            def response = opsgenieClient.schedule().addSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [rotationType]",exception.getMessage())
+        }
+    }
+
+    @Test
+    void testUpdateScheduleSuccessfully() throws Exception {
+        String responseStr = getResponseString("UpdateScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
+        UpdateScheduleRequest request = getUpdateScheduleRequest()
+
+        def response = opsgenieClient.schedule().updateSchedule(request)
+        assertEquals("d875e654-9b4e-4219-alp3-0c26936d18de", response.getScheduleData().getId())
+        assertEquals("DisabledScheduleName",response.getScheduleData().getName())
+        assertEquals(true,response.getScheduleData().getEnabled())
+        assertEquals(0, response.getTook())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/schedule", requestSent.getUrl())
+        assertEquals(HttpPatch.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v2/schedules/ScheduleName", requestSent.getUrl())
         assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
-        assertTrue(jsonContent[TestConstants.API.ENABLED])
+        assertTrue(jsonContent[TestConstants.API.ENABLED] as boolean)
 
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(request.getTimeZone())
-        assertEquals(2, jsonContent[TestConstants.API.ROTATIONS].size())
+        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].collect {}.size())
 
-        //first rule
-        def ruleObject = request.getRotations()[0];
-        def rule = jsonContent[TestConstants.API.ROTATIONS].find {
-            it.startDate == sdf.format(ruleObject.getStartDate())
-        }
-        assertEquals("rule1", rule[TestConstants.API.NAME])
-        assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
-        assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
-
-        assertEquals(1, rule[TestConstants.API.RESTRICTIONS].size())
-        def restriction = rule[TestConstants.API.RESTRICTIONS][0]
-        def restrictionObject = ruleObject.restrictions[0];
-        assertEquals(restrictionObject.startDay.name(), restriction[TestConstants.API.START_DAY])
-        assertEquals(restrictionObject.endDay.name(), restriction[TestConstants.API.END_DAY])
-        assertEquals(0, restriction[TestConstants.API.RESTRICTION_START_HOUR])
-        assertEquals(0, restriction[TestConstants.API.RESTRICTION_START_MINUTE])
-        assertEquals(23, restriction[TestConstants.API.RESTRICTION_END_HOUR])
-        assertEquals(30, restriction[TestConstants.API.RESTRICTION_END_MINUTE])
-
-        assertEquals(3, rule[TestConstants.API.PARTICIPANTS].size())
-        def participantObject = ruleObject.participants[0];
-        assertNotNull(rule[TestConstants.API.PARTICIPANTS].find {
-            it == participantObject.getParticipant()
-        })
-        participantObject = ruleObject.participants[1];
-        assertNotNull(rule[TestConstants.API.PARTICIPANTS].find {
-            it == participantObject.getParticipant()
-        })
-        participantObject = ruleObject.participants[2];
-        assertNotNull(rule[TestConstants.API.PARTICIPANTS].find {
-            it == participantObject.getParticipant()
-        })
-
-        //second rule
-        ruleObject = request.getRotations()[1];
-        rule = jsonContent[TestConstants.API.ROTATIONS].find {
-            it.startDate == sdf.format(ruleObject.getStartDate())
-        }
-        assertNull(rule[TestConstants.API.NAME])
-        assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
-        assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
-
-        assertNull(rule[TestConstants.API.RESTRICTIONS])
-
-        assertEquals(1, rule[TestConstants.API.PARTICIPANTS].size())
-        participantObject = ruleObject.participants[0];
-        assertNotNull(rule[TestConstants.API.PARTICIPANTS].find {
-            it == participantObject.getParticipant()
-        })
-    }
-
-    @Test
-    public void testAddScheduleThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "addSchedule", new AddScheduleRequest())
-    }
-
-    @Test
-    public void testUpdateScheduleSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"schedule1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
-
-        UpdateScheduleRequest request = new UpdateScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
-        request.setName("schedule1");
-        request.setTimeZone(TimeZone.getTimeZone("GMT+5"));
-        request.setEnabled(false);
-        request.setRotations([
-                new ScheduleRotation(name: "updatedRule", startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
-                        participants: [
-                                new ScheduleParticipant(participant: "user1@xyz.com", type: ScheduleParticipant.Type.user),
-                        ])
-        ]);
-
-        def response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpPost.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/schedule", requestSent.getUrl())
-        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
-
-        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
-        assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
-        assertFalse(jsonContent[TestConstants.API.ENABLED])
-
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(request.getTimeZone())
-        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].size())
-
-        //first rule
-        def ruleObject = request.getRotations()[0];
-        def rule = jsonContent[TestConstants.API.ROTATIONS].find {
-            it.startDate == sdf.format(ruleObject.getStartDate())
-        }
-        assertEquals(ruleObject.name, rule[TestConstants.API.NAME])
-        assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
-        assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
-
-        assertNull(rule[TestConstants.API.RESTRICTIONS])
-
-        assertEquals(1, rule[TestConstants.API.PARTICIPANTS].size())
-        def participantObject = ruleObject.participants[0];
-        assertNotNull(rule[TestConstants.API.PARTICIPANTS].find {
-            it == participantObject.getParticipant()
-        })
-    }
-
-    @Test
-    public void testUpdateScheduleWithPartialUpdate() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"id\":\"schedule1Id\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
-
-        UpdateScheduleRequest request = new UpdateScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-
-        def jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(2, jsonContent.size())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-
-        //test update name only
-        request = new UpdateScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
-        request.setName("schedule1Updated");
-
-        response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
+        //update with id as identifier
+        request.setIdentifierType(null)
+        request.setIdentifier("test_id")
+        response = opsgenieClient.schedule().updateSchedule(request)
+        assertEquals("d875e654-9b4e-4219-alp3-0c26936d18de", response.getScheduleData().getId())
+        assertEquals("DisabledScheduleName",response.getScheduleData().getName())
+        assertEquals(true,response.getScheduleData().getEnabled())
+        assertEquals(0, response.getTook())
 
         assertEquals(2, receivedRequests.size());
         requestSent = receivedRequests[1]
+        assertEquals(HttpPatch.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v2/schedules/test_id", requestSent.getUrl())
+        assertEquals("application/json; charset=utf-8", requestSent.getHeader(HttpHeaders.CONTENT_TYPE));
 
         jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(3, jsonContent.size())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getName(), jsonContent[TestConstants.API.NAME])
-
-        //test update enabled only
-        request = new UpdateScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
-        request.setEnabled(false)
-
-        response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
-
-        assertEquals(3, receivedRequests.size());
-        requestSent = receivedRequests[2]
-
-        jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(3, jsonContent.size())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-        assertFalse(jsonContent[TestConstants.API.ENABLED])
-
-        //test update timezone only
-        request = new UpdateScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
-        request.setTimeZone(TimeZone.getTimeZone("GMT-7"))
-
-        response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
-
-        assertEquals(4, receivedRequests.size());
-        requestSent = receivedRequests[3]
-
-        jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(3, jsonContent.size())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
         assertEquals(request.getTimeZone().getID(), jsonContent[TestConstants.API.TIMEZONE])
+        assertTrue(jsonContent[TestConstants.API.ENABLED] as boolean)
 
-        //test update rotations only
-        request = new UpdateScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
+        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].collect {}.size())
+
+    }
+
+    private UpdateScheduleRequest getUpdateScheduleRequest() {
+        UpdateScheduleRequest request = new UpdateScheduleRequest()
+        request.setApiKey("apiKey")
+        request.setIdentifier("ScheduleName")
+        request.setIdentifierType("name")
+        request.setName("DisabledScheduleName")
+        request.setDescription("ScheduleDescription")
+        request.setEnabled(true)
+        request.setTimeZone(TimeZone.getTimeZone("Europe/Kirov"))
+        Date current = Calendar.getInstance().getTime()
         request.setRotations([
-                new ScheduleRotation(startDate: new Date(20000000000l), rotationType: ScheduleRotation.RotationType.daily,
+                new ScheduleRotation(name: "First Rotation", startDate: current + 1, endDate: current + 2, rotationType: ScheduleRotation.RotationType.hourly, rotationLength: 8,
                         participants: [
-                                new ScheduleParticipant(participant: "user1@xyz.com", type: ScheduleParticipant.Type.user),
+                                new ScheduleParticipant(type: "user", username: "user@opsgenie.com"),
+                                new ScheduleParticipant(type: "none"),
+                                new ScheduleParticipant(type: "user", id: "ac463592-dbd2-4ca3-alp1d-48fhf5j5c871")
+                        ],
+                        timeRestriction: new TimeRestriction(type: "weekday-and-time-of-day", restrictions: [
+                                new Restriction(startDay: DAY.monday, startHour: 8, startMinute: 0, endDay: DAY.tuesday, endHour: 18, endMinute: 30),
+                                new Restriction(startDay: DAY.wednesday, startHour: 8, startMinute: 0, endDay: DAY.thursday, endHour: 18, endMinute: 30)
                         ])
+                )
         ])
+        request.setTeam(new DataWithName(name: "ops_team"))
+        request
+    }
 
-        response = OpsGenieClientTestCase.opsgenieClient.schedule().updateSchedule(request)
-        assertEquals("schedule1Id", response.getId())
-        assertEquals(1, response.getTook())
-
-        assertEquals(5, receivedRequests.size());
-        requestSent = receivedRequests[4]
-
-        jsonContent = JsonUtils.parse(requestSent.getContentAsByte())
-        assertEquals(3, jsonContent.size())
-        assertEquals(request.getId(), jsonContent[TestConstants.API.ID])
-        assertEquals(request.getApiKey(), jsonContent[TestConstants.API.API_KEY])
-
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        assertEquals(1, jsonContent[TestConstants.API.ROTATIONS].size())
-        //first rule
-        def ruleObject = request.getRotations()[0];
-        def rule = jsonContent[TestConstants.API.ROTATIONS].find {
-            it.startDate == sdf.format(ruleObject.getStartDate())
+    @Test
+    void testUpdateScheduleThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "updateSchedule", new UpdateScheduleRequest())
+        String responseStr = getResponseString("UpdateScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+        UpdateScheduleRequest request = getUpdateScheduleRequest()
+        request.setIdentifier(null)
+        try {
+            def response = opsgenieClient.schedule().updateSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [name or id]",exception.getMessage())
         }
-        assertEquals(ruleObject.rotationType.name(), rule[TestConstants.API.ROTATION_TYPE])
-        assertEquals(ruleObject.rotationLength, rule[TestConstants.API.ROTATION_LENGTH])
 
-        assertNull(rule[TestConstants.API.RESTRICTIONS])
-
-        assertEquals(1, rule[TestConstants.API.PARTICIPANTS].size())
-        def participantObject = ruleObject.participants[0];
-        assertNotNull(rule[TestConstants.API.PARTICIPANTS].find {
-            it == participantObject.getParticipant()
-        });
+        request.setIdentifierType("test")
+        try {
+            def response = opsgenieClient.schedule().updateSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for identifierType",exception.getMessage())
+        }
     }
 
     @Test
-    public void testUpdateScheduleThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "updateSchedule", new UpdateScheduleRequest())
-    }
+    void testDeleteScheduleSuccessfully() throws Exception {
+        String responseStr = getResponseString("DeleteScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
 
-    @Test
-    public void testDeleteScheduleSuccessfully() throws Exception {
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
+        DeleteScheduleRequest request = new DeleteScheduleRequest()
+        request.setApiKey("customer1")
+        request.setIdentifier("schedule1Id")
+        request.setIdentifierType("name")
 
-        DeleteScheduleRequest request = new DeleteScheduleRequest();
-        request.setApiKey("customer1");
-        request.setId("schedule1Id");
-        request.setName("schedule1");
-
-        def response = OpsGenieClientTestCase.opsgenieClient.schedule().deleteSchedule(request)
-        assertEquals(1, response.getTook())
+        def response = opsgenieClient.schedule().deleteSchedule(request)
+        assertEquals(0, response.getTook())
 
         assertEquals(1, receivedRequests.size());
         HttpTestRequest requestSent = receivedRequests[0]
         assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
-        assertEquals("/v1/json/schedule", requestSent.getUrl())
+        assertEquals("/v2/schedules/schedule1Id", requestSent.getUrl())
 
-        assertEquals(3, requestSent.getParameters().size())
-        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
-        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
+        //delete with id as identifier
+        request.setIdentifierType(null)
+        request.setIdentifier("test_id")
+        response = opsgenieClient.schedule().deleteSchedule(request)
+        assertEquals(0, response.getTook())
+
+        assertEquals(2, receivedRequests.size());
+        requestSent = receivedRequests[1]
+        assertEquals(HttpDelete.METHOD_NAME, requestSent.getMethod());
+        assertEquals("/v2/schedules/test_id", requestSent.getUrl())
     }
 
 
     @Test
-    public void testDeleteUserThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "deleteSchedule", new DeleteScheduleRequest())
-    }
+    void testDeleteUserThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "deleteSchedule", new DeleteScheduleRequest())
 
-    @Test
-    public void testGetScheduleSuccessfully() throws Exception {
-        Map jsonContent = new HashMap();
-        jsonContent.put("took", 1);
-        jsonContent.put(TestConstants.API.ID, "schedule1id");
-        jsonContent.put(TestConstants.API.NAME, "schedule1");
-        jsonContent.put(TestConstants.API.TEAM, "team1");
-        jsonContent.put(TestConstants.API.TIMEZONE, "GMT+2");
-        jsonContent.put(TestConstants.API.ENABLED, false);
-        jsonContent.put(TestConstants.API.RULES, [
-                [
-                        id          : "r1",
-                        name        : "rule1",
-                        startDate   : "2013-01-24 22:00", rotationType: "daily", rotationLength: 7,
-                        participants: [
-                                [participant: "group1", type: "group"],
-                                [participant: "user1@xyz.com", type: "user"],
-                                [participant: "escalation1", type: "escalation"]
-                        ],
-                        restrictions: [
-                                [startDay: "monday", startHour: "00", startMinute: "00", endHour: "23", endMinute: "30", endDay: "sunday"],
-                                [startDay: "tuesday", startHour: "02", startMinute: "00", endHour: "12", endMinute: "30", endDay: "wednesday"]
-                        ]
-                ],
-                [
-                        id          : "r2",
-                        startDate   : "2013-02-25 22:00", rotationType: "weekly",
-                        participants: [
-                                [participant: "group3", type: "group"]
-                        ],
-                ]
-        ]);
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(jsonContent).getBytes(), 200, "application/json; charset=utf-8"))
+        String responseStr = getResponseString("DeleteScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
 
-        GetScheduleRequest request = new GetScheduleRequest();
-        request.setId(jsonContent[TestConstants.API.ID]);
-        request.setName(jsonContent[TestConstants.API.NAME]);
-        request.setApiKey("customer1");
+        DeleteScheduleRequest request = new DeleteScheduleRequest()
+        request.setApiKey("customer1")
 
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone(jsonContent[TestConstants.API.TIMEZONE]))
-
-        def response = OpsGenieClientTestCase.opsgenieClient.schedule().getSchedule(request)
-        assertEquals(1, response.getTook())
-        assertEquals(jsonContent[TestConstants.API.NAME], response.getSchedule().name)
-        assertEquals(jsonContent[TestConstants.API.TEAM], response.getSchedule().team)
-        assertEquals(jsonContent[TestConstants.API.ID], response.getSchedule().id)
-        assertEquals(sdf.getTimeZone().getID(), response.getSchedule().getTimeZone().getID())
-        assertEquals(jsonContent[TestConstants.API.ENABLED], response.getSchedule().isEnabled())
-        assertEquals(2, response.getSchedule().rotations.size())
-
-        //check first rule
-        def rule = response.getSchedule().rotations.find { !it.restrictions.isEmpty() }
-        def ruleMap = jsonContent[TestConstants.API.RULES][0]
-
-        assertEquals("rule1", rule.name)
-        assertEquals("r1", rule.id)
-        assertEquals(ScheduleRotation.RotationType.daily, rule.rotationType)
-        assertEquals(7, rule.rotationLength)
-        assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
-        assertEquals(3, rule.getParticipants().size())
-
-
-        int index = 0;
-        ruleMap[TestConstants.API.PARTICIPANTS].each { participantMap ->
-            assertEquals(participantMap.participant, rule.getParticipants()[index].getParticipant())
-            assertEquals(participantMap.type, rule.getParticipants()[index].getType().name())
-            index++;
+        try {
+            def response = opsgenieClient.schedule().deleteSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [name or id]",exception.getMessage())
         }
 
-        //check second rule
-        rule = response.getSchedule().rotations.find { it.restrictions == null }
-        ruleMap = jsonContent[TestConstants.API.RULES][1]
-
-        assertEquals("r2", rule.id)
-
-        assertEquals(ScheduleRotation.RotationType.weekly, rule.rotationType)
-        assertEquals(sdf.parse(ruleMap[TestConstants.API.START_DATE]), rule.startDate)
-        assertEquals(1, rule.getParticipants().size())
-
-        assertEquals(ruleMap[TestConstants.API.PARTICIPANTS][0].participant, rule.getParticipants()[0].getParticipant())
-        assertEquals(ruleMap[TestConstants.API.PARTICIPANTS][0].type, rule.getParticipants()[0].getType().name())
-
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getId(), requestSent.getParameters()[TestConstants.API.ID]);
-        assertEquals(request.getName(), requestSent.getParameters()[TestConstants.API.NAME]);
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/schedule", requestSent.getUrl())
+        request.setIdentifierType("test")
+        try {
+            def response = opsgenieClient.schedule().deleteSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for identifierType",exception.getMessage())
+        }
     }
 
     @Test
-    public void testGetUserThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "getSchedule", new GetScheduleRequest(id: "sch1"))
+    void testGetScheduleSuccessfully() throws Exception {
+        String responseStr = getResponseString("GetScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
+
+        GetScheduleRequest request = new GetScheduleRequest()
+        request.setApiKey("customer1")
+        request.setIdentifier("schedule1Id")
+        request.setIdentifierType("name")
+
+        def response = opsgenieClient.schedule().getSchedule(request)
+        assertEquals(0, response.getTook())
+        assertEquals("ScheduleName", response.getSchedule().name)
+        assertEquals("ops_team", response.getSchedule().ownerTeam.getName())
+        assertEquals("6c7be998-fad9-4491-a9a7-d99alp4c0ae5", response.getSchedule().ownerTeam.getId())
+        assertEquals(true,response.getSchedule().isEnabled())
+        assertEquals("4a9e4b7c-b5d2-4ecb-b82c-e3b52alp829cf", response.getSchedule().id)
+        assertEquals("Europe/Kirov", response.getSchedule().getTimeZone().getID())
+        assertEquals(1, response.getSchedule().getRotations().size())
+
+
+        def rotation = response.getSchedule().rotations.find { it.name ="First Rotation" }
+
+        assertEquals("e1c575c4-7143-482c-8e83-4balp7d582d7", rotation.id)
+        assertEquals("First Rotation",rotation.name)
+        assertEquals(Instant.parse("2017-02-06T05:00:00.000Z"),rotation.startDate.toInstant())
+        assertEquals(Instant.parse("2017-02-23T06:00:00Z"),rotation.endDate.toInstant())
+        assertEquals(ScheduleRotation.RotationType.hourly, rotation.rotationType)
+        assertEquals(6, rotation.rotationLength)
+        assertEquals(2, rotation.getParticipants().size())
+        assertEquals(ScheduleParticipant.Type.user,rotation.getParticipants().get(0).getType())
+        assertEquals("96414alp-3ea5-41b1-a019-601598627d68",rotation.getParticipants().get(0).getId())
+        assertEquals("user@opsgenie.com",rotation.getParticipants().get(0).getUsername())
+        assertEquals(ScheduleParticipant.Type.none,rotation.getParticipants().get(1).getType())
+        assertEquals("time-of-day",rotation.getTimeRestriction().getType())
+        assertEquals(1,rotation.getTimeRestriction().getRestrictions().size())
+        assertEquals(8,rotation.getTimeRestriction().getRestrictions().get(0).getStartHour())
+        assertEquals(18,rotation.getTimeRestriction().getRestrictions().get(0).getEndHour())
+        assertEquals(0,rotation.getTimeRestriction().getRestrictions().get(0).getStartMinute())
+        assertEquals(30,rotation.getTimeRestriction().getRestrictions().get(0).getEndMinute())
+
+
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/schedules/schedule1Id", requestSent.getUrl())
+
+        //test with id as identifier
+        request.setIdentifier("test_id")
+        request.setIdentifierType(null)
+
+        response = opsgenieClient.schedule().getSchedule(request)
+        assertEquals(0, response.getTook())
+        assertEquals("ScheduleName", response.getSchedule().name)
+        assertEquals("ops_team", response.getSchedule().ownerTeam.getName())
+        assertEquals("6c7be998-fad9-4491-a9a7-d99alp4c0ae5", response.getSchedule().ownerTeam.getId())
+        assertEquals(true,response.getSchedule().isEnabled())
+        assertEquals("4a9e4b7c-b5d2-4ecb-b82c-e3b52alp829cf", response.getSchedule().id)
+        assertEquals("Europe/Kirov", response.getSchedule().getTimeZone().getID())
+        assertEquals(1, response.getSchedule().getRotations().size())
+
+
+        rotation = response.getSchedule().rotations.find { it.name ="First Rotation" }
+
+        assertEquals("e1c575c4-7143-482c-8e83-4balp7d582d7", rotation.id)
+        assertEquals("First Rotation",rotation.name)
+        assertEquals(Instant.parse("2017-02-06T05:00:00.000Z"),rotation.startDate.toInstant())
+        assertEquals(Instant.parse("2017-02-23T06:00:00Z"),rotation.endDate.toInstant())
+        assertEquals(ScheduleRotation.RotationType.hourly, rotation.rotationType)
+        assertEquals(6, rotation.rotationLength)
+        assertEquals(2, rotation.getParticipants().size())
+        assertEquals(ScheduleParticipant.Type.user,rotation.getParticipants().get(0).getType())
+        assertEquals("96414alp-3ea5-41b1-a019-601598627d68",rotation.getParticipants().get(0).getId())
+        assertEquals("user@opsgenie.com",rotation.getParticipants().get(0).getUsername())
+        assertEquals(ScheduleParticipant.Type.none,rotation.getParticipants().get(1).getType())
+        assertEquals("time-of-day",rotation.getTimeRestriction().getType())
+        assertEquals(1,rotation.getTimeRestriction().getRestrictions().size())
+        assertEquals(8,rotation.getTimeRestriction().getRestrictions().get(0).getStartHour())
+        assertEquals(18,rotation.getTimeRestriction().getRestrictions().get(0).getEndHour())
+        assertEquals(0,rotation.getTimeRestriction().getRestrictions().get(0).getStartMinute())
+        assertEquals(30,rotation.getTimeRestriction().getRestrictions().get(0).getEndMinute())
+
+
+        assertEquals(2, receivedRequests.size())
+        requestSent = receivedRequests[1]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/schedules/test_id", requestSent.getUrl())
     }
+
+    @Test
+    void testGetUserThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "getSchedule", new GetScheduleRequest(identifier: "sch1"))
+        String responseStr = getResponseString("GetScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        GetScheduleRequest request = new GetScheduleRequest()
+        request.setApiKey("customer1")
+
+        try {
+            def response = opsgenieClient.schedule().getSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Missing mandatory property [name or id]",exception.getMessage())
+        }
+
+        request.setIdentifierType("test")
+        try {
+            def response = opsgenieClient.schedule().getSchedule(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for identifierType",exception.getMessage())
+        }
+    }
+
+    @Test
+    void testListSchedulesSuccessfully() throws Exception {
+        String responseStr = getResponseString("ListScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 200, "application/json; charset=utf-8"))
+
+        ListSchedulesRequest request = new ListSchedulesRequest()
+        request.setApiKey("customer1")
+        request.setExpand("rotation")
+
+
+        def response = opsgenieClient.schedule().listSchedules(request)
+        assertEquals(0, response.getTook())
+        assertEquals("ScheduleName", response.getSchedules().get(0).name)
+        assertEquals("ops_team", response.getSchedules().get(0).ownerTeam.getName())
+        assertEquals("90098alp-f0e3-41d3-a060-0ea895027630", response.getSchedules().get(0).ownerTeam.getId())
+        assertEquals(true,response.getSchedules().get(0).isEnabled())
+        assertEquals("d875e654-9b4e-4219-alp3-0c26936d18de", response.getSchedules().get(0).id)
+        assertEquals("Europe/Kirov", response.getSchedules().get(0).getTimeZone().getID())
+        assertEquals(1, response.getSchedules().get(0).getRotations().size())
+
+
+        def rotation = response.getSchedules().get(0).rotations.find { it.name ="First Rotation" }
+
+        assertEquals("a47alp93-0541-4aa3-bac6-4084cfa02d20", rotation.id)
+        assertEquals("First Rotation",rotation.name)
+        assertEquals(Instant.parse("2017-05-14T21:00:00Z"),rotation.startDate.toInstant())
+        assertEquals(ScheduleRotation.RotationType.weekly, rotation.rotationType)
+        assertEquals(1, rotation.rotationLength)
+        assertEquals(2, rotation.getParticipants().size())
+        assertEquals(ScheduleParticipant.Type.user,rotation.getParticipants().get(0).getType())
+        assertEquals("a9514028-2bca-4510-alpf-4b65f2c33a56",rotation.getParticipants().get(0).getId())
+        assertEquals("user@opsgenie.com",rotation.getParticipants().get(0).getUsername())
+        assertEquals(ScheduleParticipant.Type.team,rotation.getParticipants().get(1).getType())
+        assertEquals("00564944-b42f-4b95-a882-ee9a5alpb9bb",rotation.getParticipants().get(1).getId())
+        assertEquals("ops_team",rotation.getParticipants().get(1).getName())
+
+        assertEquals(1,response.getExpandable().size())
+        assertEquals("rotation",response.getExpandable().get(0))
+
+        assertEquals(1, receivedRequests.size())
+        HttpTestRequest requestSent = receivedRequests[0]
+        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod())
+        assertEquals("/v2/schedules", requestSent.getUrl())
+    }
+
+    @Test
+    void testListSchedulesThrowsExceptionIfRequestCannotBeValidated() throws Exception {
+        _testThrowsExceptionIfRequestCannotBeValidated(opsgenieClient.schedule(), "listSchedules", new ListSchedulesRequest())
+        String responseStr = getResponseString("ListScheduleResponse")
+        httpServer.setResponseToReturn(new HttpTestResponse(responseStr.getBytes(), 4000, "application/json; charset=utf-8"))
+
+        ListSchedulesRequest request = new ListSchedulesRequest()
+        request.setApiKey("customer1")
+        request.setExpand("rotation_test")
+
+        try{
+            def response = opsgenieClient.schedule().listSchedules(request)
+        } catch (OpsGenieClientValidationException exception){
+            assertEquals("Invalid Values for expand",exception.getMessage())
+        }
+    }
+
 
     @Test
     public void testWhoIsOnCallSuccessfully() throws Exception {
@@ -737,92 +812,6 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "listWhoIsOnCall", new ListWhoIsOnCallRequest())
     }
 
-
-    @Test
-    public void testListSchedulesSuccessfully() throws Exception {
-        Map schedule1Content = new HashMap();
-        schedule1Content.put(TestConstants.API.ID, "schedule1id");
-        schedule1Content.put(TestConstants.API.NAME, "schedule1");
-        schedule1Content.put(TestConstants.API.RULES, [
-                [
-                        id          : "r1",
-                        name        : "rule1",
-                        startDate   : "2013-02-25 22:00", rotationType: "weekly",
-                        participants: [
-                                [participant: "group1", type: "group"]
-                        ],
-                ]
-        ]);
-        Map schedule2Content = new HashMap();
-        schedule2Content.put(TestConstants.API.ID, "schedule2id");
-        schedule2Content.put(TestConstants.API.NAME, "schedule2");
-        schedule2Content.put(TestConstants.API.ENABLED, true);
-        schedule2Content.put(TestConstants.API.RULES, [
-                [
-                        id          : "r2",
-                        startDate   : "2013-02-25 22:00", rotationType: "daily",
-                        participants: [
-                                [participant: "escalation1", type: "escalation"]
-                        ],
-                ]
-        ]);
-        OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse(JsonUtils.toJson(schedules: [schedule1Content, schedule2Content]).getBytes(), 200, "application/json; charset=utf-8"))
-
-        ListSchedulesRequest request = new ListSchedulesRequest();
-        request.setApiKey("customer1");
-
-        SimpleDateFormat sdf = new SimpleDateFormat(TestConstants.Common.API_DATE_FORMAT);
-
-        def response = OpsGenieClientTestCase.opsgenieClient.schedule().listSchedules(request)
-        assertEquals(2, response.schedules.size())
-        //check schedule 1
-        Schedule schedule = response.getSchedules().find {
-            it.id == schedule1Content[TestConstants.API.ID]
-        }
-        assertEquals(schedule1Content[TestConstants.API.NAME], schedule.name)
-        assertEquals(schedule1Content[TestConstants.API.ID], schedule.id)
-        assertNull(schedule.isEnabled())
-        assertEquals(1, schedule.rotations.size())
-
-
-        assertEquals(ScheduleRotation.RotationType.weekly, schedule.rotations[0].rotationType)
-        assertEquals(sdf.parse("2013-02-25 22:00"), schedule.rotations[0].startDate)
-        assertEquals("rule1", schedule.rotations[0].name)
-        assertEquals("r1", schedule.rotations[0].id)
-        assertEquals(1, schedule.rotations[0].getParticipants().size())
-
-        assertEquals("group1", schedule.rotations[0].getParticipants()[0].getParticipant())
-        assertEquals(ScheduleParticipant.Type.group.name(), schedule.rotations[0].getParticipants()[0].getType().name())
-
-        //check schedule2
-        schedule = response.getSchedules().find { it.id == schedule2Content[TestConstants.API.ID] }
-        assertEquals(schedule2Content[TestConstants.API.NAME], schedule.name)
-        assertEquals(schedule2Content[TestConstants.API.ID], schedule.id)
-        assertEquals(schedule2Content[TestConstants.API.ENABLED], schedule.isEnabled())
-        assertEquals(1, schedule.rotations.size())
-
-        assertNull(schedule.rotations[0].name)
-        assertEquals("r2", schedule.rotations[0].id)
-        assertEquals(ScheduleRotation.RotationType.daily, schedule.rotations[0].rotationType)
-        assertEquals(sdf.parse("2013-02-25 22:00"), schedule.rotations[0].startDate)
-        assertEquals(1, schedule.rotations[0].getParticipants().size())
-
-        assertEquals("escalation1", schedule.rotations[0].getParticipants()[0].getParticipant())
-        assertEquals(ScheduleParticipant.Type.escalation.name(), schedule.rotations[0].getParticipants()[0].getType().name())
-
-        assertEquals(1, receivedRequests.size());
-        HttpTestRequest requestSent = receivedRequests[0]
-        assertEquals(HttpGet.METHOD_NAME, requestSent.getMethod());
-        assertEquals(request.getApiKey(), requestSent.getParameters()[TestConstants.API.API_KEY])
-        assertEquals("/v1/json/schedule", requestSent.getUrl())
-    }
-
-    @Test
-    public void testListSchedulesThrowsExceptionIfRequestCannotBeValidated() throws Exception {
-        _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "listSchedules", new ListSchedulesRequest())
-    }
-
-
     @Test
     public void testAddScheduleOverrideSuccessfully() throws Exception {
         OpsGenieClientTestCase.httpServer.setResponseToReturn(new HttpTestResponse("{\"alias\":\"alias1\", \"took\":1}".getBytes(), 200, "application/json; charset=utf-8"))
@@ -1041,6 +1030,12 @@ class ScheduleOpsGenieClientTest extends OpsGenieClientTestCase implements HttpT
         _testThrowsExceptionIfRequestCannotBeValidated(OpsGenieClientTestCase.opsgenieClient.schedule(), "listScheduleOverrides", new ListScheduleOverridesRequest())
     }
 
-
+    private String getResponseString(String responseType) {
+        def jsonSlurper = new JsonSlurper()
+        JSONObject data = jsonSlurper.parse(new FileReader("sdk/src/test/resources/ScheduleOpsGenieClient.json")) as JSONObject
+        Object responseJson = data.get(responseType)
+        String responseStr = new JsonBuilder(responseJson).toPrettyString()
+        responseStr
+    }
 }
 

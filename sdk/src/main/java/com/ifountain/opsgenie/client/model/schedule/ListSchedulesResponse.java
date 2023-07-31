@@ -1,5 +1,6 @@
 package com.ifountain.opsgenie.client.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifountain.opsgenie.client.model.BaseResponse;
 import com.ifountain.opsgenie.client.model.beans.Schedule;
 
@@ -13,7 +14,16 @@ import java.util.List;
  * @see com.ifountain.opsgenie.client.IScheduleOpsGenieClient#listSchedules(ListSchedulesRequest)
  */
 public class ListSchedulesResponse extends BaseResponse {
+
+    @JsonProperty("data")
     private List<Schedule> schedules;
+    private List<String> expandable;
+    public List<String> getExpandable() {
+        return expandable;
+    }
+    public void setExpandable(List<String> expandable) {
+        this.expandable = expandable;
+    }
 
     /**
      * List of schedules
