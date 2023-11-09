@@ -145,7 +145,7 @@ public class OpsGenieClient implements IOpsGenieClient {
         this.jsonHttpClient.setApiKey(getApiKey());
         this.restApiClient = new RestApiClient(httpClient);
         this.restApiClient.setApiKey(getApiKey());
-        this.swaggerApiClient = Configuration.getDefaultApiClient();
+        this.swaggerApiClient = getApiClient();
         innerUserOpsGenieClient = new InnerUserOpsGenieClient(this.jsonHttpClient);
         innerGroupOpsGenieClient = new InnerGroupOpsGenieClient(this.jsonHttpClient);
         innerTeamOpsGenieClient = new InnerTeamOpsGenieClient(this.jsonHttpClient);
@@ -158,6 +158,16 @@ public class OpsGenieClient implements IOpsGenieClient {
         innerNotificationRuleOpsGenieClient = new InnerNotificationRuleOpsGenieClient(this.jsonHttpClient);
         innerAccountOpsGenieClient = new InnerAccountOpsGenieClient(this.jsonHttpClient);
 
+    }
+
+    private ApiClient getApiClient() {
+        ApiClient client = new ApiClient();
+
+        // Configure API key authorization: GenieKey
+        ApiKeyAuth genieKey = (ApiKeyAuth) client.getAuthentication("GenieKey");
+        genieKey.setApiKeyPrefix("GenieKey");
+
+        return client;
     }
 
     /**
@@ -384,15 +394,7 @@ public class OpsGenieClient implements IOpsGenieClient {
     }
 
     public AlertApi alertV2() {
-        // Configure API key authorization: GenieKey
-        ApiKeyAuth genieKey = (ApiKeyAuth) swaggerApiClient.getAuthentication("GenieKey");
-
-        if (StringUtils.isNotEmpty(getApiKey())) {
-            genieKey.setApiKey(getApiKey());
-        }
-        genieKey.setApiKeyPrefix("GenieKey");
-
-        return new AlertApi();
+        return new AlertApi(swaggerApiClient);
     }
 
     /**
