@@ -121,7 +121,7 @@ public class Bootstrap {
             }
         }
 
-        logger.warn(getLogPrefix()+"Initializing Asyncronus Scripting");
+        logger.warn(getLogPrefix()+"Initializing Asynchronous Scripting");
         long shutdownWaitTime = MaridConfig.getInstance().getLong("async.script.shutdown.wait.time", AsyncScriptManager.DEFAULT_SHUTDOWN_WAIT_TIME);
         int scriptExecutorThreadCount = MaridConfig.getInstance().getInt("async.script.executor.thread.count", AsyncScriptManager.DEFAULT_SCRIPT_EXECUTOR_THREAD_COUNT);
         int scriptExecutorQueueCount = MaridConfig.getInstance().getInt("async.script.executor.queue.count", AsyncScriptManager.DEFAULT_SCRIPT_EXECUTOR_QUEUE_COUNT);
@@ -250,7 +250,7 @@ public class Bootstrap {
     private void destroyScripting() {
         logger.warn(getLogPrefix()+"Destroying Scripting");
         ScriptManager.destroyInstance();
-        logger.warn(getLogPrefix()+"Destroying Asyncrous Scripting");
+        logger.warn(getLogPrefix()+"Destroying Asynchronous Scripting");
         AsyncScriptManager.destroyInstance();
     }
 
